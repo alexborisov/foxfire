@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * BP-MEDIA TRIE - CLIP
+ * Clips trie branches at the first null node in a walk. This method is used to
+ * determine the cache levels to invalidate during delete operations.
+ * 
+ * BEFORE:  A --> B -> C	AFTER:	A --> B -> C
+ *	      |-> * -> E		  |-> D
+ *	      |-> D -> *
+ * 
+ * @see http://en.wikipedia.org/wiki/Trie
+ * @see http://en.wikipedia.org/wiki/Linked_list
+ * 
+ * @version 0.1.9
+ * @since 0.1.9
+ * @package BP-Media
+ * @subpackage Database
+ * @license GPL v2.0
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ *
+ * ========================================================================================================
+ */
+
+class BPM_trie_clip {
+
+	
+	var $trie;				    // Trie structure to convert		
+	var $max_depth;				    // Maximum depth to iterate to	
+	var $ctrl;				    // Control args
+	var $null_token;			    // Null token identifier string	
+	
+	var $iterator;				    // Iterator object
+	
+	var $result;				    // Clipped trie structure
+	
+
+	// ============================================================================================================ //
+
+
+	/**
+         * Implodes an array of heirarchical datastore keys into a single query $args array
+         *
+         * @version 0.1.9
+         * @since 0.1.9
+	 * 
+	 * @param array $trie | Trie structure
+	 * 
+	 * @param array $columns | Array of column names
+	 * 
+	 * @param array $ctrl | Control args 
+	 *	=> VAL @param string $null_token | String to use as null token 	  
+	 *
+         * @return bool | Exception on failure. True on success.
+         */
+	
+	function __construct($trie, $columns, $ctrl=null){
+		
+	    
+		$this->trie = $trie;			
+		$this->columns = $columns;
+		$this->max_depth = count($columns);
+		
+		$ctrl_default = array(
+			'null_token' => '*'
+		);
+
+		$this->ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		
+		$this->null_token = $this->ctrl['null_token'];		
+						
+		return true;
+		
+	}		
+	
+
+	public function render() {				
+
+	    
+		try {
+		    
+			$this->iterator = new BPM_trie_clip_iterator(array(
+
+				'base'	    => $this,			    
+				'trie'	    => $this->trie,			    			    
+				'depth'	    => 0
+			));	
+			
+		}
+		catch (BPM_Exception $child) {
+
+			throw new BPM_exception( array(
+				'numeric'=>1,
+				'text'=>"Error creating root node",
+				'data'=>array("trie"=>$this->trie, "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}	    	   
+		
+		
+		try {
+			$result = $this->iterator->render();
+		}
+		catch (BPM_Exception $child) {
+
+			throw new BPM_exception( array(
+				'numeric'=>3,
+				'text'=>"Error during render",
+				'data'=>array("args"=>$this->args, "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}		    
+
+
+		return $result;				
+		
+	}
+	
+
+	
+} // End of class BPM_trie_clip
+
+?>

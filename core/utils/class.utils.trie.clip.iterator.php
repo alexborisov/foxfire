@@ -1,0 +1,169 @@
+<?php
+
+/**
+ * BP-MEDIA TRIE - CLIP ITERATOR
+ * Clips trie branches at the first null node in a walk. This method is used to
+ * determine the cache levels to invalidate during delete operations.
+ * 
+ * BEFORE:  A --> B -> C	AFTER:	A --> B -> C
+ *	      |-> * -> E		  |-> D
+ *	      |-> D -> *
+ * 
+ * @see http://en.wikipedia.org/wiki/Trie
+ * @see http://en.wikipedia.org/wiki/Linked_list
+ * 
+ * @version 0.1.9
+ * @since 0.1.9
+ * @package BP-Media
+ * @subpackage Database
+ * @license GPL v2.0
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ *
+ * ========================================================================================================
+ */
+
+class BPM_trie_clip_iterator {
+
+
+	var $base;				    // Controller class reference
+	var $children;				    // Array of child nodes	
+	var $trie;				    // Trie structure	
+	var $depth;				    // Current depth of this node. Root node is (int)-1	
+	
+
+	// ============================================================================================================ //
+
+	
+	/**
+         * Recursively reduces a BPM args matrix into a minimum SQL WHERE clause
+         *
+         * @version 0.1.9
+         * @since 0.1.9
+         *
+	 * @param array $args | Control args
+	 *	=> VAL @param obj $base | Reference to base class
+	 *	=> VAL @param array $trie | Trie structure to process
+	 *	=> VAL @param int $depth | Depth of this recursor instance
+	 *
+         * @return NULL | Exception on failure. Null on success.
+         */
+	
+	function __construct($args){
+	    
+		$this->base = $args['base'];	    		
+		$this->trie = $args['trie'];			
+		$this->depth = $args['depth'];																
+		$this->children = array();												
+	}
+	
+	
+	/**
+         * Recursively builds a clipped tree structure
+         *
+         * @version 0.1.9
+         * @since 0.1.9
+	 *
+         * @return array | Exception on failure. Trie structure on success.
+         */
+	
+	function render(){
+
+	    	    		
+		// CASE 1: This is a root node or intermediate node
+		// ===============================================================
+	    
+		if( $this->depth < $this->base->max_depth) {
+		    
+			
+			if( !is_array($this->trie) ||	 // Handle specifying end-nodes as 'key'=>true instead of 'key'=>array()												    
+			     BPM_sUtil::keyExists($this->base->null_token, $this->trie)	    // Clip null branches
+			){
+			    
+				return array();
+			}
+			else {
+					
+
+				foreach( $this->trie as $key => $data ){			    
+				    
+					try {
+						$child_node = new BPM_trie_clip_iterator(array(
+
+							'base'	    => $this->base,
+							'trie'	    => $data,
+							'depth'	    => $this->depth + 1,
+						));
+					}
+					catch (BPM_exception $child) {
+
+						throw new BPM_exception( array(
+							'numeric'=>1,
+							'text'=>"Error creating child node",
+							'data'=>array(	
+									'current_node'=>array(
+												'trie'=>$this->trie,
+												'depth'=>$this->depth					
+									),
+									'child_node'=>array(
+												'args'=>$data, 
+												'depth'=>$this->depth + 1, 
+												"value"=>$key, 
+									)
+							),
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'child'=>$child
+						));
+					}
+
+					try {
+						$reduced = $child_node->render();
+					}
+					catch (BPM_exception $child) {
+
+						throw new BPM_exception( array(
+							'numeric'=>2,
+							'text'=>"Error reducing child node",
+							'data'=>array(	
+									'current_node'=>array(
+												'trie'=>$this->trie,
+												'depth'=>$this->depth,					
+									),
+									'child_node'=>array(
+												'args'=>$data, 
+												'depth'=>$this->depth + 1, 
+												"value"=>$key, 
+									)
+							),
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'child'=>$child
+						));		    
+					}								
+
+					$this->children[$key] = $reduced;				    				    				
+
+				}
+				unset($key, $data);
+
+			
+			}
+
+			return $this->children;				
+				
+			
+		}
+		// CASE 2: This is an end node
+		// ===============================================================
+		
+		else {
+		    
+			return array();						
+		}
+		
+				
+	}	
+
+		
+	
+} // End of class BPM_trie_clip_iterator
+
+?>
