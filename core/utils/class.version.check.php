@@ -1,28 +1,26 @@
 <?php
 
 /**
- * BP-MEDIA VERSIONS CLASS
+ * FOXFIRE VERSIONS CLASS
  * Checks that all plugins, API's, and services on the host system are the minimum
- * versions needed for BP-Media to run properly
+ * versions needed for FoxFire to run properly
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package BP-Media
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-class BPM_version {
+class FOX_version {
 
     
-	var $min_php_ver = "5.3.0";	    // Minimum PHP Version required to run BP-Media
-	var $min_sql_ver = "5.0.15";	    // Minimum SQL Version required to run BP-Media
-	var $min_wp_ver = "3.2.1";	    // Minimum WordPress Version required to run BP-Media
-	var $min_bp_ver = "1.5";	    // Minimum BuddyPress Version required to run BP-Media
-	var $min_gd_ver = "2";		    // Minimum GDLib Version required to run BP-Media
+	var $min_php_ver = "5.3.0";	    // Minimum PHP Version required to run FoxFire
+	var $min_sql_ver = "5.0.15";	    // Minimum SQL Version required to run FoxFire
+	var $min_wp_ver = "3.2.1";	    // Minimum WordPress Version required to run FoxFire
 
 
 	public function  __construct() {}
@@ -48,7 +46,7 @@ class BPM_version {
 
 		if( array_search($op, $valid_ops) === false ){
 
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 					'numeric'=>1,
 					'text'=>"Called with invalid comparison operator. ",
 					'data'=>array("ver1"=>$ver1, "ver2"=>$ver2, "op"=>$op),
@@ -427,21 +425,6 @@ class BPM_version {
 		return $wp_version;
 	}
 
-
-	/**
-	 * Get which version of BuddyPress is installed
-	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
-	 * @return string | BuddyPress Version
-	 */
-
-	public function getBPVersion()
-	{
-		return BP_VERSION;
-	}
-
-
 	/**
 	 * Get which version of MySQL is installed
 	 *
@@ -472,55 +455,7 @@ class BPM_version {
 
 
 	/**
-	 * Get which version of GD is installed
-	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
-	 * @return string | GD version, or 0 if not installed.
-	 */
-
-	public function getGDVersion()
-	{
-
-		// Handle GD not being installed or loaded
-		if(!extension_loaded('gd')) {
-			return 0;
-		}
-
-		// If installed version of PHP is current, we can use gd_info()
-		if(function_exists('gd_info')) {
-
-			$ver_info = gd_info();
-			preg_match('/\d/', $ver_info['GD Version'], $match);
-			$gd_ver = $match[0];
-			return $match[0];
-		}
-
-		// If gd_info() is disabled, the user's PHP installation is probably out of date, but its still
-		// worth checking in case someone has a really unusual setup. If the user has phpinfo() enabled on
-		// their system, use it to fetch the GD version number. Otherwise, quit.
-		if(!preg_match('/phpinfo/', ini_get('disable_functions'))) {
-
-			ob_start();
-			phpinfo(8);
-			$info = ob_get_contents();
-			ob_end_clean();
-			$info = stristr($info, 'gd version');
-			preg_match('/\d/', $info, $match);
-			$gd_ver = $match[0];
-			return $match[0];
-
-		}
-		else {
-
-			return 0;
-		}
-
-	}
-
-
-	/**
-	 * Checks that PHP is the minimum version needed for BP-Media to run properly
+	 * Checks that PHP is the minimum version needed for FoxFire to run properly
 	 *
 	 * @version 0.1.9
 	 * @since 0.1.9
@@ -541,7 +476,7 @@ class BPM_version {
 
 
 	/**
-	 * Checks that MySQL is the minimum version needed for BP-Media to run properly
+	 * Checks that MySQL is the minimum version needed for FoxFire to run properly
 	 *
 	 * @version 0.1.9
 	 * @since 0.1.9
@@ -562,7 +497,7 @@ class BPM_version {
 
 
 	/**
-	 * Checks that WordPress is the minimum version needed for BP-Media to run properly
+	 * Checks that WordPress is the minimum version needed for FoxFire to run properly
 	 *
 	 * @version 0.1.9
 	 * @since 0.1.9
@@ -583,50 +518,8 @@ class BPM_version {
 
 
 	/**
-	 * Checks that BuddyPress is the minimum version needed for BP-Media to run properly
-	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
-	 * @return bool | False on failure. True on success.
-	 */
-
-	public function bpOK() {
-
-		if( self::checkVersion( self::getBPVersion(), $this->min_bp_ver, '>=') == true )
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
-
-	}
-
-
-	/**
-	 * Checks that GD is the minimum version needed for BP-Media to run properly
-	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
-	 * @return bool | False on failure. True on success.
-	 */
-
-	public function gdOK() {
-
-		if( self::checkVersion( self::getGDVersion(), $this->min_gd_ver, '>=') == true )
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
-
-	}
-
-
-	/**
 	 * Checks that all plugins, API's, and services on the host system are the minimum
-	 * versions needed for BP-Media to run properly
+	 * versions needed for FoxFire to run properly
 	 *
 	 * @version 0.1.9
 	 * @since 0.1.9
@@ -637,9 +530,7 @@ class BPM_version {
 
 		if( (self::phpOK() == true)
 		&&  (self::sqlOK() == true)
-		&&  (self::wpOK() == true)
-		&&  (self::bpOK() == true)
-		&&  (self::gdOK() == true))
+		&&  (self::wpOK() == true))
 		{
 			return true;
 		}
@@ -649,6 +540,7 @@ class BPM_version {
 
 	}
 
-} // End of class BPM_version
+	
+} // End of class FOX_version
 
 ?>

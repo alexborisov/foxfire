@@ -13,7 +13,7 @@
  * ========================================================================================================
  */
 
-abstract class BPM_admin_page_base {
+abstract class FOX_admin_page_base {
 
     
 	var $tabs = array();	    // Tabs storage array
@@ -35,16 +35,16 @@ abstract class BPM_admin_page_base {
 
 	function processor() {
 
-	    global $bpm;
+	    global $fox;
 
 	    if ( isset($_POST['updateoption']) ) {
 
-		    check_admin_referer('bpm_admin_settings');
+		    check_admin_referer('fox_admin_settings');
 
 		    if( current_user_can('install_plugins') ){
 
 			    // Save options and show user if update was successful
-			    $result = $bpm->config->processHTMLForm($_POST);
+			    $result = $fox->config->processHTMLForm($_POST);
 
 			    if($result){
 
@@ -53,11 +53,11 @@ abstract class BPM_admin_page_base {
 
 				    jQuery(document).ready(function(){
 
-					jQuery.bpm_admin_notify.add({
+					jQuery.fox_admin_notify.add({
 
-						title: "<?php _e("Settings Updated", "bp-media"); ?>",
-						text:  "<?php _e("BP-Media has updated settings for this screen.", "bp-media"); ?>",
-						image:  "<?php echo BPM_URL_CORE . '/admin/css/images/bpm_admin_notify_success.png' ?>"
+						title: "<?php _e("Settings Updated", "foxfire"); ?>",
+						text:  "<?php _e("FoxFire has updated settings for this screen.", "foxfire"); ?>",
+						image:  "<?php echo FOX_URL_CORE . '/admin/css/images/fox_admin_notify_success.png' ?>"
 					});
 
 				    });
@@ -72,11 +72,11 @@ abstract class BPM_admin_page_base {
 
 				    jQuery(document).ready(function(){
 
-					jQuery.bpm_admin_notify.add({
+					jQuery.fox_admin_notify.add({
 
-						title: "<?php _e("Update Error", "bp-media"); ?>",
-						text:  "<?php _e("Error updating settings for this screen.", "bp-media"); ?>",
-						image:  "<?php echo BPM_URL_CORE . '/admin/css/images/bpm_admin_notify_fail.png' ?>"
+						title: "<?php _e("Update Error", "foxfire"); ?>",
+						text:  "<?php _e("Error updating settings for this screen.", "foxfire"); ?>",
+						image:  "<?php echo FOX_URL_CORE . '/admin/css/images/fox_admin_notify_fail.png' ?>"
 					});
 
 				    });
@@ -124,7 +124,7 @@ abstract class BPM_admin_page_base {
 	    </script>
 
 
-	    <div class="bpm_header_small"></div>
+	    <div class="fox_header_small"></div>
 
 	    <div class="tabs_h">
 
@@ -168,7 +168,7 @@ abstract class BPM_admin_page_base {
 
 	    </div>
 
-	    <div class="bpm_footer"></div>
+	    <div class="fox_footer"></div>
 
 	<?php
 	}
@@ -242,6 +242,8 @@ abstract class BPM_admin_page_base {
 
 	}
 
- } // End of abstract class BPM_admin_page_base
+	
+	
+ } // End of abstract class FOX_admin_page_base
 
 ?>
