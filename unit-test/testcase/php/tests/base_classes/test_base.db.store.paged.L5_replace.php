@@ -4,12 +4,12 @@
  * L5 PAGED ABSTRACT DATASTORE TEST CLASS
  * This class is used to instantiate the abstract base class, and create its database structure array
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -63,14 +63,14 @@ class FOX_dataStore_paged_L5_tester_replaceMethods extends FOX_dataStore_paged_L
                                       
 
 /**
- * BP-MEDIA UNIT TEST SCRIPT - L5 PAGED ABSTRACT DATASTORE CLASS - REPLACE METHODS
+ * FOXFIRE UNIT TEST SCRIPT - L5 PAGED ABSTRACT DATASTORE CLASS - REPLACE METHODS
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -134,8 +134,8 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	* Loads the class instance with the test data set, and verifies it was correctly written
         * to the database and cache
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -275,8 +275,8 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
        /**
 	* Test fixture for replaceL2_multi() method, trie mode, L5 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	

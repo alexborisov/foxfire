@@ -1,18 +1,18 @@
 <?php
 
 /**
- * BP-MEDIA AJAX ROUTERS
+ * FOXFIRE AJAX ROUTERS
  * This file contains all of FoxFire's AJAX routers. They determine which handler an AJAX request gets
  * routed to when it is passed to us by WordPress. Unlike the rest of the plugin, these functions have to
  * be defined procedurally (as opposed to being methods in a class) because we have to be able to attach
  * individual functions to the various WordPress JS hook functions.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage AJAX
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -21,8 +21,8 @@
 /**
  * Processes the level rank list in an albumtype panel on the admin album types page
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @return string | 'OK' on success. 'FAIL' on failure.
  */
@@ -100,8 +100,8 @@
 /**
  * Processes modal dialog forms on fox admin pages
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @return string | Rendered HTML to display in form
  */
@@ -196,8 +196,8 @@
 /**
  * Processes data sent back via modal dialog forms on fox admin pages
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */
@@ -289,8 +289,8 @@
 /**
  * Checks if a WP page is in use by FoxFire or BuddyPress
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */
@@ -347,8 +347,8 @@
 /**
  * Checks if a slug is in use by FoxFire
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */
@@ -421,8 +421,8 @@
 /**
  * Runs unit tests on the server
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */
@@ -454,8 +454,8 @@
 /**
  * Runs unit tests on the server
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */

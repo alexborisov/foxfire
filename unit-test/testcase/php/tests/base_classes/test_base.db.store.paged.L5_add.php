@@ -4,12 +4,12 @@
  * L5 PAGED ABSTRACT DATASTORE TEST CLASS
  * This class is used to instantiate the abstract base class, and create its database structure array
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -63,14 +63,14 @@ class FOX_dataStore_paged_L5_tester_addMethods extends FOX_dataStore_paged_L5_ba
                                       
 
 /**
- * BP-MEDIA UNIT TEST SCRIPT - L5 PAGED ABSTRACT DATASTORE CLASS - ADD METHODS
+ * FOXFIRE UNIT TEST SCRIPT - L5 PAGED ABSTRACT DATASTORE CLASS - ADD METHODS
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -133,8 +133,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL1() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -295,8 +295,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL1_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -474,8 +474,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL2() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -651,8 +651,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL2_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -844,8 +844,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL3() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -1023,8 +1023,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL3_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -1227,8 +1227,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL4() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -1419,8 +1419,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL4_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -1654,8 +1654,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL5() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -1845,8 +1845,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addL5_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -2103,8 +2103,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addMulti() method (trie mode)
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -2295,8 +2295,8 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
        /**
 	* Test fixture for addMulti() method (matrix mode)
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/

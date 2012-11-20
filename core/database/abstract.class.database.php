@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA BASE DATABASE CLASS
+ * FOXFIRE BASE DATABASE CLASS
  * Provides installation and caching functions for FoxFire's database classes
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -20,8 +20,8 @@ abstract class FOX_db_base {
 	/**
 	 * Adds a database table
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -51,8 +51,8 @@ abstract class FOX_db_base {
 	/**
 	 * Drops a database table
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -82,8 +82,8 @@ abstract class FOX_db_base {
 	/**
 	 * Deletes all data from a database table
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -114,8 +114,8 @@ abstract class FOX_db_base {
 	 * Clears the persistent cache for the class namespace and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -154,8 +154,8 @@ abstract class FOX_db_base {
 	 * Clears a paged cache page within the class namespace and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -200,8 +200,8 @@ abstract class FOX_db_base {
          * Loads a monolithic class cache array from the persistent cache and broadcasts the 
          * update to any classes that are listening for it
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          * @return bool | Exception on failure. True on success.
          */
 
@@ -269,8 +269,8 @@ abstract class FOX_db_base {
 	 * Loads pages in a 'paged' class cache array from the persistent cache and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $pages | Single page as string. Multiple pages as array of string.
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -311,8 +311,8 @@ abstract class FOX_db_base {
          * Loads a monolithic class cache array from the persistent cache and broadcasts the 
          * update to any classes that are listening for it
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          * @return bool | Exception on failure. Monolithic cache image on success.
          */
 
@@ -352,8 +352,8 @@ abstract class FOX_db_base {
 	 * Loads pages in a 'paged' class cache array from the persistent cache and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $pages | Single page as string. Multiple pages as array of string.
 	 * @return array | Exception on failure. Array of paged cache page images on success.
 	 */
@@ -392,8 +392,8 @@ abstract class FOX_db_base {
 	 * Saves a monolithic class cache array to the persistent cache, and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -427,8 +427,8 @@ abstract class FOX_db_base {
 	 * Saves pages in a paged class cache array to the persistent cache, and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $pages | Single page as string. Multiple pages as array of strings.
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -486,8 +486,8 @@ abstract class FOX_db_base {
 	 * Writes a monolithic class cache array to the persistent cache, and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -525,8 +525,8 @@ abstract class FOX_db_base {
 	 * Writes paged class cache array pages to the persistent cache, and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $pages | pages as 'page_key' => 'page_image'
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -567,8 +567,8 @@ abstract class FOX_db_base {
 	 * cache. Read requests in the namespace will throw an exception until the lock expires. 
 	 * Write and delete requests will remove the lock and clear/update the namespace.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @param array $ctrl | Control parameters 
 	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	  
@@ -635,8 +635,8 @@ abstract class FOX_db_base {
 	 * cache. Read requests in the namespace will throw an exception until the lock expires. 
 	 * Write and delete requests will remove the lock and clear/update the namespace.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @param string/array $keys | Single key as string. Multiple keys as array of strings.
 	 * 

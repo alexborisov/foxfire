@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA UNIT TEST SCRIPT - MEMORY CACHE | PERSISTENT | APC
+ * FOXFIRE UNIT TEST SCRIPT - MEMORY CACHE | PERSISTENT | APC
  * Tests the operation of the memory cache when persistent caching is available on the server via APC
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */

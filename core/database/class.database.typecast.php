@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA DATA TYPE CONVERSION CLASS CLASS
+ * FOXFIRE DATA TYPE CONVERSION CLASS CLASS
  * Simplifies interchange between PHP and SQL data types across 32-bit and 64-bit platforms.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -21,8 +21,8 @@ class FOX_cast {
          * Converts an SQL data type to a PHP data type. The conversion is done
 	 * in-place using a reference, to help conserve memory space.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param bool/int/float/string &$value | reference to input value
          * @param string $in_type | name of SQL data type $value is formatted as
@@ -149,8 +149,8 @@ class FOX_cast {
 	/**
          * Converts a PHP data type to an SQL data type
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param bool/int/float/string $value | input value
          * @param string $in_type | name of PHP data type $value is formatted as
@@ -304,8 +304,8 @@ class FOX_cast {
 	/**
          * Converts the data contained in a query result to PHP data types
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $format | query result format. "var"|"col"|"row_object"
          * @param int/float/string/array &$data | reference to data returned by the query

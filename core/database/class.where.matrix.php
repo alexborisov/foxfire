@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA QUERY BUILDER - WHERE MATRIX
+ * FOXFIRE QUERY BUILDER - WHERE MATRIX
  * A self-optimizing doubly-linked trie class that accepts condition arguments as a flat array, assembles
  * them into a trie, reduces it to a minimum spanning set, then renders it to a SQL statement.
  * 
@@ -17,12 +17,12 @@
  * @see http://en.wikipedia.org/wiki/Spanning_set
  * @see http://en.wikipedia.org/wiki/Linked_list
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -52,8 +52,8 @@ class FOX_queryBuilder_whereMatrix {
 	/**
          * Implodes an array of heirarchical datastore keys into a single query $args array
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * 
 	 * @param array $columns | Array of column names
 	 * 
@@ -117,8 +117,8 @@ class FOX_queryBuilder_whereMatrix {
 	/**
          * Optimizes the $args matrix passed during instantiations, and assembles it into an object trie
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -279,8 +279,8 @@ class FOX_queryBuilder_whereMatrix {
 	/**
          * Recursively dumps the entire node tree
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param int $depth | Depth of this node in the tree. First node is (int)0
          * @return string | Node tree in string form

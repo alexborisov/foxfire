@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA MODULE OBJECT TYPES DATA CLASS
+ * FOXFIRE MODULE OBJECT TYPES DATA CLASS
  * Stores basic information about object types (such as an album type or media type) created by modules
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -32,8 +32,8 @@ abstract class FOX_objectTypeData_base extends FOX_db_base {
 	/**
 	 * Creates a new object type
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data |
 	 *	=> VAL @param int $module_id | id for the module that owns this type.
@@ -120,8 +120,8 @@ abstract class FOX_objectTypeData_base extends FOX_db_base {
 	/**
 	 * Fetches a record for one or more object types
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $type_id | Single type_id as int, multiple type_ids as array of int.
 	 * @return array | Exception on failure. Array containing row column values on success.
 	 */
@@ -291,8 +291,8 @@ abstract class FOX_objectTypeData_base extends FOX_db_base {
 	/**
 	 * Returns the module_id that owns an object type_id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int $type_id | the type's id
 	 * @return int | Exception on failure. Int module_id on success.
 	 */
@@ -326,8 +326,8 @@ abstract class FOX_objectTypeData_base extends FOX_db_base {
 	/**
 	 * Edits an existing object type
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data |
 	 *	=> VAL @param int $type_id | Unique id for this object type
@@ -487,8 +487,8 @@ abstract class FOX_objectTypeData_base extends FOX_db_base {
 	/**
 	 * Deletes one or more object types from the system and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $type_id | Single type_id as int. Multiple type_ids as array of ints.
 	 * @return bool | Exception on failure. True on success. False on nonexistent.
 	 */
@@ -602,8 +602,8 @@ abstract class FOX_objectTypeData_base extends FOX_db_base {
 	/**
 	 * Fetches the type_id of a given type_slug, for one or more slugs.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int $module_id | Module id that owns this object type.
 	 * @param string $type_slug | Single slug as string. Multiple slugs as array of strings.
 	 * @return bool/array | Exception on failure. False on nonexistent. Array "type_slug"=>"type_id" on success.
@@ -757,8 +757,8 @@ abstract class FOX_objectTypeData_base extends FOX_db_base {
 	/**
 	 * Returns all type_ids owned by a module
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int $module_id| Single module_id as int.
 	 * @return array | Exception on failure. False on nonexistent. Array of type_ids on success.
 	 */

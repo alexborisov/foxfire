@@ -1,18 +1,18 @@
 <?php
 
 /**
- * BP-MEDIA TRIE - FLATTEN
+ * FOXFIRE TRIE - FLATTEN
  * Flattens a trie structure to matrix
  * 
  * @see http://en.wikipedia.org/wiki/Trie
  * @see http://en.wikipedia.org/wiki/Linked_list
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -41,8 +41,8 @@ class FOX_trie_flatten {
 	/**
          * Implodes an array of heirarchical datastore keys into a single query $args array
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * 
 	 * @param array $trie | Trie structure
 	 * @param array $columns | Array of column names
@@ -97,8 +97,8 @@ class FOX_trie_flatten {
 	/**
          * Optimizes the $args matrix passed during instantiations, and assembles it into an object trie
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -183,8 +183,8 @@ class FOX_trie_flatten {
 	/**
          * Recursively dumps the entire node tree
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param int $depth | Depth of this node in the tree. First node is (int)0
          * @return string | Node tree in string form

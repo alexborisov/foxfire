@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA DATABASE WALKER CLASS
+ * FOXFIRE DATABASE WALKER CLASS
  * Pages through database query results
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -33,8 +33,8 @@ abstract class FOX_db_walker {
         /**
          * Determines if there are items inside the template object
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | True if items. False if empty.
          */
@@ -61,8 +61,8 @@ abstract class FOX_db_walker {
         /**
          * Returns read pointer to the first item
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          */
 
 	public function rewind_items() {
@@ -74,8 +74,8 @@ abstract class FOX_db_walker {
         /**
          * Sets "in_the_loop" flag true, and advances read pointer to the next item.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return object | query result object
          */
@@ -95,8 +95,8 @@ abstract class FOX_db_walker {
         /**
          * Determines if there is another page of items following the currently selected page
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | True if page exists. False if not.
          */
@@ -118,8 +118,8 @@ abstract class FOX_db_walker {
         /**
          * Determines if there is another page of items preceding the currently selected page
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | True if page exists. False if not.
          */

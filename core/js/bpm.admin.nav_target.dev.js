@@ -1,13 +1,13 @@
 /**
- * BP-MEDIA ADMIN PAGE DYNAMIC TABLES JAVASCRIPT FUNCTIONS
+ * FOXFIRE ADMIN PAGE DYNAMIC TABLES JAVASCRIPT FUNCTIONS
  * Adds field manipulation and animation to tables within FoxFire admin pages
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -56,8 +56,8 @@ function fox_pageModules_navTarget(baseName, moduleID){
  * Switches between "page" mode and "slug" mode by toggling the visibility of the page
  * and slug tables, based on the display target selected by the user
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function toggleMode(baseName, moduleID){
@@ -164,8 +164,8 @@ function toggleMode(baseName, moduleID){
  * as a target by another FoxFire or BuddyPress screen. Based on whether the page is available
  * or not, it adds/removes HTML from the admin page DOM to display the correct page status.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function updatePageStatus(baseName, moduleID){
@@ -267,8 +267,8 @@ function updatePageStatus(baseName, moduleID){
  * being used as a target by another FoxFire or BuddyPress screen. Based on whether the slug is available
  * and/or valid, it adds/removes HTML from the admin page DOM to display the correct slug status.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function updateSlugStatus(baseName, moduleID){
@@ -427,8 +427,8 @@ function updateSlugStatus(baseName, moduleID){
  * Enables or disables the submit button depending on whether the entered target
  * data passes validation in the browser
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function toggleSubmitButton(){
@@ -462,8 +462,8 @@ function toggleSubmitButton(){
  * Checks a slug only contains [a-z], [A-Z], [_-]. Fails on leading and internal spaces,
  * passes on trailing spaces. Matches the behavior of the FOX_sanitize::slug() sanitizer.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @param slug string | Slug string to test
  * @return bool | True if slug is valid. False if not.

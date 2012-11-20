@@ -1,18 +1,18 @@
 <?php
 
 /**
- * BP-MEDIA LAYOUT ENGINE - "SPANNER"
+ * FOXFIRE LAYOUT ENGINE - "SPANNER"
  * The Spanner layout engine uses an optimum packing algorithm combined with image clipping to create
  * thumbnail galleries with 100% page coverage. It produces an effect that's similar to the algorithm
  * used on Google+ albums, but preserves the order of images, is much more configurable (at the cost
  * of more image clipping), and allows the display of arbitrary fields.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage AJAX API
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -35,8 +35,8 @@ class fox_thumbEngine_spanner {
 	 * Loads the configuration data into the layout engine. In normal use, this data will be pulled from
 	 * internal browser variables (canvas width) or using AJAX calls
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function fox_thumbEngine_spanner(){
@@ -181,8 +181,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Renders the template
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function render(&$error=null){
@@ -211,8 +211,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Parses the manifest.xml file for a set of images. This is only used during testing.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param bool $randomize | True to randomize order of images. False to use order set in manifest.xml file.
 	 * @return array | Array of image data arrays.
@@ -303,8 +303,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Renders the "cover image" section of the template's top block
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $args | Control args
 	 */
@@ -382,8 +382,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Renders the "primary rows" section of the template's top block
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $args | Control args
 	 */
@@ -518,8 +518,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Renders the rows within the template's "lower block"
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $args | Control args
 	 */
@@ -619,8 +619,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Renders the meta block within an media item
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $args | Control args
 	 * @param array $item | Item instance
@@ -660,8 +660,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Renders the info block within an media item
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $args | Control args
 	 * @param array $item | Item instance
@@ -760,8 +760,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Pulls one or more media items off the stack and loads them into a row
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $args | Control args
 	 */
@@ -878,8 +878,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Scales and/or crops an image to fit within the specified pixel mask
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $args | Control args
 	 */
@@ -960,8 +960,8 @@ class fox_thumbEngine_spanner {
 	/**
 	 * Finds the path to the optimal cached image size given the mask parameters
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $mask_x | Width of mask in pixels
 	 * @param int $mask_y | Height of mask in pixels

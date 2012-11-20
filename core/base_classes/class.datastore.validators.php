@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA PAGED ABSTRACT DATASTORE VALIDATORS HELPER CLASS
+ * FOXFIRE PAGED ABSTRACT DATASTORE VALIDATORS HELPER CLASS
  * Validates data structures used in FoxFire datastore classes
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -546,8 +546,8 @@ class FOX_dataStore_validator {
 	 * Validates a L1 trie structure (to be technically correct, a structure with depth = 1 isn't
 	 * a tree, but pretending it is makes the design pattern easier to follow)
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array $L1s | array of L1's in the form "L1_id"=>"L1_value"
 	 *	=> KEY @param int/string | L1 id
@@ -597,8 +597,8 @@ class FOX_dataStore_validator {
 	/**
 	 * Validates a L2 trie structure 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array $L2s | array of L2's in the form "L2_id"=>"L1s"
 	 *	=> ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
@@ -682,8 +682,8 @@ class FOX_dataStore_validator {
 	/**
 	 * Validates a L3 trie structure 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array $L3s | array of L3's in the form "L3_id"=>"L2s"
 	 *	=> ARR @param array $L2s | array of L2's in the form "L2_id"=>"L1s"
@@ -790,8 +790,8 @@ class FOX_dataStore_validator {
 	/**
 	 * Validates a L4 trie structure 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
 	 *	=> ARR @param array $L3s | array of L3's in the form "L3_id"=>"L2s"
@@ -919,8 +919,8 @@ class FOX_dataStore_validator {
 	/**
 	 * Validates a L5 trie structure 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
 	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
@@ -1073,8 +1073,8 @@ class FOX_dataStore_validator {
 	/**
 	 * Validates a L5 trie structure 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
 	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
@@ -1196,8 +1196,8 @@ class FOX_dataStore_validator {
 	 * Checks that the datatype and value of a $L[x] key's NAME matches the datatype of the 
 	 * corresponding column in the descendent class's database table.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $args | control args
 	 *	=> VAL @param string $type | database column type ("int" | "string")

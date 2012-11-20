@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA DATABASE QUERY BUILDER CLASS
+ * FOXFIRE DATABASE QUERY BUILDER CLASS
  * Generates SQL statements "on-the-fly" for use by the core database class
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -41,8 +41,8 @@ class FOX_queryBuilder {
 	/**
          * Implodes an array of heirarchical datastore keys into a single query $args array
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * 
 	 * @param array $key_col | Array of column names
 	 * 
@@ -100,8 +100,8 @@ class FOX_queryBuilder {
 	/**
          * Implodes a trie of WHERE conditions into an optimized query $args array
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * @param array $key_col | Array of column names
 	 * 
 	 * @param array $args | Array of key arrays
@@ -158,8 +158,8 @@ class FOX_queryBuilder {
 	/**
          * Builds a WHERE-OR-WHERE construct for an SQL query
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
@@ -237,8 +237,8 @@ class FOX_queryBuilder {
 	/**
          * Builds a WHERE construct for an SQL query
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
@@ -369,8 +369,8 @@ class FOX_queryBuilder {
 	/**
          * Builds a SELECT query with a JOIN statement, for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $primary | Primary table class name and args
 	 *	=> VAL @param string/array $class | Name of class that owns the primary table (as string), or the class's $struct array (as array)
@@ -944,8 +944,8 @@ class FOX_queryBuilder {
 	/**
          * Builds a SELECT query with a LEFT JOIN statement, for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $primary | Primary table class name and args
 	 *	=> VAL @param string/array $class | Name of class that owns the primary table (as string), or the class's $struct array (as array)
@@ -1613,8 +1613,8 @@ class FOX_queryBuilder {
 	/**
          * Builds a select query for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -1993,8 +1993,8 @@ class FOX_queryBuilder {
 	/**
          * Builds a single-column keyed select query for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -2054,8 +2054,8 @@ class FOX_queryBuilder {
 	/**
          * Builds an update query for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -2227,8 +2227,8 @@ class FOX_queryBuilder {
         /**
          * Builds a single-column keyed update query for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -2274,8 +2274,8 @@ class FOX_queryBuilder {
 	/**
          * Builds an insert query for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -2441,8 +2441,8 @@ class FOX_queryBuilder {
 	/**
          * Builds an indate [INsert-upDATE] query for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -2632,8 +2632,8 @@ class FOX_queryBuilder {
 	/**
          * Builds a delete query for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -2783,8 +2783,8 @@ class FOX_queryBuilder {
         /**
          * Builds a single-column keyed delete query for processing by $wpdb->prepare().
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 * @param string $col | Column name to use for WHERE construct
@@ -2820,8 +2820,8 @@ class FOX_queryBuilder {
 	/**
          * Builds a query to add or restructure a database table, given an array defining the table's structure
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
@@ -3128,8 +3128,8 @@ class FOX_queryBuilder {
 	/**
          * Builds a query to drop a database table, given an array defining the table's structure
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
@@ -3165,8 +3165,8 @@ class FOX_queryBuilder {
 	/**
          * Deletes all rows from a database table, given an array defining the table's structure
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table

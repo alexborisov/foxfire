@@ -1,18 +1,18 @@
 <?php
 
 /**
- * BP-MEDIA TRIE - FLATTEN ITERATOR
+ * FOXFIRE TRIE - FLATTEN ITERATOR
  * Flattens a trie structure to matrix
  * 
  * @see http://en.wikipedia.org/wiki/Trie
  * @see http://en.wikipedia.org/wiki/Linked_list
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -40,8 +40,8 @@ class FOX_trie_flatten_iterator {
 	/**
          * Recursively reduces a FOX args matrix into a minimum SQL WHERE clause
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
 	 * @param array $args | Control args
 	 *	=> VAL @param obj $base | Reference to base class
@@ -90,8 +90,8 @@ class FOX_trie_flatten_iterator {
 	/**
          * Recursively reduces this node and all its descendents to minimal form
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return array | Exception on failure. Array of child nodes on success.
          */
@@ -219,8 +219,8 @@ class FOX_trie_flatten_iterator {
          * Recursively renders this node and all its descendents to a print string and parameter
 	 * array, which combined, form a valid SQL WHERE clause.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return array | Exception on failure. String and params in vsprintf() format on success.
          */
@@ -250,8 +250,8 @@ class FOX_trie_flatten_iterator {
 	/**
          * Builds a row in the flattened result array
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param mixed $obj | Instance of FOX_queryBuilder_whereMatrix_iterator object 
          * @return array | Empty array on root node, otherwise array of child node row arrays.
@@ -294,8 +294,8 @@ class FOX_trie_flatten_iterator {
 	/**
          * Recursively dumps the entire node tree
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param int $depth | Depth of this node in the tree. First node is (int)0
          * @return string | Node tree in string form

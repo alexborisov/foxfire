@@ -4,12 +4,12 @@
  * L5 PAGED ABSTRACT DATASTORE TEST CLASS
  * This class is used to instantiate the abstract base class, and create its database structure array
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -63,14 +63,14 @@ class FOX_dataStore_paged_L5_tester_getMethods extends FOX_dataStore_paged_L5_ba
                                       
 
 /**
- * BP-MEDIA UNIT TEST SCRIPT - L5 PAGED ABSTRACT DATASTORE CLASS - GET METHODS
+ * FOXFIRE UNIT TEST SCRIPT - L5 PAGED ABSTRACT DATASTORE CLASS - GET METHODS
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -134,8 +134,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 	* Loads the class instance with the test data set, and verifies it was correctly written
         * to the database and cache
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -275,8 +275,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, trie mode, L5 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -439,8 +439,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, matrix mode, L5 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -606,8 +606,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, trie mode, L4 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -797,8 +797,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, matrix mode, L4 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -988,8 +988,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, trie mode, L3 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -1173,8 +1173,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, matrix mode, L3 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -1357,8 +1357,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, trie mode, L2 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -1546,8 +1546,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, matrix mode, L2 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -1731,8 +1731,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, trie mode, L1 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -1940,8 +1940,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, matrix mode, L1 trie depth
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2138,8 +2138,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, trie mode, mixed object depths
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2345,8 +2345,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getMulti() method, trie mode, mixed object depths
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2552,8 +2552,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL1() method, single item, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2589,8 +2589,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL1() method, single item, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2625,8 +2625,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL1() method, multiple items, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2667,8 +2667,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL1() method, multiple items, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2708,8 +2708,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL2() method, single item, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2750,8 +2750,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL2() method, single item, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2791,8 +2791,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL2() method, multiple items, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2838,8 +2838,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL2() method, multiple items, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2880,8 +2880,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL3() method, single item, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -2924,8 +2924,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL3() method, single item, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -2966,8 +2966,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL3() method, multiple items, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -3012,8 +3012,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL3() method, multiple items, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -3055,8 +3055,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL4() method, single item, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -3101,8 +3101,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL4() method, single item, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -3144,8 +3144,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL4() method, multiple items, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -3199,8 +3199,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL4() method, multiple items, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -3246,8 +3246,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL5() method, single item, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -3301,8 +3301,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL5() method, single item, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -3348,8 +3348,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL5() method, multiple items, 'trie' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -3416,8 +3416,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Test fixture for getL5() method, multiple items, 'matrix' return format
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -3475,8 +3475,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Tests &$valid flag for every possible combination of L5->L1 walks
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -3964,8 +3964,8 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
        /**
 	* Tests keyType validators for every possible combination of L5->L1 walks
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	

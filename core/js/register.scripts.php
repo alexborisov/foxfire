@@ -1,18 +1,18 @@
 <?php
 
 /**
- * BP-MEDIA SCRIPT REGISTER CLASS
+ * FOXFIRE SCRIPT REGISTER CLASS
  * Registers scripts used by the plugin. Note that scripts are not *actually loaded in the browser* unless
  * wp_enqueue_script() is used to enqueue the script in either sub.admin.core.php, or the enqueueSiteScripts()
  * or enqueueAdminScripts() methods within an album module, page module, network module, or media module's
  * loader.php file.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage AJAX API
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */

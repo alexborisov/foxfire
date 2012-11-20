@@ -1,18 +1,18 @@
 <?php
 
 /**
- * BP-MEDIA HASH TABLE CLASS
+ * FOXFIRE HASH TABLE CLASS
  * Maps text strings to 128-bit MD5 hashes, and allows them to be retrieved using the hash value. This
  * class is typically used when text strings need to be normalized to a fixed key length for use as
  * keys in assiciative arrays. DO NOT USE THIS CLASS FOR SECURITY HASHING, the MD5 algorithm is TOO FAST
  * to guard against brute-force attacks.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Hash Table
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -48,8 +48,8 @@ class FOX_hashTable {
 	/**
 	 * Removes all entries in the store.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -64,8 +64,8 @@ class FOX_hashTable {
 	/**
 	 * Returns the prefixed hash value for a string without adding it to the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param mixed $value | single value
 	 * @return bool | Exception on failure. Prefixed hash key on success.
@@ -99,8 +99,8 @@ class FOX_hashTable {
 	/**
 	 * Writes a single raw value to the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param mixed $value | single value
 	 * @return bool | Exception on failure. Prefixed hash key on success.
@@ -118,8 +118,8 @@ class FOX_hashTable {
 	/**
 	 * Writes a multiple raw strings to the store 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param mixed $value | single value	 
 	 * @return bool | Exception on failure. Array of prefixed hash keys on success.
@@ -170,8 +170,8 @@ class FOX_hashTable {
 	/**
 	 * Given a prefixed hash key, returns the key's stored value
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @param string $hash | prefixed hash value
 	 * @return mixed | Null on failure. Key value on success.
@@ -198,8 +198,8 @@ class FOX_hashTable {
 	/**
 	 * Reads multiple prefixed hash keys from the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -226,8 +226,8 @@ class FOX_hashTable {
 	/**
 	 * Deletes a prefixed hash key from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @param string $key | Prefixed hash key.
 	 * @return bool | False on failure. True on success.
@@ -251,8 +251,8 @@ class FOX_hashTable {
 	/**
 	 * Deletes a prefixed hash key from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @param array $keys | Array of prefixed hash keys
 	 * @return int | Int number of keys deleted

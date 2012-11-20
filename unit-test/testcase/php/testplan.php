@@ -1,18 +1,18 @@
 <?php
 
 /**
- * BP-MEDIA UNIT TESTS - TEST CONFIGURATION AND SELECTION
+ * FOXFIRE UNIT TESTS - TEST CONFIGURATION AND SELECTION
  *
  * Ensures scripts are run in a specific order, and allows scripts to be easily enabled and
  * disabled without having to move them between directories (which would cause huge SVN problems
  * if developers were editing and moving around scripts at the same time).
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -31,8 +31,8 @@ class FOX_testPlan extends RAZ_testPlan_base {
 	/**
          * Loads mock classes used by the unit test runners in this dictionary
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          */ 
     
 	public function loadMockClasses() {
@@ -50,8 +50,8 @@ class FOX_testPlan extends RAZ_testPlan_base {
 	/**
          * Fetches the requested database images and loads their remapper classes
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          */
 
 	public function setTestPanels() {
@@ -78,8 +78,8 @@ class FOX_testPlan extends RAZ_testPlan_base {
 	/**
          * Loads requested test cases so the test core can run them
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          */
 
 	public function setTestCases() {

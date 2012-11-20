@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA TRIE - CLIP ITERATOR
+ * FOXFIRE TRIE - CLIP ITERATOR
  * Clips trie branches at the first null node in a walk. This method is used to
  * determine the cache levels to invalidate during delete operations.
  * 
@@ -12,12 +12,12 @@
  * @see http://en.wikipedia.org/wiki/Trie
  * @see http://en.wikipedia.org/wiki/Linked_list
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -37,8 +37,8 @@ class FOX_trie_clip_iterator {
 	/**
          * Recursively reduces a FOX args matrix into a minimum SQL WHERE clause
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
 	 * @param array $args | Control args
 	 *	=> VAL @param obj $base | Reference to base class
@@ -60,8 +60,8 @@ class FOX_trie_clip_iterator {
 	/**
          * Recursively builds a clipped tree structure
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return array | Exception on failure. Trie structure on success.
          */

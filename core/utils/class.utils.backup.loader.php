@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA BACKUP LOADER FUNCTIONS
+ * FOXFIRE BACKUP LOADER FUNCTIONS
  * These functions load content from FoxFire backup containers
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -23,8 +23,8 @@ class FOX_backupLoader {
 	/**
 	 * Imports a backup container file into the system
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $path | Path to container file
 	 * @param array $ctrl | Control parameters
 	 *	=> VAL @param bool $allow_remote | True to allow container files to be loaded from a remote server
@@ -38,8 +38,8 @@ class FOX_backupLoader {
 	/**
 	 * Unzips a container file into FoxFire's temp folder
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $path | Path to archive file
 	 */
 
@@ -51,8 +51,8 @@ class FOX_backupLoader {
 	/**
 	 * Processes a user manifest file
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $path | Path to manifest file
 	 */
 
@@ -64,8 +64,8 @@ class FOX_backupLoader {
 	/**
 	 * Processes an album manifest file
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $path | Path to manifest file
 	 */
 
@@ -77,8 +77,8 @@ class FOX_backupLoader {
 	/**
 	 * Imports an album
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $data | Album data
 	 */
 
@@ -90,8 +90,8 @@ class FOX_backupLoader {
 	/**
 	 * Imports a media item
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $data | Media item data
 	 */
 

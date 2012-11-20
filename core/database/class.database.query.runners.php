@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA DATABASE QUERY RUNNER CLASS
+ * FOXFIRE DATABASE QUERY RUNNER CLASS
  * Runs pre-built queries against the SQL server and returns formatted results
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -41,9 +41,9 @@ class FOX_queryRunner {
 	/**
          * Runs a query on the database. Returns results in a specific format.
          *
-         * @version 0.1.9
-         * @since 0.1.9
-	 * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_select_formatter
+         * @version 1.0
+         * @since 1.0
+	 * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_select_formatter
          *
          * @param string $sql | SQL query string
 	 *

@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA UNIT TEST FUNCTIONS
+ * FOXFIRE UNIT TEST FUNCTIONS
  * Utility functions that allow command-line unit tests to be run from within the plugin's admin interface
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -76,8 +76,8 @@ class FOX_uTest {
 	/**
          * Formats a text string for printing in the terminal window
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param int $term_width | Total width of the terminal window (typically 80 columns)
 	 * @param string $left_pad | Character string to pad start of each line with

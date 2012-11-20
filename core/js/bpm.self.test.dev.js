@@ -1,13 +1,13 @@
 
 /**
- * BP-MEDIA ADMIN PAGE "SELF TEST" JAVASCRIPT FUNCTIONS
+ * FOXFIRE ADMIN PAGE "SELF TEST" JAVASCRIPT FUNCTIONS
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */

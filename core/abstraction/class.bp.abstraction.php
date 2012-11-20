@@ -1,16 +1,16 @@
 <?php
 
 /**
- * BP-MEDIA BUDDYPRESS ABSTRACTION CLASS
+ * FOXFIRE BUDDYPRESS ABSTRACTION CLASS
  * Provides abstraction functions to interface with BuddyPress, simplifying upgrading FoxFire
  * when BuddyPress makes changes to their codebase.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage BuddyPress Abstraction
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -21,8 +21,8 @@ class FOX_bp {
 	/**
 	 * Returns the current BuddyPress version
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return string $result | current BuddyPress version as string
 	 */
 
@@ -35,8 +35,8 @@ class FOX_bp {
 	/**
 	 * Returns the current logged-in user_id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return int $user_id | current logged-in user_id
 	 */
 
@@ -50,8 +50,8 @@ class FOX_bp {
 	/**
 	 * Returns the current displayed user_id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return int $user_id | current displayed user_id
 	 */
 
@@ -65,8 +65,8 @@ class FOX_bp {
 	/**
 	 * Determines if the system is running BP 1.5 or greater
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool $result | True if BP 1.5 or greater. False if not.
 	 */
 
@@ -85,8 +85,8 @@ class FOX_bp {
 	/**
 	 * Checks if a WordPress page is owned by FoxFire, BuddyPress, or an external plugin
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int $post_id | post_id of the WordPress page to search
 	 * @return bool/array $result | False on failure. Data array on success.
 	 */
@@ -322,8 +322,8 @@ class FOX_bp {
 	/**
 	 * Checks if a slug is owned by FoxFire, BuddyPress, or an external plugin
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $location | location of slug "profile" or "tab"
 	 * @return bool/array $result | False on failure. Data array on success.
 	 */

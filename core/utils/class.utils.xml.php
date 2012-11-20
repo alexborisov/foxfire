@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA XML FUNCTIONS
+ * FOXFIRE XML FUNCTIONS
  * Handle loading, parsing, validating, and saving XML files
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage XML Tools
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -23,8 +23,8 @@ class FOX_xml {
 	/**
 	 * Converts an XML file into a hierarchical array
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $contents | XML to parse
 	 * @param bool $get_attributes | If true, the function will get the attributes as well as the tag values
@@ -58,8 +58,8 @@ class FOX_xml {
 	/**
 	 * Converts an XML string into a hierarchical array
 	 * 
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @author Based on the "xml2array" parser
 	 * @link http://www.bin-co.com/php/scripts/xml2array/

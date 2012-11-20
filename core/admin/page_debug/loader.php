@@ -1,14 +1,14 @@
 <?php
 
 /**
- * BP-MEDIA ADMIN PAGE "DEBUG"
+ * FOXFIRE ADMIN PAGE "DEBUG"
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -64,8 +64,8 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 	/**
 	 * Renders the page and
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	function render(){
@@ -139,8 +139,8 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 	/**
 	 * Enqueues the selected tab's scripts in the page header
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function enqueueScripts() {
@@ -181,8 +181,8 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 	/**
 	 * Enqueues the selected tab's styles in the page header
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function enqueueStyles() {
@@ -224,8 +224,8 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 	/**
 	 * Loads the intro block for this admin page
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	public function loadIntro(){
 
@@ -237,8 +237,8 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 	 * Loads the tab files for this admin page. The order the tab pages are loaded in sets
 	 * the order that they are displayed in within the admin page
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	public function loadTabs(){
 

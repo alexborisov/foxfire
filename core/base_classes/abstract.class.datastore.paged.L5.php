@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA L5 PAGED ABSTRACT DATASTORE CLASS
+ * FOXFIRE L5 PAGED ABSTRACT DATASTORE CLASS
  * Implements a highly efficient 5th order paged datastore
  * 
  * FEATURES
@@ -19,12 +19,12 @@
  *  -> For detailed info about why class features are implemented in
  *     specific ways, see the notes section at the end of this file.
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -89,8 +89,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * of descendent classes. 
 	 * 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -132,8 +132,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Fetches one or more L1 objects from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -351,8 +351,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Fetches one or more L2 objects from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -548,8 +548,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Fetches one or more L3 objects from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -725,8 +725,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Fetches one or more L4 objects from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4s | Single L4 as int/string, multiple as array of int/string.
@@ -885,8 +885,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Fetches one or more L5 objects from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5s | Single L5 as int/string, multiple as array of int/string.
 	 * 
@@ -1016,8 +1016,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Fetches multiple L5->L1 walks from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * [MATRIX MODE] 
          * @param array $data | Array of row arrays 
@@ -1654,8 +1654,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * 
 	 * @see FOX_trie::clipAssocTrie()
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
 	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
@@ -1784,8 +1784,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds a single L1 walk that DOES NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -1845,8 +1845,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds multiple L1 walks which DO NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -1908,8 +1908,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds a single L2 trie structure that DOES NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -1968,8 +1968,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds multiple L2 trie structures that DO NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -2103,8 +2103,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds a single L3 trie structure that DOES NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -2163,8 +2163,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds multiple L3 trie structures which DO NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -2297,8 +2297,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds a single L4 trie structure that DOES NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -2356,8 +2356,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds multiple L4 trie structures which DO NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -2493,8 +2493,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds a single L5 trie structure that DOES NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param array $L4s | array of L4's in the form "L4_id"=>"L3s"
@@ -2551,8 +2551,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds multiple L5 trie structures which DO NOT ALREADY EXIST in the store
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -2695,8 +2695,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * in the store. This is an atomic operation. In the event of a collision with one or more walks
 	 * already present in the store, no data will be written, and the method will throw an error.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * [MATRIX MODE] 
          * @param array $data | Array of row arrays 
@@ -2981,8 +2981,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Creates or updates a single L1 walk which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -3043,8 +3043,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Creates or updates multiple L1 trie structures which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -3106,8 +3106,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds or updates a single L2 trie structure which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -3167,8 +3167,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Creates or updates multiple L2 trie structures which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -3301,8 +3301,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds or updates a single L3 trie structure which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -3361,8 +3361,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Creates or updates multiple L3 trie structures which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -3495,8 +3495,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds or updates a single L4 trie structure which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -3554,8 +3554,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Creates or updates multiple L4 trie structures which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -3691,8 +3691,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Adds or updates a single L5 trie structure which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param array $L4s | array of L4's in the form "L4_id"=>"L3s"
@@ -3749,8 +3749,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Creates or updates multiple L5 trie structures which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -3891,8 +3891,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Creates or updates multiple L5->L1 walks which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * [MATRIX MODE] 
          * @param array $data | Array of row arrays 
@@ -4270,8 +4270,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * deleting all L2->L1 walks for the L5->L2 intersect, then adding the new L2->L1 walks 
 	 * contained in the $data structure. 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -4427,8 +4427,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * deleting all L2->L1 walks for each L5->L2 intersect structure passed in the $data array, 
 	 * then adding the new L2->L1 walks contained in the intersect structure. 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
 	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
@@ -4735,8 +4735,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * deleting all L3->L1 walks for the L5->L3 intersect, then adding the new L3->L1 walks 
 	 * contained in the $data structure. 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -4875,8 +4875,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * deleting all L3->L1 walks for each L5->L3 intersect structure passed in the $data array,  
 	 * then adding the new L3->L1 walks contained in the intersect structure. 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
 	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
@@ -5184,8 +5184,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * deleting all L4->L1 walks for the L5->L4 intersect, then adding the new L4->L1 walks 
 	 * contained in the $data structure. 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * @param int/string $L4 | Single L4
@@ -5307,8 +5307,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * deleting all L4->L1 walks for each L5->L4 intersect structure passed in the $data array, 
 	 * then adding the new L4->L1 walks contained in the intersect structure. 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
 	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
@@ -5615,8 +5615,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * deleting all L5->L1 walks for the L5 intersect, then adding the new L5->L1 walks 
 	 * contained in the $data structure. 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5
 	 * 	 
@@ -5721,8 +5721,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * deleting all L5->L1 walks for each L5 trie structure in the $data array, then adding the 
 	 * new walks contained in the structure. 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
 	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
@@ -6020,8 +6020,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops multiple L5->L1 walks from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * [MATRIX MODE] 
          * @param array $data | Array of row arrays 
@@ -6406,8 +6406,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops one or more L1 branches within a single L5->L2 walk from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5 id as int/string
 	 * @param int/string $L4 | Single L4 id as int/string
@@ -6496,8 +6496,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops multiple [L5->L2 walk + L1 branch] arrays from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -6619,8 +6619,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops one or more L2 branches within a single L5->L3 walk from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5 id as int/string
 	 * @param int/string $L4 | Single L4 id as int/string
@@ -6708,8 +6708,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops multiple [L5->L3 walk + L2 branch] arrays from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -6827,8 +6827,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops one or more L3 branches within a single L5->L4 walk from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5 id as int/string
 	 * @param int/string $L4 | Single L4 id as int/string
@@ -6915,8 +6915,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops multiple [L5->L4 walk + L3 branch] arrays from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -7032,8 +7032,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops one or more L4 branches within a single L5 object from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L5 | Single L5 id as int/string
 	 * @param int/string/array $L4 | Single L4 id as int/string, multiple as array of int/string.
@@ -7118,8 +7118,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops multiple [L5 + L4 branch] arrays from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -7233,8 +7233,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops one or more L5 objects from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string/array $L5 | Single L5 id as int/string, multiple as array of int/string.
 	 * 
@@ -7315,8 +7315,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops multiple L5 arrays from the datastore and cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -7432,8 +7432,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops one or more L1's from *ALL L2 TRIES* in the datastore.
 	 * 
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/string/array $L1s | Single L1 as int/string, multiple as array of int/string.
 	 * @return int | Exception on failure. Number of rows changed on success.
 	 */
@@ -7509,8 +7509,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops one or more L2's for *ALL L3 TRIES* in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/string/array $L2s | Single L2 as int/string, multiple as array of int/string.
 	 * @return int | Exception on failure. Number of rows changed on success.
 	 */
@@ -7585,8 +7585,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops one or more L3s for for *ALL L4 TRIES* in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/string $L3s | Single L3 as int/string, multiple as array of int/string.
 	 * @return int | Exception on failure. Number of rows changed on success.
@@ -7664,8 +7664,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	/**
 	 * Drops one or more L4s for for *ALL L5 TRIES* in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/string/array $L4s | Single L4 as int/string, multiple as array of int/string.
 	 * @return int | Exception on failure. Number of rows changed on success.
 	 */
@@ -7743,8 +7743,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * Deletes the entire module data store, and flushes the cache. Generally
 	 * used for testing and debug.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 

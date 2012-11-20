@@ -1,16 +1,16 @@
 <?php
 
 /**
- * BP-MEDIA WORDPRESS ABSTRACTION CLASS
+ * FOXFIRE WORDPRESS ABSTRACTION CLASS
  * Provides abstraction functions to interface with WordPress, simplifying upgrading FoxFire
  * when WordPress makes changes to their codebase.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage WordPress Abstraction
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -20,8 +20,8 @@ class FOX_wp {
 	/**
 	 * Returns the current WordPress version
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return string | WordPress Version
 	 */
 
@@ -34,8 +34,8 @@ class FOX_wp {
 	/**
 	 * Checks if WordPress is Multisite
 	 * 
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return string | True if Multisite. False if not.
 	 */
 	
@@ -52,8 +52,8 @@ class FOX_wp {
 	/**
 	 * Checks if the user us currently viewing a screen on the admin back-end
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | True if on admin screen. False if not.
 	 */
 
@@ -72,8 +72,8 @@ class FOX_wp {
 	 * Adds a page to the WordPress installation. Used to create a page for the plugin, so that
 	 * it can be added to the top level site menu.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $title | Title for the created page
 	 * @param string $slug | Slug for the created page (must be globally unique)
 	 * @return bool/int $post_id | False on failure. Unique id of the created post on success.
@@ -113,8 +113,8 @@ class FOX_wp {
 	 * Deletes a page from the WordPress installation. Used during uninstallation to remove
 	 * any pages created by the plugin.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $post_id | WordPress database id for the page
 	 * @return bool $result | False on failure. True on success.
 	 */
@@ -143,8 +143,8 @@ class FOX_wp {
 	/**
 	 * Gets the names and ID's of all pages on the WordPress installation.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $post_id | WordPress database id for the page
 	 * @return bool $result | False on failure. True on success.
 	 */
@@ -175,8 +175,8 @@ class FOX_wp {
 	/**
 	 * Returns a flat array of the site's page hierarchy
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return array/exception | Exception on error. Page hierarchy as flat array on success.
 	 */
 
@@ -224,8 +224,8 @@ class FOX_wp {
 	 *
 	 * @link http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int $code | Response code.
 	 * @return bool/exception | Exception on failure. True on success.
 	 */

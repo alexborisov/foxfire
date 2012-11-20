@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA TRIE UTILITIES CLASS
+ * FOXFIRE TRIE UTILITIES CLASS
  * Provides utility functions for manipulating trie data structures
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Hash Table
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -23,8 +23,8 @@ class FOX_trie {
 	/**
 	 * Flattens a trie structure to matrix
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $trie | Trie structure
 	 * @param array $columns | Array of column names
@@ -75,8 +75,8 @@ class FOX_trie {
 	 *	      |-> * -> E		  |-> D
 	 *	      |-> D -> *
 	 * 
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $trie | Trie structure
 	 * 
@@ -132,8 +132,8 @@ class FOX_trie {
 	/**
 	 * Returns the optimal key ordering sequence for a flat array
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $rows | Flat matrix
 	 * @param array $columns | Array of column names
@@ -198,8 +198,8 @@ class FOX_trie {
 	/**
 	 * Lofts a flat matrix into a trie structure
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $rows | Flat matrix
 	 * @param array $columns | Array of column names
@@ -285,8 +285,8 @@ class FOX_trie {
 	/**
 	 * Lofts a flat matrix into a trie structure, while hashing its keys
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $rows | Flat matrix
 	 * @param array $columns | Array of column names

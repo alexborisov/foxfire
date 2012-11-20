@@ -1,16 +1,16 @@
 <?php
 
 /**
- * BP-MEDIA OBJECT TYPES LEVELS CLASS
+ * FOXFIRE OBJECT TYPES LEVELS CLASS
  * Stores information about object type levels, issues each level a unique level_id, assures each level
  * within an object type has a unique rank, and determines which key_id is required to access a level.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -30,8 +30,8 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 	/**
 	 * Creates a new access level within an object type.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data |
 	 *	=> VAL @param int $module_id | Module that owns the object type that owns the access level.
@@ -158,8 +158,8 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 	/**
 	 * Fetches data for an access level within an object type.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int $level_id | Unique id for this access level.
 	 * @return bool/array | Exception on failure. False on nonexitent. Level data array  on success.
 	 */
@@ -262,8 +262,8 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 	/**
 	 * Updates the ranks of all levels within an object type
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | id of module that owns the object type
 	 * @param int $type_id | id of object type that owns the level id's
@@ -554,8 +554,8 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 	/**
 	 * Edits an existing level
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data |
 	 *	=> VAL @param int $level_id | Unique id for this access level.
@@ -764,8 +764,8 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 	/**
 	 * Deletes one or more object type levels
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $level_id | Single level_id as int. Multiple level_ids as array of ints.
 	 * @return int | Exception on failure. Int number of rows changed on success.
@@ -886,8 +886,8 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 	/**
 	 * Deletes one or more object types
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $type_id | Single type_id as int. Multiple type_ids as array of ints.
 	 * @return int | Exception on failure. Int number of rows changed on success.
@@ -1008,8 +1008,8 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 	/**
 	 * Gets all levels for an object type
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $type_ids | Single type_id as int. Multiple type_ids as array of ints.
 	 * @return array | Exception on failure. Data array on success.
 	 */
@@ -1149,8 +1149,8 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 	/**
 	 * Deletes one or more modules
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $module_id | Single module_id as int. Multiple module_ids as array of ints.
 	 * @return int | Exception on failure. Number of affected db rows on success.
 	 */
@@ -1270,8 +1270,8 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 	/**
 	 * Fetches the level_id of one or more slugs
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | module_id that owns the object type_id
 	 * @param int $type_id | Object type_id that owns the level_id

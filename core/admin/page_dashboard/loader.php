@@ -1,14 +1,14 @@
 <?php
 
 /**
- * BP-MEDIA SCREEN RENDERING CLASS "ADMIN-> DASHBOARD"
+ * FOXFIRE SCREEN RENDERING CLASS "ADMIN-> DASHBOARD"
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -31,8 +31,8 @@ class FOX_admin_page_dashboard {
 	/**
 	 * Enqueues the selected tab's scripts in the page header
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function enqueueScripts() {
@@ -51,8 +51,8 @@ class FOX_admin_page_dashboard {
 	/**
 	 * Enqueues the selected tab's styles in the page header
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function enqueueStyles() {

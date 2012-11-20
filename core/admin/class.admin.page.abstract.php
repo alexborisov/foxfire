@@ -27,8 +27,8 @@ abstract class FOX_admin_page_base {
 	/**
 	 * Processes configuration settings for an admin page tab
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param GLOBAL $_POST | all variables set in the global $_POST array
 	 */
@@ -103,8 +103,8 @@ abstract class FOX_admin_page_base {
 	 * the tab rendering functions inside the class. Each tab rendering function writes HTML for one tab to the
 	 * HTML stream, encapsulated for jQuery.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function renderTabs() {
@@ -177,8 +177,8 @@ abstract class FOX_admin_page_base {
 	/**
 	 * Enqueues the selected tab's scripts in the page header
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function enqueueScripts() {
@@ -212,8 +212,8 @@ abstract class FOX_admin_page_base {
 	/**
 	 * Enqueues the selected tab's styles in the page header
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function enqueueStyles() {

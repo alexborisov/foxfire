@@ -4,12 +4,12 @@
  * L5 PAGED ABSTRACT DATASTORE TEST CLASS
  * This class is used to instantiate the abstract base class, and create its database structure array
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -63,14 +63,14 @@ class FOX_dataStore_paged_L5_tester_setMethods extends FOX_dataStore_paged_L5_ba
                                       
 
 /**
- * BP-MEDIA UNIT TEST SCRIPT - L5 PAGED ABSTRACT DATASTORE CLASS - SET METHODS
+ * FOXFIRE UNIT TEST SCRIPT - L5 PAGED ABSTRACT DATASTORE CLASS - SET METHODS
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -133,8 +133,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL1() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -300,8 +300,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL1_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -493,8 +493,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL2() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -676,8 +676,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL2_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -882,8 +882,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL3() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -1067,8 +1067,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL3_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -1281,8 +1281,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL4() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
@@ -1477,8 +1477,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL4_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -1724,8 +1724,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL5() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -1920,8 +1920,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setL5_multi() method
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -2190,8 +2190,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setMulti() method (trie mode)
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/
@@ -2390,8 +2390,8 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
        /**
 	* Test fixture for setMulti() method (matrix mode)
 	*
-	* @version 0.1.9
-	* @since 0.1.9
+	* @version 1.0
+	* @since 1.0
 	* 
         * =======================================================================================
 	*/

@@ -1,15 +1,15 @@
 /**
- * BP-MEDIA ADMIN DRAGGABLE CHIPS JAVASCRIPT FUNCTIONS
+ * FOXFIRE ADMIN DRAGGABLE CHIPS JAVASCRIPT FUNCTIONS
  * Adds draggable chips and floating chip palettes to admin pages. This version of the class posts events
  * to the server via AJAX as chips are moved, instead of enqueuing them in the DOM to be submitted as a
  * single save operation. PHP router functions are located in the comments block at the end of the file.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -18,8 +18,8 @@
 /**
  * Make chips in the parent page draggable and bins in the parent page droppable
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function fox_admin_draggableChips(){
@@ -46,8 +46,8 @@ function fox_admin_draggableChips(){
 /**
  * Makes chips draggable between bins and from floating palettes to bins.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @param event | The file or URL to process
  * @param ui | The file or URL to process
@@ -244,8 +244,8 @@ function handleChipDrop( event, ui ) {
 /**
  * Makes chips in the parent page deletable.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function makeChipsDeletable(){
@@ -329,8 +329,8 @@ function makeChipsDeletable(){
 ///**
 // * Processes delete chip action on an admin config page
 // *
-// * @version 0.1.9
-// * @since 0.1.9
+// * @version 1.0
+// * @since 1.0
 // *
 // * @return bool/int/string/array $echo | Response varies with form and the module that owns it
 // */
@@ -422,8 +422,8 @@ function makeChipsDeletable(){
 ///**
 // * Processes move chip action on an admin config page
 // *
-// * @version 0.1.9
-// * @since 0.1.9
+// * @version 1.0
+// * @since 1.0
 // *
 // * @return bool/int/string/array $echo | Response varies with form and the module that owns it
 // */
@@ -540,8 +540,8 @@ function makeChipsDeletable(){
 ///**
 // * Processes add chip action on an admin config page
 // *
-// * @version 0.1.9
-// * @since 0.1.9
+// * @version 1.0
+// * @since 1.0
 // *
 // * @return bool/int/string/array $echo | Response varies with form and the module that owns it
 // */

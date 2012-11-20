@@ -31,8 +31,8 @@ class FOX_version {
 	 * function does not have the problematic "3.1" < "3.1.0" behavior that
 	 * PHP's version of the function displays.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $ver1 | reference string
 	 * @param string $ver2 | comparison string
 	 * @param string $op | comparison operator: ">=", "<=", ">", "<", "=", "!="
@@ -400,8 +400,8 @@ class FOX_version {
 	/**
 	 * Get which version of PHP is installed
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return string | PHP Version
 	 */
 
@@ -414,8 +414,8 @@ class FOX_version {
 	/**
 	 * Get which version of WordPress is installed
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return string | WordPress Version
 	 */
 
@@ -428,8 +428,8 @@ class FOX_version {
 	/**
 	 * Get which version of MySQL is installed
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return string | MySQL Version
 	 */
 
@@ -443,8 +443,8 @@ class FOX_version {
 	/**
 	 * Get which version of Apache is installed
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return string | Apache Version
 	 */
 
@@ -457,8 +457,8 @@ class FOX_version {
 	/**
 	 * Checks that PHP is the minimum version needed for FoxFire to run properly
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | False on failure. True on success.
 	 */
 
@@ -478,8 +478,8 @@ class FOX_version {
 	/**
 	 * Checks that MySQL is the minimum version needed for FoxFire to run properly
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | False on failure. True on success.
 	 */
 
@@ -499,8 +499,8 @@ class FOX_version {
 	/**
 	 * Checks that WordPress is the minimum version needed for FoxFire to run properly
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | False on failure. True on success.
 	 */
 
@@ -521,8 +521,8 @@ class FOX_version {
 	 * Checks that all plugins, API's, and services on the host system are the minimum
 	 * versions needed for FoxFire to run properly
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | False on failure. True on success.
 	 */
 

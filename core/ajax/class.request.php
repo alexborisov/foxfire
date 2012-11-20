@@ -1,11 +1,11 @@
 <?php
 
 /**
- * BP-MEDIA AJAX REQUEST CLASS
+ * FOXFIRE AJAX REQUEST CLASS
  * Parses AJAX requests into object format
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  *
  * @author Based on the Ext JS 4 server-side MVC framework "RESTful" example
  * @link http://www.sencha.com
@@ -14,7 +14,7 @@
  * @package FoxFire
  * @subpackage AJAX
  * @license GPL v3.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */

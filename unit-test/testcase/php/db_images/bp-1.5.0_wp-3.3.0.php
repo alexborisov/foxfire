@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA UNIT TEST DIRECTORY REMAPPER
+ * FOXFIRE UNIT TEST DIRECTORY REMAPPER
  *
  * Re-maps the directory paths in the master SQL image to the directory that the unit test script
  * is being run from. This has to be hand-built every time the master SQL image is updated. The master SQL
@@ -9,12 +9,12 @@
  * SQL image to whatever is the current format. It *does* have to be upgraded for each new release of
  * BuddyPress, because bp doesn't detect and auto-update its tables unless it is deactivated/reactivated.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @author original version from http://svn.automattic.com/wordpress-tests/
  * @package FoxFire
  * @subpackage Unit Test
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */

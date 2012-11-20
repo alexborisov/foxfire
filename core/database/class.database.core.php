@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA CORE DATABASE CLASS
+ * FOXFIRE CORE DATABASE CLASS
  * Handles advanced database functionality for the plugin
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -49,7 +49,7 @@ class FOX_db {
 
 	/**
 	 * DEBUG FLAGS - Output will be saved to '/core/utils/bp_media_log.txt
-	 * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_debug
+	 * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_debug
 	 * ============================================================================================================ //
 	 */
 
@@ -115,8 +115,8 @@ class FOX_db {
 	/**
          * Starts an SQL transaction. Note that only InnoDB tables currently support transactions.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          * @return bool | Exception on failure. True on success.
          */
 
@@ -179,8 +179,8 @@ class FOX_db {
 	/**
          * Commits an SQL transaction. Note that only InnoDB tables currently support transactions.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          * @return bool | Exception on failure. True on success.
          */
 
@@ -244,8 +244,8 @@ class FOX_db {
 	/**
          * Rolls back a SQL transaction. Note that only InnoDB tables currently support transactions.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          * @return bool | Exception on failure. True on success.
          */
 
@@ -310,8 +310,8 @@ class FOX_db {
 	/**
          * Runs a SELECT query with a JOIN statement on a pair of the plugin's db tables.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $primary | Primary table class name and args
 	 *	=> VAL @param string/array $class | Name of class that owns the primary table (as string), or the class's $struct array (as array)
@@ -447,8 +447,8 @@ class FOX_db {
 	/**
          * Runs a SELECT query with a LEFT JOIN statement on two or more plugin tables
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $primary | Primary table class name and args
 	 *	=> VAL @param string/array $class | Name of class that owns the primary table (as string), or the class's $struct array (as array)
@@ -582,8 +582,8 @@ class FOX_db {
 	/**
          * Runs a SELECT query on one of the plugin's db tables.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -760,8 +760,8 @@ class FOX_db {
 	/**
          * Runs single-column keyed SELECT query on one of the plugin's db tables
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -852,8 +852,8 @@ class FOX_db {
 	/**
          * Runs an UPDATE query on one of the plugin's db tables.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -950,8 +950,8 @@ class FOX_db {
         /**
          * Runs a single-column keyed UPDATE query on one of the plugin's db tables
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -1018,8 +1018,8 @@ class FOX_db {
 	/**
          * Runs an INSERT query that inserts a SINGLE row into one of the plugin's db tables.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
@@ -1091,8 +1091,8 @@ class FOX_db {
 	/**
          * Runs an INSERT query that inserts MULTIPLE rows into one of the plugin's db tables.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
@@ -1162,8 +1162,8 @@ class FOX_db {
 	 * whose primary key already exists, the existing row will be updated. Indate queries ONLY work on db tables
 	 * that have a primary key (or a multi-column composite primary key).
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
@@ -1228,8 +1228,8 @@ class FOX_db {
 	/**
          * Runs a DELETE query on one of the plugin's db tables.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
@@ -1299,8 +1299,8 @@ class FOX_db {
         /**
          * Runs a single-column keyed DELETE query on one of the plugin's db tables.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 * @param string $col | Column name to use for WHERE construct
@@ -1356,8 +1356,8 @@ class FOX_db {
 	/**
          * Adds a database table, given an array defining the table's structure
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
@@ -1480,8 +1480,8 @@ class FOX_db {
 	/**
          * Drops a database table, given an array defining the table's structure
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
@@ -1566,8 +1566,8 @@ class FOX_db {
 	/**
          * Deletes all data from a database table, given an array defining the table's structure
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table

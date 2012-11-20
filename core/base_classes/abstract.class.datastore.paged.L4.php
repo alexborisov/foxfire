@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA L4 PAGED ABSTRACT DATASTORE CLASS
+ * FOXFIRE L4 PAGED ABSTRACT DATASTORE CLASS
  * Implements a highly efficient 4th order paged datastore
  *
  * FEATURES
@@ -14,12 +14,12 @@
  *  -> Advanced error handling
  *  -> Multi-thread safe
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -69,8 +69,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	 * Loads key, type_id, REMOVE, or all data for one or more modules from the db
 	 * into the key cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $module_id | Single module id as int. Multiple module id as array of int.
 	 * @param string/array $type_id | Single type_id name as string. Multiple type_id id as array of string.
@@ -263,8 +263,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Loads all data for one or more $module_id's into the data cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $module_id | Single module id as int. Multiple module id's as array of ints.
 	 * @return bool | Exception on failure. True on success.
@@ -295,8 +295,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Loads one or more type_ids for a single module_id into the data cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | Single module id
 	 * @param string/array $type_id | Single type_id name as string. Multiple type_id names as array of strings.
@@ -329,8 +329,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Loads one or more key types for a single type_id and module_id into the data cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | Single module id
 	 * @param string $type_id | Single type_id name
@@ -365,8 +365,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Loads one or more keys for a single branch_id, type_id, and module_id into the data cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | Single module id
 	 * @param string $type_id | Single type_id name
@@ -410,8 +410,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	 *                    ^^^^^^^^^^^^^^^^^^^^^^^^
 	 * RIGHT: get( $module_id=1, $type_ids=7, $branch_ids=array("foo","bar","baz")
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $module_ids | Single $module_id as int. Multiple as array of ints.
 	 * @param int/array $type_ids | Single $type_id as int. Multiple as array of ints.
@@ -885,8 +885,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Returns all data for one or more $module_id's.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $module_id | Single module id as int. Multiple module id's as array of ints.
 	 * @param bool &$valid | True if module_id exists. False if not.
@@ -918,8 +918,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Returns one or more type_id data arrays from a single REMOVE belonging to a single module id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | Single module id
 	 * @param string/array $type_id | Single type_id as string. Multiple type_ids as array of strings.
@@ -953,8 +953,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Returns one or more key types for a single type_id belonging to a single module id.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | Single module id
 	 * @param string $type_id | Single type_id
@@ -991,8 +991,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	 * Returns one or more keys for a single key type within a single type_id belonging to
 	 * a single module id.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | Single module id
 	 * @param string $type_id | Single type_id
@@ -1029,8 +1029,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Creates a new key or updates an existing key.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | module id
 	 * @param string $type_id | type_id id
@@ -1075,8 +1075,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Creates or updates one or more keys.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of row arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -1377,8 +1377,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Creates or replaces a module's entire policy.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | module_id
 	 *
@@ -1603,8 +1603,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Drops one or more keys from the database
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | ID of the module
 	 * @param int $type_id | ID of the type_id
@@ -1727,8 +1727,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Drops one or more key types from the database
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | ID of the module
 	 * @param int $type_id | ID of the type_id
@@ -1850,8 +1850,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	 * Drops all keys from the database and cache for one or more type_ids belonging
 	 * to a single module id.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | ID of the module
 	 * @param string/array $type_ids | Single type_id as string. Multiple type_ids as array of string.
@@ -1972,8 +1972,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Drops all data for one or more module_id's from the database and cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $module_id | Single module_id as int. Multiple module_ids as array of int.
 	 * @return bool | Exception on failure. True on success. False on nonexistent.
 	 */
@@ -2059,8 +2059,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Drops one or more "branch_id"=>"key_id" pairs for for ALL MODULES on the site
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $keys | Array of "branch_id"=>"key_id" pairs
 	 *	    => KEY @param string $branch_id | Key type
@@ -2153,8 +2153,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Drops one or more keytypes for for ALL MODULES on the site
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $branch_ids | Single key type as string. Multiple types as array of strings.
 	 * @return int | Exception on failure. Number of rows changed on success.
 	 */
@@ -2217,8 +2217,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	/**
 	 * Drops one or more type_ids for for ALL MODULES on the site
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $type_ids | Single type_id as string. Multiple type_ids as array of string.
 	 * @return int | Exception on failure. Number of rows changed on success.
@@ -2286,8 +2286,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	 * Deletes the entire module data store, and flushes the cache. Generally
 	 * used for testing and debug.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * BP-MEDIA DATA SANITIZATION CLASS
+ * FOXFIRE DATA SANITIZATION CLASS
  * Ensures externally generated data (user input, uploaded files, API, PUSH, oEmbed, etc)
  * meet the format and size specified by the function which consumes the data.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -21,8 +21,8 @@ class FOX_sanitize {
 	/**
 	 * Test function for use in unit tests
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -47,8 +47,8 @@ class FOX_sanitize {
 	/**
 	 * Guarantees the value is either true, false, or NULL.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -91,8 +91,8 @@ class FOX_sanitize {
 	/**
 	 * Guarantees the value is either is either an int, or NULL.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -157,8 +157,8 @@ class FOX_sanitize {
 	/**
 	 * Guarantees the value is either is either a float, or NULL.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -228,8 +228,8 @@ class FOX_sanitize {
          * Strips eveything except [A-Z][a-z][0-9][\s] from
 	 * the input string and truncates it to the specified length.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -327,8 +327,8 @@ class FOX_sanitize {
          * Strips everything except [a-z][0-9][-_] from the input string.
 	 * This is intended for checking user-defined slug names.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -508,8 +508,8 @@ class FOX_sanitize {
 	 * characters allowed. Used to sanitize class and function names. Currently does
 	 * not block numeric prefixes on names (which are illegal)
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -601,8 +601,8 @@ class FOX_sanitize {
 	 * characters allowed, except [-], [_], and [.] ...this policy is inline
 	 * with Gmail and many other websites. It greatly simplifies backend coding.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -702,8 +702,8 @@ class FOX_sanitize {
 	 * This is intended for letting admin user configure file paths on their
 	 * installations.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -809,8 +809,8 @@ class FOX_sanitize {
 	/**
          * Strips ASCII and Latin1 control characters. Passes spaces.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -904,8 +904,8 @@ class FOX_sanitize {
          * Validates each array key name passes the validator specified in $ctrl['key'] and each
 	 * key value passes the validator specified in $ctrl['val']
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -936,8 +936,8 @@ class FOX_sanitize {
          * Validates each array key name passes the validator specified in $ctrl['key'] and each
 	 * key value passes the validator specified in $ctrl['val']
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -968,8 +968,8 @@ class FOX_sanitize {
 	/**
          * Validates nested arrays with arbitrary numbers of keys
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -996,8 +996,8 @@ class FOX_sanitize {
          * Checks that a URL is valid, including HTTP and HTTPS. Does not allow GET parameters (/whatever/&param1=a&param2=b)
 	 * to be appended to a URL
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -1023,8 +1023,8 @@ class FOX_sanitize {
 	/**
          * Checks for a valid set of command prompt options as passed to the FFmpeg transcoder
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -1050,8 +1050,8 @@ class FOX_sanitize {
 	/**
          * Checks for a valid i18n string
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -1081,8 +1081,8 @@ class FOX_sanitize {
 	 * of each link, and the URL the link pointed to. This information is useful
 	 * for triggering capchas when a user has posted too many similar links.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $input | input string to process
 	 * @param array $ctrl | control parameters
@@ -1098,8 +1098,8 @@ class FOX_sanitize {
 	/**
          * TODO: Previously known as bp_album_terms_strip_specialchars
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $terms | input string to process
 	 * @return string | the processed string
@@ -1127,8 +1127,8 @@ class FOX_sanitize {
 	/**
          * TODO: Previously known as bp_album_filter_cleanKeyword
 	 *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $term | input string to process
 	 * @return string | the processed string
@@ -1165,8 +1165,8 @@ class FOX_sanitize {
 	/**
          * TODO: Previously known as bp_album_filter_makeUrlFromTerm
 	 *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $term | input string to process
 	 * @return string | the processed string
@@ -1184,8 +1184,8 @@ class FOX_sanitize {
 	/**
          * TODO: Previously known as bp_album_filter_makeTermFromUrl
 	 *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param string $term | input string to process
 	 * @return string | the processed string

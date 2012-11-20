@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA NETWORK UTILITY FUNCTIONS
+ * FOXFIRE NETWORK UTILITY FUNCTIONS
  * Utility functions that do commonly used minor tasks
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */

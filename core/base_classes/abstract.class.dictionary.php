@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA DICTIONARY BASE CLASS
+ * FOXFIRE DICTIONARY BASE CLASS
  * Implements an efficient bidirectional token<=>id store. Tokens and ids are guaranteed to be
  * unique. Each pair uses two cache pages.
  * 
@@ -13,12 +13,12 @@
  *  -> Advanced error handling
  *  -> Multi-thread safe 
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -63,8 +63,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	/**
 	 * Fetches one or more tokens from the db
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $tokens | Single token as string. Multiple tokens as array of strings.
 	 * @return array | Exception on failure. Array of tokens on success.
 	 */
@@ -164,8 +164,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	/**
 	 * Fetches one or more ids from the db
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $ids | Single id as int. Multiple ids as array of ints.
 	 * @return array | Exception on failure. Array of ids on success.
 	 */
@@ -269,8 +269,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	/**
 	 * Fetches one or more tokens from the persistent cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $tokens | Single token as string. Multiple tokens as array of strings.
 	 * @return array | Exception on failure. Array of tokens on success.
 	 */
@@ -341,8 +341,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	/**
 	 * Fetches one or more tokens from the persistent cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $ids | Single id as int. Multiple ids as array of int.
 	 * @return array | Exception on failure. Array of ids with the tokens as their values.
 	 */
@@ -412,8 +412,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	/**
 	 * Adds one or more tokens to the database
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $tokens | Single token as string. Multiple tokens as array of strings.
 	 * @return int/array | Exception on failure. Int id if passed single string. token_name=>token_id array if passed array of string.
@@ -547,8 +547,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	 * Fetches one or more tokens. If the tokens do not exist in the dictionary, new ids
 	 * will be created for them
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $token | Single token as string. Multiple tokens as array of strings.
 	 * @return int/array | Exception on failure. Int (single token). Array of int (multiple tokens)
 	 */
@@ -684,8 +684,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	/**
 	 * Fetches one or more ids. 
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $ids | Single id as int. Multiple ids as array of int.
 	 * @return string/array | Exception on failure. String (single id). Array of string (multiple id's).
 	 */
@@ -800,8 +800,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	/**
 	 * Drops one or more tokens.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $token | Single token as string. Multiple tokens as array of strings.
 	 * @return int | Exception on failure. Int number of rows affected on success.
 	 */
@@ -928,8 +928,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	/**
 	 * Drops one or more ids.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $ids | Single id as int. Multiple ids as array of ints.
 	 * @return int | Exception on failure. Int number of rows affected on success.
 	 */
@@ -1059,8 +1059,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	/**
 	 * Deletes ALL DATA and empties the cache. Generally used for testing and debug.
 	 * 
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | Exception on failure. True on success.
 	 */

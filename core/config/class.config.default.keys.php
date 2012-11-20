@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA DEFAULT CONFIG CLASS - KEYS
+ * FOXFIRE DEFAULT CONFIG CLASS - KEYS
  * Manages creating configuration keys during initial plugin setup, and during a plugin reset
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Config
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -55,8 +55,8 @@ class FOX_config_defaultKeys {
 	/**
          * Core Settings
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -97,8 +97,8 @@ class FOX_config_defaultKeys {
 	/**
          * Album Modules
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -135,8 +135,8 @@ class FOX_config_defaultKeys {
 	/**
          * Plugin Setup -> Display
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -186,8 +186,8 @@ class FOX_config_defaultKeys {
 	/**
          * Plugin Setup -> Page Slugs
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -251,8 +251,8 @@ class FOX_config_defaultKeys {
 	/**
          * Plugin Setup -> Adding Media
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -299,8 +299,8 @@ class FOX_config_defaultKeys {
 	/**
          * Social Settings -> Keyword Tags
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -348,8 +348,8 @@ class FOX_config_defaultKeys {
 	/**
          * Social Settings -> Member Tags
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -396,8 +396,8 @@ class FOX_config_defaultKeys {
 	/**
          * Social Settings -> Activity Stream
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -452,8 +452,8 @@ class FOX_config_defaultKeys {
 	/**
          * Social Settings -> Notifications
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -525,8 +525,8 @@ class FOX_config_defaultKeys {
 	/**
          * Social Settings -> Media Rating
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -568,8 +568,8 @@ class FOX_config_defaultKeys {
 	/**
          * Widgets -> Member Uploads
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -618,8 +618,8 @@ class FOX_config_defaultKeys {
 	/**
          * Widgets -> Sitewide Uploads
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -667,8 +667,8 @@ class FOX_config_defaultKeys {
 	/**
          * Media Cache -> File System
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -737,8 +737,8 @@ class FOX_config_defaultKeys {
 	/**
          * File Settings -> File Paths
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -783,8 +783,8 @@ class FOX_config_defaultKeys {
 	/**
          * Media Cache -> Images
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -833,8 +833,8 @@ class FOX_config_defaultKeys {
 	/**
          * Debug Tools -> PHP Unit Test
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -911,8 +911,8 @@ class FOX_config_defaultKeys {
 	/**
          * Debug Tools -> JS Unit Test
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -953,8 +953,8 @@ class FOX_config_defaultKeys {
 	/**
          * Cache Salt
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -996,8 +996,8 @@ class FOX_config_defaultKeys {
 	/**
          * Setup Network Modules
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -1092,8 +1092,8 @@ class FOX_config_defaultKeys {
 	/**
          * Setup Media Modules
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -1189,8 +1189,8 @@ class FOX_config_defaultKeys {
 	/**
          * Setup Album Modules
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -1285,8 +1285,8 @@ class FOX_config_defaultKeys {
 	/**
          * Setup Page Modules
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -1384,8 +1384,8 @@ class FOX_config_defaultKeys {
 	 * config class during setup, but the actions that trigger it are fired from within
 	 * this method.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -1570,8 +1570,8 @@ class FOX_config_defaultKeys {
 /**
  * Action function to instantiate the class during setup
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function FOX_config_defaultKeys_install (){

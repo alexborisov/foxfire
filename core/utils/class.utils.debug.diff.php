@@ -1,11 +1,11 @@
 <?php
 
 /**
- * BP-MEDIA DEBUGGING TOOLS DIFF CLASS
+ * FOXFIRE DEBUGGING TOOLS DIFF CLASS
  * Performs a visual diff against two strings
  *
  * @version 0.6
- * @since 0.1.9
+ * @since 1.0
  * @author adapted from http://raymondhill.net/blog/?p=441
  * @package FoxFire
  * @subpackage Debug

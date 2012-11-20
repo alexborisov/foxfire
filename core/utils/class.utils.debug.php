@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA DEBUGGING TOOLS CLASS
+ * FOXFIRE DEBUGGING TOOLS CLASS
  * Simplifies debugging by helping output data to the console, web browser, and files
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Debug
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -21,8 +21,8 @@ class FOX_debug {
          * Dumps the contents of an array of mixed nested arrays and other data types to a
 	 * string, for printing within the context of a larger error message.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @param bool/int/float/string/array/object $data | variable or object to dump
          * @return string containing contents
@@ -43,8 +43,8 @@ class FOX_debug {
          * Creates a file in the plugin's root directory, and logs the contents of $data to
          * it. If the file already exists, its contents will be overwritten.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param bool/int/float/string/array/object $data | variable or object to dump
          * @return text file containing contents of object
@@ -78,8 +78,8 @@ class FOX_debug {
          * Creates a file in the plugin's root directory, and logs the contents of $data to
          * it. If the file already exists, the contents of $data will be appended to the file.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @param bool/int/float/string/array/object $data | variable or object to dump
          * @return text file containing contents of object
@@ -111,8 +111,8 @@ class FOX_debug {
 	/**
          * Same as addToFile, without the date added to each line
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @param bool/int/float/string/array/object $data | variable or object to dump
          * @return text file containing contents of object
@@ -146,8 +146,8 @@ class FOX_debug {
 	/**
 	 * Dumps an entire object or array to a html based page in human-readable format.
 	 *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * @author http://ca2.php.net/manual/en/function.var-dump.php#92594
 	 * @param array/object &$var | Variable to be dumped
 	 * @param string $info | Text to add to dumped variable html block, when dumping multiple variables.
@@ -215,8 +215,8 @@ class FOX_debug {
         /**
          * Recursive iterator function used by FOX_debug::dump()
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          * @author http://ca2.php.net/manual/en/function.var-dump.php#92594
          */
 
@@ -282,8 +282,8 @@ class FOX_debug {
 	 * Calculates the difference between two objects or arrays and renders them to a html
 	 * based page in human-readable format. Currently only works reliably on arrays.
 	 *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * @author http://ca2.php.net/manual/en/function.var-dump.php#92594
 	 *
 	 * @param array/object &$from | From object
@@ -328,8 +328,8 @@ class FOX_debug {
 	/**
          * Recursive iterator function used by FOX_debug::diff()
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          * @author http://ca2.php.net/manual/en/function.var-dump.php#92594
 	 *
 	 * @param array/object &$from | From object
@@ -403,8 +403,8 @@ class FOX_debug {
 	/**
 	 * Formats a FoxFire soft-error object for printing at the command prompt
 	 *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * @param array $error | FoxFire error array
 	 * @return string $result | Error array formatted for printing
 	 */
@@ -470,8 +470,8 @@ class FOX_debug {
 	/**
 	 * Dumps the output of PHP_INFO minus the CSS.
 	 *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * @return string $info | PHP_INFO
 	 */
 

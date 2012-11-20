@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA QUERY BUILDER - WHERE MATRIX ITERATOR
+ * FOXFIRE QUERY BUILDER - WHERE MATRIX ITERATOR
  * A self-optimizing doubly-linked trie class that accepts condition arguments as a flat array, assembles
  * them into a trie, reduces it to a minimum spanning set, then renders it to a SQL statement.
  *
@@ -9,12 +9,12 @@
  * @see http://en.wikipedia.org/wiki/Spanning_set
  * @see http://en.wikipedia.org/wiki/Linked_list
  *  
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -52,8 +52,8 @@ class FOX_queryBuilder_whereMatrix_iterator {
 	/**
          * Recursively reduces a FOX args matrix into a minimum SQL WHERE clause
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
          * @param array $struct | Structure of db table, @see class FOX_db header for examples
 	 * @param array $args | Nested array of args.
@@ -112,8 +112,8 @@ class FOX_queryBuilder_whereMatrix_iterator {
 	/**
          * Recursively reduces this node and all its descendents to minimal form
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return bool | Exception on failure. True on success.
          */
@@ -314,8 +314,8 @@ class FOX_queryBuilder_whereMatrix_iterator {
          * Recursively renders this node and all its descendents to a print string and parameter
 	 * array, which combined, form a valid SQL WHERE clause.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
          * @return array | Exception on failure. String and params in vsprintf() format on success.
          */
@@ -506,8 +506,8 @@ class FOX_queryBuilder_whereMatrix_iterator {
 	/**
          * Determines if one or more of this object's ancestor nodes has opened a bracket pair
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param mixed $obj | Instance of FOX_queryBuilder_whereMatrix_iterator object 
          * @return bool | True if nested. False if not.
@@ -534,8 +534,8 @@ class FOX_queryBuilder_whereMatrix_iterator {
 	/**
          * Recursively dumps the entire node tree
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param int $depth | Depth of this node in the tree. First node is (int)0
          * @return string | Node tree in string form

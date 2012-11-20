@@ -32,8 +32,8 @@ class FOX_tab_home {
      * contains a hidden field called 'page_options'. The class's "processor" function parses the variable names in this field
      * to determine which POST data fields to load and which objects in the $bp->bpa->options[] global to update.
      *
-     * @version 0.1.9
-     * @since 0.1.9
+     * @version 1.0
+     * @since 1.0
      */
 
     function render() {
@@ -163,8 +163,8 @@ class FOX_tab_home {
 	/**
 	 * Adds the tab's scripts to the page header
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function enqueueScripts() {
@@ -175,8 +175,8 @@ class FOX_tab_home {
 	/**
 	 * Adds the tab's styles to the page header
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function enqueueStyles() {

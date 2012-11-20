@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA L3 MONOLITHIC ABSTRACT DATASTORE CLASS
+ * FOXFIRE L3 MONOLITHIC ABSTRACT DATASTORE CLASS
  * Implements an efficient 3rd order monolithic datastore
  *
  * FEATURES
@@ -15,12 +15,12 @@
  *  -> Data validation on key values
  *  -> Multi-thread safe
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Config
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -69,8 +69,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Loads node, branch, tree, or the entire datastore into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $tree| Single tree id as int.
 	 * @param int/array $branch | Single branch id as int.
@@ -229,8 +229,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	 * and added to the cache. Multiple items in the *lowest level group* specified
 	 * can be retrieved in a single query by passing their names or id's as an array.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $tree | Single $tree as int. Multiple as array of ints.
 	 * @param int/array $branch | Single $branch as int. Multiple as array of ints.
@@ -568,8 +568,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Fetches entire datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return array | Exception on failure. Data array on success.
 	 */
 
@@ -595,8 +595,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Fetches an entire tree
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $tree | single tree ass tring. Multiple trees as array of string.
 	 * @param bool $valid | true if all requested trees exist.
@@ -629,8 +629,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	 * Fetches an entire branch. If the branch is not in the cache yet, it
 	 * will be retrieved from the database and added to the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $tree | tree name
 	 * @param string/array $branch | single branch as string. Multiple branches as array of string.
 	 * @param bool $valid | true if all requested branches exist.
@@ -663,8 +663,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	 * Fetches a key's value, filter function, and filter function config data as an array. If the key's
 	 * data is not in the cache yet, it will be retrieved from the database and added to the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | tree name
 	 * @param string $branch | branch name
@@ -698,8 +698,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
          * Returns a node's value
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $tree | tree name
 	 * @param string $branch | branch name
@@ -756,8 +756,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	 * Updates an existing node if the $tree-$branch-$node tuple already exists
 	 * in the db, or creates a new node if it doesn't.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | Tree name
 	 * @param string $branch | Branch name
@@ -919,8 +919,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Updates an existing key
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | Tree name
 	 * @param string $branch | Branch name
@@ -1002,8 +1002,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Deletes one or more nodes from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | Tree name
 	 * @param string $branch | Branch name
@@ -1103,8 +1103,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Deletes one or more branches from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | Tree name
 	 * @param string/array $branches | Single branch as string. Multiple branches as array of string.
@@ -1203,8 +1203,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Deletes one or more trees from the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $trees | Single tree as string. Multiple trees as array of string.
 	 * @return int | Exception on failure. Number of db rows changed on success.
@@ -1303,8 +1303,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Deletes the entire datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return int | Exception on failure. Number of db rows changed on success.
 	 */
 
@@ -1373,8 +1373,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Drops one or more nodes within a single branch for ALL TREES in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $branch | name of branch
 	 * @param string/array $node | single node as string. Multiple nodes as array of string.
@@ -1450,8 +1450,8 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 	/**
 	 * Drops one or more branches for ALL TREES in the datastore
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $branches | single branch as string. Multiple branches as array of string.
 	 * @return int | Exception on failure. Number of db rows changed on success.

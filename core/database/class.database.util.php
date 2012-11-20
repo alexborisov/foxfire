@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA DATABASE UTILITY CLASS
+ * FOXFIRE DATABASE UTILITY CLASS
  * Provides utility functions for the main database classes
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
+ * @link https://github.com/FoxFire/foxfirewiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
@@ -111,8 +111,8 @@ class FOX_dbUtil {
 	/**
          * Returns all major statistics for the current SQL server
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          * @return bool | Exception on failure. Data array on success
          */
 

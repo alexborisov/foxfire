@@ -1,10 +1,10 @@
 <?php
 
 /**
- * BP-MEDIA TEST PANEL - BP 1.5 | WP 3.4 | SINGLE SITE MODE
+ * FOXFIRE TEST PANEL - BP 1.5 | WP 3.4 | SINGLE SITE MODE
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Test Panel
  * @license GPL v2.0
@@ -27,8 +27,8 @@ class panel_FOX_bp15_wp34_singleSite extends RAZ_testPanel_base {
 	/**
 	 * This method is used to add globals and defines that would normally be set in 'wp-config.php'
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	function setupGlobals() {
 
@@ -57,8 +57,8 @@ class panel_FOX_bp15_wp34_singleSite extends RAZ_testPanel_base {
 	 * Move assets (such as plugin files) into place before the test runner spins-up
 	 * the WordPress installation
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	function setupAssets() {
 
@@ -68,8 +68,8 @@ class panel_FOX_bp15_wp34_singleSite extends RAZ_testPanel_base {
 	/**
 	 * Set up db image and remapping options
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	function setupDB() {
 		
@@ -91,8 +91,8 @@ class panel_FOX_bp15_wp34_singleSite extends RAZ_testPanel_base {
 	 * Perform any setup tasks that have to be completed after the DB image has been loaded
 	 * but before the test groups are run
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */	
 	function setupState() {
 	    
@@ -102,8 +102,8 @@ class panel_FOX_bp15_wp34_singleSite extends RAZ_testPanel_base {
 	/**
 	 * Cleanup assets after completion of the test panel
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	function tearDownAssets() {
 

@@ -1,15 +1,15 @@
 <?php
 
 /**
- * BP-MEDIA SYSTEM UTILITY FUNCTIONS
+ * FOXFIRE SYSTEM UTILITY FUNCTIONS
  * Utility functions that do commonly used minor tasks
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -29,8 +29,8 @@ class FOX_sUtil {
 	 * @link http://en.wikipedia.org/wiki/Glossary_of_graph_theory#Walks
 	 * @link http://en.wikipedia.org/wiki/Quicksort (in-place version)
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $nodes | Flat array of nodes
 	 * @return array $result | Hierarchical array of nodes
 	 */
@@ -68,8 +68,8 @@ class FOX_sUtil {
 	 * @link http://en.wikipedia.org/wiki/Glossary_of_graph_theory#Walks
 	 * @link http://en.wikipedia.org/wiki/Breadth-first_search
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $walk | Walk array
 	 * @param array $tree | Tree array
 	 * @return array $result | Walk key and matching node id
@@ -167,8 +167,8 @@ class FOX_sUtil {
 	 * @link http://en.wikipedia.org/wiki/Glossary_of_graph_theory#Walks
 	 * @link http://en.wikipedia.org/wiki/Breadth-first_search
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $walk | Walk array
 	 * @param array $tree | Tree array
 	 * @return array $result | Walk offset and matching node id

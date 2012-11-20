@@ -1,13 +1,13 @@
 /**
- * BP-MEDIA ADMIN PAGE NOTIFIER JAVASCRIPT FUNCTIONS
+ * FOXFIRE ADMIN PAGE NOTIFIER JAVASCRIPT FUNCTIONS
  * Displays animated notifications inside the FoxFire admin page header
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * This library is based on code originally released in "Gritter", by Jordan Boesch
  * http://boedesign.com/blog/2009/07/11/growl-for-jquery-gritter/
@@ -23,8 +23,8 @@
 	 * Attach to the jQuery namespace, allowing the object to work a lot
 	 * like a PHP class instantiated as a global singleton.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	jQuery.fox_admin_notify = {};
@@ -33,8 +33,8 @@
 	/**
 	 * Sets GLOBAL display options for all notice objects
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int position | position
 	 * @param string fade_in_speed | How fast notices fade in
@@ -57,8 +57,8 @@
 	/**
 	 * Adds a notice to the notification area
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string title | Notice title
 	 * @param string text | Notice text
@@ -95,8 +95,8 @@
 	/**
 	 * Removes a notice from the notification area
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int id | notification object id
 	 * @param array params | notice parameters
@@ -111,8 +111,8 @@
 	/**
 	 * Removes all notices from the notification area
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array params | notice parameters
 	 */
@@ -126,8 +126,8 @@
 	/**
 	 * Notification object literal
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array params | notification object parameters
 	 */
@@ -153,8 +153,8 @@
 		/**
 		 * Adds a notice object to the notification area
 		 *
-		 * @version 0.1.9
-		 * @since 0.1.9
+		 * @version 1.0
+		 * @since 1.0
 		 *
 		 * @param string title | Notice title
 		 * @param string text | Notice text

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * BP-MEDIA TEST DATA LOADER FUNCTIONS
+ * FOXFIRE TEST DATA LOADER FUNCTIONS
  * These functions add and clear users and media items from the FoxFire install and the host BuddyPress
  * and WordPress installations. They are used to reset the installation to a known state for UI testing.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
@@ -24,8 +24,8 @@ class FOX_testData {
 	/**
 	 * Clears ALL users from the site, except the site admin
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function clearUsers() {
@@ -36,8 +36,8 @@ class FOX_testData {
 	/**
 	 * Clears ALL uploaded content from the site, except items owned by the site admin
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function clearItems() {
@@ -48,8 +48,8 @@ class FOX_testData {
 	/**
 	 * Loads user data into the system from a manifest file
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $path | Path to manifest file
 	 */
 
@@ -61,8 +61,8 @@ class FOX_testData {
 	/**
 	 * Loads media items into the system from a manifest file
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $path | Path to manifest file
 	 */
 
