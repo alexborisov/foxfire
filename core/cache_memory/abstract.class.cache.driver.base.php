@@ -1,28 +1,28 @@
 <?php
 
 /**
- * BP-MEDIA MEMORY CACHE - DRIVER BASE CLASS
+ * FOXFIRE MEMORY CACHE - DRIVER BASE CLASS
  * Implements common driver methods
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package BP-Media
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Memory Cache
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-abstract class BPM_mCache_driver_base {
+abstract class FOX_mCache_driver_base {
 	
     
 	/**
 	 * Clears the persistent cache for the class namespace and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
@@ -36,9 +36,9 @@ abstract class BPM_mCache_driver_base {
 		try {
 			$this->flushNamespace($args["namespace"]);		
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in descendent->flushNamespace()",
 				'data'=>$args,			    
@@ -56,8 +56,8 @@ abstract class BPM_mCache_driver_base {
 	 * Clears a paged cache page within the class namespace and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
@@ -72,9 +72,9 @@ abstract class BPM_mCache_driver_base {
 		try {
 			$this->delMulti($args["namespace"], $args['pages']);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in descendent->delMulti()",
 				'data'=>$args,			    
@@ -92,8 +92,8 @@ abstract class BPM_mCache_driver_base {
          * Loads a monolithic class cache array from the persistent cache and broadcasts the 
          * update to any classes that are listening for it
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
@@ -108,9 +108,9 @@ abstract class BPM_mCache_driver_base {
 		try {
 			$cache_image = $this->get($args["namespace"], "cache", $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in descendent->get()",
 				'data'=>$args,                                   
@@ -129,7 +129,7 @@ abstract class BPM_mCache_driver_base {
 		}
 		// CASE 2: The namespace has a cache entry, but its not locked
 		// =============================================================                
-		elseif( !BPM_sUtil::keyExists("lock", $cache_image) ) {
+		elseif( !FOX_sUtil::keyExists("lock", $cache_image) ) {
 
 			$result = $cache_image;             
 
@@ -152,7 +152,7 @@ abstract class BPM_mCache_driver_base {
 				// If the lock is still active, throw an exception and let
 				// the calling function decide what it wants to do
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Namespace is currently locked",
 					'data'=>$cache_image['lock'],
@@ -172,8 +172,8 @@ abstract class BPM_mCache_driver_base {
 	 * Loads pages in a 'paged' class cache array from the persistent cache and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
@@ -196,9 +196,9 @@ abstract class BPM_mCache_driver_base {
 		try {
 			$cache_result = $this->getMulti($args["namespace"], $args['pages']);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in descendent->getMulti()",
 				'data'=>$args,				    
@@ -216,7 +216,7 @@ abstract class BPM_mCache_driver_base {
 		foreach( $args['pages'] as $page_name ){
 
 			// Page has no cache entry		
-			if( !BPM_sUtil::keyExists($page_name, $cache_result) ){
+			if( !FOX_sUtil::keyExists($page_name, $cache_result) ){
 
 				// Don't write the page to the array
 							
@@ -225,7 +225,7 @@ abstract class BPM_mCache_driver_base {
 			}
 			
 			// Page has cache entry, but its not locked
-			elseif( !BPM_sUtil::keyExists("lock", $cache_result[$page_name]) ) {
+			elseif( !FOX_sUtil::keyExists("lock", $cache_result[$page_name]) ) {
 
 				$processed_result[$page_name] = $cache_result[$page_name];		    
 
@@ -267,7 +267,7 @@ abstract class BPM_mCache_driver_base {
 			unset($name, $data);								    
 		}
 		else {
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"One or more pages are currently locked",
 				'data'=>$locked_pages,
@@ -285,8 +285,8 @@ abstract class BPM_mCache_driver_base {
 	 * Writes a monolithic class cache array to the persistent cache, and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
@@ -300,9 +300,9 @@ abstract class BPM_mCache_driver_base {
 		try {
 			$this->set($args["namespace"], "cache", $args['image']);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in descendent->set()",
 				'data'=>$args,
@@ -320,8 +320,8 @@ abstract class BPM_mCache_driver_base {
 	 * Writes paged class cache array pages to the persistent cache, and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
@@ -344,9 +344,9 @@ abstract class BPM_mCache_driver_base {
 		try {
 			$this->setMulti($args["namespace"], $args['pages']);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in descendent->setMulti()",
 				'data'=>$args,
@@ -366,8 +366,8 @@ abstract class BPM_mCache_driver_base {
 	 * cache. Read requests in the namespace will throw an exception until the lock expires. 
 	 * Write and delete requests will remove the lock and clear/update the namespace.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
@@ -393,9 +393,9 @@ abstract class BPM_mCache_driver_base {
 		try {
 			$cache_image = $this->get($args["namespace"], "cache", $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in descendent->get()",
 				'data'=>$args,				    
@@ -419,9 +419,9 @@ abstract class BPM_mCache_driver_base {
 			try {
 				$this->set($args["namespace"], "cache", $cache_image);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in descendent->set()",
 					'data'=>array("args"=>$args, "cache_image"=>$cache_image),
@@ -433,7 +433,7 @@ abstract class BPM_mCache_driver_base {
 		}
 		// CASE 2: The namespace has a cache entry, but its not locked
 		// =============================================================		
-		elseif( !BPM_sUtil::keyExists("lock", $cache_image) ) {
+		elseif( !FOX_sUtil::keyExists("lock", $cache_image) ) {
 		    
 			$class_cache = $cache_image;		    
 			$cache_image['lock'] = $lock_array;
@@ -441,9 +441,9 @@ abstract class BPM_mCache_driver_base {
 			try {
 				$this->set($args["namespace"], "cache", $cache_image);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error in descendent->set()",
 					'data'=>array("args"=>$args, "cache_image"=>$cache_image),
@@ -457,7 +457,7 @@ abstract class BPM_mCache_driver_base {
 		// =============================================================
 		else {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Namespace is currently locked",
 				'data'=>$cache_image['lock'],
@@ -478,8 +478,8 @@ abstract class BPM_mCache_driver_base {
 	 * cache. Read requests in the namespace will throw an exception until the lock expires. 
 	 * Write and delete requests will remove the lock and clear/update the namespace.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @param string/array $keys | Single key as string. Multiple keys as array of strings.
 	 * 
@@ -503,9 +503,9 @@ abstract class BPM_mCache_driver_base {
 		try {
 			$cache_result = $this->getMulti($args["namespace"], $args['pages']);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in descendent->getMulti()",
 				'data'=>$args,				    
@@ -521,7 +521,7 @@ abstract class BPM_mCache_driver_base {
 
 			// Page has no cache entry
 			// =============================================================		
-			if( !BPM_sUtil::keyExists($page, $cache_result) ){
+			if( !FOX_sUtil::keyExists($page, $cache_result) ){
 
 				// Write an empty array to the result			
 				$processed_result[$page] = array();
@@ -529,7 +529,7 @@ abstract class BPM_mCache_driver_base {
 			}
 			// Page has cache entry, but its not locked
 			// =============================================================		
-			elseif( !BPM_sUtil::keyExists("lock", $cache_result[$page]) ) {
+			elseif( !FOX_sUtil::keyExists("lock", $cache_result[$page]) ) {
 
 				$processed_result[$page] = $cache_result[$page];		    
 
@@ -561,7 +561,7 @@ abstract class BPM_mCache_driver_base {
 
 		if( count($locked_pages) != 0 ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"One or more requested pages are currently locked",
 				'data'=>$locked_pages,
@@ -580,7 +580,7 @@ abstract class BPM_mCache_driver_base {
 		
 		foreach( $processed_result as $page => $data ){
 		    
-			// BP-Media data classes always use an array as their storage variable and
+			// FoxFire data classes always use an array as their storage variable and
 			// store scalar values into it as keys. They never use a single scalar
 			// variable as their storage object. So the line below is valid.
 		    
@@ -593,9 +593,9 @@ abstract class BPM_mCache_driver_base {
 		try {
 			$this->setMulti($args["namespace"], $cache_image);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in descendent->setMulti()",
 				'data'=>$cache_image,
@@ -610,7 +610,7 @@ abstract class BPM_mCache_driver_base {
 
 
 
-} // End of class BPM_mCache_driver_base
+} // End of class FOX_mCache_driver_base
 
 
 ?>

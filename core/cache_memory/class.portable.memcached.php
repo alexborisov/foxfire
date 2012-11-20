@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA portABLE PHP LIBRARY - MEMCACHED 
+ * FOXFIRE portABLE PHP LIBRARY - MEMCACHED 
  * Implements most of the functionality of PHP's memcache*D* library using native PHP code, providng 
  * bridge functionality that doesn't require PEAR, doesn't require installation, and can be included 
  * in a project's version control system. This comes at the price of a significant drop in speed, and
@@ -11,18 +11,18 @@
  * @see http://php.net/manual/en/book.memcache.php
  * @see http://php.net/manual/en/book.memcached.php (*note the extra 'D'*)
  * 
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  * @author Based on code from https://github.com/pompo500/xslib-memcached
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Memcached Portable
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class BPM_memcached_portable {
+class FOX_memcached_portable {
     
     
 	private $host;			    // Host name or ip address for memcached instance
@@ -280,7 +280,7 @@ class BPM_memcached_portable {
 	
 
 	
-} // End of class BPM_memcached_portable
+} // End of class FOX_memcached_portable
 
 
 ?>

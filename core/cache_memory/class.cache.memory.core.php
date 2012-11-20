@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BP-MEDIA MEMORY CACHE
+ * FOXFIRE MEMORY CACHE
  * Implements an advanced key-value store cache
  * 
  * FEATURES
@@ -18,17 +18,17 @@
  *  -> Cascading cache engine fall-back
  *  -> Engine performance reporting
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package BP-Media
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Memory Cache
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class BPM_mCache {
+class FOX_mCache {
 	
     
 	var $engines;			    // Cache engine singletons array	
@@ -47,11 +47,11 @@ class BPM_mCache {
 		}
 		else {	
 			$this->engines = array(
-				'apc'		=>  new BPM_mCache_driver_apc(),
-				'memcached'	=>  new BPM_mCache_driver_memcached(),
-				'redis'		=>  new BPM_mCache_driver_redis(),
-				'thread'	=>  new BPM_mCache_driver_thread(),  			    
-				'loopback'	=>  new BPM_mCache_driver_loopback()    			    				
+				'apc'		=>  new FOX_mCache_driver_apc(),
+				'memcached'	=>  new FOX_mCache_driver_memcached(),
+				'redis'		=>  new FOX_mCache_driver_redis(),
+				'thread'	=>  new FOX_mCache_driver_thread(),  			    
+				'loopback'	=>  new FOX_mCache_driver_loopback()    			    				
 			);
 		}	
 		
@@ -61,8 +61,8 @@ class BPM_mCache {
 	/**
 	 * Sets which caching engines are active
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param bool/array $ctrl | True to set all active. False to set none active. Array of engine names to set specific engines.
 	 * @return bool | Exception on failure. True on success.
@@ -133,7 +133,7 @@ class BPM_mCache {
 		// CASE 4: Bad input
 		// =================================================================================
 		else {
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Missing or invalid input",
 				'data'=>$ctrl,
@@ -150,8 +150,8 @@ class BPM_mCache {
 	/**
 	 * Returns performace data for the requested engine
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $name | Name of engine as string
 	 * @return array | Exception on failure. Engine data array on success.
@@ -160,16 +160,16 @@ class BPM_mCache {
 	public function getStats($engine_name){
 
 		
-		if( BPM_sUtil::keyExists($engine_name, $this->engines) ){  // Check engine exists
+		if( FOX_sUtil::keyExists($engine_name, $this->engines) ){  // Check engine exists
 
 			if( $this->engines[$engine_name]->isActive() ){   // Check engine is enabled
 
 				try {
 					$result = $this->engines[$engine_name]->getStats();
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Error in cache engine driver",						
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -182,7 +182,7 @@ class BPM_mCache {
 		}
 		else {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Specified engine name doesn't exist",
 				'data'=>$engine_name,			    
@@ -198,8 +198,8 @@ class BPM_mCache {
 	 * Clears the persistent cache for the class namespace and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param array $engine | Class cache engines array
@@ -215,9 +215,9 @@ class BPM_mCache {
 		// difficult-to-debug intermittent errors throughout the plugin
 		// =====================================================================
 
-		if( !BPM_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
@@ -226,9 +226,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
@@ -247,7 +247,7 @@ class BPM_mCache {
 		    
 			// Check engine exists
 		    
-			if( BPM_sUtil::keyExists($engine_name, $this->engines)  ){
+			if( FOX_sUtil::keyExists($engine_name, $this->engines)  ){
 
 				// Check engine is active
 			    
@@ -259,7 +259,7 @@ class BPM_mCache {
 			}
 			else {
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
@@ -281,9 +281,9 @@ class BPM_mCache {
 		try {
 			$engine->flushNamespace($args['namespace']);		
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Cache flush error",
 				'data'=>array('engine'=>$engine, 'args'=>$args),			    
@@ -301,8 +301,8 @@ class BPM_mCache {
 	 * Clears a paged cache page within the class namespace and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param array $engine | Class cache engines array
@@ -319,9 +319,9 @@ class BPM_mCache {
 		// difficult-to-debug intermittent errors throughout the plugin
 		// =====================================================================
 
-		if( !BPM_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
@@ -330,9 +330,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
@@ -341,9 +341,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('pages', $args) || empty($args['pages']) ) {
+		if( !FOX_sUtil::keyExists('pages', $args) || empty($args['pages']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Invalid pages parameter",
 				'data'=>$args,
@@ -367,7 +367,7 @@ class BPM_mCache {
 		    
 			// Check engine exists
 		    
-			if( BPM_sUtil::keyExists($engine_name, $this->engines) ){
+			if( FOX_sUtil::keyExists($engine_name, $this->engines) ){
 
 				// Check engine is active
 			    
@@ -379,7 +379,7 @@ class BPM_mCache {
 			}
 			else {
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
@@ -402,9 +402,9 @@ class BPM_mCache {
 		try {
 			$engine->flushCachePage($args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error in engine->flushCachePage()",
 				'data'=>$args,			    
@@ -422,8 +422,8 @@ class BPM_mCache {
          * Loads a monolithic class cache array from the persistent cache and broadcasts the 
          * update to any classes that are listening for it
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param array $engine | Class cache engines array
@@ -439,9 +439,9 @@ class BPM_mCache {
 		// difficult-to-debug intermittent errors throughout the plugin
 		// =====================================================================
 
-		if( !BPM_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
@@ -450,9 +450,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
@@ -471,7 +471,7 @@ class BPM_mCache {
 		    
 			// Check engine exists
 		    
-			if( BPM_sUtil::keyExists($engine_name, $this->engines) ){
+			if( FOX_sUtil::keyExists($engine_name, $this->engines) ){
 
 				// Check engine is active
 			    
@@ -483,7 +483,7 @@ class BPM_mCache {
 			}
 			else {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
@@ -506,9 +506,9 @@ class BPM_mCache {
 		try {
 			$result = $engine->readCache($args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error in engine->readCache()",
 				'data'=>$args,                                   
@@ -526,8 +526,8 @@ class BPM_mCache {
 	 * Loads pages in a 'paged' class cache array from the persistent cache and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param array $engine | Class cache engines array
@@ -544,9 +544,9 @@ class BPM_mCache {
 		// difficult-to-debug intermittent errors throughout the plugin
 		// =====================================================================
 
-		if( !BPM_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
@@ -555,9 +555,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
@@ -566,9 +566,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('pages', $args) || empty($args['pages']) ) {
+		if( !FOX_sUtil::keyExists('pages', $args) || empty($args['pages']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Invalid pages parameter",
 				'data'=>$args,
@@ -586,7 +586,7 @@ class BPM_mCache {
 		    
 			// Check engine exists
 		    
-			if( BPM_sUtil::keyExists($engine_name, $this->engines) ){
+			if( FOX_sUtil::keyExists($engine_name, $this->engines) ){
 
 				// Check engine is active
 			    
@@ -598,7 +598,7 @@ class BPM_mCache {
 			}
 			else {
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
@@ -630,7 +630,7 @@ class BPM_mCache {
 
 			if($page_name == 'cache'){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Called with reserved page name 'cache'",
 					'data'=>$args['pages'],				    
@@ -645,9 +645,9 @@ class BPM_mCache {
 		try {
 			$result = $engine->readCachePage($args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error in engine->readCachePage()",
 				'data'=>$args,
@@ -665,8 +665,8 @@ class BPM_mCache {
 	 * Writes a monolithic class cache array to the persistent cache, and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param array $engine | Class cache engines array
@@ -682,9 +682,9 @@ class BPM_mCache {
 		// difficult-to-debug intermittent errors throughout the plugin
 		// =====================================================================
 
-		if( !BPM_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
@@ -693,9 +693,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
@@ -713,7 +713,7 @@ class BPM_mCache {
 		    
 			// Check engine exists
 		    
-			if( BPM_sUtil::keyExists($engine_name, $this->engines)  ){
+			if( FOX_sUtil::keyExists($engine_name, $this->engines)  ){
 
 				// Check engine is active
 			    
@@ -725,7 +725,7 @@ class BPM_mCache {
 			}
 			else {
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
@@ -747,9 +747,9 @@ class BPM_mCache {
 		try {
 			$engine->writeCache($args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error in engine->writeCache()",
 				'data'=>$args,
@@ -767,8 +767,8 @@ class BPM_mCache {
 	 * Writes paged class cache array pages to the persistent cache, and broadcasts the 
 	 * update to any classes that are listening for it
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param array $engine | Class cache engines array
@@ -785,9 +785,9 @@ class BPM_mCache {
 		// difficult-to-debug intermittent errors throughout the plugin
 		// =====================================================================
 
-		if( !BPM_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
@@ -796,9 +796,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
@@ -807,9 +807,9 @@ class BPM_mCache {
 			));
 		}		
 		
-		if( !BPM_sUtil::keyExists('pages', $args) || empty($args['pages']) ) {
+		if( !FOX_sUtil::keyExists('pages', $args) || empty($args['pages']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Invalid pages parameter",
 				'data'=>$args,
@@ -827,7 +827,7 @@ class BPM_mCache {
 		    
 			// Check engine exists
 		    
-			if( BPM_sUtil::keyExists($engine_name, $this->engines)  ){
+			if( FOX_sUtil::keyExists($engine_name, $this->engines)  ){
 
 				// Check engine is active
 			    
@@ -839,7 +839,7 @@ class BPM_mCache {
 			}
 			else {
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
@@ -871,7 +871,7 @@ class BPM_mCache {
 
 			if($page_name == 'cache'){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Called with reserved page name 'cache'",
 					'data'=>$args['pages'],				    
@@ -888,9 +888,9 @@ class BPM_mCache {
 		try {
 			$engine->writeCachePage($args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error in engine->writeCachePage()",
 				'data'=>$args,
@@ -910,8 +910,8 @@ class BPM_mCache {
 	 * cache. Read requests in the namespace will throw an exception until the lock expires. 
 	 * Write and delete requests will remove the lock and clear/update the namespace.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param array $engine | Class cache engines array
@@ -929,9 +929,9 @@ class BPM_mCache {
 		// difficult-to-debug intermittent errors throughout the plugin
 		// =====================================================================
 
-		if( !BPM_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
@@ -940,9 +940,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
@@ -951,9 +951,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('process_id', $args) || !is_int($args['process_id']) ) {
+		if( !FOX_sUtil::keyExists('process_id', $args) || !is_int($args['process_id']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Invalid process_id parameter",
 				'data'=>array('args'=>$args),
@@ -962,9 +962,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('seconds', $args) || !is_int($args['seconds']) ) {
+		if( !FOX_sUtil::keyExists('seconds', $args) || !is_int($args['seconds']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Invalid seconds parameter",
 				'data'=>$args,
@@ -982,7 +982,7 @@ class BPM_mCache {
 		    
 			// Check engine exists
 		    
-			if( BPM_sUtil::keyExists($engine_name, $this->engines) ){
+			if( FOX_sUtil::keyExists($engine_name, $this->engines) ){
 
 				// Check engine is active
 			    
@@ -994,7 +994,7 @@ class BPM_mCache {
 			}
 			else {
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
@@ -1020,9 +1020,9 @@ class BPM_mCache {
 		try {
 			$result = $engine->lockCache($args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error in engine->lockCache()",
 				'data'=>$args,				    
@@ -1042,8 +1042,8 @@ class BPM_mCache {
 	 * cache. Read requests in the namespace will throw an exception until the lock expires. 
 	 * Write and delete requests will remove the lock and clear/update the namespace.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @param string/array $pages | Single page as string. Multiple pages as array of strings.
 	 * 
@@ -1064,9 +1064,9 @@ class BPM_mCache {
 		// difficult-to-debug intermittent errors throughout the plugin
 		// =====================================================================
 
-		if( !BPM_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
@@ -1075,9 +1075,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
@@ -1086,9 +1086,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('process_id', $args) || !is_int($args['process_id']) ) {
+		if( !FOX_sUtil::keyExists('process_id', $args) || !is_int($args['process_id']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Invalid process_id parameter",
 				'data'=>$args,
@@ -1097,9 +1097,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('seconds', $args) || !is_int($args['seconds']) ) {
+		if( !FOX_sUtil::keyExists('seconds', $args) || !is_int($args['seconds']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Invalid seconds parameter",
 				'data'=>$args,
@@ -1108,9 +1108,9 @@ class BPM_mCache {
 			));
 		}
 		
-		if( !BPM_sUtil::keyExists('pages', $args) || empty($args['pages']) ) {
+		if( !FOX_sUtil::keyExists('pages', $args) || empty($args['pages']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Invalid pages parameter",
 				'data'=>$args,
@@ -1128,7 +1128,7 @@ class BPM_mCache {
 		    
 			// Check engine exists
 		    
-			if( BPM_sUtil::keyExists($engine_name, $this->engines) ){
+			if( FOX_sUtil::keyExists($engine_name, $this->engines) ){
 
 				// Check engine is active
 			    
@@ -1140,7 +1140,7 @@ class BPM_mCache {
 			}
 			else {
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>6,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
@@ -1172,7 +1172,7 @@ class BPM_mCache {
 
 			if($page_name == 'cache'){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Called with reserved page name 'cache'",
 					'data'=>$args['pages'],				    
@@ -1187,9 +1187,9 @@ class BPM_mCache {
 		try {
 			$result = $engine->lockCachePage($args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error in engine->lockCachePage()",
 				'data'=>$args,				    
@@ -1204,7 +1204,7 @@ class BPM_mCache {
 
 
 
-} // End of class BPM_mCache
+} // End of class FOX_mCache
 
 
 ?>

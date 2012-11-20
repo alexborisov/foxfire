@@ -1,21 +1,21 @@
 <?php
 
 /**
- * BP-MEDIA MEMORY CACHE - APC DRIVER
+ * FOXFIRE MEMORY CACHE - APC DRIVER
  * Stores keys to PHP's built-in APC caching system @link http://php.net/manual/en/book.apc.php
  * providing *server level* persistent caching that *survives a reboot*.
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package BP-Media
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Cache APC
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
+class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 
 
 	// VERY IMPORTANT: The following must be set in your php.ini file:
@@ -64,8 +64,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Enables the cache driver
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	
 	public function enable(){
@@ -82,8 +82,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Disables the cache driver
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	
 	public function disable(){
@@ -96,8 +96,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Checks if the cache engine driver is active
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | True if active. False if disabled.
 	 */
@@ -111,8 +111,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Returns the current performance stats of the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return array | Exception on failure. Data array on success.
 	 */
@@ -122,7 +122,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -140,8 +140,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Removes all entries in the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -151,7 +151,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -172,8 +172,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Removes all entries within the specified namespace from the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @return bool | Exception on failure. True on success.
@@ -184,7 +184,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -195,7 +195,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -213,7 +213,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 				$offset = 1;
 			}
 
-			$result = apc_store("bpm.ns_offset.".$ns, $offset);			
+			$result = apc_store("fox.ns_offset.".$ns, $offset);			
 		}
 		
 		return $result;
@@ -224,8 +224,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Gets the offset for a cache namespace.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @return bool | False on failure. True on success.
@@ -236,7 +236,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -247,7 +247,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 		    
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -256,7 +256,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 				));		    		
 			}
 			
-			$offset = apc_fetch("bpm.ns_offset.".$ns);
+			$offset = apc_fetch("fox.ns_offset.".$ns);
 
 			// If there is no offset key for the namespace present in 
 			// the cache, create one
@@ -264,11 +264,11 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			if(!$offset){
 
 				$offset = 1;
-				$store_ok = apc_store("bpm.ns_offset.".$ns, $offset);
+				$store_ok = apc_store("fox.ns_offset.".$ns, $offset);
 
 				if(!$store_ok){
 				    
-					throw new BPM_exception(array(
+					throw new FOX_exception(array(
 						'numeric'=>3,
 						'text'=>"Error writing to cache",
 						'data'=>array('namespace'=>$ns, 'offset'=>$offset),
@@ -288,8 +288,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Stores a value into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
@@ -303,7 +303,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -314,7 +314,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -326,9 +326,9 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -336,13 +336,13 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 				));		    
 			}
 		
-			$key = "bpm." . $ns . "." . $offset . "." . $var;
+			$key = "fox." . $ns . "." . $offset . "." . $var;
 			
 			$store_ok = apc_store($key, $val);
 			
 			if(!$store_ok){
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>4,
 					'text'=>"Error writing to cache",
 					'data'=>array('namespace'=>$ns, 'offset'=>$offset),
@@ -361,8 +361,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Stores multiple values into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Data to set in the form "key"=>"val"
@@ -374,7 +374,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -385,7 +385,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -397,9 +397,9 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -413,7 +413,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			
 			foreach($data as $key => $val){
 
-				$processed["bpm." . $ns . "." . $offset . "." . $key] = $val;
+				$processed["fox." . $ns . "." . $offset . "." . $key] = $val;
 			}
 			unset($key, $val);
 
@@ -424,7 +424,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 
 			if( count($cache_result) != 0 ){
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>4,
 					'text'=>"Error writing to cache",
 					'data'=>array('namespace'=>$ns, 'data'=>$data, 'error'=>$cache_result),
@@ -443,8 +443,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Retrieves a value from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
@@ -458,7 +458,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -469,7 +469,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -481,9 +481,9 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -491,7 +491,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 				));		    
 			}
 			
-			$key = "bpm." . $ns . "." . $offset . "." . $var;
+			$key = "fox." . $ns . "." . $offset . "." . $var;
 			$result = apc_fetch($key, $valid);			
 			
 		}
@@ -504,8 +504,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Retrieves multiple values from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $names | Array of cache variable names
@@ -517,7 +517,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -528,7 +528,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -540,9 +540,9 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -553,7 +553,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			// Add namespace prefix to each keyname
 			foreach($names as $key){
 
-				$processed[] = "bpm." . $ns . "." . $offset . "." . $key;
+				$processed[] = "fox." . $ns . "." . $offset . "." . $key;
 			}
 			unset($key);
 
@@ -569,7 +569,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 				// BEFORE: "namespace.offset.keyname"=>"value"
 				// AFTER:  "keyname"=>"value"
 
-				$prefixed_name = "bpm." . $ns . "." . $offset . "." . $key;
+				$prefixed_name = "fox." . $ns . "." . $offset . "." . $key;
 
 				if( array_key_exists($prefixed_name, $cache_result) ){	    // This prevents the loop from creating keys
 											    // in the $result array if they don't exist in
@@ -589,8 +589,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Deletes an item from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of key
@@ -603,7 +603,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -614,7 +614,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -626,9 +626,9 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -636,7 +636,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 				));		    
 			}
 			
-			$key = "bpm." . $ns . "." . $offset . "." . $var;
+			$key = "fox." . $ns . "." . $offset . "." . $var;
 			$delete_ok = apc_delete($key);
 			
 		}
@@ -649,8 +649,8 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	/**
 	 * Deletes multiple items from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Key names as array of strings.
@@ -662,7 +662,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -673,7 +673,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -685,9 +685,9 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -701,7 +701,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 
 			foreach($data as $val){
 
-				$processed[] =  "bpm." . $ns . "." . $offset . "." . $val ;
+				$processed[] =  "fox." . $ns . "." . $offset . "." . $val ;
 			}
 			unset($val);			
 			
@@ -723,7 +723,7 @@ class BPM_mCache_driver_apc extends BPM_mCache_driver_base {
 	
 
 
-} // End of class BPM_mCache_driver_apc
+} // End of class FOX_mCache_driver_apc
 
 
 ?>

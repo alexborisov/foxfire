@@ -1,23 +1,23 @@
 <?php
 
 /**
- * BP-MEDIA MEMORY CACHE - LOOPBACK DRIVER
+ * FOXFIRE MEMORY CACHE - LOOPBACK DRIVER
  * Implements a dummy cache engine that discards data for all key writes, reports nonexistent for all
  * key reads, and reports success for every action. This driver is used as a test tool to guarantee
  * data is never stored in the cache. It's also used as the last-resort engine for db classes that store
  * large amounts of data to the cache, precluding the use of the "thread" cache engine.
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package BP-Media
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Cache Loopback
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
+class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 
 
 
@@ -29,8 +29,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Checks if the cache engine driver is active
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | True if active. False if not.
 	 */
@@ -44,8 +44,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Returns the cache engine's performance statistics
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return array | Engine stats array
 	 */
@@ -59,8 +59,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Stores a value into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
@@ -73,7 +73,7 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	    
 		if( empty($ns) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
@@ -89,8 +89,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Stores multiple values into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Data to set in the form "key"=>"val"
@@ -102,7 +102,7 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	    
 		if( empty($ns) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
@@ -118,8 +118,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Retrieves a value from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
@@ -132,7 +132,7 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	    
 		if( empty($ns) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
@@ -150,8 +150,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Retrieves multiple values from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $names | Array of cache variable names
@@ -163,7 +163,7 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	    
 		if( empty($ns) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
@@ -179,8 +179,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Deletes an item from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of key
@@ -192,7 +192,7 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	    
 		if( empty($ns) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
@@ -208,8 +208,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Deletes multiple items from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Key names as array of strings.
@@ -221,7 +221,7 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	    
 		if( empty($ns) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
@@ -238,8 +238,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Removes all entries within the specified namespace from the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @return bool | Exception on failure. True on success.
@@ -250,7 +250,7 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	    
 		if( empty($ns) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
@@ -266,8 +266,8 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 	/**
 	 * Removes all entries in the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -279,7 +279,7 @@ class BPM_mCache_driver_loopback extends BPM_mCache_driver_base {
 
 	
 
-} // End of class BPM_mCache_driver_loopback
+} // End of class FOX_mCache_driver_loopback
 
 
 ?>

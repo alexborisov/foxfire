@@ -1,21 +1,21 @@
 <?php
 
 /**
- * BP-MEDIA MEMORY CACHE - REDIS DRIVER
+ * FOXFIRE MEMORY CACHE - REDIS DRIVER
  * Stores keys to to the Redis caching system @link http://redis.io providing *data center* level
  * caching that *survives reboots*, supports large objects, and has native transaction support
  * 
- * @version 0.1.9
- * @since 0.1.9
- * @package BP-Media
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Cache Redis
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
+class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	
 	
 	var $enable = false;		    // True to enable the driver. False to disable it.
@@ -44,7 +44,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 		    
 			$this->server = array('ip'=>'127.0.0.1', 'port'=>6379, 'database'=>15, 'alias'=>'first');
 
-			require_once ( BPM_PATH_LIB . '/predis/autoload.php' );
+			require_once ( FOX_PATH_LIB . '/predis/autoload.php' );
 
 			$this->engine = new Predis\Client($this->server);		    
 
@@ -57,8 +57,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Enables the cache driver
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	
 	public function enable(){
@@ -80,8 +80,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Disables the cache driver
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	
 	public function disable(){
@@ -94,8 +94,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Checks if the cache engine driver is active
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | True if active. False if disabled.
 	 */
@@ -109,8 +109,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Returns the current performance stats of the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return array | Exception on failure. Data array on success.
 	 */
@@ -120,7 +120,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -141,8 +141,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Removes all entries in the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -152,7 +152,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -171,8 +171,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Removes all entries within the specified namespace from the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @return bool | Exception on failure. True on success.
@@ -183,7 +183,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -194,7 +194,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -213,11 +213,11 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			}
 
 			$expire = 0;			
-			$set_ok = $this->engine->set("bpm.ns_offset.".$ns, $offset, $expire);
+			$set_ok = $this->engine->set("fox.ns_offset.".$ns, $offset, $expire);
 			
 			if(!$set_ok){
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error writing to cache",
 					'data'=>array('ns'=>$ns, 'offset'=>$offset, 'expire'=>$expire),
@@ -236,8 +236,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Gets the offset for a cache namespace.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @return bool | Exception on failure. Int offset on success.
@@ -248,7 +248,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -259,7 +259,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -268,7 +268,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 				));		    		
 			}
 		
-			$offset = $this->engine->get("bpm.ns_offset.".$ns);			
+			$offset = $this->engine->get("fox.ns_offset.".$ns);			
 
 			// If there is no offset key for the namespace present in 
 			// the cache, create one
@@ -277,11 +277,11 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 				$offset = 1;
 			
-				$set_ok = $this->engine->set("bpm.ns_offset.".$ns, $offset);				
+				$set_ok = $this->engine->set("fox.ns_offset.".$ns, $offset);				
 
 				if(!$set_ok){
 				    
-					throw new BPM_exception(array(
+					throw new FOX_exception(array(
 						'numeric'=>3,
 						'text'=>"Error writing to cache",
 						'data'=>array('namespace'=>$ns, 'offset'=>$offset, 'expire'=>$expire),
@@ -301,8 +301,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Stores a value into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
@@ -316,7 +316,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -327,7 +327,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -339,9 +339,9 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -349,7 +349,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 				));		    
 			}
 		
-			$key = "bpm." . $ns . "." . $offset . "." . $var;
+			$key = "fox." . $ns . "." . $offset . "." . $var;
 			$expire = 0;
 			
 			// Neither of PHP's memcache libraries understands the difference
@@ -364,7 +364,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			
 			if(!$set_ok){
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>4,
 					'text'=>"Error writing to cache",
 					'data'=>array('key'=>$key, 'val'=>$val, 'offset'=>$offset),
@@ -383,8 +383,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Stores multiple values into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Data to set in the form "key"=>"val"
@@ -396,7 +396,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -407,7 +407,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -419,9 +419,9 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -443,7 +443,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 				$sval = serialize($val);
 			
-				$processed["bpm." . $ns . "." . $offset . "." . $key] = $sval;							
+				$processed["fox." . $ns . "." . $offset . "." . $key] = $sval;							
 			}
 			unset($key, $val);
 			
@@ -455,7 +455,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 				
 				if(!$set_ok){
 
-					throw new BPM_exception(array(
+					throw new FOX_exception(array(
 						'numeric'=>4,
 						'text'=>"Error writing to cache in 'full' mode",
 						'data'=>array('processed'=>$processed, 'expire'=>$expire, 'set_ok'=>$set_ok),
@@ -484,7 +484,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 				if( $key_count != count($processed) ){
 
-					throw new BPM_exception(array(
+					throw new FOX_exception(array(
 						'numeric'=>5,
 						'text'=>"Error writing to cache in 'basic' mode",
 						'data'=>array('processed'=>$processed, 'failed_keys'=>$failed_keys),
@@ -506,8 +506,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Retrieves a value from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
@@ -521,7 +521,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -532,7 +532,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -544,9 +544,9 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -554,7 +554,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 				));		    
 			}
 			
-			$key = "bpm." . $ns . "." . $offset . "." . $var;
+			$key = "fox." . $ns . "." . $offset . "." . $var;
 			
 			if( $this->mode == 'full' ){
 			    
@@ -579,7 +579,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			    
 				$cache_result = $this->engine->mget( array($key) );	
 
-				if( BPM_sUtil::keyExists($key, $cache_result)){
+				if( FOX_sUtil::keyExists($key, $cache_result)){
 
 					$valid = true;
 					$result = $cache_result[$key];
@@ -608,8 +608,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Retrieves multiple values from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $names | Array of cache variable names
@@ -621,7 +621,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -632,7 +632,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -644,9 +644,9 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -657,7 +657,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			// Add namespace prefix to each keyname
 			foreach($names as $key){
 
-				$processed[] = "bpm." . $ns . "." . $offset . "." . $key;
+				$processed[] = "fox." . $ns . "." . $offset . "." . $key;
 			}
 			unset($key);
 
@@ -680,7 +680,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 				// BEFORE: "namespace.offset.keyname"=>"value"
 				// AFTER:  "keyname"=>"value"
 
-				$prefixed_name = "bpm." . $ns . "." . $offset . "." . $key;
+				$prefixed_name = "fox." . $ns . "." . $offset . "." . $key;
 
 				// This prevents the loop from creating keys
 				// in the $result array if they don't exist in
@@ -712,8 +712,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Deletes an item from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of key
@@ -726,7 +726,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -737,7 +737,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -749,9 +749,9 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -759,7 +759,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 				));		    
 			}
 			
-			$key = "bpm." . $ns . "." . $offset . "." . $var;
+			$key = "fox." . $ns . "." . $offset . "." . $var;
 			$delete_ok = $this->engine->delete($key);			
 
 		}
@@ -772,8 +772,8 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	/**
 	 * Deletes multiple items from the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Key names as array of strings.
@@ -785,7 +785,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	    
 		if( !$this->isActive() ){
 		    
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -796,7 +796,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 			if( empty($ns) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
@@ -808,9 +808,9 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 			try {
 				$offset = self::getOffset($ns);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception(array(
+				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -824,7 +824,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 
 			foreach($data as $val){
 
-				$processed[] =  "bpm." . $ns . "." . $offset . "." . $val ;
+				$processed[] =  "fox." . $ns . "." . $offset . "." . $val ;
 			}
 			unset($val);			
 			
@@ -852,7 +852,7 @@ class BPM_mCache_driver_redis extends BPM_mCache_driver_base {
 	}
 
 
-} // End of class BPM_mCache_driver_redis
+} // End of class FOX_mCache_driver_redis
 
 
 ?>
