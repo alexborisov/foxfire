@@ -197,7 +197,6 @@ else {
 	// Load the base classes
 	// ===============================================================
 	
-	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.datastore.monolithic.L3.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/class.datastore.validators.php' );	
