@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ class database_typeCasters extends RAZ_testCase {
 
 	static $struct = array(
 
-		"table" => "bpm_test_typeCast_SQLtoPHP",
+		"table" => "fox_test_typeCast_SQLtoPHP",
 		"engine" => "MyISAM",
 		"columns" => array(
 		    "col_1" =>	array(	"php"=>"bool",	    "sql"=>"tinyint",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false, "default"=>null,  "index"=>"PRIMARY"),
@@ -43,12 +43,12 @@ class database_typeCasters extends RAZ_testCase {
     	function setUp() {
 
 		parent::setUp();
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 
 		try {
 			$this->tdb->runAddTable(self::$struct);
 		}
-		catch (BPM_exception $fail) {
+		catch (FOX_exception $fail) {
 		    
 		    
 			// CASE 1: the table already exists in the db (likely from a previous failed test 
@@ -59,7 +59,7 @@ class database_typeCasters extends RAZ_testCase {
 				try {
 					$this->tdb->runTruncateTable(self::$struct);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 					$this->fail("Table already existed. Failure while clearing table. Error code: " . $child->data['numeric']);
 				}
@@ -113,7 +113,7 @@ class database_typeCasters extends RAZ_testCase {
 		$check_data->col_12 = (int)mktime(0, 0, 0, 11, 21, 2010);
 		$check_data->col_13 = (int)mktime(18, 44, 52, 11, 21, 2010);
 
-		// Set the disable_typecast flags to prevent BPM_db from automatically typecasting data
+		// Set the disable_typecast flags to prevent FOX_db from automatically typecasting data
 		// written to / read from the datyabase
 
 		$this->tdb->disable_typecast_write = true;
@@ -125,7 +125,7 @@ class database_typeCasters extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runInsertQueryMulti(self::$struct, $input_data, $columns=null, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -139,7 +139,7 @@ class database_typeCasters extends RAZ_testCase {
 			$result = $this->tdb->builder->buildSelectQueryCol(self::$struct, $col = 'col_1', $op = "=", $val = '1', $columns=null, 
 									   $ctrl=array("format"=>"row_object"));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -153,19 +153,19 @@ class database_typeCasters extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryCol(self::$struct, $col = 'col_1', $op = "=", $val = '1', $columns=null, 
 								$ctrl=array("format"=>"row_object"));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
 		
 		// Run the returned test data through the query result typecaster, then compare the result to the check array.
 		
-		$cst = new BPM_cast();
+		$cst = new FOX_cast();
 		
 		try {
 			$cst->queryResult($format="row_object", $result, $types);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -182,7 +182,7 @@ class database_typeCasters extends RAZ_testCase {
 		try {
 			$this->tdb->runTruncateTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}	    
@@ -208,7 +208,7 @@ class database_typeCasters extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runInsertQueryMulti(self::$struct, $input_data, $columns=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}	
@@ -224,7 +224,7 @@ class database_typeCasters extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryCol(self::$struct, $col = 'col_1', $op = "=", $val = '1', $columns=null, 
 								$ctrl=array("format"=>"row_object"));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -256,7 +256,7 @@ class database_typeCasters extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryCol(self::$struct, $col = 'col_1', $op = "=", $val = '1', $columns=null, 
 								$ctrl=array("format"=>"row_array"));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -285,12 +285,12 @@ class database_typeCasters extends RAZ_testCase {
 
 	function tearDown() {
 
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 		
 		try {
 			$this->tdb->runDropTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    		    
 			$this->fail("Error while dropping database table. Error code: " . $child->data['numeric']);			    
 		}		

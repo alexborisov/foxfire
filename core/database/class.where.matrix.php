@@ -19,15 +19,15 @@
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_queryBuilder_whereMatrix {
+class FOX_queryBuilder_whereMatrix {
 
 	
 	var $struct;				    // Structure of database table	
@@ -90,7 +90,7 @@ class BPM_queryBuilder_whereMatrix {
 		
 		if($this->ctrl['hash_token_vals'] == true){
 		    
-			$this->hash_table = new BPM_hashTable();
+			$this->hash_table = new FOX_hashTable();
 		}
 		
 		$this->null_token = $this->ctrl['null_token'];
@@ -99,9 +99,9 @@ class BPM_queryBuilder_whereMatrix {
 		try {		    
 			$result = $this->build();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error during build process",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -131,15 +131,15 @@ class BPM_queryBuilder_whereMatrix {
 		    
 			if($this->ctrl['optimize'] == true){
 
-				$this->columns = BPM_trie::optimizeMatrix($this->args, $this->columns);			
+				$this->columns = FOX_trie::optimizeMatrix($this->args, $this->columns);			
 			}
 
 			if($this->ctrl['hash_token_vals'] == true){	
 
-				$args_array = BPM_trie::loftMatrixHash($this->args, $this->columns, $this->hash_table, $ctrl=null);							
+				$args_array = FOX_trie::loftMatrixHash($this->args, $this->columns, $this->hash_table, $ctrl=null);							
 			}
 			else {
-				$args_array = BPM_trie::loftMatrix($this->args, $this->columns, $ctrl=null);
+				$args_array = FOX_trie::loftMatrix($this->args, $this->columns, $ctrl=null);
 			}									
 			
 		}		
@@ -152,15 +152,15 @@ class BPM_queryBuilder_whereMatrix {
 					'null_token' => $this->null_token
 				);
 				
-				$flattened = BPM_trie::flattenAssocTrie($this->args, $this->columns, $flatten_ctrl);
+				$flattened = FOX_trie::flattenAssocTrie($this->args, $this->columns, $flatten_ctrl);
 				
-				$this->columns = BPM_trie::optimizeMatrix($flattened, $this->columns);
+				$this->columns = FOX_trie::optimizeMatrix($flattened, $this->columns);
 				
 				$loft_ctrl = array(
 					'null_token' => $this->null_token
 				);				
 				
-				$args_array = BPM_trie::loftMatrix($flattened, $this->columns, $loft_ctrl);	
+				$args_array = FOX_trie::loftMatrix($flattened, $this->columns, $loft_ctrl);	
 			
 			
 			}
@@ -177,7 +177,7 @@ class BPM_queryBuilder_whereMatrix {
 		
 		try {
 		    
-			$this->iterator = new BPM_queryBuilder_whereMatrix_iterator(array(
+			$this->iterator = new FOX_queryBuilder_whereMatrix_iterator(array(
 
 				'base'	    => $this,
 				'parent'    => null,			    
@@ -192,9 +192,9 @@ class BPM_queryBuilder_whereMatrix {
 			));	
 			
 		}
-		catch (BPM_Exception $child) {
+		catch (FOX_Exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error creating root node",
 				'data'=>array("args"=>$this->args, "columns"=>$this->columns, 
@@ -214,9 +214,9 @@ class BPM_queryBuilder_whereMatrix {
 		try {
 			$result = $this->iterator->reduce();
 		}
-		catch (BPM_Exception $child) {
+		catch (FOX_Exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error during reduce",
 				'data'=>array("args"=>$this->args, "columns"=>$this->columns, 
@@ -237,7 +237,7 @@ class BPM_queryBuilder_whereMatrix {
 				$error_msg .= "have destroyed an entire table. If this is actually your design intent, set \$ctrl['trap_null'] = ";
 				$error_msg .= "false to disable this interlock."; 
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"$error_msg",
 					'data'=>array("args"=>$this->args, "columns"=>$this->columns, 
@@ -256,9 +256,9 @@ class BPM_queryBuilder_whereMatrix {
 			try {
 				$sql_result = $this->iterator->render();
 			}
-			catch (BPM_Exception $child) {
+			catch (FOX_Exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error during render",
 					'data'=>array("args"=>$this->args, "columns"=>$this->columns, 
@@ -294,6 +294,6 @@ class BPM_queryBuilder_whereMatrix {
 
 
 	
-} // End of class BPM_queryBuilder_whereMatrix
+} // End of class FOX_queryBuilder_whereMatrix
 
 ?>

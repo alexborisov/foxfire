@@ -2,12 +2,12 @@
 
 /**
  * BP-MEDIA BUDDYPRESS ABSTRACTION CLASS
- * Provides abstraction functions to interface with BuddyPress, simplifying upgrading BP-Media
+ * Provides abstraction functions to interface with BuddyPress, simplifying upgrading FoxFire
  * when BuddyPress makes changes to their codebase.
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage BuddyPress Abstraction
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -15,7 +15,7 @@
  * ========================================================================================================
  */
 
-class BPM_bp {
+class FOX_bp {
 
 
 	/**
@@ -83,7 +83,7 @@ class BPM_bp {
 
 
 	/**
-	 * Checks if a WordPress page is owned by BP-Media, BuddyPress, or an external plugin
+	 * Checks if a WordPress page is owned by FoxFire, BuddyPress, or an external plugin
 	 *
 	 * @version 0.1.9
 	 * @since 0.1.9
@@ -94,21 +94,21 @@ class BPM_bp {
 	public function getPageOwner($post_id) {
 
 
-		global $wpdb, $bpm;
+		global $wpdb, $fox;
 
 		$bp_components = array (
 
-			"activate"	=> __('Activate',"bp-media"),
-			"activity"	=> __('Activity',"bp-media"),
-			"blogs"		=> __('Blogs',"bp-media"),
-			"forums"	=> __('Forums',"bp-media"),
-			"friends"	=> __('Friends',"bp-media"),
-			"groups"	=> __('Groups',"bp-media"),
-			"members"	=> __('Members',"bp-media"),
-			"messages"	=> __('Messages',"bp-media"),
-			"register"	=> __('Register',"bp-media"),
-			"settings"	=> __('Settings',"bp-media"),
-			"xprofile"	=> __('Profile',"bp-media")
+			"activate"	=> __('Activate',"foxfire"),
+			"activity"	=> __('Activity',"foxfire"),
+			"blogs"		=> __('Blogs',"foxfire"),
+			"forums"	=> __('Forums',"foxfire"),
+			"friends"	=> __('Friends',"foxfire"),
+			"groups"	=> __('Groups',"foxfire"),
+			"members"	=> __('Members',"foxfire"),
+			"messages"	=> __('Messages',"foxfire"),
+			"register"	=> __('Register',"foxfire"),
+			"settings"	=> __('Settings',"foxfire"),
+			"xprofile"	=> __('Profile',"foxfire")
 		);
 
 		// Make sure that we're working with the root blog, no matter which dashboard the admin screens are being run on
@@ -197,7 +197,7 @@ class BPM_bp {
 			$result = array(
 					"exists"=>true,
 					"slug"=>$component_slug,
-					"plugin_name"=>__('BuddyPress',"bp-media")
+					"plugin_name"=>__('BuddyPress',"foxfire")
 			);
 
 			// Look-up the component's name based on its slug
@@ -212,7 +212,7 @@ class BPM_bp {
 			}
 			else {
 
-				$result["component_name"] = __('Unknown',"bp-media");
+				$result["component_name"] = __('Unknown',"foxfire");
 				$result["module_slug"] = null;
 				$result["module_id"] = null;
 			}
@@ -231,7 +231,7 @@ class BPM_bp {
 
 		}
 
-		// CASE 2: BP-Media or an external plugin are adding a page
+		// CASE 2: FoxFire or an external plugin are adding a page
 		// ==================================================================
 		elseif( !$in_original && $in_filtered ) {
 
@@ -242,20 +242,20 @@ class BPM_bp {
 					"slug"=>$component_slug,
 			);
 
-			$bpm_page_data = $bpm->navigation->getPageOwner($post_id);
+			$fox_page_data = $fox->navigation->getPageOwner($post_id);
 
-			// BP-Media owns the page
+			// FoxFire owns the page
 			// ====================================
-			if($bpm_page_data){
+			if($fox_page_data){
 
-				$result["plugin_name"] = __('BP-Media',"bp-media");
-				$result["component_name"] = $bpm_page_data["module_name"];
+				$result["plugin_name"] = __('FoxFire',"foxfire");
+				$result["component_name"] = $fox_page_data["module_name"];
 
 			}
 			// External plugin owns the page
 			// ====================================
 			else {
-				$result["plugin_name"] = __('Other Plugin',"bp-media");
+				$result["plugin_name"] = __('Other Plugin',"foxfire");
 				$result["component_name"] = null;
 			}
 
@@ -283,7 +283,7 @@ class BPM_bp {
 					"exists"=>true,
 					"active"=>false,
 					"slug"=>$component_slug,
-					"plugin_name"=>__('BuddyPress',"bp-media")
+					"plugin_name"=>__('BuddyPress',"foxfire")
 			);
 
 			$component_name = $bp_components[$component_slug];
@@ -294,7 +294,7 @@ class BPM_bp {
 			}
 			else {
 
-				$result["component_name"] = __('Unknown',"bp-media");
+				$result["component_name"] = __('Unknown',"foxfire");
 			}
 
 		}
@@ -320,7 +320,7 @@ class BPM_bp {
 
 
 	/**
-	 * Checks if a slug is owned by BP-Media, BuddyPress, or an external plugin
+	 * Checks if a slug is owned by FoxFire, BuddyPress, or an external plugin
 	 *
 	 * @version 0.1.9
 	 * @since 0.1.9
@@ -330,7 +330,7 @@ class BPM_bp {
 
 	public function getSlugOwner($location, $slug) {
 
-		global $wpdb, $bp, $bpm;
+		global $wpdb, $bp, $fox;
 
 		$location = strtolower($location);
 		$slug = strtolower($slug);
@@ -342,18 +342,18 @@ class BPM_bp {
 
 		$bp_components = array (
 
-			strtolower(BP_ACTIVATION_SLUG)	=> __('Activate',"bp-media"),
-			strtolower(BP_ACTIVITY_SLUG)	=> __('Activity',"bp-media"),
-			strtolower(BP_BLOGS_SLUG)	=> __('Blogs',"bp-media"),
-			strtolower(BP_FORUMS_SLUG)	=> __('Forums',"bp-media"),
-			strtolower(BP_FRIENDS_SLUG)	=> __('Friends',"bp-media"),
-			strtolower(BP_GROUPS_SLUG)	=> __('Groups',"bp-media"),
-			strtolower(BP_MEMBERS_SLUG)	=> __('Members',"bp-media"),
-			strtolower(BP_MESSAGES_SLUG)	=> __('Messages',"bp-media"),
-			strtolower(BP_REGISTER_SLUG)	=> __('Register',"bp-media"),
-			strtolower(BP_SEARCH_SLUG)	=> __('Search',"bp-media"),
-			strtolower(BP_SETTINGS_SLUG)	=> __('Settings',"bp-media"),
-			strtolower(BP_XPROFILE_SLUG)	=> __('Profile',"bp-media"),
+			strtolower(BP_ACTIVATION_SLUG)	=> __('Activate',"foxfire"),
+			strtolower(BP_ACTIVITY_SLUG)	=> __('Activity',"foxfire"),
+			strtolower(BP_BLOGS_SLUG)	=> __('Blogs',"foxfire"),
+			strtolower(BP_FORUMS_SLUG)	=> __('Forums',"foxfire"),
+			strtolower(BP_FRIENDS_SLUG)	=> __('Friends',"foxfire"),
+			strtolower(BP_GROUPS_SLUG)	=> __('Groups',"foxfire"),
+			strtolower(BP_MEMBERS_SLUG)	=> __('Members',"foxfire"),
+			strtolower(BP_MESSAGES_SLUG)	=> __('Messages',"foxfire"),
+			strtolower(BP_REGISTER_SLUG)	=> __('Register',"foxfire"),
+			strtolower(BP_SEARCH_SLUG)	=> __('Search',"foxfire"),
+			strtolower(BP_SETTINGS_SLUG)	=> __('Settings',"foxfire"),
+			strtolower(BP_XPROFILE_SLUG)	=> __('Profile',"foxfire"),
 		);
 
 		$result = array();
@@ -390,7 +390,7 @@ class BPM_bp {
 				// ====================================
 				if( array_key_exists($slug, $bp_components) ){
 
-					$result["plugin_name"] = __('BuddyPress',"bp-media");
+					$result["plugin_name"] = __('BuddyPress',"foxfire");
 					$result["component_name"] = $bp_components[$slug];
 					$result["module_slug"] = null;
 					$result["module_id"] = null;
@@ -400,7 +400,7 @@ class BPM_bp {
 				// ====================================
 				else {
 
-					$result["plugin_name"] = __('Other Plugin',"bp-media");
+					$result["plugin_name"] = __('Other Plugin',"foxfire");
 					$result["component_name"] = $component_name;
 					$result["module_slug"] = null;
 					$result["module_id"] = null;
@@ -411,17 +411,17 @@ class BPM_bp {
 			// ===================================================
 			else {
 
-				$bpm_slug_data = $bpm->navigation->getSlugOwner($location, $slug, $slug_error);
+				$fox_slug_data = $fox->navigation->getSlugOwner($location, $slug, $slug_error);
 
 
-				// BP-Media owns the slug
+				// FoxFire owns the slug
 				// ====================================
-				if($bpm_slug_data){
+				if($fox_slug_data){
 
-					$result["plugin_name"] = __('BP-Media',"bp-media");
-					$result["component_name"] = $bpm_slug_data["module_name"];
-					$result["module_slug"] = $bpm_slug_data["module_slug"];
-					$result["module_id"] = $bpm_slug_data["module_id"];
+					$result["plugin_name"] = __('FoxFire',"foxfire");
+					$result["component_name"] = $fox_slug_data["module_name"];
+					$result["module_slug"] = $fox_slug_data["module_slug"];
+					$result["module_id"] = $fox_slug_data["module_id"];
 
 				}
 
@@ -445,20 +445,20 @@ class BPM_bp {
 
 		}
 
-		// CASE 2: Checking on BP-Media tab
+		// CASE 2: Checking on FoxFire tab
 		// ==============================================
 		else {
 
-			$bpm_slug_data = $bpm->navigation->getSlugOwner($location, $slug);
+			$fox_slug_data = $fox->navigation->getSlugOwner($location, $slug);
 
-			// BP-Media owns the slug
+			// FoxFire owns the slug
 			// ====================================
-			if($bpm_slug_data){
+			if($fox_slug_data){
 
 				$result["exists"] = true;
 				$result["slug"] = $slug;
-				$result["plugin_name"] = __('BP-Media',"bp-media");
-				$result["component_name"] = $bpm_slug_data["module_name"];
+				$result["plugin_name"] = __('FoxFire',"foxfire");
+				$result["component_name"] = $fox_slug_data["module_name"];
 			}
 
 			return $result;
@@ -470,6 +470,6 @@ class BPM_bp {
 	}
 
 
-} // End of class BPM_bp
+} // End of class FOX_bp
 
 ?>

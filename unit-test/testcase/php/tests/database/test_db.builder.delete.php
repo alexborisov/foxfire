@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -27,7 +27,7 @@ class database_queryBuilders_delete extends RAZ_testCase {
 
 		parent::setUp();
 
-		$test_db = new BPM_db();
+		$test_db = new FOX_db();
 
 		$this->base_prefix = $test_db->base_prefix;
 		$this->charset = $test_db->charset;
@@ -41,7 +41,7 @@ class database_queryBuilders_delete extends RAZ_testCase {
 			$this->charset_collate .= " COLLATE {$this->collate}";
 		}
 
-		$this->builder = new BPM_queryBuilder($test_db);
+		$this->builder = new FOX_queryBuilder($test_db);
 
 	}
 
@@ -82,7 +82,7 @@ class database_queryBuilders_delete extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildDeleteQuery($struct, $args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -108,7 +108,7 @@ class database_queryBuilders_delete extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildDeleteQuery($struct, $args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}	
@@ -145,7 +145,7 @@ class database_queryBuilders_delete extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildDeleteQueryCol($struct, "col_1", "<>", 31);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}					

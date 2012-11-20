@@ -21,7 +21,7 @@
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -29,15 +29,15 @@
  * ========================================================================================================
  */
 
-abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
+abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
     
-    	var $process_id;		    // Unique process id for this thread. Used by BPM_db_base for cache 
+    	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache 
 					    // locking. Loaded by descendent class.
 	
 	var $cache;			    // Main cache array for this class
 	
-	var $mCache;			    // Local copy of memory cache singleton. Used by BPM_db_base for cache 
+	var $mCache;			    // Local copy of memory cache singleton. Used by FOX_db_base for cache 
 					    // operations. Loaded by descendent class.	
 	
 	var $wildcard = '*';		    // String to use a the "wildcard" character when using trie structures as
@@ -116,7 +116,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( count($args['hash_columns']) > 0 ){
 		    
-			$this->hashtable = new BPM_hashTable();
+			$this->hashtable = new FOX_hashTable();
 			$this->hash_columns = $args['hash_columns'];
 			$this->hashing_active = true;
 		}
@@ -154,7 +154,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -190,7 +190,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 			
 			$is_valid = $validator->validateKey( array(
 								'type'=>$struct['columns'][$this->L5_col]['php'],
@@ -200,7 +200,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid L5 key",
 					'data'=>$is_valid,
@@ -217,7 +217,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid L4 key",
 					'data'=>$is_valid,
@@ -234,7 +234,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Invalid L3 key",
 					'data'=>$is_valid,
@@ -251,7 +251,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Invalid L2 key",
 					'data'=>$is_valid,
@@ -270,7 +270,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($is_valid !== true){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>5,
 						'text'=>"Invalid L1 key",
 						'data'=>array('key'=>$L1, 'error'=>$is_valid),
@@ -304,9 +304,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::getMulti($get_data, $get_ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
@@ -372,7 +372,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -407,7 +407,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 			
 			$is_valid = $validator->validateKey( array(
 								'type'=>$struct['columns'][$this->L5_col]['php'],
@@ -417,7 +417,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid L5 key",
 					'data'=>$is_valid,
@@ -434,7 +434,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid L4 key",
 					'data'=>$is_valid,
@@ -451,7 +451,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Invalid L3 key",
 					'data'=>$is_valid,
@@ -471,7 +471,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($is_valid !== true){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>4,
 						'text'=>"Invalid L2 key",
 						'data'=>array('key'=>$L2, 'error'=>$is_valid),
@@ -505,9 +505,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::getMulti($get_data, $get_ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
@@ -568,7 +568,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -603,7 +603,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 			
 			$is_valid = $validator->validateKey( array(
 								'type'=>$struct['columns'][$this->L5_col]['php'],
@@ -613,7 +613,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid L5 key",
 					'data'=>$is_valid,
@@ -630,7 +630,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid L4 key",
 					'data'=>$is_valid,
@@ -649,7 +649,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($is_valid !== true){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Invalid L3 key",
 						'data'=>array('key'=>$L3, 'error'=>$is_valid),
@@ -682,9 +682,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::getMulti($get_data, $get_ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
@@ -744,7 +744,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -779,7 +779,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 			
 			$is_valid = $validator->validateKey( array(
 								'type'=>$struct['columns'][$this->L5_col]['php'],
@@ -789,7 +789,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid L5 key",
 					'data'=>$is_valid,
@@ -808,7 +808,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($is_valid !== true){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Invalid L4 key",
 						'data'=>array('key'=>$L4, 'error'=>$is_valid),
@@ -842,9 +842,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::getMulti($get_data, $get_ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
@@ -903,7 +903,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -938,7 +938,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new BPM_dataStore_validator($struct);								
+			$validator = new FOX_dataStore_validator($struct);								
 									
 			foreach( $L5s as $L5 ){
 
@@ -950,7 +950,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($is_valid !== true){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Invalid L5 key",
 						'data'=>array('key'=>$L5, 'error'=>$is_valid),
@@ -984,9 +984,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::getMulti($get_data, $get_ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
@@ -1051,7 +1051,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1074,7 +1074,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -1097,18 +1097,18 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
 		    			    
 
-				$validator = new BPM_dataStore_validator($struct);
+				$validator = new FOX_dataStore_validator($struct);
 
 				foreach( $data as $row ){   
 			
 					try {
 						$row_valid = $validator->isRowSequential($row);
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>2,
-							'text'=>"Error in BPM_dataStore_validator::isRowSequential()",
+							'text'=>"Error in FOX_dataStore_validator::isRowSequential()",
 							'data'=>array('row'=>$row),
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 							'child'=>$child
@@ -1117,7 +1117,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					
 					if( $row_valid !== true ){
 					    
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>2,
 							'text'=>"Invalid row in data array",
 							'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -1143,18 +1143,18 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					$this->L1_col
 			);
 			
-			$trie = BPM_trie::loftMatrix($data, $columns, $loft_ctrl=null);
+			$trie = FOX_trie::loftMatrix($data, $columns, $loft_ctrl=null);
 			
 			$clip_ctrl = null;
 			
 			try {
-				$get_data = BPM_trie::clipAssocTrie($trie, $columns, $clip_ctrl);
+				$get_data = FOX_trie::clipAssocTrie($trie, $columns, $clip_ctrl);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
-					'text'=>"Error in BPM_trie::clipAssocTrie()",
+					'text'=>"Error in FOX_trie::clipAssocTrie()",
 					'data'=>array('trie'=>$trie, 'columns'=>$columns, 'clip_ctrl'=>$clip_ctrl),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
@@ -1167,12 +1167,12 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new BPM_dataStore_validator($struct);			
+				$validator = new FOX_dataStore_validator($struct);			
 				$tree_valid = $validator->validateL5Trie($data);
 
 				if($tree_valid !== true){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>4,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
@@ -1187,7 +1187,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		}
 		else {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Invalid ctrl['q_mode'] parameter",
 				'data'=>$ctrl,
@@ -1211,7 +1211,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			    $error_msg .= "which is equivalent to 'WHERE 1 = 1'. Running this command would have selected the entire datastore. ";				
 			    $error_msg .= "If this is actually your design intent, set \$ctrl['trap_*'] = false to disable this interlock."; 
 
-			    throw new BPM_exception( array(
+			    throw new FOX_exception( array(
 				    'numeric'=>6,
 				    'text'=>"$error_msg",
 				    'data'=>$data,
@@ -1229,9 +1229,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$cache_fetch = self::notInClassCache($get_data, $this->cache);				 
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>7,
 				'text'=>"Error in self::notInClassCache()",
 				'data'=>array('get_data'=>$get_data),
@@ -1245,9 +1245,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			try {
 				$cache_pages = self::readCachePage( array_keys($cache_fetch) );
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>8,
 					'text'=>"Error reading from persistent cache",
 					'data'=>array('cache_fetch'=>array_keys($cache_fetch)),
@@ -1284,7 +1284,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($db_fetch){
 
-				$db = new BPM_db(); 
+				$db = new FOX_db(); 
 
 				$columns = null;
 
@@ -1315,9 +1315,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				try {
 					$db_result = $db->runSelectQuery($struct, $args, $columns, $db_ctrl);				
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>9,
 						'text'=>"Error while reading from database",
 						'data'=>array('args'=>$args, 'columns'=>$columns, 'db_ctrl'=>$db_ctrl),
@@ -1345,7 +1345,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 							// Overwrite keys
 
-							if( BPM_sUtil::keyExists($L5, $db_result) ){
+							if( FOX_sUtil::keyExists($L5, $db_result) ){
 
 								// The L5 object now has authority
 								$update_cache[$L5]['all_cached'] = true;
@@ -1363,7 +1363,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 							// the L5 class cache page (if it exists) because the database
 							// result doesn't have L5 authority
 
-							if( BPM_sUtil::keyExists($L5, $this->cache) ){
+							if( FOX_sUtil::keyExists($L5, $this->cache) ){
 
 								$update_cache[$L5] = $this->cache[$L5];				
 							}
@@ -1373,7 +1373,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 							if( count($L3s) == 0 ){	
 
-								if( BPM_sUtil::keyExists($L4, $db_result[$L5]) ){
+								if( FOX_sUtil::keyExists($L4, $db_result[$L5]) ){
 
 									// The L4 object now has authority
 									$update_cache[$L5][$this->L4_col][$L4] = true;
@@ -1390,7 +1390,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 								if( count($L2s) == 0 ){
 
-									if( BPM_sUtil::keyExists($L3, $db_result[$L5][$L4]) ){
+									if( FOX_sUtil::keyExists($L3, $db_result[$L5][$L4]) ){
 
 										// The L3 object now has authority
 										$update_cache[$L5][$this->L3_col][$L4][$L3] = true;
@@ -1406,7 +1406,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 									if( count($L1s) == 0 ){	    
 
-										if( BPM_sUtil::keyExists($L2, $db_result[$L5][$L4][$L3]) ){
+										if( FOX_sUtil::keyExists($L2, $db_result[$L5][$L4][$L3]) ){
 
 											// The L2 object now has authority
 											$update_cache[$L5][$this->L2_col][$L4][$L3][$L2] = true;
@@ -1417,7 +1417,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 									foreach( $L1s as $L1 => $fake_var){
 
-										if( BPM_sUtil::keyExists($L1, $db_result[$L5][$L4][$L3][$L2]) ){
+										if( FOX_sUtil::keyExists($L1, $db_result[$L5][$L4][$L3][$L2]) ){
 
 											$update_cache[$L5]["keys"][$L4][$L3][$L2][$L1] = $db_result[$L5][$L4][$L3][$L2][$L1];				
 										}
@@ -1434,11 +1434,11 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 						// Clear empty walks from the LUT's
 						// ==========================================================================		
 
-						if( BPM_sUtil::keyExists($L5, $db_result) ){
+						if( FOX_sUtil::keyExists($L5, $db_result) ){
 						    
-							$update_cache[$L5][$this->L2_col] = BPM_sUtil::arrayPrune($update_cache[$L5][$this->L2_col], 3);
-							$update_cache[$L5][$this->L3_col] = BPM_sUtil::arrayPrune($update_cache[$L5][$this->L3_col], 2);	
-							$update_cache[$L5][$this->L4_col] = BPM_sUtil::arrayPrune($update_cache[$L5][$this->L4_col], 1);
+							$update_cache[$L5][$this->L2_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L2_col], 3);
+							$update_cache[$L5][$this->L3_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L3_col], 2);	
+							$update_cache[$L5][$this->L4_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L4_col], 1);
 						}
 
 					}
@@ -1491,7 +1491,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				
 			if( count($L4s) == 0 ){	    
 			    				
-				if( BPM_sUtil::keyExists($L5, $cache_image) ){
+				if( FOX_sUtil::keyExists($L5, $cache_image) ){
 				    
 					$result[$L5] = $cache_image[$L5]['keys'];				
 				}
@@ -1509,7 +1509,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			
 				if( count($L3s) == 0 ){	
 
-					if( BPM_sUtil::keyExists($L4, $cache_image[$L5]['keys']) ){
+					if( FOX_sUtil::keyExists($L4, $cache_image[$L5]['keys']) ){
 
 						$result[$L5][$L4] = $cache_image[$L5]['keys'][$L4];				
 					}
@@ -1527,7 +1527,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					
 					if( count($L2s) == 0 ){
 
-						if( BPM_sUtil::keyExists($L3, $cache_image[$L5]['keys'][$L4]) ){
+						if( FOX_sUtil::keyExists($L3, $cache_image[$L5]['keys'][$L4]) ){
 
 							$result[$L5][$L4][$L3] = $cache_image[$L5]['keys'][$L4][$L3];				
 						}
@@ -1545,7 +1545,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				
 						if( count($L1s) == 0 ){	    
 						    
-							if( BPM_sUtil::keyExists($L2, $cache_image[$L5]['keys'][$L4][$L3]) ){
+							if( FOX_sUtil::keyExists($L2, $cache_image[$L5]['keys'][$L4][$L3]) ){
 
 								$result[$L5][$L4][$L3][$L2] = $cache_image[$L5]['keys'][$L4][$L3][$L2];				
 							}
@@ -1556,7 +1556,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					
 						foreach( $L1s as $L1 => $fake_var){						    
 							
-							if( BPM_sUtil::keyExists($L1, $cache_image[$L5]['keys'][$L4][$L3][$L2]) ){
+							if( FOX_sUtil::keyExists($L1, $cache_image[$L5]['keys'][$L4][$L3][$L2]) ){
 							    
 								$result[$L5][$L4][$L3][$L2][$L1] = $cache_image[$L5]['keys'][$L4][$L3][$L2][$L1];				
 							}
@@ -1590,11 +1590,11 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			);					    // has a key name to put the end node value in
 			
 			try {
-				$result = BPM_trie::flattenAssocTrie($result, $flatten_cols, $flatten_ctrl);
+				$result = FOX_trie::flattenAssocTrie($result, $flatten_cols, $flatten_ctrl);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>10,
 					'text'=>"Error converting result to 'matrix' format",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1605,7 +1605,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		}
 		elseif($ctrl['r_mode'] != 'trie'){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>11,
 				'text'=>"Invalid ctrl['r_mode'] parameter",
 				'data'=>$ctrl,
@@ -1623,9 +1623,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			try {
 				self::writeCachePage($update_cache);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>12,
 					'text'=>"Error writing to persistent cache",
 					'data'=>array('update_cache'=>$update_cache, 'result'=>$result),
@@ -1652,7 +1652,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	 * Given a *minimum spanning trie* of objects to check, returns a minimum spanning trie
 	 * of objects in the original trie which don't have authority in the class cache.
 	 * 
-	 * @see BPM_trie::clipAssocTrie()
+	 * @see FOX_trie::clipAssocTrie()
 	 *
 	 * @version 0.1.9
 	 * @since 0.1.9
@@ -1681,7 +1681,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    	    
 		foreach( $data as $L5 => $L4s ){				    
 		    
-			$L5_has_auth = BPM_sUtil::keyTrue('all_cached', $cache_image[$L5]);
+			$L5_has_auth = FOX_sUtil::keyTrue('all_cached', $cache_image[$L5]);
 		    
 			if(!$L5_has_auth){  					
 			    		
@@ -1702,7 +1702,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				
 				foreach( $L4s as $L4 => $L3s ){ 
 
-					$L4_has_auth = BPM_sUtil::keyTrue($L4, $cache_image[$L5][$this->L4_col]);
+					$L4_has_auth = FOX_sUtil::keyTrue($L4, $cache_image[$L5][$this->L4_col]);
 					
 					if(!$L4_has_auth){  
 
@@ -1718,7 +1718,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 						foreach( $L3s as $L3 => $L2s ){
 
-							$L3_has_auth = BPM_sUtil::keyTrue($L3, $cache_image[$L5][$this->L3_col][$L4]);
+							$L3_has_auth = FOX_sUtil::keyTrue($L3, $cache_image[$L5][$this->L3_col][$L4]);
 							
 							if(!$L3_has_auth){ 			
 
@@ -1734,7 +1734,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 								foreach( $L2s as $L2 => $L1s ){
 								    
-									$L2_has_auth = BPM_sUtil::keyTrue($L2, $cache_image[$L5][$this->L2_col][$L4][$L3]);
+									$L2_has_auth = FOX_sUtil::keyTrue($L2, $cache_image[$L5][$this->L2_col][$L4][$L3]);
 								    
 									if(!$L2_has_auth){
 
@@ -1750,7 +1750,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 										foreach( $L1s as $L1 => $val){
 
-											if( !BPM_sUtil::keyExists($L1, $cache_image[$L5]["keys"][$L4][$L3][$L2]) ){
+											if( !FOX_sUtil::keyExists($L1, $cache_image[$L5]["keys"][$L4][$L3][$L2]) ){
 
 												$result[$L5][$L4][$L3][$L2][$L1] = true;											
 											}
@@ -1805,7 +1805,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1826,9 +1826,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::addL1_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::addL1_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -1868,7 +1868,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1889,9 +1889,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::addMulti($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -1930,7 +1930,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1949,9 +1949,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::addL2_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::addL2_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -1992,7 +1992,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2011,7 +2011,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -2027,7 +2027,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 	    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 			
 			foreach( $data as $row ){
 
@@ -2035,7 +2035,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if( $row_valid !== true ){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Invalid row in data array",
 						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -2084,9 +2084,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::addMulti($set_data, $set_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
@@ -2125,7 +2125,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2144,9 +2144,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::addL3_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::addL3_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -2187,7 +2187,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2207,7 +2207,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -2223,7 +2223,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 	    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 				
 			foreach( $data as $row ){
 
@@ -2231,7 +2231,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if( $row_valid !== true ){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Invalid row in data array",
 						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -2277,9 +2277,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::addMulti($set_data, $set_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
@@ -2319,7 +2319,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2337,9 +2337,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::addL4_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::addL4_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -2380,7 +2380,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2400,7 +2400,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -2416,7 +2416,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 	    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 				
 			foreach( $data as $row ){
 
@@ -2424,7 +2424,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if( $row_valid !== true ){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Invalid row in data array",
 						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -2474,9 +2474,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::addMulti($set_data, $set_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
@@ -2515,7 +2515,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2532,9 +2532,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::addL5_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::addL5_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -2575,7 +2575,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2595,7 +2595,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -2611,7 +2611,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 	    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 				
 			foreach( $data as $row ){
 
@@ -2619,7 +2619,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if( $row_valid !== true ){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Invalid row in data array",
 						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -2674,9 +2674,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::addMulti($set_data, $set_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
@@ -2729,7 +2729,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2751,7 +2751,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -2774,7 +2774,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
 		    
 			    
-				$validator = new BPM_dataStore_validator($struct);
+				$validator = new FOX_dataStore_validator($struct);
 				
 				foreach( $data as $id => $row ){   
 			
@@ -2782,7 +2782,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					
 					if( $row_valid !== true ){
 					    
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>2,
 							'text'=>"Invalid row in data array",
 							'data'=>array('faulting_row_id'=>$id,
@@ -2814,12 +2814,12 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new BPM_dataStore_validator($struct);			
+				$validator = new FOX_dataStore_validator($struct);			
 				$tree_valid = $validator->validateL5Trie($data);
 
 				if($tree_valid !== true){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
@@ -2834,7 +2834,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		}
 		else {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
@@ -2852,9 +2852,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			$cache_pages = self::lockCachePage( array_keys($update_data) );
 			$update_cache = $cache_pages;
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error locking cache",
 				'data'=>$update_data,
@@ -2905,12 +2905,12 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		// Write to database
 		// ===========================================================
 		
-		$db = new BPM_db(); 		
+		$db = new FOX_db(); 		
 
 		try {
 			$rows_changed = $db->runInsertQueryMulti($struct, $insert_data, $columns=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		    
 			// Try to unlock the cache pages we locked
@@ -2918,9 +2918,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			try {
 				self::writeCachePage($cache_pages);
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>6,
 					'text'=>"Error while writing to the database. Error unlocking cache pages.",
 					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'insert_data'=>$insert_data),
@@ -2929,7 +2929,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>7,
 				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 				'data'=>$insert_data,
@@ -2946,9 +2946,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::writeCachePage($update_cache);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error writing to cache",
 				'data'=>$update_cache,
@@ -3002,7 +3002,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3024,9 +3024,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::setL1_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::setL1_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -3066,7 +3066,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3087,9 +3087,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::setMulti($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -3128,7 +3128,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3148,9 +3148,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::setL2_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::setL2_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -3191,7 +3191,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3211,7 +3211,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -3227,7 +3227,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 	    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 				
 			foreach( $data as $row ){
 
@@ -3235,7 +3235,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if( $row_valid !== true ){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Invalid row in data array",
 						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -3282,9 +3282,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::setMulti($set_data, $set_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
@@ -3323,7 +3323,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3342,9 +3342,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::setL3_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::setL3_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -3385,7 +3385,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3405,7 +3405,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -3421,7 +3421,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 	    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 				
 			foreach( $data as $row ){
 
@@ -3429,7 +3429,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if( $row_valid !== true ){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Invalid row in data array",
 						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -3475,9 +3475,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::setMulti($set_data, $set_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
@@ -3517,7 +3517,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3535,9 +3535,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::setL4_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::setL4_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -3578,7 +3578,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3598,7 +3598,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -3614,7 +3614,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 	    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 				
 			foreach( $data as $row ){
 
@@ -3622,7 +3622,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if( $row_valid !== true ){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Invalid row in data array",
 						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -3672,9 +3672,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::setMulti($set_data, $set_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
@@ -3713,7 +3713,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3730,9 +3730,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::setL5_multi($data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::setL5_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -3773,7 +3773,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3793,7 +3793,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -3809,7 +3809,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 	    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 				
 			foreach( $data as $row ){
 
@@ -3817,7 +3817,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if( $row_valid !== true ){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Invalid row in data array",
 						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -3872,9 +3872,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::setMulti($set_data, $set_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
@@ -3925,7 +3925,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3947,7 +3947,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -3971,7 +3971,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
 		    
 			    
-				$validator = new BPM_dataStore_validator($struct);
+				$validator = new FOX_dataStore_validator($struct);
 				
 				foreach( $data as $row ){   
 			
@@ -3979,7 +3979,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					
 					if( $row_valid !== true ){
 					    
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>2,
 							'text'=>"Invalid row in data array",
 							'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -4009,12 +4009,12 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new BPM_dataStore_validator($struct);			
+				$validator = new FOX_dataStore_validator($struct);			
 				$tree_valid = $validator->validateL5Trie($data);
 
 				if($tree_valid !== true){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
@@ -4029,7 +4029,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		}
 		else {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
@@ -4047,9 +4047,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			$cache_pages = self::lockCachePage( array_keys($update_data) );
 			$update_cache = $cache_pages;
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error locking cache",
 				'data'=>$update_data,
@@ -4101,7 +4101,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		// Write to database
 		// ===========================================================
 		
-		$db = new BPM_db(); 		
+		$db = new FOX_db(); 		
 
 
 		// CASE 1: Transactions aren't required.
@@ -4113,16 +4113,16 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			try {
 				$rows_changed = $db->runIndateQuery($struct, $indate_data[0], $columns=null);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
 				// Try to unlock the cache pages we locked
 
 				try {
 					self::writeCachePage($cache_pages);
 				}
-				catch (BPM_exception $child_2) {
+				catch (FOX_exception $child_2) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>6,
 						'text'=>"Error while writing to the database. Error unlocking cache pages.",
 						'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'indate_data'=>$indate_data),
@@ -4131,7 +4131,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					));		    
 				}									
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 					'data'=>$indate_data,
@@ -4153,9 +4153,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			try {
 				$db->beginTransaction();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>8,
 					'text'=>"Couldn't initiate transaction",
 					'data'=>$data,
@@ -4173,7 +4173,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				try {
 					$rows_changed += (int)$db->runIndateQuery($struct, $indate_row, $columns=null);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 
 					// Try to unlock the cache pages we locked
@@ -4181,9 +4181,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					try {
 						self::writeCachePage($cache_pages);
 					}
-					catch (BPM_exception $child_2) {
+					catch (FOX_exception $child_2) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>9,
 							'text'=>"Error while writing to the database. Error unlocking cache pages.",
 						'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'indate_data'=>$indate_data),
@@ -4192,7 +4192,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 						));		    
 					}									
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>10,
 						'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 						'data'=>$indate_row,
@@ -4209,9 +4209,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			try {
 				$db->commitTransaction();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>11,
 					'text'=>"Error commiting transaction to database",
 					'data'=>$data,
@@ -4248,9 +4248,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::writeCachePage($update_cache);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>12,
 				'text'=>"Error writing to cache",
 				'data'=>$update_cache,
@@ -4293,7 +4293,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4319,7 +4319,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 			
 			$is_valid = $validator->validateKey( array(
 								'type'=>$struct['columns'][$this->L5_col]['php'],
@@ -4329,7 +4329,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid L5 key",
 					'data'=>$is_valid,
@@ -4346,7 +4346,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid L4 key",
 					'data'=>$is_valid,
@@ -4363,7 +4363,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Invalid L3 key",
 					'data'=>$is_valid,
@@ -4380,7 +4380,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Invalid L2 key",
 					'data'=>$is_valid,
@@ -4406,9 +4406,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_changed = self::replaceL2_multi($data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error calling self::replaceL2_multi",
 				'data'=>array('replace_data'=>$replace_data, 'replace_ctrl'=>$replace_ctrl),
@@ -4449,7 +4449,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4469,7 +4469,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -4487,13 +4487,13 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 		    
 		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 			
 			$tree_valid = $validator->validateL5Trie($data);
 			
 			if($tree_valid !== true){
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
@@ -4513,9 +4513,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$page_images = self::lockCachePage($L5_ids);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
@@ -4578,7 +4578,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		// Update the database
 		// ===========================================================
 		
-		$db = new BPM_db();
+		$db = new FOX_db();
 			
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -4586,9 +4586,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->beginTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
@@ -4615,14 +4615,14 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
@@ -4631,7 +4631,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
@@ -4650,14 +4650,14 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
@@ -4666,7 +4666,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
@@ -4681,9 +4681,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->commitTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>9,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
@@ -4715,9 +4715,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::writeCachePage($page_images);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>10,
 				'text'=>"Cache set error",
 				'data'=>$page_images,
@@ -4758,7 +4758,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4784,7 +4784,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 			
 			$is_valid = $validator->validateKey( array(
 								'type'=>$struct['columns'][$this->L5_col]['php'],
@@ -4794,7 +4794,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid L5 key",
 					'data'=>$is_valid,
@@ -4811,7 +4811,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid L4 key",
 					'data'=>$is_valid,
@@ -4828,7 +4828,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Invalid L3 key",
 					'data'=>$is_valid,
@@ -4854,9 +4854,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_changed = self::replaceL3_multi($data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error calling self::replaceL3_multi",
 				'data'=>array('replace_data'=>$replace_data, 'replace_ctrl'=>$replace_ctrl),
@@ -4897,7 +4897,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4917,7 +4917,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -4935,13 +4935,13 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] == true){
 		    
 		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 			
 			$tree_valid = $validator->validateL5Trie($data);
 			
 			if($tree_valid !== true){
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
@@ -4961,9 +4961,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$page_images = self::lockCachePage($L5_ids);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
@@ -5027,7 +5027,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		// Update the database
 		// ===========================================================
 		
-		$db = new BPM_db();
+		$db = new FOX_db();
 			
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -5035,9 +5035,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->beginTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
@@ -5063,14 +5063,14 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
@@ -5079,7 +5079,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
@@ -5098,14 +5098,14 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
@@ -5114,7 +5114,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
@@ -5129,9 +5129,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->commitTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>9,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
@@ -5164,9 +5164,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::writeCachePage($page_images);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>10,
 				'text'=>"Cache set error",
 				'data'=>$page_images,
@@ -5207,7 +5207,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5233,7 +5233,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 			
 			$is_valid = $validator->validateKey( array(
 								'type'=>$struct['columns'][$this->L5_col]['php'],
@@ -5243,7 +5243,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid L5 key",
 					'data'=>$is_valid,
@@ -5260,7 +5260,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid L4 key",
 					'data'=>$is_valid,
@@ -5286,9 +5286,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_changed = self::replaceL4_multi($data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error calling self::replaceL4_multi",
 				'data'=>array('replace_data'=>$replace_data, 'replace_ctrl'=>$replace_ctrl),
@@ -5329,7 +5329,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5349,7 +5349,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -5366,13 +5366,13 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if($ctrl['validate'] == true){
 		    		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 			
 			$tree_valid = $validator->validateL5Trie($data);
 			
 			if($tree_valid !== true){
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
@@ -5391,9 +5391,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$page_images = self::lockCachePage($L5_ids);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
@@ -5458,7 +5458,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		// Update the database
 		// ===========================================================
 		
-		$db = new BPM_db();
+		$db = new FOX_db();
 			
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -5466,9 +5466,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->beginTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
@@ -5493,14 +5493,14 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
@@ -5509,7 +5509,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
@@ -5528,14 +5528,14 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
@@ -5544,7 +5544,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
@@ -5559,9 +5559,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->commitTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>9,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
@@ -5594,9 +5594,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::writeCachePage($page_images);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>10,
 				'text'=>"Cache set error",
 				'data'=>$page_images,
@@ -5638,7 +5638,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5664,7 +5664,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 			
 			$is_valid = $validator->validateKey( array(
 								'type'=>$struct['columns'][$this->L5_col]['php'],
@@ -5674,7 +5674,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 			if($is_valid !== true){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid L5 key",
 					'data'=>$is_valid,
@@ -5700,9 +5700,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_changed = self::replaceL5_multi($data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error calling self::replaceL5_multi",
 				'data'=>array('replace_data'=>$replace_data, 'replace_ctrl'=>$replace_ctrl),
@@ -5743,7 +5743,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5763,7 +5763,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -5780,13 +5780,13 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if($ctrl['validate'] == true){
 		    
-			$validator = new BPM_dataStore_validator($struct);
+			$validator = new FOX_dataStore_validator($struct);
 		    
 			$tree_valid = $validator->validateL5Trie($data);
 			
 			if($tree_valid !== true){
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
@@ -5805,9 +5805,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::lockCachePage($L5_ids);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
@@ -5867,7 +5867,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		// Update the database
 		// ===========================================================
 		
-		$db = new BPM_db();		
+		$db = new FOX_db();		
 		
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -5875,9 +5875,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->beginTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
@@ -5898,14 +5898,14 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args),
@@ -5914,7 +5914,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
@@ -5932,14 +5932,14 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_col, $insert_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
@@ -5948,7 +5948,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
@@ -5963,9 +5963,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$db->commitTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>9,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
@@ -5997,9 +5997,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::writeCachePage($update_cache);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>10,
 				'text'=>"Cache set error",
 				'data'=>$update_cache,
@@ -6053,7 +6053,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6075,7 +6075,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
@@ -6098,7 +6098,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
 		    
 			    
-				$validator = new BPM_dataStore_validator($struct);
+				$validator = new FOX_dataStore_validator($struct);
 				
 				foreach( $data as $row ){   
 			
@@ -6106,7 +6106,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					
 					if( $row_valid !== true ){
 					    
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>2,
 							'text'=>"Invalid row in data array",
 							'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
@@ -6131,9 +6131,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 					$this->L1_col
 			);
 			
-			$trie = BPM_trie::loftMatrix($data, $columns, $ctrl=null);
+			$trie = FOX_trie::loftMatrix($data, $columns, $ctrl=null);
 			
-			$del_data = BPM_trie::clipAssocTrie($trie, $columns, $ctrl=null);
+			$del_data = FOX_trie::clipAssocTrie($trie, $columns, $ctrl=null);
 			
 							
 		}
@@ -6142,12 +6142,12 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new BPM_dataStore_validator($struct);			
+				$validator = new FOX_dataStore_validator($struct);			
 				$tree_valid = $validator->validateL5Trie($data);
 
 				if($tree_valid !== true){
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
@@ -6162,7 +6162,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		}
 		else {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
@@ -6186,7 +6186,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			    $error_msg .= "which is equivalent to 'WHERE 1 = 1'. Running this command would have cleared the entire datastore. ";				
 			    $error_msg .= "If this is actually your design intent, set \$ctrl['trap_*'] = false to disable this interlock."; 
 
-			    throw new BPM_exception( array(
+			    throw new FOX_exception( array(
 				    'numeric'=>5,
 				    'text'=>"$error_msg",
 				    'data'=>$data,
@@ -6205,9 +6205,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			$cache_pages = self::lockCachePage( array_keys($del_data) );
 			$update_cache = $cache_pages;
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error locking cache",
 				'data'=>$del_data,
@@ -6280,7 +6280,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		// Clear the specified structures from the DB
 		// ===========================================================
 
-		$db = new BPM_db(); 
+		$db = new FOX_db(); 
 				
 		$args = array(
 				'key_col'=>array(
@@ -6301,7 +6301,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		    
 			// Try to unlock the cache pages we locked
@@ -6309,9 +6309,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			try {
 				self::writeCachePage($cache_pages);
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Error while writing to the database. Error unlocking cache pages.",
 					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 
@@ -6321,7 +6321,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 				));		    
 			}									
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 					'data'=>array('del_args'=>$args, 'del_ctrl'=>$del_ctrl),
@@ -6366,9 +6366,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			try {
 				self::writeCachePage($update_cache);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>9,
 					'text'=>"Error writing to cache",
 					'data'=>$update_cache,
@@ -6386,9 +6386,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			try {
 				self::flushCachePage($dead_pages);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>10,
 					'text'=>"Error flushing pages from cache",
 					'data'=>$dead_pages,
@@ -6426,7 +6426,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6452,13 +6452,13 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){
 		    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 										
 			$trie_valid = $validator->validateL5Trie($data);
 
 			if($trie_valid !== true){	// Note the !==
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid arguments",
 					'data'=>$trie_valid,
@@ -6477,9 +6477,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::dropMulti($data, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error calling self::dropL1_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -6518,7 +6518,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6543,7 +6543,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){	    
 			
 			$struct = $this->_struct();
-			$validator = new BPM_dataStore_validator($struct);				
+			$validator = new FOX_dataStore_validator($struct);				
 		}
 		
 			
@@ -6556,7 +6556,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($row_valid !== true){    // Note the !==
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Invalid row in data array",
 						'data'=>$row_valid,
@@ -6600,9 +6600,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::dropMulti($processed, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
@@ -6638,7 +6638,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6664,13 +6664,13 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){
 		    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 										
 			$trie_valid = $validator->validateL5Trie($data);
 
 			if($trie_valid !== true){	// Note the !==
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid arguments",
 					'data'=>$trie_valid,
@@ -6689,9 +6689,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::dropMulti($data, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error calling self::dropL1_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -6729,7 +6729,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6754,7 +6754,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){	   
 			
 			$struct = $this->_struct();
-			$validator = new BPM_dataStore_validator($struct);			
+			$validator = new FOX_dataStore_validator($struct);			
 		}
 			
 		foreach( $data as $row ){
@@ -6766,7 +6766,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($row_valid !== true){    // Note the !==
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Invalid row in data array",
 						'data'=>$row_valid,
@@ -6808,9 +6808,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::dropMulti($processed, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
@@ -6845,7 +6845,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6871,13 +6871,13 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){
 		    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 										
 			$trie_valid = $validator->validateL5Trie($data);
 
 			if($trie_valid !== true){	// Note the !==
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid arguments",
 					'data'=>$trie_valid,
@@ -6896,9 +6896,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::dropMulti($data, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error calling self::dropL1_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -6935,7 +6935,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6960,7 +6960,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){	   
 			
 			$struct = $this->_struct();
-			$validator = new BPM_dataStore_validator($struct);			
+			$validator = new FOX_dataStore_validator($struct);			
 		}
 			
 		foreach( $data as $row ){
@@ -6972,7 +6972,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($row_valid !== true){    // Note the !==
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Invalid row in data array",
 						'data'=>$row_valid,
@@ -7013,9 +7013,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::dropMulti($processed, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
@@ -7049,7 +7049,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7075,13 +7075,13 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){
 		    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 										
 			$trie_valid = $validator->validateL5Trie($data);
 
 			if($trie_valid !== true){	// Note the !==
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid arguments",
 					'data'=>$trie_valid,
@@ -7099,9 +7099,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::dropMulti($data, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error calling self::dropL1_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
@@ -7137,7 +7137,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7162,7 +7162,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){	   
 			
 			$struct = $this->_struct();
-			$validator = new BPM_dataStore_validator($struct);			
+			$validator = new FOX_dataStore_validator($struct);			
 		}
 			
 		foreach( $data as $row ){
@@ -7174,7 +7174,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($row_valid !== true){    // Note the !==
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Invalid row in data array",
 						'data'=>$row_valid,
@@ -7214,9 +7214,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::dropMulti($processed, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
@@ -7249,7 +7249,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7272,13 +7272,13 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){
 		    
 			$struct = $this->_struct();		    
-			$validator = new BPM_dataStore_validator($struct);	
+			$validator = new FOX_dataStore_validator($struct);	
 										
 			$trie_valid = $validator->validateL5Trie($L5);
 
 			if($trie_valid !== true){	// Note the !==
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid arguments",
 					'data'=>$trie_valid,
@@ -7296,9 +7296,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$result = self::dropMulti($L5, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error calling self::dropL1_multi()",
 				'data'=>array('data'=>$L5, 'ctrl'=>$ctrl),
@@ -7333,7 +7333,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7358,7 +7358,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		if($ctrl['validate'] != false){	   
 			
 			$struct = $this->_struct();
-			$validator = new BPM_dataStore_validator($struct);			
+			$validator = new FOX_dataStore_validator($struct);			
 		}
 			
 		foreach( $data as $row ){
@@ -7370,7 +7370,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 				if($row_valid !== true){    // Note the !==
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Invalid row in data array",
 						'data'=>$row_valid,
@@ -7408,9 +7408,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {						
 			$result = self::dropMulti($processed, $drop_ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
@@ -7443,7 +7443,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7456,7 +7456,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if( empty($L1s) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty args array",
 				'data'=>$L1s,
@@ -7465,7 +7465,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			));
 		}
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		
 		$args = array(
 				array("col"=>$this->L1_col, "op"=>"=", "val"=>$L1s)
@@ -7474,9 +7474,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>$args,
@@ -7491,9 +7491,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7520,7 +7520,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7532,7 +7532,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if( empty($L2s) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty args array",
 				'data'=>$L2s,
@@ -7541,7 +7541,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			));
 		}
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		
 		$args = array(
 				array("col"=>$this->L2_col, "op"=>"=", "val"=>$L2s)
@@ -7550,9 +7550,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>$args,
@@ -7567,9 +7567,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7597,7 +7597,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7610,7 +7610,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 
 		if( empty($L3s) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty args array",
 				'data'=>$L3s,
@@ -7619,7 +7619,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			));
 		}
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		
 		$args = array(
 				array("col"=>$this->L3_col, "op"=>"=", "val"=>$L3s)
@@ -7628,9 +7628,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>$args,
@@ -7645,9 +7645,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7675,7 +7675,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7688,7 +7688,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		
 		if( empty($L4s) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty args array",
 				'data'=>$L4s,
@@ -7697,7 +7697,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 			));
 		}
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		
 		$args = array(
 				array("col"=>$this->L4_col, "op"=>"=", "val"=>$L4s)
@@ -7706,9 +7706,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>$args,
@@ -7723,9 +7723,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7753,7 +7753,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	    
 		if(!$this->init){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7762,15 +7762,15 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		}
 		
 		
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();		
 
 		try {
 			$db->runTruncateTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing the database",
 				'data'=>null,
@@ -7785,9 +7785,9 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache flush error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7800,7 +7800,7 @@ abstract class BPM_dataStore_paged_L5_base extends BPM_db_base {
 	
 
     
-} // End of class BPM_dataStore_paged_L5_base
+} // End of class FOX_dataStore_paged_L5_base
 
 
 ?>

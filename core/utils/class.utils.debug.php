@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Debug
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_debug {
+class FOX_debug {
 
 
 	/**
@@ -213,7 +213,7 @@ class BPM_debug {
 
 
         /**
-         * Recursive iterator function used by BPM_debug::dump()
+         * Recursive iterator function used by FOX_debug::dump()
          *
          * @version 0.1.9
          * @since 0.1.9
@@ -304,13 +304,13 @@ class BPM_debug {
 		$start_time = gettimeofday(true);
 
 		$granularityStacks = array(
-					    BPM_fineDiff::$paragraphGranularity,
-					    BPM_fineDiff::$sentenceGranularity,
-					    BPM_fineDiff::$wordGranularity,
-					    BPM_fineDiff::$characterGranularity
+					    FOX_fineDiff::$paragraphGranularity,
+					    FOX_fineDiff::$sentenceGranularity,
+					    FOX_fineDiff::$wordGranularity,
+					    FOX_fineDiff::$characterGranularity
 		);
 
-		$diff = new BPM_fineDiff($from, $to, $granularityStacks[$granularity]);
+		$diff = new FOX_fineDiff($from, $to, $granularityStacks[$granularity]);
 		$rendered_diff = $diff->renderDiffToHTML();
 
 		?>
@@ -326,7 +326,7 @@ class BPM_debug {
 
 
 	/**
-         * Recursive iterator function used by BPM_debug::diff()
+         * Recursive iterator function used by FOX_debug::diff()
          *
          * @version 0.1.9
          * @since 0.1.9
@@ -401,11 +401,11 @@ class BPM_debug {
 
 
 	/**
-	 * Formats a BP-Media soft-error object for printing at the command prompt
+	 * Formats a FoxFire soft-error object for printing at the command prompt
 	 *
          * @version 0.1.9
          * @since 0.1.9
-	 * @param array $error | BP-Media error array
+	 * @param array $error | FoxFire error array
 	 * @return string $result | Error array formatted for printing
 	 */
 
@@ -424,11 +424,11 @@ class BPM_debug {
 
 		if($error === false){
 
-			return "BPM_debug:: Passed FALSE";
+			return "FOX_debug:: Passed FALSE";
 		}
 		elseif($error === null){
 
-			return "BPM_debug:: Passed NULL";
+			return "FOX_debug:: Passed NULL";
 		}
 		elseif( !is_array($error) ){
 
@@ -491,6 +491,6 @@ class BPM_debug {
 
 
 
-} // End of class BPM_debug
+} // End of class FOX_debug
 
 ?>

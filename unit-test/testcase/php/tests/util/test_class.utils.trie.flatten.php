@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -44,9 +44,9 @@ class util_trie_flatten extends RAZ_testCase {
 
 
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -54,7 +54,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -93,9 +93,9 @@ class util_trie_flatten extends RAZ_testCase {
 
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -103,7 +103,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -142,9 +142,9 @@ class util_trie_flatten extends RAZ_testCase {
 
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -152,7 +152,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -189,9 +189,9 @@ class util_trie_flatten extends RAZ_testCase {
 		
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -199,7 +199,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -234,9 +234,9 @@ class util_trie_flatten extends RAZ_testCase {
 		
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -244,7 +244,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -279,9 +279,9 @@ class util_trie_flatten extends RAZ_testCase {
 		
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -289,7 +289,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -324,9 +324,9 @@ class util_trie_flatten extends RAZ_testCase {
 		
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -334,7 +334,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -377,9 +377,9 @@ class util_trie_flatten extends RAZ_testCase {
 		);
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -387,7 +387,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -429,9 +429,9 @@ class util_trie_flatten extends RAZ_testCase {
 		);		
 
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -439,7 +439,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -483,9 +483,9 @@ class util_trie_flatten extends RAZ_testCase {
 		);
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -493,7 +493,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -537,9 +537,9 @@ class util_trie_flatten extends RAZ_testCase {
 		);
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -547,7 +547,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -601,9 +601,9 @@ class util_trie_flatten extends RAZ_testCase {
 		);
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -611,7 +611,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -676,9 +676,9 @@ class util_trie_flatten extends RAZ_testCase {
 
 
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -686,7 +686,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -748,9 +748,9 @@ class util_trie_flatten extends RAZ_testCase {
 		
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -758,7 +758,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -823,9 +823,9 @@ class util_trie_flatten extends RAZ_testCase {
 		
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -833,7 +833,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -896,9 +896,9 @@ class util_trie_flatten extends RAZ_testCase {
 		
 		
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl=null);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -906,7 +906,7 @@ class util_trie_flatten extends RAZ_testCase {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		

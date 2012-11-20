@@ -7,15 +7,15 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_sanitize {
+class FOX_sanitize {
 
 
 	/**
@@ -1219,6 +1219,6 @@ class BPM_sanitize {
 		return $term;
 	}
 
-} // End of class BPM_sanitize
+} // End of class FOX_sanitize
 
 ?>

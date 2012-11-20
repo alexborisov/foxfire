@@ -2,11 +2,11 @@
 
 /**
  * BP-MEDIA UNIT TEST SCRIPT - UTILS | HASH TABLE
- * Tests the operation of BP-Media's hash table class
+ * Tests the operation of FoxFire's hash table class
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -21,7 +21,7 @@ class utils_hashTable extends RAZ_testCase {
     	function setUp() {
 		
 		parent::setUp();		
-		$this->cls = new BPM_hashTable();
+		$this->cls = new FOX_hashTable();
 	}
 	
 

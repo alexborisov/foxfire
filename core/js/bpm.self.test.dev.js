@@ -4,7 +4,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -12,7 +12,7 @@
  * ========================================================================================================
  */
 
-function bpm_selfTest() {
+function fox_selfTest() {
     
 
 	// Load the unit test results via AJAX, then replace the spinner
@@ -38,7 +38,7 @@ function bpm_selfTest() {
 		jQuery(this).css('cursor','default');
 
 		// Remove the spinner
-		jQuery('.bpm_terminal_box .spinner').remove();
+		jQuery('.fox_terminal_box .spinner').remove();
 
 		// Add the results
 		var html_text;
@@ -47,7 +47,7 @@ function bpm_selfTest() {
 		    html_text += response;
 		html_text += '</div>';
 
-		jQuery('.bpm_terminal_box').append(html_text);
+		jQuery('.fox_terminal_box').append(html_text);
 
 		// Clear the timer event (otherwise it will throw an error when
 		// we remove the 'test_timer' id from the DOM)

@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Math
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_math {
+class FOX_math {
 
 
 	private function  __construct() {}
@@ -174,7 +174,7 @@ class BPM_math {
 		}
 		else {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Called with non-number as data source",
 				'data'=>$num,
@@ -258,6 +258,6 @@ class BPM_math {
 	
 
 	
-} // End of class BPM_math
+} // End of class FOX_math
 
 ?>

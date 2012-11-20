@@ -6,7 +6,7 @@
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,14 +14,14 @@
  * ========================================================================================================
  */
 
-class BPM_dataStore_paged_L5_tester_getMethods extends BPM_dataStore_paged_L5_base {
+class FOX_dataStore_paged_L5_tester_getMethods extends FOX_dataStore_paged_L5_base {
     
 
 	public static $struct = array(
 
-		"table" => "BPM_dataStore_paged_L5_base",
+		"table" => "FOX_dataStore_paged_L5_base",
 		"engine" => "InnoDB",
-		"cache_namespace" => "BPM_dataStore_paged_L5_base",
+		"cache_namespace" => "FOX_dataStore_paged_L5_base",
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
@@ -50,7 +50,7 @@ class BPM_dataStore_paged_L5_tester_getMethods extends BPM_dataStore_paged_L5_ba
 		// Generate our own cache singleton, and only enable the 'thread'
 		// engine to eliminate potential problems with APC, Memcached, etc
 		
-		$this->mCache = new BPM_mCache();
+		$this->mCache = new FOX_mCache();
 		$this->mCache->setActiveEngines(array('thread'));
 		
 		$this->init();
@@ -58,7 +58,7 @@ class BPM_dataStore_paged_L5_tester_getMethods extends BPM_dataStore_paged_L5_ba
 	}
 	
 	
-}  // ENDOF: class BPM_dataStore_paged_L5_tester_getMethods 
+}  // ENDOF: class FOX_dataStore_paged_L5_tester_getMethods 
 
                                       
 
@@ -67,7 +67,7 @@ class BPM_dataStore_paged_L5_tester_getMethods extends BPM_dataStore_paged_L5_ba
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -87,12 +87,12 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		// Install the db table
 		// ===========================================
 		
-		$this->cls = new BPM_dataStore_paged_L5_tester_getMethods();
+		$this->cls = new FOX_dataStore_paged_L5_tester_getMethods();
 		
 		try {
 			$install_ok = $this->cls->install();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -106,7 +106,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {
 			$truncate_ok = $this->cls->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -120,7 +120,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {
 			$flush_ok = $this->cls->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -170,7 +170,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {
 			$rows_changed = $this->cls->setL1_multi($test_data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
 		}			
@@ -249,7 +249,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 				 )		    		    
 		);		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		$args = null;
@@ -262,7 +262,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $db->runSelectQuery($this->cls->_struct(), $args, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -305,7 +305,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -402,7 +402,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -422,7 +422,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -469,7 +469,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(10));	
 		}
@@ -567,7 +567,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -587,7 +587,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -636,7 +636,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -728,7 +728,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}	
@@ -779,7 +779,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -827,7 +827,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -919,7 +919,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -970,7 +970,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1021,7 +1021,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1110,7 +1110,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1155,7 +1155,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1205,7 +1205,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1294,7 +1294,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1339,7 +1339,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1393,7 +1393,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1479,7 +1479,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1528,7 +1528,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1578,7 +1578,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1664,7 +1664,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1713,7 +1713,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1777,7 +1777,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1870,7 +1870,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1923,7 +1923,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -1975,7 +1975,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2068,7 +2068,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2121,7 +2121,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2176,7 +2176,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2271,7 +2271,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2328,7 +2328,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2379,7 +2379,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2474,7 +2474,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2531,7 +2531,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2574,7 +2574,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'K', 2, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2610,7 +2610,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'K', 2, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2647,7 +2647,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'K', array(1,2), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2688,7 +2688,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'K', array(1,2), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2730,7 +2730,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'K', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2771,7 +2771,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'K', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2813,7 +2813,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'K', array('K','T'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2859,7 +2859,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'K', array('K','T'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2901,7 +2901,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'Y', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2945,7 +2945,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'Y', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -2987,7 +2987,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'Y', array('K','Z'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3033,7 +3033,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'Y', array('K','Z'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3076,7 +3076,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(1, 'Y', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3122,7 +3122,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(1, 'Y', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3165,7 +3165,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(1, array('X','Y'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3220,7 +3220,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(1, array('X','Y'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3267,7 +3267,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL5(1, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3322,7 +3322,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL5(1, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3369,7 +3369,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL5(array(1,2), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3437,7 +3437,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL5(array(1,2), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3500,7 +3500,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'K', 1, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3516,7 +3516,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'K', 99, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3532,7 +3532,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'K', array(1,99), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3546,7 +3546,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'K', array(88,99), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -3562,7 +3562,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'Z', 1, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3578,7 +3578,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'T', 'K', 1, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3594,7 +3594,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'T', 'K', 'K', 1, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3610,7 +3610,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(99, 'Y', 'K', 'K', 1, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3630,7 +3630,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'K', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3646,7 +3646,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'K', 'F', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3662,7 +3662,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'K', array('K','F'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3675,7 +3675,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'K', array('K','G'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -3691,7 +3691,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'T', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3707,7 +3707,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'T', 'K', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3723,7 +3723,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(99, 'Y', 'K', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3743,7 +3743,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'Y', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3759,7 +3759,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'Y', 'Q', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3775,7 +3775,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'Y', array('Q','K'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3788,7 +3788,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'Y', array('Q','W'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -3804,7 +3804,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'T', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3820,7 +3820,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(99, 'Y', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3840,7 +3840,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(1, 'Y', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3856,7 +3856,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(1, 'T', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3872,7 +3872,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(1, array('T','Y'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3885,7 +3885,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(1, array('T','Q'), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -3901,7 +3901,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(99, 'Y', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3921,7 +3921,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL5(99, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3937,7 +3937,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL5(array(1,99), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -3950,7 +3950,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL5(array(88,99), $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -3989,7 +3989,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL1(1, 'Y', 'K', 'K', 1, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -4009,7 +4009,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4023,7 +4023,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4037,7 +4037,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4050,7 +4050,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL1() throws an exception
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}			
 				
@@ -4064,7 +4064,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL1() throws an exception
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}		
 		
@@ -4078,7 +4078,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL1() throws an exception
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 	
 		}
 		
@@ -4091,7 +4091,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL1() throws an exception
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}		
 		
@@ -4106,7 +4106,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL2(1, 'Y', 'K', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -4126,7 +4126,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4140,7 +4140,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4154,7 +4154,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4168,7 +4168,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL2() throws an exception
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 	
 		}
 				
@@ -4181,7 +4181,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL2() throws an exception
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 	
 		}
 		
@@ -4194,7 +4194,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL2() throws an exception
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 	
 		}		
 		
@@ -4209,7 +4209,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL3(1, 'Y', 'K', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -4229,7 +4229,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL3() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4243,7 +4243,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL3() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4257,7 +4257,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL3() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4271,7 +4271,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL3() throws an exception
 			$this->fail("Method getL3() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 	
 		}
 				
@@ -4284,7 +4284,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL3() throws an exception
 			$this->fail("Method getL3() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 	
 		}			
 		
@@ -4299,7 +4299,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL4(1, 'Y', $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -4319,7 +4319,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL4() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4333,7 +4333,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL4() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4347,7 +4347,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL4() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4361,7 +4361,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if getL4() throws an exception
 			$this->fail("Method getL4() failed to throw an exception on invalid key type");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 	
 		}				
 		
@@ -4376,7 +4376,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getL5(1, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -4396,7 +4396,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL5() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4410,7 +4410,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL5() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 		
@@ -4424,7 +4424,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 			$this->fail("Method getL5() failed to throw an exception on invalid key type");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 		}
 				
@@ -4434,7 +4434,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 	
 	function tearDown() {
 	   
-		$this->cls = new BPM_dataStore_paged_L5_tester_getMethods();
+		$this->cls = new FOX_dataStore_paged_L5_tester_getMethods();
 		$unistall_ok = $this->cls->uninstall();
 		
 		$this->assertEquals(true, $unistall_ok);

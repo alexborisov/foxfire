@@ -6,15 +6,15 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_dbUtil {
+class FOX_dbUtil {
 
 
 	var $db;			// Local copy of WP's database singleton
@@ -23,7 +23,7 @@ class BPM_dbUtil {
 	// ============================================================================================================ //
 
 
-	function BPM_dbUtil($args=null) {
+	function FOX_dbUtil($args=null) {
 
 		$this->__construct($args);
 	}
@@ -124,9 +124,9 @@ class BPM_dbUtil {
 		try {
 			$db_result = $this->db->get_results($query);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error running SHOW STATUS query",
 				'data'=>array("data_group"=>$data_group),
@@ -202,7 +202,7 @@ class BPM_dbUtil {
 
 			default : {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Not a recognized data group. \n",
 					'data'=>array("data_group"=>$data_group),
@@ -230,6 +230,6 @@ class BPM_dbUtil {
 	
 	
 
-} // End of class BPM_dbUtil
+} // End of class FOX_dbUtil
 
 ?>

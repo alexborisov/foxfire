@@ -11,15 +11,15 @@
  *  
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_queryBuilder_whereMatrix_iterator {
+class FOX_queryBuilder_whereMatrix_iterator {
 
 
 	var $base;				    // Controller class reference
@@ -50,12 +50,12 @@ class BPM_queryBuilder_whereMatrix_iterator {
 
 	
 	/**
-         * Recursively reduces a BPM args matrix into a minimum SQL WHERE clause
+         * Recursively reduces a FOX args matrix into a minimum SQL WHERE clause
          *
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of db table, @see class FOX_db header for examples
 	 * @param array $args | Nested array of args.
 	 * @param array $key_col | Heirarchical array of key columns
 	 * @param int $depth | Levels of recursion remaining.
@@ -147,7 +147,7 @@ class BPM_queryBuilder_whereMatrix_iterator {
 					
 					if(!$valid){
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>1,
 							'text'=>"Invalid hash key",
 							'data'=>array(	
@@ -178,7 +178,7 @@ class BPM_queryBuilder_whereMatrix_iterator {
 				}
 			
 				try {
-					$child_node = new BPM_queryBuilder_whereMatrix_iterator(array(
+					$child_node = new FOX_queryBuilder_whereMatrix_iterator(array(
 
 						'base'	    => $this->base,
 						'parent'    => $this,
@@ -187,9 +187,9 @@ class BPM_queryBuilder_whereMatrix_iterator {
 						'depth'	    => $this->depth + 1,
 					));
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Error creating child node",
 						'data'=>array(	
@@ -217,9 +217,9 @@ class BPM_queryBuilder_whereMatrix_iterator {
 				try {
 					$reduced = $child_node->reduce();
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Error reducing child node",
 						'data'=>array(	
@@ -509,7 +509,7 @@ class BPM_queryBuilder_whereMatrix_iterator {
          * @version 0.1.9
          * @since 0.1.9
 	 *
-	 * @param mixed $obj | Instance of BPM_queryBuilder_whereMatrix_iterator object 
+	 * @param mixed $obj | Instance of FOX_queryBuilder_whereMatrix_iterator object 
          * @return bool | True if nested. False if not.
          */
 	
@@ -564,6 +564,6 @@ class BPM_queryBuilder_whereMatrix_iterator {
 
 	
 	
-} // End of class BPM_queryBuilder_whereMatrix_iterator
+} // End of class FOX_queryBuilder_whereMatrix_iterator
 
 ?>

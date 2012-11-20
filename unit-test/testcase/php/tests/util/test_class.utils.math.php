@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -33,7 +33,7 @@ class utils_math extends RAZ_testCase {
 
 		foreach ($test_data as $data){
 
-			$this->assertEquals($data['result'], BPM_math::formatNum($data['test']));
+			$this->assertEquals($data['result'], FOX_math::formatNum($data['test']));
 		}
 
 	}
@@ -56,7 +56,7 @@ class utils_math extends RAZ_testCase {
 
 		foreach ($test_data as $data){
 
-			$this->assertEquals($data['result'], BPM_math::siFormat($data['raw'], $data['digits']));
+			$this->assertEquals($data['result'], FOX_math::siFormat($data['raw'], $data['digits']));
 		}
 
 	}
@@ -70,11 +70,11 @@ class utils_math extends RAZ_testCase {
 		$base_16_chars = '0123456789abcdef';
 		$base_62_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		
-		$result = BPM_math::convertToBase($check_str, $base_16_chars);
+		$result = FOX_math::convertToBase($check_str, $base_16_chars);
 		
 		$this->assertEquals($result, "ab54a98cdc6770b1");
 		
-		$result = BPM_math::convertToBase($check_str, $base_62_chars);
+		$result = FOX_math::convertToBase($check_str, $base_62_chars);
 
 		$this->assertEquals($result, "eHZl6hFR4k1");
 	   	    
@@ -92,11 +92,11 @@ class utils_math extends RAZ_testCase {
 		$base_16_str = "ab54a98cdc6770b1";
 		$base_62_str = "eHZl6hFR4k1";
 		
-		$result = BPM_math::convertFromBase($base_16_str, $base_16_chars);
+		$result = FOX_math::convertFromBase($base_16_str, $base_16_chars);
 		
 		$this->assertEquals($result, $check_str);
 		
-		$result = BPM_math::convertFromBase($base_62_str, $base_62_chars);
+		$result = FOX_math::convertFromBase($base_62_str, $base_62_chars);
 
 		$this->assertEquals($result, $check_str);
 	    

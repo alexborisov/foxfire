@@ -16,7 +16,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -24,15 +24,15 @@
  * ========================================================================================================
  */
 
-abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
+abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 
-    	var $process_id;		    // Unique process id for this thread. Used by BPM_db_base for cache 
+    	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache 
 					    // locking. Loaded by descendent class.
 	
 	var $cache;			    // Main cache array for this class
 	
-	var $mCache;			    // Local copy of memory cache singleton. Used by BPM_db_base for cache 
+	var $mCache;			    // Local copy of memory cache singleton. Used by FOX_db_base for cache 
 					    // operations. Loaded by descendent class.		
 
 
@@ -86,7 +86,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function load($module_id, $type_id=null, $branch_id=null, $key_id=null, $skip_load=false){
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 		// Build and run query
@@ -117,9 +117,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$db_result = $db->runSelectQuery($struct, $args, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 					'text'=>"Error loading requested keys from database",
 					'data'=>array (
@@ -159,9 +159,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			try {
 				$update_cache = self::readCachePage($module_ids);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Cache get error",
 					'data'=>array("module_ids"=>array_keys($db_result)),
@@ -227,7 +227,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		unset($_module_id, $type_ids);
 
 		// Clear empty walks from dictionary arrays
-		$update_cache["branch_id"] = BPM_sUtil::arrayPrune($update_cache["branch_id"], 1);
+		$update_cache["branch_id"] = FOX_sUtil::arrayPrune($update_cache["branch_id"], 1);
 
 
 		// Overwrite the persistent cache records with the temp class cache array
@@ -236,9 +236,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::writeCachePage($update_cache);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache set error",
 				'data'=>$update_cache,
@@ -276,9 +276,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$result = self::load($module_id);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::load()",
 				'data'=> $module_id,
@@ -310,9 +310,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$result = self::load($module_id, $type_id);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::load()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id),
@@ -345,9 +345,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$result = self::load($module_id, $type_id, $branch_id);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::load()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id,
@@ -382,9 +382,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$result = self::load($module_id, $type_id, $branch_id, $key_id);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::load()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id,
@@ -431,7 +431,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			if( is_array($module_id) || is_array($type_ids) || is_array($branch_ids) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Attempted to pass multiple module id's, type_ids, or branch_id's when specifying key_id",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -442,14 +442,14 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			// If the module_id is not present in the class cache array, try to load it
 			// from the persistent cache
 
-			if( !BPM_sUtil::keyExists($module_id, $this->cache) ){
+			if( !FOX_sUtil::keyExists($module_id, $this->cache) ){
 
 				try {
 					$this->cache[$module_id] = self::readCache($module_id);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Cache get error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
@@ -473,15 +473,15 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			// Find all the keys that have been requested but are not in the cache
 			$missing_keys = array();
 
-			$module_cached = BPM_sUtil::keyTrue("all_cached", $this->cache[$module_id]);
-			$type_id_cached = BPM_sUtil::keyTrue($type_ids, $this->cache[$module_id]["type_id"]);
-			$type_cached = BPM_sUtil::keyTrue($branch_ids, $this->cache[$module_id]["branch_id"][$type_ids]);
+			$module_cached = FOX_sUtil::keyTrue("all_cached", $this->cache[$module_id]);
+			$type_id_cached = FOX_sUtil::keyTrue($type_ids, $this->cache[$module_id]["type_id"]);
+			$type_cached = FOX_sUtil::keyTrue($branch_ids, $this->cache[$module_id]["branch_id"][$type_ids]);
 
 			if( !$module_cached  && !$type_id_cached  && !$type_cached ){
 
 				foreach($key_ids as $key_id){
 
-					if( !BPM_sUtil::keyExists($key_id, $this->cache[$module_id]["keys"][$type_ids][$branch_ids]) ){
+					if( !FOX_sUtil::keyExists($key_id, $this->cache[$module_id]["keys"][$type_ids][$branch_ids]) ){
 
 						$missing_keys[] = $key_id;
 					}
@@ -497,9 +497,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 				try {
 					$this->load($module_id, $type_ids, $branch_ids, $missing_keys, $skip_load=true);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Load error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
@@ -515,7 +515,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			// Build an array of the requested keys
 			foreach($key_ids as $key_id){
 
-				if( BPM_sUtil::keyExists($key_id, $this->cache[$module_id]["keys"][$type_ids][$branch_ids]) ){
+				if( FOX_sUtil::keyExists($key_id, $this->cache[$module_id]["keys"][$type_ids][$branch_ids]) ){
 
 					$result[$key_id] = $this->cache[$module_id]["keys"][$type_ids][$branch_ids][$key_id];
 				}
@@ -553,7 +553,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			if( is_array($module_id) || is_array($type_ids) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Attempted to pass multiple module id's, or type_ids when specifying branch_id",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -564,14 +564,14 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			// If the module_id is not present in the class cache array, try to load it
 			// from the persistent cache
 
-			if( !BPM_sUtil::keyExists($module_id, $this->cache) ){
+			if( !FOX_sUtil::keyExists($module_id, $this->cache) ){
 
 				try {
 					$this->cache[$module_id] = self::readCache($module_id);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>5,
 						'text'=>"Cache get error",
 						'data'=>array("module_id"=>$module_id,"type_id"=>$type_ids,
@@ -595,15 +595,15 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			// Find all the branch_ids that have been requested but are not in the cache
 			$missing_types = array();
 
-			$module_cached = BPM_sUtil::keyTrue("all_cached", $this->cache[$module_id]);
-			$type_id_cached = BPM_sUtil::keyTrue($type_ids, $this->cache[$module_id]["type_id"]);
-			$type_cached = BPM_sUtil::keyTrue($branch_ids, $this->cache[$module_id]["branch_id"][$type_ids]);
+			$module_cached = FOX_sUtil::keyTrue("all_cached", $this->cache[$module_id]);
+			$type_id_cached = FOX_sUtil::keyTrue($type_ids, $this->cache[$module_id]["type_id"]);
+			$type_cached = FOX_sUtil::keyTrue($branch_ids, $this->cache[$module_id]["branch_id"][$type_ids]);
 
 			if( !$module_cached && !$type_id_cached && !$type_cached ){
 
 				foreach($branch_ids as $branch_id){
 
-					if( !BPM_sUtil::keyExists($branch_id, $this->cache[$module_id]["keys"][$type_ids]) ){
+					if( !FOX_sUtil::keyExists($branch_id, $this->cache[$module_id]["keys"][$type_ids]) ){
 
 						$missing_types[] = $branch_id;
 					}
@@ -619,9 +619,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 				try {
 					$this->load($module_id, $type_ids, $missing_types, null, $skip_load=true);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>6,
 						'text'=>"Load error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
@@ -637,7 +637,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			// Build an array of the requested keys
 			foreach($branch_ids as $branch_id){
 
-				if( BPM_sUtil::keyExists($branch_id, $this->cache[$module_id]["keys"][$type_ids]) ){
+				if( FOX_sUtil::keyExists($branch_id, $this->cache[$module_id]["keys"][$type_ids]) ){
 
 					$result[$branch_id] = $this->cache[$module_id]["keys"][$type_ids][$branch_id];
 				}
@@ -675,7 +675,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			if( is_array($module_id) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Attempted to pass multiple module id's when specifying type_id",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -685,14 +685,14 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			// If the module_id is not present in the class cache, try to load it
 			// from the persistent cache
-			if( !BPM_sUtil::keyExists($module_id, $this->cache) ){
+			if( !FOX_sUtil::keyExists($module_id, $this->cache) ){
 
 				try {
 					$this->cache[$module_id] = self::readCache($module_id);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>8,
 						'text'=>"Cache get error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
@@ -718,8 +718,8 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			foreach($type_ids as $type_id){
 
-				$module_cached = BPM_sUtil::keyTrue("all_cached", $this->cache[$module_id]);
-				$type_id_cached = BPM_sUtil::keyTrue($type_id, $this->cache[$module_id]["type_id"]);
+				$module_cached = FOX_sUtil::keyTrue("all_cached", $this->cache[$module_id]);
+				$type_id_cached = FOX_sUtil::keyTrue($type_id, $this->cache[$module_id]["type_id"]);
 
 				if( !$module_cached && !$type_id_cached ){
 
@@ -735,9 +735,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 				try {
 					self::load($module_id, $missing_type_ids, null, null, $skip_load=true);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>9,
 						'text'=>"Load error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
@@ -753,7 +753,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			// Build an array of the requested type_ids
 			foreach($type_ids as $type_id){
 
-				if( BPM_sUtil::keyExists($type_id, $this->cache[$module_id]["keys"]) ){
+				if( FOX_sUtil::keyExists($type_id, $this->cache[$module_id]["keys"]) ){
 
 					$result[$type_id] = $this->cache[$module_id]["keys"][$type_id];
 				}
@@ -802,7 +802,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			foreach($module_id as $current_module_id){
 
-				if(!BPM_sUtil::keyTrue("all_cached", $this->cache[$current_module_id]) ){
+				if(!FOX_sUtil::keyTrue("all_cached", $this->cache[$current_module_id]) ){
 
 					$missing_module_ids[] = $current_module_id;
 				}
@@ -817,9 +817,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 				try {
 					self::load($missing_module_ids, null, null, null, $skip_load=true);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>13,
 						'text'=>"Load error",
 						'data'=>array("missing_module_ids"=>$missing_module_ids),
@@ -834,7 +834,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			// Build an array of the requested module_ids
 			foreach($module_id as $current_module_id){
 
-				if( BPM_sUtil::keyExists($current_module_id, $this->cache) ){
+				if( FOX_sUtil::keyExists($current_module_id, $this->cache) ){
 
 					$result[$current_module_id] = $this->cache[$current_module_id]["keys"];
 				}
@@ -869,7 +869,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		// =====================================================================
 		else {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>14,
 				'text'=>"Bad input args",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
@@ -899,9 +899,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$result = self::get($module_id, null, null, null, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> $module_id,
@@ -934,9 +934,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$result = self::get($module_id, $type_id, null, null, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id),
@@ -970,9 +970,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$result = self::get($module_id, $type_id, $branch_id, $key_id=null, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id,
@@ -1009,9 +1009,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$result = self::get($module_id, $type_id, $branch_id, $key_id, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id,
@@ -1057,9 +1057,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$result = self::setKeyMulti($data);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::setKeyMulti",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1092,7 +1092,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function setKeyMulti($data){
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
                 $struct = $this->_struct();
 
 		$update_data = array();
@@ -1100,7 +1100,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 		if( !is_array($data) || (count($data) < 1) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty data array",
 				'data'=>$data,
@@ -1117,7 +1117,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			if( empty($row["module_id"]) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Empty module_id",
 					'data'=>$row,
@@ -1128,7 +1128,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			if( empty($row["type_id"]) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Empty type_id name",
 					'data'=>$row,
@@ -1139,7 +1139,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			if( empty($row["branch_id"]) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Empty key type",
 					'data'=>$row,
@@ -1150,7 +1150,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 			if( empty($row["key_id"]) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>6,
 					'text'=>"Empty key id",
 					'data'=>$row,
@@ -1176,9 +1176,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			try {
 				$page_image = self::lockCachePage($row["module_id"]);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Cache lock error",
 					'data'=>$row,
@@ -1190,9 +1190,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			try {
 				$rows_changed = $db->runIndateQuery($struct, $row, $columns=null);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>8,
 					'text'=>"Error while writing to the database",
 					'data'=>$data,
@@ -1208,9 +1208,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			try {
 				self::writeCachePage( array( $row["module_id"] => $page_image ) );
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>9,
 					'text'=>"Cache set error",
 					'data'=>$this->cache[$row["module_id"]],
@@ -1237,9 +1237,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			try {
 				$update_cache = self::lockCachePage( array_keys($update_data) );
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>10,
 					'text'=>"Cache get error",
 					'data'=>$update_data,
@@ -1253,9 +1253,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			try {
 				$db->beginTransaction();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>11,
 					'text'=>"Couldn't initiate transaction",
 					'data'=>$data,
@@ -1285,14 +1285,14 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 							try {
 								$rows_changed += (int)$db->runIndateQuery($struct, $insert_data, $columns=null);
 							}
-							catch (BPM_exception $child) {
+							catch (FOX_exception $child) {
 
 								try {
 									$db->rollbackTransaction();
 								}
-								catch (BPM_exception $child_2) {
+								catch (FOX_exception $child_2) {
 
-									throw new BPM_exception( array(
+									throw new FOX_exception( array(
 										'numeric'=>12,
 										'text'=>"Error while writing to the database. Error rolling back.",
 										'data'=>array('rollback_exception'=>$child_2),
@@ -1301,7 +1301,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 									));
 								}
 
-								throw new BPM_exception( array(
+								throw new FOX_exception( array(
 									'numeric'=>13,
 									'text'=>"Error while writing to the database. Successful rollback.",
 									'data'=>$data,
@@ -1330,9 +1330,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			try {
 				$db->commitTransaction();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>14,
 					'text'=>"Error commiting transaction to database",
 					'data'=>$data,
@@ -1347,9 +1347,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 			try {
 				self::writeCachePage($update_cache);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>15,
 					'text'=>"Cache set error",
 					'data'=>$data,
@@ -1394,12 +1394,12 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function setPolicy($module_id, $data){
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
                 $struct = $this->_struct();
 
 		if( empty($module_id) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty or incorrect module_id",
 				'data'=>array("module_id"=>$module_id, "data"=>$data),
@@ -1410,7 +1410,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 		if( empty($data) || !is_array($data) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Empty or malformed data array",
 				'data'=>array("module_id"=>$module_id, "data"=>$data),
@@ -1425,9 +1425,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::lockCachePage($module_id);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_id"=>$module_id),
@@ -1443,9 +1443,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$db->beginTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>array("module_id"=>$module_id, "data"=>$data),
@@ -1464,14 +1464,14 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, "module_id"=>$module_id),
@@ -1480,7 +1480,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 				));
 			}
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array("module_id"=>$module_id),
@@ -1531,14 +1531,14 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$db->runInsertQueryMulti($struct, $insert_data, $columns=null, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			try {
 				$db->rollbackTransaction();
 			}
-			catch (BPM_exception $child_2) {
+			catch (FOX_exception $child_2) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
@@ -1547,7 +1547,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 				));
 			}
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
@@ -1562,9 +1562,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$db->commitTransaction();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>9,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
@@ -1580,9 +1580,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::writeCachePage( array( $module_id => $update_cache) );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>10,
 				'text'=>"Cache set error",
 				'data'=>array("module_id"=>$module_id, "update_data"=>$update_cache),
@@ -1617,12 +1617,12 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function dropKey($module_id, $type_id, $branch_id, $key_ids) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
                 $struct = $this->_struct();
 
 		if( empty($module_id) || empty($type_id) || empty($branch_id) || empty($key_ids) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_id, "branch_id"=>$branch_id, "key_id"=>$key_ids),
@@ -1633,7 +1633,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 		if( is_array($module_id ) || is_array($type_id) || is_array($branch_id) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Attempted to pass multiple module ids, type_ids, or branch_ids",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1647,9 +1647,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$update_cache = self::lockCachePage($module_id);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_id"=>$module_id),
@@ -1671,9 +1671,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error while deleting from database",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_id, "branch_id"=>$branch_id, "key_id"=>$key_ids),
@@ -1696,7 +1696,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		unset($key_id);
 
 
-		$update_cache["keys"] = BPM_sUtil::arrayPrune($update_cache["keys"], 2);
+		$update_cache["keys"] = FOX_sUtil::arrayPrune($update_cache["keys"], 2);
 
 
 		// Overwrite the module_id's cache page, releasing our lock
@@ -1705,9 +1705,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::writeCachePage( array($module_id => $update_cache) );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Cache set error",
 				'data'=>array("module_id"=>$module_id, "update_cache"=>$update_cache),
@@ -1740,12 +1740,12 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function dropBranch($module_id, $type_id, $branch_ids) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
                 $struct = $this->_struct();
 
 		if( empty($module_id) || empty($type_id) || empty($branch_ids) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_id, "branch_id"=>$branch_ids),
@@ -1756,7 +1756,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 		if( is_array($module_id ) || is_array($type_id) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				    'numeric'=>2,
 				    'text'=>"Attempted to pass multiple module ids, or type_ids",
 				    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1770,9 +1770,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$update_cache = self::lockCachePage($module_id);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_id"=>$module_id),
@@ -1793,9 +1793,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while deleting from database",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_id, "branch_id"=>$branch_ids),
@@ -1818,8 +1818,8 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		unset($branch_id);
 
 
-		$update_cache["keys"] = BPM_sUtil::arrayPrune($update_cache["keys"], 2);
-		$update_cache["branch_id"] = BPM_sUtil::arrayPrune($update_cache["branch_id"], 1);
+		$update_cache["keys"] = FOX_sUtil::arrayPrune($update_cache["keys"], 2);
+		$update_cache["branch_id"] = FOX_sUtil::arrayPrune($update_cache["branch_id"], 1);
 
 
 		// Overwrite the module_id's cache page, releasing our lock
@@ -1828,9 +1828,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::writeCachePage( array($module_id => $update_cache) );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Cache set error",
 				'data'=>array("module_id"=>$module_id, "update_cache"=>$update_cache),
@@ -1862,12 +1862,12 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function dropType($module_id, $type_ids) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
                 $struct = $this->_struct();
 
 		if( empty($module_id) || empty($type_ids) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids),
@@ -1878,7 +1878,7 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 		if( is_array($module_id ) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Attempted to pass multiple module id's",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1892,9 +1892,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$update_cache = self::lockCachePage($module_id);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_id"=>$module_id),
@@ -1914,9 +1914,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error while deleting from database",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids),
@@ -1940,8 +1940,8 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		}
 		unset($type_id);
 
-		$update_cache["keys"] = BPM_sUtil::arrayPrune($update_cache["keys"], 2);
-		$update_cache["branch_id"] = BPM_sUtil::arrayPrune($update_cache["branch_id"], 1);
+		$update_cache["keys"] = FOX_sUtil::arrayPrune($update_cache["keys"], 2);
+		$update_cache["branch_id"] = FOX_sUtil::arrayPrune($update_cache["branch_id"], 1);
 
 
 		// Overwrite the module_id's cache page, releasing our lock
@@ -1950,9 +1950,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::writeCachePage( array($module_id => $update_cache) );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Cache set error",
 				'data'=>array("module_id"=>$module_id, "update_cache"=>$update_cache),
@@ -1981,12 +1981,12 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function dropModule($module_ids) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
                 $struct = $this->_struct();
 
 		if( empty($module_ids)){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty module_id",
 				'data'=>array("module_ids"=>$module_ids),
@@ -2001,9 +2001,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::lockCachePage($module_ids);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_ids"=>$module_ids),
@@ -2022,9 +2022,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while deleting from database",
 				'data'=>array("module_ids"=>$module_ids),
@@ -2039,9 +2039,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::flushCachePage($module_ids);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error flushing cache pages",
 				'data'=>array("module_ids"=>$module_ids),
@@ -2072,12 +2072,12 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function dropSiteKey($keys) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 		if( empty($keys) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty keys array",
 				'data'=>array("keys"=>$keys),
@@ -2117,9 +2117,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>array("keys"=>$keys, "args"=>$args),
@@ -2134,9 +2134,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'data'=>array("keys"=>$keys),
@@ -2162,12 +2162,12 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function dropSiteBranch($branch_ids) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 		if( empty($branch_ids) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("branch_id"=>$branch_ids),
@@ -2183,9 +2183,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>array("branch_id"=>$branch_ids),
@@ -2198,9 +2198,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'data'=>array("branch_id"=>$branch_ids),
@@ -2227,12 +2227,12 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function dropSiteType($type_ids) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 		if( empty($type_ids) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("type_id"=>$type_ids),
@@ -2248,9 +2248,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>array("type_id"=>$type_ids),
@@ -2265,9 +2265,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'data'=>array("type_id"=>$type_ids),
@@ -2294,15 +2294,15 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 	public function dropAll() {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 		try {
 			$db->runTruncateTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing the database",
 				'data'=>null,
@@ -2317,9 +2317,9 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache flush error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2332,6 +2332,6 @@ abstract class BPM_dataStore_paged_L4_base extends BPM_db_base {
 
 
 
-} // End of class BPM_dataStore_paged_L5_base
+} // End of class FOX_dataStore_paged_L5_base
 
 ?>

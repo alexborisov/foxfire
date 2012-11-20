@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_logs {
+class FOX_tab_logs {
 
 
 	/**
@@ -35,28 +35,28 @@ class BPM_tab_logs {
 	 */
 	function render() {
 
-	    global $bpm;
+	    global $fox;
 
-	    $cls = new BPM_log_event();
+	    $cls = new FOX_log_event();
 	    ?>
 
 	    <form name="eventlogsform" method="post" action="<?php echo $this->filepath.'#eventlogs'; ?>">
 
-		<?php wp_nonce_field('bpm_admin_settings') ?>
+		<?php wp_nonce_field('fox_admin_settings') ?>
 
-		<div class="bpm_tip">
-		    <div class="bpm_bricks_large"></div>
-		    <div class="bpm_tip_text">
-			<?php _e('This section holds the event logs', "bp-media") ?>
+		<div class="fox_tip">
+		    <div class="fox_bricks_large"></div>
+		    <div class="fox_tip_text">
+			<?php _e('This section holds the event logs', "foxfire") ?>
 		    </div>
 		</div>
 
 		<div class="panel_section">
 
-		    <div class="title"><?php _e('Event Log Options',"bp-media") ?> </div>
+		    <div class="title"><?php _e('Event Log Options',"foxfire") ?> </div>
 
-		    <div class="bpm_section_advice">
-			<?php _e("This panel displays the options for BuddyPress Media event logs","bp-media") ?>
+		    <div class="fox_section_advice">
+			<?php _e("This panel displays the options for BuddyPress Media event logs","foxfire") ?>
 		    </div>
 
 		    <table class="form-table">
@@ -75,7 +75,7 @@ class BPM_tab_logs {
 
 		<div class="panel_section">
 
-		    <div class="title"><?php _e('Event Logs',"bp-media") ?> </div>
+		    <div class="title"><?php _e('Event Logs',"foxfire") ?> </div>
 
                     <div id="eventlogs" class="form-table" ></div>
 
@@ -95,8 +95,8 @@ class BPM_tab_logs {
 	 */
 
 	public function enqueueScripts() {
-            wp_enqueue_script('bpm-ext-debug', BPM_URL_LIB .'/ext/ext-all-debug.js');
-            wp_enqueue_script('bpm-admin-system-events', BPM_URL_CORE .'/admin/page_system_tools/event.js');
+            wp_enqueue_script('fox-ext-debug', FOX_URL_LIB .'/ext/ext-all-debug.js');
+            wp_enqueue_script('fox-admin-system-events', FOX_URL_CORE .'/admin/page_system_tools/event.js');
 	}
 
 
@@ -109,9 +109,9 @@ class BPM_tab_logs {
 
 	public function enqueueStyles() {
 
-            wp_enqueue_style( 'bpm-ext-css-all', BPM_URL_LIB .'/ext/resources/css/ext-all.css' );
+            wp_enqueue_style( 'fox-ext-css-all', FOX_URL_LIB .'/ext/resources/css/ext-all.css' );
 	}
 
-} // End of class BPM_tab_logs
+} // End of class FOX_tab_logs
 
 ?>

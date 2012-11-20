@@ -9,7 +9,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -18,7 +18,7 @@
  */
 
 
-class BPM_testPlan extends RAZ_testPlan_base {
+class FOX_testPlan extends RAZ_testPlan_base {
 
 
 	public function __construct() {
@@ -209,7 +209,7 @@ class BPM_testPlan extends RAZ_testPlan_base {
 
 }
 
-$cls = new BPM_testPlan();
+$cls = new FOX_testPlan();
 
 global $razor;
 $razor->registerTestPlan($cls);

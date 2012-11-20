@@ -1,10 +1,10 @@
 /**
  * BP-MEDIA ADMIN PAGE NOTIFIER JAVASCRIPT FUNCTIONS
- * Displays animated notifications inside the BP-Media admin page header
+ * Displays animated notifications inside the FoxFire admin page header
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -27,7 +27,7 @@
 	 * @since 0.1.9
 	 */
 
-	jQuery.bpm_admin_notify = {};
+	jQuery.fox_admin_notify = {};
 
 
 	/**
@@ -43,7 +43,7 @@
 	 * @param int max_items | Max notices to display in the notification area at a given time
 	 */
 
-	jQuery.bpm_admin_notify.options = {
+	jQuery.fox_admin_notify.options = {
 
 		position: '',
 		fade_in_speed: 200,
@@ -74,14 +74,14 @@
 	 * @return int id | unique id of the notice object
 	 */
 
-	jQuery.bpm_admin_notify.add = function(params){
+	jQuery.fox_admin_notify.add = function(params){
 		
 		try {
-			return bpm_admin_notify.add( params || {} );
+			return fox_admin_notify.add( params || {} );
 		}
 		catch(e) {
 		
-			var err = 'bpm_admin_notify Error: ' + e;
+			var err = 'fox_admin_notify Error: ' + e;
 			
 			(typeof(console) != 'undefined' && console.error) ? 
 				console.error(err, params) : 
@@ -102,9 +102,9 @@
 	 * @param array params | notice parameters
 	 */
 
-	jQuery.bpm_admin_notify.remove = function(id, params){
+	jQuery.fox_admin_notify.remove = function(id, params){
 
-		bpm_admin_notify.removeSpecific(id, params || {});
+		fox_admin_notify.removeSpecific(id, params || {});
 	}
 
 
@@ -117,9 +117,9 @@
 	 * @param array params | notice parameters
 	 */
 
-	jQuery.bpm_admin_notify.removeAll = function(params){
+	jQuery.fox_admin_notify.removeAll = function(params){
 	    
-		bpm_admin_notify.stop(params || {});
+		fox_admin_notify.stop(params || {});
 	}
 
 
@@ -132,7 +132,7 @@
 	 * @param array params | notification object parameters
 	 */
 
-	var bpm_admin_notify = {
+	var fox_admin_notify = {
 	    
 		// Public
 		position: '',
@@ -145,9 +145,9 @@
 		_custom_timer: 0,
 		_item_count: 0,
 		_is_setup: 0,
-		_tpl_close: '<div class="bpm_admin_notify-close"></div>',
-		_tpl_item: '<div id="bpm_admin_notify-item-[[number]]" class="bpm_admin_notify-item-wrapper [[item_class]]" style="display:none"><div class="bpm_admin_notify-item">[[close]][[image]]<div class="[[class_name]]"><span class="bpm_admin_notify-title">[[username]]</span><p>[[text]]</p></div></div></div>',
-		_tpl_wrap: '<div id="bpm_admin_notice_area"></div>',
+		_tpl_close: '<div class="fox_admin_notify-close"></div>',
+		_tpl_item: '<div id="fox_admin_notify-item-[[number]]" class="fox_admin_notify-item-wrapper [[item_class]]" style="display:none"><div class="fox_admin_notify-item">[[close]][[image]]<div class="[[class_name]]"><span class="fox_admin_notify-title">[[username]]</span><p>[[text]]</p></div></div></div>',
+		_tpl_wrap: '<div id="fox_admin_notice_area"></div>',
 
 
 		/**
@@ -188,14 +188,14 @@
 			var image = params.image || '';
 			var sticky = params.sticky || false;
 			var item_class = params.class_name || '';
-			var position = jQuery.bpm_admin_notify.options.position;
+			var position = jQuery.fox_admin_notify.options.position;
 			var time_alive = params.time || '';
 
 			// When the last notice fades-out, the admin notice content wrapper gets removed from the
 			// DOM. Check if the admin notice content wrapper is in the DOM, and add it if it isn't.
 
-			if(jQuery('#bpm_admin_notice_area').length == 0){
-				jQuery('.bpm_header_small').append(this._tpl_wrap);
+			if(jQuery('#fox_admin_notice_area').length == 0){
+				jQuery('.fox_header_small').append(this._tpl_wrap);
 			}
 
 			this._item_count++;
@@ -207,7 +207,7 @@
 			jQuery(['before_open', 'after_open', 'before_close', 'after_close']).each(
 
 				function(i, val){
-					bpm_admin_notify['_' + val + '_' + number] = (jQuery.isFunction(params[val])) ? params[val] : function(){}
+					fox_admin_notify['_' + val + '_' + number] = (jQuery.isFunction(params[val])) ? params[val] : function(){}
 				}
 
 			);
@@ -220,8 +220,8 @@
 				this._custom_timer = time_alive;
 			}
 			
-			var image_str = (image != '') ? '<img src="' + image + '" class="bpm_admin_notify-image" />' : '';
-			var class_name = (image != '') ? 'bpm_admin_notify-with-image' : 'bpm_admin_notify-without-image';
+			var image_str = (image != '') ? '<img src="' + image + '" class="fox_admin_notify-image" />' : '';
+			var class_name = (image != '') ? 'fox_admin_notify-with-image' : 'fox_admin_notify-without-image';
 			
 			// String replacements on the template
 			tmp = this._str_replace(
@@ -230,12 +230,12 @@
 			);
 	        
 			this['_before_open_' + number]();
-			jQuery('#bpm_admin_notice_area').addClass(position).append(tmp);
+			jQuery('#fox_admin_notice_area').addClass(position).append(tmp);
 			
-			var item = jQuery('#bpm_admin_notify-item-' + this._item_count);
+			var item = jQuery('#fox_admin_notify-item-' + this._item_count);
 			
 			item.delay(1000).animate({opacity: 'toggle', bottom: '+=15'}, this.fade_in_speed, "linear", function(){
-				bpm_admin_notify['_after_open_' + number](jQuery(this));
+				fox_admin_notify['_after_open_' + number](jQuery(this));
 			});
 	        
 			if(!sticky){
@@ -248,17 +248,17 @@
 				if(event.type == 'mouseenter'){
 
 					if(!sticky){ 
-						bpm_admin_notify._restoreItemIfFading(jQuery(this), number);
+						fox_admin_notify._restoreItemIfFading(jQuery(this), number);
 					}
 
 				}
 				else {
 					if(!sticky){
-						bpm_admin_notify._setFadeTimer(jQuery(this), number);
+						fox_admin_notify._setFadeTimer(jQuery(this), number);
 					}
 				}
 
-				bpm_admin_notify._hoverState(jQuery(this), event.type);
+				fox_admin_notify._hoverState(jQuery(this), event.type);
 
 			});
 			
@@ -267,11 +267,11 @@
 		},
 		
 		/**
-		* If we don't have any more bpm_admin_notify notifications, get rid of the wrapper using this check
+		* If we don't have any more fox_admin_notify notifications, get rid of the wrapper using this check
 		* @private
 		* @param {Integer} unique_id The ID of the element that was just deleted, use it for a callback
 		* @param {Object} e The jQuery element that we're going to perform the remove() action on
-		* @param {Boolean} manual_close Did we close the bpm_admin_notify dialog with the (X) button
+		* @param {Boolean} manual_close Did we close the fox_admin_notify dialog with the (X) button
 		*/
 		_countRemoveWrapper: function(unique_id, e, manual_close){
 		    
@@ -280,8 +280,8 @@
 			this['_after_close_' + unique_id](e, manual_close);
 			
 			// Check if the wrapper is empty, if it is.. remove the wrapper
-			if(jQuery('.bpm_admin_notify-item-wrapper').length == 0){
-				jQuery('#bpm_admin_notice_area').remove();
+			if(jQuery('.fox_admin_notify-item-wrapper').length == 0){
+				jQuery('#fox_admin_notice_area').remove();
 			}
 		
 		},
@@ -316,7 +316,7 @@
 					bottom: '+=15'
 				}, fade_out_speed, function(){
 					e.animate({ height: 0 }, 300, "linear", function(){
-						bpm_admin_notify._countRemoveWrapper(unique_id, e, manual_close);
+						fox_admin_notify._countRemoveWrapper(unique_id, e, manual_close);
 					})
 				})
 				
@@ -343,13 +343,13 @@
 				e.addClass('hover');
 				
 				// Show close button
-				e.find('.bpm_admin_notify-close').show();
+				e.find('.fox_admin_notify-close').show();
 				
 				// Clicking (X) makes the perdy thing close
-				e.find('.bpm_admin_notify-close').click(function(){
+				e.find('.fox_admin_notify-close').click(function(){
 				
 					var unique_id = e.attr('id').split('-')[2];
-					bpm_admin_notify.removeSpecific(unique_id, {}, e, true);
+					fox_admin_notify.removeSpecific(unique_id, {}, e, true);
 					
 				});
 			
@@ -372,7 +372,7 @@
 		removeSpecific: function(unique_id, params, e, unbind_events){
 			
 			if(!e){
-				var e = jQuery('#bpm_admin_notify-item-' + unique_id);
+				var e = jQuery('#fox_admin_notify-item-' + unique_id);
 			}
 
 			// We set the fourth param to let the _fade function know to 
@@ -400,8 +400,8 @@
 		*/
 		_runSetup: function(){
 		
-			for(opt in jQuery.bpm_admin_notify.options){
-				this[opt] = jQuery.bpm_admin_notify.options[opt];
+			for(opt in jQuery.fox_admin_notify.options){
+				this[opt] = jQuery.fox_admin_notify.options[opt];
 			}
 			this._is_setup = 1;
 		    
@@ -417,7 +417,7 @@
 			
 			var timer_str = (this._custom_timer) ? this._custom_timer : this.time;
 			this['_int_id_' + unique_id] = setTimeout(function(){ 
-				bpm_admin_notify._fade(e, unique_id);
+				fox_admin_notify._fade(e, unique_id);
 			}, timer_str);
 		
 		},
@@ -432,7 +432,7 @@
 			var before_close = (jQuery.isFunction(params.before_close)) ? params.before_close : function(){};
 			var after_close = (jQuery.isFunction(params.after_close)) ? params.after_close : function(){};
 			
-			var wrap = jQuery('#bpm_admin_notice_area');
+			var wrap = jQuery('#fox_admin_notice_area');
 			before_close(wrap);
 			wrap.fadeOut(function(){
 				jQuery(this).remove();
@@ -485,7 +485,7 @@
 		}
 
 
-	} // ENDOF: var bpm_admin_notify
+	} // ENDOF: var fox_admin_notify
 
 	
 })(jQuery);

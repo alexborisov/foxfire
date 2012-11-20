@@ -9,7 +9,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage AJAX API
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -18,7 +18,7 @@
  */
 
 
-class bpm_thumbEngine_spanner {
+class fox_thumbEngine_spanner {
 
 
 	var $images = array();
@@ -39,7 +39,7 @@ class bpm_thumbEngine_spanner {
 	 * @since 0.1.9
 	 */
 
-	public function bpm_thumbEngine_spanner(){
+	public function fox_thumbEngine_spanner(){
 
 		$this->cfg = array(
 
@@ -47,8 +47,8 @@ class bpm_thumbEngine_spanner {
 			"max_aspect_ratio"=>4.0,
 			"margin"=>5,
 			"canvas_width"=>980,
-			"content_url"=>BPM_URL_CONTENT . "/images/fireworks/",
-			"content_path"=>BPM_PATH_CONTENT . "/images/fireworks/"
+			"content_url"=>FOX_URL_CONTENT . "/images/fireworks/",
+			"content_path"=>FOX_PATH_CONTENT . "/images/fireworks/"
 		);
 
 		$this->cache = array(
@@ -57,47 +57,47 @@ class bpm_thumbEngine_spanner {
 						"max_x"=>5000,
 						"max_y"=>5000,
 						"flush_interval"=>3600,
-						"path"=>BPM_URL_CONTENT . "/images/fireworks/X/"
+						"path"=>FOX_URL_CONTENT . "/images/fireworks/X/"
 					),
 					array(	"name"=>"large",
 						"max_x"=>600,
 						"max_y"=>600,
 						"flush_interval"=>3600,
-						"path"=>BPM_URL_CONTENT . "/images/fireworks/A/"
+						"path"=>FOX_URL_CONTENT . "/images/fireworks/A/"
 					),
 					array(	"name"=>"medium",
 						"max_x"=>300,
 						"max_y"=>300,
 						"flush_interval"=>3600,
-						"path"=>BPM_URL_CONTENT . "/images/fireworks/B/"
+						"path"=>FOX_URL_CONTENT . "/images/fireworks/B/"
 					),
 					array(	"name"=>"small",
 						"max_x"=>200,
 						"max_y"=>200,
 						"flush_interval"=>3600,
-						"path"=>BPM_URL_CONTENT . "/images/fireworks/C/"
+						"path"=>FOX_URL_CONTENT . "/images/fireworks/C/"
 					),
 					array(	"name"=>"micro",
 						"max_x"=>100,
 						"max_y"=>100,
 						"flush_interval"=>3600,
-						"path"=>BPM_URL_CONTENT . "/images/fireworks/D/"
+						"path"=>FOX_URL_CONTENT . "/images/fireworks/D/"
 					)
 		);
 
 		$this->meta = array(
 
 			"views"=>	array(	"title"=>"Views",
-						"icon"=> BPM_URL_CORE . "/templates/common_assets/icon_view.png"
+						"icon"=> FOX_URL_CORE . "/templates/common_assets/icon_view.png"
 					),
 			"likes"=>	array(	"title"=>"Likes",
-						"icon"=> BPM_URL_CORE . "/templates/common_assets/icon_like.png"
+						"icon"=> FOX_URL_CORE . "/templates/common_assets/icon_like.png"
 					),
 			"comments"=>	array(	"title"=>"Comments",
-						"icon"=> BPM_URL_CORE . "/templates/common_assets/icon_comment.png"
+						"icon"=> FOX_URL_CORE . "/templates/common_assets/icon_comment.png"
 					),
 			"downloads"=>	array(	"title"=>"Downloads",
-						"icon"=> BPM_URL_CORE . "/templates/common_assets/icon_download.png"
+						"icon"=> FOX_URL_CORE . "/templates/common_assets/icon_download.png"
 					)
 		);
 
@@ -221,7 +221,7 @@ class bpm_thumbEngine_spanner {
 	public function parseXML($content_path, $randomize=false){
 
 
-		$cls = new BPM_xml();
+		$cls = new FOX_xml();
 		$parsed_xml =  $cls->parseFile($content_path . "manifest.xml", 1, 'tag');
 
 		$temp = array();
@@ -342,7 +342,7 @@ class bpm_thumbEngine_spanner {
 				 height="<?php echo $block["image_y"]; ?>px;" width="<?php echo $block["image_x"]; ?>px;"/>
 
 			    <div class="thumb_stats_wrapper"
-				 style="background:url(<?php echo BPM_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)">
+				 style="background:url(<?php echo FOX_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)">
 				<div class="thumb_stats">
 
 				    <?php
@@ -355,7 +355,7 @@ class bpm_thumbEngine_spanner {
 			    </div>
 
 			    <div class="thumb_info"
-				 style="background:url(<?php echo BPM_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)"
+				 style="background:url(<?php echo FOX_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)"
 				 >
 				    <?php
 
@@ -472,7 +472,7 @@ class bpm_thumbEngine_spanner {
 						     style=" position:relative; bottom:<?php echo $block["offset_y"]; ?>px; right: <?php echo $block["offset_x"]; ?>px;"/>
 
 						<div class="thumb_stats_wrapper"
-						     style="background:url(<?php echo BPM_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)">
+						     style="background:url(<?php echo FOX_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)">
 						    <div class="thumb_stats">
 
 							<?php
@@ -485,7 +485,7 @@ class bpm_thumbEngine_spanner {
 						</div>
 
 						<div class="thumb_info"
-						     style="background:url(<?php echo BPM_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)"
+						     style="background:url(<?php echo FOX_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)"
 						     >
 							<?php
 
@@ -579,7 +579,7 @@ class bpm_thumbEngine_spanner {
 						     style=" position:relative; bottom:<?php echo $block["offset_y"]; ?>px; right: <?php echo $block["offset_x"]; ?>px;"/>
 
 						<div class="thumb_stats_wrapper"
-						     style="background:url(<?php echo BPM_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)">
+						     style="background:url(<?php echo FOX_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)">
 						    <div class="thumb_stats">
 
 							<?php
@@ -592,7 +592,7 @@ class bpm_thumbEngine_spanner {
 						</div>
 
 						<div class="thumb_info"
-						     style="background:url(<?php echo BPM_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)"
+						     style="background:url(<?php echo FOX_URL_CORE . "/templates/common_assets/00_00_00_055.png";?>)"
 						     >
 							<?php
 
@@ -645,7 +645,7 @@ class bpm_thumbEngine_spanner {
 				$result .= '/>';
 
 				$result .= '<div class="text">';
-				$result .= BPM_math::siFormat( $item["meta"][$data["name"]], $precision, true);
+				$result .= FOX_math::siFormat( $item["meta"][$data["name"]], $precision, true);
 				$result .= '</div>';
 			}
 
@@ -1000,6 +1000,6 @@ class bpm_thumbEngine_spanner {
 
 
 
-} // End of class bpm_thumbEngine_spanner
+} // End of class fox_thumbEngine_spanner
 
 ?>

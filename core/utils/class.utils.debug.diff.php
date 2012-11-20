@@ -7,7 +7,7 @@
  * @version 0.6
  * @since 0.1.9
  * @author adapted from http://raymondhill.net/blog/?p=441
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Debug
  * @license MIT License
  * 
@@ -15,7 +15,7 @@
  */
 
 
-class BPM_fineDiff {
+class FOX_fineDiff {
 
     
 	const paragraphDelimiters   = "\n\r";
@@ -23,24 +23,24 @@ class BPM_fineDiff {
 	const wordDelimiters	    = " \t.\n\r";
 	const characterDelimiters   = "";
 	
-	public static $paragraphGranularity	=   array(  BPM_fineDiff::paragraphDelimiters);
+	public static $paragraphGranularity	=   array(  FOX_fineDiff::paragraphDelimiters);
 
 	public static $sentenceGranularity	=   array( 
-							    BPM_fineDiff::paragraphDelimiters,
-							    BPM_fineDiff::sentenceDelimiters
+							    FOX_fineDiff::paragraphDelimiters,
+							    FOX_fineDiff::sentenceDelimiters
 						    );
 
 	public static $wordGranularity		=   array(	
-							    BPM_fineDiff::paragraphDelimiters,
-							    BPM_fineDiff::sentenceDelimiters,
-							    BPM_fineDiff::wordDelimiters
+							    FOX_fineDiff::paragraphDelimiters,
+							    FOX_fineDiff::sentenceDelimiters,
+							    FOX_fineDiff::wordDelimiters
 						    );
 
 	public static $characterGranularity	=   array(	
-							    BPM_fineDiff::paragraphDelimiters,
-							    BPM_fineDiff::sentenceDelimiters,
-							    BPM_fineDiff::wordDelimiters,
-							    BPM_fineDiff::characterDelimiters
+							    FOX_fineDiff::paragraphDelimiters,
+							    FOX_fineDiff::sentenceDelimiters,
+							    FOX_fineDiff::wordDelimiters,
+							    FOX_fineDiff::characterDelimiters
 						    );
 
 	public static $textStack		=   array( ".", " \t.\n\r", "");
@@ -52,7 +52,7 @@ class BPM_fineDiff {
 	public function __construct($from_text = '', $to_text = '', $granularityStack = null) {
 
 		// setup stack for generic text documents by default
-		$this->granularityStack = $granularityStack ? $granularityStack : BPM_fineDiff::$characterGranularity;
+		$this->granularityStack = $granularityStack ? $granularityStack : FOX_fineDiff::$characterGranularity;
 		$this->edits = array();
 		$this->from_text = $from_text;
 		$this->doDiff($from_text, $to_text);
@@ -84,22 +84,22 @@ class BPM_fineDiff {
 
 			$n = $edit->getFromLen();
 
-			if ( $edit instanceof BPM_fineDiffCopyOp ){
+			if ( $edit instanceof FOX_fineDiffCopyOp ){
 
-				BPM_fineDiff::renderDiffToHTMLFromOpcode('c', $this->from_text, $in_offset, $n);
+				FOX_fineDiff::renderDiffToHTMLFromOpcode('c', $this->from_text, $in_offset, $n);
 			}
-			elseif( $edit instanceof BPM_fineDiffDeleteOp ) {
+			elseif( $edit instanceof FOX_fineDiffDeleteOp ) {
 
-				BPM_fineDiff::renderDiffToHTMLFromOpcode('d', $this->from_text, $in_offset, $n);
+				FOX_fineDiff::renderDiffToHTMLFromOpcode('d', $this->from_text, $in_offset, $n);
 			}
-			elseif( $edit instanceof BPM_fineDiffInsertOp ) {
+			elseif( $edit instanceof FOX_fineDiffInsertOp ) {
 
-				BPM_fineDiff::renderDiffToHTMLFromOpcode('i', $edit->getText(), 0, $edit->getToLen());
+				FOX_fineDiff::renderDiffToHTMLFromOpcode('i', $edit->getText(), 0, $edit->getToLen());
 			}
-			else { // if ( $edit instanceof BPM_fineDiffReplaceOp )
+			else { // if ( $edit instanceof FOX_fineDiffReplaceOp )
 
-				BPM_fineDiff::renderDiffToHTMLFromOpcode('d', $this->from_text, $in_offset, $n);
-				BPM_fineDiff::renderDiffToHTMLFromOpcode('i', $edit->getText(), 0, $edit->getToLen());
+				FOX_fineDiff::renderDiffToHTMLFromOpcode('d', $this->from_text, $in_offset, $n);
+				FOX_fineDiff::renderDiffToHTMLFromOpcode('i', $edit->getText(), 0, $edit->getToLen());
 			}
 
 			$in_offset += $n;
@@ -115,7 +115,7 @@ class BPM_fineDiff {
 	*/
 	public static function getDiffOpcodes($from, $to, $granularities = null) {
 
-		$diff = new BPM_fineDiff($from, $to, $granularities);
+		$diff = new FOX_fineDiff($from, $to, $granularities);
 		return $diff->getOpcodes();
 	}
 
@@ -124,8 +124,8 @@ class BPM_fineDiff {
 	*/
 	public static function getDiffOpsFromOpcodes($opcodes) {
 
-		$diffops = new BPM_fineDiffOps();
-		BPM_fineDiff::renderFromOpcodes(null, $opcodes, array($diffops,'appendOpcode'));
+		$diffops = new FOX_fineDiffOps();
+		FOX_fineDiff::renderFromOpcodes(null, $opcodes, array($diffops,'appendOpcode'));
 		return $diffops->edits;
 	}
 
@@ -135,7 +135,7 @@ class BPM_fineDiff {
 	public static function renderToTextFromOpcodes($from, $opcodes) {
 
 		ob_start();
-		BPM_fineDiff::renderFromOpcodes($from, $opcodes, array('BPM_fineDiff','renderToTextFromOpcode'));
+		FOX_fineDiff::renderFromOpcodes($from, $opcodes, array('FOX_fineDiff','renderToTextFromOpcode'));
 
 		return ob_get_clean();
 
@@ -147,7 +147,7 @@ class BPM_fineDiff {
 	public static function renderDiffToHTMLFromOpcodes($from, $opcodes) {
 
 		ob_start();
-		BPM_fineDiff::renderFromOpcodes($from, $opcodes, array('BPM_fineDiff','renderDiffToHTMLFromOpcode'));
+		FOX_fineDiff::renderFromOpcodes($from, $opcodes, array('FOX_fineDiff','renderDiffToHTMLFromOpcode'));
 
 		return ob_get_clean();
 	}
@@ -233,10 +233,10 @@ class BPM_fineDiff {
 		$delimiters = $this->granularityStack[$this->stackpointer++];
 		$has_next_stage = $this->stackpointer < count($this->granularityStack);
 
-		foreach( BPM_fineDiff::doFragmentDiff($from_segment, $to_segment, $delimiters) as $fragment_edit ){
+		foreach( FOX_fineDiff::doFragmentDiff($from_segment, $to_segment, $delimiters) as $fragment_edit ){
 
 			// increase granularity
-			if( $fragment_edit instanceof BPM_fineDiffReplaceOp && $has_next_stage ) {
+			if( $fragment_edit instanceof FOX_fineDiffReplaceOp && $has_next_stage ) {
 
 				$this->_processGranularity(
 					substr($this->from_text, $this->from_offset, $fragment_edit->getFromLen()),
@@ -244,15 +244,15 @@ class BPM_fineDiff {
 					);
 			}
 			// fuse copy ops whenever possible
-			elseif( $fragment_edit instanceof BPM_fineDiffCopyOp && $this->last_edit instanceof BPM_fineDiffCopyOp ){
+			elseif( $fragment_edit instanceof FOX_fineDiffCopyOp && $this->last_edit instanceof FOX_fineDiffCopyOp ){
 
 				$this->edits[count($this->edits)-1]->increase($fragment_edit->getFromLen());
 				$this->from_offset += $fragment_edit->getFromLen();
 			}
 			else {
-				/* $fragment_edit instanceof BPM_fineDiffCopyOp */
-				/* $fragment_edit instanceof BPM_fineDiffDeleteOp */
-				/* $fragment_edit instanceof BPM_fineDiffInsertOp */
+				/* $fragment_edit instanceof FOX_fineDiffCopyOp */
+				/* $fragment_edit instanceof FOX_fineDiffDeleteOp */
+				/* $fragment_edit instanceof FOX_fineDiffInsertOp */
 				$this->edits[] = $this->last_edit = $fragment_edit;
 				$this->from_offset += $fragment_edit->getFromLen();
 			}
@@ -277,7 +277,7 @@ class BPM_fineDiff {
 		// In such case, use code path optimized for character-level diffing.
 		if( empty($delimiters) ){
 
-			return BPM_fineDiff::doCharDiff($from_text, $to_text);
+			return FOX_fineDiff::doCharDiff($from_text, $to_text);
 		}
 
 		$result = array();
@@ -285,8 +285,8 @@ class BPM_fineDiff {
 		// fragment-level diffing
 		$from_text_len = strlen($from_text);
 		$to_text_len = strlen($to_text);
-		$from_fragments = BPM_fineDiff::extractFragments($from_text, $delimiters);
-		$to_fragments = BPM_fineDiff::extractFragments($to_text, $delimiters);
+		$from_fragments = FOX_fineDiff::extractFragments($from_text, $delimiters);
+		$to_fragments = FOX_fineDiff::extractFragments($to_text, $delimiters);
 
 		$jobs = array(array(0, $from_text_len, 0, $to_text_len));
 
@@ -305,11 +305,11 @@ class BPM_fineDiff {
 
 				if( $from_segment_length ){
 
-					$result[$from_segment_start * 4] = new BPM_fineDiffDeleteOp($from_segment_length);
+					$result[$from_segment_start * 4] = new FOX_fineDiffDeleteOp($from_segment_length);
 				}
 				elseif( $to_segment_length ){
 
-					$result[$from_segment_start * 4 + 1] = new BPM_fineDiffInsertOp(substr($to_text, $to_segment_start, $to_segment_length));
+					$result[$from_segment_start * 4 + 1] = new FOX_fineDiffInsertOp(substr($to_text, $to_segment_start, $to_segment_length));
 				}
 
 				continue;
@@ -427,11 +427,11 @@ class BPM_fineDiff {
 			if( $best_copy_length ){
 
 				$jobs[] = array($from_segment_start, $best_from_start, $to_segment_start, $best_to_start);
-				$result[$best_from_start * 4 + 2] = new BPM_fineDiffCopyOp($best_copy_length);
+				$result[$best_from_start * 4 + 2] = new FOX_fineDiffCopyOp($best_copy_length);
 				$jobs[] = array($best_from_start + $best_copy_length, $from_segment_end, $best_to_start + $best_copy_length, $to_segment_end);
 			}
 			else {
-				$result[$from_segment_start * 4 ] = new BPM_fineDiffReplaceOp($from_segment_length, substr($to_text, $to_segment_start, $to_segment_length));
+				$result[$from_segment_start * 4 ] = new FOX_fineDiffReplaceOp($from_segment_length, substr($to_text, $to_segment_start, $to_segment_length));
 			}
 
 		}
@@ -474,10 +474,10 @@ class BPM_fineDiff {
 			// catch easy cases first
 			if ( !$from_segment_len || !$to_segment_len ) {
 				if ( $from_segment_len ) {
-					$result[$from_segment_start * 4 + 0] = new BPM_fineDiffDeleteOp($from_segment_len);
+					$result[$from_segment_start * 4 + 0] = new FOX_fineDiffDeleteOp($from_segment_len);
 					}
 				else if ( $to_segment_len ) {
-					$result[$from_segment_start * 4 + 1] = new BPM_fineDiffInsertOp(substr($to_text, $to_segment_start, $to_segment_len));
+					$result[$from_segment_start * 4 + 1] = new FOX_fineDiffInsertOp(substr($to_text, $to_segment_start, $to_segment_len));
 					}
 				continue;
 				}
@@ -516,12 +516,12 @@ class BPM_fineDiff {
 			// match found
 			if ( $copy_len ) {
 				$jobs[] = array($from_segment_start, $from_copy_start, $to_segment_start, $to_copy_start);
-				$result[$from_copy_start * 4 + 2] = new BPM_fineDiffCopyOp($copy_len);
+				$result[$from_copy_start * 4 + 2] = new FOX_fineDiffCopyOp($copy_len);
 				$jobs[] = array($from_copy_start + $copy_len, $from_segment_end, $to_copy_start + $copy_len, $to_segment_end);
 				}
 			// no match,  so delete all, insert all
 			else {
-				$result[$from_segment_start * 4] = new BPM_fineDiffReplaceOp($from_segment_len, substr($to_text, $to_segment_start, $to_segment_len));
+				$result[$from_segment_start * 4] = new FOX_fineDiffReplaceOp($from_segment_len, substr($to_text, $to_segment_start, $to_segment_len));
 				}
 			}
 		ksort($result, SORT_NUMERIC);
@@ -626,14 +626,14 @@ class BPM_fineDiff {
 *   TODO: How often this case occurs? Is it worth it? Can only
 *   be done as a postprocessing method (->optimize()?)
 */
-abstract class BPM_fineDiffOp {
+abstract class FOX_fineDiffOp {
 
 	abstract public function getFromLen();
 	abstract public function getToLen();
 	abstract public function getOpcode();
 }
 
-class BPM_fineDiffDeleteOp extends BPM_fineDiffOp {
+class FOX_fineDiffDeleteOp extends FOX_fineDiffOp {
 
     
 	public function __construct($len) {
@@ -664,7 +664,7 @@ class BPM_fineDiffDeleteOp extends BPM_fineDiffOp {
 
 }
 
-class BPM_fineDiffInsertOp extends BPM_fineDiffOp {
+class FOX_fineDiffInsertOp extends FOX_fineDiffOp {
 
 
 	public function __construct($text) {
@@ -700,7 +700,7 @@ class BPM_fineDiffInsertOp extends BPM_fineDiffOp {
 
 }
 
-class BPM_fineDiffReplaceOp extends BPM_fineDiffOp {
+class FOX_fineDiffReplaceOp extends FOX_fineDiffOp {
 
 	public function __construct($fromLen, $text) {
 
@@ -743,7 +743,7 @@ class BPM_fineDiffReplaceOp extends BPM_fineDiffOp {
 
 }
 
-class BPM_fineDiffCopyOp extends BPM_fineDiffOp {
+class FOX_fineDiffCopyOp extends FOX_fineDiffOp {
 
 	public function __construct($len) {
 		$this->len = $len;
@@ -774,25 +774,25 @@ class BPM_fineDiffCopyOp extends BPM_fineDiffOp {
 }
 
 /**
-* BPM_fineDiff ops
+* FOX_fineDiff ops
 *
 * Collection of ops
 */
-class BPM_fineDiffOps {
+class FOX_fineDiffOps {
 
 	public function appendOpcode($opcode, $from, $from_offset, $from_len) {
 
 		if( $opcode === 'c' ){
 
-			$edits[] = new BPM_fineDiffCopyOp($from_len);
+			$edits[] = new FOX_fineDiffCopyOp($from_len);
 		}
 		else if( $opcode === 'd' ){
 
-			$edits[] = new BPM_fineDiffDeleteOp($from_len);
+			$edits[] = new FOX_fineDiffDeleteOp($from_len);
 		}
 		else { // if ( $opcode === 'i' )
 
-			$edits[] = new BPM_fineDiffInsertOp(substr($from, $from_offset, $from_len));
+			$edits[] = new FOX_fineDiffInsertOp(substr($from, $from_offset, $from_len));
 		}
 	}
 

@@ -2,12 +2,12 @@
 
 /**
  * BP-MEDIA TEST DATA LOADER FUNCTIONS
- * These functions add and clear users and media items from the BP-Media install and the host BuddyPress
+ * These functions add and clear users and media items from the FoxFire install and the host BuddyPress
  * and WordPress installations. They are used to reset the installation to a known state for UI testing.
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -15,7 +15,7 @@
  * ========================================================================================================
  */
 
-class BPM_testData {
+class FOX_testData {
 
 
 	private function  __construct() {}
@@ -77,6 +77,6 @@ class BPM_testData {
 
 
 
-} // End of class BPM_testData
+} // End of class FOX_testData
 
 ?>

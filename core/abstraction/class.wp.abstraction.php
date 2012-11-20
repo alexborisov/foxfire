@@ -2,12 +2,12 @@
 
 /**
  * BP-MEDIA WORDPRESS ABSTRACTION CLASS
- * Provides abstraction functions to interface with WordPress, simplifying upgrading BP-Media
+ * Provides abstraction functions to interface with WordPress, simplifying upgrading FoxFire
  * when WordPress makes changes to their codebase.
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage WordPress Abstraction
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -15,7 +15,7 @@
  * ========================================================================================================
  */
 
-class BPM_wp {
+class FOX_wp {
     
 	/**
 	 * Returns the current WordPress version
@@ -195,7 +195,7 @@ class BPM_wp {
 
 		if($sql_error){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Database error",
 				'data'=>array($sql, $sql_error),
@@ -395,7 +395,7 @@ class BPM_wp {
 
 			default: {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Unrecognized response code",
 					'data'=>$code,
@@ -422,6 +422,6 @@ class BPM_wp {
 	}
 
 
-} // End of class BPM_wp
+} // End of class FOX_wp
 
 ?>

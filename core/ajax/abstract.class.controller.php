@@ -2,7 +2,7 @@
 
 /**
  * BP-MEDIA AJAX CONTROLLER CLASS
- * This base class is extended by server-side controller classes used in BP-Media's AJAX MVC framework
+ * This base class is extended by server-side controller classes used in FoxFire's AJAX MVC framework
  *
  * @version 0.1.9
  * @since 0.1.9
@@ -11,7 +11,7 @@
  * @link http://www.sencha.com
  * @link /ext/examples/restful/remote/
  *
- * @package BP-Media
+ * @package FoxFire
  * @subpackage AJAX
  * @license GPL v3.0
  * @link http://code.google.com/p/buddypress-media/
@@ -19,7 +19,7 @@
  * ========================================================================================================
  */
 
-abstract class BPM_AJAX_controller {
+abstract class FOX_AJAX_controller {
 
     public $request, $id, $params;
 

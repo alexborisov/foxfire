@@ -2,11 +2,11 @@
 
 /**
  * BP-MEDIA BACKUP LOADER FUNCTIONS
- * These functions load content from BP-Media backup containers
+ * These functions load content from FoxFire backup containers
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_backupLoader {
+class FOX_backupLoader {
 
 
 	private function  __construct() {}
@@ -36,7 +36,7 @@ class BPM_backupLoader {
 
 
 	/**
-	 * Unzips a container file into BP-Media's temp folder
+	 * Unzips a container file into FoxFire's temp folder
 	 *
 	 * @version 0.1.9
 	 * @since 0.1.9
@@ -102,6 +102,6 @@ class BPM_backupLoader {
 	
 
 
-} // End of class BPM_backupLoader
+} // End of class FOX_backupLoader
 
 ?>

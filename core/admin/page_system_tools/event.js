@@ -23,7 +23,7 @@ Ext.onReady(function(){
         model: 'Event',
         proxy: {
             type: 'rest',
-            url: 'http://localhost/wp-content/plugins/bp-media/core/admin/page_system_tools/eventapp.php',
+            url: 'http://localhost/wp-content/plugins/foxfire/core/admin/page_system_tools/eventapp.php',
             reader: {
                 type: 'json',
                 root: 'data'

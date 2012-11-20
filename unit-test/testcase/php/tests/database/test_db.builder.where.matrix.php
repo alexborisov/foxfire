@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -21,12 +21,12 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 
 		parent::setUp();
 
-		$test_db = new BPM_db();
-		$this->builder = new BPM_queryBuilder($test_db);
+		$test_db = new FOX_db();
+		$this->builder = new FOX_queryBuilder($test_db);
 		
 		$this->struct = array(
 
-			"table" => "bpm_test_bw",
+			"table" => "fox_test_bw",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "C1" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>250,	"flags"=>null, "auto_inc"=>false, "default"=>null,  "index"=>false),
@@ -63,7 +63,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -101,7 +101,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -141,7 +141,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			
 			$this->assertEquals(2, $child->data['numeric']);		    
@@ -152,7 +152,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false, 'trap_null'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}			
@@ -185,7 +185,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			
 			$this->fail($child->dumpString(1));		    
@@ -219,7 +219,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			
 			$this->fail($child->dumpString(1));		    
@@ -251,7 +251,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			
 			$this->fail($child->dumpString(1));		    
@@ -290,7 +290,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -326,7 +326,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -361,7 +361,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -397,7 +397,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>false));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -437,7 +437,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>true));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -477,7 +477,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>true));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -517,7 +517,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>true));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -556,7 +556,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>true));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -595,7 +595,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>true));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						
@@ -637,7 +637,7 @@ class database_queryBuilders_whereMatrix extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMatrix($this->struct, $key_col, $args, $ctrl=array('optimize'=>true));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}						

@@ -14,15 +14,15 @@
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_trie_clip_iterator {
+class FOX_trie_clip_iterator {
 
 
 	var $base;				    // Controller class reference
@@ -35,7 +35,7 @@ class BPM_trie_clip_iterator {
 
 	
 	/**
-         * Recursively reduces a BPM args matrix into a minimum SQL WHERE clause
+         * Recursively reduces a FOX args matrix into a minimum SQL WHERE clause
          *
          * @version 0.1.9
          * @since 0.1.9
@@ -76,7 +76,7 @@ class BPM_trie_clip_iterator {
 		    
 			
 			if( !is_array($this->trie) ||	 // Handle specifying end-nodes as 'key'=>true instead of 'key'=>array()												    
-			     BPM_sUtil::keyExists($this->base->null_token, $this->trie)	    // Clip null branches
+			     FOX_sUtil::keyExists($this->base->null_token, $this->trie)	    // Clip null branches
 			){
 			    
 				return array();
@@ -87,16 +87,16 @@ class BPM_trie_clip_iterator {
 				foreach( $this->trie as $key => $data ){			    
 				    
 					try {
-						$child_node = new BPM_trie_clip_iterator(array(
+						$child_node = new FOX_trie_clip_iterator(array(
 
 							'base'	    => $this->base,
 							'trie'	    => $data,
 							'depth'	    => $this->depth + 1,
 						));
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>1,
 							'text'=>"Error creating child node",
 							'data'=>array(	
@@ -118,9 +118,9 @@ class BPM_trie_clip_iterator {
 					try {
 						$reduced = $child_node->render();
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>2,
 							'text'=>"Error reducing child node",
 							'data'=>array(	
@@ -164,6 +164,6 @@ class BPM_trie_clip_iterator {
 
 		
 	
-} // End of class BPM_trie_clip_iterator
+} // End of class FOX_trie_clip_iterator
 
 ?>

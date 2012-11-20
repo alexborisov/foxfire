@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -18,7 +18,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
     
 	static $struct_primary = array(
 
-		"table" => "bpm_test_runSelectQueryLeftJoin_primary",
+		"table" => "fox_test_runSelectQueryLeftJoin_primary",
 		"engine" => "InnoDB",
 		"columns" => array(
 		    "id" =>	array(	"php"=>"int",	    "sql"=>"smallint",	"format"=>"%d", "width"=>6,	"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
@@ -33,7 +33,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 
 	static $struct_join = array(
 
-		"table" => "bpm_test_runSelectQueryLeftJoin_secondary",
+		"table" => "fox_test_runSelectQueryLeftJoin_secondary",
 		"engine" => "InnoDB",
 		"columns" => array(
 		    "id" =>	    array(  "php"=>"int",	"sql"=>"smallint",	"format"=>"%d", "width"=>6,	"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
@@ -50,12 +50,12 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 
 		parent::setUp();
 
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 
 		try {
 			$this->tdb->runAddTable(self::$struct_primary);
 		}
-		catch (BPM_exception $fail) {
+		catch (FOX_exception $fail) {
 		    
 		    
 			// CASE 1: the table already exists in the db (likely from a previous failed test 
@@ -66,7 +66,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 				try {
 					$this->tdb->runTruncateTable(self::$struct_primary);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 					$this->fail("Primary table already existed. Failure while clearing table. Error code: " . $child->data['numeric']);
 				}
@@ -84,7 +84,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 		try {
 			$this->tdb->runAddTable(self::$struct_join);
 		}
-		catch (BPM_exception $fail) {
+		catch (FOX_exception $fail) {
 		    
 		    
 			// CASE 1: the table already exists in the db (likely from a previous failed test 
@@ -95,7 +95,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 				try {
 					$this->tdb->runTruncateTable(self::$struct_join);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 					$this->fail("Join table already existed. Failure while clearing table. Error code: " . $child->data['numeric']);
 				}
@@ -160,7 +160,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$this->tdb->runInsertQueryMulti(self::$struct_primary, $pri_04, $columns);
 			$this->tdb->runInsertQueryMulti(self::$struct_primary, $pri_05, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -174,7 +174,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$ctrl = array("format"=>"array_object");
 			$result = $this->tdb->runSelectQuery(self::$struct_primary, $args = null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -245,7 +245,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$this->tdb->runInsertQueryMulti(self::$struct_join, $sec_06, $columns);
 			$this->tdb->runInsertQueryMulti(self::$struct_join, $sec_07, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -257,7 +257,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$ctrl = array("format"=>"array_object");		    
 			$result = $this->tdb->runSelectQuery(self::$struct_join, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -288,7 +288,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			
 			$result = $this->tdb->runSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}						
@@ -336,7 +336,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -445,7 +445,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -499,7 +499,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -557,7 +557,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryLeftJoin($primary, $join, $columns, $ctrl, $check=true);		    
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -620,7 +620,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
 	    			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -671,7 +671,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryLeftJoin($primary, $join, $columns, $ctrl);		    
     			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -725,7 +725,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 			$result = $this->tdb->runSelectQueryLeftJoin($primary, $join, $columns, $ctrl);		    
     			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -744,12 +744,12 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 	function tearDown() {
 
 	    
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 		
 		try {
 			$this->tdb->runDropTable(self::$struct_primary);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    		    
 			$this->fail("Error while dropping primary database table. Error code: " . $child->data['numeric']);			    
 		}
@@ -757,7 +757,7 @@ class database_runSelectQueryLeftJoin extends RAZ_testCase {
 		try {
 			$this->tdb->runDropTable(self::$struct_join);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    		    
 			$this->fail("Error while dropping join database table. Error code: " . $child->data['numeric']);			    
 		}			

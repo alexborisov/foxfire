@@ -9,15 +9,15 @@
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_trie_flatten {
+class FOX_trie_flatten {
 
 	
 	var $trie;				    // Trie structure to convert	
@@ -79,9 +79,9 @@ class BPM_trie_flatten {
 		try {		    
 			$result = $this->build();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error during build process",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -108,7 +108,7 @@ class BPM_trie_flatten {
 
 		try {
 		    
-			$this->iterator = new BPM_trie_flatten_iterator(array(
+			$this->iterator = new FOX_trie_flatten_iterator(array(
 
 				'base'	    => $this,
 				'parent'    => null,			    
@@ -123,9 +123,9 @@ class BPM_trie_flatten {
 			));	
 			
 		}
-		catch (BPM_Exception $child) {
+		catch (FOX_Exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error creating root node",
 				'data'=>array("trie"=>$this->trie, "columns"=>$this->columns, 
@@ -146,9 +146,9 @@ class BPM_trie_flatten {
 		try {
 			$this->iterator->reduce();
 		}
-		catch (BPM_Exception $child) {
+		catch (FOX_Exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error during reduce",
 				'data'=>array("trie"=>$this->trie, "columns"=>$this->columns, 
@@ -162,9 +162,9 @@ class BPM_trie_flatten {
 		try {
 			$this->iterator->render();
 		}
-		catch (BPM_Exception $child) {
+		catch (FOX_Exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error during render",
 				'data'=>array("args"=>$this->args, "columns"=>$this->columns, 
@@ -199,6 +199,6 @@ class BPM_trie_flatten {
 
 
 	
-} // End of class BPM_trie_flatten
+} // End of class FOX_trie_flatten
 
 ?>

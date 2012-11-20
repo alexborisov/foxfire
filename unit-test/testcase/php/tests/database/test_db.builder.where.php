@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -21,8 +21,8 @@ class database_queryBuilders_where extends RAZ_testCase {
 
 		parent::setUp();
 
-		$test_db = new BPM_db();
-		$this->builder = new BPM_queryBuilder($test_db);
+		$test_db = new FOX_db();
+		$this->builder = new FOX_queryBuilder($test_db);
 
 	}
 
@@ -31,7 +31,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_bw",
+			"table" => "fox_test_bw",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "col_1" =>	array(	"php"=>"int",	    "sql"=>"smallint",	"format"=>"%d", "width"=>6,	"flags"=>null, "auto_inc"=>false, "default"=>null,  "index"=>false),
@@ -60,7 +60,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix="test_");
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -89,7 +89,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -121,7 +121,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -149,7 +149,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -176,7 +176,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -193,7 +193,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 	    
 		$struct = array(
 
-			"table" => "bpm_test_bw",
+			"table" => "fox_test_bw",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "col_1" =>	array(	"php"=>"int",	    "sql"=>"smallint",	"format"=>"%d", "width"=>6,	"flags"=>null, "auto_inc"=>false, "default"=>null,  "index"=>false),
@@ -236,7 +236,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildWhereMulti($struct, $args, $caller, $prefix="test_");
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		

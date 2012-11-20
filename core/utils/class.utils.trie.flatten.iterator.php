@@ -9,15 +9,15 @@
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_trie_flatten_iterator {
+class FOX_trie_flatten_iterator {
 
 
 	var $base;				    // Controller class reference
@@ -38,7 +38,7 @@ class BPM_trie_flatten_iterator {
 
 	
 	/**
-         * Recursively reduces a BPM args matrix into a minimum SQL WHERE clause
+         * Recursively reduces a FOX args matrix into a minimum SQL WHERE clause
          *
          * @version 0.1.9
          * @since 0.1.9
@@ -118,7 +118,7 @@ class BPM_trie_flatten_iterator {
 				foreach( $this->trie as $key => $data ){			    
 				    
 					try {
-						$child_node = new BPM_trie_flatten_iterator(array(
+						$child_node = new FOX_trie_flatten_iterator(array(
 
 							'base'	    => $this->base,
 							'parent'    => $this,
@@ -127,9 +127,9 @@ class BPM_trie_flatten_iterator {
 							'depth'	    => $this->depth + 1,
 						));
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>1,
 							'text'=>"Error creating child node",
 							'data'=>array(	
@@ -157,9 +157,9 @@ class BPM_trie_flatten_iterator {
 					try {
 						$reduced = $child_node->reduce();
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>2,
 							'text'=>"Error reducing child node",
 							'data'=>array(	
@@ -253,7 +253,7 @@ class BPM_trie_flatten_iterator {
          * @version 0.1.9
          * @since 0.1.9
 	 *
-	 * @param mixed $obj | Instance of BPM_queryBuilder_whereMatrix_iterator object 
+	 * @param mixed $obj | Instance of FOX_queryBuilder_whereMatrix_iterator object 
          * @return array | Empty array on root node, otherwise array of child node row arrays.
          */
 	
@@ -329,6 +329,6 @@ class BPM_trie_flatten_iterator {
 
 	
 	
-} // End of class BPM_trie_flatten_iterator
+} // End of class FOX_trie_flatten_iterator
 
 ?>

@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -21,10 +21,10 @@ class database_queryBuilders_update extends RAZ_testCase {
 
 		parent::setUp();
 
-		$test_db = new BPM_db();
+		$test_db = new FOX_db();
 
 		$this->base_prefix = $test_db->base_prefix;
-		$this->builder = new BPM_queryBuilder($test_db);
+		$this->builder = new FOX_queryBuilder($test_db);
 
 	}
 
@@ -68,7 +68,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -96,7 +96,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -124,7 +124,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -152,7 +152,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -181,7 +181,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -211,7 +211,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args, $columns=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -238,7 +238,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -265,7 +265,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -292,7 +292,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -319,7 +319,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -346,7 +346,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -374,7 +374,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args, $columns=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -423,7 +423,7 @@ class database_queryBuilders_update extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildUpdateQueryCol($struct, $data, "col_1", "<>", 37, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		

@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -22,7 +22,7 @@ class core_mCache_driver_loopback_ops extends RAZ_testCase {
 		
 		parent::setUp();
 	
-		$this->cls = new BPM_mCache_driver_loopback();				
+		$this->cls = new FOX_mCache_driver_loopback();				
 
 		if( !$this->cls->isActive() ){
 
@@ -145,7 +145,7 @@ class core_mCache_driver_loopback_classFunctions extends RAZ_testCase {
 		
 		parent::setUp();
 	
-		$this->cls = new BPM_mCache_driver_loopback();			
+		$this->cls = new FOX_mCache_driver_loopback();			
 
 		if( !$this->cls->isActive() ){
 

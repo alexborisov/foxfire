@@ -4,7 +4,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -15,7 +15,7 @@
 /* TERMINAL WINDOW									 */
 /* ===================================================================================== */
 
-.bpm_terminal_box {
+.fox_terminal_box {
     float:left;
     width:622px;
     height:400px;
@@ -27,14 +27,14 @@
     border: solid 1px #000;
 }
 
-.bpm_terminal_box .spinner {
+.fox_terminal_box .spinner {
     float:left;
     width:240px;
     margin:170px 0px 0px 200px;
     font-weight:bold;
 }
 
-.bpm_terminal_box .spinner .icon {
+.fox_terminal_box .spinner .icon {
     float:left;
     height:32px;
     width:32px;
@@ -42,7 +42,7 @@
     background:url(images/terminal-ajax-loader.gif);
 }
 
-.bpm_terminal_box .spinner .text_1 {
+.fox_terminal_box .spinner .text_1 {
     float:left;
     margin: 0px 0px 2px 0px;
     line-height:22px;
@@ -51,7 +51,7 @@
     color:#ddd;
 }
 
-.bpm_terminal_box .spinner .text_2 {
+.fox_terminal_box .spinner .text_2 {
     float:left;
     font-size:9px;
     line-height:9px;
@@ -61,7 +61,7 @@
     color:#ccc;
 }
 
-.bpm_terminal_box .spinner .timer {
+.fox_terminal_box .spinner .timer {
     float:left;
     font-size:16px;
     line-height:16px;
@@ -74,7 +74,7 @@
 }
 
 
-.bpm_terminal_box .text {
+.fox_terminal_box .text {
     width:570px;
     color:#c0c0c0;
     min-height:400px;
@@ -91,14 +91,14 @@
 /* JS UNIT TESTS									 */
 /* ===================================================================================== */
 
-#bpm_js_unit_test_settings{
+#fox_js_unit_test_settings{
 
     width:650px;
     margin: 25px 0px 5px 0px;
     padding:15px 0px 0px 15px;
 }
 
-#bpm_js_unit_test_settings .toggle {
+#fox_js_unit_test_settings .toggle {
     float:right;
     border: solid #555;
     border-width:1px 0px 0px 1px;
@@ -109,11 +109,11 @@
     margin:0px;
 }
 
-#bpm_js_unit_test_settings .toggle:hover {
+#fox_js_unit_test_settings .toggle:hover {
     color:#FF0;
 }
 
-#bpm_js_unit_test_settings .toggle .text{
+#fox_js_unit_test_settings .toggle .text{
     margin:0px;
     text-align:center;
     width:100%;
@@ -122,50 +122,50 @@
     cursor:pointer;
 }
 
-.bpm_js_unit_test {
+.fox_js_unit_test {
 
     margin: 0px 20px 0px 20px;
     height:0px;			    /* Required for JS code to initialize properly */
     overflow:hidden;
 }
 
-.bpm_js_unit_test .bpm_subtitle {
+.fox_js_unit_test .fox_subtitle {
 
     margin: 5px 0px 0px 0px;
     font-weight:bold;
     font-size:14px;
 }
 
-.tabs_h .panel .panel_section .bpm_js_unit_test .form-table {
+.tabs_h .panel .panel_section .fox_js_unit_test .form-table {
     margin: 10px 0px 0px 10px;
 }
 
-.bpm_js_unit_test .form-table tr{
+.fox_js_unit_test .form-table tr{
     margin: 0px 20px 0px 0px;
     padding:0px;
 }
 
-.bpm_js_unit_test .form-table tr th{
+.fox_js_unit_test .form-table tr th{
     margin: 0px;
     padding:0px;
 }
 
-.bpm_js_unit_test .form-table tr td {
+.fox_js_unit_test .form-table tr td {
     margin: 0px;
     padding:0px;
 }
 
-.bpm_submit_js_unit_test_spanner {
+.fox_submit_js_unit_test_spanner {
     float:left;
     width:100%;
 }
 
-.bpm_submit_js_unit_test_wrap {
+.fox_submit_js_unit_test_wrap {
     float:right;
     margin: 0px 20px 0px 0px;
 }
 
-.bpm_js_unit_test_run{
+.fox_js_unit_test_run{
 
     width:40px;
     height:20px;
@@ -176,7 +176,7 @@
 /* SUBMIT BUTTONS									 */
 /* ===================================================================================== */
 
-#bpm_js_unit_test_run_button {
+#fox_js_unit_test_run_button {
 
 	border-color:  #298CBA;
 	font-weight: bold;
@@ -197,7 +197,7 @@
 	box-sizing: content-box;
 }
 
-#bpm_js_unit_test_run_button:hover {
+#fox_js_unit_test_run_button:hover {
 
 	border-color:  #111;
 	font-weight: bold;
@@ -218,7 +218,7 @@
 	box-sizing: content-box;
 }
 
- a#bpm_js_unit_test_run_button {
+ a#fox_js_unit_test_run_button {
 
 	border-color: #298CBA;
 	font-weight: bold;
@@ -227,13 +227,13 @@
 	text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
 }
 
-a#bpm_js_unit_test_run_button:hover {
+a#fox_js_unit_test_run_button:hover {
 
 	background: url("./images/button-grad-active.png") repeat-x scroll left top #21759B;
 	color: #FFFF00;
 }
 
-.bpm-button-disabled, .bpm-button[disabled], .bpm-button:disabled {
+.fox-button-disabled, .fox-button[disabled], .fox-button:disabled {
 
 	background: none repeat scroll 0 0 #298CBA !important;
 	color: #9FD0D5 !important;

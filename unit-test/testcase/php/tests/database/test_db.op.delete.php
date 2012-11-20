@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -18,7 +18,7 @@ class database_runDeleteQuery extends RAZ_testCase {
     
 	static $struct = array(
 
-		"table" => "bpm_test_runDeleteQuery",
+		"table" => "fox_test_runDeleteQuery",
 		"engine" => "InnoDB",
 		"columns" => array(
 		    "id" =>	array(	"php"=>"int",	    "sql"=>"smallint",	"format"=>"%d", "width"=>6,	"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
@@ -35,12 +35,12 @@ class database_runDeleteQuery extends RAZ_testCase {
 
 		parent::setUp();
 
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 
 		try {
 			$this->tdb->runAddTable(self::$struct);
 		}
-		catch (BPM_exception $fail) {
+		catch (FOX_exception $fail) {
 		    
 		    
 			// CASE 1: the table already exists in the db (likely from a previous failed test 
@@ -51,7 +51,7 @@ class database_runDeleteQuery extends RAZ_testCase {
 				try {
 					$this->tdb->runTruncateTable(self::$struct);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 					$this->fail("Table already existed. Failure while clearing table. Error code: " . $child->data['numeric']);
 				}
@@ -75,7 +75,7 @@ class database_runDeleteQuery extends RAZ_testCase {
 		try {
 			$this->tdb->runTruncateTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -109,7 +109,7 @@ class database_runDeleteQuery extends RAZ_testCase {
 		try {
 			$this->tdb->runInsertQueryMulti(self::$struct, $data_insert, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -122,7 +122,7 @@ class database_runDeleteQuery extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runSelectQuery(self::$struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -139,7 +139,7 @@ class database_runDeleteQuery extends RAZ_testCase {
 		try {
 			$this->tdb->runDeleteQuery(self::$struct, $args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -152,7 +152,7 @@ class database_runDeleteQuery extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runSelectQuery(self::$struct, $args=null, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -173,7 +173,7 @@ class database_runDeleteQuery extends RAZ_testCase {
 
 	function tearDown() {
 
-		$tdb = new BPM_db();
+		$tdb = new FOX_db();
 		$tdb->runDropTable(self::$struct);
 		parent::tearDown();
 	}
@@ -187,7 +187,7 @@ class database_runDeleteQueryCol extends RAZ_testCase {
 
 	static $struct = array(
 
-		"table" => "bpm_test_runDeleteQueryCol",
+		"table" => "fox_test_runDeleteQueryCol",
 		"engine" => "InnoDB",
 		"columns" => array(
 		    "id" =>	array(	"php"=>"int",	    "sql"=>"smallint",	"format"=>"%d", "width"=>6,	"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
@@ -203,12 +203,12 @@ class database_runDeleteQueryCol extends RAZ_testCase {
 
 		parent::setUp();
 		
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 
 		try {
 			$this->tdb->runAddTable(self::$struct);
 		}
-		catch (BPM_exception $fail) {
+		catch (FOX_exception $fail) {
 		    
 		    
 			// CASE 1: the table already exists in the db (likely from a previous failed test 
@@ -219,7 +219,7 @@ class database_runDeleteQueryCol extends RAZ_testCase {
 				try {
 					$this->tdb->runTruncateTable(self::$struct);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 					$this->fail("Table already existed. Failure while clearing table. Error code: " . $child->data['numeric']);
 				}
@@ -243,7 +243,7 @@ class database_runDeleteQueryCol extends RAZ_testCase {
 		try {
 			$this->tdb->runTruncateTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -278,7 +278,7 @@ class database_runDeleteQueryCol extends RAZ_testCase {
 		try {
 			$this->tdb->runInsertQueryMulti(self::$struct, $data_insert, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -292,7 +292,7 @@ class database_runDeleteQueryCol extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runSelectQuery(self::$struct, null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -306,7 +306,7 @@ class database_runDeleteQueryCol extends RAZ_testCase {
 		try {
 			$this->tdb->runDeleteQueryCol(self::$struct, "name", "=", "data_01");
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -319,7 +319,7 @@ class database_runDeleteQueryCol extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runSelectQuery(self::$struct, null, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -340,12 +340,12 @@ class database_runDeleteQueryCol extends RAZ_testCase {
 
 	function tearDown() {
 
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 		
 		try {
 			$this->tdb->runDropTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    		    
 			$this->fail("Error while dropping database table. Error code: " . $child->data['numeric']);			    
 		}		

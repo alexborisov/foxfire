@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_server {
+class FOX_tab_server {
 
 
 	/**
@@ -36,16 +36,16 @@ class BPM_tab_server {
 
 	function render() {
 
-		global $bpm;
-		$version = new BPM_version();
+		global $fox;
+		$version = new FOX_version();
 
 		?>
 
 		<form name="pathsform" method="POST" action="<?php echo $this->filepath.'#paths'; ?>" >
 
-		    <?php wp_nonce_field('bpm_admin_settings') ?>
+		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $bpm->config->initKeysArray(); ?>
+		    <?php $fox->config->initKeysArray(); ?>
 
 
 		    <?php if (BP_MEDIA_EXPERT_MODE == 1) {
@@ -62,17 +62,17 @@ class BPM_tab_server {
 
 		    <div class="panel_section w25">
 
-			<div class="title"><?php _e('Server Environment',"bp-media") ?> </div>
+			<div class="title"><?php _e('Server Environment',"foxfire") ?> </div>
 
-			<div class="bpm_section_advice">
+			<div class="fox_section_advice">
 			    <?php _e("Your server is reporting the file paths listed below. You can override these values by defining them in your wp-config.php file,<br>
-				example... <i>define( 'WP_CONTENT_URL', 'http://mysite.com/test/installs/wp-content');</i>","bp-media") ?>
+				example... <i>define( 'WP_CONTENT_URL', 'http://mysite.com/test/installs/wp-content');</i>","foxfire") ?>
 			</div>
 
 			<table class="form-table">
 
 			    <?php
-				  $constants = array('PHP_OS','PHP_VERSION','WP_CONTENT_URL','WP_CONTENT_DIR','WP_PLUGIN_DIR','WP_PLUGIN_URL','BPM_FOLDER','BPM_URL_BASE','BPM_PATH_BASE');
+				  $constants = array('PHP_OS','PHP_VERSION','WP_CONTENT_URL','WP_CONTENT_DIR','WP_PLUGIN_DIR','WP_PLUGIN_URL','FOX_FOLDER','FOX_URL_BASE','FOX_PATH_BASE');
 
 				  foreach($constants as $const){
 				  ?>
@@ -87,7 +87,7 @@ class BPM_tab_server {
 				  } ?>
 
 					<tr valign="top">
-					    <th align="left"><?php _e('SQL_VERSION',"bp-media"); ?></th>
+					    <th align="left"><?php _e('SQL_VERSION',"foxfire"); ?></th>
 					    <td>
 					    <input type="text" size="80" maxlength="200" name="SQL_VERSION" disabled="disabled"
 					       value="<?php echo $version->getSQLVersion(); ?>" />
@@ -95,7 +95,7 @@ class BPM_tab_server {
 					</tr>
 
 					<tr valign="top">
-					    <th align="left"><?php _e('APACHE_VERSION',"bp-media"); ?></th>
+					    <th align="left"><?php _e('APACHE_VERSION',"foxfire"); ?></th>
 					    <td>
 					    <input type="text" size="80" maxlength="200" name="APACHE_VERSION" disabled="disabled"
 					       value="<?php echo $version->getApacheVersion(); ?>" />
@@ -107,18 +107,18 @@ class BPM_tab_server {
 
 		    <div class="panel_section w25">
 
-			<div class="title"><?php _e("PHP INFO","bp-media") ?> </div>
+			<div class="title"><?php _e("PHP INFO","foxfire") ?> </div>
 
 			<table class="form-table">
 				<tr valign="top">
 				    <td>
-					<?php BPM_debug::php_info_dump();  ?>
+					<?php FOX_debug::php_info_dump();  ?>
 				    </td>
 				</tr>
 			</table>
 		    </div>
 
-		    <?php $bpm->config->printKeysArray(); ?>
+		    <?php $fox->config->printKeysArray(); ?>
 
 	    </form>
 
@@ -151,6 +151,6 @@ class BPM_tab_server {
 	}
 
 
-} // End of class BPM_tab_server
+} // End of class FOX_tab_server
 
 ?>

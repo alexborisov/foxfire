@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_ajax_selftest {
+class FOX_tab_ajax_selftest {
 
 
 	/**
@@ -36,16 +36,16 @@ class BPM_tab_ajax_selftest {
 
 	function render() {
 
-		global $bpm;
+		global $fox;
 		
 		?>
 		<!-- Begin Config settings -->
 
 		<form name="displayform" method="POST" action="<?php echo $this->filepath.'#display'; ?>" >
 
-		    <?php wp_nonce_field('bpm_admin_settings') ?>
+		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $bpm->config->initKeysArray(); ?>
+		    <?php $fox->config->initKeysArray(); ?>
 
 		    <script type="text/javascript">
 
@@ -56,28 +56,28 @@ class BPM_tab_ajax_selftest {
 			    // Slide test settings box open and closed
 			    // ================================================================================
 
-			    jQuery("#bpm_js_unit_test_settings .toggle").click( function() {
+			    jQuery("#fox_js_unit_test_settings .toggle").click( function() {
 
-				var status = jQuery(this).closest("#bpm_js_unit_test_settings").children(".bpm_js_unit_test").attr('status');
+				var status = jQuery(this).closest("#fox_js_unit_test_settings").children(".fox_js_unit_test").attr('status');
 
 				if( status == 'closed' ){
 				
 					// Because we're using floating divs, we have to manually calculate the height of the panel,
 					// as jQuery's box height function will return the wrong height
 
-					var optionRows = jQuery(this).closest("#bpm_js_unit_test_settings").children(".bpm_js_unit_test").find(".form-table tr").length;
+					var optionRows = jQuery(this).closest("#fox_js_unit_test_settings").children(".fox_js_unit_test").find(".form-table tr").length;
 					var open_height = ( optionRows * 20 + 130 ) + "px";
 
-					jQuery(this).closest("#bpm_js_unit_test_settings").children(".bpm_js_unit_test").animate({"height": open_height}, {duration: 200 });
-					jQuery(this).closest("#bpm_js_unit_test_settings").children(".bpm_js_unit_test").removeAttr('status', 'closed');
-					jQuery(this).closest("#bpm_js_unit_test_settings").children(".bpm_js_unit_test").attr('status', 'open');
+					jQuery(this).closest("#fox_js_unit_test_settings").children(".fox_js_unit_test").animate({"height": open_height}, {duration: 200 });
+					jQuery(this).closest("#fox_js_unit_test_settings").children(".fox_js_unit_test").removeAttr('status', 'closed');
+					jQuery(this).closest("#fox_js_unit_test_settings").children(".fox_js_unit_test").attr('status', 'open');
 
 					jQuery(this).children(".text").html('Close');
 				}
 				else{				
-					jQuery(this).closest("#bpm_js_unit_test_settings").children(".bpm_js_unit_test").animate({height: "0px"}, 500 );
-					jQuery(this).closest("#bpm_js_unit_test_settings").children(".bpm_js_unit_test").removeAttr('status', 'open');
-					jQuery(this).closest("#bpm_js_unit_test_settings").children(".bpm_js_unit_test").attr('status', 'closed');
+					jQuery(this).closest("#fox_js_unit_test_settings").children(".fox_js_unit_test").animate({height: "0px"}, 500 );
+					jQuery(this).closest("#fox_js_unit_test_settings").children(".fox_js_unit_test").removeAttr('status', 'open');
+					jQuery(this).closest("#fox_js_unit_test_settings").children(".fox_js_unit_test").attr('status', 'closed');
 
 					jQuery(this).children(".text").html('Open');
 				}
@@ -88,21 +88,21 @@ class BPM_tab_ajax_selftest {
 
 		    </script>
 
-		    <div class="panel_section w20" id="bpm_js_unit_test_settings">
+		    <div class="panel_section w20" id="fox_js_unit_test_settings">
 
-			<div class="title"><?php _e('Test Settings',"bp-media") ?></div>
+			<div class="title"><?php _e('Test Settings',"foxfire") ?></div>
 
-			<div class="bpm_js_unit_test" status="closed">
+			<div class="fox_js_unit_test" status="closed">
 
-			    <div class="bpm_subtitle">QUnit Engine Options</div>
+			    <div class="fox_subtitle">QUnit Engine Options</div>
 
 			    <table class="form-table">
 
 				    <tr>
 					<th scope="row">
 					<input type="checkbox" value="1"
-					    <?php $bpm->config->printKeyName("system", "jsUnitTest", "engineNoGlobals"); ?>
-					    <?php checked(true, $bpm->config->getKeyVal("system", "jsUnitTest", "engineNoGlobals") ); ?> />
+					    <?php $fox->config->printKeyName("system", "jsUnitTest", "engineNoGlobals"); ?>
+					    <?php checked(true, $fox->config->getKeyVal("system", "jsUnitTest", "engineNoGlobals") ); ?> />
 					    <?php echo "noGlobals"; ?>
 					</th>
 
@@ -114,8 +114,8 @@ class BPM_tab_ajax_selftest {
 				    <tr>
 					<th scope="row">
 					<input type="checkbox" value="1"
-					    <?php $bpm->config->printKeyName("system", "jsUnitTest", "engineNoTryCatch"); ?>
-					    <?php checked(true, $bpm->config->getKeyVal("system", "jsUnitTest", "engineNoTryCatch") ); ?> />
+					    <?php $fox->config->printKeyName("system", "jsUnitTest", "engineNoTryCatch"); ?>
+					    <?php checked(true, $fox->config->getKeyVal("system", "jsUnitTest", "engineNoTryCatch") ); ?> />
 					    <?php echo "noTryCatch"; ?>
 					</th>
 
@@ -127,8 +127,8 @@ class BPM_tab_ajax_selftest {
 				    <tr>
 					<th scope="row">
 					<input type="checkbox" value="1"
-					    <?php $bpm->config->printKeyName("system", "jsUnitTest", "engineHidePassedTests"); ?>
-					    <?php checked(true, $bpm->config->getKeyVal("system", "jsUnitTest", "engineHidePassedTests") ); ?> />
+					    <?php $fox->config->printKeyName("system", "jsUnitTest", "engineHidePassedTests"); ?>
+					    <?php checked(true, $fox->config->getKeyVal("system", "jsUnitTest", "engineHidePassedTests") ); ?> />
 					    <?php echo "hidePassed"; ?>
 					</th>
 
@@ -140,8 +140,8 @@ class BPM_tab_ajax_selftest {
 				    <tr>
 					<th scope="row">
 					<input type="checkbox" value="1"
-					    <?php $bpm->config->printKeyName("system", "jsUnitTest", "showUserAgent"); ?>
-					    <?php checked(true, $bpm->config->getKeyVal("system", "jsUnitTest", "showUserAgent") ); ?> />
+					    <?php $fox->config->printKeyName("system", "jsUnitTest", "showUserAgent"); ?>
+					    <?php checked(true, $fox->config->getKeyVal("system", "jsUnitTest", "showUserAgent") ); ?> />
 					    <?php echo "showUserAgent"; ?>
 					</th>
 
@@ -152,7 +152,7 @@ class BPM_tab_ajax_selftest {
 
 			    </table>
 
-			    <div class="bpm_subtitle">Test Groups</div>
+			    <div class="fox_subtitle">Test Groups</div>
 
 			    <table class="form-table">
 
@@ -161,12 +161,12 @@ class BPM_tab_ajax_selftest {
 				// List all testgroups that aren't disabled in dictionary.php
 				// ===================================================================
 
-				$base_name = $bpm->config->getKeyName("system", "jsUnitTest", "activeTests");
-				$base_val = $bpm->config->getKeyVal("system", "jsUnitTest", "activeTests");
+				$base_name = $fox->config->getKeyName("system", "jsUnitTest", "activeTests");
+				$base_val = $fox->config->getKeyVal("system", "jsUnitTest", "activeTests");
 
-				require ( BPM_PATH_TEST . '/testlib/js/test.core.php' );
+				require ( FOX_PATH_TEST . '/testlib/js/test.core.php' );
 
-				$cls = new BPM_test_js_core();
+				$cls = new FOX_test_js_core();
 				$test_groups = $cls->listTestGroups();
 
 				foreach( $test_groups as $group_slug => $group ){
@@ -191,9 +191,9 @@ class BPM_tab_ajax_selftest {
 
 			    </table>
 
-			    <div class="bpm_submit_js_unit_test_spanner">
-				<div class="bpm_submit_js_unit_test_wrap">
-				    <div class="submit"><input class="bpm-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
+			    <div class="fox_submit_js_unit_test_spanner">
+				<div class="fox_submit_js_unit_test_wrap">
+				    <div class="submit"><input class="fox-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
 				</div>
 			    </div>
 
@@ -205,10 +205,10 @@ class BPM_tab_ajax_selftest {
 			
 		    </div>
 
-		    <?php $bpm->config->printKeysArray(); ?>
+		    <?php $fox->config->printKeysArray(); ?>
 
-		    <div class="bpm_js_unit_test_run">
-			<div class="submit"><input class="bpm-button" id="bpm_js_unit_test_run_button" type="submit" name="run_js_self_tests" value="<?php _e('Run Tests') ;?>"/></div>
+		    <div class="fox_js_unit_test_run">
+			<div class="submit"><input class="fox-button" id="fox_js_unit_test_run_button" type="submit" name="run_js_self_tests" value="<?php _e('Run Tests') ;?>"/></div>
 		    </div>
 
 
@@ -219,7 +219,7 @@ class BPM_tab_ajax_selftest {
 
 		    $test_groups = $cls->listTestGroups();
 
-		    echo "\n<!-- Enqueue BP-Media testcase JS files  ======================== -->";
+		    echo "\n<!-- Enqueue FoxFire testcase JS files  ======================== -->";
 		    echo "\n<!-- ============================================================ -->";
 		    echo "\n";
 
@@ -229,7 +229,7 @@ class BPM_tab_ajax_selftest {
 
 			    foreach( $group['tests'] as $test_slug => $data ){
 
-				echo "\n<script type='text/javascript' src='" . BPM_URL_TEST . "/testcase/js" . $data['file'];
+				echo "\n<script type='text/javascript' src='" . FOX_URL_TEST . "/testcase/js" . $data['file'];
 				echo "?ver=" . mt_rand(1,1000000) . "'></script>";
 			    }
 			    unset($test_slug, $data);
@@ -247,9 +247,9 @@ class BPM_tab_ajax_selftest {
 			jQuery(document).ready(function(){
 
 				QUnit.config.urlConfig = [];
-				QUnit.config.notrycatch = <?php echo ($bpm->config->getKeyVal("system", "jsUnitTest", "engineNoTryCatch") == true) ? "true" : "false" ?>;
-				QUnit.config.noglobals = <?php echo ($bpm->config->getKeyVal("system", "jsUnitTest", "engineNoGlobals") == true) ? "true" : "false" ?>;
-				QUnit.config.hidepassed = <?php echo ($bpm->config->getKeyVal("system", "jsUnitTest", "engineHidePassedTests") == true) ? "true" : "false" ?>;
+				QUnit.config.notrycatch = <?php echo ($fox->config->getKeyVal("system", "jsUnitTest", "engineNoTryCatch") == true) ? "true" : "false" ?>;
+				QUnit.config.noglobals = <?php echo ($fox->config->getKeyVal("system", "jsUnitTest", "engineNoGlobals") == true) ? "true" : "false" ?>;
+				QUnit.config.hidepassed = <?php echo ($fox->config->getKeyVal("system", "jsUnitTest", "engineHidePassedTests") == true) ? "true" : "false" ?>;
 
 			});
 
@@ -257,12 +257,12 @@ class BPM_tab_ajax_selftest {
 
 		    <div class="panel_section w30">
 
-			<div class="title"><?php _e('Results',"bp-media") ?> </div>
+			<div class="title"><?php _e('Results',"foxfire") ?> </div>
 
-			<div class="bpm_selftest_results">
+			<div class="fox_selftest_results">
 
 			     <?php
-				 if( $bpm->config->getKeyVal("system", "jsUnitTest", "showUserAgent") == true) {
+				 if( $fox->config->getKeyVal("system", "jsUnitTest", "showUserAgent") == true) {
 
 					echo '<h2 id="qunit-userAgent"></h2>';
 				 }
@@ -270,7 +270,7 @@ class BPM_tab_ajax_selftest {
 
 			     <ol id="qunit-tests"></ol>
 			     <div id="qunit-fixture">test markup, will be hidden</div>
-			     <div id="bpm_debug_dump"></div>
+			     <div id="fox_debug_dump"></div>
 
 			</div>
 
@@ -291,11 +291,11 @@ class BPM_tab_ajax_selftest {
 
 	public function enqueueScripts() {
 
-		$cls = new bpm_registerScripts();
+		$cls = new fox_registerScripts();
 		$cls->ajax_api();
 		
-		wp_register_script("bpm-qunit", BPM_URL_TEST . "/qunit/qunit.js");
-		wp_enqueue_script("bpm-qunit");
+		wp_register_script("fox-qunit", FOX_URL_TEST . "/qunit/qunit.js");
+		wp_enqueue_script("fox-qunit");
 	}
 
 
@@ -308,10 +308,10 @@ class BPM_tab_ajax_selftest {
 
 	public function enqueueStyles() {
 
-		wp_enqueue_style( 'bpm-qunit', BPM_URL_TEST . "/qunit/qunit.css", false, '2.8.1', 'screen' );	    
+		wp_enqueue_style( 'fox-qunit', FOX_URL_TEST . "/qunit/qunit.css", false, '2.8.1', 'screen' );	    
 	}
 
 
-} // End of class BPM_tab_ajax_selftest
+} // End of class FOX_tab_ajax_selftest
 
 ?>

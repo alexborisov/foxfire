@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_test_dictionary extends BPM_dictionary_base {
+class FOX_test_dictionary extends FOX_dictionary_base {
 
 
         // DB table names and structures are hard-coded into the class. This allows class methods to be
@@ -22,9 +22,9 @@ class BPM_test_dictionary extends BPM_dictionary_base {
 
 	public static $struct = array(
 
-		"table" => "BPM_test_dictionary",
+		"table" => "FOX_test_dictionary",
 		"engine" => "InnoDB", // Required for transactions
-		"cache_namespace" => "BPM_test_dictionary",
+		"cache_namespace" => "FOX_test_dictionary",
 		"cache_strategy" => "paged",
 		"columns" => array(
 		    "id" =>		array(	"php"=>"int",	"sql"=>"smallint",	"format"=>"%d", "width"=>null,"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
@@ -44,12 +44,12 @@ class BPM_test_dictionary extends BPM_dictionary_base {
 	// ================================================================================================================
 
 
-	public function BPM_test_dictionary() {
+	public function FOX_test_dictionary() {
 
 	}
 
 
-} // End class BPM_logging_dictionary_tree
+} // End class FOX_logging_dictionary_tree
 
 class core_base_dictionary extends RAZ_testCase {
 
@@ -59,14 +59,14 @@ class core_base_dictionary extends RAZ_testCase {
 
 		parent::setUp();
 
-		$this->cls = new BPM_test_dictionary();
+		$this->cls = new FOX_test_dictionary();
 
 		// --The install method throws errors
 		$result = $this->cls->install($error);
 
-		// --Note that I'm updating BPM_error so you can just go $error->getAsText()
+		// --Note that I'm updating FOX_error so you can just go $error->getAsText()
 
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		unset($error);
 
@@ -81,8 +81,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -98,8 +98,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -120,8 +120,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try {
 			$result_add = $this->cls->addToken( $token);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -140,16 +140,16 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check db
 		// ======================================================
-	    	$db = new BPM_db();
+	    	$db = new FOX_db();
 
-		global $bpm;
+		global $fox;
 
 		$struct = $this->cls->_struct();
 		try{
-			$result_select = $db->runSelectQuery(BPM_test_dictionary::_struct(), $args=array( array( "col"=>"token", "op"=>"=", "val"=>$token) ), $column=array("mode"=>"include", "col"=>"id"), $ctrl=array("format"=>"var"));
+			$result_select = $db->runSelectQuery(FOX_test_dictionary::_struct(), $args=array( array( "col"=>"token", "op"=>"=", "val"=>$token) ), $column=array("mode"=>"include", "col"=>"id"), $ctrl=array("format"=>"var"));
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"DB Select exception",
@@ -171,14 +171,14 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check persistent cache
 		// ======================================================
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
-				$this->assertEquals($id, $bpm->cache->get($struct["cache_namespace"],"token_".$token ) );
-				$this->assertEquals($token, $bpm->cache->get($struct["cache_namespace"],"id_".$id ));
+				$this->assertEquals($id, $fox->cache->get($struct["cache_namespace"],"token_".$token ) );
+				$this->assertEquals($token, $fox->cache->get($struct["cache_namespace"],"id_".$id ));
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -201,8 +201,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -218,8 +218,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -239,8 +239,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -265,10 +265,10 @@ class core_base_dictionary extends RAZ_testCase {
 		// =======================================================
 
 		try{
-			$select_result = $db->runSelectQuery(BPM_test_dictionary::_struct(), $args=null, $columns=null, $ctrl=array("format"=>"array_array") );
+			$select_result = $db->runSelectQuery(FOX_test_dictionary::_struct(), $args=null, $columns=null, $ctrl=array("format"=>"array_array") );
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"DB Select exception",
@@ -298,42 +298,42 @@ class core_base_dictionary extends RAZ_testCase {
 		$this->assertEquals(array_flip($exp_array), $this->cls->cache["ids"]);
 
 		//Check tokens has been added to persistent cache
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -355,8 +355,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -372,8 +372,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -393,8 +393,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -408,8 +408,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 		    	$result = $this->cls->flushCache();
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"Class flushCache exception",
@@ -439,8 +439,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$fetch_values = array("exp"=>array("five"=>5), "fetch"=>"five");
 			$this->assertEquals(array("five"=>5),$this->cls->dbFetchToken("five") );
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>5,
 					'text'=>"dbfetchToken exception",
@@ -464,44 +464,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		//Check persistent cache
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -527,8 +527,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -544,8 +544,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -565,8 +565,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -580,8 +580,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 		    $result = $this->cls->flushCache();
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"Class flushCache exception",
@@ -602,8 +602,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$this->assertEquals($exp_array, $this->cls->dbFetchToken($add_tokens));
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>5,
 					'text'=>"dbfetchToken exception",
@@ -623,44 +623,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		//Check persistent cache
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -684,8 +684,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -701,8 +701,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -723,8 +723,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -739,8 +739,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 		    $result = $this->cls->flushCache();
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"Class flushCache exception",
@@ -772,8 +772,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$fetch_value= array("exp"=>array(5=>"five"), "fetch"=>5);
 			$this->assertEquals(array(5=>"five"),$this->cls->dbFetchId(5) );
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>5,
 					'text'=>"dbfetchToken exception",
@@ -795,44 +795,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		//Check persistent cache
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -855,8 +855,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -873,8 +873,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -895,8 +895,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -911,8 +911,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 		    $result = $this->cls->flushCache();
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"Class flushCache exception",
@@ -934,8 +934,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 		$this->assertEquals(array_flip($exp_array), $this->cls->dbFetchId($add_ids));
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>5,
 					'text'=>"dbfetchToken exception",
@@ -956,44 +956,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		//Check persistent cache
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -1017,8 +1017,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1035,8 +1035,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1057,8 +1057,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -1073,9 +1073,9 @@ class core_base_dictionary extends RAZ_testCase {
 
 		//Check persistent cache
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_fetch = array("exp"=>array("one"=>1), "fetch"=>"one");
@@ -1094,8 +1094,8 @@ class core_base_dictionary extends RAZ_testCase {
 				$this->assertEquals(array("five"=>5), $this->cls->cacheFetchToken("five") );
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"cacheFetchToken exception",
@@ -1119,8 +1119,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1137,8 +1137,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1159,8 +1159,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -1175,9 +1175,9 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Test cacheFetchToken
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 
@@ -1186,8 +1186,8 @@ class core_base_dictionary extends RAZ_testCase {
 	    			$this->assertEquals($exp_array, $this->cls->cacheFetchToken($add_tokens) );
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>4,
 						'text'=>"CacheFetchToken exception",
@@ -1211,8 +1211,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1229,8 +1229,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1251,8 +1251,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -1267,9 +1267,9 @@ class core_base_dictionary extends RAZ_testCase {
 
 		//Check persistent cache
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_fetch = array("exp"=>array(1=>"one"), "fetch"=>1);
@@ -1288,8 +1288,8 @@ class core_base_dictionary extends RAZ_testCase {
 				$this->assertEquals(array(5=>"five"), $this->cls->cacheFetchToken(5) );
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>4,
 						'text'=>"cacheFetchId exception",
@@ -1312,8 +1312,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1330,8 +1330,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1352,8 +1352,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -1368,9 +1368,9 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check persistent cache
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 
@@ -1379,8 +1379,8 @@ class core_base_dictionary extends RAZ_testCase {
 				$this->assertEquals($exp_array ,$this->cls->cacheFetchId($ids));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>4,
 						'text'=>"cacheFetchId exception",
@@ -1404,8 +1404,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1422,8 +1422,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1444,8 +1444,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -1476,9 +1476,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$get_token= array("exp"=>5, "get"=>"five");
 			$this->assertEquals(5,$this->cls->getToken("five"));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getToken exception",
@@ -1500,8 +1500,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1518,8 +1518,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1540,8 +1540,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -1560,9 +1560,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$exp_array  = array("one"=>1, "two"=>2, "three"=>3, "four"=>4, "five"=>5);
 			$this->assertEquals($exp_array, $this->cls->getToken($add_tokens));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getToken exception",
@@ -1584,8 +1584,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1602,8 +1602,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1624,8 +1624,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -1660,9 +1660,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$get_token= array("exp"=>5, "get"=>"five");
 			$this->assertEquals(5,$this->cls->getToken("five"));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getToken exception",
@@ -1690,8 +1690,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1708,8 +1708,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1730,8 +1730,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -1750,9 +1750,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$exp_array  = array("one"=>1, "two"=>2, "three"=>3, "four"=>4, "five"=>5);
 			$this->assertEquals($exp_array, $this->cls->getToken($add_tokens));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getToken exception",
@@ -1780,8 +1780,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1798,8 +1798,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1820,8 +1820,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -1838,8 +1838,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1871,9 +1871,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$get_token= array("exp"=>5, "get"=>"five");
 			$this->assertEquals(5,$this->cls->getToken("five"));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"getToken exception",
@@ -1894,44 +1894,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache has been rebuilt
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -1955,8 +1955,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -1973,8 +1973,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -1995,8 +1995,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -2013,8 +2013,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2033,9 +2033,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$exp_array  = array("one"=>1, "two"=>2, "three"=>3, "four"=>4, "five"=>5);
 			$this->assertEquals($exp_array, $this->cls->getToken($add_tokens));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getToken exception",
@@ -2056,44 +2056,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache has been rebuilt
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -2116,8 +2116,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -2134,8 +2134,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2167,9 +2167,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$get_token= array("exp"=>5, "get"=>"five");
 			$this->assertEquals(5,$this->cls->getToken("five"));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"getToken exception",
@@ -2190,44 +2190,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache has been rebuilt
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -2251,8 +2251,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -2269,8 +2269,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2289,9 +2289,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$exp_array  = array("one"=>1, "two"=>2, "three"=>3, "four"=>4, "five"=>5);
 			$this->assertEquals($exp_array, $this->cls->getToken($add_tokens));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getToken exception",
@@ -2312,44 +2312,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache has been rebuilt
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -2372,8 +2372,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -2390,8 +2390,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2413,8 +2413,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->cls->addToken($add_tokens[0]);
 			$this->cls->addToken($add_tokens[1]);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -2433,9 +2433,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$exp_array  = array("one"=>1, "two"=>2, "three"=>3, "four"=>4, "five"=>5);
 			$this->assertEquals($exp_array, $this->cls->getToken($add_tokens));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getToken exception",
@@ -2456,44 +2456,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache has been rebuilt
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -2516,8 +2516,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -2534,8 +2534,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2556,8 +2556,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -2590,9 +2590,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals("five",$this->cls->getId(5));
 
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getId exception",
@@ -2615,8 +2615,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -2633,8 +2633,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2655,8 +2655,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -2677,9 +2677,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$exp_array  = array(1=>"one", 2=>"two", 3=>"three", 4=>"four", 5=>"five");
 			$this->assertEquals($exp_array, $this->cls->getId($get_ids));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getId exception",
@@ -2701,8 +2701,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -2719,8 +2719,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2741,8 +2741,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -2779,9 +2779,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals("five",$this->cls->getId(5));
 
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getId exception",
@@ -2810,8 +2810,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -2828,8 +2828,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2850,8 +2850,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -2875,9 +2875,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$exp_array  = array(1=>"one", 2=>"two", 3=>"three", 4=>"four", 5=>"five");
 			$this->assertEquals($exp_array, $this->cls->getId($get_ids));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getId exception",
@@ -2906,8 +2906,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -2924,8 +2924,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2946,8 +2946,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -2964,8 +2964,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -2998,9 +2998,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals("five",$this->cls->getId(5));
 
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getId exception",
@@ -3021,44 +3021,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache has been rebuilt
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -3082,8 +3082,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -3100,8 +3100,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -3122,8 +3122,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -3140,8 +3140,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -3161,9 +3161,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$exp_array  = array(1=>"one", 2=>"two", 3=>"three", 4=>"four", 5=>"five");
 			$this->assertEquals($exp_array, $this->cls->getId($get_ids));
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(
+			throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"getId exception",
@@ -3184,44 +3184,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache has been rebuilt
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>5,
 						'text'=>"Cache get exception",
@@ -3245,8 +3245,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -3263,8 +3263,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -3285,8 +3285,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -3304,8 +3304,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$this->cls->dropAll();
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"dropAll exception",
@@ -3319,15 +3319,15 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		// Check Db has no rows
 		// ======================================================
 		try{
-			$this->assertEquals( "0", $db->runSelectQuery(BPM_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
+			$this->assertEquals( "0", $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>5,
 					'text'=>"DB select exception",
@@ -3345,44 +3345,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache is empty
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>6,
 						'text'=>"Cache get exception",
@@ -3405,8 +3405,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -3423,8 +3423,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -3445,8 +3445,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -3479,8 +3479,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals(1, $this->cls->dropToken("five"));
 
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"dropToken exception",
@@ -3496,10 +3496,10 @@ class core_base_dictionary extends RAZ_testCase {
 		// Check Db has no rows
 		// ======================================================
 		try{
-			$this->assertEquals( "0", $db->runSelectQuery(BPM_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
+			$this->assertEquals( "0", $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>5,
 					'text'=>"DB select exception",
@@ -3517,44 +3517,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache is empty
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>6,
 						'text'=>"Cache get exception",
@@ -3578,8 +3578,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -3596,8 +3596,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -3618,8 +3618,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -3639,8 +3639,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals(1, $this->cls->dropToken($add_tokens));
 
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"dropToken exception",
@@ -3656,10 +3656,10 @@ class core_base_dictionary extends RAZ_testCase {
 		// Check Db has no rows
 		// ======================================================
 		try{
-			$this->assertEquals( "0", $db->runSelectQuery(BPM_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
+			$this->assertEquals( "0", $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>5,
 					'text'=>"DB select exception",
@@ -3677,44 +3677,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache is empty
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>6,
 						'text'=>"Cache get exception",
@@ -3738,8 +3738,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -3756,8 +3756,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -3778,8 +3778,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -3812,8 +3812,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals(1, $this->cls->dropId(5));
 
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"dropId exception",
@@ -3829,10 +3829,10 @@ class core_base_dictionary extends RAZ_testCase {
 		// Check Db has no rows
 		// ======================================================
 		try{
-			$this->assertEquals( "0", $db->runSelectQuery(BPM_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
+			$this->assertEquals( "0", $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>5,
 					'text'=>"DB select exception",
@@ -3850,44 +3850,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache is empty
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>6,
 						'text'=>"Cache get exception",
@@ -3911,8 +3911,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->truncate();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
@@ -3929,8 +3929,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$result = $this->cls->flushCache();
 			$this->assertEquals(true, $result);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
@@ -3951,8 +3951,8 @@ class core_base_dictionary extends RAZ_testCase {
 		try{
 			$add_result = $this->cls->addToken($add_tokens);
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>3,
 					'text'=>"addToken exception",
@@ -3973,8 +3973,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals(5, $this->cls->dropId($drop_ids));
 
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>4,
 					'text'=>"dropId exception",
@@ -3990,10 +3990,10 @@ class core_base_dictionary extends RAZ_testCase {
 		// Check Db has no rows
 		// ======================================================
 		try{
-			$this->assertEquals( "0", $db->runSelectQuery(BPM_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
+			$this->assertEquals( "0", $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
 		}
-		catch(BPM_exception $child){
-		    	throw new BPM_exception(
+		catch(FOX_exception $child){
+		    	throw new FOX_exception(
 				    array(
 					'numeric'=>5,
 					'text'=>"DB select exception",
@@ -4011,44 +4011,44 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check that persistent cache is empty
 		// ======================================================
-		global $bpm;
+		global $fox;
 		$struct = $this->cls->_struct();
-		if($bpm->cache->isActive()) {
+		if($fox->cache->isActive()) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $bpm->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
 
 			}
-			catch(BPM_exception $child){
-				throw new BPM_exception(
+			catch(FOX_exception $child){
+				throw new FOX_exception(
 					    array(
 						'numeric'=>6,
 						'text'=>"Cache get exception",

@@ -6,15 +6,15 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-abstract class BPM_db_walker {
+abstract class FOX_db_walker {
 
 
 	var $current_item;		// The index of the current item within the albumType array
@@ -137,6 +137,6 @@ abstract class BPM_db_walker {
 	}
 
 
-} // End of class BPM_db_walker
+} // End of class FOX_db_walker
 
 ?>

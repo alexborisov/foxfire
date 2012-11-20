@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_exceptionHandler {
+class FOX_exceptionHandler {
 
 
 	var $buffer;			    // Error data
@@ -35,6 +35,6 @@ class BPM_exceptionHandler {
 	}
 
 
-} // End of class BPM_exceptionHandler
+} // End of class FOX_exceptionHandler
 
 ?>

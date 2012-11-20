@@ -4,7 +4,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,14 +20,14 @@
  * @since 0.1.9
  */
 
-function bpm_admin_keyPicker(){
+function fox_admin_keyPicker(){
 
 
 	jQuery(".key_manager").click(function() {
 
 	    var html_titleBar;
 
-	    html_titleBar  =  '<div class="bpm_title_bar_icon">';
+	    html_titleBar  =  '<div class="fox_title_bar_icon">';
 	    html_titleBar  += '<div class="key_manager_icon"></div>';
 	    html_titleBar  += '</div>';	    
 	    html_titleBar  += '<div class="title_string">Key Manager</div>';
@@ -40,13 +40,13 @@ function bpm_admin_keyPicker(){
 
 	    jQuery(".palette_content").dialog({
 
-		    dialogClass:'bpm_floating_palette',
+		    dialogClass:'fox_floating_palette',
 		    modal: false,
 		    autoOpen: true,
 		    position: [x_pos, y_pos],
 
-		    // In order to use the "fade" effect below, the script aliases "bpm-jquery-effects-core"
-		    // and "bpm-jquery-effects-fade" have to be included in the page. Other possible effects:
+		    // In order to use the "fade" effect below, the script aliases "fox-jquery-effects-core"
+		    // and "fox-jquery-effects-fade" have to be included in the page. Other possible effects:
 		    // 'blind', 'clip', 'drop', 'explode', 'fold', 'puff', 'slide', 'scale', 'size', 'pulsate'
 
 		    show: {effect: "fade", duration: 500},
@@ -57,15 +57,15 @@ function bpm_admin_keyPicker(){
 			    // has it set up as a <span> its just easier to remove it, then replace
 			    // it with our floating icon and floating title text
 
-			    jQuery('.bpm_floating_palette .ui-dialog-titlebar .ui-dialog-title').remove();
+			    jQuery('.fox_floating_palette .ui-dialog-titlebar .ui-dialog-title').remove();
 
 			    // Remove our HTML (if it exists) to prevent multiple copies getting added
 			    // when the user closes the dialog and opens it again
 
-			    jQuery('.bpm_floating_palette .ui-dialog-titlebar .bpm_title_bar_icon').remove();
-			    jQuery('.bpm_floating_palette .ui-dialog-titlebar .title_string').remove();
+			    jQuery('.fox_floating_palette .ui-dialog-titlebar .fox_title_bar_icon').remove();
+			    jQuery('.fox_floating_palette .ui-dialog-titlebar .title_string').remove();
 
-			    jQuery('.bpm_floating_palette .ui-dialog-titlebar').prepend(html_titleBar);
+			    jQuery('.fox_floating_palette .ui-dialog-titlebar').prepend(html_titleBar);
 
 			    resetFloatingPalette();
 

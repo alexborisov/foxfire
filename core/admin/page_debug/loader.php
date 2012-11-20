@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,24 +20,24 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_admin_page_debug_intro {
+class FOX_admin_page_debug_intro {
 
 
 	public function render(){
 
 	    ?>
 
-		<div class="bpm_section_intro">
+		<div class="fox_section_intro">
 
-			<div class="icon"><img src="<?php echo BPM_URL_CORE . '/admin/page_debug/debug_tools_icon.png' ?>" alt="System Tools" width="64" height="64" /></div>
+			<div class="icon"><img src="<?php echo FOX_URL_CORE . '/admin/page_debug/debug_tools_icon.png' ?>" alt="System Tools" width="64" height="64" /></div>
 
 			<div class="title">
-			    <?php _e('Debug Tools',"bp-media") ?>
+			    <?php _e('Debug Tools',"foxfire") ?>
 			</div>
 
 			<div class="details">
-			    <?php _e("These admin screens are used to reset the server to a known state during debugging, and to test BP-Media's server-side and JavaScript code libraries. For more
-				info see the <a href='http://code.google.com/p/buddypress-media/wiki/PLUGIN_debug'>Debug Tools</a> wiki page.","bp-media") ?>
+			    <?php _e("These admin screens are used to reset the server to a known state during debugging, and to test FoxFire's server-side and JavaScript code libraries. For more
+				info see the <a href='http://code.google.com/p/buddypress-media/wiki/PLUGIN_debug'>Debug Tools</a> wiki page.","foxfire") ?>
 			</div>
 
 		</div>
@@ -45,10 +45,10 @@ class BPM_admin_page_debug_intro {
 	    <?php
 	}
 
-} // End of class BPM_admin_page_debug_intro
+} // End of class FOX_admin_page_debug_intro
 
 
-class BPM_admin_page_debug extends BPM_admin_page_base {
+class FOX_admin_page_debug extends FOX_admin_page_base {
 
 
 	public function __construct() {
@@ -76,21 +76,21 @@ class BPM_admin_page_debug extends BPM_admin_page_base {
 
 		if( !empty($_POST) ) {
 
-			check_admin_referer('bpm_admin_settings');
+			check_admin_referer('fox_admin_settings');
 
 			if( isset($_POST['reset_cache']) ){
 
-				global $bpm;
-				$bpm->cache->flushAll();
+				global $fox;
+				$fox->cache->flushAll();
 
 			}
 			elseif( isset($_POST['reset_tables']) ){
 
-				global $bpm;
-				$bpm->cache->flushAll();
+				global $fox;
+				$fox->cache->flushAll();
 
-				do_action('bpm_uninstall');
-				do_action('bpm_install');
+				do_action('fox_uninstall');
+				do_action('fox_install');
 
 			}
 			elseif( isset($_POST['reset_config']) ){
@@ -99,15 +99,15 @@ class BPM_admin_page_debug extends BPM_admin_page_base {
 				// will find data in the cache but which isn't in the db (because we truncated the tables),
 				// try to operate as if the data is still in the db, and as a result, crash.
 
-				global $bpm;
-				$bpm->cache->flushAll();
+				global $fox;
+				$fox->cache->flushAll();
 
-				$reset_ok = bpm_defaultsInstall($defaults_error);
+				$reset_ok = fox_defaultsInstall($defaults_error);
 
 				if(!$reset_ok){
 
 				    echo "\nError resetting defaults\n";
-				    BPM_Debug::dump($defaults_error);
+				    FOX_Debug::dump($defaults_error);
 
 				}
 
@@ -149,7 +149,7 @@ class BPM_admin_page_debug extends BPM_admin_page_base {
 		// Load scripts used by all tabs on this page
 		// ======================================================
 
-		wp_enqueue_script( 'bpm-adminNotifier');
+		wp_enqueue_script( 'fox-adminNotifier');
 
 
 		// Load scripts used by the currently selected tab
@@ -191,9 +191,9 @@ class BPM_admin_page_debug extends BPM_admin_page_base {
 		// Load styles used by all tabs on this page
 		// ======================================================
 
-		wp_enqueue_style( 'bpm-admin', BPM_URL_CORE .'/admin/css/bpm.admin.css', false, '2.8.1', 'screen' );
-		wp_enqueue_style( 'bpm-tabs-h', BPM_URL_CORE .'/admin/css/bpm.tabs.h.css', false, '2.5.0', 'screen' );
-		wp_enqueue_style( 'bpm-unit-tests', BPM_URL_CORE .'/admin/css/bpm.unit.tests.css', false, '2.5.0', 'screen' );
+		wp_enqueue_style( 'fox-admin', FOX_URL_CORE .'/admin/css/fox.admin.css', false, '2.8.1', 'screen' );
+		wp_enqueue_style( 'fox-tabs-h', FOX_URL_CORE .'/admin/css/fox.tabs.h.css', false, '2.5.0', 'screen' );
+		wp_enqueue_style( 'fox-unit-tests', FOX_URL_CORE .'/admin/css/fox.unit.tests.css', false, '2.5.0', 'screen' );
 
 
 		// Load styles used by the currently selected tab
@@ -229,7 +229,7 @@ class BPM_admin_page_debug extends BPM_admin_page_base {
 	 */
 	public function loadIntro(){
 
-		$this->intro = new BPM_admin_page_debug_intro();
+		$this->intro = new FOX_admin_page_debug_intro();
 	}
 
 
@@ -243,16 +243,16 @@ class BPM_admin_page_debug extends BPM_admin_page_base {
 	public function loadTabs(){
 
 		include_once ( dirname (__FILE__) . '/tab.debug.php' );
-		$this->tabs['BPM_tab_debug'] = __('Debug', "bp-media");
+		$this->tabs['FOX_tab_debug'] = __('Debug', "foxfire");
 
 		include_once ( dirname (__FILE__) . '/tab.server.selftest.php' );
-		$this->tabs['BPM_tab_server_selftest'] = __('Server', "bp-media");
+		$this->tabs['FOX_tab_server_selftest'] = __('Server', "foxfire");
 
 		include_once ( dirname (__FILE__) . '/tab.ajax.selftest.php' );
-		$this->tabs['BPM_tab_ajax_selftest'] = __('AJAX', "bp-media");
+		$this->tabs['FOX_tab_ajax_selftest'] = __('AJAX', "foxfire");
 
 	}
 
- } // End of class BPM_admin_page_debug_intro
+ } // End of class FOX_admin_page_debug_intro
 
 ?>

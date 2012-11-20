@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_import {
+class FOX_tab_import {
 
 
 	/**
@@ -36,36 +36,36 @@ class BPM_tab_import {
 
 	function render() {
 
-	    global $bpm;
+	    global $fox;
 
 	    ?>
 	    <!-- Begin Import settings -->
 
 	    <form name="importform" method="post" action="<?php echo $this->filepath.'#import'; ?>">
 
-		<?php wp_nonce_field('bpm_admin_settings') ?>
+		<?php wp_nonce_field('fox_admin_settings') ?>
 
-		<div class="bpm_tip">
-		    <div class="bpm_bricks_large"></div>
-		    <div class="bpm_tip_text">
+		<div class="fox_tip">
+		    <div class="fox_bricks_large"></div>
+		    <div class="fox_tip_text">
 			<?php _e('<b>PLEASE NOTE: </b>Importing data is a complicated process which might require configuration changes to your web server and/or access to the
 			    command prompt. Please review the <a href="http://code.google.com/p/buddypress-media/wiki/ImportingData">Data Import Documentation</a>
-			    before attempting to import large installations.', "bp-media") ?>
+			    before attempting to import large installations.', "foxfire") ?>
 		    </div>
 		</div>
 
 		<div class="panel_section">
 
-		    <div class="title"><?php _e('BP Album 0.1.8',"bp-media") ?> </div>
+		    <div class="title"><?php _e('BP Album 0.1.8',"foxfire") ?> </div>
 
-		    <div class="bpm_section_advice">
-			<?php _e("This module fully upgrades a BP Album 0.1.8 installation to BP-Media 0.1.9","bp-media") ?>
+		    <div class="fox_section_advice">
+			<?php _e("This module fully upgrades a BP Album 0.1.8 installation to FoxFire 0.1.9","foxfire") ?>
 		    </div>
 
 		    <table class="form-table">
 
 			<tr valign="top">
-			    <th align="left"><?php _e('Button Goes Here',"bp-media"); ?></th>
+			    <th align="left"><?php _e('Button Goes Here',"foxfire"); ?></th>
 			    <td>
 				<p></p>
 			    </td>
@@ -74,7 +74,7 @@ class BPM_tab_import {
 		    </table>
 		</div>
 
-		<?php //$bpm->config->printKeysArray(); ?>
+		<?php //$fox->config->printKeysArray(); ?>
 
 		<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
 
@@ -108,6 +108,6 @@ class BPM_tab_import {
 
 	}
 
-} // End of class BPM_tab_import
+} // End of class FOX_tab_import
 
 ?>

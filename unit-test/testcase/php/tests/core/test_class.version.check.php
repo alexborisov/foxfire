@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -23,7 +23,7 @@ class util_versionCheck extends RAZ_testCase {
     	function setUp() {
 
 		parent::setUp();		
-		$this->cls = new BPM_version();
+		$this->cls = new FOX_version();
 	}
 
 
@@ -244,7 +244,7 @@ class util_versionCheck extends RAZ_testCase {
 		
 		foreach ($test_data as $test)
 		{
-			$this->assertEquals($test['result'], BPM_math::formatNum($test['test']));
+			$this->assertEquals($test['result'], FOX_math::formatNum($test['test']));
 		}
 		unset($test);
 		

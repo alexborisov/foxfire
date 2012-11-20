@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,24 +20,24 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_admin_page_systemTools_intro {
+class FOX_admin_page_systemTools_intro {
 
 
 	public function render(){
 
 	    ?>
 
-		<div class="bpm_section_intro">
+		<div class="fox_section_intro">
 
-			<div class="icon"><img src="<?php echo BPM_URL_CORE . '/admin/page_system_tools/system_tools_icon.png' ?>" alt="System Tools" width="64" height="64" /></div>
+			<div class="icon"><img src="<?php echo FOX_URL_CORE . '/admin/page_system_tools/system_tools_icon.png' ?>" alt="System Tools" width="64" height="64" /></div>
 
 			<div class="title">
-			    <?php _e('System Tools',"bp-media") ?>
+			    <?php _e('System Tools',"foxfire") ?>
 			</div>
 
 			<div class="details">
 			    <?php _e("Settings on these pages control the operation of the plugin core. For more information,
-				have a look at the <a href='http://code.google.com/p/buddypress-media/wiki/PLUGIN_systemToolsSettings'>System Tools</a> wiki page.","bp-media") ?>
+				have a look at the <a href='http://code.google.com/p/buddypress-media/wiki/PLUGIN_systemToolsSettings'>System Tools</a> wiki page.","foxfire") ?>
 			</div>
 
 		</div>
@@ -45,10 +45,10 @@ class BPM_admin_page_systemTools_intro {
 	    <?php
 	}
 
-} // End of class BPM_admin_page_systemTools_intro
+} // End of class FOX_admin_page_systemTools_intro
 
 
-class BPM_admin_page_system extends BPM_admin_page_base {
+class FOX_admin_page_system extends FOX_admin_page_base {
 
 
 	public function __construct() {
@@ -76,7 +76,7 @@ class BPM_admin_page_system extends BPM_admin_page_base {
 
 		if( !empty($_POST) ) {
 
-			check_admin_referer('bpm_admin_settings');
+			check_admin_referer('fox_admin_settings');
 
 
 			if( isset($_POST['update_event_options']) ){
@@ -87,9 +87,9 @@ class BPM_admin_page_system extends BPM_admin_page_base {
 			}
 			elseif( isset($_POST['add_dummy_event_data']) ){
 
-			    global $bpm;
+			    global $fox;
 
-			    $cls = new BPM_log_event();
+			    $cls = new FOX_log_event();
 
 			    $tree_max = 3;
 			    $branch_max = 3;
@@ -115,9 +115,9 @@ class BPM_admin_page_system extends BPM_admin_page_base {
 			}
 			elseif( isset($_POST['empty_event_logs']) ){
 
-			    global $bpm;
+			    global $fox;
 
-			    $cls = new BPM_log_event();
+			    $cls = new FOX_log_event();
 
 			    $cls->truncate();
 			}
@@ -146,7 +146,7 @@ class BPM_admin_page_system extends BPM_admin_page_base {
 		// Load scripts used by all tabs on this page
 		// ======================================================
 
-		wp_enqueue_script( 'bpm-adminNotifier');
+		wp_enqueue_script( 'fox-adminNotifier');
 
 
 		// Load scripts used by the currently selected tab
@@ -187,8 +187,8 @@ class BPM_admin_page_system extends BPM_admin_page_base {
 		// Load styles used by all tabs on this page
 		// ======================================================
 
-		wp_enqueue_style( 'bpm-admin', BPM_URL_CORE .'/admin/css/bpm.admin.css', false, '2.8.1', 'screen' );
-		wp_enqueue_style( 'bpm-tabs-h', BPM_URL_CORE .'/admin/css/bpm.tabs.h.css', false, '2.5.0', 'screen' );
+		wp_enqueue_style( 'fox-admin', FOX_URL_CORE .'/admin/css/fox.admin.css', false, '2.8.1', 'screen' );
+		wp_enqueue_style( 'fox-tabs-h', FOX_URL_CORE .'/admin/css/fox.tabs.h.css', false, '2.5.0', 'screen' );
 
 
 		// Load styles used by the currently selected tab
@@ -224,7 +224,7 @@ class BPM_admin_page_system extends BPM_admin_page_base {
 	 */
 	public function loadIntro(){
 
-		$this->intro = new BPM_admin_page_systemTools_intro();
+		$this->intro = new FOX_admin_page_systemTools_intro();
 	}
 
 
@@ -238,22 +238,22 @@ class BPM_admin_page_system extends BPM_admin_page_base {
 	public function loadTabs(){
 
 		include_once ( dirname (__FILE__) . '/tab.logs.php' );
-		$this->tabs['BPM_tab_logs'] = __('Event Logs', "bp-media");
+		$this->tabs['FOX_tab_logs'] = __('Event Logs', "foxfire");
 
 		include_once ( dirname (__FILE__) . '/tab.backup.php' );
-		$this->tabs['BPM_tab_backup'] = __('Backup & Restore', "bp-media");
+		$this->tabs['FOX_tab_backup'] = __('Backup & Restore', "foxfire");
 
 		include_once ( dirname (__FILE__) . '/tab.import.php' );
-		$this->tabs['BPM_tab_import'] = __('Import & Export', "bp-media");
+		$this->tabs['FOX_tab_import'] = __('Import & Export', "foxfire");
 
 		include_once ( dirname (__FILE__) . '/tab.uninstall.php' );
-		$this->tabs['BPM_tab_uninstall'] = __('Uninstall', "bp-media");
+		$this->tabs['FOX_tab_uninstall'] = __('Uninstall', "foxfire");
 
 		include_once ( dirname (__FILE__) . '/tab.server.php' );
-		$this->tabs['BPM_tab_server'] = __('Server Info', "bp-media");
+		$this->tabs['FOX_tab_server'] = __('Server Info', "foxfire");
 
 	}
 
- } // End of class BPM_admin_page_systemTools_intro
+ } // End of class FOX_admin_page_systemTools_intro
 
 ?>

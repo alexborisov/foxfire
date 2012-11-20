@@ -6,15 +6,15 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_db {
+class FOX_db {
 
 
 	var $db;				    // Local copy of database singleton
@@ -49,7 +49,7 @@ class BPM_db {
 
 	/**
 	 * DEBUG FLAGS - Output will be saved to '/core/utils/bp_media_log.txt
-	 * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_debug
+	 * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_debug
 	 * ============================================================================================================ //
 	 */
 
@@ -67,7 +67,7 @@ class BPM_db {
 	// ============================================================================================================ //
 
 
-	function BPM_db(&$arg_db=null) {
+	function FOX_db(&$arg_db=null) {
 
 		$this->__construct($arg_db);
 	}
@@ -85,8 +85,8 @@ class BPM_db {
 			$this->base_prefix =& $arg_db->base_prefix;
 			$this->charset =& $arg_db->charset;
 			$this->collate =& $arg_db->collate;
-			$this->builder = new BPM_queryBuilder($this);
-			$this->runner = new BPM_queryRunner($this);
+			$this->builder = new FOX_queryBuilder($this);
+			$this->runner = new FOX_queryRunner($this);
 		}
 		else {
 			global $wpdb;
@@ -95,8 +95,8 @@ class BPM_db {
 			$this->base_prefix =& $wpdb->base_prefix;
 			$this->charset =& $wpdb->charset;
 			$this->collate =& $wpdb->collate;
-			$this->builder = new BPM_queryBuilder($this);
-			$this->runner = new BPM_queryRunner($this);
+			$this->builder = new FOX_queryBuilder($this);
+			$this->runner = new FOX_queryRunner($this);
 		}
 
 		// Because our local stats variables are bound by reference to the host
@@ -128,10 +128,10 @@ class BPM_db {
 		if($this->in_transaction == true){
 
 			if($this->print_query_sql == true){
-				BPM_debug::addToFile("START TRANSACTION FAILED (TRANSACTION ALREADY OPEN)");
+				FOX_debug::addToFile("START TRANSACTION FAILED (TRANSACTION ALREADY OPEN)");
 			}
 			
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Database is already in a transaction. \n",
 				'data'=> array("handle" => $this->dbh),
@@ -151,7 +151,7 @@ class BPM_db {
 		if($db_result){
 
 			if($this->print_query_sql == true){
-				BPM_debug::addToFile("START TRANSACTION (SUCCESS)");
+				FOX_debug::addToFile("START TRANSACTION (SUCCESS)");
 			}
 
 			return (bool)$db_result;
@@ -160,10 +160,10 @@ class BPM_db {
 		else {
 
 			if($this->print_query_sql == true){
-				BPM_debug::addToFile("START TRANSACTION FAILED (DATABASE ERROR)");
+				FOX_debug::addToFile("START TRANSACTION FAILED (DATABASE ERROR)");
 			}
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Database failed to start a transaction, \n",
 				'data'=> array("handle"=>$this->dbh, "result"=>$db_result),
@@ -193,10 +193,10 @@ class BPM_db {
 		if($this->in_transaction != true){
 
 			if($this->print_query_sql == true){
-				BPM_debug::addToFile("COMMIT TRANSACTION FAILED (TRANSACTION NOT OPEN)");
+				FOX_debug::addToFile("COMMIT TRANSACTION FAILED (TRANSACTION NOT OPEN)");
 			}
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Database not currently in a transaction. \n",
 				'data'=> array("handle" => $this->dbh),
@@ -216,7 +216,7 @@ class BPM_db {
 			$this->in_transaction = false;
 
 			if($this->print_query_sql == true){
-				BPM_debug::addToFile("COMMIT TRANSACTION (SUCCESS)");
+				FOX_debug::addToFile("COMMIT TRANSACTION (SUCCESS)");
 			}
 
 			return (bool)$db_result;
@@ -225,10 +225,10 @@ class BPM_db {
 		else {
 
 			if($this->print_query_sql == true){
-				BPM_debug::addToFile("COMMIT TRANSACTION FAILED (DATABASE ERROR)");
+				FOX_debug::addToFile("COMMIT TRANSACTION FAILED (DATABASE ERROR)");
 			}
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Database failed to commit the transaction, \n",
 				'data'=> array("handle"=>$this->dbh, "result"=>$db_result),
@@ -258,10 +258,10 @@ class BPM_db {
 		if($this->in_transaction != true){
 
 			if($this->print_query_sql == true){
-				BPM_debug::addToFile("ROLLBACK TRANSACTION FAILED (TRANSACTION NOT OPEN)");
+				FOX_debug::addToFile("ROLLBACK TRANSACTION FAILED (TRANSACTION NOT OPEN)");
 			}
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Database not currently in a transaction. \n",
 				'data'=> array("handle" => $this->dbh),
@@ -281,7 +281,7 @@ class BPM_db {
 			$this->in_transaction = false;
 
 			if($this->print_query_sql == true){
-				BPM_debug::addToFile("ROLLBACK TRANSACTION (SUCCESS)");
+				FOX_debug::addToFile("ROLLBACK TRANSACTION (SUCCESS)");
 			}
 
 			return (bool)$db_result;
@@ -290,10 +290,10 @@ class BPM_db {
 		else {
 
 			if($this->print_query_sql == true){
-				BPM_debug::addToFile("ROLLBACK TRANSACTION FAILED (DATABASE ERROR)");
+				FOX_debug::addToFile("ROLLBACK TRANSACTION FAILED (DATABASE ERROR)");
 			}
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Database failed to rollback transaction. \n",
 				'data'=> array("handle"=>$this->dbh, "result"=>$db_result),
@@ -356,7 +356,7 @@ class BPM_db {
 	 *	    => ARR @param int '' | Array index
 	 *		=> VAL @param string $class | Class name that owns the table
 	 *		=> VAL @param string $col | Column to sum
-	 *	=> VAL @param string $format | @see BPM_db::runQuery() for detailed info on format string
+	 *	=> VAL @param string $format | @see FOX_db::runQuery() for detailed info on format string
 	 *	=> VAL @param string $key_col | Column name to get key names from when using $format="key" or $format="asc"
 	 *	=> VAL @param string $asc_col | Column name to use as value when using $format="asc"
 	 *
@@ -385,7 +385,7 @@ class BPM_db {
 
 		if( !is_array($primary) ){	
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Called with empty primary arg",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -396,7 +396,7 @@ class BPM_db {
 
 		if( !is_array($join) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Called with empty join arg",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -412,9 +412,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in query generator",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -429,9 +429,9 @@ class BPM_db {
 		try {
 			$result = $this->runner->runQuery($query, $ctrl);			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -497,7 +497,7 @@ class BPM_db {
 	 *	    => ARR @param int '' | Array index
 	 *		=> VAL @param string $class | Class name that owns the table
 	 *		=> VAL @param string $col | Column to sum
-	 *	=> VAL @param string $format | @see BPM_db::runQuery() for detailed info on format string
+	 *	=> VAL @param string $format | @see FOX_db::runQuery() for detailed info on format string
 	 *	=> VAL @param string $key_col | Column name to get key names from when using $format="key" or $format="asc"
 	 *	=> VAL @param string $asc_col | Column name to use as value when using $format="asc"
 	 * 
@@ -522,7 +522,7 @@ class BPM_db {
 
 		if( !is_array($primary) ){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Called with empty primary arg",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -533,7 +533,7 @@ class BPM_db {
 
 		if( !is_array($join) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Called with empty join arg",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -548,9 +548,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);			
 		}
-		catch (BPM_exception $child ) {
+		catch (FOX_exception $child ) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in query generator",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -565,9 +565,9 @@ class BPM_db {
 		try {
 			$result = $this->runner->runQuery($query, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -585,7 +585,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
 	 * @param array $args | Args in the form: array("col"=>column_name, "op" => "<, >, =, !=", "val" => "int | string | array()")
 	 *	=> ARR @param int '' | Array index
@@ -613,7 +613,7 @@ class BPM_db {
 	 *	=> VAL @param bool/string/array $count | Return a count of db rows. Bool true to use COUNT(*). Single column as string. Multiple columns as array.
 	 *      => VAL @param bool/string/array $sum | Return a sum of db rows. Single column as string. Multiple columns as array.
 	 *
-	 *	=> VAL @param string $format | @see BPM_db::runQuery() for detailed info on format string
+	 *	=> VAL @param string $format | @see FOX_db::runQuery() for detailed info on format string
 	 *	=> VAL @param string $key_col | Column name to get key names from when using $format="key" or $format="asc"
 	 *	=> VAL @param string $asc_col | Column name to use as value when using $format="asc"
 	 * 
@@ -656,7 +656,7 @@ class BPM_db {
 
 					if( array_search($arg["col"], $col_names) === false ){
 					
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>1,
 							'text'=>"Called with argument referencing nonexistent column name",
 							'data'=>array("faulting_column"=>$arg["col"], "struct"=>$struct, "args"=>$args, 
@@ -678,7 +678,7 @@ class BPM_db {
 
 						if( array_search($arg["col"], $col_names) === false ){
 
-							throw new BPM_exception( array(
+							throw new FOX_exception( array(
 								'numeric'=>2,
 								'text'=>"Called with argument referencing nonexistent column name",
 								'data'=>array("faulting_column"=>$arg["col"], "struct"=>$struct, "args"=>$args, 
@@ -701,7 +701,7 @@ class BPM_db {
 
 					if( array_search($arg["col"], $col_names) === false ){
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>3,
 							'text'=>"Called with argument referencing nonexistent column name",
 							'data'=>array("faulting_column"=>$arg["col"], "struct"=>$struct, "args"=>$args, 
@@ -724,9 +724,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildSelectQuery($struct, $args, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error in query generator",
 				'data'=>array( "struct"=>$struct, "args"=>$args, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -742,9 +742,9 @@ class BPM_db {
 		try {
 			$result = $this->runner->runQuery($query, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query, "ctrl"=>$ctrl),
@@ -763,7 +763,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
 	 * @param string $col | Column name to use for WHERE construct
 	 * @param string $op | Comparison operator ">=", "<=", ">", "<", "=", "!=", "<>"
@@ -789,7 +789,7 @@ class BPM_db {
 	 *	=> VAL @param bool/string/array $count | Return a count of db rows. Bool true to use COUNT(*). Single column as string. Multiple columns as array.
 	 *      => VAL @param bool/string/array $sum | Return a sum of db rows. Single column as string. Multiple columns as array.
 	 *
-	 *	=> VAL @param string $format | @see BPM_db::runQuery() for detailed info on format string
+	 *	=> VAL @param string $format | @see FOX_db::runQuery() for detailed info on format string
 	 *	=> VAL @param string $key_col | Column name to get key names from when using $format="key" or $format="asc"
 	 *	=> VAL @param string $asc_col | Column name to use as value when using $format="asc"
 	 *
@@ -815,9 +815,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildSelectQueryCol($struct, $col, $op, $val, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "col"=>$col, "op"=>$op, "val"=>$val,
@@ -833,9 +833,9 @@ class BPM_db {
 		try {
 			$result = $this->runner->runQuery($query, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("struct"=>$struct, "col"=>$col, "op"=>$op, "val"=>$val,
@@ -855,7 +855,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
          * @param array/object $data | Class with $column_1, $column_2 in the namespace, or array of the form ("column_1"=>"value_1", "column_2"=>"value_2")
 	 * 	=> ARR @param string | Name of the db column this key describes
@@ -895,7 +895,7 @@ class BPM_db {
 
 			if( array_search($arg["col"], $col_names) === false ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Called with argument referencing nonexistent db column",
 					'data'=>array("faulting_column"=>$arg["col"], "struct"=>$struct, "data"=>$data, 
@@ -913,9 +913,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildUpdateQuery($struct, $data, $args, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "columns"=>$columns, 'ctrl'=>$ctrl),
@@ -931,9 +931,9 @@ class BPM_db {
 		try {
 			$this->runner->runQuery($query, array('format'=>'var'));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array('query'=>$query),
@@ -953,7 +953,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
          * @param array/object $data | Class with $column_1, $column_2 in the namespace, or array of the form ("column_1"=>"value_1", "column_2"=>"value_2")
 	 * 	=> KEY @param string | Name of the db column this key describes
@@ -981,9 +981,9 @@ class BPM_db {
 		try { 
 			$query = $this->builder->buildUpdateQueryCol($struct, $data, $col, $op, $val, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "col"=>$col, "op"=>$op,
@@ -999,9 +999,9 @@ class BPM_db {
 		try {
 			$this->runner->runQuery($query, array('format'=>'var'));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array('query'=>$query),
@@ -1021,7 +1021,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> ARR @param array 'columns' | Array of database column arrays.
 	 *	    => ARR @param string '' | Name of the db column this key describes
@@ -1055,9 +1055,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildInsertQuery($struct, $data, $columns);
 		}
-		catch (BPM_exception $child){
+		catch (FOX_exception $child){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "columns"=>$columns, 'ctrl'=>$ctrl),
@@ -1072,9 +1072,9 @@ class BPM_db {
 		try {
 			$this->runner->runQuery($query, array('format'=>'var'));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
@@ -1094,7 +1094,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> ARR @param array 'columns' | Array of database column arrays.
 	 *	    => ARR @param string '' | Name of the db column this key describes
@@ -1125,9 +1125,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildInsertQuery($struct, $data, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "columns"=>$columns, 'ctrl'=>$ctrl),
@@ -1142,9 +1142,9 @@ class BPM_db {
 		try {
 			$this->runner->runQuery($query, array('format'=>'var'));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
@@ -1165,7 +1165,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> ARR @param array 'columns' | Array of database column arrays.
 	 *	    => ARR @param string '' | Name of the db column this key describes
@@ -1193,9 +1193,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildIndateQuery($struct, $data, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "columns"=>$columns, 'ctrl'=>$ctrl),
@@ -1210,9 +1210,9 @@ class BPM_db {
 		try {
 			$this->runner->runQuery($query, array('format'=>'var') );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
@@ -1231,7 +1231,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
 	 * @param array $args | Args in the form: array("col"=>column_name, "op" => "<, >, =, !=", "val" => "int | string | array()")
 	 *	=> ARR @param int '' | Array index
@@ -1264,9 +1264,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildDeleteQuery($struct, $args, $ctrl);		
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "args"=>$args, 'ctrl'=>$ctrl),
@@ -1281,9 +1281,9 @@ class BPM_db {
 		try {
 			$this->runner->runQuery($query, array('format'=>'var') );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
@@ -1302,7 +1302,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 * @param string $col | Column name to use for WHERE construct
 	 * @param string $op | Comparison operator ">=", "<=", ">", "<", "=", "!=", "<>"
 	 * @param int/string $val | Comparison value to use in WHERE construct
@@ -1321,9 +1321,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildDeleteQueryCol($struct, $col, $op, $val);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "col"=>$col, "op"=>$op, "val"=>$val, 'ctrl'=>$ctrl),
@@ -1338,9 +1338,9 @@ class BPM_db {
 		try {
 			$this->runner->runQuery($query, array('format'=>'var') );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
@@ -1359,7 +1359,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> VAL @param string 'engine' | Name of table db engine
 	 *	=> VAL @param array 'columns' | Array of database column arrays.
@@ -1381,7 +1381,7 @@ class BPM_db {
 			ob_start();
 			print_r($struct);
 			$out = ob_get_clean();
-			BPM_debug::addToFile($out);
+			FOX_debug::addToFile($out);
 		}
 		
 		// Check that the table doesn't already exist in the db
@@ -1400,9 +1400,9 @@ class BPM_db {
 		try {
 			$matches = $this->runner->runQuery($sql, array("format"=>"raw"));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Failure during check if table exists query",
 				'data'=>array('struct'=>$struct, 'sql'=>$sql),
@@ -1413,7 +1413,7 @@ class BPM_db {
 		
 		if($matches){		    
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Target table already exists in the database",
 				'data'=>array('struct'=>$struct, 'sql'=>$sql, 'matches'=>$matches),
@@ -1429,9 +1429,9 @@ class BPM_db {
 		try {		    
 			$sql = $this->builder->buildAddTable($struct);		
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Failure in query builder",
 				'data'=>array('struct'=>$struct, 'ctrl'=>$ctrl),
@@ -1446,9 +1446,9 @@ class BPM_db {
 		try {		    
 			$sql_response = $this->runner->runQuery($sql, array("format"=>"raw"));	
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Failure when running query on SQL server",
 				'data'=>array('struct'=>$struct, 'sql'=>$sql, 'ctrl'=>$ctrl),
@@ -1466,7 +1466,7 @@ class BPM_db {
 		}
 		else {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Table was not successfully created",
 				'data'=>array('struct'=>$struct, 'sql'=>$sql, 'ctrl'=>$ctrl, 'sql_response'=>$sql_response),
@@ -1483,7 +1483,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> VAL @param array 'columns' | Array of database column arrays.
 	 *	    => ARR @param string '' | Name of the db column this key describes
@@ -1508,12 +1508,12 @@ class BPM_db {
 			ob_start();
 			print_r($struct);
 			$out = ob_get_clean();
-			BPM_debug::addToFile($out);
+			FOX_debug::addToFile($out);
 		}
 
 		if(empty($struct["table"])){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Called with missing table name",
 				'data'=>array("struct"=>$struct, 'ctrl'=>$ctrl),
@@ -1530,9 +1530,9 @@ class BPM_db {
 			$query = $this->builder->buildDropTable($struct);
 						
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, 'ctrl'=>$ctrl),
@@ -1548,9 +1548,9 @@ class BPM_db {
 		try {
 			$result = $this->runner->runQuery($query, array("format"=>"raw"));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query, "ctrl"=>$ctrl),
@@ -1569,7 +1569,7 @@ class BPM_db {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> VAL @param array 'columns' | Array of database column arrays.
 	 *	    => ARR @param string '' | Name of the db column this key describes
@@ -1594,12 +1594,12 @@ class BPM_db {
 			ob_start();
 			print_r($struct);
 			$out = ob_get_clean();
-			BPM_debug::addToFile($out);
+			FOX_debug::addToFile($out);
 		}
 
 		if( empty($struct["table"]) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Called with missing table name",
 				'data'=>array("struct"=>$struct, 'ctrl'=>$ctrl),
@@ -1614,9 +1614,9 @@ class BPM_db {
 		try {
 			$query = $this->builder->buildTruncateTable($struct);						
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, 'ctrl'=>$ctrl),
@@ -1631,9 +1631,9 @@ class BPM_db {
 		try {
 			$result = $this->runner->runQuery($query, array("format"=>"raw") );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query, "ctrl"=>$ctrl),
@@ -1647,6 +1647,6 @@ class BPM_db {
 	}
 
 	
-} // End of class BPM_db
+} // End of class FOX_db
 
 ?>

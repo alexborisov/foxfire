@@ -11,7 +11,7 @@
  * @link http://www.sencha.com
  * @link /ext/examples/restful/remote/
  *
- * @package BP-Media
+ * @package FoxFire
  * @subpackage AJAX
  * @license GPL v3.0
  * @link http://code.google.com/p/buddypress-media/
@@ -19,7 +19,7 @@
  * ========================================================================================================
  */
 
-class BPM_AJAX_sessionDB {
+class FOX_AJAX_sessionDB {
 
     public function __construct() {
         if (!isset($_SESSION['pk'])) {

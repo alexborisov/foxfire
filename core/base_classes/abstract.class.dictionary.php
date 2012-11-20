@@ -15,7 +15,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -23,10 +23,10 @@
  * ========================================================================================================
  */
 
-abstract class BPM_dictionary_base extends BPM_db_base {
+abstract class FOX_dictionary_base extends FOX_db_base {
 
     
-    	var $process_id;				// Unique process id for this thread. Used by BPM_db_base for cache 
+    	var $process_id;				// Unique process id for this thread. Used by FOX_db_base for cache 
 							// locking. Loaded by descendent class.
 	
 	var $cache = array(				// Main cache array for this class
@@ -34,7 +34,7 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 			    'ids' => array()
 			  );	
 	
-	var $mCache;					// Local copy of memory cache singleton. Used by BPM_db_base for cache 
+	var $mCache;					// Local copy of memory cache singleton. Used by FOX_db_base for cache 
 							// operations. Loaded by descendent class.		
 	
 	
@@ -71,12 +71,12 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	
 	public function dbFetchToken($tokens){
 		
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 		
 		if( is_null($tokens)){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
@@ -97,9 +97,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try {
 			$result = $db->runSelectQuery($struct, $args, $columns=null, $ctrl);
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>2,
 				'text'=>"DB select exception",
 				'data'=>array("args"=>$args, "ctrl"=>$ctrl),
@@ -132,9 +132,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 			try {
 				self::writeCachePage($cache_update);
 			}
-			catch(BPM_exception $child){
+			catch(FOX_exception $child){
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Cache write error",
 					'data'=>array("cache update"=>$cache_update),
@@ -172,12 +172,12 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	
 	public function dbFetchId($ids){
 	
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();		
 		
 	    	if( is_null($ids)) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"null parameter passed as ids exception",
 				'data'=>array("ids"=>$ids),
@@ -199,9 +199,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try {
 			$result = $db->runSelectQuery($struct, $args, $columns=null, $ctrl);
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 		    
-		    	throw new BPM_exception( array(
+		    	throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"DB select exception",
 				'data'=>array("args"=>$args, "ctrl"=>$ctrl),
@@ -235,9 +235,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 			try {
 				self::writeCachePage($cache_update);
 			}
-			catch(BPM_exception $child){
+			catch(FOX_exception $child){
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Cache write error",
 					'data'=>array("cache update"=>$cache_update),
@@ -280,7 +280,7 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		
 	    	if(is_null($tokens)){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
@@ -305,9 +305,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try {			
 			$raw_cache_result = self::readCachePage($cache_keys);
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 		    
-		    	throw new BPM_exception( array(
+		    	throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache getMulti exception",
 				'data'=>array("cache_keys"=>$cache_keys),
@@ -352,7 +352,7 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	    
 	    	if( is_null($ids)) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"null parameter passed as ids exception",
 				'data'=>array("tokens"=>$ids),
@@ -376,9 +376,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try {		
 			$raw_cache_result = self::readCachePage($cache_keys);
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 		    
-		    	throw new BPM_exception( array(
+		    	throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache getMulti exception",
 				'data'=>array("cache_keys"=>$cache_keys),
@@ -422,12 +422,12 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	public function addToken($tokens){
 		
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 		
 	    	if( is_null($tokens)){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
@@ -458,9 +458,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		    
 			$db->runInsertQueryMulti($struct, $data, $columns, $ctrl=null);			
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 		    
-		    	throw new BPM_exception( array(
+		    	throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error writing to database",
 				'data'=>array("data"=>$data),
@@ -501,9 +501,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try {
 			self::writeCachePage($cache_update);
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache write error",
 				'data'=>array("cache update"=>$cache_update),
@@ -558,7 +558,7 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	    
 	    	if( is_null($tokens)){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
@@ -584,7 +584,7 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		
 		foreach($tokens as $token){
 		    
-			if( BPM_sUtil::keyExists($token, $this->cache["tokens"]) ){
+			if( FOX_sUtil::keyExists($token, $this->cache["tokens"]) ){
 
 				$result[$token] = $this->cache["tokens"][$token];
 			}
@@ -603,9 +603,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 			try {
 				$cache_tokens = $this->cacheFetchToken($missing_tokens);
 			}
-			catch(BPM_exception $child) {
+			catch(FOX_exception $child) {
 			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"CacheFetchToken exception",
 					'data'=>array("tokens"=>$missing_tokens),
@@ -628,9 +628,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 			try {
 				$db_tokens = $this->dbFetchToken($missing_tokens);
 			}
-			catch(BPM_exception $child) {
+			catch(FOX_exception $child) {
 			    			
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error in self::dbFetchToken()",
 					'data'=>array("tokens"=>$missing_tokens),
@@ -653,9 +653,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 			try {
 				$insert_tokens = $this->addToken($missing_tokens);
 			}
-			catch(BPM_exception $child) {
+			catch(FOX_exception $child) {
 			    			
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in self::addToken()",
 					'data'=>array("tokens"=>$missing_tokens),
@@ -695,7 +695,7 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	    
 	    	 if( is_null($ids)) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"null parameter passed as ids exception",
 				'data'=>array("tokens"=>$ids),
@@ -721,7 +721,7 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		
 		foreach($ids as $id){
 		    
-			if( BPM_sUtil::keyExists($id, $this->cache["ids"]) ){
+			if( FOX_sUtil::keyExists($id, $this->cache["ids"]) ){
 
 				$result[$id] = $this->cache["ids"][$id];
 			}
@@ -740,9 +740,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 			try {
 				$cache_ids= $this->cacheFetchId($missing_ids);
 			}
-			catch(BPM_exception $child) {
+			catch(FOX_exception $child) {
 			    			
-				throw new BPM_exception(  array(
+				throw new FOX_exception(  array(
 					'numeric'=>2,
 					'text'=>"Error in self::cacheFetchId()",
 					'data'=>array("ids"=>$missing_ids),
@@ -768,9 +768,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 			try {
 				$db_ids = $this->dbFetchId($missing_ids);
 			}
-			catch(BPM_exception $child) {
+			catch(FOX_exception $child) {
 			    			
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error in self::dbFetchId()",
 					'data'=>array("ids"=>$missing_ids),
@@ -809,12 +809,12 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	public function dropToken($tokens) {
 
 	    
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 		
 	    	if( is_null($tokens)){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
@@ -832,9 +832,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try {
 			$token_data = $this->getToken($tokens);
 		}
-		catch(BPM_exception $child) {
+		catch(FOX_exception $child) {
 		    
-		    	throw new BPM_exception( array(
+		    	throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"getToken exception",
 				'data'=>array("tokens"=>$tokens),
@@ -859,9 +859,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try { 
 			self::lockCachePage($cache_pages); 
 		}
-		catch(BPM_exception $child) { 
+		catch(FOX_exception $child) { 
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache pages",
 				'data'=>$cache_pages,
@@ -881,9 +881,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args);		
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error deleting from database",
 				'data'=>array("args"=>$args),
@@ -898,9 +898,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try { 
 			self::flushCachePage($cache_pages); 
 		}
-		catch(BPM_exception $child) { 
+		catch(FOX_exception $child) { 
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error flushing cache pages",
 				'data'=>$cache_pages,
@@ -937,12 +937,12 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	public function dropId($ids) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 		
 	    	if( is_null($ids)){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"null parameter passed as ids exception",
 				'data'=>array("tokens"=>$ids),
@@ -962,9 +962,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try{
 			$id_data = self::getId($ids);
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in self::getId()",
 				'data'=>array("tokens"=>$ids),
@@ -989,9 +989,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try { 
 			self::lockCachePage($cache_pages); 
 		}
-		catch(BPM_exception $child) { 
+		catch(FOX_exception $child) { 
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache pages",
 				'data'=>$cache_pages,
@@ -1011,9 +1011,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try{
 			$rows_changed = $db->runDeleteQuery($struct, $args);		
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error deleting from database",
 				'data'=>array("args"=>$args),
@@ -1029,9 +1029,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try { 
 			self::flushCachePage($cache_pages); 
 		}
-		catch(BPM_exception $child) { 
+		catch(FOX_exception $child) { 
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error flushing cache pages",
 				'data'=>$cache_pages,
@@ -1068,15 +1068,15 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	public function dropAll() {
 	    
 	    
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 		try{
 			self::flushCache();
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error flushing cache",
 				'data'=>null,
@@ -1088,9 +1088,9 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 		try{
 			$result = $db->runTruncateTable($struct);
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error truncating table",
 				'data'=>null,
@@ -1105,6 +1105,6 @@ abstract class BPM_dictionary_base extends BPM_db_base {
 	
 
 	
-} // End of abstract class BPM_module_dictionary_base
+} // End of abstract class FOX_module_dictionary_base
 
 ?>

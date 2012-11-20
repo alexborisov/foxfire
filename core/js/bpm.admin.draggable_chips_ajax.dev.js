@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -22,7 +22,7 @@
  * @since 0.1.9
  */
 
-function bpm_admin_draggableChips(){
+function fox_admin_draggableChips(){
 
 
 	jQuery('.draggable_chip').draggable( {
@@ -335,7 +335,7 @@ function makeChipsDeletable(){
 // * @return bool/int/string/array $echo | Response varies with form and the module that owns it
 // */
 //
-// function bpm_ajax_admin_deleteChip($unit_test=false) {
+// function fox_ajax_admin_deleteChip($unit_test=false) {
 //
 //
 //	// Block non-admin users from running this function
@@ -343,7 +343,7 @@ function makeChipsDeletable(){
 //		    die;
 //	}
 //
-//	$san = new BPM_sanitize();
+//	$san = new FOX_sanitize();
 //
 //	// Grab variables from the $_POST array and sanitize them
 //	$module_type = $san->classOrFunction($_POST['module_type'], $ctrl=null, $module_type_ok, $module_type_error);
@@ -416,7 +416,7 @@ function makeChipsDeletable(){
 //
 //
 // } // WP action name is "wp_ajax_" + "formActionName"
-// add_action('wp_ajax_admin_deleteChip', 'bpm_ajax_admin_deleteChip');
+// add_action('wp_ajax_admin_deleteChip', 'fox_ajax_admin_deleteChip');
 //
 //
 ///**
@@ -428,7 +428,7 @@ function makeChipsDeletable(){
 // * @return bool/int/string/array $echo | Response varies with form and the module that owns it
 // */
 //
-// function bpm_ajax_admin_moveChip($unit_test=false) {
+// function fox_ajax_admin_moveChip($unit_test=false) {
 //
 //
 //	// Block non-admin users from running this function
@@ -436,7 +436,7 @@ function makeChipsDeletable(){
 //		    die;
 //	}
 //
-//	$san = new BPM_sanitize();
+//	$san = new FOX_sanitize();
 //
 //	// Grab variables from the $_POST array and sanitize them
 //	$module_type = $san->classOrFunction($_POST['module_type'], $ctrl=null, $module_type_ok, $module_type_error);
@@ -534,7 +534,7 @@ function makeChipsDeletable(){
 //
 //
 // } // WP action name is "wp_ajax_" + "formActionName"
-// add_action('wp_ajax_admin_moveChip', 'bpm_ajax_admin_moveChip');
+// add_action('wp_ajax_admin_moveChip', 'fox_ajax_admin_moveChip');
 //
 //
 ///**
@@ -546,7 +546,7 @@ function makeChipsDeletable(){
 // * @return bool/int/string/array $echo | Response varies with form and the module that owns it
 // */
 //
-// function bpm_ajax_admin_addChip($unit_test=false) {
+// function fox_ajax_admin_addChip($unit_test=false) {
 //
 //
 //	// Block non-admin users from running this function
@@ -554,7 +554,7 @@ function makeChipsDeletable(){
 //		    die;
 //	}
 //
-//	$san = new BPM_sanitize();
+//	$san = new FOX_sanitize();
 //
 //	// Grab variables from the $_POST array and sanitize them
 //	$module_type = $san->classOrFunction($_POST['module_type'], $ctrl=null, $module_type_ok, $module_type_error);
@@ -629,4 +629,4 @@ function makeChipsDeletable(){
 //
 //
 // } // WP action name is "wp_ajax_" + "formActionName"
-// add_action('wp_ajax_admin_addChip', 'bpm_ajax_admin_addChip');
+// add_action('wp_ajax_admin_addChip', 'fox_ajax_admin_addChip');

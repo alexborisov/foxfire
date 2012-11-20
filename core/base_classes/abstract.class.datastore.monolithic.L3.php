@@ -17,7 +17,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Config
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -25,15 +25,15 @@
  * ========================================================================================================
  */
 
-class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
+class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 
 
-    	var $process_id;		    // Unique process id for this thread. Used by BPM_db_base for cache
+    	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache
 					    // locking. Loaded by descendent class.
 
 	var $cache;			    // Main cache array for this class
 
-	var $mCache;			    // Local copy of memory cache singleton. Used by BPM_db_base for cache
+	var $mCache;			    // Local copy of memory cache singleton. Used by FOX_db_base for cache
 					    // operations. Loaded by descendent class.
 
 
@@ -85,7 +85,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 	public function load($tree=null, $branch=null, $node=null, $skip_load=false){
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 		// Build and run query
@@ -110,9 +110,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$db_result = $db->runSelectQuery($struct, $args, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error reading from database",
 				'data'=>array('args'=>$args, 'ctrl'=>$ctrl),
@@ -134,9 +134,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 				try {
 					$cache_image = self::readCache();
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Cache read error",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -193,7 +193,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 			unset($_tree, $branches);
 
 			// Clear empty walks from dictionary arrays
-			$cache_image["branches"] = BPM_sUtil::arrayPrune($cache_image["branches"], 1);
+			$cache_image["branches"] = FOX_sUtil::arrayPrune($cache_image["branches"], 1);
 
 
 			// Update the persistent cache
@@ -202,9 +202,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 			try {
 				 self::writeCache($cache_image);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Cache write error",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -253,7 +253,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 
 			if( is_array($trees) || is_array($branches) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Attempted to specify multiple trees or branches when specifying nodes",
 					'data'=>array('trees'=>$trees, 'branch'=>$branches, 'nodes'=>$nodes),
@@ -272,10 +272,10 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 
 			foreach($nodes as $node){
 
-				$all_cached = BPM_sUtil::keyTrue("all_cached", $this->cache);
-				$tree_cached = BPM_sUtil::keyTrue($trees, $this->cache["trees"]);
-				$branch_cached = BPM_sUtil::keyTrue($branch, $this->cache["branches"][$trees]);
-				$node_exists = BPM_sUtil::keyExists($node, $this->cache["keys"][$trees][$branches]);
+				$all_cached = FOX_sUtil::keyTrue("all_cached", $this->cache);
+				$tree_cached = FOX_sUtil::keyTrue($trees, $this->cache["trees"]);
+				$branch_cached = FOX_sUtil::keyTrue($branch, $this->cache["branches"][$trees]);
+				$node_exists = FOX_sUtil::keyExists($node, $this->cache["keys"][$trees][$branches]);
 
 				// If the node doesn't exist in the class cache array, fetch it from the persistent cache
 				if(!$all_cached && !$tree_cached && !$branch_cached && !$node_exists && !$cache_loaded){
@@ -283,9 +283,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 					try {
 						self::loadCache();
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>2,
 							'text'=>"Cache read error",
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -293,10 +293,10 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 						));
 					}
 
-					$all_cached = BPM_sUtil::keyTrue("all_cached", $this->cache);
-					$tree_cached = BPM_sUtil::keyTrue($trees, $this->cache["trees"]);
-					$branch_cached = BPM_sUtil::keyTrue($branch, $this->cache["branches"][$trees]);
-					$node_exists = BPM_sUtil::keyExists($node, $this->cache["keys"][$trees][$branches]);
+					$all_cached = FOX_sUtil::keyTrue("all_cached", $this->cache);
+					$tree_cached = FOX_sUtil::keyTrue($trees, $this->cache["trees"]);
+					$branch_cached = FOX_sUtil::keyTrue($branch, $this->cache["branches"][$trees]);
+					$node_exists = FOX_sUtil::keyExists($node, $this->cache["keys"][$trees][$branches]);
 
 					$cache_loaded = true;
 
@@ -318,9 +318,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 				try {
 					$valid = self::load($trees, $branches, $missing_nodes, $skip_load=true);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Error in self::load()",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -351,7 +351,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 
 			if( is_array($trees) || is_array($branches) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Attempted to specify multiple trees when specifying branch",
 					'data'=>array('trees'=>$trees, 'branch'=>$branches, 'nodes'=>$nodes),
@@ -370,9 +370,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 
 			foreach($branches as $branch){
 
-				$all_cached = BPM_sUtil::keyTrue("all_cached", $this->cache);
-				$tree_cached = BPM_sUtil::keyTrue($trees, $this->cache["trees"]);
-				$branch_cached = BPM_sUtil::keyTrue($branch, $this->cache["branches"][$trees]);
+				$all_cached = FOX_sUtil::keyTrue("all_cached", $this->cache);
+				$tree_cached = FOX_sUtil::keyTrue($trees, $this->cache["trees"]);
+				$branch_cached = FOX_sUtil::keyTrue($branch, $this->cache["branches"][$trees]);
 
 				// If the branch doesn't exist in the class cache array, fetch it from the persistent cache
 				if( !$all_cached && !$tree_cached && !$branch_cached && !$cache_loaded){
@@ -380,9 +380,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 					try {
 						self::loadCache();
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>5,
 							'text'=>"Cache read error",
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -390,9 +390,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 						));
 					}
 
-					$all_cached = BPM_sUtil::keyTrue("all_cached", $this->cache);
-					$tree_cached = BPM_sUtil::keyTrue($trees, $this->cache["trees"]);
-					$branch_cached = BPM_sUtil::keyTrue($branch, $this->cache["branches"][$trees]);
+					$all_cached = FOX_sUtil::keyTrue("all_cached", $this->cache);
+					$tree_cached = FOX_sUtil::keyTrue($trees, $this->cache["trees"]);
+					$branch_cached = FOX_sUtil::keyTrue($branch, $this->cache["branches"][$trees]);
 
 					$cache_loaded = true;
 
@@ -414,9 +414,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 				try {
 					$valid = self::load($trees, $missing_branches, null, $skip_load=true);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>6,
 						'text'=>"Error in self::load()",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -452,8 +452,8 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 
 			foreach($trees as $tree){
 
-				$all_cached = BPM_sUtil::keyTrue("all_cached", $this->cache);
-				$tree_cached = BPM_sUtil::keyTrue($tree, $this->cache["trees"]);
+				$all_cached = FOX_sUtil::keyTrue("all_cached", $this->cache);
+				$tree_cached = FOX_sUtil::keyTrue($tree, $this->cache["trees"]);
 
 				// If the tree doesn't exist in the class cache array, fetch it from the persistent cache
 				if( !$all_cached  && !$tree_cached && !$cache_loaded){
@@ -461,9 +461,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 					try {
 						self::loadCache();
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>7,
 							'text'=>"Cache read error",
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -471,8 +471,8 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 						));
 					};
 
-					$all_cached = BPM_sUtil::keyTrue("all_cached", $this->cache);
-					$tree_cached = BPM_sUtil::keyTrue($tree, $this->cache["trees"]);
+					$all_cached = FOX_sUtil::keyTrue("all_cached", $this->cache);
+					$tree_cached = FOX_sUtil::keyTrue($tree, $this->cache["trees"]);
 
 					$cache_loaded = true;
 
@@ -494,9 +494,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 				try {
 					$valid = self::load($missing_trees, null, null, $skip_load=true);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>8,
 						'text'=>"Error in self::load()",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -521,7 +521,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		// =====================================================================
 		elseif(!$trees && !$branches && !$nodes) {
 
-			$all_cached = BPM_sUtil::keyTrue("all_cached", $this->cache);
+			$all_cached = FOX_sUtil::keyTrue("all_cached", $this->cache);
 
 			// If the tree doesn't exist in the class cache array, fetch it from the persistent cache
 			if(!$all_cached){
@@ -529,9 +529,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 				try {
 					self::loadCache();
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>9,
 						'text'=>"Cache read error",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -539,7 +539,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 					));
 				};
 
-				$all_cached = BPM_sUtil::keyTrue("all_cached", $this->cache);
+				$all_cached = FOX_sUtil::keyTrue("all_cached", $this->cache);
 			}
 
 			if(!$all_cached){
@@ -554,7 +554,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		// =====================================================================
 		else {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>10,
 				'text'=>"Bad input format",
 				'data'=>array('trees'=>$trees, 'branches'=>$branches, 'nodes'=>$nodes),
@@ -578,9 +578,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$result = self::get(null, null, null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -609,9 +609,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$result = self::get($tree, null, null, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('tree'=>$tree),
@@ -643,9 +643,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$result = self::get($tree, $branch, null, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch),
@@ -679,9 +679,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$result = self::get($tree, $branch, $node, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
@@ -718,9 +718,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$db_result = self::getNode($tree, $branch, $node, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
@@ -772,7 +772,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 	public function writeNode($tree, $branch, $node, $val, $filter, $ctrl=null){
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 		// Trap empty keys, and keys that map to ints. We can't use ints as keys
@@ -787,7 +787,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		    ( ($branch == (int)$branch ) || !is_string($branch) || empty($branch) ) ||
 		    ( ($node == (int)$node ) || !is_string($node) || empty($node) ) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Tree, Branch, and Node keys must be valid strings that do not map to ints",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
@@ -797,11 +797,11 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		}
 
 		// Trap attempting to use a nonexistent filter
-		$cls = new BPM_sanitize();
+		$cls = new FOX_sanitize();
 
 		if( !method_exists($cls, $filter) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Filter method doesn't exist",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'filter'=>$filter),
@@ -818,9 +818,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$processed_val = $cls->{$filter}($val, $ctrl, $filter_valid, $filter_error);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in filter function",
 				'data'=>array('filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
@@ -832,7 +832,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 
 		if(!$filter_valid){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Filter function reports value data isn't valid",
 				'data'=>array('filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
@@ -849,9 +849,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$cache_image = self::lockCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error locking cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -871,9 +871,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runIndateQuery($struct, $args, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error writing to database",
 				'data'=>array('args'=>$args, 'columns'=>$columns, 'ctrl'=>$ctrl),
@@ -896,9 +896,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::writeCache($cache_image);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>7,
 				'text'=>"Cache write error",
 				'data'=>array('cache_image'=>$cache_image),
@@ -935,7 +935,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 
 		if( empty($tree) || empty($branch) || empty($node) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Invalid tree, branch, or node",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
@@ -952,9 +952,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$node_data = self::getNode($tree, $branch, $node, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in self::getNode()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
@@ -965,7 +965,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 
 		if(!$valid){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Attempted to set data for nonexistent node",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
@@ -980,9 +980,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$rows_changed = self::writeNode($tree, $branch, $node, $val, $filter, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error in self::writeNode()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node,
@@ -1015,7 +1015,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 	public function dropNode($tree, $branch, $nodes) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 
@@ -1025,9 +1025,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$cache_image = self::lockCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1047,9 +1047,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
@@ -1071,7 +1071,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		}
 		unset($node);
 
-		$cache_image["keys"] = BPM_sUtil::arrayPrune($cache_image["keys"], 2);
+		$cache_image["keys"] = FOX_sUtil::arrayPrune($cache_image["keys"], 2);
 
 
 		// Write the image back to the persistent cache, releasing our lock
@@ -1080,9 +1080,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::writeCache($cache_image);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache write error",
 				'data'=>array('cache_image'=>$cache_image),
@@ -1115,7 +1115,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 	public function dropBranch($tree, $branches) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 
@@ -1125,9 +1125,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$cache_image = self::lockCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1146,9 +1146,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
@@ -1171,8 +1171,8 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		}
 		unset($branch);
 
-		$cache_image["branches"] = BPM_sUtil::arrayPrune($cache_image["branches"], 1);
-		$cache_image["keys"] = BPM_sUtil::arrayPrune($cache_image["keys"], 2);
+		$cache_image["branches"] = FOX_sUtil::arrayPrune($cache_image["branches"], 1);
+		$cache_image["keys"] = FOX_sUtil::arrayPrune($cache_image["keys"], 2);
 
 
 		// Write the image back to the persistent cache, releasing our lock
@@ -1181,9 +1181,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::writeCache($cache_image);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache write error",
 				'data'=>array('cache_image'=>$cache_image),
@@ -1213,7 +1213,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 	public function dropTree($trees) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 
@@ -1223,9 +1223,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$cache_image = self::lockCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1244,9 +1244,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
@@ -1271,8 +1271,8 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		unset($tree);
 
 		// Clear empty walks
-		$cache_image["branches"] = BPM_sUtil::arrayPrune($cache_image["branches"], 1);
-		$cache_image["keys"] = BPM_sUtil::arrayPrune($cache_image["keys"], 2);
+		$cache_image["branches"] = FOX_sUtil::arrayPrune($cache_image["branches"], 1);
+		$cache_image["keys"] = FOX_sUtil::arrayPrune($cache_image["keys"], 2);
 
 
 		// Write the image back to the persistent cache, releasing our lock
@@ -1281,9 +1281,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::writeCache($cache_image);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache write error",
 				'data'=>array('cache_image'=>$cache_image),
@@ -1311,7 +1311,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 	public function dropAll() {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 
@@ -1321,9 +1321,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::lockCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1337,9 +1337,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$db->runTruncateTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error truncating database table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1353,9 +1353,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error flushing cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1384,7 +1384,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 	public function dropSiteKey($branch, $nodes) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
                 $struct = $this->_struct();
 
 		// Lock the cache
@@ -1393,9 +1393,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::lockCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1414,9 +1414,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
@@ -1431,9 +1431,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error flushing cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1460,7 +1460,7 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 	public function dropSiteBranch($branches) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		$struct = $this->_struct();
 
 
@@ -1470,9 +1470,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::lockCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1490,9 +1490,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			$rows_changed = $db->runDeleteQuery($struct, $args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
@@ -1508,9 +1508,9 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 		try {
 			self::flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error flushing cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1526,6 +1526,6 @@ class BPM_dataStore_monolithic_L3_base extends BPM_db_base {
 
 
 
-} // End of class BPM_dataStore_monolithic_L3_base
+} // End of class FOX_dataStore_monolithic_L3_base
 
 ?>

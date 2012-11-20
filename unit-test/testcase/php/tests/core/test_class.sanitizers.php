@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -23,14 +23,14 @@ class database_sanatizers extends RAZ_testCase {
 	    
 		parent::setUp();
 		
-		$this->clsdebug = new BPM_debug();		
-		$this->cls = new BPM_sanitize();
+		$this->clsdebug = new FOX_debug();		
+		$this->cls = new FOX_sanitize();
 		
 	}
 	
 	function test_cleanSlate(){
 	    
-		$start = "BP-Media Unit Tests --> DataBase Sanitizers \n\n Starting....";
+		$start = "FoxFire Unit Tests --> DataBase Sanitizers \n\n Starting....";
 
 		$this->clsdebug->printToFile($start);
 	    

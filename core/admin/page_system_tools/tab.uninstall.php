@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_uninstall {
+class FOX_tab_uninstall {
 
 
 	/**
@@ -36,36 +36,36 @@ class BPM_tab_uninstall {
 
 	function render() {
 
-		global $bpm;
+		global $fox;
 
 		?>
 		<!-- Begin Uninstall settings -->
 
 		<form name="configform" method="POST" action="<?php echo $this->filepath.'#config'; ?>" >
 
-		    <?php wp_nonce_field('bpm_admin_settings') ?>
+		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $bpm->config->initKeysArray(); ?>
+		    <?php $fox->config->initKeysArray(); ?>
 
-		    <div class="bpm_tip">
-			<div class="bpm_bricks_large"></div>
-			<div class="bpm_tip_text">
-			    <?php _e(" Page outlining how a user would go about completely uninstalling Bp-Media from their server.", "bp-media") ?>
+		    <div class="fox_tip">
+			<div class="fox_bricks_large"></div>
+			<div class="fox_tip_text">
+			    <?php _e(" Page outlining how a user would go about completely uninstalling Bp-Media from their server.", "foxfire") ?>
 			</div>
 		    </div>
 
 		    <div class="panel_section">
 
-			<div class="title"><?php _e('Uninstall',"bp-media") ?> </div>
+			<div class="title"><?php _e('Uninstall',"foxfire") ?> </div>
 
-			<div class="bpm_section_advice">
-			    <?php _e("This will completely uninstall Bp-Media from the server","bp-media") ?>
+			<div class="fox_section_advice">
+			    <?php _e("This will completely uninstall Bp-Media from the server","foxfire") ?>
 			</div>
 
 			<table class="form-table">
 
 				<tr valign="top">
-				    <th align="left"><?php _e('Button Goes Here',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Button Goes Here',"foxfire"); ?></th>
 				    <td>
 					<p></p>
 				    </td>
@@ -73,7 +73,7 @@ class BPM_tab_uninstall {
 			</table>
 		    </div>
 
-		<?php $bpm->config->printKeysArray(); ?>
+		<?php $fox->config->printKeysArray(); ?>
 
 	       <div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
 
@@ -106,6 +106,6 @@ class BPM_tab_uninstall {
 	}
 
 
-} // End of class BPM_tab_uninstall
+} // End of class FOX_tab_uninstall
 
 ?>

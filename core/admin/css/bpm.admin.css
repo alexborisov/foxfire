@@ -4,7 +4,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -29,7 +29,7 @@ body, body.wp-admin {
 /* SUBMIT BUTTONS									 */
 /* ===================================================================================== */
 
-input.bpm-button, .submit input.bpm-button, .button-secondary {
+input.fox-button, .submit input.fox-button, .button-secondary {
 
 	border-color:  #298CBA;
 	font-weight: bold;
@@ -50,7 +50,7 @@ input.bpm-button, .submit input.bpm-button, .button-secondary {
 	box-sizing: content-box;
 }
 
-input.bpm-button:hover, .submit input.bpm-button:hover, .button-secondary:hover {
+input.fox-button:hover, .submit input.fox-button:hover, .button-secondary:hover {
 
 	border-color:  #111;
 	font-weight: bold;
@@ -71,7 +71,7 @@ input.bpm-button:hover, .submit input.bpm-button:hover, .button-secondary:hover 
 	box-sizing: content-box;
 }
 
-input.bpm-button, button.bpm-button, a.bpm-button {
+input.fox-button, button.fox-button, a.fox-button {
 
 	border-color: #298CBA;
 	font-weight: bold;
@@ -80,13 +80,13 @@ input.bpm-button, button.bpm-button, a.bpm-button {
 	text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
 }
 
-input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
+input.fox-button:hover, button.fox-button:hover, a.fox-button:hover {
 
 	background: url("./images/button-grad-active.png") repeat-x scroll left top #21759B;
 	color: #FFFF00;
 }
 
-.bpm-button-disabled, .bpm-button[disabled], .bpm-button:disabled {
+.fox-button-disabled, .fox-button[disabled], .fox-button:disabled {
     
 	background: none repeat scroll 0 0 #298CBA !important;
 	color: #9FD0D5 !important;
@@ -104,7 +104,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
 /* HEADERS AND FOOTERS									 */
 /* ===================================================================================== */
 
-.bpm_header_small {
+.fox_header_small {
     width:1000px;
     height:60px;
     background: url(header-small.png);
@@ -112,7 +112,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
     border: solid 1px #333;
 }
 
-.bpm_header_small #bpm_admin_notice_area {
+.fox_header_small #fox_admin_notice_area {
     float:right;
     width:500px;
     height:50px;
@@ -120,7 +120,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
     z-index:9999;
 }
 
-.bpm_admin_notify-item-wrapper {
+.fox_admin_notify-item-wrapper {
     position:relative;
     float:right;
 
@@ -133,7 +133,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
     width:400px;
 }
 
-.bpm_admin_notify-item {
+.fox_admin_notify-item {
     display:block;
     position:relative;
 
@@ -141,7 +141,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
       this produces the "slide-in" effect */
     top:15px;
 
-    background:url(images/bpm_admin_notify.png);
+    background:url(images/fox_admin_notify.png);
     color:#eee;
     padding:5px 4px 4px 4px;
     font-family:verdana;
@@ -152,21 +152,21 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
     border-radius: 6px;
     height:32px;
 }
-.bpm_admin_notify-image {
+.fox_admin_notify-image {
     float:left;
     margin:3px 0px 0px 5px;
     padding: 0px;
     width:25px;
     height:25px;
 }
-.bpm_admin_notify-with-image,
-.bpm_admin_notify-without-image {
+.fox_admin_notify-with-image,
+.fox_admin_notify-without-image {
     float:left;
     margin:2px 0px 2px 8px;
     padding:0px 0px 0px 0px;
 }
 
-.bpm_admin_notify-title {
+.fox_admin_notify-title {
     margin:0px 0px 2px 0px;
     font-size:13px;
     line-height:13px;
@@ -175,7 +175,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
     text-shadow:1px 1px #000; 
 }
 
-.bpm_admin_notify-item p {
+.fox_admin_notify-item p {
     padding:0;
     margin:0px 0px 0px 0px;
     font-size: 9px;
@@ -183,17 +183,17 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
     text-shadow:1px 1px #000;
 }
 
-.bpm_admin_notify-close {
+.fox_admin_notify-close {
     position:absolute;
     top:3px;
     right:4px;
-    background:url(images/bpm_admin_notify_close.png);
+    background:url(images/fox_admin_notify_close.png);
     cursor:pointer;
     width:16px;
     height:16px;
 }
 
-.bpm_footer {
+.fox_footer {
     float:left;
     width:1000px;
     height:30px;
@@ -319,7 +319,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
     background: url(images/bp_logo_large.png);
 }
 
-.bpm_bricks_large {
+.fox_bricks_large {
     float:left;
     height:32px;
     width:32px;
@@ -328,7 +328,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
     background: url(images/bricks_large.png);
 }
 
-.bpm_warning_large {
+.fox_warning_large {
     float:left;
     height:32px;
     width:32px;
@@ -482,7 +482,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
 }
 
 
-.bpm_dashboard_header {
+.fox_dashboard_header {
     float:left;
     margin:5px 0px 0px 5px;
     width:1000px;
@@ -491,13 +491,13 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
     background: url(header-dashboard-nightly.png);
 }
 
-.bpm_dashboard_header_wrap{
+.fox_dashboard_header_wrap{
     float:left;
     width:1000px;
 }
 
 
-.bpm_dashboard_version {
+.fox_dashboard_version {
      float:right;
      display:inline;
      width:150px;
@@ -609,7 +609,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
 
 }
 
-.bpm_release_warning {
+.fox_release_warning {
      float:right;
      width:650px;
      line-height:140%;
@@ -620,7 +620,7 @@ input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
      padding: 5px;
 }
 
-.bpm_dashboard_body{
+.fox_dashboard_body{
     background: url("images/blue_fade.png") no-repeat scroll left top #FFFFFF;
     border-color: #CCCCCC;
     border-style: solid;

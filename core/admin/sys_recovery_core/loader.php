@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,25 +20,25 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_admin_page_recovery_intro {
+class FOX_admin_page_recovery_intro {
 
 
 	public function render(){
 
 	    ?>
 
-		<div class="bpm_section_intro">
+		<div class="fox_section_intro">
 
-			<div class="icon"><img src="<?php echo BPM_URL_CORE . '/admin/sys_recovery_core/recovery_icon.png' ?>" alt="Core Settings" width="64" height="64" /></div>
+			<div class="icon"><img src="<?php echo FOX_URL_CORE . '/admin/sys_recovery_core/recovery_icon.png' ?>" alt="Core Settings" width="64" height="64" /></div>
 
 			<div class="title">
-			    <?php _e('System Recovery',"bp-media") ?>
+			    <?php _e('System Recovery',"foxfire") ?>
 			</div>
 
 			<div class="details">
-			    <?php _e("BP-Media has been successfully installed on your server, but there's still work left to do! ...Once the problems
-				listed below have been fixed, BP-Media will activate across your website and BP-Media's screens will appear in your
-				admin menu.","bp-media") ?>
+			    <?php _e("FoxFire has been successfully installed on your server, but there's still work left to do! ...Once the problems
+				listed below have been fixed, FoxFire will activate across your website and FoxFire's screens will appear in your
+				admin menu.","foxfire") ?>
 			</div>
 
 		</div>
@@ -46,10 +46,10 @@ class BPM_admin_page_recovery_intro {
 	    <?php
 	}
 
-} // End of class BPM_admin_page_recovery_intro
+} // End of class FOX_admin_page_recovery_intro
 
 
-class BPM_admin_page_recovery extends BPM_admin_page_base {
+class FOX_admin_page_recovery extends FOX_admin_page_base {
 
 
 	public function __construct() {
@@ -71,7 +71,7 @@ class BPM_admin_page_recovery extends BPM_admin_page_base {
 	function render(){
 
 		// If a form is submitted with data, run the processor function (inherited
-		// from BPM_admin_page_base)
+		// from FOX_admin_page_base)
 
 		if ( !empty($_POST) ) {
 			$this->processor();
@@ -95,16 +95,16 @@ class BPM_admin_page_recovery extends BPM_admin_page_base {
 		// Load scripts used by all tabs on this page
 		// ======================================================
 
-		wp_enqueue_script( 'bpm-adminNotifier');
-		wp_enqueue_script( 'bpm-jquery-ui-core');
-		wp_enqueue_script( 'bpm-jquery-ui-widget');
-		wp_enqueue_script( 'bpm-jquery-ui-mouse');
-		wp_enqueue_script( 'bpm-jquery-ui-position');
-		wp_enqueue_script( 'bpm-jquery-ui-tabs');
-		wp_enqueue_script( 'bpm-jquery-ui-slider');
-		wp_enqueue_script( 'bpm-jquery-ui-dialog');
-		wp_enqueue_script( 'bpm-jquery-ui-draggable');
-		wp_enqueue_script( 'bpm-jquery-ui-resizable');
+		wp_enqueue_script( 'fox-adminNotifier');
+		wp_enqueue_script( 'fox-jquery-ui-core');
+		wp_enqueue_script( 'fox-jquery-ui-widget');
+		wp_enqueue_script( 'fox-jquery-ui-mouse');
+		wp_enqueue_script( 'fox-jquery-ui-position');
+		wp_enqueue_script( 'fox-jquery-ui-tabs');
+		wp_enqueue_script( 'fox-jquery-ui-slider');
+		wp_enqueue_script( 'fox-jquery-ui-dialog');
+		wp_enqueue_script( 'fox-jquery-ui-draggable');
+		wp_enqueue_script( 'fox-jquery-ui-resizable');
 
 
 		// Load scripts used by the currently selected tab
@@ -146,11 +146,11 @@ class BPM_admin_page_recovery extends BPM_admin_page_base {
 		// Load styles used by all tabs on this page
 		// ======================================================
 
-		wp_enqueue_style( 'bpm-admin', BPM_URL_CORE .'/admin/css/bpm.admin.css', false, '2.8.1', 'screen' );
-		wp_enqueue_style( 'bpm-tabs-h', BPM_URL_CORE .'/admin/css/bpm.tabs.h.css', false, '2.5.0', 'screen' );
-		wp_enqueue_style( 'bpm-ui-base', BPM_URL_LIB .'/jquery/ui/css/jquery.ui.base.css', false, '2.8.1', 'screen');
-		wp_enqueue_style( 'bpm-ui-theme', BPM_URL_CORE .'/admin/css/bpm.ui.theme.css', false, '2.8.1', 'screen' );
-		wp_enqueue_style( 'bpm-core-settings', BPM_URL_CORE .'/admin/css/admin-core-settings.css', false, '2.5.0', 'screen' );
+		wp_enqueue_style( 'fox-admin', FOX_URL_CORE .'/admin/css/fox.admin.css', false, '2.8.1', 'screen' );
+		wp_enqueue_style( 'fox-tabs-h', FOX_URL_CORE .'/admin/css/fox.tabs.h.css', false, '2.5.0', 'screen' );
+		wp_enqueue_style( 'fox-ui-base', FOX_URL_LIB .'/jquery/ui/css/jquery.ui.base.css', false, '2.8.1', 'screen');
+		wp_enqueue_style( 'fox-ui-theme', FOX_URL_CORE .'/admin/css/fox.ui.theme.css', false, '2.8.1', 'screen' );
+		wp_enqueue_style( 'fox-core-settings', FOX_URL_CORE .'/admin/css/admin-core-settings.css', false, '2.5.0', 'screen' );
 
 
 		// Load styles used by the currently selected tab
@@ -186,7 +186,7 @@ class BPM_admin_page_recovery extends BPM_admin_page_base {
 	 */
 	public function loadIntro(){
 
-		$this->intro = new BPM_admin_page_recovery_intro();
+		$this->intro = new FOX_admin_page_recovery_intro();
 	}
 
 
@@ -200,10 +200,10 @@ class BPM_admin_page_recovery extends BPM_admin_page_base {
 	public function loadTabs(){
 
 		include_once ( dirname (__FILE__) . '/tab.home.php' );
-		$this->tabs['BPM_tab_home'] = __('Problems', "bp-media");
+		$this->tabs['FOX_tab_home'] = __('Problems', "foxfire");
 
 	}
 
- } // End of class BPM_admin_page_recovery
+ } // End of class FOX_admin_page_recovery
 
 ?>

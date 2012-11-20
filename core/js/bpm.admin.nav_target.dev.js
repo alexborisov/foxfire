@@ -1,10 +1,10 @@
 /**
  * BP-MEDIA ADMIN PAGE DYNAMIC TABLES JAVASCRIPT FUNCTIONS
- * Adds field manipulation and animation to tables within BP-Media admin pages
+ * Adds field manipulation and animation to tables within FoxFire admin pages
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -16,7 +16,7 @@ var viewMode;
 var pageSubmitOK;
 var slugSubmitOK;
 
-function bpm_pageModules_navTarget(baseName, moduleID){ 
+function fox_pageModules_navTarget(baseName, moduleID){ 
 
 	// Remove row-striping from the target tables (the row-striping
 	// function doesn't ignore hidden objects)
@@ -161,7 +161,7 @@ function toggleMode(baseName, moduleID){
 
 /**
  * When operating in page mode, checks if the page selected by the user is currently being used
- * as a target by another BP-Media or BuddyPress screen. Based on whether the page is available
+ * as a target by another FoxFire or BuddyPress screen. Based on whether the page is available
  * or not, it adds/removes HTML from the admin page DOM to display the correct page status.
  *
  * @version 0.1.9
@@ -264,7 +264,7 @@ function updatePageStatus(baseName, moduleID){
 
 /**
  * When operating in slug mode, checks if the slug entered by the user is valid, and if it is currently
- * being used as a target by another BP-Media or BuddyPress screen. Based on whether the slug is available
+ * being used as a target by another FoxFire or BuddyPress screen. Based on whether the slug is available
  * and/or valid, it adds/removes HTML from the admin page DOM to display the correct slug status.
  *
  * @version 0.1.9
@@ -437,10 +437,10 @@ function toggleSubmitButton(){
 
 	    if(pageSubmitOK == true){
 
-		    jQuery('.bpm-validator-button').removeAttr('disabled');
+		    jQuery('.fox-validator-button').removeAttr('disabled');
 	    }
 	    else {
-		    jQuery('.bpm-validator-button').attr('disabled', "disabled");
+		    jQuery('.fox-validator-button').attr('disabled', "disabled");
 	    }
 
     }
@@ -448,10 +448,10 @@ function toggleSubmitButton(){
 
 	    if(slugSubmitOK == true){
 
-		    jQuery('.bpm-validator-button').removeAttr('disabled');
+		    jQuery('.fox-validator-button').removeAttr('disabled');
 	    }
 	    else {
-		    jQuery('.bpm-validator-button').attr('disabled', "disabled");
+		    jQuery('.fox-validator-button').attr('disabled', "disabled");
 	    }
     }
 
@@ -460,7 +460,7 @@ function toggleSubmitButton(){
 
 /**
  * Checks a slug only contains [a-z], [A-Z], [_-]. Fails on leading and internal spaces,
- * passes on trailing spaces. Matches the behavior of the BPM_sanitize::slug() sanitizer.
+ * passes on trailing spaces. Matches the behavior of the FOX_sanitize::slug() sanitizer.
  *
  * @version 0.1.9
  * @since 0.1.9

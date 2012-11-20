@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -15,7 +15,7 @@
  */
 
 
-class BPM_moduleManager_test_stub extends BPM_module_manager_base {
+class FOX_moduleManager_test_stub extends FOX_module_manager_base {
 
 
 	var $cache;			    // Main cache array for this class
@@ -44,9 +44,9 @@ class BPM_moduleManager_test_stub extends BPM_module_manager_base {
 
 	public static $struct = array(
 
-		"table" => "bpm_sys_module_manager_test_stub",
+		"table" => "fox_sys_module_manager_test_stub",
 		"engine" => "InnoDB",
-		"cache_namespace" => "BPM_moduleManager_test_stub",
+		"cache_namespace" => "FOX_moduleManager_test_stub",
 		"cache_strategy" => "monolithic",
 		"columns" => array(
 		    "module_id" =>	    array(  "php"=>"int",	"sql"=>"tinyint",	"format"=>"%d", "width"=>null,"flags"=>"UNSIGNED NOT NULL",	"auto_inc"=>true,   "default"=>null,	"index"=>"PRIMARY"),
@@ -75,7 +75,7 @@ class BPM_moduleManager_test_stub extends BPM_module_manager_base {
 
 	// ================================================================================================================
 
-	public function BPM_moduleManager_test_stub($error=null) {
+	public function FOX_moduleManager_test_stub($error=null) {
 
 		$cache_ok = self::loadCache($cache_get_error);
 
@@ -92,11 +92,11 @@ class BPM_moduleManager_test_stub extends BPM_module_manager_base {
 	}
 
 
-}  // ENDOF class BPM_moduleManager_test_stub
+}  // ENDOF class FOX_moduleManager_test_stub
 
 
 
-class core_BPM_moduleManager extends RAZ_testCase {
+class core_FOX_moduleManager extends RAZ_testCase {
 
 	var $cls;
 
@@ -104,10 +104,10 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		parent::setUp();
 
-		$this->cls = new BPM_moduleManager_test_stub();
+		$this->cls = new FOX_moduleManager_test_stub();
 		$result = $this->cls->install($error);
 
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 		unset($error);
 	}
 
@@ -118,11 +118,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -139,7 +139,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -155,7 +155,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify correct cache state
@@ -207,7 +207,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>6, 1=>7);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -225,7 +225,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify correct cache state
@@ -281,7 +281,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals(false, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(false, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$this->assertEquals($check_cache, $this->cls->cache);	// Verify cache has not changed
@@ -295,7 +295,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals(false, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(false, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$this->assertEquals($check_cache, $this->cls->cache);	// Verify cache has not changed
@@ -311,7 +311,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals(false, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(false, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$this->assertEquals($check_cache, $this->cls->cache);	// Verify cache has not changed
@@ -321,11 +321,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 	}
@@ -337,11 +337,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data and verify correct module_id's are returned
@@ -359,7 +359,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		foreach( $test_data as $module_id => $data){
 
 			$result = $this->cls->register($data['slug'], $data['name'], $data['php_class'], $data['active'], $error);
-			$this->assertEquals($module_id, $result, BPM_debug::formatError_print($error));
+			$this->assertEquals($module_id, $result, FOX_debug::formatError_print($error));
 			unset($error);
 		}
 
@@ -413,18 +413,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check correct data is returned
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -438,11 +438,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -459,7 +459,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -473,18 +473,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getActiveModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check correct data is returned
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getActiveModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -497,11 +497,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -518,7 +518,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -527,18 +527,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_db = array( "module_id" => 2, "slug"=> "slug_02", "name"=> "name_02",  "php_class"=> "class_02", "active"=> true);
 
 		$result = $this->cls->getByID(2, $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear the cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getByID(2, $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify correct cache state
@@ -585,11 +585,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -606,7 +606,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -619,18 +619,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getByID(array(2,3,5), $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear the cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 		unset($error);
 
 		$result = $this->cls->getByID(array(2,3,5), $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify correct cache state
@@ -683,11 +683,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -704,7 +704,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -713,18 +713,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_db = array( "module_id" => 2, "slug"=> "slug_02", "name"=> "name_02",  "php_class"=> "class_02", "active"=> true);
 
 		$result = $this->cls->getByClass("class_02", $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear the cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getByClass("class_02", $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify correct cache state
@@ -770,11 +770,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -791,7 +791,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -805,18 +805,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		$result = $this->cls->getByClass(array("class_02", "class_03", "class_05"), $error);
 
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear the cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 		unset($error);
 
 		$result = $this->cls->getByClass(array("class_02", "class_03", "class_05"), $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify correct cache state
@@ -869,11 +869,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -890,7 +890,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -899,18 +899,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_db = array( "module_id" => 2, "slug"=> "slug_02", "name"=> "name_02",  "php_class"=> "class_02", "active"=> true);
 
 		$result = $this->cls->getBySlug("slug_02", $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear the cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getBySlug("slug_02", $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify correct cache state
@@ -956,11 +956,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -977,7 +977,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -991,18 +991,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		$result = $this->cls->getBySlug(array("slug_02", "slug_03", "slug_05"), $error);
 
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear the cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getBySlug(array("slug_02", "slug_03", "slug_05"), $error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify correct cache state
@@ -1055,11 +1055,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -1076,7 +1076,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -1118,7 +1118,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->activateByID(2, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -1161,14 +1161,14 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->activateByID(99, $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Return zero on trying to activate already activated module
 		// ==========================================================
 
 		$result = $this->cls->activateByID(4, $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -1190,18 +1190,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -1214,11 +1214,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -1235,7 +1235,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -1277,7 +1277,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->activateByID(array(1,2,5), $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -1322,14 +1322,14 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->activateByID(array(33,44,55), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Return zero on trying to activate already activated module
 		// ==========================================================
 
 		$result = $this->cls->activateByID(array(1,2), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -1351,18 +1351,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -1375,11 +1375,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -1396,7 +1396,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -1435,7 +1435,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->activateBySlug("slug_02", $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -1477,14 +1477,14 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->activateBySlug("fail_slug", $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Return zero on trying to activate already activated module
 		// ==========================================================
 
 		$result = $this->cls->activateByID("slug_04", $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -1497,15 +1497,15 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->activateBySlug("slug_05", $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->activateBySlug("slug_03", $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->activateBySlug("slug_04", $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -1559,18 +1559,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -1583,11 +1583,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -1604,7 +1604,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -1646,7 +1646,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->activateBySlug(array("slug_01","slug_02","slug_05"), $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -1691,14 +1691,14 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->activateBySlug(array("fail_01","fail_02","fail_03"), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Return zero on trying to activate already activated module
 		// ==========================================================
 
 		$result = $this->cls->activateByID(array("slug_01","slug_02"), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -1720,18 +1720,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -1744,11 +1744,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -1765,7 +1765,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -1810,7 +1810,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateByID(3, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -1854,14 +1854,14 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateByID(99, $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Return zero on trying to deactivate an inactive module
 		// ==========================================================
 
 		$result = $this->cls->deactivateByID(2, $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -1883,18 +1883,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -1907,11 +1907,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -1928,7 +1928,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -1973,7 +1973,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateByID(array(3,4,5), $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -2015,14 +2015,14 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateByID(array(33,44,55), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Return zero on trying to deactivate multiple inactive modules
 		// ==========================================================
 
 		$result = $this->cls->deactivateByID(array(3,4,5), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -2044,18 +2044,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -2068,11 +2068,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -2089,7 +2089,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -2134,7 +2134,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateBySlug("slug_03", $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -2178,14 +2178,14 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateBySlug("fail_slug", $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Return zero on trying to deactivate an inactive module
 		// ==========================================================
 
 		$result = $this->cls->deactivateBySlug("slug_02", $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -2207,18 +2207,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -2231,11 +2231,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -2252,7 +2252,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -2297,7 +2297,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateBySlug(array("slug_03","slug_04","slug_05"), $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -2339,14 +2339,14 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateByID(array("fail_1","fail_2","fail_3"), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Return zero on trying to deactivate multiple inactive modules
 		// ==========================================================
 
 		$result = $this->cls->deactivateByID(array("slug_02","slug_04","slug_05"), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -2368,18 +2368,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -2392,11 +2392,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -2413,7 +2413,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -2458,7 +2458,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deleteByID(3, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -2499,7 +2499,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deleteByID(99, $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -2520,18 +2520,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 	} // End of test_deleteByID_single
@@ -2543,11 +2543,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -2564,7 +2564,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -2609,7 +2609,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deleteByID(array(2,3,4), $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -2642,7 +2642,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateByID(array(33,44,55), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -2661,18 +2661,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 	} // End of test_deleteByID_multi
@@ -2684,11 +2684,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -2705,7 +2705,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -2750,7 +2750,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deleteBySlug("slug_03", $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -2791,7 +2791,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deleteBySlug("fail_slug", $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -2812,18 +2812,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 	} // End of test_deleteBySlug_single
@@ -2835,11 +2835,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -2856,7 +2856,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -2901,7 +2901,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deleteBySlug(array("slug_02","slug_03","slug_04"), $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -2934,7 +2934,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->deactivateByID(array("fail_1","fail_2","fail_3"), $error);
-		$this->assertEquals(0, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(0, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify cache state has not changed
@@ -2953,18 +2953,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 	} // End of test_deleteBySlug_multi
@@ -2976,11 +2976,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -2997,7 +2997,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -3043,7 +3043,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		$data = array( "module_id" => 1, "slug"=> "slug_01_updated", "name"=> "name_01_updated",  "php_class"=> "class_01_updated", "active"=> false);
 		$result = $this->cls->edit($data, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -3096,18 +3096,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -3120,11 +3120,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -3141,7 +3141,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -3186,7 +3186,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		$data = array( "module_id" => 4, "slug"=> "slug_04", "name"=> "name_04_updated",  "php_class"=> "class_04", "active"=> true);
 		$result = $this->cls->edit($data, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -3240,18 +3240,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -3264,11 +3264,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -3285,7 +3285,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify initial cache state
@@ -3331,7 +3331,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		$data = array( "module_id" => 5, "name"=> "name_05_updated");
 		$result = $this->cls->edit($data, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify updated cache state
@@ -3385,18 +3385,18 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Clear cache and check again
 		// ===================================================
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -3409,11 +3409,11 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		// ===================================================
 
 		$result = $this->cls->truncate($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Load test data
@@ -3430,7 +3430,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		$check_ids = array(0=>1, 1=>2, 2=>3, 3=>4, 4=>5);
 
 		$result = $this->cls->addMulti($insert_data, $error);
-		$this->assertEquals($check_ids, $result, BPM_debug::formatError_print($error));	// Verify correct ids are returned
+		$this->assertEquals($check_ids, $result, FOX_debug::formatError_print($error));	// Verify correct ids are returned
 		unset($error);
 
 		// Verify correct data is returned
@@ -3446,7 +3446,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 		);
 
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify correct cache state
@@ -3500,12 +3500,12 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		// Clear cache
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify db was not modified
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Fail on slug collision
@@ -3521,12 +3521,12 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		// Clear cache
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify db was not modified
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Fail on php_class collision
@@ -3542,12 +3542,12 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		// Clear cache
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify db was not modified
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Fail on name collision
@@ -3563,12 +3563,12 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 		// Clear cache
 		$result = $this->cls->flushCache($error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Verify db was not modified
 		$result = $this->cls->getAllModules($error);
-		$this->assertEquals($check_db, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check_db, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -3577,7 +3577,7 @@ class core_BPM_moduleManager extends RAZ_testCase {
 
 	function tearDown() {
 
-		$this->cls = new BPM_moduleManager_test_stub();
+		$this->cls = new FOX_moduleManager_test_stub();
 		$this->cls->uninstall();
 
 		parent::tearDown();

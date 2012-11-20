@@ -17,7 +17,7 @@
 /* ===================================================================================== */
 
 
-.bpm_section_intro{
+.fox_section_intro{
     float:left;
     margin:10px 0px 10px 20px;
     padding:10px 10px 10px 10px;
@@ -25,14 +25,14 @@
     width:950px;
 }
 
-.bpm_section_intro .icon{
+.fox_section_intro .icon{
     float:left;
     height:64px;
     width:64px;
     margin:0px 10px 0px 0px;
 }
 
-.bpm_section_intro .title{
+.fox_section_intro .title{
     float:left;
     width:870px;
     font-size:22px;
@@ -41,7 +41,7 @@
     margin:8px 0px 3px 0px;
 }
 
-.bpm_section_intro .details {
+.fox_section_intro .details {
     float:left;
     width:750px;
     font-size:12px;
@@ -219,12 +219,12 @@
     display:inline;
 }
 
-.bpm_tip_wrap{
+.fox_tip_wrap{
     float:left;
     width:100%;
 }
 
-.tabs_h .panel .bpm_section_advice {
+.tabs_h .panel .fox_section_advice {
     float:left;
     font-size:10px;
     line-height:120%;
@@ -232,7 +232,7 @@
     margin:-3px 0px 7px 10px;
 }
 
-.tabs_h .panel .bpm_tip{
+.tabs_h .panel .fox_tip{
     float:left;
     width:80%;
     margin:15px 0px 0px 30px;
@@ -241,7 +241,7 @@
     border:solid 1px #eee;
 }
 
-.tabs_h .panel .bpm_tip_text {
+.tabs_h .panel .fox_tip_text {
     float:left;
     font-size:10px;
     line-height:120%;
@@ -376,7 +376,7 @@
 /* ===================================================================================== */
 
 
-.bpm_submit_h_panel_wrap {
+.fox_submit_h_panel_wrap {
 
 	float:right;
 	margin: 0px 155px 0px 0px;

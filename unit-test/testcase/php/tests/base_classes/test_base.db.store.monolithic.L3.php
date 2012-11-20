@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -28,10 +28,10 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		parent::setUp();
 		
 		// Install the album object db table, required by the album manager class
-		$album_object = new BPM_album();
+		$album_object = new FOX_album();
 		$album_object->install();
 
-		$media_object = new BPM_media();
+		$media_object = new FOX_media();
 		$media_object->install();
 
 		// Use class dependency-injection capability to load our classes with
@@ -43,8 +43,8 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 			'albumModules'=> new mock_albumModuleManager()
 		);
 
-		$this->alb = new BPM_albumManager($args);
-		$this->med = new BPM_mediaManager($args);
+		$this->alb = new FOX_albumManager($args);
+		$this->med = new FOX_mediaManager($args);
 
 	}
 
@@ -72,12 +72,12 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->alb->addItem($user_id=1, $test_data, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error) );
 
 		// Verify album data is correct
 		// ===================================================
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		$args = array(
 			    array("col"=>"id", "op"=>"=", "val"=>1 )
@@ -85,7 +85,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 
 		$ctrl = array("format"=>"row_array");
 
-		$db_result = $db->runSelectQuery( BPM_album::_struct(), $args, $columns=null, $ctrl);
+		$db_result = $db->runSelectQuery( FOX_album::_struct(), $args, $columns=null, $ctrl);
 
 		$check_data = array (
 			"id"=>1,
@@ -115,7 +115,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->addItem($user_id=1, $test_data, $error);
 
 		// Check correct album_id is being returned
-		$this->assertEquals(2, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(2, $result, FOX_debug::formatError_print($error) );
 
 	}
 
@@ -145,12 +145,12 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->addItem($user_id=1, $test_data, $error);
 
 		// Check the album_id is being returned
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error) );
 
 		// Verify album data is correct
 		// ===================================================
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		$args = array(
 			    array("col"=>"id", "op"=>"=", "val"=>1 )
@@ -158,7 +158,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 
 		$ctrl = array("format"=>"row_array");
 
-		$db_result = $db->runSelectQuery( BPM_album::_struct(), $args, $columns=null, $ctrl);
+		$db_result = $db->runSelectQuery( FOX_album::_struct(), $args, $columns=null, $ctrl);
 
 		$check_data = array (
 			"id"=>1,
@@ -221,12 +221,12 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		// Since we're doing a multi-item add, the function should be returning (bool) true
 		// instead of the (int) album_id returned when doing a single insert
 
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		// Verify album data is correct
 		// ===================================================
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		$args = array(
 			    array("col"=>"owner_id", "op"=>"=", "val"=>1 )
@@ -234,7 +234,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 
 		$ctrl = array("format"=>"array_key_array", "key_col"=>"id");
 
-		$db_result = $db->runSelectQuery( BPM_album::_struct(), $args, $columns=null, $ctrl);
+		$db_result = $db->runSelectQuery( FOX_album::_struct(), $args, $columns=null, $ctrl);
 
 		// Verify the record matches the test data
 
@@ -327,11 +327,11 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		// Since we're doing a multi-item add, the function should be returning (bool) true
 		// instead of the (int) album_id returned when doing a single insert
 
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		$result = $this->alb->get(1);
 
-		$check_object = new BPM_album( array(
+		$check_object = new FOX_album( array(
 							"id"=>1,
 							'owner_id'=>1,
 							'cover_image'=>0,
@@ -395,12 +395,12 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		// Since we're doing a multi-item add, the function should be returning (bool) true
 		// instead of the (int) album_id returned when doing a single insert
 
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		$result = $this->alb->get( array(1, 2, 3) );
 
 		$check_array = array(
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>1,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -411,7 +411,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 					    'privacy'=>3,
 					    'module_id'=>1
 					) ),
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>2,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -422,7 +422,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 					    'privacy'=>2,
 					    'module_id'=>1
 					) ),
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>3,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -480,7 +480,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->addItemMulti($user_id=1, $test_data, $error);
 		
 		// Return result should be "true" because its a multi-add
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 
 		// Modify an item
@@ -496,7 +496,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->alb->editItem($user_id=1, $album_id=2, $edit_data, $error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		// Verify items were correctly updated
 		// ===================================================
@@ -504,7 +504,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->get( array(1, 2, 3) );
 
 		$check_array = array(
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>1,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -515,7 +515,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 					    'privacy'=>3,
 					    'module_id'=>1
 					) ),
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>2,
 					    'owner_id'=>1,
 					    'cover_image'=>1377,		
@@ -526,7 +526,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 					    'privacy'=>2,
 					    'module_id'=>1
 					) ),
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>3,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -584,7 +584,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->addItemMulti($user_id=1, $test_data, $error);
 
 		// Return result should be "true" because its a multi-add
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 
 		// Add media items to test album
@@ -600,7 +600,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1,
@@ -612,7 +612,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(2, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(2, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1,
@@ -624,7 +624,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error) );
 
 		// Modify an album, changing its privacy level
 		// ===================================================
@@ -639,7 +639,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->alb->editItem($user_id=1, $album_id=2, $edit_data, $error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		// Verify albums were correctly updated
 		// ===================================================
@@ -647,7 +647,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->get( array(1, 2, 3) );
 
 		$check_array = array(
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>1,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -658,7 +658,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 					    'privacy'=>3,
 					    'module_id'=>1
 					) ),
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>2,
 					    'owner_id'=>1,
 					    'cover_image'=>1377,
@@ -669,7 +669,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 					    'privacy'=>4,
 					    'module_id'=>1
 					) ),
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>3,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -689,7 +689,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		// Verify medias were correctly updated
 		// ===================================================
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		$args = array(
 			    array("col"=>"album_id", "op"=>"=", "val"=>2 )
@@ -697,7 +697,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 
 		$ctrl = array("format"=>"row_array");
 
-		$db_result = $db->runSelectQuery( BPM_media::_struct(), $args, $columns=null, $ctrl);
+		$db_result = $db->runSelectQuery( FOX_media::_struct(), $args, $columns=null, $ctrl);
 
 		$check_data = array(
 
@@ -793,14 +793,14 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->addItemMulti($user_id=1, $test_data, $error);
 
 		// Return result should be "true" because its a multi-add
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 
 		// Delete an album
 		// ===================================================
 
 		$result = $this->alb->deleteItem($user_id=1, $album_id=2, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error) );
 
 		
 		// Verify album was correctly deleted
@@ -809,7 +809,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->get( array(1, 2, 3) );
 
 		$check_array = array(
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>1,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -820,7 +820,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 					    'privacy'=>3,
 					    'module_id'=>1
 					) ),
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>3,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -878,13 +878,13 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->addItemMulti($user_id=1, $test_data, $error);
 
 		// Return result should be "true" because its a multi-add
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		// Delete albums
 		// ===================================================
 
 		$result = $this->alb->deleteItem($user_id=1, $album_id=array(1,3), $error);
-		$this->assertEquals(2, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(2, $result, FOX_debug::formatError_print($error) );
 
 		// Verify albums were correctly deleted
 		// ===================================================
@@ -892,7 +892,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->get( array(1, 2, 3) );
 
 		$check_array = array(
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>2,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -941,7 +941,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->addItemMulti($user_id=1, $test_data, $error);
 
 		// Return result should be "true" because its a multi-add
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		// Add media items to test albums
 		// ===================================================
@@ -952,7 +952,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>2, 'title'=>"Test Media Title 02", 'caption'=>"Test Media Caption 02",
@@ -960,7 +960,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(2, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(2, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>2, 'title'=>"Test Media Title 03", 'caption'=>"Test Media Caption 03",
@@ -968,14 +968,14 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error) );
 
 
 		// Delete an album
 		// ===================================================
 
 		$result = $this->alb->deleteItem($user_id=1, $album_id=2, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error) );
 
 
 		// Verify album was correctly deleted
@@ -984,7 +984,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->get( array(1, 2, 3) );
 
 		$check_array = array(
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>1,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -995,7 +995,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 					    'privacy'=>3,
 					    'module_id'=>1
 					) ),
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>3,
 					    'owner_id'=>1,
 					    'cover_image'=>0,
@@ -1014,7 +1014,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		// Verify medias were deleted
 		// ===================================================
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		$args = array(
 			    array("col"=>"album_id", "op"=>"=", "val"=>2 )
@@ -1022,7 +1022,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 
 		$ctrl = array("format"=>"row_array");
 
-		$db_result = $db->runSelectQuery( BPM_media::_struct(), $args, $columns=null, $ctrl);
+		$db_result = $db->runSelectQuery( FOX_media::_struct(), $args, $columns=null, $ctrl);
 
 		$this->assertEquals(null, $db_result );
 		
@@ -1058,7 +1058,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->alb->addItemMulti($user_id=1, $test_data, $error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 
 		// Add media items to test albums
@@ -1070,7 +1070,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>1, 'title'=>"Test Media Title 02", 'caption'=>"Test Media Caption 02",
@@ -1078,7 +1078,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(2, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(2, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>1, 'title'=>"Test Media Title 03", 'caption'=>"Test Media Caption 03",
@@ -1086,7 +1086,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>2, 'title'=>"Test Media Title 04", 'caption'=>"Test Media Caption 04",
@@ -1094,7 +1094,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(4, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(4, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>2, 'title'=>"Test Media Title 05", 'caption'=>"Test Media Caption 05",
@@ -1102,7 +1102,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(5, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(5, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>2, 'title'=>"Test Media Title 06", 'caption'=>"Test Media Caption 06",
@@ -1110,7 +1110,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(6, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(6, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>3, 'title'=>"Test Media Title 07", 'caption'=>"Test Media Caption 07",
@@ -1118,7 +1118,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(7, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(7, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>3, 'title'=>"Test Media Title 08", 'caption'=>"Test Media Caption 08",
@@ -1126,7 +1126,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(8, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(8, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>3, 'title'=>"Test Media Title 09", 'caption'=>"Test Media Caption 09",
@@ -1134,14 +1134,14 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(9, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(9, $result, FOX_debug::formatError_print($error) );
 
 
 		// Delete albums
 		// ===================================================
 
 		$result = $this->alb->deleteItem($user_id=1, $album_id=array(1,3), $error);
-		$this->assertEquals(2, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(2, $result, FOX_debug::formatError_print($error) );
 
 
 		// Verify albums were deleted
@@ -1150,7 +1150,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->get( array(1, 2, 3) );
 
 		$check_array = array(
-					new BPM_album( array(
+					new FOX_album( array(
 					    "id"=>2,
 					    'owner_id'=>1,
 					    'cover_image'=>4,
@@ -1169,7 +1169,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		// Verify medias were deleted
 		// ===================================================
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		$args = array(
 			    array("col"=>"owner_id", "op"=>"=", "val"=>1 )
@@ -1177,7 +1177,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 
 		$ctrl = array("format"=>"array_array");
 
-		$db_result = $db->runSelectQuery( BPM_media::_struct(), $args, $columns=null, $ctrl);
+		$db_result = $db->runSelectQuery( FOX_media::_struct(), $args, $columns=null, $ctrl);
 
 		$check_data = array(
 
@@ -1293,7 +1293,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->alb->addItemMulti($user_id=1, $test_data, $error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		// Check correct results are returned
 		// ===================================================
@@ -1307,7 +1307,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 				"instances_left"=>0
 		);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error) );
 
 		$result = $this->alb->getInstanceData($user_id, $module_slug="slug_02", $error);
 
@@ -1318,7 +1318,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 				"instances_left"=>3
 		);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error) );
 
 		$result = $this->alb->getInstanceData($user_id, $module_slug="slug_03", $error);
 
@@ -1329,12 +1329,12 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 				"instances_left"=>3
 		);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error) );
 
 		// Try to get data for a deactivated module
 		$result = $this->alb->getInstanceData($user_id, $module_slug="slug_04", $error);
 
-		$this->assertEquals(false, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(false, $result, FOX_debug::formatError_print($error) );
 
 		// Get data for a module with no instances
 		$result = $this->alb->getInstanceData($user_id, $module_slug="slug_05", $error);
@@ -1346,7 +1346,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 				"instances_left"=>5
 		);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error) );
 
 	}
 
@@ -1411,7 +1411,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 
 		);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error) );
 
 		
 		// Load albums class with test data
@@ -1462,7 +1462,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->alb->addItemMulti($user_id=1, $test_data, $error);
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 
 		// Check modified state
@@ -1514,7 +1514,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 
 		);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error) );
 
 	}
 
@@ -1548,7 +1548,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		$result = $this->alb->addItemMulti($user_id=1, $test_data, $error);
 
 		// Return result should be "true" because its a multi-add
-		$this->assertEquals(true, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
 
 		// Add media items to test albums
 		// ===================================================
@@ -1559,7 +1559,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(1, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(1, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>2, 'title'=>"Test Media Title 02", 'caption'=>"Test Media Caption 02",
@@ -1567,7 +1567,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(2, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(2, $result, FOX_debug::formatError_print($error) );
 
 		$test_data = array (
 			'owner_id'=>1, 'album_id'=>1, 'title'=>"Test Media Title 03", 'caption'=>"Test Media Caption 03",
@@ -1575,7 +1575,7 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 		);
 
 		$result = $this->med->addItem($test_data, $media_object, $error);
-		$this->assertEquals(3, $result, BPM_debug::formatError_print($error) );
+		$this->assertEquals(3, $result, FOX_debug::formatError_print($error) );
 
 
 		// Fetch parent album
@@ -1590,13 +1590,13 @@ class core_L3_monolithic_abstract extends RAZ_testCase {
 
 	function tearDown() {
 
-		$class = new BPM_album();
+		$class = new FOX_album();
 		$class->uninstall();
 
-		$class = new BPM_media();
+		$class = new FOX_media();
 		$class->uninstall();
 		
-		// class BPM_albumManager and class BPM_mediaManager do not have to
+		// class FOX_albumManager and class FOX_mediaManager do not have to
 		// be uninstalled because they don't have tables associated with them
 		
 		parent::tearDown();

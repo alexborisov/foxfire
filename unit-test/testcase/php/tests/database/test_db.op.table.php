@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -18,7 +18,7 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 
 	static $struct = array(
 
-		"table" => "bpm_test_runAddTable_indexPrimaryKey",
+		"table" => "fox_test_runAddTable_indexPrimaryKey",
 		"engine" => "InnoDB",
 		"columns" => array(
 		    "id" =>	array(	"php"=>"int",	 "sql"=>"smallint", "format"=>"%d", "width"=>6,	    "flags"=>"NOT NULL",    "auto_inc"=>false,	"default"=>null,  "index"=>"PRIMARY"),
@@ -31,12 +31,12 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 
 		parent::setUp();
 
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 
 		try {
 			$this->tdb->runAddTable(self::$struct);
 		}
-		catch (BPM_exception $fail) {
+		catch (FOX_exception $fail) {
 		    
 		    
 			// CASE 1: the table already exists in the db (likely from a previous failed test 
@@ -47,7 +47,7 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 				try {
 					$this->tdb->runTruncateTable(self::$struct);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 					$this->fail("Table already existed. Failure while clearing table. Error code: " . $child->data['numeric']);
 				}
@@ -72,7 +72,7 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 		try {
 			$this->tdb->runTruncateTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -84,7 +84,7 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runInsertQueryMulti(self::$struct, $data_insert_01, $columns=null, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -98,7 +98,7 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runInsertQueryMulti(self::$struct, $data_insert_02, $columns=null, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -116,7 +116,7 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 			$this->fail("runInsertQueryMulti() failed to throw an exception");
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->assertEquals(2, $child->data["numeric"] );	
 		}
@@ -133,7 +133,7 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 			$ctrl = array("format"=>"array_object");
 			$result_a = $this->tdb->runSelectQueryCol(self::$struct, 'id', "=", '1', $columns=null, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -144,7 +144,7 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 			$ctrl = array("format"=>"array_object");
 			$result_b = $this->tdb->runSelectQueryCol(self::$struct, 'id', "=", '2', $columns=null, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -156,12 +156,12 @@ class database_runAddTable_indexPrimaryKey extends RAZ_testCase {
 
 	function tearDown() {
 		
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 		
 		try {
 			$this->tdb->runDropTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    		    
 			$this->fail("Error while dropping database table. Error code: " . $child->data['numeric']);			    
 		}		
@@ -178,7 +178,7 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 
 	static $struct = array(
 
-		"table" => "bpm_test_runAddTable_indexUnique",
+		"table" => "fox_test_runAddTable_indexUnique",
 		"engine" => "InnoDB",
 		"columns" => array(
 		    "id" =>	array(	"php"=>"int",	    "sql"=>"smallint", "format"=>"%d", "width"=>6,	"flags"=>"NOT NULL",	"auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
@@ -191,12 +191,12 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 
 		parent::setUp();
 
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 
 		try {
 			$this->tdb->runAddTable(self::$struct);
 		}
-		catch (BPM_exception $fail) {
+		catch (FOX_exception $fail) {
 		    
 		    
 			// CASE 1: the table already exists in the db (likely from a previous failed test 
@@ -207,7 +207,7 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 				try {
 					$this->tdb->runTruncateTable(self::$struct);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 					$this->fail("Table already existed. Failure while clearing table. Error code: " . $child->data['numeric']);
 				}
@@ -230,7 +230,7 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 		try {
 			$this->tdb->runTruncateTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}					
@@ -251,7 +251,7 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 		try {
 			$this->tdb->runInsertQueryMulti(self::$struct, $data_insert_01, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 			
 			$this->fail($child->dumpString(1));
 		}
@@ -272,7 +272,7 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 		try {
 			$this->tdb->runInsertQueryMulti(self::$struct, $data_insert_02, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));
 		}
@@ -292,7 +292,7 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 			// Execution will halt on the previous line if runInsertQueryMulti() throws an exception
 			$this->fail("runInsertQueryMulti() failed to throw exception on duplicate entry");
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			if($child->data['numeric'] != 2){
 				$this->fail($child->dumpString(1));	
@@ -306,7 +306,7 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 			$ctrl=array("format"=>"array_object");
 			$result_a = $this->tdb->runSelectQueryCol(self::$struct, 'name', "=", 'data_01', $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -317,7 +317,7 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 			$ctrl=array("format"=>"array_object");
 			$result_b = $this->tdb->runSelectQueryCol(self::$struct, 'name', "=", 'data_02', $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -329,12 +329,12 @@ class database_runAddTable_indexUnique extends RAZ_testCase {
 	
 	function tearDown() {
 
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 		
 		try {
 			$this->tdb->runDropTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    		    
 			$this->fail("Error while dropping database table. Error code: " . $child->data['numeric']);			    
 		}		
@@ -351,7 +351,7 @@ class database_runTruncateTable extends RAZ_testCase {
 
 	static $struct = array(
 
-		"table" => "bpm_test_runTruncateTable",
+		"table" => "fox_test_runTruncateTable",
 		"engine" => "InnoDB",
 		"columns" => array(
 		    "id" =>	array(	"php"=>"int",	    "sql"=>"smallint",	"format"=>"%d", "width"=>6,	"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
@@ -368,12 +368,12 @@ class database_runTruncateTable extends RAZ_testCase {
 
 		parent::setUp();
 
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 
 		try {
 			$this->tdb->runAddTable(self::$struct);
 		}
-		catch (BPM_exception $fail) {
+		catch (FOX_exception $fail) {
 		    
 		    
 			// CASE 1: the table already exists in the db (likely from a previous failed test 
@@ -384,7 +384,7 @@ class database_runTruncateTable extends RAZ_testCase {
 				try {
 					$this->tdb->runTruncateTable(self::$struct);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 					$this->fail("Table already existed. Failure while clearing table. Error code: " . $child->data['numeric']);
 				}
@@ -424,7 +424,7 @@ class database_runTruncateTable extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runInsertQueryMulti(self::$struct, $data_insert_01, $columns, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -438,7 +438,7 @@ class database_runTruncateTable extends RAZ_testCase {
 			$ctrl = array("format"=>"array_object");
 			$result = $this->tdb->runSelectQueryCol(self::$struct, 'name', "=", 'data_01', $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -451,7 +451,7 @@ class database_runTruncateTable extends RAZ_testCase {
 		try {
 			$result = $this->tdb->runTruncateTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -465,7 +465,7 @@ class database_runTruncateTable extends RAZ_testCase {
 			$ctrl = array("format"=>"array_object");
 			$result = $this->tdb->runSelectQueryCol(self::$struct, 'name', "=", 'data_01', $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -477,12 +477,12 @@ class database_runTruncateTable extends RAZ_testCase {
 	
 	function tearDown() {
 		
-		$this->tdb = new BPM_db();
+		$this->tdb = new FOX_db();
 		
 		try {
 			$this->tdb->runDropTable(self::$struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    		    
 			$this->fail("Error while dropping database table. Error code: " . $child->data['numeric']);			    
 		}		

@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,15 +14,15 @@
  * ========================================================================================================
  */
 
-abstract class BPM_objectTypeData_base extends BPM_db_base {
+abstract class FOX_objectTypeData_base extends FOX_db_base {
 
     
-    	var $process_id;		    // Unique process id for this thread. Used by BPM_db_base for cache 
+    	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache 
 					    // locking. Loaded by descendent class.
 	
 	var $cache;			    // Main cache array for this class
 	
-	var $mCache;			    // Local copy of memory cache singleton. Used by BPM_db_base for cache 
+	var $mCache;			    // Local copy of memory cache singleton. Used by FOX_db_base for cache 
 					    // operations. Loaded by descendent class.	
 	
 
@@ -50,16 +50,16 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 	public function addType($data) {
 
 	    
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		$columns = array("mode"=>"exclude", "col"=>array("type_id") );
 		
 		try {
 			$db->runInsertQuery($this->_struct(), $data, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error writing to database",
 				'data'=> array('data'=>$data, 'columns'=>$columns),
@@ -81,9 +81,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 		try {
 			$cache_image = self::readCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache read error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -99,9 +99,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 		try {
 			self::writeCache($cache_image);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Cache write error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -129,7 +129,7 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 	public function getType($type_ids) {
 
 	    
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		if( !is_array($type_ids) ){
 
@@ -148,7 +148,7 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 		foreach($type_ids as $type_id){
 
 			// If the type_id is in the cache, use the cached data
-			if( BPM_sUtil::keyExists($type_id, $this->cache["keys"])  ){
+			if( FOX_sUtil::keyExists($type_id, $this->cache["keys"])  ){
 
 				$cache_fetch[] = $type_id;
 
@@ -160,9 +160,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 					self::loadCache();
 					$cache_loaded = true;					
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Cache read error",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -170,7 +170,7 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 					));		    
 				}				
 
-				if( BPM_sUtil::keyExists($type_id, $this->cache["keys"]) ){
+				if( FOX_sUtil::keyExists($type_id, $this->cache["keys"]) ){
 
 					$cache_fetch[] = $type_id;
 				}
@@ -210,9 +210,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 			try {
 				$db_result = $db->runSelectQueryCol($this->_struct(), "type_id", "=", $db_fetch, $columns=null, $ctrl );
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error reading from database",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -228,9 +228,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 				try {
 					$cache_image = self::readCache();
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Cache read error",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -254,9 +254,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 				try {
 					self::writeCache($cache_image);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Cache write error",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -303,9 +303,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 		try {
 			$type_data = self::getType($type_id);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::getType()",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -344,11 +344,11 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 	public function editType($data) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		if(!$data["type_id"]) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Missing type_id parameter in data array",
 				'data'=>$data,
@@ -372,9 +372,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 		try {
 			$row_data = $db->runSelectQueryCol($this->_struct(), "type_id", "=", $data["type_id"], $columns=null, $ctrl );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error reading from database",			    
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -412,9 +412,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 			try {				
 				$cache_image = self::lockCache();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error locking cache",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -428,9 +428,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 			try {
 				$rows_changed = $db-> runUpdateQueryCol($this->_struct(), $update_data, "type_id", "=", $data["type_id"], $columns=null);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Error writing to database",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -466,9 +466,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 		try {
 			self::writeCache($cache_image);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Cache write error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -496,7 +496,7 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 	public function dropType($type_id) {
 
 	    
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		if(!is_array($type_id)){
 			$type_id = array($type_id);
@@ -515,9 +515,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 		try {
 			$del_types = $db->runSelectQuery($this->_struct(), $args, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error reading from database",
 				'data'=>array('args'=>$args, 'columns'=>$columns, 'ctrl'=>$ctrl),
@@ -535,9 +535,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 			try {				
 				$cache_image = self::lockCache();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error locking cache",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -551,9 +551,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 			try {
 				$rows_changed = $db->runDeleteQueryCol($this->_struct(), "type_id", "=", $type_id);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error writing to database",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -579,9 +579,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 			try {
 				self::writeCache($cache_image);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Cache write error",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -612,7 +612,7 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 	public function slugToTypeId($module_id, $type_slug) {
 
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 
 		if(!is_array($type_slug)){
 			$type_slug = array($type_slug);
@@ -628,7 +628,7 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 		foreach($type_slug as $slug){
 
 			// If a requested slug is in the class cache, add its level_id to the the results array
-			if( BPM_sUtil::keyExists($slug, $this->cache["slug_to_type_id"][$module_id]) ){
+			if( FOX_sUtil::keyExists($slug, $this->cache["slug_to_type_id"][$module_id]) ){
 
 				$result[$slug] = $this->cache["slug_to_type_id"][$module_id][$slug];
 			}
@@ -640,9 +640,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 					self::loadCache();
 					$persistent_cache_loaded = true;					
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Cache read error",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -650,7 +650,7 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 					));		    
 				}
 
-				if( BPM_sUtil::keyExists($slug, $this->cache["slug_to_type_id"][$module_id]) ){
+				if( FOX_sUtil::keyExists($slug, $this->cache["slug_to_type_id"][$module_id]) ){
 
 					$result[$slug] = $this->cache["slug_to_type_id"][$module_id][$slug];
 				}
@@ -683,9 +683,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 			try {
 				$db_result = $db->runSelectQuery($this->_struct(), $args, $columns, $ctrl);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error reading from database",
 					'data'=>array('args'=>$args, 'columns'=>$columns, 'ctrl'=>$ctrl),				    
@@ -705,9 +705,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 				try {			
 					$cache_image = self::readCache();
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Cache read error",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -726,9 +726,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 				try {
 					self::writeCache($cache_image);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>4,
 						'text'=>"Cache write error",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -766,19 +766,19 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 	public function getTypes($module_id) {
 
 
-		$db = new BPM_db()
+		$db = new FOX_db()
 		;
 		$result = array();
 
 		// If the module_id doesn't exist in the class cache array, fetch it from the persistent cache
-		if( !BPM_sUtil::keyExists($module_id, $this->cache["module_id_types"]) ){
+		if( !FOX_sUtil::keyExists($module_id, $this->cache["module_id_types"]) ){
 
 			try {
 				self::loadCache();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Cache read error",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -787,7 +787,7 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 			}
 
 			// If the module_id doesn't exist in the persistent cache, load it from the db
-			if( !BPM_sUtil::keyExists($module_id, $this->cache["module_id_types"]) ){
+			if( !FOX_sUtil::keyExists($module_id, $this->cache["module_id_types"]) ){
 
 				$columns = array("mode"=>"include", "col"=>array("type_id") );
 				$ctrl = array("format"=>"col");
@@ -795,9 +795,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 				try {
 					$db_result = $db->runSelectQueryCol($this->_struct(), "module_id", "=", $module_id, $columns, $ctrl );
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Error reading from database",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -813,9 +813,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 					try {
 						$cache_image = self::readCache();
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>3,
 							'text'=>"Cache read error",
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -835,9 +835,9 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 					try {
 						self::writeCache($cache_image);
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>4,
 							'text'=>"Cache write error",
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -867,6 +867,6 @@ abstract class BPM_objectTypeData_base extends BPM_db_base {
 
 
 
-} // End of class BPM_moduleTypeData_base
+} // End of class FOX_moduleTypeData_base
 
 ?>

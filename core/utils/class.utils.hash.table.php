@@ -9,7 +9,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Hash Table
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -17,7 +17,7 @@
  * ========================================================================================================
  */
 
-class BPM_hashTable {
+class FOX_hashTable {
 
 
 	var $store;			    // Hash => String dictionary
@@ -82,8 +82,8 @@ class BPM_hashTable {
 		// by almost 50%, saving memory
 
 		$hash_16 = md5($s_value);	
-		$hash_10 = BPM_math::convertFromBase($hash_16, $this->base_16_chars);			
-		$hash_62 = BPM_math::convertToBase($hash_10, $this->base_62_chars);
+		$hash_10 = FOX_math::convertFromBase($hash_16, $this->base_16_chars);			
+		$hash_62 = FOX_math::convertToBase($hash_10, $this->base_62_chars);
 
 		// We add $this-prefix to each key to guarantee the key is still  
 		// a string in the event we get something like "0000000000000005" 
@@ -140,8 +140,8 @@ class BPM_hashTable {
 			// by almost 50%, saving memory
 		    
 			$hash_16 = md5($s_value);	
-			$hash_10 = BPM_math::convertFromBase($hash_16, $this->base_16_chars);			
-			$hash_62 = BPM_math::convertToBase($hash_10, $this->base_62_chars);
+			$hash_10 = FOX_math::convertFromBase($hash_16, $this->base_16_chars);			
+			$hash_62 = FOX_math::convertToBase($hash_10, $this->base_62_chars);
 			
 			// We add $this-prefix to each key to guarantee the key is still  
 			// a string in the event we get something like "0000000000000005" 
@@ -180,7 +180,7 @@ class BPM_hashTable {
 	public function get($key, &$valid=null){
 			 
 	    	    
-		if( BPM_sUtil::keyExists($key, $this->store) ){
+		if( FOX_sUtil::keyExists($key, $this->store) ){
 
 			$valid = true;		    
 			$result = unserialize($this->store[$key]);					
@@ -211,7 +211,7 @@ class BPM_hashTable {
 		
 		foreach( $keys as $key ){
 		    
-			if( BPM_sUtil::keyExists($key, $this->store) ){
+			if( FOX_sUtil::keyExists($key, $this->store) ){
 			    
 				$result[$key] = unserialize($this->store[$key]);
 			}
@@ -236,7 +236,7 @@ class BPM_hashTable {
 	public function del($key){
 
 	    
-		if( BPM_sUtil::keyExists($key, $this->store) ){
+		if( FOX_sUtil::keyExists($key, $this->store) ){
 
 			unset($this->store[$key]);
 			return true;
@@ -279,6 +279,6 @@ class BPM_hashTable {
 	
 
 	
-} // End of class BPM_hashTable
+} // End of class FOX_hashTable
 
 ?>

@@ -2,11 +2,11 @@
 
 /**
  * BP-MEDIA PAGED ABSTRACT DATASTORE VALIDATORS HELPER CLASS
- * Validates data structures used in BP-Media datastore classes
+ * Validates data structures used in FoxFire datastore classes
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Base Classes
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_dataStore_validator {
+class FOX_dataStore_validator {
 
     
     	var $struct;		    // Host class' database definition array
@@ -63,7 +63,7 @@ class BPM_dataStore_validator {
 			// Trap missing keys
 			// ==================================================
 		    
-			if(!BPM_sUtil::keyExists($this->cols['L' . $level]['db_col'], $row) ){
+			if(!FOX_sUtil::keyExists($this->cols['L' . $level]['db_col'], $row) ){
 
 				return array('message'=>"Missing required key",
 						'row'=>$row, 'key'=>'L' . $level, 'val'=>$row['L' . $level]);
@@ -130,7 +130,7 @@ class BPM_dataStore_validator {
 			// Trap missing keys
 			// ==================================================
 
-			if(!BPM_sUtil::keyExists($this->cols['L' . $level]['db_col'], $row) ){
+			if(!FOX_sUtil::keyExists($this->cols['L' . $level]['db_col'], $row) ){
 
 				return array(	'message'=>"Missing required key",
 						'row'=>$row, 'key'=>'L' . $level, 'val'=>$row['L' . $level]);
@@ -153,9 +153,9 @@ class BPM_dataStore_validator {
 					));
 
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Error in self::self::validateKey()",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -262,9 +262,9 @@ class BPM_dataStore_validator {
 			}
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -349,9 +349,9 @@ class BPM_dataStore_validator {
 			}			
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -423,9 +423,9 @@ class BPM_dataStore_validator {
 			}
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -483,9 +483,9 @@ class BPM_dataStore_validator {
 			}
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -527,9 +527,9 @@ class BPM_dataStore_validator {
 			}
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -578,9 +578,9 @@ class BPM_dataStore_validator {
 			unset($L1, $L1_val);
 						
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->cols),
@@ -613,7 +613,7 @@ class BPM_dataStore_validator {
 	    
 	    	if($this->order < 2){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Storage class order is too low to use this validator",
 				'data'=>array("min_order"=>2, "class_order"=>$this->order),
@@ -661,9 +661,9 @@ class BPM_dataStore_validator {
 			unset($L2, $L1s);
 						
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->cols),
@@ -699,7 +699,7 @@ class BPM_dataStore_validator {
 	    	
 	    	if($this->order < 3){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Storage class order is too low to use this validator",
 				'data'=>array("min_order"=>3, "class_order"=>$this->order),
@@ -770,9 +770,9 @@ class BPM_dataStore_validator {
 			
 									
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->cols),
@@ -808,7 +808,7 @@ class BPM_dataStore_validator {
 	    	
 	    	if($this->order < 4){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Storage class order is too low to use this validator",
 				'data'=>array("min_order"=>4, "class_order"=>$this->order),
@@ -899,9 +899,9 @@ class BPM_dataStore_validator {
 			unset($L4, $L3s);			
 									
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->cols),
@@ -939,7 +939,7 @@ class BPM_dataStore_validator {
 	    
 	    	if($this->order < 5){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Storage class order is too low to use this validator",
 				'data'=>array("min_order"=>5, "class_order"=>$this->order),
@@ -1053,9 +1053,9 @@ class BPM_dataStore_validator {
 						
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->cols),
@@ -1106,7 +1106,7 @@ class BPM_dataStore_validator {
 		
 	    	if($ctrl['order'] > $this->order){
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Specified order is too high for this storage class",
 				'data'=>array("order"=>$ctrl['order'], "class_order"=>$this->order),
@@ -1149,7 +1149,7 @@ class BPM_dataStore_validator {
 					
 					if( $child_result !== true ){
 
-						if( BPM_sUtil::keyExists('trace', $child_result) ){
+						if( FOX_sUtil::keyExists('trace', $child_result) ){
 						    
 							$trace = array_merge($child_result['trace'], array( 'L' . $ctrl['order'] => $parent_id) );
 						}
@@ -1175,9 +1175,9 @@ class BPM_dataStore_validator {
 			}
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->cols),
@@ -1212,7 +1212,7 @@ class BPM_dataStore_validator {
 	    						
 		if( empty($args['type']) || (($args['type'] != 'int') && ($args['type'] != 'string')) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Type must be either 'int' or 'string'",
 				'data'=>$args,
@@ -1226,7 +1226,7 @@ class BPM_dataStore_validator {
 		    || (($args['format'] != 'scalar') && ($args['format'] != 'array') && ($args['format'] != 'both')) 
 		){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Format must be either 'scalar', 'array', or 'both'",
 				'data'=>$args,
@@ -1496,7 +1496,7 @@ class BPM_dataStore_validator {
 	
 	
     
-} // End of class BPM_dataStore_validator
+} // End of class FOX_dataStore_validator
 
 
 ?>

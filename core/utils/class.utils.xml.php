@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage XML Tools
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_xml {
+class FOX_xml {
     
 	
 	public function __construct() {}
@@ -38,7 +38,7 @@ class BPM_xml {
 
 		if(!$data)
 		{
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Couldn't open the file",
 				'data'=>$data,
@@ -75,7 +75,7 @@ class BPM_xml {
 
 		if(!$contents)
 		{
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Called with empty XML string",
 				'data'=>$contents,
@@ -87,7 +87,7 @@ class BPM_xml {
 
 		if(!function_exists('xml_parser_create'))
 		{
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>2,
 				'text'=>"Host system is missing the PHP xml_parser_create function ",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -109,7 +109,7 @@ class BPM_xml {
 
 		if(!$xml_values)
 		{
-			    throw new BPM_exception(array(
+			    throw new FOX_exception(array(
 				'numeric'=>3,
 				'text'=>"Parser error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -291,6 +291,6 @@ class BPM_xml {
 
 	}
 	
-} // End of class BPM_xml
+} // End of class FOX_xml
 
 ?>

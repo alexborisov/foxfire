@@ -6,15 +6,15 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_queryRunner {
+class FOX_queryRunner {
 
 
 	var $parent;				    // Reference to parent class
@@ -22,7 +22,7 @@ class BPM_queryRunner {
 	// ============================================================================================================ //
 
 
-	function BPM_queryRunner(&$parent_class) {
+	function FOX_queryRunner(&$parent_class) {
 
 		$this->__construct($parent_class);
 	}
@@ -43,7 +43,7 @@ class BPM_queryRunner {
          *
          * @version 0.1.9
          * @since 0.1.9
-	 * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_select_formatter
+	 * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_select_formatter
          *
          * @param string $sql | SQL query string
 	 *
@@ -52,7 +52,7 @@ class BPM_queryRunner {
 	 *				       "array_key_single", "array_object", "array_array", "raw", or (null)
 	 *				       @see result formatter headers inside this method for detailed docs
 	 *
-	 *	=> VAL @see BPM_db::runSelectQuery() and BPM_db::runSelectQueryJoin() for docs on remaining $ctrl options
+	 *	=> VAL @see FOX_db::runSelectQuery() and FOX_db::runSelectQueryJoin() for docs on remaining $ctrl options
 	 *
          * @return bool | Exception on failure. Query results array on success.
          */
@@ -66,7 +66,7 @@ class BPM_queryRunner {
 			print_r($query);
 			print_r($ctrl);
 			$out = ob_get_clean();
-			BPM_debug::addToFile($out);
+			FOX_debug::addToFile($out);
 		}
 
 		// Trap invalid return formats
@@ -87,7 +87,7 @@ class BPM_queryRunner {
 
 		if( array_search( $ctrl["format"], $valid_formats) === null) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'data'=>array('faulting_format'=>$ctrl["format"],"query"=>$query, "ctrl"=>$ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -111,7 +111,7 @@ class BPM_queryRunner {
 
 		if($this->parent->print_query_sql == true){
 
-			BPM_debug::addToFile($sql);
+			FOX_debug::addToFile($sql);
 		}
 
 
@@ -125,7 +125,7 @@ class BPM_queryRunner {
 		//    4   |  black|  fish |  tiny |
 
 
-		$cast = new BPM_cast();
+		$cast = new FOX_cast();
 
 		switch($ctrl["format"]){
 
@@ -145,7 +145,7 @@ class BPM_queryRunner {
 				    echo "\nRAW, format = var\n";
 				    print_r($result);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -157,7 +157,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = var\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -180,7 +180,7 @@ class BPM_queryRunner {
 				    echo "\nRAW, format = col\n";
 				    print_r($result);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 
@@ -193,7 +193,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = col\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -222,7 +222,7 @@ class BPM_queryRunner {
 				    echo "\nRAW, format = row\n";
 				    print_r($result);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 
@@ -235,7 +235,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = row_object\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -265,7 +265,7 @@ class BPM_queryRunner {
 				    echo "\nRAW, format = row_array\n";
 				    print_r($data);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -277,7 +277,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = row_array\n";
 					    print_r($data);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -295,7 +295,7 @@ class BPM_queryRunner {
 					    echo "\nFORMATTED, format = row_array\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 
 				    unset($data); // Reduce memory usage
@@ -363,7 +363,7 @@ class BPM_queryRunner {
 				    echo "\nRAW, format = array_key_object\n";
 				    print_r($data);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -375,7 +375,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = array_key_object\n";
 					    print_r($data);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -440,7 +440,7 @@ class BPM_queryRunner {
 					    echo "\nFORMATTED, format = array_key_object\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 
 				    unset($data); // Reduce memory usage
@@ -506,7 +506,7 @@ class BPM_queryRunner {
 				    echo "RAW, format = array_key_array\n";
 				    print_r($data);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -518,7 +518,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = array_key_array\n";
 					    print_r($data);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -600,7 +600,7 @@ class BPM_queryRunner {
 					    echo "\nFORMATTED, format = array_key_array\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 
 				    unset($data); // Reduce memory usage
@@ -661,7 +661,7 @@ class BPM_queryRunner {
 				    echo "RAW, format = array_key_array_grouped\n";
 				    print_r($data);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -673,7 +673,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = array_key_array_grouped\n";
 					    print_r($data);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -715,7 +715,7 @@ class BPM_queryRunner {
 					    echo "\nFORMATTED, format = array_key_array_grouped\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 
 				    unset($data); // Reduce memory usage
@@ -774,7 +774,7 @@ class BPM_queryRunner {
 				    echo "RAW, format = array_key_array_true\n";
 				    print_r($data);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -786,7 +786,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = array_key_array_true\n";
 					    print_r($data);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -820,7 +820,7 @@ class BPM_queryRunner {
 					    echo "\nFORMATTED, format = array_key_array_true\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 
 				    unset($data); // Reduce memory usage
@@ -879,7 +879,7 @@ class BPM_queryRunner {
 				    echo "RAW, format = array_key_array_false";
 				    print_r($data);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -891,7 +891,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = array_key_array_false";
 					    print_r($data);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -925,7 +925,7 @@ class BPM_queryRunner {
 					    echo "\nFORMATTED, format = array_key_array_false";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 
 				    unset($data); // Reduce memory usage
@@ -957,7 +957,7 @@ class BPM_queryRunner {
 				    echo "RAW, format = array_key_single\n";
 				    print_r($data);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -969,7 +969,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = array_key_single\n";
 					    print_r($data);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -987,7 +987,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = array_key_single\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 
 				    unset($data); // Reduce memory usage
@@ -1018,7 +1018,7 @@ class BPM_queryRunner {
 				    echo "RAW, format = array_object\n";
 				    print_r($data);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -1030,7 +1030,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = array_object\n";
 					    print_r($data);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -1039,7 +1039,7 @@ class BPM_queryRunner {
 				    ob_start();
 				    print_r($result);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 
@@ -1068,7 +1068,7 @@ class BPM_queryRunner {
 				    echo "RAW, format = array_array\n";
 				    print_r($data);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 			    if($this->parent->disable_typecast_read == false){
@@ -1080,7 +1080,7 @@ class BPM_queryRunner {
 					    echo "\nCAST, format = array_array\n";
 					    print_r($data);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 			    }
 
@@ -1107,7 +1107,7 @@ class BPM_queryRunner {
 					    echo "\nFORMATTED, format = array_array\n";
 					    print_r($result);
 					    $out = ob_get_clean();
-					    BPM_debug::addToFile($out);
+					    FOX_debug::addToFile($out);
 				    }
 
 				    unset($data); // Reduce memory usage
@@ -1130,7 +1130,7 @@ class BPM_queryRunner {
 				    echo "format = null\n";
 				    print_r($result);
 				    $out = ob_get_clean();
-				    BPM_debug::addToFile($out);
+				    FOX_debug::addToFile($out);
 			    }
 
 		    } break;
@@ -1149,7 +1149,7 @@ class BPM_queryRunner {
 
 		if($sql_error){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error during query execution",
 				'data'=>array($sql, $sql_error),
@@ -1164,6 +1164,6 @@ class BPM_queryRunner {
 	}
 
 
-} // End of class BPM_queryRunner
+} // End of class FOX_queryRunner
 
 ?>

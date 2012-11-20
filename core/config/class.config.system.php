@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Config
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,11 +14,11 @@
  * ========================================================================================================
  */
 
-class BPM_config extends BPM_dataStore_monolithic_L3_base {
+class FOX_config extends FOX_dataStore_monolithic_L3_base {
 
 
-    	var $process_id;		    // Unique process id for this thread. Used by BPM_db_base for cache
-					    // locking. Inherited from BPM_dataStore_monolithic_L3_base.
+    	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache
+					    // locking. Inherited from FOX_dataStore_monolithic_L3_base.
 
 	var $mCache;			    // Local copy of memory cache singleton
 
@@ -32,9 +32,9 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 	public static $struct = array(
 
-	    "table" => "bpm_sys_config_data",
+	    "table" => "fox_sys_config_data",
 	    "engine" => "InnoDB",
-	    "cache_namespace" => "BPM_config",
+	    "cache_namespace" => "FOX_config",
 	    "cache_strategy" => "monolithic",
 	    "cache_engine" => array("memcached", "redis", "apc"),
 	    "columns" => array(
@@ -70,17 +70,17 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 			$this->mCache = &$args['mCache'];
 		}
 		else {
-			global $bpm;
-			$this->process_id = &$bpm->process_id;
-			$this->mCache = &$bpm->mCache;
+			global $fox;
+			$this->process_id = &$fox->process_id;
+			$this->mCache = &$fox->mCache;
 		}
 
 		try{
 			self::loadCache();
 		}
-		catch(BPM_exception $child){
+		catch(FOX_exception $child){
 
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Error loading cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -106,7 +106,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 		if( empty($post['key_names']) ) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"No key names posted with form",
 				'data'=> $post,
@@ -115,7 +115,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 			));
 		}
 
-		$san = new BPM_sanitize();
+		$san = new FOX_sanitize();
 
 		// Explode fields array into individual key names
 		$options = explode(',', stripslashes($post['key_names']));
@@ -144,9 +144,9 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 				$branch = $san->keyName($raw_branch, null, $branch_valid, $branch_error);
 				$key = $san->keyName($raw_key, null, $key_valid, $key_error);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in sanitizer function",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -156,7 +156,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 			if(!$tree_valid){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Called with invalid tree name",
 					'data'=>array('raw_tree'=>$raw_tree, 'san_error'=>$tree_error),
@@ -166,7 +166,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 			}
 			elseif(!$branch_valid){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Called with invalid branch name",
 					'data'=>array('raw_branch'=>$raw_branch, 'san_error'=>$branch_error),
@@ -176,7 +176,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 			}
 			elseif(!$key_valid){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Called with invalid key name",
 					'data'=>array('raw_key'=>$raw_key, 'san_error'=>$key_error),
@@ -210,9 +210,9 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 				try {
 					self::get($tree, $branch, $keys);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>6,
 						'text'=>"Error in self::get()",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -241,7 +241,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 					if(!is_string($filter) ){
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>7,
 							'text'=>"Trying to set nonexistent key. Tree: $tree | Branch: $branch | Key: $key",
 							'data'=>array('current_keys_array'=>$current_keys_array,
@@ -253,7 +253,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 					// Remove any escaping PHP has added to the posted form value
 					$post_key = $tree . $this->key_delimiter . $branch . $this->key_delimiter . $key;
-					$post[$post_key] = BPM_sUtil::formVal($post[$post_key]);
+					$post[$post_key] = FOX_sUtil::formVal($post[$post_key]);
 
 
 					// Run key value through the specified filter
@@ -264,9 +264,9 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 					try {
 						$new_val = $san->{$filter}($post[$post_key], $ctrl, $filter_valid, $filter_error);
 					}
-					catch (BPM_exception $child) {
+					catch (FOX_exception $child) {
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>8,
 							'text'=>"Error in filter function",
 							'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
@@ -278,7 +278,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 					if(!$filter_valid){
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>9,
 							'text'=>"Filter function reports value data isn't valid",
 							'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
@@ -296,9 +296,9 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 						try {
 							$rows_changed += self::setNode($tree, $branch, $key, $new_val);
 						}
-						catch (BPM_exception $child) {
+						catch (FOX_exception $child) {
 
-							throw new BPM_exception( array(
+							throw new FOX_exception( array(
 								'numeric'=>10,
 								'text'=>"Error setting key. Tree: $tree | Branch: $branch | Key: $key",
 								'data'=>array('tree'=>$tree, 'branch'=>$branch,
@@ -400,9 +400,9 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 		try {
 			$result .= self::getNodeVal($tree, $branch, $key, $is_valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in self::getNodeVal()",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -412,7 +412,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 		if( ($validate == true) && !$is_valid ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Key doesn't exist",
 				'data'=>array('tree'=>$tree, 'branch'=>$branch, 'key'=>$key),
@@ -485,7 +485,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 		if(!$this->install_classes_loaded){
 
-			$base_install_classes = glob( BPM_PATH_BASE .'/core/config/install_base/*.php');
+			$base_install_classes = glob( FOX_PATH_BASE .'/core/config/install_base/*.php');
 
 			foreach ( $base_install_classes as $path ){
 
@@ -513,7 +513,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 		if(!$this->uninstall_classes_loaded){
 
-			$base_uninstall_classes = glob( BPM_PATH_BASE .'/core/config/uninstall_base/*.php');
+			$base_uninstall_classes = glob( FOX_PATH_BASE .'/core/config/uninstall_base/*.php');
 
 			foreach ( $base_uninstall_classes as $path ){
 
@@ -530,7 +530,7 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
 
 
 
-} // End of class BPM_config
+} // End of class FOX_config
 
 
 /**
@@ -541,12 +541,12 @@ class BPM_config extends BPM_dataStore_monolithic_L3_base {
  * @since 0.1.9
  */
 
-function install_BPM_config(){
+function install_FOX_config(){
 
-	$cls = new BPM_config();
+	$cls = new FOX_config();
 	$cls->install();
 }
-add_action( 'bpm_install', 'install_BPM_config', 2 );
+add_action( 'fox_install', 'install_FOX_config', 2 );
 
 
 /**
@@ -557,12 +557,12 @@ add_action( 'bpm_install', 'install_BPM_config', 2 );
  * @since 0.1.9
  */
 
-function uninstall_BPM_config(){
+function uninstall_FOX_config(){
 
-	$cls = new BPM_config();
+	$cls = new FOX_config();
 	$cls->uninstall();
 }
-add_action( 'bpm_uninstall', 'uninstall_BPM_config', 2 );
+add_action( 'fox_uninstall', 'uninstall_FOX_config', 2 );
 
 
 ?>

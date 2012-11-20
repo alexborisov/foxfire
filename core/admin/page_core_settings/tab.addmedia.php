@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -21,7 +21,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_addmedia {
+class FOX_tab_addmedia {
 
 
 	/**
@@ -37,7 +37,7 @@ class BPM_tab_addmedia {
 
 	public function render() {
 
-		global $bpm;
+		global $fox;
 
 		?>
 
@@ -45,50 +45,50 @@ class BPM_tab_addmedia {
 
 		<form name="uploaderform" method="post" action="<?php echo $this->filepath.'#add_media'; ?>">
 
-		    <?php wp_nonce_field('bpm_admin_settings') ?>
+		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $bpm->config->initKeysArray(); ?>
+		    <?php $fox->config->initKeysArray(); ?>
 
 		    <div class="panel_section">
 
-			<div class="title"><?php _e('HTTP Uploader',"bp-media") ?> </div>
+			<div class="title"><?php _e('HTTP Uploader',"foxfire") ?> </div>
 
-			<div class="bpm_section_advice">
-			    <?php _e('Works on all browsers and platforms, but can only upload one file per session.',"bp-media") ?>
+			<div class="fox_section_advice">
+			    <?php _e('Works on all browsers and platforms, but can only upload one file per session.',"foxfire") ?>
 			</div>
 
 			<table class="form-table bpa-options">
 
 			    <tr>
-				<th scope="row"><?php _e( 'Enable HTTP uploader', "bp-media" ) ?></th>
+				<th scope="row"><?php _e( 'Enable HTTP uploader', "foxfire" ) ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $bpm->config->printKeyName("file", "uploader", "enableHTTP"); ?>
-					<?php checked(true, $bpm->config->getKeyVal("file", "uploader", "enableHTTP") ); ?> />
-					<?php _e( 'Yes', "bp-media" ) ?> &nbsp;
+					<?php $fox->config->printKeyName("file", "uploader", "enableHTTP"); ?>
+					<?php checked(true, $fox->config->getKeyVal("file", "uploader", "enableHTTP") ); ?> />
+					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $bpm->config->printKeyName("file", "uploader", "enableHTTP"); ?>
-					<?php checked('', $bpm->config->getKeyVal("file", "uploader", "enableHTTP") ); ?> />
-					<?php _e( 'No', "bp-media" ) ?>
+					<?php $fox->config->printKeyName("file", "uploader", "enableHTTP"); ?>
+					<?php checked('', $fox->config->getKeyVal("file", "uploader", "enableHTTP") ); ?> />
+					<?php _e( 'No', "foxfire" ) ?>
 				</td>
 			    </tr>
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Max upload size',"bp-media"); ?></th>
+				<th align="left"><?php _e('Max upload size',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="16" maxlength="16"
-					<?php $bpm->config->printKeyName("file", "uploader", "singleMaxSize"); ?>
-					<?php $bpm->config->printKeyVal("file", "uploader", "singleMaxSize"); ?> />
-					<?php _e('bytes',"bp-media"); ?>
+					<?php $fox->config->printKeyName("file", "uploader", "singleMaxSize"); ?>
+					<?php $fox->config->printKeyVal("file", "uploader", "singleMaxSize"); ?> />
+					<?php _e('bytes',"foxfire"); ?>
 				</td>
 			    </tr>
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Max threads per user',"bp-media"); ?></th>
+				<th align="left"><?php _e('Max threads per user',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="6" maxlength="6"
-					<?php $bpm->config->printKeyName("file", "uploader", "singleMaxStreams"); ?>
-					<?php $bpm->config->printKeyVal("file", "uploader", "singleMaxStreams"); ?> />
+					<?php $fox->config->printKeyName("file", "uploader", "singleMaxStreams"); ?>
+					<?php $fox->config->printKeyVal("file", "uploader", "singleMaxStreams"); ?> />
 				</td>
 			    </tr>
 
@@ -98,44 +98,44 @@ class BPM_tab_addmedia {
 
 		    <div class="panel_section">
 
-			<div class="title"><?php _e('Flash Uploader',"bp-media") ?></div>
+			<div class="title"><?php _e('Flash Uploader',"foxfire") ?></div>
 
-			<div class="bpm_section_advice">
-			    <?php _e('Works only in browsers that support Javascript and Flash, but can upload hundreds of files per session.',"bp-media") ?>
+			<div class="fox_section_advice">
+			    <?php _e('Works only in browsers that support Javascript and Flash, but can upload hundreds of files per session.',"foxfire") ?>
 			</div>
 
 			<table class="form-table bpa-options">
 
 			    <tr>
-				<th scope="row"><?php _e( 'Enable flash uploader', "bp-media" ) ?></th>
+				<th scope="row"><?php _e( 'Enable flash uploader', "foxfire" ) ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $bpm->config->printKeyName("file", "uploader", "enableMulti"); ?>
-					<?php checked(true, $bpm->config->getKeyVal("file", "uploader", "enableMulti") ); ?> />
-					<?php _e( 'Yes', "bp-media" ) ?> &nbsp;
+					<?php $fox->config->printKeyName("file", "uploader", "enableMulti"); ?>
+					<?php checked(true, $fox->config->getKeyVal("file", "uploader", "enableMulti") ); ?> />
+					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $bpm->config->printKeyName("file", "uploader", "enableMulti"); ?>
-					<?php checked('', $bpm->config->getKeyVal("file", "uploader", "enableMulti") ); ?> />
-					<?php _e( 'No', "bp-media" ) ?>
+					<?php $fox->config->printKeyName("file", "uploader", "enableMulti"); ?>
+					<?php checked('', $fox->config->getKeyVal("file", "uploader", "enableMulti") ); ?> />
+					<?php _e( 'No', "foxfire" ) ?>
 				</td>
 			    </tr>
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Max upload size',"bp-media"); ?></th>
+				<th align="left"><?php _e('Max upload size',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="16" maxlength="16"
-					<?php $bpm->config->printKeyName("file", "uploader", "multiMaxSize"); ?>
-					<?php $bpm->config->printKeyVal("file", "uploader", "multiMaxSize"); ?> />
-					<?php _e('bytes',"bp-media"); ?>
+					<?php $fox->config->printKeyName("file", "uploader", "multiMaxSize"); ?>
+					<?php $fox->config->printKeyVal("file", "uploader", "multiMaxSize"); ?> />
+					<?php _e('bytes',"foxfire"); ?>
 				</td>
 			    </tr>
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Max threads per user',"bp-media"); ?></th>
+				<th align="left"><?php _e('Max threads per user',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="6" maxlength="6"
-					<?php $bpm->config->printKeyName("file", "uploader", "multiMaxStreams"); ?>
-					<?php $bpm->config->printKeyVal("file", "uploader", "multiMaxStreams"); ?> />
+					<?php $fox->config->printKeyName("file", "uploader", "multiMaxStreams"); ?>
+					<?php $fox->config->printKeyVal("file", "uploader", "multiMaxStreams"); ?> />
 				</td>
 			    </tr>
 
@@ -144,61 +144,61 @@ class BPM_tab_addmedia {
 
 		    <div class="panel_section">
 
-			<div class="title"><?php _e('Media Download',"bp-media") ?></div>
+			<div class="title"><?php _e('Media Download',"foxfire") ?></div>
 
-			<div class="bpm_section_advice">
-			    <?php _e('Downloads remote media files from other servers.',"bp-media") ?>
+			<div class="fox_section_advice">
+			    <?php _e('Downloads remote media files from other servers.',"foxfire") ?>
 			</div>
 
 			<table class="form-table bpa-options">
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Max remote file size',"bp-media"); ?></th>
+				<th align="left"><?php _e('Max remote file size',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="16" maxlength="16"
-					<?php $bpm->config->printKeyName("file", "downloader", "maxSize"); ?>
-					<?php $bpm->config->printKeyVal("file", "downloader", "maxSize"); ?> />
-					<?php _e('bytes',"bp-media"); ?>
+					<?php $fox->config->printKeyName("file", "downloader", "maxSize"); ?>
+					<?php $fox->config->printKeyVal("file", "downloader", "maxSize"); ?> />
+					<?php _e('bytes',"foxfire"); ?>
 				</td>
 			    </tr>
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Max remote file download timeout',"bp-media"); ?></th>
+				<th align="left"><?php _e('Max remote file download timeout',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="6" maxlength="6"
-					<?php $bpm->config->printKeyName("file", "downloader", "maxTime"); ?>
-					<?php $bpm->config->printKeyVal("file", "downloader", "maxTime"); ?> />
-					<?php _e('seconds',"bp-media"); ?>
+					<?php $fox->config->printKeyName("file", "downloader", "maxTime"); ?>
+					<?php $fox->config->printKeyVal("file", "downloader", "maxTime"); ?> />
+					<?php _e('seconds',"foxfire"); ?>
 				</td>
 			    </tr>
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Mandatory content-length header',"bp-media"); ?></th>
+				<th align="left"><?php _e('Mandatory content-length header',"foxfire"); ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $bpm->config->printKeyName("file", "downloader", "requireLengthHeader"); ?>
-					<?php checked(true, $bpm->config->getKeyVal("file", "downloader", "requireLengthHeader") ); ?> />
-					<?php _e( 'Yes', "bp-media" ) ?> &nbsp;
+					<?php $fox->config->printKeyName("file", "downloader", "requireLengthHeader"); ?>
+					<?php checked(true, $fox->config->getKeyVal("file", "downloader", "requireLengthHeader") ); ?> />
+					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $bpm->config->printKeyName("file", "downloader", "requireLengthHeader"); ?>
-					<?php checked('', $bpm->config->getKeyVal("file", "downloader", "requireLengthHeader") ); ?> />
-					<?php _e( 'No', "bp-media" ) ?>
-					<br/><?php _e('Download a file only if the hosting server declares the file size (could reject valid media if remote server is not well configured)',"bp-media"); ?>
+					<?php $fox->config->printKeyName("file", "downloader", "requireLengthHeader"); ?>
+					<?php checked('', $fox->config->getKeyVal("file", "downloader", "requireLengthHeader") ); ?> />
+					<?php _e( 'No', "foxfire" ) ?>
+					<br/><?php _e('Download a file only if the hosting server declares the file size (could reject valid media if remote server is not well configured)',"foxfire"); ?>
 				</td>
 			    </tr>
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Strict validation before download',"bp-media"); ?></th>
+				<th align="left"><?php _e('Strict validation before download',"foxfire"); ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $bpm->config->printKeyName("file", "downloader", "requireStrictValidation"); ?>
-					<?php checked(true, $bpm->config->getKeyVal("file", "downloader", "requireStrictValidation") ); ?> />
-					<?php _e( 'Yes', "bp-media" ) ?> &nbsp;
+					<?php $fox->config->printKeyName("file", "downloader", "requireStrictValidation"); ?>
+					<?php checked(true, $fox->config->getKeyVal("file", "downloader", "requireStrictValidation") ); ?> />
+					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $bpm->config->printKeyName("file", "downloader", "requireStrictValidation"); ?>
-					<?php checked('', $bpm->config->getKeyVal("file", "downloader", "requireStrictValidation") ); ?> />
-					<?php _e( 'No', "bp-media" ) ?>
-					<br/><?php _e('Be sure to not download unsupported media (could reject valid media if remote server is not well configured)',"bp-media"); ?>
+					<?php $fox->config->printKeyName("file", "downloader", "requireStrictValidation"); ?>
+					<?php checked('', $fox->config->getKeyVal("file", "downloader", "requireStrictValidation") ); ?> />
+					<?php _e( 'No', "foxfire" ) ?>
+					<br/><?php _e('Be sure to not download unsupported media (could reject valid media if remote server is not well configured)',"foxfire"); ?>
 				</td>
 			    </tr>
 
@@ -207,52 +207,52 @@ class BPM_tab_addmedia {
 
 		    <div class="panel_section">
 
-			<div class="title"><?php _e('Media Validation',"bp-media") ?></div>
+			<div class="title"><?php _e('Media Validation',"foxfire") ?></div>
 
-			<div class="bpm_section_advice">
-			    <?php _e('Local file (uploaded or downloaded) validation',"bp-media") ?>
+			<div class="fox_section_advice">
+			    <?php _e('Local file (uploaded or downloaded) validation',"foxfire") ?>
 			</div>
 
 			<table class="form-table bpa-options">
 
     <?php /*
 			<tr>
-			    <th valign="top"><?php _e('Content type detection method ',"bp-media") ?></th>
+			    <th valign="top"><?php _e('Content type detection method ',"foxfire") ?></th>
 			    <td>
-				    <?php $available_methods = BPM_Multimedia::test_available_detection_methods(); ?>
+				    <?php $available_methods = FOX_Multimedia::test_available_detection_methods(); ?>
 
 				    <label>
 					    <input name="media_validation_detection_method" type="radio" value="fileinfo"<?php
 					    disabled( !in_array('fileinfo', $available_methods) );
 					    checked('fileinfo', $bp->bpa->options['media_validation_detection_method']); ?> />
-					    <?php echo sprintf(__('php Fileinfo extension %s', "bp-media"), '<a href="http://www.php.net/manual/en/book.fileinfo.php">[->php.net]</a>' ); ?>
-					    <?php if(!in_array('fileinfo', $available_methods)) _e('(disabled: php extension not available)', "bp-media"); ?>
+					    <?php echo sprintf(__('php Fileinfo extension %s', "foxfire"), '<a href="http://www.php.net/manual/en/book.fileinfo.php">[->php.net]</a>' ); ?>
+					    <?php if(!in_array('fileinfo', $available_methods)) _e('(disabled: php extension not available)', "foxfire"); ?>
 				    </label><br />
 
 				    <label>
 					    <input name="media_validation_detection_method" type="radio" value="shell"<?php
 					    disabled( !in_array('shell', $available_methods) );
 					    checked('shell', $bp->bpa->options['media_validation_detection_method']); ?> />
-					    <?php _e('this shell command (use \'%s\' as filepath): ', "bp-media"); ?>
+					    <?php _e('this shell command (use \'%s\' as filepath): ', "foxfire"); ?>
 				    </label>
 				    <input type="text" size="16" maxlength="16" name="media_validation_detector_shell_command" value="<?php echo $bp->bpa->options['media_validation_detector_shell_command']; ?>" />
-				    <?php if(!in_array('shell', $available_methods)) _e('(disabled: command not working or execution not permitted)', "bp-media"); ?>
+				    <?php if(!in_array('shell', $available_methods)) _e('(disabled: command not working or execution not permitted)', "foxfire"); ?>
 				    <br />
 
 				    <label>
 					    <input name="media_validation_detection_method" type="radio" value="mime_content_type"<?php
 					    disabled( !in_array('mime_content_type', $available_methods) );
 					    checked('mime_content_type', $bp->bpa->options['media_validation_detection_method']); ?> />
-					    <?php echo sprintf(__('php mime_content_type function %s (deprecated, use Fileinfo if possible)', "bp-media"), '<a href="http://it.php.net/manual/en/function.mime-content-type.php">[->php.net]</a>' ); ?>
-					    <?php if(!in_array('fileinfo', $available_methods)) _e('(disabled: php extension not available)', "bp-media"); ?>
+					    <?php echo sprintf(__('php mime_content_type function %s (deprecated, use Fileinfo if possible)', "foxfire"), '<a href="http://it.php.net/manual/en/function.mime-content-type.php">[->php.net]</a>' ); ?>
+					    <?php if(!in_array('fileinfo', $available_methods)) _e('(disabled: php extension not available)', "foxfire"); ?>
 				    </label><br />
 
 				    <label>
 					    <input name="media_validation_detection_method" type="radio" value="builtin"<?php
 					    disabled( !in_array('builtin', $available_methods) );
 					    checked('builtin', $bp->bpa->options['media_validation_detection_method']); ?> />
-					    <?php _e('builtin detector, that is probably slower and less accurate, but should work in all environments', "bp-media"); ?>
-					    <?php if(!in_array('builtin', $available_methods)) _e('(disabled: not available, please report this issue)', "bp-media"); ?>
+					    <?php _e('builtin detector, that is probably slower and less accurate, but should work in all environments', "foxfire"); ?>
+					    <?php if(!in_array('builtin', $available_methods)) _e('(disabled: not available, please report this issue)', "foxfire"); ?>
 				    </label><br />
 
 			    </td>
@@ -261,27 +261,27 @@ class BPM_tab_addmedia {
      */ ?>
 
 			<tr valign="top">
-				<th align="left"><?php _e('Validate content type',"bp-media"); ?></th>
+				<th align="left"><?php _e('Validate content type',"foxfire"); ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $bpm->config->printKeyName("file", "downloader", "validateContentType"); ?>
-					<?php checked(true, $bpm->config->getKeyVal("file", "downloader", "validateContentType") ); ?> />
-					<?php _e( 'Yes', "bp-media" ) ?> &nbsp;
+					<?php $fox->config->printKeyName("file", "downloader", "validateContentType"); ?>
+					<?php checked(true, $fox->config->getKeyVal("file", "downloader", "validateContentType") ); ?> />
+					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $bpm->config->printKeyName("file", "downloader", "validateContentType"); ?>
-					<?php checked('', $bpm->config->getKeyVal("file", "downloader", "validateContentType") ); ?> />
-					<?php _e( 'No', "bp-media" ) ?>
-					<br/><?php _e('Should always be active as a security measure, deactivate only if you have problems with content type detection and you understand the risks of not strictly checking file type',"bp-media"); ?>
+					<?php $fox->config->printKeyName("file", "downloader", "validateContentType"); ?>
+					<?php checked('', $fox->config->getKeyVal("file", "downloader", "validateContentType") ); ?> />
+					<?php _e( 'No', "foxfire" ) ?>
+					<br/><?php _e('Should always be active as a security measure, deactivate only if you have problems with content type detection and you understand the risks of not strictly checking file type',"foxfire"); ?>
 				</td>
 			</tr>
 
 			</table>
 		    </div>
 
-		    <?php $bpm->config->printKeysArray(); ?>
+		    <?php $fox->config->printKeysArray(); ?>
 
-		    <div class="bpm_submit_h_panel_wrap">
-			<div class="submit"><input class="bpm-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
+		    <div class="fox_submit_h_panel_wrap">
+			<div class="submit"><input class="fox-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
 		    </div>
 
 		</form>
@@ -313,6 +313,6 @@ class BPM_tab_addmedia {
 
 	}
 
-} // End of class BPM_tab_addmedia
+} // End of class FOX_tab_addmedia
 
 ?>

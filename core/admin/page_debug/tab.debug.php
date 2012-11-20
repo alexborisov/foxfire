@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_debug {
+class FOX_tab_debug {
 
 
 	/**
@@ -36,30 +36,30 @@ class BPM_tab_debug {
 
 	function render() {
 
-		global $bpm;
+		global $fox;
 		
 		?>
 		<!-- Begin Config settings -->
 
 		<form name="configform" method="POST" action="<?php echo $this->filepath.'#config'; ?>" >
 
-		    <?php wp_nonce_field('bpm_admin_settings') ?>
+		    <?php wp_nonce_field('fox_admin_settings') ?>
 
 		    <div class="panel_section">
 
-			<div class="title"><?php _e('Debug Commands',"bp-media") ?> </div>
+			<div class="title"><?php _e('Debug Commands',"foxfire") ?> </div>
 
-			<div class="bpm_section_advice">
+			<div class="fox_section_advice">
 			    <?php _e("These debug commands are used by our testing team to reset the plugin to a known state before running tests. NEVER run these
-				commands without specifically being told to by a member of the BP-Media team. You could seriously damage your BP-Media installation.","bp-media") ?>
+				commands without specifically being told to by a member of the FoxFire team. You could seriously damage your FoxFire installation.","foxfire") ?>
 			</div>
 
 			<table class="form-table">
 
 			    <tr valign="top">
-				<th align="left"><?php _e("Clear the persistent cache","bp-media"); ?></th>
+				<th align="left"><?php _e("Clear the persistent cache","foxfire"); ?></th>
 				<td>
-				    <input class="bpm-button" type="submit" name="reset_cache" value="<?php _e('Run Command') ;?>"/>
+				    <input class="fox-button" type="submit" name="reset_cache" value="<?php _e('Run Command') ;?>"/>
 				</td>
 			    </tr>
 
@@ -68,9 +68,9 @@ class BPM_tab_debug {
 			<table class="form-table">
 
 			    <tr valign="top">
-				<th align="left"><?php _e("Re-install the plugin's database tables","bp-media"); ?></th>
+				<th align="left"><?php _e("Re-install the plugin's database tables","foxfire"); ?></th>
 				<td>
-				    <input class="bpm-button" type="submit" name="reset_tables" value="<?php _e('Run Command') ;?>"/>
+				    <input class="fox-button" type="submit" name="reset_tables" value="<?php _e('Run Command') ;?>"/>
 				</td>
 			    </tr>
 
@@ -79,9 +79,9 @@ class BPM_tab_debug {
 			<table class="form-table">
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Reset config options to default values',"bp-media"); ?></th>
+				<th align="left"><?php _e('Reset config options to default values',"foxfire"); ?></th>
 				<td>
-				    <input class="bpm-button" type="submit" name="reset_config" value="<?php _e('Run Command') ;?>"/>
+				    <input class="fox-button" type="submit" name="reset_config" value="<?php _e('Run Command') ;?>"/>
 				</td>
 			    </tr>
 
@@ -90,9 +90,9 @@ class BPM_tab_debug {
 			<table class="form-table">
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Delete all uploaded files',"bp-media"); ?></th>
+				<th align="left"><?php _e('Delete all uploaded files',"foxfire"); ?></th>
 				<td>
-				    <input class="bpm-button" type="submit" disabled="disabled" name="delete_content" value="<?php _e('Run Command') ;?>"/>
+				    <input class="fox-button" type="submit" disabled="disabled" name="delete_content" value="<?php _e('Run Command') ;?>"/>
 				</td>
 			    </tr>
 
@@ -101,9 +101,9 @@ class BPM_tab_debug {
 			<table class="form-table">
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Load plugin with test content',"bp-media"); ?></th>
+				<th align="left"><?php _e('Load plugin with test content',"foxfire"); ?></th>
 				<td>
-				    <input class="bpm-button" type="submit" disabled="disabled" name="load_content" value="<?php _e('Run Command') ;?>"/>
+				    <input class="fox-button" type="submit" disabled="disabled" name="load_content" value="<?php _e('Run Command') ;?>"/>
 				</td>
 			    </tr>
 
@@ -112,9 +112,9 @@ class BPM_tab_debug {
 			<table class="form-table">
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Add plugin menu',"bp-media"); ?></th>
+				<th align="left"><?php _e('Add plugin menu',"foxfire"); ?></th>
 				<td>
-				    <input class="bpm-button" type="submit"  name="add_menu" value="<?php _e('Run Command') ;?>"/>
+				    <input class="fox-button" type="submit"  name="add_menu" value="<?php _e('Run Command') ;?>"/>
 				</td>
 			    </tr>
 
@@ -153,6 +153,6 @@ class BPM_tab_debug {
 	}
 	
 
-} // End of class BPM_tab_debug
+} // End of class FOX_tab_debug
 
 ?>

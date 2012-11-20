@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -94,7 +94,7 @@ class utils_system extends RAZ_testCase {
 
 		);
 
-		$result = BPM_sUtil::arrayPrune($source_data, 3);
+		$result = FOX_sUtil::arrayPrune($source_data, 3);
 
 		$this->assertEquals($check_data, $result);
 
@@ -220,9 +220,9 @@ class utils_system extends RAZ_testCase {
 		);
 
 
-		$result = BPM_sUtil::keyIntersect($master, $slave, $error);
+		$result = FOX_sUtil::keyIntersect($master, $slave, $error);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 
@@ -340,9 +340,9 @@ class utils_system extends RAZ_testCase {
 
 		 );
 
-		$result = BPM_sUtil::loftHierarchy($nodes);
+		$result = FOX_sUtil::loftHierarchy($nodes);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 	}
@@ -450,9 +450,9 @@ class utils_system extends RAZ_testCase {
 				"transect"=>array()
 		);
 
-		$result = BPM_sUtil::walkIntersectTree($walk, $tree, $error);
+		$result = FOX_sUtil::walkIntersectTree($walk, $tree, $error);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Walk longer than graph
@@ -462,9 +462,9 @@ class utils_system extends RAZ_testCase {
 
 		$check = array( "endpoint_id"=>16, "endpoint_name"=>"ccc", "walk_key"=>2, "transect"=>array("qqq","ttt"));
 
-		$result = BPM_sUtil::walkIntersectTree($walk, $tree, $error);
+		$result = FOX_sUtil::walkIntersectTree($walk, $tree, $error);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Graph longer than walk
@@ -474,9 +474,9 @@ class utils_system extends RAZ_testCase {
 
 		$check = array( "endpoint_id"=>3, "endpoint_name"=>"ccc", "walk_key"=>0, "transect"=>array());
 
-		$result = BPM_sUtil::walkIntersectTree($walk, $tree, $error);
+		$result = FOX_sUtil::walkIntersectTree($walk, $tree, $error);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 		// Null intersect
@@ -486,9 +486,9 @@ class utils_system extends RAZ_testCase {
 
 		$check = array("endpoint_id"=>null, "endpoint_name"=>null, "walk_key"=>null, "transect"=>array());
 
-		$result = BPM_sUtil::walkIntersectTree($walk, $tree, $error);
+		$result = FOX_sUtil::walkIntersectTree($walk, $tree, $error);
 
-		$this->assertEquals($check, $result, BPM_debug::formatError_print($error));
+		$this->assertEquals($check, $result, FOX_debug::formatError_print($error));
 		unset($error);
 
 	}	
@@ -500,10 +500,10 @@ class utils_system extends RAZ_testCase {
 		// Single path as string
 		// ============================================
 
-		$test = BPM_PATH_BASE . "/foo/bar.jpg";
-		$check = BPM_URL_BASE . "/foo/bar.jpg";
+		$test = FOX_PATH_BASE . "/foo/bar.jpg";
+		$check = FOX_URL_BASE . "/foo/bar.jpg";
 
-		$result = BPM_sUtil::pluginPathToURL($test);
+		$result = FOX_sUtil::pluginPathToURL($test);
 
 		$this->assertEquals($check, $result);
 
@@ -512,18 +512,18 @@ class utils_system extends RAZ_testCase {
 		// ============================================
 
 		$test = array(
-				BPM_PATH_BASE . "/foo/bar1.jpg",
-				BPM_PATH_BASE . "/foo/bar2.jpg",
-				BPM_PATH_BASE . "/foo/bar3.jpg",
+				FOX_PATH_BASE . "/foo/bar1.jpg",
+				FOX_PATH_BASE . "/foo/bar2.jpg",
+				FOX_PATH_BASE . "/foo/bar3.jpg",
 		);
 
 		$check = array(
-				BPM_URL_BASE . "/foo/bar1.jpg",
-				BPM_URL_BASE . "/foo/bar2.jpg",
-				BPM_URL_BASE . "/foo/bar3.jpg",
+				FOX_URL_BASE . "/foo/bar1.jpg",
+				FOX_URL_BASE . "/foo/bar2.jpg",
+				FOX_URL_BASE . "/foo/bar3.jpg",
 		);		
 
-		$result = BPM_sUtil::pluginPathToURL($test);
+		$result = FOX_sUtil::pluginPathToURL($test);
 
 		$this->assertEquals($check, $result);
 

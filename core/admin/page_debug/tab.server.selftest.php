@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_server_selftest {
+class FOX_tab_server_selftest {
 
 
 	/**
@@ -36,113 +36,113 @@ class BPM_tab_server_selftest {
 
 	function render() {
 
-		global $bpm;
+		global $fox;
 
 		?>
 		<!-- Begin Config settings -->
 
 		<form name="configform" method="POST" action="<?php echo $this->filepath.'#config'; ?>" >
 
-		    <?php wp_nonce_field('bpm_admin_settings') ?>
+		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $bpm->config->initKeysArray(); ?>
+		    <?php $fox->config->initKeysArray(); ?>
 
 
 			<script type="text/javascript">
 
-				bpm_selfTest();
+				fox_selfTest();
 
 			</script>
 
 
 			<div class="panel_section w30">
 
-			    <div class="title"><?php _e('Test Options',"bp-media") ?> </div>
+			    <div class="title"><?php _e('Test Options',"foxfire") ?> </div>
 
-			    <div class="bpm_section_advice">
-				<?php _e("These options control how tests are run on your server. BP-Media creates a 'ghost' copy of your website during
+			    <div class="fox_section_advice">
+				<?php _e("These options control how tests are run on your server. FoxFire creates a 'ghost' copy of your website during
 				    testing and runs the tests as a separate thread. You can safely run tests on a production website. Do not change the options
-				    below unless you have been instructed to by a member of the BP-Media team.","bp-media") ?>
+				    below unless you have been instructed to by a member of the FoxFire team.","foxfire") ?>
 			    </div>
 
 			    <table class="form-table">
 
 				<tr>
-				    <th><?php _e('Platform family', "bp-media" ) ?></th>
+				    <th><?php _e('Platform family', "foxfire" ) ?></th>
 				    <td>
 					<label>
 					 <input type="radio" value="unix"
-						<?php $bpm->config->printKeyName("system", "phpUnitTest", "platformFamily"); ?>
-						<?php checked('unix', $bpm->config->getKeyVal("system", "phpUnitTest", "platformFamily") ); ?> />
-						<?php _e('Unix', "bp-media" ) ?> &nbsp;
+						<?php $fox->config->printKeyName("system", "phpUnitTest", "platformFamily"); ?>
+						<?php checked('unix', $fox->config->getKeyVal("system", "phpUnitTest", "platformFamily") ); ?> />
+						<?php _e('Unix', "foxfire" ) ?> &nbsp;
 					</label>
 					<label>
 					    <input type="radio" value="windows"
-						<?php $bpm->config->printKeyName("system", "phpUnitTest", "platformFamily"); ?>
-						<?php checked('windows', $bpm->config->getKeyVal("system", "phpUnitTest", "platformFamily") ); ?> />
-						<?php _e('Windows', "bp-media" ) ?> &nbsp;
+						<?php $fox->config->printKeyName("system", "phpUnitTest", "platformFamily"); ?>
+						<?php checked('windows', $fox->config->getKeyVal("system", "phpUnitTest", "platformFamily") ); ?> />
+						<?php _e('Windows', "foxfire" ) ?> &nbsp;
 					</label>
 				    </td>
 				</tr>
 
 				<tr>
-				    <th><?php _e('SQL Server',"bp-media") ?></th>
+				    <th><?php _e('SQL Server',"foxfire") ?></th>
 				    <td>
 					Database <input type="text" size="15" maxlength="32"
-					    <?php $bpm->config->printKeyName("system", "phpUnitTest", "dbServerName"); ?>
-					    <?php $bpm->config->printKeyVal("system", "phpUnitTest", "dbServerName"); ?> /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					    <?php $fox->config->printKeyName("system", "phpUnitTest", "dbServerName"); ?>
+					    <?php $fox->config->printKeyVal("system", "phpUnitTest", "dbServerName"); ?> /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 					Login <input type="text" size="6" maxlength="32"
-					    <?php $bpm->config->printKeyName("system", "phpUnitTest", "dbServerLogin"); ?>
-					    <?php $bpm->config->printKeyVal("system", "phpUnitTest", "dbServerLogin"); ?> /> &nbsp;
+					    <?php $fox->config->printKeyName("system", "phpUnitTest", "dbServerLogin"); ?>
+					    <?php $fox->config->printKeyVal("system", "phpUnitTest", "dbServerLogin"); ?> /> &nbsp;
 					Pass <input type="password" size="6" maxlength="32"
-					    <?php $bpm->config->printKeyName("system", "phpUnitTest", "dbServerPass"); ?>
-					    <?php $bpm->config->printKeyVal("system", "phpUnitTest", "dbServerPass"); ?> /> &nbsp;
+					    <?php $fox->config->printKeyName("system", "phpUnitTest", "dbServerPass"); ?>
+					    <?php $fox->config->printKeyVal("system", "phpUnitTest", "dbServerPass"); ?> /> &nbsp;
 
 				    </td>
 				</tr>
 
 				<tr>
-				    <th align="left"><?php _e('Table prefix',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Table prefix',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="5" maxlength="200"
-					   <?php $bpm->config->printKeyName("system", "phpUnitTest", "tablePrefix"); ?>
-					   <?php $bpm->config->printKeyVal("system", "phpUnitTest", "tablePrefix"); ?> />
+					   <?php $fox->config->printKeyName("system", "phpUnitTest", "tablePrefix"); ?>
+					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "tablePrefix"); ?> />
 				    </td>
 				</tr>
 
 				<tr>
-				    <th align="left"><?php _e('PHP path',"bp-media"); ?></th>
+				    <th align="left"><?php _e('PHP path',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="60" maxlength="200"
-					   <?php $bpm->config->printKeyName("system", "phpUnitTest", "PHPPath"); ?>
-					   <?php $bpm->config->printKeyVal("system", "phpUnitTest", "PHPPath"); ?> />
+					   <?php $fox->config->printKeyName("system", "phpUnitTest", "PHPPath"); ?>
+					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "PHPPath"); ?> />
 				    </td>
 				</tr>
 
 				<tr>
-				    <th align="left"><?php _e('WordPress path',"bp-media"); ?></th>
+				    <th align="left"><?php _e('WordPress path',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="60" maxlength="200"
-					   <?php $bpm->config->printKeyName("system", "phpUnitTest", "wordpressPath"); ?>
-					   <?php $bpm->config->printKeyVal("system", "phpUnitTest", "wordpressPath"); ?> />
+					   <?php $fox->config->printKeyName("system", "phpUnitTest", "wordpressPath"); ?>
+					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "wordpressPath"); ?> />
 				    </td>
 				</tr>
 
 				<tr>
-				    <th align="left"><?php _e('Test suite path',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Test suite path',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="60" maxlength="200"
-					   <?php $bpm->config->printKeyName("system", "phpUnitTest", "testsuitePath"); ?>
-					   <?php $bpm->config->printKeyVal("system", "phpUnitTest", "testsuitePath"); ?> />
+					   <?php $fox->config->printKeyName("system", "phpUnitTest", "testsuitePath"); ?>
+					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "testsuitePath"); ?> />
 				    </td>
 				</tr>
 
 				<tr>
-				    <th align="left"><?php _e('Options',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Options',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="60" maxlength="1024"
-					   <?php $bpm->config->printKeyName("system", "phpUnitTest", "options"); ?>
-					   <?php $bpm->config->printKeyVal("system", "phpUnitTest", "options"); ?> />
+					   <?php $fox->config->printKeyName("system", "phpUnitTest", "options"); ?>
+					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "options"); ?> />
 				    </td>
 				</tr>
 
@@ -150,11 +150,11 @@ class BPM_tab_server_selftest {
 
 			</div>
 
-			<?php $bpm->config->printKeysArray(); ?>
+			<?php $fox->config->printKeysArray(); ?>
 
-			<div class="bpm_submit_h_panel_wrap">
-			    <div class="submit"><input class="bpm-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
-			    <div class="submit"><input class="bpm-button" type="submit" name="run_self_tests" value="<?php _e('Run Tests') ;?>"/></div>
+			<div class="fox_submit_h_panel_wrap">
+			    <div class="submit"><input class="fox-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
+			    <div class="submit"><input class="fox-button" type="submit" name="run_self_tests" value="<?php _e('Run Tests') ;?>"/></div>
 			</div>
 
 		<?php
@@ -166,9 +166,9 @@ class BPM_tab_server_selftest {
 
 			<div class="panel_section w30">
 
-			    <div class="title"><?php _e('Terminal Window',"bp-media") ?> </div>
+			    <div class="title"><?php _e('Terminal Window',"foxfire") ?> </div>
 
-			    <div class="bpm_terminal_box">
+			    <div class="fox_terminal_box">
 
 				<div class="spinner">
 				    <div class="icon"></div>
@@ -210,7 +210,7 @@ class BPM_tab_server_selftest {
 
 	public function enqueueScripts() {
 
-		wp_enqueue_script( 'bpm-adminSelfTest');
+		wp_enqueue_script( 'fox-adminSelfTest');
 	}
 
 
@@ -225,6 +225,6 @@ class BPM_tab_server_selftest {
 
 	}
 
-} // End of class BPM_tab_server_selftest
+} // End of class FOX_tab_server_selftest
 
 ?>

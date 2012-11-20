@@ -2,19 +2,19 @@
 
 /**
  * BP-MEDIA BASE DATABASE CLASS
- * Provides installation and caching functions for BP-Media's database classes
+ * Provides installation and caching functions for FoxFire's database classes
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-abstract class BPM_db_base {
+abstract class FOX_db_base {
 
 
 	/**
@@ -27,14 +27,14 @@ abstract class BPM_db_base {
 
 	public function install(){
 	    
-		$db = new BPM_db();
+		$db = new FOX_db();
 		
 		try {
 			$db->runAddTable($this->_struct());
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Failed to create table",
 				'data'=>array('struct'=>$this->_struct() ),
@@ -58,14 +58,14 @@ abstract class BPM_db_base {
 
 	public function uninstall(){
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		
 		try {
 			$db->runDropTable($this->_struct());
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Failed to remove table",
 				'data'=>array('struct'=>$this->_struct() ),			    
@@ -89,14 +89,14 @@ abstract class BPM_db_base {
 
 	public function truncate(){
 
-		$db = new BPM_db();
+		$db = new FOX_db();
 		
 		try {
 			$db->runTruncateTable($this->_struct());
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Failed to truncate table",
 				'data'=>array('struct'=>$this->_struct() ),			    
@@ -132,9 +132,9 @@ abstract class BPM_db_base {
 			
 			$this->cache = array();			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct),			    
@@ -143,7 +143,7 @@ abstract class BPM_db_base {
 			));
 		}
 
-		do_action( 'bpm_flushCache_' . $struct["cache_namespace"] );
+		do_action( 'fox_flushCache_' . $struct["cache_namespace"] );
 		
 		return true;
 
@@ -171,9 +171,9 @@ abstract class BPM_db_base {
 				'pages'=>$pages
 			));			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in cache singleton",
 				'data'=>$pages,			    
@@ -189,7 +189,7 @@ abstract class BPM_db_base {
 		unset($page);
 
 		
-		do_action( 'bpm_flushCachePage_' . $struct["cache_namespace"], $pages );
+		do_action( 'fox_flushCachePage_' . $struct["cache_namespace"], $pages );
 		
 		return true;
 
@@ -225,10 +225,10 @@ abstract class BPM_db_base {
 			try {
 				$cache_image = self::readCache($valid);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
 			    $child->dump();
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error calling self::readCache()",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -249,7 +249,7 @@ abstract class BPM_db_base {
 		}
 		
 		else {		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Unrecognized cache strategy",
 				'data'=>$struct['cache_strategy'],
@@ -258,7 +258,7 @@ abstract class BPM_db_base {
 			));		    		    
 		}
 		
-                do_action( 'bpm_loadCache_' . $struct["cache_namespace"], $this->cache );
+                do_action( 'fox_loadCache_' . $struct["cache_namespace"], $this->cache );
 
                 return true;
 
@@ -283,9 +283,9 @@ abstract class BPM_db_base {
 		try {
 			$cache_result = self::readCachePage($pages);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::readCachePage()",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -300,7 +300,7 @@ abstract class BPM_db_base {
 		unset($name, $data);
 
 		
-		do_action( 'bpm_loadCachePage_' . $struct["cache_namespace"], $this->cache );
+		do_action( 'fox_loadCachePage_' . $struct["cache_namespace"], $this->cache );
 
 		return true;
 
@@ -330,9 +330,9 @@ abstract class BPM_db_base {
 								$valid
 			);		    
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct),                                   
@@ -341,7 +341,7 @@ abstract class BPM_db_base {
 			));
 		}
 
-                do_action( 'bpm_readCache_' . $struct["cache_namespace"], $cache_image, $valid);
+                do_action( 'fox_readCache_' . $struct["cache_namespace"], $cache_image, $valid);
 		
                 return $cache_image;
 
@@ -370,9 +370,9 @@ abstract class BPM_db_base {
 				'pages'=>$pages
 			));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct, 'pages'=>$pages),				    
@@ -381,7 +381,7 @@ abstract class BPM_db_base {
 			));
 		}
 
-		do_action( 'bpm_readCachePage_' . $struct["cache_namespace"], $result);
+		do_action( 'fox_readCachePage_' . $struct["cache_namespace"], $result);
 
 		return $result;
 
@@ -405,9 +405,9 @@ abstract class BPM_db_base {
 		try {
 			self::writeCache($this->cache);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"error calling self::writeCache()",
 				'data'=>array("struct"=>$struct, "cache"=>$this->cache),
@@ -416,7 +416,7 @@ abstract class BPM_db_base {
 			));
 		}
 
-		do_action( 'bpm_saveCache_' . $struct["cache_namespace"], $this->cache );
+		do_action( 'fox_saveCache_' . $struct["cache_namespace"], $this->cache );
 		
 		return true;
 		
@@ -446,12 +446,12 @@ abstract class BPM_db_base {
 		
 		foreach( $pages as $page_name ){
 		    
-			if(BPM_sUtil::keyExists($page_name, $this->cache) ){
+			if(FOX_sUtil::keyExists($page_name, $this->cache) ){
 			    
 				$processed_pages[$page_name] = $this->cache[$page_name];
 			}
 			else {			    
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Called with key name that doesn't exist in the class cache",
 					'data'=>array("faulting_page"=>$page_name, "cache"=>$this->cache),
@@ -464,9 +464,9 @@ abstract class BPM_db_base {
 		try {
 			self::writeCachePage($processed_pages);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error in self::writeCachePage()",
 				'data'=>$processed_pages,
@@ -475,7 +475,7 @@ abstract class BPM_db_base {
 			));
 		}
 
-		do_action( 'bpm_saveCachePage_' . $struct["cache_namespace"], $processed_pages );
+		do_action( 'fox_saveCachePage_' . $struct["cache_namespace"], $processed_pages );
 		
 		return true;
 		
@@ -503,9 +503,9 @@ abstract class BPM_db_base {
 				'image'=>$image
 			));		    
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in cache singleton",
 				'data'=>array("struct"=>$struct, "image"=>$image),
@@ -514,7 +514,7 @@ abstract class BPM_db_base {
 			));
 		}
 
-		do_action( 'bpm_writeCache_' . $struct["cache_namespace"], $image);
+		do_action( 'fox_writeCache_' . $struct["cache_namespace"], $image);
 		
 		return true;
 		
@@ -543,9 +543,9 @@ abstract class BPM_db_base {
 				'pages'=>$pages
 			));		    
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache set error",
 				'data'=>$pages,
@@ -554,7 +554,7 @@ abstract class BPM_db_base {
 			));
 		}
 
-		do_action( 'bpm_writeCachePage_' . $struct["cache_namespace"], $pages );
+		do_action( 'fox_writeCachePage_' . $struct["cache_namespace"], $pages );
 		
 		return true;
 		
@@ -590,9 +590,9 @@ abstract class BPM_db_base {
 		try {
 			$cache_image = $this->mCache->lockCache($ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct),				    
@@ -605,19 +605,19 @@ abstract class BPM_db_base {
 		if($ctrl['mode'] == 'update'){
 		    		
 			$this->cache = $cache_image;			
-			do_action( 'bpm_lockCache_' . $struct["cache_namespace"], $cache_image);
+			do_action( 'fox_lockCache_' . $struct["cache_namespace"], $cache_image);
 
 			return true;						
 		}
 		elseif($ctrl['mode'] == 'fetch'){
 		    
-			do_action( 'bpm_lockCache_' . $struct["cache_namespace"], $cache_image);
+			do_action( 'fox_lockCache_' . $struct["cache_namespace"], $cache_image);
 			
 			return $cache_image;					    
 		}
 		else {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid ctrl 'mode' parameter",
 				'data'=>$ctrl,
@@ -669,9 +669,9 @@ abstract class BPM_db_base {
 				'seconds'=>$ctrl['seconds']
 			));
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Cache get error",
 				'data'=>array('struct'=>$struct),				    
@@ -688,20 +688,20 @@ abstract class BPM_db_base {
 			}
 			unset($name, $data);
 			
-			do_action( 'bpm_lockCachePage_' . $struct["cache_namespace"], $cache_image);
+			do_action( 'fox_lockCachePage_' . $struct["cache_namespace"], $cache_image);
 
 			return true;			
 			
 		}
 		elseif($ctrl['mode'] == 'fetch'){
 		    
-			do_action( 'bpm_lockCachePage_' . $struct["cache_namespace"], $cache_image);
+			do_action( 'fox_lockCachePage_' . $struct["cache_namespace"], $cache_image);
 			
 			return $cache_image;					    
 		}
 		else {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Invalid ctrl 'mode' parameter",
 				'data'=>$ctrl,
@@ -717,6 +717,6 @@ abstract class BPM_db_base {
 
 
 
-} // End of abstract class BPM_db_base
+} // End of abstract class FOX_db_base
 
 ?>

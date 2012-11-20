@@ -6,7 +6,7 @@
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,14 +14,14 @@
  * ========================================================================================================
  */
 
-class BPM_dataStore_paged_L5_tester_addMethods extends BPM_dataStore_paged_L5_base {
+class FOX_dataStore_paged_L5_tester_addMethods extends FOX_dataStore_paged_L5_base {
     
 
 	public static $struct = array(
 
-		"table" => "BPM_dataStore_paged_L5_base",
+		"table" => "FOX_dataStore_paged_L5_base",
 		"engine" => "InnoDB",
-		"cache_namespace" => "BPM_dataStore_paged_L5_base",
+		"cache_namespace" => "FOX_dataStore_paged_L5_base",
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
@@ -50,7 +50,7 @@ class BPM_dataStore_paged_L5_tester_addMethods extends BPM_dataStore_paged_L5_ba
 		// Generate our own cache singleton, and only enable the 'thread'
 		// engine to eliminate potential problems with APC, Memcached, etc
 		
-		$this->mCache = new BPM_mCache();
+		$this->mCache = new FOX_mCache();
 		$this->mCache->setActiveEngines(array('thread'));
 		
 		$this->init();
@@ -58,7 +58,7 @@ class BPM_dataStore_paged_L5_tester_addMethods extends BPM_dataStore_paged_L5_ba
 	}
 	
 		
-}  // ENDOF: class BPM_dataStore_paged_L5_tester_addMethods
+}  // ENDOF: class FOX_dataStore_paged_L5_tester_addMethods
   
                                       
 
@@ -67,7 +67,7 @@ class BPM_dataStore_paged_L5_tester_addMethods extends BPM_dataStore_paged_L5_ba
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -87,12 +87,12 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		// Install the db table
 		// ===========================================
 		
-		$this->cls = new BPM_dataStore_paged_L5_tester_addMethods();
+		$this->cls = new FOX_dataStore_paged_L5_tester_addMethods();
 		
 		try {
 			$install_ok = $this->cls->install();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -106,7 +106,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		try {
 			$truncate_ok = $this->cls->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -120,7 +120,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		try {
 			$flush_ok = $this->cls->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -171,7 +171,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			try {
 				$set_ok = $this->cls->addL1($item['L5'], $item['L4'], $item['L3'], $item['L2'], $item['L1'], $item['L0'], $ctrl=null);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 							    
 				$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 			}			
@@ -192,7 +192,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if addL1() throws an exception
 			$this->fail("Method addL1() failed to throw an exception on duplicate entry");			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 					    
 		}			
 			
@@ -268,7 +268,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -281,7 +281,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -331,7 +331,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		try {
 			$rows_changed = $this->cls->addL1_multi($test_data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 		}			
@@ -354,7 +354,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if addL1() throws an exception
 			$this->fail("Method addL1_multi() failed to throw an exception on duplicate entry");			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 		// Test adding multiple duplicate items
@@ -375,7 +375,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL1_multi() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 		// Check cache state
@@ -448,7 +448,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 				 )		    		    
 		);		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		$args = null;
@@ -461,7 +461,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		try {			
 			$result = $db->runSelectQuery($this->cls->_struct(), $args, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -526,7 +526,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			try {
 				$rows_changed = $this->cls->addL2($item['L5'], $item['L4'], $item['L3'], $item['L2'], $item['L1s'], $ctrl=null);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 							    
 				$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 			}			
@@ -550,7 +550,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL2() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 		// Check cache state
@@ -624,7 +624,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -637,7 +637,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -702,7 +702,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		try {
 			$set_ok = $this->cls->addL2_multi($test_data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 		}			
@@ -725,7 +725,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if addL1() throws an exception
 			$this->fail("Method addL2_multi() failed to throw an exception on duplicate entry");			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 		// Test adding multiple duplicate items
@@ -742,7 +742,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			// Execution will halt on the previous line if addL1() throws an exception
 			$this->fail("Method addL2_multi() failed to throw an exception on duplicate entry");			
 		}
-		catch (BPM_exception $child) {}		
+		catch (FOX_exception $child) {}		
 		
 		
 		
@@ -817,7 +817,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -830,7 +830,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -899,7 +899,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			try {
 				$rows_changed = $this->cls->addL3($item['L5'], $item['L4'], $item['L3'], $item['L2s'], $ctrl=null);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 							    
 				$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 			}			
@@ -922,7 +922,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL3() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 
 		// Check cache state
@@ -996,7 +996,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -1009,7 +1009,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -1074,7 +1074,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		try {
 			$set_ok = $this->cls->addL3_multi($test_data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 		}			
@@ -1099,7 +1099,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL3_multi() failed to throw an exception on duplicate entry");
 			
 		}
-		catch (BPM_exception $child) {}	
+		catch (FOX_exception $child) {}	
 		
 		
 		// Test adding multipl duplicate items
@@ -1125,7 +1125,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL3_multi() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}	
+		catch (FOX_exception $child) {}	
 		
 		
 		
@@ -1200,7 +1200,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -1213,7 +1213,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -1285,7 +1285,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			try {
 				$rows_changed = $this->cls->addL4($item['L5'], $item['L4'], $item['L3s'], $ctrl=null);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 							    
 				$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 			}			
@@ -1318,7 +1318,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL4() failed to throw an exception on duplicate entry");
 			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 		// Check cache state
@@ -1392,7 +1392,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -1405,7 +1405,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -1475,7 +1475,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		try {
 			$set_ok = $this->cls->addL4_multi($test_data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 		}			
@@ -1511,7 +1511,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL4_multi() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 		// Test adding multiple duplicate items
@@ -1552,7 +1552,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL4_multi() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 		
@@ -1627,7 +1627,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -1640,7 +1640,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -1713,7 +1713,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			try {
 				$rows_changed = $this->cls->addL5($item['L5'], $item['L4s'],  $ctrl=null);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 							    
 				$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 			}			
@@ -1743,7 +1743,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL5() failed to throw an exception on duplicate entry");
 			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 
@@ -1818,7 +1818,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -1831,7 +1831,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -1902,7 +1902,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		try {
 			$set_ok = $this->cls->addL5_multi($test_data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 		}			
@@ -1950,7 +1950,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL5_multi() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 		// Test adding multiple duplicate items
@@ -2001,7 +2001,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addL5_multi() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}
+		catch (FOX_exception $child) {}
 		
 		
 		
@@ -2076,7 +2076,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -2089,7 +2089,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -2152,7 +2152,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$ctrl = array('mode'=>'trie');
 			$set_ok = $this->cls->addMulti($test_data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 		}			
@@ -2193,7 +2193,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addMulti() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}		
+		catch (FOX_exception $child) {}		
 		
 		
 		
@@ -2268,7 +2268,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -2281,7 +2281,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -2331,7 +2331,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$ctrl = array('mode'=>'matrix');
 			$set_ok = $this->cls->addMulti($test_data, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
 		}			
@@ -2364,7 +2364,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$this->fail("Method addMulti() failed to throw an exception on duplicate entry");	
 			
 		}
-		catch (BPM_exception $child) {}		
+		catch (FOX_exception $child) {}		
 		
 		
 		
@@ -2439,7 +2439,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 		);		
 		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		
@@ -2452,7 +2452,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 			$struct = $this->cls->_struct();			
 			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -2465,7 +2465,7 @@ class core_L5_paged_abstract_addMethods extends RAZ_testCase {
 	
 	function tearDown() {
 	   
-		$this->cls = new BPM_dataStore_paged_L5_tester_addMethods();
+		$this->cls = new FOX_dataStore_paged_L5_tester_addMethods();
 		$unistall_ok = $this->cls->uninstall();
 		
 		$this->assertEquals(true, $unistall_ok);

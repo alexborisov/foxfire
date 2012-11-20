@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_backup {
+class FOX_tab_backup {
 
 
 	/**
@@ -36,38 +36,38 @@ class BPM_tab_backup {
 
 	function render() {
 
-		global $bpm;
+		global $fox;
 
 		?>
 		<!-- Begin Config settings -->
 
 		<form name="configform" method="POST" action="<?php echo $this->filepath.'#config'; ?>" >
 
-		    <?php wp_nonce_field('bpm_admin_settings') ?>
+		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $bpm->config->initKeysArray(); ?>
+		    <?php $fox->config->initKeysArray(); ?>
 
-		    <div class="bpm_tip">
-			<div class="bpm_bricks_large"></div>
-			<div class="bpm_tip_text">
+		    <div class="fox_tip">
+			<div class="fox_bricks_large"></div>
+			<div class="fox_tip_text">
 			    <?php _e("<b>Template Developers:</b> You can make BP Media installations work perfectly with your
 				templates every time! Just include a BP Media config file and tell users to load it. For more information, please see the
-				<a href='http://code.google.com/p/buddypress-media/wiki/DataExchangeAPI'>Plugin Config Files</a> documentation page.", "bp-media") ?>
+				<a href='http://code.google.com/p/buddypress-media/wiki/DataExchangeAPI'>Plugin Config Files</a> documentation page.", "foxfire") ?>
 			</div>
 		    </div>
 
 		    <div class="panel_section">
 
-			<div class="title"><?php _e('Load Settings',"bp-media") ?> </div>
+			<div class="title"><?php _e('Load Settings',"foxfire") ?> </div>
 
-			<div class="bpm_section_advice">
-			    <?php _e("This option loads plugin configuration values from a file.","bp-media") ?>
+			<div class="fox_section_advice">
+			    <?php _e("This option loads plugin configuration values from a file.","foxfire") ?>
 			</div>
 
 			<table class="form-table">
 
 			    <tr valign="top">
-				<th align="left"><?php _e('Select File',"bp-media"); ?></th>
+				<th align="left"><?php _e('Select File',"foxfire"); ?></th>
 				<td>
 				    <input type="file" name="file" id="file"/>
 				</td>
@@ -78,16 +78,16 @@ class BPM_tab_backup {
 
 		    <div class="panel_section">
 
-			<div class="title"><?php _e('Save Settings',"bp-media") ?> </div>
+			<div class="title"><?php _e('Save Settings',"foxfire") ?> </div>
 
-			<div class="bpm_section_advice">
-			    <?php _e("This option saves plugin configuration values to a file.","bp-media") ?>
+			<div class="fox_section_advice">
+			    <?php _e("This option saves plugin configuration values to a file.","foxfire") ?>
 			</div>
 
 			<table class="form-table">
 
 				<tr valign="top">
-				    <th align="left"><?php _e('Button Goes Here',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Button Goes Here',"foxfire"); ?></th>
 				    <td>
 					<p></p>
 				    </td>
@@ -98,18 +98,18 @@ class BPM_tab_backup {
 
 		    <div class="panel_section">
 
-			<div class="title"><?php _e('Reset to Defaults',"bp-media") ?> </div>
+			<div class="title"><?php _e('Reset to Defaults',"foxfire") ?> </div>
 
-			<div class="bpm_section_advice">
+			<div class="fox_section_advice">
 			    <?php _e("This option will reset all configuration values to the defaults set when the plugin was first installed. Although no user content will be lost,
 				resetting the configuration values could cause a wide range of side effects throughout your site. Always save a copy of your current configuration
-				values before using this option.","bp-media") ?>
+				values before using this option.","foxfire") ?>
 			</div>
 
 			<table class="form-table">
 
 				<tr valign="top">
-				    <th align="left"><?php _e('Button Goes Here',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Button Goes Here',"foxfire"); ?></th>
 				    <td>
 					<p></p>
 				    </td>
@@ -117,7 +117,7 @@ class BPM_tab_backup {
 			</table>
 		    </div>
 
-		<?php $bpm->config->printKeysArray(); ?>
+		<?php $fox->config->printKeysArray(); ?>
 
 	       <div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
 
@@ -150,6 +150,6 @@ class BPM_tab_backup {
 
 	}
 
-} // End of class BPM_tab_backup
+} // End of class FOX_tab_backup
 
 ?>

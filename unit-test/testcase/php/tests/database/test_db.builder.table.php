@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -21,7 +21,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		parent::setUp();
 
-		$test_db = new BPM_db();
+		$test_db = new FOX_db();
 
 		$this->base_prefix = $test_db->base_prefix;
 		$this->charset = $test_db->charset;
@@ -35,7 +35,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 			$this->charset_collate .= " COLLATE {$this->collate}";
 		}
 
-		$this->builder = new BPM_queryBuilder($test_db);
+		$this->builder = new FOX_queryBuilder($test_db);
 
 	}
 
@@ -45,7 +45,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_unique",
+			"table" => "fox_test_index_unique",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "name" =>	array(	"php"=>"string", "sql"=>"varchar", "format"=>"%s", "width"=>250,    "flags"=>null, "auto_inc"=>false, "default"=>null,  "index"=>"UNIQUE")
@@ -60,7 +60,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildAddTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}				
@@ -74,7 +74,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_primary",
+			"table" => "fox_test_index_primary",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "id" =>	array(	"php"=>"int", "sql"=>"smallint", "format"=>"%d", "width"=>6, "flags"=>null, "auto_inc"=>false,  "default"=>null,  "index"=>"PRIMARY")
@@ -89,7 +89,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildAddTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -103,7 +103,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_primary",
+			"table" => "fox_test_index_primary",
 			"engine" => "MyISAM",
 			"columns" => array(
 			    "id" =>	array(	"php"=>"int", "sql"=>"smallint", "format"=>"%d", "width"=>6, "flags"=>null, "auto_inc"=>false,  "default"=>null,  "index"=>"FULLTEXT")
@@ -118,7 +118,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildAddTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -132,7 +132,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_default",
+			"table" => "fox_test_index_default",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "priv" =>	array(	"php"=>"int", "sql"=>"tinyint", "format"=>"%d", "width"=>2, "flags"=>null, "auto_inc"=>false, "default"=>null,   "index"=>true),
@@ -149,7 +149,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildAddTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -163,7 +163,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_default",
+			"table" => "fox_test_index_default",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "priv" =>	array(	"php"=>"int", "sql"=>"tinyint", "format"=>"%d", "width"=>2, "flags"=>null, "auto_inc"=>true, "default"=>null,   "index"=>true)
@@ -179,7 +179,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildAddTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -194,7 +194,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_default",
+			"table" => "fox_test_index_default",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "priv" =>	array(	"php"=>"int", "sql"=>"tinyint", "format"=>"%d", "width"=>2, "flags"=>null, "auto_inc"=>false, "default"=>"test_val", "index"=>true)
@@ -217,7 +217,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_default",
+			"table" => "fox_test_index_default",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "priv" =>	array(	"php"=>"int", "sql"=>"tinyint", "format"=>"%d", "width"=>2, "flags"=>"NOT NULL", "auto_inc"=>false, "default"=>null, "index"=>false)
@@ -232,7 +232,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildAddTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -245,7 +245,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_default",
+			"table" => "fox_test_index_default",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "priv" =>	array(	"php"=>"int", "sql"=>"tinyint", "format"=>"%d", "width"=>2, "flags"=>"NOT NULL", "auto_inc"=>false, "default"=>null,
@@ -261,7 +261,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildAddTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -274,7 +274,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_default",
+			"table" => "fox_test_index_default",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "priv" =>	array(	"php"=>"int", "sql"=>"tinyint", "format"=>"%d", "width"=>2, "flags"=>"NOT NULL", "auto_inc"=>false, "default"=>null,
@@ -289,7 +289,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildAddTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -302,7 +302,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 
 		$struct = array(
 
-			"table" => "bpm_test_index_default",
+			"table" => "fox_test_index_default",
 			"engine" => "InnoDB",
 			"columns" => array(
 			    "priv" =>	array(	"php"=>"int", "sql"=>"tinyint", "format"=>"%d", "width"=>2, "flags"=>"NOT NULL", "auto_inc"=>false, "default"=>null,
@@ -317,7 +317,7 @@ class database_queryBuilders_table extends RAZ_testCase {
 		try {
 			$result = $this->builder->buildAddTable($struct);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}

@@ -6,7 +6,7 @@
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,14 +14,14 @@
  * ========================================================================================================
  */
 
-class BPM_dataStore_paged_L5_tester_replaceMethods extends BPM_dataStore_paged_L5_base {
+class FOX_dataStore_paged_L5_tester_replaceMethods extends FOX_dataStore_paged_L5_base {
     
 
 	public static $struct = array(
 
-		"table" => "BPM_dataStore_paged_L5_base",
+		"table" => "FOX_dataStore_paged_L5_base",
 		"engine" => "InnoDB",
-		"cache_namespace" => "BPM_dataStore_paged_L5_base",
+		"cache_namespace" => "FOX_dataStore_paged_L5_base",
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
@@ -50,7 +50,7 @@ class BPM_dataStore_paged_L5_tester_replaceMethods extends BPM_dataStore_paged_L
 		// Generate our own cache singleton, and only enable the 'thread'
 		// engine to eliminate potential problems with APC, Memcached, etc
 		
-		$this->mCache = new BPM_mCache();
+		$this->mCache = new FOX_mCache();
 		$this->mCache->setActiveEngines(array('thread'));
 		
 		$this->init();
@@ -58,7 +58,7 @@ class BPM_dataStore_paged_L5_tester_replaceMethods extends BPM_dataStore_paged_L
 	}
 	
 	
-}  // ENDOF: class BPM_dataStore_paged_L5_tester_replaceMethods 
+}  // ENDOF: class FOX_dataStore_paged_L5_tester_replaceMethods 
 
                                       
 
@@ -67,7 +67,7 @@ class BPM_dataStore_paged_L5_tester_replaceMethods extends BPM_dataStore_paged_L
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -87,12 +87,12 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Install the db table
 		// ===========================================
 		
-		$this->cls = new BPM_dataStore_paged_L5_tester_replaceMethods();
+		$this->cls = new FOX_dataStore_paged_L5_tester_replaceMethods();
 		
 		try {
 			$install_ok = $this->cls->install();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}		
@@ -106,7 +106,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {
 			$truncate_ok = $this->cls->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -120,7 +120,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {
 			$flush_ok = $this->cls->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
@@ -170,7 +170,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {
 			$rows_changed = $this->cls->setL1_multi($test_data, $ctrl=null);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
 		}			
@@ -249,7 +249,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 				 )		    		    
 		);		
 		
-		$db = new BPM_db();	
+		$db = new FOX_db();	
 		
 		$columns = null;
 		$args = null;
@@ -262,7 +262,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {			
 			$result = $db->runSelectQuery($this->cls->_struct(), $args, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}		
@@ -305,7 +305,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -402,7 +402,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -422,7 +422,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {			
 			$result = $this->cls->getMulti($request, $ctrl, $valid);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
@@ -438,7 +438,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 	function tearDown() {
 	   
-		$this->cls = new BPM_dataStore_paged_L5_tester_replaceMethods();
+		$this->cls = new FOX_dataStore_paged_L5_tester_replaceMethods();
 		$unistall_ok = $this->cls->uninstall();
 		
 		$this->assertEquals(true, $unistall_ok);

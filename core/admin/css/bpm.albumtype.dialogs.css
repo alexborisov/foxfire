@@ -14,14 +14,14 @@
  */
 
  
-.bpm_albumtypes_ajax .form_table {
+.fox_albumtypes_ajax .form_table {
     float:left;
     padding: 0px 0px 0px 0px;
     margin:0px 0px 0px 0px;
 
 }
 
-.bpm_albumtypes_ajax .form_table .row {
+.fox_albumtypes_ajax .form_table .row {
     float:left;
     font-size: 12px;
     line-height:25px;
@@ -30,15 +30,15 @@
     padding: 7px 0px 10px 0px;
 }
 
-.bpm_albumtypes_ajax .form_table .odd_row {
+.fox_albumtypes_ajax .form_table .odd_row {
     background-color:#FFF;
 }
 
-.bpm_albumtypes_ajax .form_table .even_row {
+.fox_albumtypes_ajax .form_table .even_row {
     background-color:#F9F9F9;
 }
 
-.bpm_albumtypes_ajax .form_table .row .name {
+.fox_albumtypes_ajax .form_table .row .name {
     float:left;
     font-size: 12px;
     height: 25px;
@@ -48,7 +48,7 @@
     text-indent:10px;
 }
 
-.bpm_albumtypes_ajax .form_table .row .value {
+.fox_albumtypes_ajax .form_table .row .value {
     float:left;
     font-size: 12px;
     height: 25px;
@@ -57,23 +57,23 @@
     padding:0px;
 }
 
-.bpm_albumtypes_ajax .form_table .row .value select {
+.fox_albumtypes_ajax .form_table .row .value select {
     padding:0px;
     height: 22px;
     margin-top:0px;
 }
 
-.bpm_albumtypes_ajax .form_table .row .value select option {
+.fox_albumtypes_ajax .form_table .row .value select option {
     padding:4px 12px 4px 0px;
 }
 
-.bpm_albumtypes_ajax .buttons_wrap {
+.fox_albumtypes_ajax .buttons_wrap {
     float:right;
     margin: 10px 0px 0px 5px;
 
 }
 
-.bpm_albumtypes_ajax .buttons_wrap .buttons {
+.fox_albumtypes_ajax .buttons_wrap .buttons {
     float:right;
     margin: 0px 20px 0px 0px;
 
@@ -83,21 +83,21 @@
 /** ====================================================================================================== */
 
 
-.bpm_albumtypes_ajax_intro_wrap{
+.fox_albumtypes_ajax_intro_wrap{
     float:left;
     width:100%;
     margin: 10px 10px 0px 0px;
     padding:0px;
 }
 
-.bpm_albumtypes_ajax_intro{
+.fox_albumtypes_ajax_intro{
     float:left;
     width:100%;
     margin:0px 10px 0px 0px;
     padding:0px;
 }
 
-.bpm_albumtypes_ajax_intro .title{
+.fox_albumtypes_ajax_intro .title{
     float:left;
     font-size:13px;
     width:90%;
@@ -105,14 +105,14 @@
     margin:0px 0px 2px 0px;
 }
 
-.bpm_albumtypes_ajax_intro .details {
+.fox_albumtypes_ajax_intro .details {
     float:left;
     font-size:11px;
     line-height:130%;
     margin:0px 0px 5px 2px;
 }
 
-.bpm_albumtypes_ajax_intro .header {
+.fox_albumtypes_ajax_intro .header {
     float:left;
     background-color: #666;
     line-height:18px;
@@ -123,7 +123,7 @@
 }
 
 
-.bpm_albumtypes_ajax_intro .header .col_name {
+.fox_albumtypes_ajax_intro .header .col_name {
     width: 115px;
     float:left;
     color:#FFF;
@@ -133,7 +133,7 @@
     text-indent: 24px;
 }
 
-.bpm_albumtypes_ajax_intro .header .col_desc {
+.fox_albumtypes_ajax_intro .header .col_desc {
     width: 455px;
     float:left;
     color:#FFF;
@@ -142,7 +142,7 @@
     text-indent: 12px;
 }
 
-.bpm_albumtypes_ajax_intro .header .col_limit {
+.fox_albumtypes_ajax_intro .header .col_limit {
     width: 55px;
     float:left;
     color:#FFF;
@@ -152,7 +152,7 @@
 }
 
 
-.bpm_albumtypes_ajax_edit_footer {
+.fox_albumtypes_ajax_edit_footer {
     float:left;
     background-color: #666;
     line-height:18px;
@@ -167,7 +167,7 @@
 
 
 
-#bpm_albumtypes_ajax_mediamodules_wrap {
+#fox_albumtypes_ajax_mediamodules_wrap {
     float:left;
     width:649px;
     height:100px;
@@ -177,7 +177,7 @@
     padding:0px;
 }
 
-.bpm_albumtypes_ajax_mediamodules {
+.fox_albumtypes_ajax_mediamodules {
     float:left;
     padding: 0px;
     margin: 0px 0px 0px 0px;
@@ -186,7 +186,7 @@
 }
 
 
-.bpm_albumtypes_ajax_mediamodules .row {
+.fox_albumtypes_ajax_mediamodules .row {
     float:left;
     padding: 0px;
     font-size: 11px;
@@ -197,17 +197,17 @@
 }
 
 
-.bpm_albumtypes_ajax_mediamodules .odd_row {
+.fox_albumtypes_ajax_mediamodules .odd_row {
     background-color:#FFF;
 }
 
 
-.bpm_albumtypes_ajax_mediamodules .even_row {
+.fox_albumtypes_ajax_mediamodules .even_row {
     background-color:#FFFFE8;
 }
 
 
-.bpm_albumtypes_ajax_mediamodules .col_icon {
+.fox_albumtypes_ajax_mediamodules .col_icon {
     float:left;
     text-indent:4px;
     width:16px;
@@ -216,11 +216,11 @@
     border-left: 1px solid #f0f0f0;
 }
 
-.bpm_albumtypes_ajax_mediamodules .col_icon img {
+.fox_albumtypes_ajax_mediamodules .col_icon img {
     margin-top:4px;
 }
 
-.bpm_albumtypes_ajax_mediamodules .col_name {
+.fox_albumtypes_ajax_mediamodules .col_name {
     float:left;
     width: 100px;
     height:22px;
@@ -229,7 +229,7 @@
     text-indent:9px;
 }
 
-.bpm_albumtypes_ajax_mediamodules .col_desc {
+.fox_albumtypes_ajax_mediamodules .col_desc {
     float:left;
     width: 455px;
     height:22px;
@@ -238,7 +238,7 @@
 }
 
 /*
-.bpm_checkbox {
+.fox_checkbox {
     margin:3px 0px 0px 0px;
     padding:0px;
     width:13px;		
@@ -246,7 +246,7 @@
     overflow:hidden;	
 } */
 
-.bpm_albumtypes_ajax_mediamodules .col_limit {
+.fox_albumtypes_ajax_mediamodules .col_limit {
     float:left;
     width: 48px;
     height:22px;
@@ -256,22 +256,22 @@
     font-size:10px;
 }
 
-.bpm_albumtypes_ajax_mediamodules .col_limit input {
+.fox_albumtypes_ajax_mediamodules .col_limit input {
     padding:0px;
     height:16px;
     margin-top:3px;
 }
 
 
-.bpm_albumtypes_ajax_mediamodules .even {
+.fox_albumtypes_ajax_mediamodules .even {
     background-color: #eef2ff; 
 }
 
-.bpm_albumtypes_ajax_mediamodules .odd {
+.fox_albumtypes_ajax_mediamodules .odd {
     background-color: #fff;
 }
 
-.bpm_albumtypes_ajax_mediamodules_footer {
+.fox_albumtypes_ajax_mediamodules_footer {
     float:left;
     background-color: #666;
     line-height:18px;
@@ -285,27 +285,27 @@
 /** ====================================================================================================== */
 
 
-.bpm_albumtypes_intro_wrap{
+.fox_albumtypes_intro_wrap{
     float:left;
     width:90%;
     margin: 10px 0px 0px 10px;
     padding:0px;
 }
 
-.bpm_albumtypes_intro{
+.fox_albumtypes_intro{
     float:left;
     margin:0px;
     padding:5px;
 }
 
-.bpm_albumtypes_intro .title{
+.fox_albumtypes_intro .title{
     float:left;
     font-size:1.27em;
     font-weight:bold;
     margin:0px 0px 3px 0px;
 }
 
-.bpm_albumtypes_intro .details {
+.fox_albumtypes_intro .details {
     float:left;
     font-size:11px;
     line-height:130%;
@@ -314,13 +314,13 @@
 
 /** ====================================================================================================== */
 
-#bpm_albumtypes_wrap {
+#fox_albumtypes_wrap {
     float:left;
     width:850px;
     margin: 0px 0px 15px 0px;
 }
 
-.bpm_albumtypes_types {
+.fox_albumtypes_types {
     padding: 0px;
     margin: 10px 0px 0px 10px;
     border-collapse:collapse;
@@ -331,7 +331,7 @@
 }
 
 
-.bpm_albumtypes_types thead th {
+.fox_albumtypes_types thead th {
     border-style: none;
     border-color: #efefef;
     height:30px;
@@ -339,7 +339,7 @@
 
 }
 
-.bpm_albumtypes_delete {
+.fox_albumtypes_delete {
     float:left;
     height:16px;
     width:16px;
@@ -348,7 +348,7 @@
     margin:0px 8px 0px 0px;
 }
 
-.bpm_albumtypes_delete:hover {
+.fox_albumtypes_delete:hover {
     float:left;
     height:16px;
     width:16px;
@@ -357,7 +357,7 @@
     margin:0px 8px 0px 0px;
 }
 
-.bpm_albumtypes_edit {
+.fox_albumtypes_edit {
     float:left;
     height:16px;
     width:16px;
@@ -365,7 +365,7 @@
     background: url(images/wrench.png);
 }
 
-.bpm_albumtypes_edit:hover {
+.fox_albumtypes_edit:hover {
     float:left;
     height:16px;
     width:16px;
@@ -373,7 +373,7 @@
     background: url(images/wrench-hover.png);
 }
 
-.bpm_albumtypes_types thead tr {
+.fox_albumtypes_types thead tr {
 
     white-space: nowrap;
     color: #666;
@@ -387,13 +387,13 @@
 
 }
 
-.bpm_albumtypes_types thead tr th {
+.fox_albumtypes_types thead tr th {
     font-size:12px;
     background: url(images/th-bg.gif) bottom left repeat-x #f9f9f9;
     height:30px;
 }
 
-.bpm_albumtypes_types tbody th {
+.fox_albumtypes_types tbody th {
 
     white-space: nowrap;
     color: #FFF;
@@ -411,12 +411,12 @@
 }
 
 
-.bpm_albumtypes_types tbody tr {
+.fox_albumtypes_types tbody tr {
     border-top: 1px solid #f0f0f0;
     border-bottom: 1px solid #ebebeb;
 }
 
-.bpm_albumtypes_types tbody td {
+.fox_albumtypes_types tbody td {
 
     border-right: 0px solid #dedede;
     padding: 0px 5px;
@@ -425,18 +425,18 @@
 
 }
 
-.bpm_albumtypes_types .even {
+.fox_albumtypes_types .even {
     background-color: #eef2ff; /*eef2ff*/
 }
 
-.bpm_albumtypes_types .odd {
+.fox_albumtypes_types .odd {
     background-color: #fff;
 }
 
 /* ================================================================================================ */
 
 
-.bpm_albumtypes_button, input.bpm_albumtypes_button {
+.fox_albumtypes_button, input.fox_albumtypes_button {
 	text-decoration: none;
 	font-size: 11px !important;
 	line-height: 13px;
@@ -455,14 +455,14 @@
 	margin: 0px 0px 0px 10px;
 }
 
-a.bpm_albumtypes_button {
+a.fox_albumtypes_button {
 	line-height: 15px;
 	padding: 3px 10px;
 	white-space: nowrap;
 	-webkit-border-radius: 10px;
 }
 
-input.bpm_albumtypes_button, button.bpm_albumtypes_button, a.bpm_albumtypes_button {
+input.fox_albumtypes_button, button.fox_albumtypes_button, a.fox_albumtypes_button {
 	border-color: #298cba;
 	font-weight: bold;
 	color: #fff;
@@ -470,19 +470,19 @@ input.bpm_albumtypes_button, button.bpm_albumtypes_button, a.bpm_albumtypes_butt
 	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
 }
 
-input.bpm_albumtypes_button:active, button.bpm_albumtypes_button:active, a.bpm_albumtypes_button:active {
+input.fox_albumtypes_button:active, button.fox_albumtypes_button:active, a.fox_albumtypes_button:active {
 	background: #21759b url(../images/button-grad-active.png) repeat-x scroll left top;
 	color: #eaf2fa;
 }
 
-input.bpm_albumtypes_button:hover, button.bpm_albumtypes_button:hover, a.bpm_albumtypes_button:hover,
-a.bpm_albumtypes_button_new:focus, a.bpm_albumtypes_button:active {
+input.fox_albumtypes_button:hover, button.fox_albumtypes_button:hover, a.fox_albumtypes_button:hover,
+a.fox_albumtypes_button_new:focus, a.fox_albumtypes_button:active {
 	border-color: #13455b;
 	color: #ffff33;
 }
 
 
-.bpm_albumtypes_button-disabled, .bpm_albumtypes_button[disabled], .bpm_albumtypes_button:disabled {
+.fox_albumtypes_button-disabled, .fox_albumtypes_button[disabled], .fox_albumtypes_button:disabled {
 	color: #9FD0D5 !important;
 	background: #298CBA !important;
 }

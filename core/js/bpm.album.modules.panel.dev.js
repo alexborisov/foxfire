@@ -4,7 +4,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -12,7 +12,7 @@
  * ========================================================================================================
  */
 
-function bpm_albumModules_types(moduleID) {
+function fox_albumModules_types(moduleID) {
 
 
 	// Apply initial striping to rows
@@ -59,15 +59,15 @@ function bpm_albumModules_types(moduleID) {
 
 	jQuery("#panel_create").dialog(panelCreateOpts);
 
-	jQuery(".bpm_albumtype_list .new_albumtype .bpm_button").click( function() {
+	jQuery(".fox_albumtype_list .new_albumtype .fox_button").click( function() {
 
 	    jQuery.ajax({
 		type: 'POST',
 		url: ajaxurl,
 		data: {
-		    'action':'bpm_admin_getDialog',
+		    'action':'fox_admin_getDialog',
 		    'tree_name':'page_album_modules',
-		    'class_name':'BPM_admin_ajaxDialogs',
+		    'class_name':'FOX_admin_ajaxDialogs',
 		    'method_name':'panelCreate',
 		    'params':	{   'module_id': moduleID
 				}
@@ -91,15 +91,15 @@ function bpm_albumModules_types(moduleID) {
 
 	jQuery(".item .header .actions .buttons .edit ").click( function() {
 
-	    var type_id = jQuery(this).closest(".item").attr('bpm_type_id');
+	    var type_id = jQuery(this).closest(".item").attr('fox_type_id');
 
 	    jQuery.ajax({
 		type: 'POST',
 		url: ajaxurl,
 		data: {
-		    'action':'bpm_admin_getDialog',
+		    'action':'fox_admin_getDialog',
 		    'tree_name':'page_album_modules',
-		    'class_name':'BPM_admin_ajaxDialogs',
+		    'class_name':'FOX_admin_ajaxDialogs',
 		    'method_name':'panelEdit',
 		    'params':	{   'module_id': moduleID,
 				    'type_id': type_id
@@ -125,15 +125,15 @@ function bpm_albumModules_types(moduleID) {
 
 	jQuery(".item .header .actions .buttons .delete").click( function() {
 
-	    var type_id = jQuery(this).closest(".item").attr('bpm_type_id');
+	    var type_id = jQuery(this).closest(".item").attr('fox_type_id');
 
 	    jQuery.ajax({
 		type: 'POST',
 		url: ajaxurl,
 		data: {
-		    'action':'bpm_admin_getDialog',
+		    'action':'fox_admin_getDialog',
 		    'tree_name':'page_album_modules',
-		    'class_name':'BPM_admin_ajaxDialogs',
+		    'class_name':'FOX_admin_ajaxDialogs',
 		    'method_name':'panelDelete',
 		    'params':	{   'module_id': moduleID,
 				    'type_id': type_id
@@ -183,15 +183,15 @@ function bpm_albumModules_types(moduleID) {
 
 	jQuery("#row_create").dialog(rowCreateOpts);
 
-	jQuery(".bpm_albumtype_list .item .level_panel .new_level .bpm_button").click( function() {
+	jQuery(".fox_albumtype_list .item .level_panel .new_level .fox_button").click( function() {
 
 	    jQuery.ajax({
 		type: 'POST',
 		url: ajaxurl,
 		data: {
-		    'action':'bpm_admin_getDialog',
+		    'action':'fox_admin_getDialog',
 		    'tree_name':'page_album_modules',
-		    'class_name':'BPM_admin_ajaxDialogs',
+		    'class_name':'FOX_admin_ajaxDialogs',
 		    'method_name':'rowCreate',
 		    'params':	{   'module_id': moduleID
 				}
@@ -215,16 +215,16 @@ function bpm_albumModules_types(moduleID) {
 
 	jQuery(".item .level_panel .level_list_wrap ul.level_list .level_row .actions .edit").click( function() {
 
-	    var type_id = jQuery(this).closest(".item").attr('bpm_type_id');
-	    var level_id = jQuery(this).closest(".level_row").attr('bpm_level_id');
+	    var type_id = jQuery(this).closest(".item").attr('fox_type_id');
+	    var level_id = jQuery(this).closest(".level_row").attr('fox_level_id');
 
 	    jQuery.ajax({
 		type: 'POST',
 		url: ajaxurl,
 		data: {
-		    'action':'bpm_admin_getDialog',
+		    'action':'fox_admin_getDialog',
 		    'tree_name':'page_album_modules',
-		    'class_name':'BPM_admin_ajaxDialogs',
+		    'class_name':'FOX_admin_ajaxDialogs',
 		    'method_name':'rowEdit',
 		    'params':	{   'module_id': moduleID,
 				    'type_id': type_id,
@@ -250,16 +250,16 @@ function bpm_albumModules_types(moduleID) {
 
 	jQuery(".item .level_panel .level_list_wrap ul.level_list .level_row .actions .delete").click( function() {
 
-	    var type_id = jQuery(this).closest(".item").attr('bpm_type_id');
-	    var level_id = jQuery(this).closest(".level_row").attr('bpm_level_id');
+	    var type_id = jQuery(this).closest(".item").attr('fox_type_id');
+	    var level_id = jQuery(this).closest(".level_row").attr('fox_level_id');
 
 	    jQuery.ajax({
 		type: 'POST',
 		url: ajaxurl,
 		data: {
-		    'action':'bpm_admin_getDialog',
+		    'action':'fox_admin_getDialog',
 		    'tree_name':'page_album_modules',
-		    'class_name':'BPM_admin_ajaxDialogs',
+		    'class_name':'FOX_admin_ajaxDialogs',
 		    'method_name':'rowDelete',
 		    'params':	{   'module_id': moduleID,
 				    'type_id': type_id,
@@ -285,7 +285,7 @@ function bpm_albumModules_types(moduleID) {
 
 	jQuery(".item .footer .action").click( function() {
 
-	    var type_id = jQuery(this).attr('bpm_type_id');
+	    var type_id = jQuery(this).attr('fox_type_id');
 
 	    if(jQuery(this).closest(".footer").children(".openCloseIdentifier").is(":hidden")){
 
@@ -326,7 +326,7 @@ function bpm_albumModules_types(moduleID) {
 		// Post AJAX request to server
 
 		var sorted = jQuery(this).sortable('toArray');
-		var type_id = jQuery(this).attr('bpm_type_id');
+		var type_id = jQuery(this).attr('fox_type_id');
 
 		jQuery.ajax({
 

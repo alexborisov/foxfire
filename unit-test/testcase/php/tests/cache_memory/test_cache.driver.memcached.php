@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Unit Test
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -22,7 +22,7 @@ class core_mCache_driver_memcached_ops_basic extends RAZ_testCase {
 		
 		parent::setUp();
 	
-		$this->cls = new BPM_mCache_driver_memcached();
+		$this->cls = new FOX_mCache_driver_memcached();
 		
 		// Force class to use 'basic' mode
 		$this->cls->use_full = false;
@@ -693,7 +693,7 @@ class core_mCache_driver_memcached_ops_basic extends RAZ_testCase {
 //		
 //		parent::setUp();
 //	
-//		$this->cls = new BPM_mCache_driver_memcached();
+//		$this->cls = new FOX_mCache_driver_memcached();
 //		
 //		// Force class to use 'full' mode
 //		
@@ -719,7 +719,7 @@ class core_mCache_driver_memcached_ops_basic extends RAZ_testCase {
 //		
 //		parent::setUp();
 //	
-//		$this->cls = new BPM_mCache_driver_memcached();
+//		$this->cls = new FOX_mCache_driver_memcached();
 //		
 //		// Force class to use 'basic' mode
 //		
@@ -746,7 +746,7 @@ class core_mCache_driver_memcached_classFunctions_basic extends RAZ_testCase {
 		
 		parent::setUp();
 	
-		$this->cls = new BPM_mCache_driver_memcached();
+		$this->cls = new FOX_mCache_driver_memcached();
 		
 		// Force class to use 'basic' mode
 		$this->cls->use_full = false;
@@ -1157,7 +1157,7 @@ class core_mCache_driver_memcached_classFunctions_basic extends RAZ_testCase {
 		try {
 			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1') );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			// Should throw exception #4 - Already locked
 			$this->assertEquals(4, $child->data['numeric']);;		    
@@ -1170,7 +1170,7 @@ class core_mCache_driver_memcached_classFunctions_basic extends RAZ_testCase {
 		try {
 			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1') );
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
 			// Should throw exception #2 - Namespace locked
 			$this->assertEquals(2, $child->data['numeric']);;		    
@@ -1354,7 +1354,7 @@ class core_mCache_driver_memcached_classFunctions_basic extends RAZ_testCase {
 				try {
 					$cache_result = $this->cls->readCachePage( array('namespace'=>$item['ns'], 'pages'=>$item['var']) ); 
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
 					// Should throw exception #2 - Namespace locked
 					$this->assertEquals(2, $child->data['numeric']);
@@ -1395,7 +1395,7 @@ class core_mCache_driver_memcached_classFunctions_basic extends RAZ_testCase {
 		try {
 			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>$page_names_a) ); 
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			// Should throw exception #2 - One or more pages locked
 			$this->assertEquals(2, $child->data['numeric']);
@@ -1408,7 +1408,7 @@ class core_mCache_driver_memcached_classFunctions_basic extends RAZ_testCase {
 		try {
 			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>$page_names_b) ); 
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
 			// Should throw exception #2 - One or more pages locked
 			$this->assertEquals(2, $child->data['numeric']);
@@ -1472,7 +1472,7 @@ class core_mCache_driver_memcached_classFunctions_basic extends RAZ_testCase {
 //		
 //		parent::setUp();
 //	
-//		$this->cls = new BPM_mCache_driver_memcached();
+//		$this->cls = new FOX_mCache_driver_memcached();
 //		
 //		// Force class to use 'basic' mode
 //		$this->cls->use_full = true;
@@ -1498,7 +1498,7 @@ class core_mCache_driver_memcached_classFunctions_basic extends RAZ_testCase {
 //		
 //		parent::setUp();
 //	
-//		$this->cls = new BPM_mCache_driver_memcached();
+//		$this->cls = new FOX_mCache_driver_memcached();
 //		
 //		// Force class to use 'portable' mode
 //		$this->cls->use_full = false;

@@ -6,15 +6,15 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_cast {
+class FOX_cast {
 
 
 	/**
@@ -126,7 +126,7 @@ class BPM_cast {
 
 				$class_name = get_class($this);
 			
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Called with missing or invalid out_type",
 					'data'=>array("class_name"=>$class_name, "value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
@@ -280,7 +280,7 @@ class BPM_cast {
 
 				$class_name = get_class($this);
 			
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Called with missing or invalid out_type",
 					'data'=>array("class_name"=>$class_name, "value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
@@ -385,7 +385,7 @@ class BPM_cast {
 			    
 				$class_name = get_class($this);
 			
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Called with missing or invalid format",
 					'data'=>array("class_name"=>$class_name, "format"=>$format),
@@ -401,6 +401,6 @@ class BPM_cast {
 	}
 	
 	
-} // End of class BPM_cast
+} // End of class FOX_cast
 
 ?>

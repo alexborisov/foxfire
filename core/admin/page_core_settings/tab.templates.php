@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -20,7 +20,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 
 // ============================================================================================================ //
 
-class BPM_tab_templates {
+class FOX_tab_templates {
 
 
 	/**
@@ -36,16 +36,16 @@ class BPM_tab_templates {
 
 	 function render() {
 
-		global $bpm;
+		global $fox;
 
 		?>
 		<!-- Begin Path settings -->
 
 		<form name="pathsform" method="POST" action="<?php echo $this->filepath.'#paths'; ?>" >
 
-		    <?php wp_nonce_field('bpm_admin_settings') ?>
+		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $bpm->config->initKeysArray(); ?>
+		    <?php $fox->config->initKeysArray(); ?>
 
 		    <?php // This block of duplicate code allows the section to be moved around without breaking "locking" functionality ?>
 		    <?php ////////////////////////////////////////////////////////////////////////////////////////////////////////////// ?>
@@ -66,75 +66,75 @@ class BPM_tab_templates {
 
 		    <div class="panel_section w35">
 
-			<div class="title"><?php _e('Featured Media',"bp-media") ?> </div>
+			<div class="title"><?php _e('Featured Media',"foxfire") ?> </div>
 
-			<div class="bpm_section_advice">
-			    <?php _e('Thumbnail images | 25 to 200 hits per pageview | Low latency is very important.',"bp-media") ?>
+			<div class="fox_section_advice">
+			    <?php _e('Thumbnail images | 25 to 200 hits per pageview | Low latency is very important.',"foxfire") ?>
 			</div>
 
 			<table class="form-table">
 
 				<tr>
-				    <th valign="top"><?php _e('Cache mode',"bp-media") ?></th>
+				    <th valign="top"><?php _e('Cache mode',"foxfire") ?></th>
 				    <td>
 					<label class="bpa-lockable-field">
 					    <input type="radio" value="global"
 						<?php echo $locked; ?>
-						<?php $bpm->config->printKeyName("cache", "L1", "mode"); ?>
-						<?php checked('global', $bpm->config->getKeyVal("cache", "L1", "mode") ); ?> />
-						<?php _e('Site wide', "bp-media" ) ?> &nbsp;
+						<?php $fox->config->printKeyName("cache", "L1", "mode"); ?>
+						<?php checked('global', $fox->config->getKeyVal("cache", "L1", "mode") ); ?> />
+						<?php _e('Site wide', "foxfire" ) ?> &nbsp;
 					</label>
 
 					<label class="bpa-lockable-field">
 					    <input type="radio" value="single"
 						<?php echo $locked; ?>
-						<?php $bpm->config->printKeyName("cache", "L1", "mode"); ?>
-						<?php checked('single', $bpm->config->getKeyVal("cache", "L1", "mode") ); ?> />
-						<?php _e('Individual blogs', "bp-media" ) ?> &nbsp;
+						<?php $fox->config->printKeyName("cache", "L1", "mode"); ?>
+						<?php checked('single', $fox->config->getKeyVal("cache", "L1", "mode") ); ?> />
+						<?php _e('Individual blogs', "foxfire" ) ?> &nbsp;
 					</label> <?php echo $lock_status; ?> <br />
 				    </td>
 				</tr>
 
 				<tr valign="top">
-				    <th align="left"><?php _e('Site mode folder path',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Site mode folder path',"foxfire"); ?></th>
 				    <td>
 					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
 					       <?php echo $locked; ?>
-					       <?php $bpm->config->printKeyName("cache", "L1", "siteFolder"); ?>
-					       <?php $bpm->config->printKeyVal("cache", "L1", "siteFolder"); ?> />
+					       <?php $fox->config->printKeyName("cache", "L1", "siteFolder"); ?>
+					       <?php $fox->config->printKeyVal("cache", "L1", "siteFolder"); ?> />
 					       <?php echo $lock_status; ?>
 				    </td>
 				</tr>
 
 				<tr valign="top">
-				    <th align="left"><?php _e('Site mode folder URL',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Site mode folder URL',"foxfire"); ?></th>
 				    <td>
 					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
 					       <?php echo $locked; ?>
-					       <?php $bpm->config->printKeyName("cache", "L1", "siteURI"); ?>
-					       <?php $bpm->config->printKeyVal("cache", "L1", "siteURI"); ?> />
+					       <?php $fox->config->printKeyName("cache", "L1", "siteURI"); ?>
+					       <?php $fox->config->printKeyVal("cache", "L1", "siteURI"); ?> />
 					       <?php echo $lock_status; ?>
 				    </td>
 				</tr>
 
 				<tr valign="top">
-				    <th align="left"><?php _e('Blog mode folder offset',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Blog mode folder offset',"foxfire"); ?></th>
 				    <td>
 					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
 					       <?php echo $locked; ?>
-					       <?php $bpm->config->printKeyName("cache", "L1", "blogFolderOffset"); ?>
-					       <?php $bpm->config->printKeyVal("cache", "L1", "blogFolderOffset"); ?> />
+					       <?php $fox->config->printKeyName("cache", "L1", "blogFolderOffset"); ?>
+					       <?php $fox->config->printKeyVal("cache", "L1", "blogFolderOffset"); ?> />
 					       <?php echo $lock_status; ?>
 				    </td>
 				</tr>
 
 				<tr valign="top">
-				    <th align="left"><?php _e('Blog mode URL offset',"bp-media"); ?></th>
+				    <th align="left"><?php _e('Blog mode URL offset',"foxfire"); ?></th>
 				    <td>
 					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
 					       <?php echo $locked; ?>
-					       <?php $bpm->config->printKeyName("cache", "L1", "blogURIOffset"); ?>
-					       <?php $bpm->config->printKeyVal("cache", "L1", "blogURIOffset"); ?> />
+					       <?php $fox->config->printKeyName("cache", "L1", "blogURIOffset"); ?>
+					       <?php $fox->config->printKeyVal("cache", "L1", "blogURIOffset"); ?> />
 					       <?php echo $lock_status; ?>
 				    </td>
 				</tr>
@@ -143,10 +143,10 @@ class BPM_tab_templates {
 		    </div>
 
 
-		    <?php $bpm->config->printKeysArray(); ?>
+		    <?php $fox->config->printKeysArray(); ?>
 
-		    <div class="bpm_submit_h_panel_wrap">
-			<div class="submit"><input class="bpm-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
+		    <div class="fox_submit_h_panel_wrap">
+			<div class="submit"><input class="fox-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
 		    </div>
 
 		</form>
@@ -180,6 +180,6 @@ class BPM_tab_templates {
 	}
 
 
- } // End of class BPM_tab_templates
+ } // End of class FOX_tab_templates
 
 ?>

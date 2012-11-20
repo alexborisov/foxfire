@@ -2,14 +2,14 @@
 
 /**
  * BP-MEDIA AJAX ROUTERS
- * This file contains all of BP-Media's AJAX routers. They determine which handler an AJAX request gets
+ * This file contains all of FoxFire's AJAX routers. They determine which handler an AJAX request gets
  * routed to when it is passed to us by WordPress. Unlike the rest of the plugin, these functions have to
  * be defined procedurally (as opposed to being methods in a class) because we have to be able to attach
  * individual functions to the various WordPress JS hook functions.
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage AJAX
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -27,7 +27,7 @@
  * @return string | 'OK' on success. 'FAIL' on failure.
  */
 
- function bpm_ajax_admin_albumTypesLevelSort($unit_test=false) {
+ function fox_ajax_admin_albumTypesLevelSort($unit_test=false) {
 
 	// Block non-admin users from running this function
 	if( !is_super_admin() ){
@@ -63,7 +63,7 @@
 	
 	// Update database
 	// ==================================================
-	$cls = new BPM_albumTypeLevel();
+	$cls = new FOX_albumTypeLevel();
 	
 	try {
 	    
@@ -79,7 +79,7 @@
 		}		
 	
 	}
-	catch (BPM_exception $fail) {
+	catch (FOX_exception $fail) {
 	    
 		if(!$unit_test){
 		    
@@ -94,11 +94,11 @@
 
  
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_admin_albumTypesLevelSort', 'bpm_ajax_admin_albumTypesLevelSort');
+ add_action('wp_ajax_admin_albumTypesLevelSort', 'fox_ajax_admin_albumTypesLevelSort');
 
 
 /**
- * Processes modal dialog forms on bpm admin pages
+ * Processes modal dialog forms on fox admin pages
  *
  * @version 0.1.9
  * @since 0.1.9
@@ -106,14 +106,14 @@
  * @return string | Rendered HTML to display in form
  */
 
- function bpm_ajax_admin_getDialog($unit_test=false) {
+ function fox_ajax_admin_getDialog($unit_test=false) {
 
 	// Block non-admin users from running this function
 	if( !is_super_admin() ){
 		    die;
 	}
 		
-	$san = new BPM_sanitize();
+	$san = new FOX_sanitize();
 
 	// Grab names from the $_POST array and sanitize them
 	
@@ -124,10 +124,10 @@
 		$tree_name = $san->classOrFunction($_POST['tree_name'], $ctrl=null);
 	
 	}
-	catch (BPM_exception $fail) {
+	catch (FOX_exception $fail) {
 	    
 		if(!$unit_test){
-			echo "bpm_ajax_admin_getDialog called with bad or missing tree name. Error: " . $fail->getAsText();
+			echo "fox_ajax_admin_getDialog called with bad or missing tree name. Error: " . $fail->getAsText();
 			die;
 		}
 		else {
@@ -142,10 +142,10 @@
 		$class_name = $san->classOrFunction($_POST['class_name'], $ctrl=null);
 	
 	}
-	catch (BPM_exception $fail) {
+	catch (FOX_exception $fail) {
 	    
 		if(!$unit_test){
-			echo "bpm_ajax_admin_getDialog called with bad or missing class name. Error: " . $fail->getAsText();
+			echo "fox_ajax_admin_getDialog called with bad or missing class name. Error: " . $fail->getAsText();
 			die;
 		}
 		else {
@@ -160,10 +160,10 @@
 		$method_name = $san->classOrFunction($_POST['method_name'], $ctrl=null);
 	
 	}
-	catch (BPM_exception $fail) {
+	catch (FOX_exception $fail) {
 	    
 		if(!$unit_test){
-			echo "bpm_ajax_admin_getDialog called with bad or missing method name. Error: " . $fail->getAsText();
+			echo "fox_ajax_admin_getDialog called with bad or missing method name. Error: " . $fail->getAsText();
 			die;
 		}
 		else {
@@ -173,7 +173,7 @@
 
 
 	// Include the class file
-	require ( BPM_PATH_CORE . "/admin/" . $tree_name . '/ajax.dialogs.php' );
+	require ( FOX_PATH_CORE . "/admin/" . $tree_name . '/ajax.dialogs.php' );
 
 	// Instantiate the class, then call the method, passing the params array
 	$cls = new $class_name();
@@ -190,11 +190,11 @@
 	
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_bpm_admin_getDialog', 'bpm_ajax_admin_getDialog');
+ add_action('wp_ajax_fox_admin_getDialog', 'fox_ajax_admin_getDialog');
 
 
 /**
- * Processes data sent back via modal dialog forms on bpm admin pages
+ * Processes data sent back via modal dialog forms on fox admin pages
  *
  * @version 0.1.9
  * @since 0.1.9
@@ -202,21 +202,21 @@
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */
 
- function bpm_ajax_admin_putDialog($unit_test=false) {
+ function fox_ajax_admin_putDialog($unit_test=false) {
 
 	// Block non-admin users from running this function
 	if( !is_super_admin() ){
 		    die;
 	}
 
-	$san = new BPM_sanitize();
+	$san = new FOX_sanitize();
 
 	// Grab the tree, class, and method names from the $_POST array and sanitize them
 	
 	try {		
 		$tree_name = $san->classOrFunction($_POST['tree_name'], $ctrl=null);	
 	}
-	catch (BPM_exception $child) {
+	catch (FOX_exception $child) {
 	    
 		if(!$unit_test){
 		    
@@ -233,7 +233,7 @@
 	try {		
 		$class_name = $san->classOrFunction($_POST['class_name'], $ctrl=null);	
 	}
-	catch (BPM_exception $child) {
+	catch (FOX_exception $child) {
 	    
 		if(!$unit_test){
 		    
@@ -250,7 +250,7 @@
 	try {		
 		$method_name = $san->classOrFunction($_POST['method_name'], $ctrl=null);	
 	}
-	catch (BPM_exception $child) {
+	catch (FOX_exception $child) {
 	    
 		if(!$unit_test){
 		    
@@ -265,8 +265,8 @@
 	}	
 	
 	// Include the class file
-	require ( BPM_PATH_CORE . "/admin/" . $tree_name . '/ajax.dialogs.php' );
-	require ( BPM_PATH_CORE . "/admin/" . $tree_name . '/ajax.handlers.php' );
+	require ( FOX_PATH_CORE . "/admin/" . $tree_name . '/ajax.dialogs.php' );
+	require ( FOX_PATH_CORE . "/admin/" . $tree_name . '/ajax.handlers.php' );
 
 	// Instantiate the class, then call the method, passing the params array
 	$cls = new $class_name();
@@ -283,11 +283,11 @@
 
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_bpm_admin_putDialog', 'bpm_ajax_admin_putDialog');
+ add_action('wp_ajax_fox_admin_putDialog', 'fox_ajax_admin_putDialog');
 
 
 /**
- * Checks if a WP page is in use by BP-Media or BuddyPress
+ * Checks if a WP page is in use by FoxFire or BuddyPress
  *
  * @version 0.1.9
  * @since 0.1.9
@@ -295,7 +295,7 @@
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */
 
- function bpm_ajax_admin_checkPageStatus($unit_test=false) {
+ function fox_ajax_admin_checkPageStatus($unit_test=false) {
 
 
 	// Block non-admin users from running this function
@@ -303,7 +303,7 @@
 		    die;
 	}
 
-	$san = new BPM_sanitize();
+	$san = new FOX_sanitize();
 
 	// Grab variables from the $_POST array and sanitize them
 	$page_id = $san->int($_POST['page_id'], $ctrl=null, $page_ok, $page_error);
@@ -311,7 +311,7 @@
 	try {		
 		$page_id = $san->int($_POST['page_id'], $ctrl=null);
 	}
-	catch (BPM_exception $child) {
+	catch (FOX_exception $child) {
 	    
 		if(!$unit_test){
 		    
@@ -325,7 +325,7 @@
 		}	    	    
 	}	
 
-	$cls = new BPM_bp();
+	$cls = new FOX_bp();
 	$page_data = $cls->getPageOwner($page_id);
 
 	$result = json_encode($page_data);
@@ -341,11 +341,11 @@
 
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_admin_checkPageStatus', 'bpm_ajax_admin_checkPageStatus');
+ add_action('wp_ajax_admin_checkPageStatus', 'fox_ajax_admin_checkPageStatus');
 
 
 /**
- * Checks if a slug is in use by BP-Media
+ * Checks if a slug is in use by FoxFire
  *
  * @version 0.1.9
  * @since 0.1.9
@@ -353,7 +353,7 @@
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */
 
- function bpm_ajax_admin_checkSlugStatus($unit_test=false) {
+ function fox_ajax_admin_checkSlugStatus($unit_test=false) {
 
 
 	// Block non-admin users from running this function
@@ -361,12 +361,12 @@
 		    die;
 	}
 
-	$san = new BPM_sanitize();
+	$san = new FOX_sanitize();
 
 	try {		
 		$slug = $san->slug($_POST['slug'], $ctrl=null);
 	}
-	catch (BPM_exception $child) {
+	catch (FOX_exception $child) {
 	    
 		if(!$unit_test){
 		    
@@ -384,7 +384,7 @@
 	try {		
 		$location = $san->slug($_POST['location'], $ctrl=null);
 	}
-	catch (BPM_exception $child) {
+	catch (FOX_exception $child) {
 	    
 		if(!$unit_test){
 		    
@@ -398,7 +398,7 @@
 		}	    	    
 	}
 
-	$cls = new BPM_bp();
+	$cls = new FOX_bp();
 	$page_data = $cls->getSlugOwner($location, $slug);
 
 	$result = json_encode($page_data);
@@ -415,7 +415,7 @@
 
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_admin_checkSlugStatus', 'bpm_ajax_admin_checkSlugStatus');
+ add_action('wp_ajax_admin_checkSlugStatus', 'fox_ajax_admin_checkSlugStatus');
 
 
 /**
@@ -427,7 +427,7 @@
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */
 
- function bpm_ajax_admin_selfTest($unit_test=false) {
+ function fox_ajax_admin_selfTest($unit_test=false) {
 
 
 	// Block non-admin users from running this function
@@ -435,7 +435,7 @@
 		    die;
 	}
 
-	$result = BPM_uTest::run();
+	$result = FOX_uTest::run();
 
 	// Return response
 	if(!$unit_test){
@@ -448,7 +448,7 @@
 
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_admin_selfTest', 'bpm_ajax_admin_selfTest');
+ add_action('wp_ajax_admin_selfTest', 'fox_ajax_admin_selfTest');
  
  
 /**
@@ -460,11 +460,11 @@
  * @return bool/int/string/array $echo | Response varies with form and the module that owns it
  */
 
- function bpm_ajax_testData() {
+ function fox_ajax_testData() {
 
 	// Return response echo 
 
-	$cls = new BPM_wp();
+	$cls = new FOX_wp();
 	$cls->setRequestStatus(200);
 	
 	header('Content-Type: text/javascript');
@@ -501,6 +501,6 @@
 
 	
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_testData', 'bpm_ajax_testData'); 
+ add_action('wp_ajax_testData', 'fox_ajax_testData'); 
 
 ?>

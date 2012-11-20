@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_sUtil {
+class FOX_sUtil {
 
 
 	private function  __construct() {}
@@ -80,7 +80,7 @@ class BPM_sUtil {
 
 		if( !is_array($walk) ){
 
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Walk is not a valid array",
 				'data'=>array( "walk"=>$walk, "tree"=>$tree),
@@ -92,7 +92,7 @@ class BPM_sUtil {
 
 		if( !is_array($tree) ){
 
-			throw new BPM_exception(array(
+			throw new FOX_exception(array(
 				'numeric'=>2,
 				'text'=>"Tree is not a valid array",
 				'data'=>array( "walk"=>$walk, "tree"=>$tree),
@@ -439,7 +439,7 @@ class BPM_sUtil {
 	public static function ini_get_bytes ( $varname ) {
 
 		$val = ini_get( $varname );
-		$result = BPM_math::formattedSizeToBytes( $val );
+		$result = FOX_math::formattedSizeToBytes( $val );
 
 		return $result;
 	}
@@ -632,12 +632,12 @@ class BPM_sUtil {
 
 	    
 		if ( ! wp_mkdir_p( dirname( $file_path ) ) )
-			return new WP_Error( 'bp_media:filesystem:cannot_create_dir', sprintf( __('Cannot create the directory %s.',"bp-media"), dirname( $file_path ) ) );
+			return new WP_Error( 'bp_media:filesystem:cannot_create_dir', sprintf( __('Cannot create the directory %s.',"foxfire"), dirname( $file_path ) ) );
 
 		$handle = @fopen($file_path, 'wb');
 
 		if ( ! $handle )
-			return new WP_Error( 'bp_media:filesystem:cannot_create_file', sprintf( __('Cannot create the file %s.',"bp-media"), $file_path ) );
+			return new WP_Error( 'bp_media:filesystem:cannot_create_file', sprintf( __('Cannot create the file %s.',"foxfire"), $file_path ) );
 
 		return $handle;
 		
@@ -685,7 +685,7 @@ class BPM_sUtil {
 
 
 	/**
-	 * Converts one or more filepaths based in the BPM plugin folder to a URL that
+	 * Converts one or more filepaths based in the FOX plugin folder to a URL that
 	 * can be accessed via a web server URL
 	 *
 	 * @param string/array $paths | Single path as string. Multiple paths as array of strings.
@@ -696,13 +696,13 @@ class BPM_sUtil {
 
 		if( is_string($paths) ){
 
-			$paths = str_replace(BPM_PATH_BASE, BPM_URL_BASE, $paths);
+			$paths = str_replace(FOX_PATH_BASE, FOX_URL_BASE, $paths);
 		}
 		else {
 
 			foreach($paths as $key => $path){
 
-				$paths[$key] = str_replace(BPM_PATH_BASE, BPM_URL_BASE, $path);
+				$paths[$key] = str_replace(FOX_PATH_BASE, FOX_URL_BASE, $path);
 			}
 		}
 
@@ -712,6 +712,6 @@ class BPM_sUtil {
 
 
 	
-} // End of class BPM_sUtil
+} // End of class FOX_sUtil
 
 ?>

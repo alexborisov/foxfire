@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin JS
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -21,7 +21,7 @@
  * @since 0.1.9
  */
 
-function bpm_admin_draggableChips(){
+function fox_admin_draggableChips(){
 
 
 	jQuery('.draggable_chip').draggable( {

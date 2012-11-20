@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Hash Table
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_trie {
+class FOX_trie {
 
 
 	public function __construct(){}
@@ -37,11 +37,11 @@ class BPM_trie {
 
 	    
 		try {
-			$cls = new BPM_trie_flatten($trie, $columns, $ctrl);
+			$cls = new FOX_trie_flatten($trie, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error creating iterator object",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -52,9 +52,9 @@ class BPM_trie {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error rendering to array",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -98,11 +98,11 @@ class BPM_trie {
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);
 		
 		try {
-			$cls = new BPM_trie_clip($trie, $columns, $ctrl);
+			$cls = new FOX_trie_clip($trie, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error creating iterator object",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -113,9 +113,9 @@ class BPM_trie {
 		try {
 			$result = $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error rendering to array",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -171,7 +171,7 @@ class BPM_trie {
 
 			foreach( $rows as $row ){
 
-				if(BPM_sUtil::keyExists($key, $row)){
+				if(FOX_sUtil::keyExists($key, $row)){
 
 					$temp[] = $row[$key];
 				}
@@ -253,7 +253,7 @@ class BPM_trie {
 
 				foreach($columns as $keyname){
 
-					if(BPM_sUtil::keyExists($keyname, $row)){
+					if(FOX_sUtil::keyExists($keyname, $row)){
 
 						$eval_str .= '["' . $row[$keyname] . '"]';						
 					}
@@ -340,7 +340,7 @@ class BPM_trie {
 
 				foreach($columns as $keyname){
 
-					if(BPM_sUtil::keyExists($keyname, $row)){
+					if(FOX_sUtil::keyExists($keyname, $row)){
 
 						$eval_str .= '["' . $hash_table->set($row[$keyname]) . '"]';							
 
@@ -369,6 +369,6 @@ class BPM_trie {
 
 
 	
-} // End of class BPM_trie
+} // End of class FOX_trie
 
 ?>

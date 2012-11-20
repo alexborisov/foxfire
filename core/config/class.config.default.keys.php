@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Config
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_config_defaultKeys {
+class FOX_config_defaultKeys {
     
     
 	var $config_class;		    // System config class
@@ -41,12 +41,12 @@ class BPM_config_defaultKeys {
 			$this->network_modules_class = &$args['network_modules_class'];
 		}
 		else {
-			global $bpm;			
-			$this->config_class = &$bpm->config;			
-			$this->page_modules_class = &$bpm->pageModules;
-			$this->album_modules_class = &$bpm->albumModules;
-			$this->media_modules_class = &$bpm->mediaModules;
-			$this->network_modules_class = &$bpm->networkModules;
+			global $fox;			
+			$this->config_class = &$fox->config;			
+			$this->page_modules_class = &$fox->pageModules;
+			$this->album_modules_class = &$fox->albumModules;
+			$this->media_modules_class = &$fox->mediaModules;
+			$this->network_modules_class = &$fox->networkModules;
 		}
 
 	}
@@ -70,7 +70,7 @@ class BPM_config_defaultKeys {
 		array('tree'=>'system',		'branch'=>'core',	'key'=>'version',	    'val'=>1900,	    'filter'=>'int',		'ctrl'=>null),
 		array('tree'=>'system',		'branch'=>'core',	'key'=>'releaseDate',	    'val'=>'2011-09-21',    'filter'=>'textAndNumbers', 'ctrl'=>null),
 		array('tree'=>'system',		'branch'=>'core',	'key'=>'buildName',	    'val'=>'Tesla',	    'filter'=>'textAndNumbers', 'ctrl'=>null),
-		array('tree'=>'integration',	'branch'=>'buddypress', 'key'=>'activityStreamID',  'val'=>'bpm',	    'filter'=>'textAndNumbers', 'ctrl'=>null)	
+		array('tree'=>'integration',	'branch'=>'buddypress', 'key'=>'activityStreamID',  'val'=>'fox',	    'filter'=>'textAndNumbers', 'ctrl'=>null)	
 
 		);	    
 		
@@ -79,9 +79,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -117,9 +117,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -168,9 +168,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -233,9 +233,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -281,9 +281,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -330,9 +330,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -378,9 +378,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -422,10 +422,10 @@ class BPM_config_defaultKeys {
 		array('tree'=>'activity', 'branch'=>'comment',	    'key'=>'disablePolicy',	'val'=>'delete',    'filter'=>'textAndNumbers',	'ctrl'=>null),	
 		array('tree'=>'activity', 'branch'=>'comment',	    'key'=>'friendPolicy',	'val'=>'all',	    'filter'=>'textAndNumbers', 'ctrl'=>null),
 		array('tree'=>'activity', 'branch'=>'comment',	    'key'=>'URLPolicy',		'val'=>'sanitize',  'filter'=>'textAndNumbers', 'ctrl'=>null),	
-		array('tree'=>'activity', 'branch'=>'bpmLike',	    'key'=>'enable',		'val'=>true,	    'filter'=>'bool',		'ctrl'=>null),
-		array('tree'=>'activity', 'branch'=>'bpmLike',	    'key'=>'friendPolicy',	'val'=>'all',	    'filter'=>'textAndNumbers', 'ctrl'=>null),	
-		array('tree'=>'activity', 'branch'=>'bpmLike',	    'key'=>'showOnPosts',	'val'=>true,	    'filter'=>'bool',		'ctrl'=>null),
-		array('tree'=>'activity', 'branch'=>'bpmLike',	    'key'=>'displayMaxTags',	'val'=>5,	    'filter'=>'int',		'ctrl'=>null)		    
+		array('tree'=>'activity', 'branch'=>'foxLike',	    'key'=>'enable',		'val'=>true,	    'filter'=>'bool',		'ctrl'=>null),
+		array('tree'=>'activity', 'branch'=>'foxLike',	    'key'=>'friendPolicy',	'val'=>'all',	    'filter'=>'textAndNumbers', 'ctrl'=>null),	
+		array('tree'=>'activity', 'branch'=>'foxLike',	    'key'=>'showOnPosts',	'val'=>true,	    'filter'=>'bool',		'ctrl'=>null),
+		array('tree'=>'activity', 'branch'=>'foxLike',	    'key'=>'displayMaxTags',	'val'=>5,	    'filter'=>'int',		'ctrl'=>null)		    
 		    
 		);
 		
@@ -434,9 +434,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -507,9 +507,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -550,9 +550,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -600,9 +600,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -649,9 +649,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -683,34 +683,34 @@ class BPM_config_defaultKeys {
 		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'maxInodes',		'val'=>'1000',									'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'maxMB',		'val'=>'5000',									'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'flushInterval',	'val'=>60,									'filter'=>'int',		'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'siteFolder',	'val'=> bp_media_upload_path() . '/bpm-cache/L0',				'filter'=>'fileStringLocal',	'ctrl'=>null), 	
-		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'siteURI',		'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/bpm-cache/L0'),	'filter'=>'fileStringLocal',	'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'blogFolderOffset',	'val'=>'/bpm-cache/L0',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'blogURIOffset',	'val'=>'/bpm-cache/L0',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'siteFolder',	'val'=> bp_media_upload_path() . '/fox-cache/L0',				'filter'=>'fileStringLocal',	'ctrl'=>null), 	
+		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'siteURI',		'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/fox-cache/L0'),	'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'blogFolderOffset',	'val'=>'/fox-cache/L0',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L0',	    'key'=>'blogURIOffset',	'val'=>'/fox-cache/L0',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'mode',		'val'=>'global',								'filter'=>'textAndNumbers',	'ctrl'=>null), 	
 		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'maxInodes',		'val'=>'2500',									'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'maxMB',		'val'=>'5000',									'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'flushInterval',	'val'=>60,									'filter'=>'int',		'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'siteFolder',	'val'=> bp_media_upload_path() . '/bpm-cache/L1',				'filter'=>'fileStringLocal',	'ctrl'=>null), 	
-		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'siteURI',		'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/bpm-cache/L1'),	'filter'=>'fileStringLocal',	'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'blogFolderOffset',	'val'=>'/bpm-cache/L1',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'blogURIOffset',	'val'=>'/bpm-cache/L1',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'siteFolder',	'val'=> bp_media_upload_path() . '/fox-cache/L1',				'filter'=>'fileStringLocal',	'ctrl'=>null), 	
+		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'siteURI',		'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/fox-cache/L1'),	'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'blogFolderOffset',	'val'=>'/fox-cache/L1',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L1',	    'key'=>'blogURIOffset',	'val'=>'/fox-cache/L1',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'mode',		'val'=>'global',								'filter'=>'textAndNumbers',	'ctrl'=>null), 	
 		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'maxInodes',		'val'=>'2500',									'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'maxMB',		'val'=>'50000',									'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'flushInterval',	'val'=>60,									'filter'=>'int',		'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'siteFolder',	'val'=> bp_media_upload_path() . '/bpm-cache/L2',				'filter'=>'fileStringLocal',	'ctrl'=>null), 	
-		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'siteURI',		'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/bpm-cache/L2'),	'filter'=>'fileStringLocal',	'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'blogFolderOffset',	'val'=>'/bpm-cache/L2',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'blogURIOffset',	'val'=>'/bpm-cache/L2',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'siteFolder',	'val'=> bp_media_upload_path() . '/fox-cache/L2',				'filter'=>'fileStringLocal',	'ctrl'=>null), 	
+		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'siteURI',		'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/fox-cache/L2'),	'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'blogFolderOffset',	'val'=>'/fox-cache/L2',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L2',	    'key'=>'blogURIOffset',	'val'=>'/fox-cache/L2',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'mode',		'val'=>'global',								'filter'=>'textAndNumbers',	'ctrl'=>null), 	
 		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'maxInodes',		'val'=>'2500',									'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'maxMB',		'val'=>'100000',								'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'flushInterval',	'val'=>60,									'filter'=>'int',		'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'siteFolder',	'val'=> bp_media_upload_path() . '/bpm-cache/L3',				'filter'=>'fileStringLocal',	'ctrl'=>null), 	
-		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'siteURI',		'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/bpm-cache/L3'),	'filter'=>'fileStringLocal',	'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'blogFolderOffset',	'val'=>'/bpm-cache/L3',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'blogURIOffset',	'val'=>'/bpm-cache/L3',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'siteFolder',	'val'=> bp_media_upload_path() . '/fox-cache/L3',				'filter'=>'fileStringLocal',	'ctrl'=>null), 	
+		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'siteURI',		'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/fox-cache/L3'),	'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'blogFolderOffset',	'val'=>'/fox-cache/L3',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L3',	    'key'=>'blogURIOffset',	'val'=>'/fox-cache/L3',								'filter'=>'fileStringLocal',	'ctrl'=>null), 
 		    			   		    
 		);
 		
@@ -719,9 +719,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -753,10 +753,10 @@ class BPM_config_defaultKeys {
 		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'maxInodes',	    'val'=>'0',		'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'maxMB',		    'val'=>'0',		'filter'=>'float',		'ctrl'=>null), 
 		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'flushInterval',	    'val'=>0,		'filter'=>'int',		'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'siteFolder',	    'val'=> bp_media_upload_path() . '/bp-media', 'filter'=>'fileStringLocal', 'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'siteURI',	    'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/bp-media'), 'filter'=>'fileStringLocal', 'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'blogFolderOffset',   'val'=>'/bp-media', 'filter'=>'fileStringLocal',	'ctrl'=>null), 
-		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'blogURIOffset',	    'val'=>'/bp-media', 'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'siteFolder',	    'val'=> bp_media_upload_path() . '/foxfire', 'filter'=>'fileStringLocal', 'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'siteURI',	    'val'=> bp_media_get_url_from_path( bp_media_upload_path() . '/foxfire'), 'filter'=>'fileStringLocal', 'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'blogFolderOffset',   'val'=>'/foxfire', 'filter'=>'fileStringLocal',	'ctrl'=>null), 
+		array('tree'=>'cache', 'branch'=>'L4', 'key'=>'blogURIOffset',	    'val'=>'/foxfire', 'filter'=>'fileStringLocal',	'ctrl'=>null), 
 		    
 		);
 		
@@ -765,9 +765,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -800,7 +800,7 @@ class BPM_config_defaultKeys {
 		array('tree'=>'albums',	    'branch'=>'templates',  'key'=>'thumbSize',		    'val'=>'tile',	'filter'=>'textAndNumbers', 'ctrl'=>null), 
 		array('tree'=>'media',	    'branch'=>'templates',  'key'=>'thumbSize',		    'val'=>'tile',	'filter'=>'textAndNumbers', 'ctrl'=>null),
 		array('tree'=>'media',	    'branch'=>'templates',  'key'=>'singleSize',	    'val'=>'middle',	'filter'=>'textAndNumbers', 'ctrl'=>null), 
-		array('tree'=>'media',	    'branch'=>'templates',  'key'=>'pathEmptyAlbumImage',   'val'=> WP_CONTENT_DIR . '/plugins/bp-media/core/images/default_image_thumb_base.png', 'filter'=>'fileStringLocal', 'ctrl'=>null),
+		array('tree'=>'media',	    'branch'=>'templates',  'key'=>'pathEmptyAlbumImage',   'val'=> WP_CONTENT_DIR . '/plugins/foxfire/core/images/default_image_thumb_base.png', 'filter'=>'fileStringLocal', 'ctrl'=>null),
 		array('tree'=>'cache',	    'branch'=>'thumb',	    'key'=>'fileType',		    'val'=>'jpg',	'filter'=>'textAndNumbers', 'ctrl'=>null), 
 		array('tree'=>'cache',	    'branch'=>'thumb',	    'key'=>'pixelsX',		    'val'=>60,		'filter'=>'int',	    'ctrl'=>null),
 		array('tree'=>'cache',	    'branch'=>'thumb',	    'key'=>'pixelsY',		    'val'=>60,		'filter'=>'int',	    'ctrl'=>null), 
@@ -815,9 +815,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -860,7 +860,7 @@ class BPM_config_defaultKeys {
 
 		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'platformFamily',   'val'=>$platform,	'filter'=>'textAndNumbers',	'ctrl'=>null),
 		
-		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'dbServerName',	    'val'=>'bpm_test',	'filter'=>'slug', 
+		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'dbServerName',	    'val'=>'fox_test',	'filter'=>'slug', 
 		      'ctrl'=>array(	'null_input'=>'null',
 					'min_len'=>1,    // MySQL requires database name to be at least 1 character long
 					'max_len'=>64    // MySQL supports maximum 64 character database name @link: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
@@ -882,8 +882,8 @@ class BPM_config_defaultKeys {
 		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'tablePrefix',	    'val'=>'wp_',	'filter'=>'slug',		'ctrl'=>null),
 		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'PHPPath',	    'val'=>'php',	'filter'=>'fileStringLocal',	'ctrl'=>null),
 		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'wordpressPath',    'val'=>ABSPATH,	'filter'=>'fileStringLocal',	'ctrl'=>null),
-		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'testsuitePath',    'val'=>BPM_PATH_BASE.'/unit-test', 'filter'=>'fileStringLocal', 'ctrl'=>null),
-		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'logPath',	    'val'=>BPM_PATH_BASE.'/unit-test', 'filter'=>'fileStringLocal', 'ctrl'=>null),
+		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'testsuitePath',    'val'=>FOX_PATH_BASE.'/unit-test', 'filter'=>'fileStringLocal', 'ctrl'=>null),
+		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'logPath',	    'val'=>FOX_PATH_BASE.'/unit-test', 'filter'=>'fileStringLocal', 'ctrl'=>null),
 		array('tree'=>'system', 'branch'=>'phpUnitTest', 'key'=>'options',	    'val'=>'',		'filter'=>'printableCharacter', 'ctrl'=>null),
 		    		    
 		);
@@ -893,9 +893,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -935,9 +935,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -964,12 +964,12 @@ class BPM_config_defaultKeys {
 		
 		// Code below is correct. We store the cache salt value in the main plugin config variable so we do not have to do
 		// two DB calls every time a media item is loaded. A backup copy of the cache salt value is stored in the
-		// site option 'BPM_cache_salt' to allow the value to be recovered if the main config variable gets
+		// site option 'FOX_cache_salt' to allow the value to be recovered if the main config variable gets
 		// overwritten or deleted.
 		
 		$keys = array(
 
-		array('tree'=>"cache", 'branch'=>"salt", 'key'=>"value", 'val'=>get_site_option( 'BPM_cache_salt' ), 'filter'=>"textAndNumbers", 'ctrl'=>null) 
+		array('tree'=>"cache", 'branch'=>"salt", 'key'=>"value", 'val'=>get_site_option( 'FOX_cache_salt' ), 'filter'=>"textAndNumbers", 'ctrl'=>null) 
    
 		);
 		
@@ -978,9 +978,9 @@ class BPM_config_defaultKeys {
 			try {
 				$this->config_class->createKey($key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
@@ -1007,9 +1007,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->network_modules_class->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating network modules table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1020,9 +1020,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->network_modules_class->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing network modules cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1037,9 +1037,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->network_modules_class->loadModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error loading network modules",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1054,9 +1054,9 @@ class BPM_config_defaultKeys {
 		try {
 			$modules = $this->network_modules_class->getAdminModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error fetching admin modules",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1070,9 +1070,9 @@ class BPM_config_defaultKeys {
 			try {
 				$module->install();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Error installing network module",
 					'data'=>$module,
@@ -1104,9 +1104,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->media_modules_class->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating media modules table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1117,9 +1117,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->media_modules_class->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing media modules cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1134,9 +1134,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->media_modules_class->loadModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error loading media modules",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1151,9 +1151,9 @@ class BPM_config_defaultKeys {
 		try {
 			$modules = $this->media_modules_class->getAdminModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error fetching admin modules",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1167,9 +1167,9 @@ class BPM_config_defaultKeys {
 			try {
 				$module->install();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Error installing media module",
 					'data'=>$module,
@@ -1201,9 +1201,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->album_modules_class->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating album modules table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1214,9 +1214,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->album_modules_class->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing album modules cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1231,9 +1231,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->album_modules_class->loadModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error loading album modules",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1247,9 +1247,9 @@ class BPM_config_defaultKeys {
 		try {
 			$modules = $this->album_modules_class->getAdminModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error fetching album modules",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1263,9 +1263,9 @@ class BPM_config_defaultKeys {
 			try {
 				$module->install();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Error installing album module",
 					'data'=>$module,
@@ -1297,9 +1297,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->page_modules_class->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating page modules table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1310,9 +1310,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->page_modules_class->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing page modules cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1327,9 +1327,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->page_modules_class->loadModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error loading page modules",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1343,9 +1343,9 @@ class BPM_config_defaultKeys {
 		try {
 			$modules = $this->page_modules_class->getAdminModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error fetching admin page modules",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1359,9 +1359,9 @@ class BPM_config_defaultKeys {
 			try {
 				$module->install();
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Error installing page module",
 					'data'=>$module,
@@ -1379,7 +1379,7 @@ class BPM_config_defaultKeys {
 	
 			
 	/**
-         * Writes all of BP-Media's base configuration keys to the config class. Note that
+         * Writes all of FoxFire's base configuration keys to the config class. Note that
 	 * page, album, media, and network modules independently write their keys to the
 	 * config class during setup, but the actions that trigger it are fired from within
 	 * this method.
@@ -1396,9 +1396,9 @@ class BPM_config_defaultKeys {
 		// The cache salt value is very important. If it is deleted, all items in the cache will have
 		// to be regenerated, and people running caches with unlimited disk space will end up with a
 		// huge number of "dead" files. The code below makes it extremely difficult to accidentally
-		// delete the salt value. It will survive all BPM tables being dropped and the plugin reactivated.
+		// delete the salt value. It will survive all FOX tables being dropped and the plugin reactivated.
 
-		if (!get_site_option( 'BPM_cache_salt' )) {
+		if (!get_site_option( 'FOX_cache_salt' )) {
 
 		    // IMPORTANT - the cache salt value is generated the same way WP generates their salt value,
 		    // and WP generates their salt value this way for specific reasons. A single width MD5 is not
@@ -1409,7 +1409,7 @@ class BPM_config_defaultKeys {
 		    // dramatically reduce the security of the cache salt value.
 
 		    $salt = md5( mt_rand() ) . md5( mt_rand() ); 
-		    update_site_option('BPM_cache_salt', $salt);
+		    update_site_option('FOX_cache_salt', $salt);
 		}
 		
 		// Clear the config class db table and flush its cache
@@ -1418,9 +1418,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->config_class->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1431,9 +1431,9 @@ class BPM_config_defaultKeys {
 		try {
 			$this->config_class->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1464,9 +1464,9 @@ class BPM_config_defaultKeys {
 			self::set_debugTools_jsUnitTest();
 			self::set_cacheSalt();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in key loader",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1481,9 +1481,9 @@ class BPM_config_defaultKeys {
 		try {
 //			self::install_networkModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error loading network module keys",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1497,9 +1497,9 @@ class BPM_config_defaultKeys {
 		try {
 			self::install_mediaModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error loading media module keys",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1513,9 +1513,9 @@ class BPM_config_defaultKeys {
 		try {
 			self::install_albumModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error loading album module keys",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1529,9 +1529,9 @@ class BPM_config_defaultKeys {
 		try {
 			self::install_pageModules();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>7,
 				'text'=>"Error loading page module keys",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1544,12 +1544,12 @@ class BPM_config_defaultKeys {
 		// =================================================================		
 		
 		try {
-//			$cls = new BPM_config_defaultSchema();
+//			$cls = new FOX_config_defaultSchema();
 //			$cls->load();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error loading RBAC schema",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1563,7 +1563,7 @@ class BPM_config_defaultKeys {
 
 	
 	
-} // End of class BPM_config_defaultKeys
+} // End of class FOX_config_defaultKeys
 
 
 
@@ -1574,12 +1574,12 @@ class BPM_config_defaultKeys {
  * @since 0.1.9
  */
 
-function BPM_config_defaultKeys_install (){
+function FOX_config_defaultKeys_install (){
 
-	$cls = new BPM_config_defaultKeys();
+	$cls = new FOX_config_defaultKeys();
 	$cls->load();
 }
-add_action( 'bpm_setDefaults', 'BPM_config_defaultKeys_install', 2 );
+add_action( 'fox_setDefaults', 'FOX_config_defaultKeys_install', 2 );
 
 
 ?>

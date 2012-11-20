@@ -17,7 +17,7 @@
 /* ===================================================================================== */
 
 
-.bpm_section_intro{
+.fox_section_intro{
     float:left;
     margin:10px 0px 10px 20px;
     padding:10px 10px 10px 10px;
@@ -25,14 +25,14 @@
     width:950px;
 }
 
-.bpm_section_intro .icon{
+.fox_section_intro .icon{
     float:left;
     height:64px;
     width:64px;
     margin:0px 10px 0px 0px;
 }
 
-.bpm_section_intro .title{
+.fox_section_intro .title{
     float:left;
     width:870px;
     font-size:22px;
@@ -41,7 +41,7 @@
     margin:8px 0px 3px 0px;
 }
 
-.bpm_section_intro .details {
+.fox_section_intro .details {
     float:left;
     width:870px;
     font-size:12px;
@@ -159,7 +159,7 @@
 
 /* Primary header block */
 
-.bpm_module_header{
+.fox_module_header{
     float:left;
     border: solid #999;
     border-width:0px 0px 0px 0px;
@@ -170,7 +170,7 @@
     border:solid 1px #333;
 }
 
-.bpm_module_header .icon{
+.fox_module_header .icon{
     float:left;
     width:75px;
     height:75px;
@@ -179,7 +179,7 @@
     background-color:#fff;
 }
 
-.bpm_module_header .square_icon{
+.fox_module_header .square_icon{
     float:left;
     width:75px;
     height:75px;
@@ -197,20 +197,20 @@
 
 }
 
-.bpm_module_header .admin{
+.fox_module_header .admin{
     float:left;
     width:500px;
     margin: 3px 0px 0px 0px;
 }
 
-.bpm_module_header .admin .title_block {
+.fox_module_header .admin .title_block {
     float:left;
     margin: 0px 0px 2px 0px;
     width:100%;
 
 }
 
-.bpm_module_header .admin .title_block .title {
+.fox_module_header .admin .title_block .title {
     float:left;
     font-size: 18px;
     font-family: Verdana,Arial,sans-serif;
@@ -220,7 +220,7 @@
     border:none;
 }
 
-.bpm_module_header .admin .title_block .actions {
+.fox_module_header .admin .title_block .actions {
     float:right;
     font-size:14px;
     padding: 0px 0px 0px 0px;
@@ -231,7 +231,7 @@
     border:none;
 }
 
-.bpm_module_header .admin .title_block .actions a {
+.fox_module_header .admin .title_block .actions a {
     font-size:12px;
     font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;    
     font-weight:bold;
@@ -239,11 +239,11 @@
     border:none;
 }
 
-.bpm_module_header .admin .title_block .actions a:hover {
+.fox_module_header .admin .title_block .actions a:hover {
     color: #FFFF33;
 }
 
-.bpm_module_header .admin .description {
+.fox_module_header .admin .description {
     float:left;
     font-size:12px;
     line-height:120%;
@@ -255,7 +255,7 @@
 
 /* Status Block */
 
-.bpm_module_status{
+.fox_module_status{
     float:left;
     border: solid #999;
     border-width:0px 0px 0px 0px;
@@ -267,27 +267,27 @@
     border:solid 1px #333;
 }
 
-.bpm_module_status .message{
+.fox_module_status .message{
     float:left;
     border: none;
     margin:3px 0px 0px 4px;
 }
 
-.bpm_module_status .message .icon_working{
+.fox_module_status .message .icon_working{
     float:left;
     height:16px;
     width:16px;
     background: url(images/module_working.png) no-repeat scroll left top;
 }
 
-.bpm_module_status .message .icon_deactivated{
+.fox_module_status .message .icon_deactivated{
     float:left;
     height:16px;
     width:16px;
     background: url(images/module_deactivated.png) no-repeat scroll left top;
 }
 
-.bpm_module_status .message .icon_warning{
+.fox_module_status .message .icon_warning{
     float:left;
     height:16px;
     width:16px;
@@ -295,7 +295,7 @@
 
 }
 
-.bpm_module_status .message .icon_error{
+.fox_module_status .message .icon_error{
     float:left;
     height:16px;
     width:16px;
@@ -303,7 +303,7 @@
 }
 
 
-.bpm_module_status .message .text{
+.fox_module_status .message .text{
     float:left;
     line-height:16px;
     color:#ffffff;
@@ -313,7 +313,7 @@
     text-shadow: #333 1px 1px 0 ;
 }
 
-.bpm_module_status .detail{
+.fox_module_status .detail{
     float:left;
     line-height:8px;
     color:#ffffff;
@@ -325,7 +325,7 @@
 
 /* Control Block */
 
-.bpm_module_control{
+.fox_module_control{
     float:left;
     border: solid #999;
     border-width:0px 0px 0px 0px;
@@ -337,14 +337,14 @@
     border:solid 1px #333;
 }
 
-.bpm_module_control .actions {
+.fox_module_control .actions {
     float:left;
     border: none;
     margin: 5px 0px 0px 0px;
 }
 
-.bpm_module_control .actions .action,
-.bpm_module_control .actions .action a {
+.fox_module_control .actions .action,
+.fox_module_control .actions .action a {
     color:#ffffff;
     float: left;
     font-size: 11px;
@@ -357,12 +357,12 @@
     cursor:pointer;
 }
 
-.bpm_module_control .actions .action:hover,
-.bpm_module_control .actions .action:hover a {
+.fox_module_control .actions .action:hover,
+.fox_module_control .actions .action:hover a {
     color:#ffff00;
 }
 
-.bpm_module_header .admin .footer {
+.fox_module_header .admin .footer {
     float:left;
     font-size:11px;
     line-height:100%;
@@ -371,7 +371,7 @@
     padding: 0px 10px 0px 0px;
 }
 
-.bpm_module_header .admin .footer .item {
+.fox_module_header .admin .footer .item {
     float:left;
     margin:0px 3px 0px 0px;
     color: #FFFFFF;
@@ -380,18 +380,18 @@
     font-weight:bold;
 }
 
-.bpm_module_header .admin .footer .item a {
+.fox_module_header .admin .footer .item a {
     text-decoration:none;
     font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
     font-weight:bold;
     color: #FFFFFF;
 }
 
-.bpm_module_header .admin .footer .item a:hover {
+.fox_module_header .admin .footer .item a:hover {
     color: #ffff33;
 }
 
-.bpm_module_header .admin .footer .spacer {
+.fox_module_header .admin .footer .spacer {
     float:left;
     margin:0px 6px 0px 3px;
     color: #FFFFFF;
@@ -502,12 +502,12 @@
 /* MODULE CONFIG BODY									 */
 /* ===================================================================================== */
 
-.child_tabs_h .child_panel .bpm_tip_wrap{
+.child_tabs_h .child_panel .fox_tip_wrap{
     float:left;
     width:100%;
 }
 
-.child_tabs_h .child_panel .bpm_section_advice {
+.child_tabs_h .child_panel .fox_section_advice {
     float:left;
     font-size:10px;
     line-height:120%;
@@ -515,7 +515,7 @@
     margin:-3px 0px 7px 10px;
 }
 
-.child_tabs_h .child_panel .bpm_tip{
+.child_tabs_h .child_panel .fox_tip{
     float:left;
     width:640px;
     margin:15px 20px 0px 40px;
@@ -524,7 +524,7 @@
     border:solid 1px #eee;
 }
 
-.child_tabs_h .child_panel .bpm_tip_text {
+.child_tabs_h .child_panel .fox_tip_text {
     float:left;
     font-size:10px;
     line-height:120%;
@@ -692,7 +692,7 @@
 /* ===================================================================================== */
 
 
-.bpm_submit_v_panel_wrap {
+.fox_submit_v_panel_wrap {
 
 	float:right;
 	margin: 0px 20px 0px 0px;

@@ -6,15 +6,15 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_queryBuilder {
+class FOX_queryBuilder {
 
 
 	var $parent;				    // Reference to parent class
@@ -22,7 +22,7 @@ class BPM_queryBuilder {
 	// ============================================================================================================ //
 
 
-	function BPM_queryBuilder(&$parent_class) {
+	function FOX_queryBuilder(&$parent_class) {
 
 		$this->__construct($parent_class);
 	}
@@ -68,11 +68,11 @@ class BPM_queryBuilder {
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);		
 		
 		try {
-			$cls = new BPM_queryBuilder_whereMatrix($struct, $key_col, $args, $ctrl);
+			$cls = new FOX_queryBuilder_whereMatrix($struct, $key_col, $args, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error building object",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -84,9 +84,9 @@ class BPM_queryBuilder {
 		try {
 			return $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error during render",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -125,11 +125,11 @@ class BPM_queryBuilder {
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);
 		
 		try {
-			$cls = new BPM_queryBuilder_whereMatrix($struct, $key_col, $args, $ctrl);
+			$cls = new FOX_queryBuilder_whereMatrix($struct, $key_col, $args, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error building object",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -141,9 +141,9 @@ class BPM_queryBuilder {
 		try {
 			return $cls->render();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error during render",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -161,7 +161,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> VAL @param array 'columns' | Array of database column arrays.
 	 *	    => ARR @param string '' | Name of the db column this key describes
@@ -190,7 +190,7 @@ class BPM_queryBuilder {
 
 		if( empty($struct) || empty($args) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Empty struct or args arrays",
 				'data'=>array("struct"=>$struct, "args"=>$args, "caller"=>$caller, "prefix"=>$prefix),
@@ -204,9 +204,9 @@ class BPM_queryBuilder {
 			try {
 				$parse_result = self::buildWhere($struct, $group, $caller, $prefix);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Parse error in WHERE group",
 					'data'=>array("group"=>$group, "struct"=>$struct, "args"=>$args, "caller"=>$caller, "prefix"=>$prefix),
@@ -240,7 +240,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> VAL @param array 'columns' | Array of database column arrays.
 	 *	    => ARR @param string '' | Name of the db column this key describes
@@ -282,7 +282,7 @@ class BPM_queryBuilder {
 				$text =  "\nMethod {$caller}() called buildWhere() with an illegal SQL comparison operator. \n";
 				$text .= "\nColumn name: '{$col_params["col"]}' \nBad Operator: '{$col_params["op"]} '\n";
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>$text,
 					'data'=>array("struct"=>$struct, "args"=>$args, "caller"=>$caller, "prefix"=>$prefix),
@@ -326,7 +326,7 @@ class BPM_queryBuilder {
 					$text .= "\nValid operators for this query type are: '=', '!=', or '<>' .\n";
 					$text .= "\nColumn name: '{$col_params["col"]}' \nBad Operator: '{$col_params["op"]} '\n";
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>$text,
 						'data'=>array("struct"=>$struct, "args"=>$args, "caller"=>$caller, "prefix"=>$prefix),
@@ -420,7 +420,7 @@ class BPM_queryBuilder {
 	 *	    => ARR @param int '' | Array index
 	 *		=> VAL @param string $class | Class name that owns the table
 	 *		=> VAL @param string $col | Column to sum
-	 *	=> VAL @param string $format | @see BPM_db::runQuery() for detailed info on format string
+	 *	=> VAL @param string $format | @see FOX_db::runQuery() for detailed info on format string
 	 *	=> VAL @param string $key_col | Column name to get key names from when using $format="key" or $format="asc"
 	 *	=> VAL @param string $asc_col | Column name to use as value when using $format="asc"
 	 *
@@ -541,9 +541,9 @@ class BPM_queryBuilder {
 			try {
 				$result = self::buildWhere( $primary_struct, $primary["args"], $function_name, $prefix);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error building primary args WHERE construct",
 					'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
@@ -599,9 +599,9 @@ class BPM_queryBuilder {
 				try {
 					$result = self::buildWhere( $join_struct, $join_obj["args"], $function_name, $prefix);
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Error building joined table WHERE construct",
 						'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
@@ -1003,7 +1003,7 @@ class BPM_queryBuilder {
 	 *		=> VAL @param string $col | Name of column to apply GROUP to
 	 *		=> VAL @param string $col_alias | Column alias used instead of class and col. not required
 	 *		=> VAL @param string $sort | Direction to sort in. "ASC" | "DESC"
-	 *	=> VAL @param string $format | @see BPM_db::runQuery() for detailed info on format string
+	 *	=> VAL @param string $format | @see FOX_db::runQuery() for detailed info on format string
 	 *	=> VAL @param string $key_col | Column name to get key names from when using $format="key" or $format="asc"
 	 *	=> VAL @param string $asc_col | Column name to use as value when using $format="asc"
 	 * 
@@ -1088,9 +1088,9 @@ class BPM_queryBuilder {
 				$result = self::buildWhere( $primary_struct, $primary["args"], $function_name, 
 							    $alias["tables"][$primary_struct["table"]]."." );
 			}
-			catch (BPM_Exception $child) {
+			catch (FOX_Exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error building primary args WHERE construct",
 					'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
@@ -1162,9 +1162,9 @@ class BPM_queryBuilder {
 					$result = self::buildWhere( $join_struct, $join_obj["args"], $function_name, 
 								    $alias["tables"][$join_struct["table"]].".");
 				}
-				catch (BPM_exception $child) {
+				catch (FOX_exception $child) {
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Error building joined table WHERE construct",
 						'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
@@ -1616,7 +1616,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
 	 * @param array $args | Args in the form: array("col"=>column_name, "op" => "<, >, =, !=", "val" => "int | string | array()")
 	 *	=> ARR @param int '' | Array index
@@ -1643,7 +1643,7 @@ class BPM_queryBuilder {
 	 *		=> VAL @param string $sort | Direction to sort in. "ASC" | "DESC"
 	 *	=> VAL @param bool/string/array $count | Return a count of db rows. Bool true to use COUNT(*). Single column as string. Multiple columns as array.
 	 *	=> VAL @param bool/string/array $sum | Return sum of db rows. Single column as string. Multiple columns as array.
-	 *	=> VAL @param string $format | @see BPM_db::runQuery() for detailed info on format string
+	 *	=> VAL @param string $format | @see FOX_db::runQuery() for detailed info on format string
 	 *	=> VAL @param string $key_col | Column name to get key names from when using $format="key" or $format="asc"
 	 *	=> VAL @param string $asc_col | Column name to use as value when using $format="asc"
 	 *	=> VAL @param string $args_format | "default" to use standard format, "multi", or "matrix"
@@ -1791,9 +1791,9 @@ class BPM_queryBuilder {
 				}
 				
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in WHERE clause generator",
 					'data'=>array("struct"=>$struct, "args"=>$args, "function_name"=>$function_name),
@@ -1996,7 +1996,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
 	 * @param string $col | Column name to use for WHERE construct
 	 * @param string $op | Comparison operator ">=", "<=", ">", "<", "=", "!=", "<>"
@@ -2019,7 +2019,7 @@ class BPM_queryBuilder {
 	 *		=> VAL @param string $col | Name of column to apply GROUP to
 	 *		=> VAL @param string $sort | Direction to sort in. "ASC" | "DESC"
 	 *	=> VAL @param bool/string/array $count | Return a count of db rows. Bool true to use primary key. Single column as string. Multiple columns as array..
-	 *	=> VAL @param string $format | @see BPM_db::runQuery() for detailed info on format string
+	 *	=> VAL @param string $format | @see FOX_db::runQuery() for detailed info on format string
 	 *	=> VAL @param string $key_col | Column name to get key names from when using $format="key" or $format="asc"
 	 *	=> VAL @param string $asc_col | Column name to use as value when using $format="asc"
 	 *	=> VAL @param string $args_format | "default" to use standard format, "multi", or "matrix"
@@ -2035,9 +2035,9 @@ class BPM_queryBuilder {
 		try {
 			$result = self::buildSelectQuery($struct, $args, $columns, $ctrl);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "col"=>$col, "op"=>$op, "val"=>$val, "columns"=>$columns, "ctrl"=>$ctrl),
@@ -2057,7 +2057,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
          * @param array/object $data | Class with $column_1, $column_2 in the namespace, or array of the form ("column_1"=>"value_1", "column_2"=>"value_2")
 	 * 	=> KEY @param string | Name of the db column this key describes
@@ -2141,7 +2141,7 @@ class BPM_queryBuilder {
 			$in_type = $struct["columns"][$column_name]["php"];
 			$out_type = $struct["columns"][$column_name]["sql"];
 
-			$cast = new BPM_cast();
+			$cast = new FOX_cast();
 
 			if( is_array($data) ){
 				// Handle data passed as array
@@ -2173,9 +2173,9 @@ class BPM_queryBuilder {
 			try {
 				$result = self::buildWhere($struct, $args, $function_name, $prefix=null);
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in WHERE clause generator",
 					'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "function_name"=>$function_name),
@@ -2194,7 +2194,7 @@ class BPM_queryBuilder {
 			$text =  "\nFATAL ERROR: buildUpdateQuery() called with no WHERE args. Running this query as supplied would ";
 			$text .= "overwrite ALL rows in the target table. If this is what you really want to do, set \$args = 'overwrite_all' ";
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>$text,
 				'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "function_name"=>$function_name),
@@ -2230,7 +2230,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
          * @param array/object $data | Class with $column_1, $column_2 in the namespace, or array of the form ("column_1"=>"value_1", "column_2"=>"value_2")
 	 * 	=> KEY @param string | Name of the db column this key describes
@@ -2255,9 +2255,9 @@ class BPM_queryBuilder {
 		try {
 			$result = self::buildUpdateQuery($struct, $data, $args, $columns);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "columns"=>$columns),
@@ -2277,7 +2277,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
          * @param array/object $data | Array of row arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -2358,7 +2358,7 @@ class BPM_queryBuilder {
 		if( is_array($data) ){
 
 			$blocks_left = count($data) - 1;
-			$cast = new BPM_cast();
+			$cast = new FOX_cast();
 
 			foreach($data as $block){
 
@@ -2397,7 +2397,7 @@ class BPM_queryBuilder {
 		else {
 
 			$columns_left = $columns_count;
-			$cast = new BPM_cast();
+			$cast = new FOX_cast();
 
 			$query_formats .= "(";
 
@@ -2444,7 +2444,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
          * @param array/object $data | Class with $column_1, $column_2 in the namespace, or array of the form ("column_1"=>"value_1", "column_2"=>"value_2")
 	 * 	=> KEY @param string | Name of the db column this key describes
@@ -2532,7 +2532,7 @@ class BPM_queryBuilder {
 		// ==============================
 		if( is_array($data) ){
 
-			$cast = new BPM_cast();
+			$cast = new FOX_cast();
 
 			$query_formats .= "(";
 
@@ -2560,7 +2560,7 @@ class BPM_queryBuilder {
 		else {
 
 			$columns_left = $columns_count;
-			$cast = new BPM_cast();
+			$cast = new FOX_cast();
 
 			$query_formats .= "(";
 
@@ -2593,7 +2593,7 @@ class BPM_queryBuilder {
 			$in_type = $struct["columns"][$column_name]["php"];
 			$out_type = $struct["columns"][$column_name]["sql"];
 
-			$cast = new BPM_cast();
+			$cast = new FOX_cast();
 
 			if( is_array($data) ){
 				// Handle data passed as array
@@ -2635,7 +2635,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *
 	 * @param array $args | Args in the form: array("col"=>column_name, "op" => "<, >, =, !=", "val" => "int | string | array()")
 	 *	=> ARR @param int '' | Array index
@@ -2694,7 +2694,7 @@ class BPM_queryBuilder {
 
 						// Forward the 'hash_token_vals' flag, if set
 					    
-						if( BPM_sUtil::keyExists('hash_token_vals', $args) ){
+						if( FOX_sUtil::keyExists('hash_token_vals', $args) ){
 						
 							$matrix_ctrl = array('hash_token_vals'=>$args['hash_token_vals']);
 						}
@@ -2710,7 +2710,7 @@ class BPM_queryBuilder {
 
 						// Forward the 'hash_token_vals' flag, if set
 					    
-						if( BPM_sUtil::keyExists('hash_token_vals', $args) ){
+						if( FOX_sUtil::keyExists('hash_token_vals', $args) ){
 						
 							$trie_ctrl = array('hash_token_vals'=>$args['hash_token_vals']);
 						}
@@ -2730,9 +2730,9 @@ class BPM_queryBuilder {
 
 				}
 			}
-			catch (BPM_exception $child) {
+			catch (FOX_exception $child) {
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in buildWhere generator",
 					'data'=>array("struct"=>$struct, "args"=>$args, "ctrl"=>$ctrl),
@@ -2753,7 +2753,7 @@ class BPM_queryBuilder {
 			$text =  "\nFATAL ERROR: buildDeleteQuery() called with no WHERE args. Running this query would delete ";
 			$text .= " ALL rows in the target table. If this is what you really want to do, use buildTruncateTable().\n";
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>$text,
 				'data'=>array("struct"=>$struct, "args"=>$args, "ctrl"=>$ctrl),
@@ -2786,7 +2786,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 * @param string $col | Column name to use for WHERE construct
 	 * @param string $op | Comparison operator ">=", "<=", ">", "<", "=", "!=", "<>"
 	 * @param int/string $val | Comparison value to use in WHERE construct
@@ -2802,9 +2802,9 @@ class BPM_queryBuilder {
 		try {
 			$result = self::buildDeleteQuery($struct, $args);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in guery generator",
 				'data'=>array("struct"=>$struct, "args"=>$args),
@@ -2823,7 +2823,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> VAL @param string 'engine' | Name of table db engine
 	 *	=> ARR @param array 'columns' | Array of database column arrays.
@@ -2854,14 +2854,14 @@ class BPM_queryBuilder {
 		// Check for illegal keys
 		// ====================================================
 
-		$cls = new BPM_dbUtil();
+		$cls = new FOX_dbUtil();
 
 		foreach($struct["columns"] as $key => $fake_var){
 
 
 			if( $cls->isReservedWord($key) == true ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Tried to use SQL reserved word as column name",
 					'data'=>array("struct"=>$struct, "illegal_key"=>$key),
@@ -2890,7 +2890,7 @@ class BPM_queryBuilder {
 
 		if( empty($struct["table"]) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Missing table definition array",
 				'data'=>array("struct"=>$struct),
@@ -2904,7 +2904,7 @@ class BPM_queryBuilder {
 
 		if( empty($struct["columns"]) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Missing columns array",
 				'data'=> array("struct"=>$struct),
@@ -2926,7 +2926,7 @@ class BPM_queryBuilder {
 			// ===========================
 			if( empty($name) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Missing column name",
 					'data'=> array("columns_array"=>$struct["columns"], "name"=>$name, "params"=>$params),
@@ -2939,7 +2939,7 @@ class BPM_queryBuilder {
 			// ===========================
 			if( empty($params["sql"]) ){
 
-				throw new BPM_exception( array(
+				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Missing sql data type. \n",
 					'data'=>array("columns_array"=>$struct["columns"], "name"=>$name,
@@ -2976,7 +2976,7 @@ class BPM_queryBuilder {
 
 					if($auto_inc_count > 1){
 
-						throw new BPM_exception( array(
+						throw new FOX_exception( array(
 							'numeric'=>6,
 							'text'=>"MySQL tables cannot have more than one auto-increment column",
 							'data'=> array("params"=>$params),
@@ -3028,7 +3028,7 @@ class BPM_queryBuilder {
 					// From the MySQL site: "InnoDB tables do not support FULLTEXT indexes."
 					// @link http://dev.mysql.com/doc/refman/5.5/en/innodb-restrictions.html
 
-					throw new BPM_exception( array(
+					throw new FOX_exception( array(
 						'numeric'=>7,
 						'text'=>"FULLTEXT indices cannot be added to InnoDB tables. \n",
 						'data'=> array("params"=>$params),
@@ -3090,7 +3090,7 @@ class BPM_queryBuilder {
 							// From the MySQL site: "InnoDB tables do not support FULLTEXT indexes."
 							// @link http://dev.mysql.com/doc/refman/5.5/en/innodb-restrictions.html
 
-							throw new BPM_exception( array(
+							throw new FOX_exception( array(
 								'numeric'=>8,
 								'text'=>"FULLTEXT indices cannot be added to InnoDB tables",
 								'data'=> array("params"=>$params),
@@ -3131,7 +3131,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> ARR @param array 'columns' | Array of database column arrays.
 	 *	    => ARR @param string '' | Name of the db column this key describes
@@ -3168,7 +3168,7 @@ class BPM_queryBuilder {
          * @version 0.1.9
          * @since 0.1.9
          *
-         * @param array $struct | Structure of the db table, @see class BPM_db header for examples
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
 	 *	=> VAL @param string 'db_table_name' | Name of the db table
 	 *	=> ARR @param array 'columns' | Array of database column arrays.
 	 *	    => ARR @param string '' | Name of the db column this key describes
@@ -3199,6 +3199,6 @@ class BPM_queryBuilder {
 	}
 
 	
-} // End of class BPM_queryBuilder
+} // End of class FOX_queryBuilder
 
 ?>

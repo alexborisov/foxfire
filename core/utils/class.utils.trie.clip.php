@@ -14,15 +14,15 @@
  * 
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Database
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/wiki/DOCS_BPM_db_top
+ * @link http://code.google.com/p/buddypress-media/wiki/DOCS_FOX_db_top
  *
  * ========================================================================================================
  */
 
-class BPM_trie_clip {
+class FOX_trie_clip {
 
 	
 	var $trie;				    // Trie structure to convert		
@@ -79,7 +79,7 @@ class BPM_trie_clip {
 	    
 		try {
 		    
-			$this->iterator = new BPM_trie_clip_iterator(array(
+			$this->iterator = new FOX_trie_clip_iterator(array(
 
 				'base'	    => $this,			    
 				'trie'	    => $this->trie,			    			    
@@ -87,9 +87,9 @@ class BPM_trie_clip {
 			));	
 			
 		}
-		catch (BPM_Exception $child) {
+		catch (FOX_Exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error creating root node",
 				'data'=>array("trie"=>$this->trie, "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
@@ -102,9 +102,9 @@ class BPM_trie_clip {
 		try {
 			$result = $this->iterator->render();
 		}
-		catch (BPM_Exception $child) {
+		catch (FOX_Exception $child) {
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error during render",
 				'data'=>array("args"=>$this->args, "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
@@ -120,6 +120,6 @@ class BPM_trie_clip {
 	
 
 	
-} // End of class BPM_trie_clip
+} // End of class FOX_trie_clip
 
 ?>

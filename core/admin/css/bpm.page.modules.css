@@ -4,7 +4,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -59,7 +59,7 @@
 	height:	22px;
 	width:22px;
 	margin: 0px;
-	background: url(images/bpm_admin_available.png);
+	background: url(images/fox_admin_available.png);
 }
 
 .bppm_pageValidator .icon_inuse{
@@ -67,7 +67,7 @@
 	height:	22px;
 	width:22px;
 	margin: 0px;
-	background: url(images/bpm_admin_inuse.png);
+	background: url(images/fox_admin_inuse.png);
 }
 
 .bppm_pageValidator .icon_fail{
@@ -75,7 +75,7 @@
 	height:	22px;
 	width:22px;
 	margin: 0px;
-	background: url(images/bpm_admin_fail.png);
+	background: url(images/fox_admin_fail.png);
 }
 
 .bppm_pageValidator .message_a{
@@ -441,7 +441,7 @@
 
 /* =============================================== */
 
-.bpm_floating_palette {
+.fox_floating_palette {
 
     border-color: #999 #999 #555 #555;
     border-width: 1px 1px 1px 1px;
@@ -456,13 +456,13 @@
   
 }
 
-.bpm_floating_palette .ui-dialog-titlebar {
+.fox_floating_palette .ui-dialog-titlebar {
 
     border: solid 1px #CCC;
     padding: 5px 5px 5px 5px;
 }
 
-.bpm_floating_palette .ui-dialog-titlebar .bpm_title_bar_icon {
+.fox_floating_palette .ui-dialog-titlebar .fox_title_bar_icon {
 
     float:left;
     height:16px;
@@ -471,7 +471,7 @@
 
 }
 
-.bpm_floating_palette .ui-dialog-titlebar .title_string {
+.fox_floating_palette .ui-dialog-titlebar .title_string {
 
     float:left;
     height:16px;
@@ -485,7 +485,7 @@
 }
 
 
-.bpm_title_bar_icon .key_manager_icon {
+.fox_title_bar_icon .key_manager_icon {
 
     height:16px;
     width:16px;
@@ -493,7 +493,7 @@
 
 }
 
-.bpm_floating_palette .palette_content {
+.fox_floating_palette .palette_content {
 
     margin: 3px 0px 0px 0px;
     padding:0px;
@@ -503,7 +503,7 @@
     border-radius: 4px;
 }
 
-.bpm_floating_palette .palette_content .section{
+.fox_floating_palette .palette_content .section{
 
     border: 1px solid #EEEEEE;
     float: left;
@@ -513,7 +513,7 @@
 }
 
 
-.bpm_floating_palette .palette_content .section .title {
+.fox_floating_palette .palette_content .section .title {
     background: none repeat scroll 0 0 #FFFFFF;
     border: medium none;
     float: left;

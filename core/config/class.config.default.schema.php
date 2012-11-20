@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Config
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_config_defaultSchema {
+class FOX_config_defaultSchema {
     
 
 	var $token_keys_class;		    // Token key class instance. Stores the id's and names of token keys.
@@ -49,15 +49,15 @@ class BPM_config_defaultSchema {
 		}
 		else {
 			
-			$this->token_keys_class = new BPM_uKeyType();
-			$this->system_keys_class = new BPM_sysKey();
-			$this->group_keys_class = new BPM_uGroupType();
+			$this->token_keys_class = new FOX_uKeyType();
+			$this->system_keys_class = new FOX_sysKey();
+			$this->group_keys_class = new FOX_uGroupType();
 			
-			$this->group_keyring_class = new BPM_uGroupKeyRing();			
-			$this->group_members_class = new BPM_uGroupMember();			
+			$this->group_keyring_class = new FOX_uGroupKeyRing();			
+			$this->group_members_class = new FOX_uGroupMember();			
 
-			$this->album_types_class = new BPM_albumTypeData();
-			$this->album_type_levels_class = new BPM_albumTypeLevel();			
+			$this->album_types_class = new FOX_albumTypeData();
+			$this->album_type_levels_class = new FOX_albumTypeLevel();			
 		}
 
 	}
@@ -71,9 +71,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing group types table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -84,9 +84,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing group types cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -146,9 +146,9 @@ class BPM_config_defaultSchema {
 			));
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding group type",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -169,9 +169,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing token key types table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -182,9 +182,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing token key types cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -207,9 +207,9 @@ class BPM_config_defaultSchema {
 			$cls->createKeyMulti($data);
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while creating new token key type",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -230,9 +230,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing group keyrings table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -243,9 +243,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing group keyrings cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -262,9 +262,9 @@ class BPM_config_defaultSchema {
 			$cls->addKey(5, array(1, 2, 3, 4, 5));	    // Forum ops	
 			$cls->addKey(6, array(1, 2, 3, 4, 5, 6));   // Site Admins
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding group keyring",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -285,9 +285,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing group members table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -298,9 +298,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing group members cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -312,9 +312,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->addToGroup(1, 6);    // Add admin to admin group	
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding members to groups",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -335,9 +335,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing album types table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -348,9 +348,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing album types cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -373,10 +373,10 @@ class BPM_config_defaultSchema {
 				"module_id"=> 2,
 				"type_slug"=> "imageAlbum",
 				"name_admin"=> "Image Album",
-				"txt_admin"=> "BP-Media Image Album",
+				"txt_admin"=> "FoxFire Image Album",
 				"action_txt"=> "Upload Photos",
 				"name_user"=> "Image Album",
-				"txt_user"=> "BP-Media Image Album"
+				"txt_user"=> "FoxFire Image Album"
 			));
 
 
@@ -384,20 +384,20 @@ class BPM_config_defaultSchema {
 				"module_id"=> 3,
 				"type_slug"=> "audioAlbum",
 				"name_admin"=> "Audio Album",
-				"txt_admin"=> "BP-Media Audio Album",
+				"txt_admin"=> "FoxFire Audio Album",
 				"action_txt"=> "Upload Audio Tracks",
 				"name_user"=> "Audio Album",
-				"txt_user"=> "BP-Media Image Album"
+				"txt_user"=> "FoxFire Image Album"
 			));
 
 			$cls->addType( array(  
 				"module_id"=> 4,
 				"type_slug"=> "videoAlbum",
 				"name_admin"=> "Video Album",
-				"txt_admin"=> "BP-Media Video Album",
+				"txt_admin"=> "FoxFire Video Album",
 				"action_txt"=> "Upload Videos",
 				"name_user"=> "Video Album",
-				"txt_user"=> "BP-Media Video Album"
+				"txt_user"=> "FoxFire Video Album"
 			));
 
 			$cls->addType( array(  
@@ -431,9 +431,9 @@ class BPM_config_defaultSchema {
 			));	
 			
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding album type",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -454,9 +454,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->truncate();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing album type levels table",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -467,9 +467,9 @@ class BPM_config_defaultSchema {
 		try {
 			$cls->flushCache();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing album type levels cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -480,7 +480,7 @@ class BPM_config_defaultSchema {
 		
 		try {
 		    
-			// BPM-Legacy
+			// FOX-Legacy
 			// =============================================================================
 
 			$cls->addLevel( array(	
@@ -514,7 +514,7 @@ class BPM_config_defaultSchema {
 			));
 
 
-			// BPM-Image
+			// FOX-Image
 			// =============================================================================
 
 			$cls->addLevel( array(	
@@ -548,7 +548,7 @@ class BPM_config_defaultSchema {
 			));
 
 
-			// BPM-Audio
+			// FOX-Audio
 			// =============================================================================
 
 			$cls->addLevel( array(	
@@ -582,7 +582,7 @@ class BPM_config_defaultSchema {
 			));
 
 
-			// BPM-Video
+			// FOX-Video
 			// =============================================================================
 
 			$cls->addLevel( array(	
@@ -616,7 +616,7 @@ class BPM_config_defaultSchema {
 			));
 
 
-			// BPM-Portfolio
+			// FOX-Portfolio
 			// =============================================================================
 
 			// Images --------------------------------------
@@ -716,9 +716,9 @@ class BPM_config_defaultSchema {
 			));
 
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding album type level",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -743,9 +743,9 @@ class BPM_config_defaultSchema {
 			self::createAlbumTypes();
 			self::createAlbumTypeLevels();
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 		    
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in schema loader",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -759,7 +759,7 @@ class BPM_config_defaultSchema {
 
 	
 	
-} // End of class BPM_config_defaultSchema
+} // End of class FOX_config_defaultSchema
 
 
 ?>

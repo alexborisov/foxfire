@@ -5,7 +5,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Test Panel
  * @license GPL v2.0
  *
@@ -13,12 +13,12 @@
  */
 
 
-class panel_BPM_bp15_wp34_singleSite extends RAZ_testPanel_base {
+class panel_FOX_bp15_wp34_singleSite extends RAZ_testPanel_base {
 
     	
 	public function __construct() {
 
-		$this->slug = "panel_BPM_bp15_wp34_singleSite";
+		$this->slug = "panel_FOX_bp15_wp34_singleSite";
 		$this->name = "BP 1.5 | WP 3.4 | SINGLE SITE MODE";   
 		
 	}	
@@ -82,7 +82,7 @@ class panel_BPM_bp15_wp34_singleSite extends RAZ_testPanel_base {
 		// Enable plugin folder remap and set remapper function
 		$razor->remap_folder = true;
 		require_once($razor->path_testplan . '/db_images/bp-1.5.0_wp-3.3.0.php');
-		$razor->folder_remap_function = "bpm_remap_bp15wp33";
+		$razor->folder_remap_function = "fox_remap_bp15wp33";
 		
 	}
 	
@@ -111,7 +111,7 @@ class panel_BPM_bp15_wp34_singleSite extends RAZ_testPanel_base {
 	
 }
 
-$cls = new panel_BPM_bp15_wp34_singleSite();
+$cls = new panel_FOX_bp15_wp34_singleSite();
 
 global $razor;
 $razor->registerTestPanel($cls);

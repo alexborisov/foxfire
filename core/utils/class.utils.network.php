@@ -6,7 +6,7 @@
  *
  * @version 0.1.9
  * @since 0.1.9
- * @package BP-Media
+ * @package FoxFire
  * @subpackage Util
  * @license GPL v2.0
  * @link http://code.google.com/p/buddypress-media/
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class BPM_Network_Utils {
+class FOX_Network_Utils {
 
 	private function __construct() {}
 
@@ -28,14 +28,14 @@ class BPM_Network_Utils {
 	public static function check_url( $url ){
 	    
 		if( empty($url) )
-			return new WP_Error('bp_media:url_handle:no_url',sprintf(__("Url handler called without url.","bp-media"),$url) );
+			return new WP_Error('bp_media:url_handle:no_url',sprintf(__("Url handler called without url.","foxfire"),$url) );
 
 		$url = trim($url);
 		$url_components = parse_url($url);
 
 		// We need at least a host and a path, or a query
 		if( empty($url_components['host']) || ( empty($url_components['path']) && empty($url_components['query']) ) )
-			return new WP_Error('bp_media:url_handle:incomplete_url',sprintf(__("Stop processing url %s : doesn't seem a complete media url.","bp-media"),$url) );
+			return new WP_Error('bp_media:url_handle:incomplete_url',sprintf(__("Stop processing url %s : doesn't seem a complete media url.","foxfire"),$url) );
 
 		// If the url is given without scheme, http is assumed
 		if( empty($url_components['scheme'])  ) {
@@ -48,32 +48,32 @@ class BPM_Network_Utils {
 		// Check if the scheme is supported and if the url returns a valid response
 		switch( $url_components['scheme'] ) {
 			case 'https':
-				$test_url = BPM_Network_Utils::follow_redirects( $test_url );
+				$test_url = FOX_Network_Utils::follow_redirects( $test_url );
 
-				if ( !is_wp_error($test_url) && 200 == wp_remote_retrieve_response_code( BPM_Network_Utils::remote_head( $test_url ) ) ) {
+				if ( !is_wp_error($test_url) && 200 == wp_remote_retrieve_response_code( FOX_Network_Utils::remote_head( $test_url ) ) ) {
 					$url = $test_url;
 					break;
 				}else // If an https url is not valid, retry without SSL
 					$test_url = substr_replace($url, 'http', 0, 5);
 
 			case 'http':
-				$test_url = BPM_Network_Utils::follow_redirects( $test_url );
+				$test_url = FOX_Network_Utils::follow_redirects( $test_url );
 				if( is_wp_error($test_url) )
 					return $test_url;
 
-				$head_request = BPM_Network_Utils::remote_head( $test_url );
+				$head_request = FOX_Network_Utils::remote_head( $test_url );
 
 				if( is_wp_error($head_request) )
-					return new WP_Error( 'bp_media:http:request_error', sprintf( __('Error in the request of url %s (original %s ): %s - %s',"bp-media"),$test_url , $url, $head_response->get_error_code(), $head_response->get_error_message() ), $head_response->get_error_data() );
+					return new WP_Error( 'bp_media:http:request_error', sprintf( __('Error in the request of url %s (original %s ): %s - %s',"foxfire"),$test_url , $url, $head_response->get_error_code(), $head_response->get_error_message() ), $head_response->get_error_data() );
 				if( 200 != wp_remote_retrieve_response_code( $head_request ) )
 
-					return new WP_Error('bp_media:http:response_code_not_200', sprintf( __('Unsuccessful request of url %s (original %s ): response code %d - %s',"bp-media"),$test_url , $url, wp_remote_retrieve_response_code( $head_request ), wp_remote_retrieve_response_message($head_request) ) );
+					return new WP_Error('bp_media:http:response_code_not_200', sprintf( __('Unsuccessful request of url %s (original %s ): response code %d - %s',"foxfire"),$test_url , $url, wp_remote_retrieve_response_code( $head_request ), wp_remote_retrieve_response_message($head_request) ) );
 				$url = $test_url;
 
 				break;
 
 			default:
-				return new WP_Error('bp_media:url_handle:invalid_url_schema',sprintf(__('Stop processing url %s : the scheme %s is not supported.',"bp-media"),$url_components['scheme']));
+				return new WP_Error('bp_media:url_handle:invalid_url_schema',sprintf(__('Stop processing url %s : the scheme %s is not supported.',"foxfire"),$url_components['scheme']));
 		}
 
 		return $url;
@@ -89,9 +89,9 @@ class BPM_Network_Utils {
 	 */
 	public static function follow_redirects($url, $max_redirects = 5, $followed_urls = array() ) {
 	    
-		$head_response = BPM_Network_Utils::remote_head( $url );
+		$head_response = FOX_Network_Utils::remote_head( $url );
 		if( is_wp_error($head_response) )
-			return new WP_Error( 'bp_media:http:request_error', sprintf( __('Error in the request of url %s : %s - %s',"bp-media"), $url, $head_response->get_error_code(), $head_response->get_error_message() ), $head_response->get_error_data() );
+			return new WP_Error( 'bp_media:http:request_error', sprintf( __('Error in the request of url %s : %s - %s',"foxfire"), $url, $head_response->get_error_code(), $head_response->get_error_message() ), $head_response->get_error_data() );
 
 		$location = wp_remote_retrieve_header( $head_response, 'location' );
 
@@ -102,7 +102,7 @@ class BPM_Network_Utils {
 		elseif ( $max_redirects-- > 0 )
 			return bp_media_follow_redirects( $location, $max_redirects, $followed_urls );
 		else
-			return new WP_Error('bp_media:http:too_many_redirects', sprintf( __('Too many redirects, followed urls: %s',"bp-media"), join(' -> ', $followed_urls) ) );
+			return new WP_Error('bp_media:http:too_many_redirects', sprintf( __('Too many redirects, followed urls: %s',"foxfire"), join(' -> ', $followed_urls) ) );
 	}
 
 	/**
@@ -137,7 +137,7 @@ class BPM_Network_Utils {
 	 */
 	public static function download_file( $url, $file_path, $timeout ) {
 	    
-		$handle = BPM_sUtil::new_file_handle($file_path);
+		$handle = FOX_sUtil::new_file_handle($file_path);
 		if( is_wp_error( $handle ) )
 			return $handle;
 
@@ -146,13 +146,13 @@ class BPM_Network_Utils {
 		if ( is_wp_error( $response ) ) {
 			fclose( $handle );
 			unlink( $file_path );
-			return new WP_Error( 'bp_media:http:request_error', sprintf( __('Error in the request of url %s : %s - %s',"bp-media"), $url, $response->get_error_code(), $response->get_error_message() ), $response->get_error_data() );
+			return new WP_Error( 'bp_media:http:request_error', sprintf( __('Error in the request of url %s : %s - %s',"foxfire"), $url, $response->get_error_code(), $response->get_error_message() ), $response->get_error_data() );
 		}
 
 		if ( 200 != wp_remote_retrieve_response_code( $response ) ) {
 			fclose( $handle );
 			unlink( $file_path );
-			return new WP_Error('bp_media:http:response_code_not_200', sprintf( __('Unsuccessful request of url %s : response code %d - %s',"bp-media"), $url, wp_remote_retrieve_response_code( $response ), wp_remote_retrieve_response_message( $response ) ) );
+			return new WP_Error('bp_media:http:response_code_not_200', sprintf( __('Unsuccessful request of url %s : response code %d - %s',"foxfire"), $url, wp_remote_retrieve_response_code( $response ), wp_remote_retrieve_response_message( $response ) ) );
 		}
 
 		fwrite( $handle, wp_remote_retrieve_body($response) );
@@ -162,6 +162,6 @@ class BPM_Network_Utils {
 		return $file_path;
 	}
 
-} // End of class BPM_Network_Utils
+} // End of class FOX_Network_Utils
 
 ?>
