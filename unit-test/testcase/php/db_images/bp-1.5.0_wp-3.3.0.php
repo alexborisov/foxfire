@@ -46,7 +46,7 @@ function fox_remap_bp15wp33($db_object, $stub, &$error=null){
 //     causes a "Cannot find class FOX_db" error at the start of the unit tests.
 	
 
-	if($stub == "foxfire"){
+	if($stub == "bp-media"){
 		$error = " OK";
 		return true;		
 	}
@@ -68,7 +68,7 @@ function fox_remap_bp15wp33($db_object, $stub, &$error=null){
 			// (154, 0, '_transient_plugin_slugs', 'a:4:{i:0;s:19:"akismet/akismet.php";i:1;s:24:"buddypress/bp-loader.php";i:2;s:19:"foxfire/loader.php";i:3;s:9:"hello.php";}', 'no'),
 
 			$active_plugins = unserialize($result);
-			$key = array_search('foxfire/loader.php', $active_plugins);
+			$key = array_search('bp-media/loader.php', $active_plugins);
 
 			if($key !== null){
 
@@ -107,7 +107,7 @@ function fox_remap_bp15wp33($db_object, $stub, &$error=null){
 			$update_plugins = unserialize($result);
 			$checked = $update_plugins->checked;
 
-			$key = array_search('foxfire/loader.php', $checked);
+			$key = array_search('bp-media/loader.php', $checked);
 
 			if($key !== null){
 
@@ -145,7 +145,7 @@ function fox_remap_bp15wp33($db_object, $stub, &$error=null){
 		if($result){
 
 			$plugin_slugs = unserialize($result);
-			$key = array_search('foxfire/loader.php', $plugin_slugs);
+			$key = array_search('bp-media/loader.php', $plugin_slugs);
 
 			if($key !== null){
 
@@ -180,7 +180,7 @@ function fox_remap_bp15wp33($db_object, $stub, &$error=null){
 
 
 
-	} // ENDOF: if($stub == "foxfire")
+	} // ENDOF: if($stub == "bp-media")
 	
 
 

@@ -37,13 +37,13 @@ class FOX_testPlan extends RAZ_testPlan_base {
     
 	public function loadMockClasses() {
 
-		global $razor;
-		
-		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.page.module.manager.php');
-		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.album.module.manager.php');
-		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.media.module.manager.php');
-		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.network.module.manager.php');
-		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.disk.cache.php');
+//		global $razor;
+//		
+//		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.page.module.manager.php');
+//		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.album.module.manager.php');
+//		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.media.module.manager.php');
+//		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.network.module.manager.php');
+//		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.disk.cache.php');
 	}
 	
 	
@@ -161,47 +161,6 @@ class FOX_testPlan extends RAZ_testPlan_base {
 				array( "enable"=>false,  "name"=>"System Config", "mock"=>array(), "file"=>"/tests/store/test_config.system.php" ),
 				array( "enable"=>false,  "name"=>"User Settings", "mock"=>array(), "file"=>"/tests/store/test_user.data.php" ),
 			),
-
-			"album" => array(
-				array( "enable"=>false,  "name"=>"AlbumType Data", "mock"=>array(), "file"=>"/tests/album/test_album.type.data.php" ),
-				array( "enable"=>false,  "name"=>"AlbumType Levels", "mock"=>array(), "file"=>"/tests/album/test_album.type.level.php" ),
-				array( "enable"=>false,  "name"=>"AlbumType Policy", "mock"=>array(), "file"=>"/tests/album/test_album.type.policy.php" ),
-				array( "enable"=>false,  "name"=>"Album Module Manager", "mock"=>array(), "file"=>"/tests/album/test_album.module.manager.php" ),
-				array( "enable"=>false,  "name"=>"Album Object", "mock"=>array(), "file"=>"/tests/album/test_class.album.object.php" ),
-				array( "enable"=>false,  "name"=>"Album Object Manager", "mock"=>array(), "file"=>"/tests/album/test_class.album.manager.php" ),
-				array( "enable"=>false,  "name"=>"Album Template", "mock"=>array(), "file"=>"/tests/album/test_class.album.template.php" )
-			),
-
-			"media" => array(
-				array( "enable"=>false,  "name"=>"Media Object", "mock"=>array(), "file"=>"/tests/media/test_class.media.object.php" ),
-				array( "enable"=>false,  "name"=>"Media Object Manager", "mock"=>array(), "file"=>"/tests/media/test_class.media.manager.php" ),
-				array( "enable"=>false,  "name"=>"Media Template", "mock"=>array(), "file"=>"/tests/media/test_class.media.template.php" )
-			),
-
-			"nav" => array(
-				array( "enable"=>false,  "name"=>"Location Modules", "mock"=>array(), "file"=>"/tests/nav/test_class.location.module.php" ),
-				array( "enable"=>false,  "name"=>"Location Policy", "mock"=>array(), "file"=>"/tests/nav/test_class.location.policy.php" ),
-				array( "enable"=>false,	 "name"=>"Navigation Core", "mock"=>array(), "file"=>"/tests/nav/test_class.navigation.php" ),
-				array( "enable"=>false,  "name"=>"Module Slug", "mock"=>array(), "file"=>"/tests/nav/test_class.module.slug.php" )
-			),
-
-			"meta" => array(
-				array( "enable"=>false,  "name"=>"Member Tags", "mock"=>array(), "file"=>"/tests/meta/test_class.member.tags.php" ),
-				array( "enable"=>false,  "name"=>"Keyword Tags", "mock"=>array(), "file"=>"/tests/meta/test_keyword.php" ),
-				array( "enable"=>false,  "name"=>"EXIF Data", "mock"=>array(), "file"=>"/tests/meta/test_exif.php" )
-			),
-
-			"rbac" => array(
-				array( "enable"=>false,  "name"=>"Group Keyring", "mock"=>array(), "file"=>"/tests/rbac/test_user.group.keyring.php" ),
-				array( "enable"=>false,  "name"=>"Group Members", "mock"=>array(), "file"=>"/tests/rbac/test_user.group.members.php" ),
-				array( "enable"=>false,  "name"=>"Group Types", "mock"=>array(), "file"=>"/tests/rbac/test_user.group.types.php" ),
-				array( "enable"=>false,  "name"=>"Key Types", "mock"=>array(), "file"=>"/tests/rbac/test_user.key.types.php" ),
-				array( "enable"=>false,  "name"=>"User Keyring", "mock"=>array(), "file"=>"/tests/rbac/test_user.keyring.php" )
-			),
-
-			"spanner" => array(
-				array( "enable"=>false,  "name"=>"Spanner", "mock"=>array(), "file"=>"/tests/spanner/test_class.thumbs.spanner.php" )
-			)
 
 		);
 
