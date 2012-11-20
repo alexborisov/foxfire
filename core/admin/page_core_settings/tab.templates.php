@@ -50,7 +50,7 @@ class FOX_tab_templates {
 		    <?php // This block of duplicate code allows the section to be moved around without breaking "locking" functionality ?>
 		    <?php ////////////////////////////////////////////////////////////////////////////////////////////////////////////// ?>
 
-		    <?php if (BP_MEDIA_EXPERT_MODE == 1) {
+		    <?php if (FOX_EXPERT_MODE == 1) {
 
 				$locked = '';
 				$lock_status = '<div class="bpa-unlocked-small"></div>';

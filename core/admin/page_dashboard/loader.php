@@ -75,8 +75,8 @@ class FOX_admin_page_dashboard {
 
 		<div class="fox_dashboard_header_wrap">
 		    <span class="fox_dashboard_version">
-			<div class="bpa-admin-ver-title">Version: </div> <span class="bpa-admin-ver-text"><?php echo BP_MEDIA_DISPLAY_VERSION ?></span><br/>
-			<div class="bpa-admin-build-title">Build Date: </div> <span class="bpa-admin-build-text"><?php echo BP_MEDIA_DISPLAY_DATE ?></span><br/>
+			<div class="bpa-admin-ver-title">Version: </div> <span class="bpa-admin-ver-text"><?php echo FOX_DISPLAY_VERSION ?></span><br/>
+			<div class="bpa-admin-build-title">Build Date: </div> <span class="bpa-admin-build-text"><?php echo FOX_DISPLAY_DATE ?></span><br/>
 			<div class="bpa-admin-build-title">Using PHP: </div> <span class="bpa-admin-build-text"><?php echo phpversion();  ?></span>
 		    </span>
 		</div>

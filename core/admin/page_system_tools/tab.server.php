@@ -48,7 +48,7 @@ class FOX_tab_server {
 		    <?php $fox->config->initKeysArray(); ?>
 
 
-		    <?php if (BP_MEDIA_EXPERT_MODE == 1) {
+		    <?php if (FOX_EXPERT_MODE == 1) {
 
 				$locked = '';
 				$lock_status = '<div class="bpa-unlocked-small"></div>';

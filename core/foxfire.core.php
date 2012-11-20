@@ -197,7 +197,7 @@ else {
 	// Load the base classes
 	// ===============================================================
 	
-	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );
+	//require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.datastore.monolithic.L3.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/class.datastore.validators.php' );	
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.datastore.paged.L4.php' );
@@ -210,7 +210,7 @@ else {
 	// and create the global singletons for these two classes.
 	// ===============================================================
 	
-	require ( dirname( __FILE__ ) . '/cache_disk/class.cache.disk.php' );
+	//require ( dirname( __FILE__ ) . '/cache_disk/class.cache.disk.php' );
 
 	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.memory.core.php' );
 	require ( dirname( __FILE__ ) . '/cache_memory/abstract.class.cache.driver.base.php' );
@@ -221,9 +221,12 @@ else {
 	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.thread.php' );
 
 	require ( dirname( __FILE__ ) . '/config/class.config.system.php' );
+	
+	require ( dirname( __FILE__ ) . '/admin/sub.admin.core.php' );
+	
 
 	$fox->mCache = new FOX_mCache();    // Memory cache singleton
-	$fox->disk = new FOX_dCache();	    // Disk singleton
+	//$fox->disk = new FOX_dCache();	    // Disk singleton
 
 
 	/**
