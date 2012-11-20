@@ -1,0 +1,529 @@
+
+/**
+ * BP-MEDIA ADMIN PAGE MODULES CSS STYLES
+ *
+ * @version 0.1.9
+ * @since 0.1.9
+ * @package BP-Media
+ * @subpackage Admin
+ * @license GPL v2.0
+ * @link http://code.google.com/p/buddypress-media/
+ *
+ * ========================================================================================================
+ */
+
+.bppm_supports_variables {
+    float:left;
+    width:650px;
+    height:12px;
+    margin:2px 5px 8px 0px;
+    padding:3px;
+    background-color: #f0f0ff;
+    border: none;
+}
+
+.bppm_supports_variables .icon {
+    float:left;
+    width:12px;
+    height:12px;
+    margin: 0px 0px 0px 2px;
+    background: url(images/admin_variables.png);
+}
+
+.bppm_supports_variables .desc{
+    float:left;
+    width:550px;
+    line-height:11px;
+    font-size: 12px;
+    height:12px;
+    margin:1px 5px 3px 5px;
+}
+
+.bppm_supports_variables .desc code{
+    line-height:11px;
+    font-size: 11px;
+    background-color: #f0f0ff;
+    margin:  0px;
+    padding: 0px;
+}
+
+.bppm_pageValidator{
+	float:left;
+	height:	22px;
+	width:200px;
+	margin: 2px 0px 0px 50px;
+}
+
+.bppm_pageValidator .icon_available{
+	float:left;
+	height:	22px;
+	width:22px;
+	margin: 0px;
+	background: url(images/bpm_admin_available.png);
+}
+
+.bppm_pageValidator .icon_inuse{
+	float:left;
+	height:	22px;
+	width:22px;
+	margin: 0px;
+	background: url(images/bpm_admin_inuse.png);
+}
+
+.bppm_pageValidator .icon_fail{
+	float:left;
+	height:	22px;
+	width:22px;
+	margin: 0px;
+	background: url(images/bpm_admin_fail.png);
+}
+
+.bppm_pageValidator .message_a{
+	float:left;
+	height:	9px;
+	width:160px;
+	margin: 2px 0px 0px 6px;
+	font-size:9px;
+	line-height:9px;
+	padding:0px;
+}
+
+.bppm_pageValidator .message_b{
+	float:left;
+	height:	9px;
+	width:160px;
+	margin: 0px 0px 0px 6px;
+	font-size:9px;
+	line-height:9px;
+	padding:0px;
+}
+
+/* ======================================= */
+
+.key_panel {
+    float:left;
+    width:100%;
+}
+
+.key_handler {
+    float:left;
+    width:575px;
+}
+
+.key_manager {
+    width:32px;
+    height:32px;
+    margin:10px 20px 0px 0px;
+    padding:2px;
+    float:right;
+    background-color:#F9F9FF;
+    border: solid 1px #E9E9EF;
+    border-radius:3px;
+}
+
+.key_manager:hover {
+    width:32px;
+    height:32px;
+    margin:10px 20px 0px 0px;
+    padding:2px;
+    float:right;
+    background-color:#FFFFAF;
+    border: solid 1px #B9B9BF;
+    border-radius:3px;
+}
+
+/* ================================================ */
+
+.chip_list_wrap {
+    float:left;
+    width:350px;
+    min-height:25px;
+    border: solid 1px #CCCCCC;
+    background-color: #F3F3FF;
+    border-radius:2px;
+    cursor:pointer;
+}
+
+.chip_list_wrap_active {
+
+    background-color: #FFFF88;
+    border: 1px solid #999999;
+
+}
+
+.chip_list_wrap .chip_list {
+    float:left;
+    padding:2px;
+    margin:2px;
+}
+
+/* ================================================ */
+
+
+.view_name {
+    float:left;
+    overflow:hidden;
+    padding:2px;
+    margin: 0px;
+
+    /*
+       border: solid 1px #DDD;
+    border-width: 1px;
+    background-color: #F3FFF3; */
+    border-radius:0px;
+}
+
+.view_name:hover {
+    float:left;
+    overflow:hidden;
+    padding:0px;
+    margin: 2px;
+    border: solid 1px #002252;
+    border-radius:2px;
+}
+
+.view_name .textblock {
+    float:left;
+    padding:2px 3px 2px 4px;
+    line-height:11px;
+    height:11px;
+    color:#000;
+}
+
+.view_name .textblock .name {
+    float:left;
+    margin: 0px 0px 0px 0px;
+    height:12px;
+    line-height:12px;
+    font-size:12px;
+    text-shadow:none;
+}
+
+.view_name .icon {
+    float:left;
+    height:16px;
+    width:16px;
+}
+
+.view_name .icon .user_view {
+    float:left;
+    height:16px;
+    width:16px;
+    background: url(images/role_lock.png);
+}
+
+
+
+/* ================================================ */
+
+
+.token_chip {
+    float:left;
+    overflow:hidden;
+    padding:0px;
+    margin: 2px;
+    border: solid 1px #004272;
+    background: url(images/chip_key_back.png);
+    border-radius:2px;
+}
+
+.token_chip:hover {
+    float:left;
+    overflow:hidden;
+    padding:0px;
+    margin: 2px;
+    border: solid 1px #002252;
+    border-radius:2px;
+}
+
+.token_chip .textblock {
+    float:left;
+    padding:2px 4px 2px 6px;
+    line-height:11px;
+    height:11px;
+    color:#FFFFFF;
+}
+
+.token_chip .textblock:hover {
+    float:left;
+    padding:2px 4px 2px 6px;
+    line-height:11px;
+    height:11px;
+    color:#FFFF00;
+    background: url(images/chip_key_back_hover.png);    
+}
+
+.token_chip .textblock .name {
+    float:left;
+    margin: 0px 0px 0px 0px;
+    height:11px;
+    line-height:11px;
+    font-size:11px;    
+}
+
+.token_chip .actions {
+    float:left;
+    height:11px;
+    margin: 0px;
+    padding:2px 6px 2px 0px;
+    color:#FFFFFF;
+}
+
+.token_chip .actions:hover {
+    float:left;
+    height:11px;
+    margin: 0px;
+    padding:2px 6px 2px 0px;
+    background: url(images/chip_key_back_hover.png);
+    color:#FFFF00;
+}
+
+.token_chip .actions .delete {
+    float:left;
+    height:11px;
+    border: solid #65B2D1;
+    border-width: 0px 0px 0px 1px;
+    line-height:10px;
+    font-size:11px;
+    margin: 0px;
+    padding:0px 0px 0px 4px;
+}
+
+/* ================================================= */
+
+
+.group_chip {
+    float:left;
+    overflow:hidden;
+    padding:0px;
+    margin: 2px;
+    border: solid 1px #447200;
+    background: url(images/chip_group_back.png);
+    border-radius:2px;
+}
+
+.group_chip:hover {
+    float:left;
+    overflow:hidden;
+    padding:0px;
+    margin: 2px;
+    border: solid 1px #245200;
+    border-radius:2px;
+}
+
+.group_chip .textblock {
+    float:left;
+    padding:2px 4px 2px 6px;
+    line-height:11px;
+    height:11px;
+    color:#FFFFFF;
+}
+
+.group_chip .textblock:hover {
+    float:left;
+    padding:2px 4px 2px 6px;
+    line-height:11px;
+    height:11px;
+    color:#FFFF00;
+    background: url(images/chip_group_back_hover.png);
+}
+
+.group_chip .textblock .name {
+    float:left;
+    margin: 0px 0px 0px 0px;
+    height:11px;
+    line-height:11px;
+    font-size:11px;
+}
+
+.group_chip .actions {
+    float:left;
+    height:11px;
+    margin: 0px;
+    padding:2px 6px 2px 0px;
+    color:#FFFFFF;
+}
+
+.group_chip .actions:hover {
+    float:left;
+    height:11px;
+    margin: 0px;
+    padding:2px 6px 2px 0px;
+    background: url(images/chip_group_back_hover.png);
+    color:#FFFF00;
+}
+
+.group_chip .actions .delete {
+    float:left;
+    height:11px;
+    border: solid #B2D165;
+    border-width: 0px 0px 0px 1px;
+    line-height:10px;
+    font-size:11px;
+    margin: 0px;
+    padding:0px 0px 0px 4px;
+}
+
+/* ================================================= */
+
+
+.system_chip {
+    float:left;
+    overflow:hidden;
+    padding:0px;
+    margin: 2px;
+    border: solid 1px #723000;
+    background: url(images/chip_system_back.png);
+    border-radius:2px;
+}
+
+.system_chip:hover {
+    float:left;
+    overflow:hidden;
+    padding:0px;
+    margin: 2px;
+    border: solid 1px #521000;
+    border-radius:2px;
+}
+
+.system_chip .textblock {
+    float:left;
+    padding:2px 4px 2px 6px;
+    line-height:11px;
+    height:11px;
+    color:#FFFFFF;
+}
+
+.system_chip .textblock:hover {
+    float:left;
+    padding:2px 4px 2px 6px;
+    line-height:11px;
+    height:11px;
+    color:#FFFF00;
+    background: url(images/chip_system_back_hover.png);
+}
+
+.system_chip .textblock .name {
+    float:left;
+    margin: 0px 0px 0px 0px;
+    height:11px;
+    line-height:11px;
+    font-size:11px;
+}
+
+.system_chip .actions {
+    float:left;
+    height:11px;
+    margin: 0px;
+    padding:2px 6px 2px 0px;
+    color:#FFFFFF;
+}
+
+.system_chip .actions:hover {
+    float:left;
+    height:11px;
+    margin: 0px;
+    padding:2px 6px 2px 0px;
+    background: url(images/chip_system_back_hover.png);
+    color:#FFFF00;
+}
+
+.system_chip .actions .delete {
+    float:left;
+    height:11px;
+    border: solid #D16552;
+    border-width: 0px 0px 0px 1px;
+    line-height:10px;
+    font-size:11px;
+    margin: 0px;
+    padding:0px 0px 0px 4px;
+}
+
+/* =============================================== */
+
+.bpm_floating_palette {
+
+    border-color: #999 #999 #555 #555;
+    border-width: 1px 1px 1px 1px;
+    /* x-offset, y-offset, blur radius, spread */
+    -moz-box-shadow: -2px 2px 5px 0px rgba(0, 0, 0, .5);
+    -webkit-box-shadow: -2px 2px 5px 0px rgba(0, 0, 0, .5);
+    box-shadow: -2px 2px 5px 0px rgba(0, 0, 0, .5);
+
+    background:none;
+    background-color: #E8E8FF; 
+    margin:0px;
+  
+}
+
+.bpm_floating_palette .ui-dialog-titlebar {
+
+    border: solid 1px #CCC;
+    padding: 5px 5px 5px 5px;
+}
+
+.bpm_floating_palette .ui-dialog-titlebar .bpm_title_bar_icon {
+
+    float:left;
+    height:16px;
+    width:16px;
+    margin:0px;
+
+}
+
+.bpm_floating_palette .ui-dialog-titlebar .title_string {
+
+    float:left;
+    height:16px;
+    line-height:16px;
+    margin:0px 0px 0px 5px;
+
+    font-size: 15px;
+    font-weight: normal;
+    font-family: sans-serif;
+    color:#222;
+}
+
+
+.bpm_title_bar_icon .key_manager_icon {
+
+    height:16px;
+    width:16px;
+    background: url(images/lock.png);
+
+}
+
+.bpm_floating_palette .palette_content {
+
+    margin: 3px 0px 0px 0px;
+    padding:0px;
+    background:none;
+    background-color:#FFF;
+    border: solid 1px #CCC;
+    border-radius: 4px;
+}
+
+.bpm_floating_palette .palette_content .section{
+
+    border: 1px solid #EEEEEE;
+    float: left;
+    margin: 20px 5px 15px 8px;
+    padding: 15px;
+    min-width:250px;
+}
+
+
+.bpm_floating_palette .palette_content .section .title {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: medium none;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    margin: -28px 0 0;
+    padding: 3px 10px;
+    font-family: sans-serif;
+}
+
+
+
+

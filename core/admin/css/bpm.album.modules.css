@@ -1,0 +1,461 @@
+
+
+/* MODULE TYPE LIST								 */
+/* ===================================================================================== */
+
+.bpm_albumtype_list {
+    float:left;
+    background-color:#FFF;
+    margin:20px 10px 30px 10px;
+    border:solid #aaa;
+    border-width: 1px 0px 0px 0px;
+    padding:0px 0px 0px 0px;
+    width:710px;
+}
+
+.bpm_albumtype_list .item {
+    float:left;
+    position:relative;
+    background-color:#fff;
+    margin:0px 0px 5px 0px;
+    border: solid #e9e9e9;
+    border-width: 0px 0px 1px 0px;
+    width:710px;
+    padding:0px;
+    overflow:hidden;
+}
+
+.bpm_albumtype_list #open.item .header{
+    float:left;
+    width:100%;
+    height:16px;
+    /*background: url("images/album_type_header.png") repeat-x scroll left top red;*/
+    margin:0px;
+    padding: 10px 0px 10px 0px;
+    border:solid #222;
+    border-width:0px 0px 1px 0px;
+    background-color:#f2f2f2;
+}
+
+.bpm_albumtype_list #closed.item .header{
+    float:left;
+    width:100%;
+    height:16px;
+    /*background: url("images/album_type_header.png") repeat-x scroll left top red; */
+    margin:0px;
+    padding: 10px 0px 10px 0px;
+    border:solid #222;
+    border-width:0px 0px 0px 0px;
+}
+
+.bpm_albumtype_list .item .header .textblock{
+    float:left;
+    height:16px;
+    width:600px;
+    margin:0px 0px 0px 0px;
+}
+
+.bpm_albumtype_list .item .header .textblock .album_type_icon{
+    float:left;
+    height:16px;
+    width:16px;
+    margin:0px 8px 0px 10px;
+    border:none;
+}
+
+.bpm_albumtype_list .item .header .textblock .name{
+    float:left;
+    height:16px;
+    width:200px;
+    margin:0px 0px 0px 0px;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    line-height:16px;
+    font-size:12px;
+    font-weight:bold;
+    color:#222;
+}
+
+.bpm_albumtype_list .item .header .textblock .desc{
+    float:left;
+    height:16px;
+    width:300px;
+    margin:0px 0px 0px 0px;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    line-height:16px;
+    font-size:12px;
+    font-weight:normal;
+    color:#444;
+}
+
+.bpm_albumtype_list .item .header .actions{
+    float:right;
+    height:16px;
+    width:60px;
+    margin:0px 0px 0px 0px;
+    border:none;
+    
+}
+
+.bpm_albumtype_list #open.item .header .actions .buttons{
+    float:right;
+    margin:0px;
+    padding:0px
+}
+
+.bpm_albumtype_list #closed.item .header .actions .buttons{
+    float:right;
+    margin:0px;
+    background-color:#9F9F9F;
+    border:none;
+    padding:0px;
+    height:0px;
+    overflow:hidden;
+}
+
+.bpm_albumtype_list .item .header .actions .title{
+    float:left;
+    height:16px;
+    width:60px;
+    margin:0px;
+}
+
+.bpm_albumtype_list .item .header .actions .buttons .delete {
+    float:left;
+    height:16px;
+    width:16px;
+    background-color:red;
+    background: url(images/cross.png);
+    margin:2px 6px 1px 2px;
+}
+
+.bpm_albumtype_list .item .header .actions .buttons .delete:hover {
+    float:left;
+    height:16px;
+    width:16px;
+    background-color:red;
+    background: url(images/cross-hover.png);
+    margin:2px 6px 1px 2px;
+}
+
+.bpm_albumtype_list .item .header .actions .buttons .edit {
+    float:left;
+    height:16px;
+    width:16px;
+    background-color:red;
+    background: url(images/wrench.png);
+    margin:2px 2px 1px 0px;
+}
+
+.bpm_albumtype_list .item .header .actions .buttons .edit:hover {
+    float:left;
+    height:16px;
+    width:16px;
+    background-color:red;
+    background: url(images/wrench-hover.png);
+    margin:2px 2px 1px 0px;
+}
+
+
+.bpm_albumtype_list .item .level_panel{
+    float:left;
+    width:650px;
+    /*background: url("images/level_panel.png") no-repeat scroll left top #9f9f9f; */
+    margin:0px;
+    padding:0px;
+    overflow:hidden;
+}
+
+.bpm_albumtype_list #closed.item .level_panel{
+    float:left;
+    width:650px;
+    /*background: url("images/level_panel.png") no-repeat scroll left top #9f9f9f; */
+    margin:0px;
+    padding:0px;
+    height:0px;
+    
+}
+
+.bpm_albumtype_list .item .level_panel .columns{
+    background: url("images/level_columns.png") repeat-y scroll left top #9f9f9f;
+    float:left;
+    font-size:11px;
+    font-weight:normal;
+    color:#fff;
+    text-shadow: 0 -1px 0 #333333;
+    width:610px;
+    height:16px;
+    line-height:16px;
+    margin:10px 0px 2px 25px;
+    border: 1px solid #444;
+}
+
+.bpm_albumtype_list .item .level_panel .columns .level{
+    float:left;
+    width:100px;
+    margin:0px 0px 0px 36px;
+}
+
+.bpm_albumtype_list .item .level_panel .columns .desc{
+    float:left;
+    width:300px;
+    margin:0px 0px 0px 0px;
+}
+
+.bpm_albumtype_list .item .level_panel .columns .action{
+    float:right;
+    text-align:right;
+    width:100px;
+    margin:0px 20px 0px 0px;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap{
+    float:left;
+    background-color:#9696ff;
+    margin:0px 0px 3px 25px;
+    padding:8px;
+    border:solid #444;
+    border-width:1px 1px 1px 1px;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list{
+    float:left;
+    width:592px;
+    border:none;
+    background-color:#bbb;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list li.level_row{
+    float:left;
+    height:20px;
+    margin:-1px 0px 0px 0px;
+    padding:0px;
+    width:592px;    /* 8px padding + 8px padding + 1px border + 1px border = 18px */
+    border: solid black;
+    border-width:1px 1px 1px 1px;
+    overflow:hidden;
+}
+
+.level_row_odd{
+    background-color:#e9e9ff;
+}
+
+.level_row_even{
+    background-color:#ffffe9;
+}
+
+.level_row_odd:hover{
+    background-color:#ffffaa;
+}
+
+.level_row_even:hover{
+    background-color:#ffffaa;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list .level_row .icon{
+    float:left;
+    height:16px;
+    width:16px;
+    margin:2px 2px 2px 2px;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list .level_row .textblock{
+    float:left;
+    height:16px;
+    width:310px;
+    margin:2px 2px 2px 8px;
+    cursor:default;
+}
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list .level_row .textblock .name{
+    float:left;
+    height:16px;
+    width:100px;
+    margin:0px;
+    font-family: Helvetica;
+    font-size:12px;
+    font-weight:bold;
+    line-height:16px;	/* Centres text vertically */
+    overflow:hidden;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list .level_row .textblock .desc{
+    float:left;
+    height:16px;
+    width:auto;
+    margin:0px;
+    font-family: Helvetica;
+    font-size:12px;
+    font-weight:normal;
+    line-height:16px;	/* Centres text vertically */
+    overflow:hidden;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list .level_row .actions{
+    float:right;
+    height:15px;
+    width:40px;
+    margin:2px 8px 2px 2px;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list .level_row .actions .delete {
+    float:left;
+    height:16px;
+    width:16px;
+    background: url(images/cross.png);
+    margin:0px 8px 0px 0px;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list .level_row .actions .delete:hover {
+    float:left;
+    height:16px;
+    width:16px;
+    background: url(images/cross-hover.png);
+    margin:0px 8px 0px 0px;
+    cursor:pointer;
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list .level_row .actions .edit {
+    float:left;
+    height:16px;
+    width:16px;
+    background: url(images/wrench.png);
+}
+
+.bpm_albumtype_list .item .level_panel .level_list_wrap ul.level_list .level_row .actions .edit:hover {
+    float:left;
+    height:16px;
+    width:16px;
+    background: url(images/wrench-hover.png);
+    cursor:pointer;
+}
+
+.bpm_albumtype_list .item .level_panel .new_level{
+    float:right;
+    width:650px;
+    height:20px;
+    margin:5px 3px 5px 20px;
+    border:none;
+    background:none;
+}
+
+.bpm_albumtype_list .item .level_panel .new_level .bpm_button{
+    float:right;
+    padding: 0px 5px 0px 5px;
+    background-color:#00ae42;
+    border:none;
+    margin:0px 20px 0px 0px;
+    font-family: Helvetica;
+    font-size:12px;
+    font-weight:bold;
+    line-height:16px;	/* Centres text vertically */
+    text-align:center;
+    color:white;
+    text-shadow: 0 -1px 0 #333333;
+    border:solid 1px #333;
+    cursor:default;
+}
+
+
+.bpm_albumtype_list .item .level_panel .new_level .bpm_button:hover{
+    background-color:#eeae42; /* #ccae42; */
+}
+
+
+.bpm_albumtype_list .new_albumtype {
+    float:left;
+    position:relative;
+    background: url("images/album_type_footer.png") repeat-x scroll left top #8c8d8e;
+    margin:10px 5px 0px 5px;
+    border: 1px solid #222;
+    height:28px;
+    width:650px;
+    padding:0px;
+    overflow:hidden;
+}
+
+.bpm_albumtype_list .new_albumtype .bpm_button{
+    float:right;
+    padding: 0px 5px 0px 5px;
+    background-color:#00ae42;
+    border:none;
+    margin:4px 20px 0px 0px;
+    font-family: Helvetica;
+    font-size:12px;
+    font-weight:bold;
+    line-height:18px;	/* Centres text vertically */
+    text-align:center;
+    color:white;
+    text-shadow: 0 -1px 0 #333333;
+    border:solid 1px #333;
+    cursor:default;
+}
+
+
+.bpm_albumtype_list .new_albumtype .bpm_button:hover{
+    background-color:#eeae42; /* #ccae42; */
+}
+
+.bpm_albumtype_list #open.item .footer{
+    float:left;
+    width:100%;
+    height:20px;
+    background: url("images/album_type_footer.png") repeat-x scroll left top #8c8d8e;
+    margin:0px;
+    border:solid #222;
+    border-width:1px 0px 0px 0px;
+}
+
+.bpm_albumtype_list #closed.item .footer{
+    float:left;
+    width:100%;
+    height:0px;
+    background: url("images/album_type_footer.png") repeat-x scroll left top #8c8d8e;
+    margin:-20px 0px 0px 0px;
+    border:solid #222;
+    border-width:0px 0px 0px 0px;
+}
+
+.bpm_albumtype_list .item .footer .action{
+    float:right;
+    background-color: #9F9F9F;
+    height:16px;
+    width:20px;
+    border:solid #333;
+    border-width:1px 0px 0px 1px;
+    margin: 3px 0px 0px 0px;
+}
+
+.bpm_albumtype_list #open.item  .footer .action .bpm_button{
+    float:right;
+    height:16px;
+    width:16px;
+    background: url("images/close.png");
+    margin:0px 2px 0px 0px;
+    border:none
+}
+
+.bpm_albumtype_list #closed.item .footer .action .bpm_button{
+    float:right;
+    height:16px;
+    width:16px;
+    background: url("images/open.png");
+    margin:0px 2px 0px 0px;
+    border:none
+}
+
+.bpm_albumtype_list #open.item .footer .action .bpm_button:hover{
+    float:right;
+    height:16px;
+    width:16px;
+    background: url("images/close_hover.png");
+    margin:0px 2px 0px 0px;
+    border:none
+}
+
+.bpm_albumtype_list #closed.item .footer .action .bpm_button:hover{
+    float:right;
+    height:16px;
+    width:16px;
+    background: url("images/open_hover.png");
+    margin:0px 2px 0px 0px;
+    border:none
+}

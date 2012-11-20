@@ -1,0 +1,999 @@
+
+/**
+ * BP-MEDIA BASE ADMIN PAGE CSS STYLES
+ *
+ * @version 0.1.9
+ * @since 0.1.9
+ * @package BP-Media
+ * @subpackage Admin
+ * @license GPL v2.0
+ * @link http://code.google.com/p/buddypress-media/
+ *
+ * ========================================================================================================
+ */
+
+
+/* REMOVE BUDDYBAR FROM OUR ADMIN SCREENS						 */
+/* ===================================================================================== */
+
+#wp-admin-bar {
+    height:0px;
+    overflow:hidden;
+}
+
+body, body.wp-admin {
+    padding-top: 0px !important;
+}
+
+
+/* SUBMIT BUTTONS									 */
+/* ===================================================================================== */
+
+input.bpm-button, .submit input.bpm-button, .button-secondary {
+
+	border-color:  #298CBA;
+	font-weight: bold;
+	color: white;
+	background: #21759B url(./images/button-grad.png) repeat-x scroll left top;
+	text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+	text-decoration: none;
+	font-size: 12px!important;
+	line-height: 13px;
+	padding: 3px 8px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+input.bpm-button:hover, .submit input.bpm-button:hover, .button-secondary:hover {
+
+	border-color:  #111;
+	font-weight: bold;
+	color: #FFFF00;
+	background: #21759B url(./images/button-grad.png) repeat-x scroll left top;
+	text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+	text-decoration: none;
+	font-size: 12px!important;
+	line-height: 13px;
+	padding: 3px 8px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+input.bpm-button, button.bpm-button, a.bpm-button {
+
+	border-color: #298CBA;
+	font-weight: bold;
+	color: white;
+	background: #21759B url(./images/button-grad.png) repeat-x scroll left top;
+	text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+}
+
+input.bpm-button:hover, button.bpm-button:hover, a.bpm-button:hover {
+
+	background: url("./images/button-grad-active.png") repeat-x scroll left top #21759B;
+	color: #FFFF00;
+}
+
+.bpm-button-disabled, .bpm-button[disabled], .bpm-button:disabled {
+    
+	background: none repeat scroll 0 0 #298CBA !important;
+	color: #9FD0D5 !important;
+}
+
+
+.submit {
+	float:left;
+	margin: 0px 10px 0px 0px;
+}
+
+
+
+
+/* HEADERS AND FOOTERS									 */
+/* ===================================================================================== */
+
+.bpm_header_small {
+    width:1000px;
+    height:60px;
+    background: url(header-small.png);
+    margin: 5px 0px 0px 5px;
+    border: solid 1px #333;
+}
+
+.bpm_header_small #bpm_admin_notice_area {
+    float:right;
+    width:500px;
+    height:50px;
+    margin: 5px 20px 5px 5px;
+    z-index:9999;
+}
+
+.bpm_admin_notify-item-wrapper {
+    position:relative;
+    float:right;
+
+    /* If the notifier has to display multiple notices at once, the top or bottom
+       margin has to be set so that there will be a space between the items. */
+
+    margin:5px 0px 0px 0px;
+	
+    background:url('images/ie-spacer.gif'); /* ie7/8 fix */
+    width:400px;
+}
+
+.bpm_admin_notify-item {
+    display:block;
+    position:relative;
+
+    /*Combined with the animate-position offset in the notifier JS file,
+      this produces the "slide-in" effect */
+    top:15px;
+
+    background:url(images/bpm_admin_notify.png);
+    color:#eee;
+    padding:5px 4px 4px 4px;
+    font-family:verdana;
+    border-top: solid 1px #222;
+    border-right: solid 1px #111;
+    border-bottom: solid 1px #111;
+    border-left: solid 1px #222;
+    border-radius: 6px;
+    height:32px;
+}
+.bpm_admin_notify-image {
+    float:left;
+    margin:3px 0px 0px 5px;
+    padding: 0px;
+    width:25px;
+    height:25px;
+}
+.bpm_admin_notify-with-image,
+.bpm_admin_notify-without-image {
+    float:left;
+    margin:2px 0px 2px 8px;
+    padding:0px 0px 0px 0px;
+}
+
+.bpm_admin_notify-title {
+    margin:0px 0px 2px 0px;
+    font-size:13px;
+    line-height:13px;
+    font-weight:bold;
+    display:block;
+    text-shadow:1px 1px #000; 
+}
+
+.bpm_admin_notify-item p {
+    padding:0;
+    margin:0px 0px 0px 0px;
+    font-size: 9px;
+    line-height: 10px;
+    text-shadow:1px 1px #000;
+}
+
+.bpm_admin_notify-close {
+    position:absolute;
+    top:3px;
+    right:4px;
+    background:url(images/bpm_admin_notify_close.png);
+    cursor:pointer;
+    width:16px;
+    height:16px;
+}
+
+.bpm_footer {
+    float:left;
+    width:1000px;
+    height:30px;
+    background: url(footer.png);
+    margin: 0px 0px 5px 5px;
+    border: solid 1px #333;
+}
+
+
+/* ===================================================================================== */
+
+.bpa-trouble-intro{
+    float:left;
+    font-size:16px;
+    font-weight:bold;
+    margin:20px 0px 0px 20px;
+}
+
+.bpa-trouble-advice{
+    float:left;
+    font-size:11px;
+    line-height:120%;
+    margin:3px 0px 20px 21px;
+    width:800px;
+}
+
+.bpa-trouble-outro{
+    font-size:12px;
+    font-weight:normal;
+    margin:10px auto 50px auto;
+    text-align:center;
+}
+
+.bpa-trouble-wrap{
+    float:left;
+    margin:20px 0px 0px 40px;
+    width:100%;
+}
+
+.bpa-trouble{
+    float:left;
+    width:800px;
+    padding:0px 10px 5px 0px;
+    background-color:#fafaff;
+    border:solid 1px #eee;
+}
+
+.bpa-trouble .title_block {
+    float:left;
+    margin:0;
+    padding: 10px 0px 10px 10px;
+    width:95%;
+}
+
+.bpa-trouble .title_block .Lheadline {
+    float:left;
+    font-size:15px;
+    font-weight:bold;
+    margin:0px 0px 0px 8px;
+}
+
+.bpa-trouble .title_block .Rheadline {
+    float:right;
+    font-size:12px;
+    font-weight:bold;
+    margin:2px 15px 0px 8px;
+}
+
+
+ .bpa-trouble .text {
+    float:left;
+    font-size:11px;
+    line-height:130%;
+    min-height:32px;
+    width:90%;
+    margin:-20px 0px 3px 52px;
+}
+
+ .bpa-trouble .text p {
+    float:left;
+    font-size:11px;
+    line-height:130%;
+    min-height:32px;
+    width:100%;
+    margin:10px 0px 3px 0px;
+}
+
+.bpa-key-large {
+    float:left;
+    height:32px;
+    width:32px;
+    margin:0px;
+    background-color:red;
+    background: url(images/key_large.png);
+}
+
+
+.bpa-gd-logo-large {
+    float:left;
+    height:32px;
+    width:32px;
+    margin:0px;
+    background-color:red;
+    background: url(images/gd_logo_large.png);
+}
+
+
+.bpa-wp-logo-large {
+    float:left;
+    height:32px;
+    width:32px;
+    margin:0px;
+    background-color:red;
+    background: url(images/wp_logo_large.png);
+}
+
+.bpa-bp-logo-large {
+    float:left;
+    height:32px;
+    width:32px;
+    margin:0px;
+    background-color:red;
+    background: url(images/bp_logo_large.png);
+}
+
+.bpm_bricks_large {
+    float:left;
+    height:32px;
+    width:32px;
+    margin:0px;
+    background-color:red;
+    background: url(images/bricks_large.png);
+}
+
+.bpm_warning_large {
+    float:left;
+    height:32px;
+    width:32px;
+    margin:0px;
+    background-color:red;
+    background: url(images/warning_large.png);
+}
+
+.bpa-cog-large {
+    float:left;
+    height:32px;
+    width:32px;
+    margin:0px;
+    background-color:red;
+    background: url(images/cog_large.png);
+}
+
+.bpa-graphserver-large {
+    float:left;
+    height:32px;
+    width:32px;
+    margin:0px;
+    background-color:red;
+    background: url(images/chart_server_large.png);
+}
+
+.bpa-dbserver-large {
+    float:left;
+    height:32px;
+    width:32px;
+    margin:0px;
+    background-color:red;
+    background: url(images/db_server_large.png);
+}
+
+.bpa-cog-small {
+    float:left;
+    height:24px;
+    width:24px;
+    margin:0px;
+    background-color:red;
+    background: url(images/cog_small.png);
+}
+
+
+.bpa-unlocked-small {
+    float:left;
+    height:16px;
+    width:20px;
+    margin: 5px 0px 0px 8px;
+    background-color:red;
+    background: url(images/unlocked_small.png);
+}
+
+.bpa-locked-small {
+    float:left;
+    height:16px;
+    width:16px;
+    margin: 4px 0px 0px 8px;
+    background-color:red;
+    background: url(images/lock.png);
+}
+
+.bpa-lockable-field {
+    float:left;
+}
+
+
+/* DIALOG BOX OPTIONS */
+
+.bpa-dialog {
+        font-size:1.8em;
+}
+
+.bpa-dialog th {
+	width:28%;
+        font-size:1.2em;
+}
+
+.bpa-dialog-buttons {
+    width:420px;
+    float:right;
+    border:solid 1px #999;
+    border-width:1px 0px 0px 0px;
+    margin:20px 5px 0px 0px;
+}
+
+.bpa-dialog-button-wrap {
+    float:right;
+    margin:10px 0px 0px 0px;
+}
+
+/* DELETE DIALOG */
+
+.bpa-delete-wrap {
+    padding:5px 0px 30px 0px;
+}
+
+.bpa-delete-row {
+    float:left;
+    line-height:170%;
+    width:100%
+}
+
+.bpa-delete-name {
+    float:left;
+    font-size:1.2em;
+    width:25%;
+    font-weight:bold;
+}
+
+.bpa-delete-value {
+    float:left;
+    font-size:1.2em;
+    width:70%;
+}
+
+.bpa-delete-footer {
+    float:left;
+    margin:5px 5px 0px 5px;
+    font-size:1.2em;
+
+}
+
+/* GENERAL ADMIN OPTIONS */
+
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    border: 1px solid;
+    margin: 5px 0px;
+    padding:5px;
+}
+
+
+#thumb-quality-slider {
+    width:100px;
+    float:left;
+    margin:8px;
+
+}
+
+.slider-val {
+    float:left;
+    margin:0px 8px 0px 8px;
+}
+
+.bpa-admin-header {
+ margin:0px 40px 0px 0px;
+ float:left;
+}
+
+
+.bpm_dashboard_header {
+    float:left;
+    margin:5px 0px 0px 5px;
+    width:1000px;
+    height:120px;
+    border: solid 1px #333;
+    background: url(header-dashboard-nightly.png);
+}
+
+.bpm_dashboard_header_wrap{
+    float:left;
+    width:1000px;
+}
+
+
+.bpm_dashboard_version {
+     float:right;
+     display:inline;
+     width:150px;
+     margin:10px 0px 0px auto;
+     font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+
+}
+
+.bpa-admin-ver-title {
+    display:inline;
+    font-size:18px;
+    font-weight:bold;
+    color:#fff;
+    text-shadow: 0 -1px 0 #333333;
+    margin-bottom:4px;
+
+}
+
+.bpa-admin-ver-text {
+    display:inline;
+    font-size:18px;
+    font-weight:bold;
+    color:#fff;
+    text-shadow: 0 -1px 0 #333333;
+    margin:0px 0px 5px 0px;
+    line-height:120%;
+}
+
+
+.bpa-admin-build-title {
+    display:inline;
+    font-size:12px;
+    font-weight:bold;
+    color:#fff;
+    text-shadow: 0 -1px 0 #333333;
+    font-family: Helvetica;
+    line-height:110%;
+    padding:5px 0px 0px 0px;
+    margin:5px 0px 0px 3px;
+}
+
+
+.bpa-admin-build-text {
+    display:inline;
+    font-size:12px;
+    font-weight:bold;
+    color:#fff;
+    text-shadow: 0 -1px 0 #333333;
+    font-family: Helvetica;
+    line-height:110%;
+    padding:5px 0px 0px 0px;
+    margin:5px 0px 0px 3px;
+}
+
+.bpa_admin_main_header {
+    color:#d84800;
+    font-weight:bold;
+    font-size:13px;
+    font-family: Arial;
+    margin:10px 0px 5px 0px;
+
+}
+.bpa_admin_stats_a {
+    width:30%;
+    color:#333;
+    font-weight:bold;
+    font-size:13px;
+    font-family: Arial;
+}
+
+.bpa_admin_stats_b {
+    color:#21759b;
+    font-weight:bold;
+    font-size:13px;
+    font-family: Arial;
+}
+
+
+.bpa_admin_sub_header {
+    color:#d84800;
+    font-weight:bold;
+    font-size:12px;
+    font-family: Arial;
+    margin:10px 0px 5px 0px;
+
+}
+.bpa_admin_stats_sub_a {
+    width:30%;
+    color:#333;
+    font-weight:bold;
+    font-size:11px;
+    font-family: Arial;
+}
+
+.bpa_admin_stats_sub_b {
+    color:#21759b;
+    font-weight:bold;
+    font-size:11px;
+    font-family: Arial;
+}
+
+
+.bpa-admin-authors {
+ float:left;
+ width:700px;
+ line-height:100%;
+ margin:0px 0px 0px 15px;
+ font-size:12px;
+
+}
+
+.bpm_release_warning {
+     float:right;
+     width:650px;
+     line-height:140%;
+     margin:15px 10px 0px 15px;
+     font-size:9px;
+     background:yellow;
+     border: 1px solid #000;
+     padding: 5px;
+}
+
+.bpm_dashboard_body{
+    background: url("images/blue_fade.png") no-repeat scroll left top #FFFFFF;
+    border-color: #CCCCCC;
+    border-style: solid;
+    border-width: 1px;
+    float: left;
+    margin: 10px 0px 10px 5px;
+    min-height: 500px;
+    padding: 5px 10px 20px 10px;
+    width: 980px;    
+}
+
+
+
+/* ################################################################################################################ */
+
+#cache {
+        width:837px;
+        height:276px;
+	background: url(resize_select.png);
+        margin: 10px;
+}
+
+#cache .padder {
+    float:left;
+    width:797px;
+    height:236px;
+    margin:20px 20px 20px 19px;
+    font-weight:bold;
+}
+
+#cache .padder .LHS {
+    float:left;
+    width:300px;
+    height:236px;
+}
+
+#cache .padder .LHS .title{
+    margin:auto;
+    vertical-align: top;
+    padding-top:5px;
+    text-align:center;
+}
+
+#cache .padder .LHS .description{
+    vertical-align: bottom;
+    margin:150px 0px 0px 5px;
+    width:290px;
+    font-weight:normal;
+    font-size:10px;
+    line-height:130%;
+}
+
+#cache .padder .RHS {
+    float:right;
+    width:440px;
+    height:236px;
+}
+
+#cache .padder .RHS .title{
+    margin:auto;
+    vertical-align: top;
+    padding:7px 0px 15px 0px;
+    text-align:center;
+}
+
+#cache .padder .RHS .line {
+    float:left;
+    width:430px;
+    margin:10px 0px 0px 0px;
+    font-size:12px;
+
+}
+
+#cache .padder .RHS .line .size {
+    float:left;
+    margin: 2px 8px 0px 10px;
+    font-weight:bold;
+    width:75px;
+    text-align:right;
+}
+
+#cache .padder .RHS .line .label {
+    float:left;
+    margin: 2px 2px 0px 10px;
+    font-weight:normal;
+    font-size:10px;
+}
+
+#cache .padder .RHS .line .check {
+    float:left;
+    margin: 0px 0px 0px 20px;
+}
+
+#cache .padder .RHS .line .check .lock {
+    float:left;
+    height:16px;
+    width:16px;
+    margin: 2px 0px 0px 0px;
+    background: url(lock.png);
+}
+
+
+/* ################################################################################################################ */
+/* These styles are used on the dashboard page */
+
+
+#bpa_admin_site_statistics p.sub,
+#bpa_admin_site_statistics .table, #bpa_admin_site_statistics .versions {
+	margin: -12px;
+}
+
+#bpa_admin_site_statistics .inside {
+	font-size: 12px;
+}
+
+#bpa_admin_site_statistics p.sub {
+	font-style: italic;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	padding: 5px 10px 15px;
+	color: #777;
+	font-size: 13px;
+}
+
+#bpa_admin_site_statistics .table {
+	background: #f9f9f9;
+	border: #ececec 1px solid;
+	/*margin: 0 -9px 10px; */
+        margin: 0px 5px 0px 3px;
+	padding: 0 5px;
+        /*background-color:pink; */
+        -moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
+}
+
+#bpa_admin_site_statistics table {
+	width: 100%;
+}
+
+#bpa_admin_site_statistics table  td {
+	border-top: #ececec 1px solid;
+	padding: 3px 0;
+	white-space: nowrap;
+}
+
+#bpa_admin_site_statistics table tr.first td {
+	border-top: none;
+}
+
+#bpa_admin_site_statistics td.b {
+	padding-right: 6px;
+	text-align: right;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-size: 14px;
+}
+
+#bpa_admin_site_statistics td.b a {
+	font-size: 18px;
+}
+
+#bpa_admin_site_statistics td.b a:hover {
+	color: #d54e21;
+}
+
+#bpa_admin_site_statistics .t {
+	font-size: 12px;
+	padding-right: 12px;
+	padding-top: 6px;
+	color: #777;
+}
+
+#bpa_admin_site_statistics .t a {
+	white-space: nowrap;
+}
+
+#bpa_admin_site_statistics td.first,
+#bpa_admin_site_statistics td.last {
+	width: 1%;
+}
+
+#bpa_admin_site_statistics .spam {
+	color: red;
+}
+
+#bpa_admin_site_statistics .waiting {
+	color: #e66f00;
+}
+
+#bpa_admin_site_statistics .approved {
+	color: green;
+}
+
+#bpa_admin_site_statistics .versions {
+	padding: 6px 10px 12px;
+}
+
+#bpa_admin_site_statistics .versions .b {
+	font-weight: bold;
+}
+
+#bpa_admin_site_statistics a.button {
+	float: right;
+	clear: right;
+	position: relative;
+	top: -5px;
+}
+
+#bpa_admin_network_traffic p.sub,
+#bpa_admin_network_traffic .table, #bpa_admin_network_traffic .versions {
+	margin: -12px;
+}
+
+#bpa_admin_network_traffic .inside {
+	font-size: 12px;
+}
+
+#bpa_admin_network_traffic p.sub {
+	font-style: italic;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	padding: 5px 10px 15px;
+	color: #777;
+	font-size: 13px;
+}
+
+#bpa_admin_network_traffic .table {
+	background: #f9f9f9;
+	border: #ececec 1px solid;
+	/*margin: 0 -9px 10px; */
+        margin: 0px 5px 0px 3px;
+	padding: 0 5px;
+        /*background-color:pink; */
+        -moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
+}
+
+#bpa_admin_network_traffic table {
+	width: 100%;
+}
+
+#bpa_admin_network_traffic table  td {
+	border-top: #ececec 1px solid;
+	padding: 3px 0;
+	white-space: nowrap;
+}
+
+#bpa_admin_network_traffic table tr.first td {
+	border-top: none;
+}
+
+#bpa_admin_network_traffic td.b {
+	padding-right: 6px;
+	text-align: right;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-size: 14px;
+}
+
+#bpa_admin_network_traffic td.b a {
+	font-size: 18px;
+}
+
+#bpa_admin_network_traffic td.b a:hover {
+	color: #d54e21;
+}
+
+#bpa_admin_network_traffic .t {
+	font-size: 12px;
+	padding-right: 12px;
+	padding-top: 6px;
+	color: #777;
+}
+
+#bpa_admin_network_traffic .t a {
+	white-space: nowrap;
+}
+
+#bpa_admin_network_traffic td.first,
+#bpa_admin_network_traffic td.last {
+	width: 1%;
+}
+
+#bpa_admin_network_traffic .spam {
+	color: red;
+}
+
+#bpa_admin_network_traffic .waiting {
+	color: #e66f00;
+}
+
+#bpa_admin_network_traffic .approved {
+	color: green;
+}
+
+#bpa_admin_network_traffic .versions {
+	padding: 6px 10px 12px;
+}
+
+#bpa_admin_network_traffic .versions .b {
+	font-weight: bold;
+}
+
+#bpa_admin_network_traffic a.button {
+	float: right;
+	clear: right;
+	position: relative;
+	top: -5px;
+}
+
+
+
+
+.notification-settings h4 {
+ line-height: 1em;
+ margin-bottom: 0.4em;
+ margin-top: 2em;
+
+}
+
+.notification-settings th {
+    width:15%;
+}
+
+/* PROGRESS BAR */
+
+div .progressborder {
+	border: 1px inset ; 
+	display: block; 
+	height: 20px; 
+	background-color: #464646; 
+	width: 100%;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+div .progressbar {
+	border: medium none ; 
+	display: block; 
+	height: 20px; 
+	background-color: #D54E21; 
+	width: 0%;
+}
+
+div .progressbar span {
+	display: inline; 
+	position: relative; 
+	color: white; 
+	font-weight: bold; 
+	padding-left: 5px;
+}
+
+.show_details
+{
+	height: 16px;
+	line-height: 20px; 
+	overflow: hidden;
+	min-width: 8em;
+	padding: 3px;
+	cursor:pointer;
+}
+
+.show_details span
+{
+	border-bottom:1px solid #999;
+	white-space:pre;
+}
+
+.show_details:hover 
+{
+	height: auto;
+	overflow: visible;
+	border: 1px solid #999;
+}
+
+

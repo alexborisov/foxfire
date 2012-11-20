@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * BP-MEDIA ADMIN PAGE "SYSTEM TOOLS"
+ *
+ * @version 0.1.9
+ * @since 0.1.9
+ * @package BP-Media
+ * @subpackage Admin
+ * @license GPL v2.0
+ * @link http://code.google.com/p/buddypress-media/
+ *
+ * ========================================================================================================
+ */
+
+// Prevent hackers from directly calling this page
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
+	die('You are not allowed to call this page directly.');
+}
+
+// ============================================================================================================ //
+
+class BPM_tab_import {
+
+
+	/**
+	 * Renders the "Imports" tab
+	 *
+	 * This tab rendering function creates a single tab within the admin page that its parent class generates. The tab's form
+	 * contains a hidden field called 'page_options'. The class's "processor" function parses the variable names in this field
+	 * to determine which POST data fields to load and which objects in the $bp->bpa->options[] global to update.
+	 *
+	 * @version 0.1.9
+	 * @since 0.1.9
+	 */
+
+	function render() {
+
+	    global $bpm;
+
+	    ?>
+	    <!-- Begin Import settings -->
+
+	    <form name="importform" method="post" action="<?php echo $this->filepath.'#import'; ?>">
+
+		<?php wp_nonce_field('bpm_admin_settings') ?>
+
+		<div class="bpm_tip">
+		    <div class="bpm_bricks_large"></div>
+		    <div class="bpm_tip_text">
+			<?php _e('<b>PLEASE NOTE: </b>Importing data is a complicated process which might require configuration changes to your web server and/or access to the
+			    command prompt. Please review the <a href="http://code.google.com/p/buddypress-media/wiki/ImportingData">Data Import Documentation</a>
+			    before attempting to import large installations.', "bp-media") ?>
+		    </div>
+		</div>
+
+		<div class="panel_section">
+
+		    <div class="title"><?php _e('BP Album 0.1.8',"bp-media") ?> </div>
+
+		    <div class="bpm_section_advice">
+			<?php _e("This module fully upgrades a BP Album 0.1.8 installation to BP-Media 0.1.9","bp-media") ?>
+		    </div>
+
+		    <table class="form-table">
+
+			<tr valign="top">
+			    <th align="left"><?php _e('Button Goes Here',"bp-media"); ?></th>
+			    <td>
+				<p></p>
+			    </td>
+			</tr>
+
+		    </table>
+		</div>
+
+		<?php //$bpm->config->printKeysArray(); ?>
+
+		<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
+
+	    </form>
+
+	    <!-- End Import settings -->
+
+	<?php
+	}
+
+	/**
+	 * Adds the tab's scripts to the page header
+	 *
+	 * @version 0.1.9
+	 * @since 0.1.9
+	 */
+
+	public function enqueueScripts() {
+
+	}
+
+
+	/**
+	 * Adds the tab's styles to the page header
+	 *
+	 * @version 0.1.9
+	 * @since 0.1.9
+	 */
+
+	public function enqueueStyles() {
+
+	}
+
+} // End of class BPM_tab_import
+
+?>
