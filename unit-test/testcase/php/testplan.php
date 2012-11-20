@@ -101,10 +101,6 @@ class FOX_testPlan extends RAZ_testPlan_base {
 			    	array( "enable"=>true,  "name"=>"Trie Clip", "mock"=>array(), "file"=>"/tests/util/test_class.utils.trie.clip.php" )			    
 			),		    
 
-			"system" => array(
-				array( "enable"=>false,  "name"=>"Event Logger", "mock"=>array(), "file"=>"/tests/system/test_system.logging.event.php" ),
-			),
-
 			"database" => array(
 				array( "enable"=>true,	"name"=>"Builder Delete", "mock"=>array(), "file"=>"/tests/database/test_db.builder.delete.php" ),
 				array( "enable"=>true,	"name"=>"Builder Indate", "mock"=>array(), "file"=>"/tests/database/test_db.builder.indate.php" ),
