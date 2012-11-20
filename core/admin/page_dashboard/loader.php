@@ -202,13 +202,13 @@ class FOX_admin_page_dashboard {
 		<div class="rss-widget">
 		    <?php
 
-		    $rss = @fetch_feed( 'http://twitter.com/statuses/user_timeline/fox_dev.rss' );
+		    $rss = @fetch_feed( 'https://api.twitter.com/1/statuses/user_timeline.rss?screen_name=bpm_dev' );
 
 
 		    if ( is_object($rss) ) {
 
 			if ( is_wp_error($rss) ) {
-			    echo '<p>' . sprintf(__('Newsfeed could not be loaded.  Check the <a href="%s">front page</a> to check for updates.', "foxfire"), 'https://twitter.com/#!/fox_dev') . '</p>';
+			    echo '<p>' . sprintf(__('Newsfeed could not be loaded.  Check the <a href="%s">front page</a> to check for updates.', "foxfire"), 'https://twitter.com/#!/bpm_dev') . '</p>';
 				return;
 			}
 
@@ -267,127 +267,6 @@ class FOX_admin_page_dashboard {
 	}
 
 
-
-
-
-	/**
-	 * Show a summary of the used images
-	 *
-	 * @return void
-	 */
-
-	function bpa_overview_right_now() {
-
-		global $bp, $wpdb;
-
-//		$users    = FOX_Stats::getTotalUsers();
-//		$albums = FOX_Stats::getTotalAlbums();
-//		$total_items    = FOX_Stats::getTotalMediaItems();
-//		$total_space = FOX_Stats::getTotalDiskUsage();
-//		$member_tags = FOX_Stats::getTotalMemberTags();
-//		$keyword_tags = FOX_Stats::getTotalKeywordTags();
-
-		$users = 32105;
-		$albums = 144217;
-		$total_items = 8125644;
-		$total_space = 10241024102416;
-		$member_tags = 9514636;
-		$keyword_tags = 21744592;
-		
-		?>
-
-		<div class="bpa_admin_main_header"><?php _e('Global Statistics',"foxfire") ?></div>
-		<div class="table table_content">
-		    <table>
-
-			    <tr class="first">
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Active Users', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo $users; ?></td>
-
-			    </tr>
-
-			    <tr>
-				<td class="bpa_admin_stats_a"><?php echo _e( 'User Albums', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo $albums; ?></td>
-
-			    </tr>
-
-			    <tr>
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Member Tags', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo $member_tags; ?></td>
-
-			    </tr>
-
-			    <tr>
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Keyword Tags', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo $keyword_tags; ?></td>
-
-			    </tr>
-
-			    <tr class="last">
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Total Items', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo $total_items; ?></td>
-
-			    </tr>
-
-
-		    </table>
-		</div>
-
-		
-
-		<?php
-
-//		$L0 = BP_Album_Cache::checkUsage(0);
-//		$L1 = BP_Album_Cache::checkUsage(1);
-//		$L2 = BP_Album_Cache::checkUsage(2);
-//		$L3 = BP_Album_Cache::checkUsage(3);
-
-		$L0 = array( 'inode_count'=>41, 'storage_count'=>32020024);
-		$L1 = array( 'inode_count'=>68132, 'storage_count'=>4424102024);
-		$L2 = array( 'inode_count'=>71446, 'storage_count'=>17241021024);
-		$L3 = array( 'inode_count'=>109245, 'storage_count'=>102410241024);
-
-		?>
-
-		<div class="bpa_admin_main_header"><?php _e('Disk Usage',"foxfire") ?></div>
-		<div class="table table_content">
-		    <table>
-
-			<tr class="first">
-			    <td class="bpa_admin_stats_a">Temp Folder</td>
-			    <td class="bpa_admin_stats_b"><?php echo $L0['inode_count'] . " Items / " . FOX_math::bytesToFormattedSize($L0['storage_count'])?></td>
-			</tr>
-
-			<tr class="first">
-			    <td class="bpa_admin_stats_a">Cache - L1</td>
-			    <td class="bpa_admin_stats_b"><?php echo $L1['inode_count'] . " Items / " . FOX_math::bytesToFormattedSize($L1['storage_count'])?></td>
-			</tr>
-
-			<tr>
-			    <td class="bpa_admin_stats_a">Cache - L2</td>
-			    <td class="bpa_admin_stats_b"><?php echo $L2['inode_count'] . " Items / " . FOX_math::bytesToFormattedSize($L2['storage_count'])?></td>
-			</tr>
-
-			<tr>
-			    <td class="bpa_admin_stats_a">Cache - L3</td>
-			    <td class="bpa_admin_stats_b"><?php echo $L3['inode_count'] . " Items / " . FOX_math::bytesToFormattedSize($L3['storage_count'])?></td>
-			</tr>
-
-			<tr>
-			    <td class="bpa_admin_stats_a">User Content</td>
-			    <td class="bpa_admin_stats_b"><?php echo $total_items . " Items / " . FOX_math::bytesToFormattedSize( $total_space )?></td>
-			</tr>
-
-
-		    </table>
-		</div>
-
-
-		<?php
-	}
-
-
 	/**
 	 * Show a summary of the used images
 	 *
@@ -431,108 +310,7 @@ class FOX_admin_page_dashboard {
 	}
 
 
-	function fox_network_traffic() {
 
-		global $bp, $wpdb;
-
-//		$users    = FOX_Stats::getTotalUsers();
-//		$albums = FOX_Stats::getTotalAlbums();
-//		$total_items    = FOX_Stats::getTotalMediaItems();
-//		$total_space = FOX_Stats::getTotalDiskUsage();
-//		$member_tags = FOX_Stats::getTotalMemberTags();
-//		$keyword_tags = FOX_Stats::getTotalKeywordTags();
-
-		$users = 32105;
-		$albums = 144217;
-		$total_items = 8125644;
-		$total_space = 10241024102416;
-		$member_tags = 9514636;
-		$keyword_tags = 21744592;
-
-		?>
-
-		<div class="bpa_admin_main_header"><?php _e('Facebook API',"foxfire") ?></div>
-		<div class="table table_content">
-		    <table>
-
-			    <tr class="first">
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Inbound', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo "17 items / 3.81 MB / 124 KBps" ?></td>
-
-			    </tr>
-
-			    <tr>
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Outbound', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo "4 items / 1.17 MB / 2.1 MBps" ?></td>
-
-			    </tr>
-
-		    </table>
-		</div>
-
-		<div class="bpa_admin_main_header"><?php _e('YouTube API',"foxfire") ?></div>
-		<div class="table table_content">
-		    <table>
-
-			    <tr class="first">
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Inbound', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo "3 items / 125.77 MB / 937 KBps" ?></td>
-
-			    </tr>
-
-			    <tr>
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Outbound', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo "8 items / 276.40 MB / 6.5 MBps" ?></td>
-
-			    </tr>
-
-
-		    </table>
-		</div>
-
-		<div class="bpa_admin_main_header"><?php _e('Twitter API',"foxfire") ?></div>
-		<div class="table table_content">
-		    <table>
-
-			    <tr class="first">
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Inbound', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo "86 items / 26.1 KB / 4 KBps" ?></td>
-
-			    </tr>
-
-			    <tr>
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Outbound', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo "156 items / 38.9 KB / 11 KBps" ?></td>
-
-			    </tr>
-
-
-		    </table>
-		</div>
-
-		<div class="bpa_admin_main_header"><?php _e('Amazon S3',"foxfire") ?></div>
-		<div class="table table_content">
-		    <table>
-
-			    <tr class="first">
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Inbound', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo "1754 items / 1.56 GB / 14.1 MBps" ?></td>
-
-			    </tr>
-
-			    <tr>
-				<td class="bpa_admin_stats_a"><?php echo _e( 'Outbound', "foxfire" ); ?></td>
-				<td class="bpa_admin_stats_b"><?php echo "351 items / 684.1 MB / 224.1 MBps" ?></td>
-
-			    </tr>
-
-
-		    </table>
-		</div>
-
-
-		<?php
-	}
 
 
 	/**
@@ -546,10 +324,9 @@ class FOX_admin_page_dashboard {
 
 	function meta_boxes() {
 
-		add_meta_box('bpa_admin_site_statistics', __('Site Statistics (simulated data)', "foxfire"), array( &$this, 'bpa_overview_right_now' ), 'bpa_overview', 'left', 'core');
+		
 		add_meta_box('fox_database', __('Database Performance (real data)', "foxfire"), array( &$this, 'fox_database' ), 'bpa_overview', 'left', 'core');
-		add_meta_box('dashboard_primary_x', __('News Feed &nbsp<a href="https://twitter.com/#!/fox_dev">(View All)</a>', "foxfire"), array( &$this, 'bpa_overview_news' ), 'bpa_overview', 'right', 'core');
-		add_meta_box('bpa_admin_network_traffic', __('Network Traffic (simulated data)', "foxfire"), array( &$this, 'fox_network_traffic' ), 'bpa_overview', 'right', 'core');
+		add_meta_box('dashboard_primary_x', __('News Feed &nbsp<a href="https://twitter.com/#!/bpm_dev">(View All)</a>', "foxfire"), array( &$this, 'bpa_overview_news' ), 'bpa_overview', 'right', 'core');
 		add_meta_box('dashboard_primary_y', __('System Log (simulated data)', "foxfire"), array( &$this, 'bpa_overview_server' ) , 'bpa_overview', 'left', 'core');
 	}
 
