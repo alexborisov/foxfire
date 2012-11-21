@@ -4532,15 +4532,40 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		$insert_data = array();	
 		$del_args = array();		
-		$page_images = array();
+		$page_images = $this->cache;
 
-		foreach( $data as $L5 => $L4s ){	
+		foreach( $data as $L5 => $L4s ){				
+			
+			// Avoid creating redundant cache entries
+		    
+			if( FOX_sUtil::keyExists('all_cached', $page_images[$L5]) ){
+			
+				$parent_has_auth = true;			    
+			}
+			else {			    
+				$parent_has_auth = false;			    
+			}
 			
 			foreach( $L4s as $L4 => $L3s ){			
 
+				if( !$parent_has_auth // performance optimization
+				    && FOX_sUtil::keyExists($L4, $page_images[$L5][$this->L4_col]) ){
+
+					$parent_has_auth = true;			    
+				}
+			
 				foreach( $L3s as $L3 => $L2s ){										
 
+					if( !$parent_has_auth // performance optimization
+					    && FOX_sUtil::keyExists($L3, $page_images[$L5][$this->L3_col][$L4]) ){
+
+						$parent_has_auth = true;			    
+					}
+					
 					foreach( $L2s as $L2 => $L1s ){
+					    
+						// Clear all objects currently inside the L2
+						unset($page_images[$L5]["keys"][$L4][$L3][$L2]);
 					    
 						$del_args[] = array(
 								    $this->L5_col=>$L5, 
@@ -4549,8 +4574,11 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 								    $this->L2_col=>$L2
 						);					    
 
-						$page_images[$L5][$this->L2_col][$L4][$L3][$L2] = true;
-
+						if(!$parent_has_auth){	
+						    
+							$page_images[$L5][$this->L2_col][$L4][$L3][$L2] = true;
+						}
+												
 						foreach( $L1s as $L1 => $val){
 
 							$page_images[$L5]["keys"][$L4][$L3][$L2][$L1] = $val;
@@ -4691,23 +4719,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}		
-
-		// NOTE: we update the class cache before the persistent cache, so that if the
-		// persistent cache write fails, the class cache will still in the correct
-		// state. Any cache pages that fail to update if the persistent cache throws an
-		// error during the write operation will remain locked, causing them to be purged 
-		// on the next read operation.
-		
-		
-		// Write the temp class cache to the class cache
-		// ===========================================================
-		
-		foreach( $page_images as $L5 => $image ){
-		    
-			$this->cache[$L5] = $image;		    		    
-		}
-		unset($L5, $image);
-		
+				
 		
 		// Overwrite the locked L5 cache pages, releasing our lock
 		// ===========================================================
@@ -4725,6 +4737,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}
+		
+		
+		// Write the temp class cache to the class cache
+		// ===========================================================		
+		
+		$this->cache = $page_images;
+		
 
 		return (int)$rows_set;
 		
