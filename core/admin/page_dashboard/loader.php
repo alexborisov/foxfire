@@ -83,8 +83,8 @@ class FOX_admin_page_dashboard {
 
 		<div class="fox_dashboard_header_wrap">
 		    <div class="fox_release_warning">
-			<b><u>DO NOT INSTALL THIS SOFTWARE ON A LIVE WEBSITE</u></b> - Nightly builds are unfinished, untested releases automatically created
-			by our Google Code repository. They give the community a live view of our progress, like
+			<b><u>DO NOT INSTALL THIS SOFTWARE ON A LIVE WEBSITE</u></b> - Nightly builds are unfinished, untested releases automatically generated
+			by our GitHub repository. They give the community a live view of our progress, like
 			watching a construction site. For more info, see the <a href="http://code.google.com/p/buddypress-media/issues/list">Nightly Builds</a>
 			wiki page.
 		    </div>
