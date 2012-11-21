@@ -282,22 +282,55 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	*/	
 	public function test_replaceL2_multi() {
 	    
-	return;	
+
 		self::loadData();
 				
 		
 		// STAGE 1 - WARM CACHE - Loaded from previous 'add' operation
 		// ===================================================================
 		
-		$request = array(
-				    1=>array(),
-				    2=>array()		    		    
+		
+		// Replace items
+		// ==============================
+		
+		// NOTE: a L2 must have at least *one* L1 within it in order to have an entry within the DB. If 
+		// a L2 doesn't have L1's inside it, there's nothing to write to the L1 column in the database,
+		// which would violate the table index. In addition to this, storing empty L2's would waste
+		// space in the table and cache.
+		
+		$data = array(
+					1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+											1=>'foo', // 1=>null,
+												  // 2=>false,
+											7=>'bar'
+									    ),
+									    'T'=>array(),	  // Drop this L2
+									    'W'=>array(	1=>'baz' )					    
+								)
+						    )
+					)
 		);
 		
 		$ctrl = array(		    
-				'validate'=>false,
-				'q_mode'=>'trie',
-				'r_mode'=>'trie',		    
+				'validate'=>false		    
+		);
+		
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
+		// Load updated items
+		// ==============================
+		
+		$request = array(
+				    1=>array(),
+				    2=>array()		    		    
 		);
 		
 		$valid = false;
@@ -311,6 +344,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		}
 		
 		$this->assertEquals(true, $valid);		
+				
 	        
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
@@ -318,10 +352,10 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		$check_data = array(
 					1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-											1=>null,
-											2=>false
+											1=>'foo', 
+											7=>'bar'
 									    ),
-									    'T'=>array(	1=>true )							    
+									    'W'=>array(	1=>'baz' )							    
 								),
 								'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
 						    ),	
@@ -343,13 +377,13 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 						    )					    
 					)		    		    
 		);
-				
+		
 				
 		$this->assertEquals($check_data, $result);	
 		
 		
 		// Check cache state
-		// ===============================================================			
+		// ==============================			
 		
 		$check_cache = array(		    
 					1=>array(   'all_cached'=>true,
@@ -357,10 +391,10 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 						    'L3'=>null,
 						    'L2'=>null,
 						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>null,
-													2=>false
+													1=>'foo',
+													7=>'bar'
 											    ),
-											    'T'=>array(	1=>true )							    
+											    'W'=>array(	1=>'baz' )							    
 										),
 										'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
 								    ),	
@@ -392,6 +426,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache, $this->cls->cache);			
 		
 		
+
 		// STAGE 2 - COLD CACHE - Flush cache and run again
 		// ===================================================================
 		
