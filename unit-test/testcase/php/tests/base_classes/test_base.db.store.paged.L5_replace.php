@@ -3577,7 +3577,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_replaceL5_multi_COLD() {
-    return;
+
 
 		self::loadData();
 		
@@ -3595,10 +3595,10 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// COLD CACHE - Flushed after previous ADD operation
 		// ===================================================================				
 		
-		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
-		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
-		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
-		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
+		// NOTE: a L5 must have at least one L4->L1 walk within it in order to have an entry within the  
+		// db. Without a L4->L1 walk inside it, there's nothing to write to the L1, L2, L3, and L4 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L5's would 
+		// waste space in the table and cache. Therefore, overwriting a L5 node with an empty array drops
 		// that node from the datastore
 		
 		$test_obj = new stdClass();
@@ -3606,33 +3606,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$data = array(
-				1=>array(   // Overwrite this L4
-					    'X'=>array(	'W'=>array( 'X'=>array(	
-										9=>'foo',
-										3=>'bar'
-								    )					    
-							),				    
-							'P'=>array( 'K'=>array(	
-										1=>'foo',
-										7=>'bar'
-								    ),
-								    'W'=>array(	1=>'baz' )					    
-							)				    
-					    ),
-					    'Y'=>array(),   // Drop this L4
-
-					    // Add a new L4 'E' node
-					    'E'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1,
-										3=>true,
-										5=>false
-								    ),
-								    'T'=>array(	4=>null)							    
-							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					    )	
-				),
+				1=>array(), // Drop this L5
 
 				// Ignore the entire L5 '2' node
 				// 2=>array( ... ),
@@ -3674,39 +3648,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
-		// ====================================================================
+		// ====================================================================		
 		
-		$check_cache_1 = array(	    'L4'=>array(    'X'=>true,
-							    'E'=>true,					    						
-					    ),
-					    'keys'=>array(  'X'=>array(	'W'=>array( 'X'=>array(	
-												9=>'foo',
-												3=>'bar'
-										    )					    
-									),				    
-									'P'=>array( 'K'=>array(	
-												1=>'foo',
-												7=>'bar'
-										    ),
-										    'W'=>array(	1=>'baz' )					    
-									)				    
-							    ),
-							    'E'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1,
-												3=>true,
-												5=>false
-										    ),
-										    'T'=>array(	4=>null)							    
-									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-							    )							
-					    )				
-		);
-		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);		
-		
-		$check_cache_3 = array(	    'L4'=>array(    'X'=>true	),			    
+		$check_cache_3 = array(	    'all_cached'=>true,			    
 					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
 												1=>(string)"foo",
 												2=>array(null, true, false, 1, 1.0, "foo")
@@ -3725,13 +3669,12 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(	
-					1=>$check_cache_1,
 					3=>$check_cache_3		    
 		);		
 	
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_3, $check_cache);
+		unset($check_cache_3, $check_cache);
 
 		
 		// Load updated items
@@ -3753,36 +3696,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 		
-		$this->assertEquals(true, $valid);						
+		$this->assertEquals(false, $valid);	// Should set invalid flag, because we're 
+							// requesting a L5 that doesn't exist
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
-		
-		$check_data_1 = array(	'X'=>array( 'W'=>array( 'X'=>array(	
-									    9=>'foo',
-									    3=>'bar'
-								)					    
-						    ),				    
-						    'P'=>array( 'K'=>array(	
-									    1=>'foo',
-									    7=>'bar'
-								),
-								'W'=>array( 1=>'baz' )					    
-						    )				    
-					),
-					'E'=>array( 'K'=>array( 'K'=>array(	
-									    1=>(int)1,
-									    2=>(int)-1,
-									    3=>true,
-									    5=>false
-								),
-								'T'=>array( 4=>null)							    
-						    ),
-						    'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					)							
-		);
-		
-		$this->assertEquals($check_data_1, $result[1]);	
 		
 		$check_data_2 = array(	'X'=>array( 'K'=>array( 'K'=>array(	
 									    1=>(string)"foo",
@@ -3812,14 +3730,13 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_data = array(
-					1=>$check_data_1,
 					2=>$check_data_2,
-					3=>$check_data_3,		    
+					3=>$check_data_3		    
 		);
 			
 		$this->assertEquals($check_data, $result);	
 		
-		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
+		unset($check_data_2, $check_data_3, $check_data);
 
 		
 		// Check cache state
@@ -3827,37 +3744,6 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
-		
-		$check_cache_1 = array(	    'all_cached'=>true,
-					    'L4'=>null,
-					    'L3'=>null,
-					    'L2'=>null,
-					    'keys'=>array(  'X'=>array( 'W'=>array( 'X'=>array(	
-												9=>'foo',
-												3=>'bar'
-										    )					    
-									),				    
-									'P'=>array( 'K'=>array(	
-												1=>'foo',
-												7=>'bar'
-										    ),
-										    'W'=>array( 1=>'baz' )					    
-									)				    
-							    ),
-							    'E'=>array( 'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1,
-												3=>true,
-												5=>false
-										    ),
-										    'T'=>array( 4=>null)							    
-									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-							    )							
-					    )
-		);
-		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
 		
 		$check_cache_2 = array(	    'all_cached'=>true,
 					    'L4'=>null,
@@ -3876,9 +3762,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
 		
 		$check_cache_3 = array(	    'all_cached'=>true,
-					    'L4'=>null,
-					    'L3'=>null,
-					    'L2'=>null,				    
+		    
+					    // There will be no L2, L3, or L4 LUT's in the cache for this L5. The GET operation 
+					    // never does a database read because the L5 already has authority in the cache from 
+					    // our previous REPLACE operation. FoxFire's cache system is working as designed.
+		    
 					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
 												1=>(string)"foo",
 												2=>array(null, true, false, 1, 1.0, "foo")
@@ -3897,14 +3785,13 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,
 					2=>$check_cache_2,		    
-					3=>$check_cache_3,		    
+					3=>$check_cache_3		    
 		);
 		
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_2, $check_cache_3, $check_cache);
 			
 		
 	}
