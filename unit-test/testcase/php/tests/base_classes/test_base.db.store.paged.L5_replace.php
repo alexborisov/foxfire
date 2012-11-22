@@ -165,7 +165,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		);		
 		
 		// Load class with data
-		// ===============================================================
+		// ####################################################################
 				    					
 		try {
 			$rows_changed = $this->cls->setL1_multi($test_data, $ctrl=null);
@@ -180,7 +180,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ===============================================================	
+		// ####################################################################	
 		
 		// NOTE: the LUT's won't be set at this point, because we haven't done any 
 		// database reads that give objects authority
@@ -219,7 +219,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check db state
-		// ===============================================================		
+		// ####################################################################		
 		
 		$check = array(
 				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
@@ -284,6 +284,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	    
 
 		self::loadData();
+		
 		
 		try {
 			$flush_ok = $this->cls->flushCache();
@@ -352,7 +353,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -368,7 +369,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
 		// The LUT's will be set for all L2 items that we modified, since, by overwriting an
 		// entire L2 item, we've given it authority. The other LUT arrays won't exist in the cache
@@ -445,7 +446,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 		
 		// Fetch updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -540,7 +541,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Check cache state
-		// ==============================					
+		// ####################################################################					
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -700,7 +701,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -716,7 +717,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
 		// The LUT's will be set for all L2 items that we modified, since, by overwriting an
 		// entire L2 item, we've given it authority. The other LUT arrays won't exist in the cache
@@ -814,7 +815,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 		
 		// Fetch updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -900,9 +901,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Check cache state
-		// ==============================			
-		
-		// The LUT's will now be set for all items that we requested in the previous GET operation
+		// ####################################################################			
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -1005,8 +1004,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		self::loadData();
 		
+		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -1080,7 +1080,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -1096,7 +1096,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
 		// The LUT's will be set for all L2 items that we modified, since, by overwriting an
 		// entire L2 item, we've given it authority. The other LUT arrays won't exist in the cache
@@ -1189,7 +1189,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -1282,9 +1282,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Check cache state
-		// ==============================			
-		
-		// The LUT's will now be set for all items that we requested in the previous GET operation
+		// ####################################################################			
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -1462,7 +1460,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -1478,12 +1476,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
 		// The LUT's will be set for all L3 items that we modified, since, by overwriting an
 		// entire L3 item, we've given it authority. The other LUT arrays won't exist in the cache
-		// yet because we haven't done a read.
-		
+		// yet because we haven't done a read.		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -1555,7 +1552,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -1652,7 +1649,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -1825,7 +1822,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -1841,7 +1838,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
 		// The LUT's will be set for all L3 items that we modified, since, by overwriting an
 		// entire L3 item, we've given it authority. The other LUT arrays won't exist in the cache
@@ -1939,7 +1936,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -1958,6 +1955,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		}
 		
 		$this->assertEquals(true, $valid);						
+		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -2029,10 +2027,10 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
-		// The LUT's will now be set for all items that we requested in the previous GET operation
-		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
 		
 		$check_cache_1 = array(	    'all_cached'=>true,
 					    'L4'=>null,
@@ -2133,8 +2131,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		self::loadData();
 		
+		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -2215,7 +2214,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -2231,7 +2230,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -2324,7 +2323,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -2343,6 +2342,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		}
 		
 		$this->assertEquals(true, $valid);						
+		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -2420,9 +2420,8 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
-		// The LUT's will now be set for all items that we requested in the previous GET operation
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -2530,6 +2529,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		self::loadData();
 		
+		
 		try {
 			$flush_ok = $this->cls->flushCache();
 		}
@@ -2599,7 +2599,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -2615,7 +2615,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
 		// The LUT's will be set for all L4 items that we modified, since, by overwriting an
 		// entire L4 item, we've given it authority. The other LUT arrays won't exist in the cache
@@ -2684,7 +2684,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -2703,6 +2703,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		}
 		
 		$this->assertEquals(true, $valid);						
+		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -2772,7 +2773,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -2931,7 +2932,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -2947,7 +2948,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
 		// The LUT's will be set for all L4 items that we modified, since, by overwriting an
 		// entire L4 item, we've given it authority. The other LUT arrays won't exist in the cache
@@ -3029,7 +3030,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -3048,6 +3049,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		}
 		
 		$this->assertEquals(true, $valid);						
+		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -3117,7 +3119,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 	
 		// Check cache state
-		// =======================
+		// ####################################################################		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -3217,8 +3219,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		self::loadData();
 		
+		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -3294,7 +3297,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -3310,7 +3313,8 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################
+		
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -3393,7 +3397,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -3412,6 +3416,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		}
 		
 		$this->assertEquals(true, $valid);						
+		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -3481,7 +3486,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -3624,7 +3629,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -3640,7 +3645,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================		
@@ -3673,7 +3678,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -3735,7 +3740,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -3838,7 +3843,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -3854,7 +3859,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -3900,7 +3905,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -3963,7 +3968,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 
 		// Check cache state
-		// =======================
+		// ####################################################################
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -4034,8 +4039,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		self::loadData();
 		
+		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -4085,7 +4091,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Replace items
-		// ==============================
+		// ####################################################################
 		
 		$ctrl = array(		    
 				'validate'=>false		    
@@ -4101,7 +4107,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################			
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -4151,7 +4157,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 		
 		// Load updated items
-		// ==============================
+		// ####################################################################
 		
 		$request = array(
 				    1=>array(),
@@ -4213,7 +4219,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// Check cache state
-		// ==============================			
+		// ####################################################################
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
