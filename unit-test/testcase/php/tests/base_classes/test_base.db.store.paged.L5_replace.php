@@ -2681,7 +2681,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
 		unset($check_cache_1, $check_cache_3, $check_cache);
-return;		
+
 		
 		// Load updated items
 		// ==============================
@@ -2707,34 +2707,25 @@ return;
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_data_1 = array(  'X'=>array( 'R'=>array( 'X'=>array(	
+		$check_data_1 = array(	'X'=>array( 'W'=>array( 'X'=>array(	
 									    9=>'foo',
 									    3=>'bar'
 								)					    
 						    ),				    
-						    'V'=>array( 'K'=>array(	
+						    'P'=>array( 'K'=>array(	
 									    1=>'foo',
 									    7=>'bar'
 								),
 								'W'=>array( 1=>'baz' )					    
-						    ),
-						    'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+						    )				    
 					),
-					'Y'=>array(	'K'=>array( 'K'=>array(	
-									    1=>(int)1,
-									    2=>(int)-1
-								),
-								'T'=>array(	3=>(float)1.7 )							    
-						    ),
-						    'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					),					    
-					'E'=>array(	'K'=>array( 'K'=>array(	
+					'E'=>array( 'K'=>array( 'K'=>array(	
 									    1=>(int)1,
 									    2=>(int)-1,
 									    3=>true,
 									    5=>false
 								),
-								'T'=>array(	4=>null)							    
+								'T'=>array( 4=>null)							    
 						    ),
 						    'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
 					)							
@@ -2790,34 +2781,25 @@ return;
 					    'L4'=>null,
 					    'L3'=>null,
 					    'L2'=>null,
-					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+					    'keys'=>array(  'X'=>array( 'W'=>array( 'X'=>array(	
 												9=>'foo',
 												3=>'bar'
 										    )					    
 									),				    
-									'V'=>array( 'K'=>array(	
+									'P'=>array( 'K'=>array(	
 												1=>'foo',
 												7=>'bar'
 										    ),
 										    'W'=>array( 1=>'baz' )					    
-									),
-									'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+									)				    
 							    ),
-							    'Y'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1
-										    ),
-										    'T'=>array(	3=>(float)1.7 )							    
-									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-							    ),					    
-							    'E'=>array(	'K'=>array( 'K'=>array(	
+							    'E'=>array( 'K'=>array( 'K'=>array(	
 												1=>(int)1,
 												2=>(int)-1,
 												3=>true,
 												5=>false
 										    ),
-										    'T'=>array(	4=>null)							    
+										    'T'=>array( 4=>null)							    
 									),
 									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
 							    )							
