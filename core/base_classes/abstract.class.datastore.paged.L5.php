@@ -5874,6 +5874,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if( empty($L4s) ){	
 
 				$dead_cache_pages[] = $L5;
+				unset($update_cache[$L5]);
 			}
 			else {
 				
