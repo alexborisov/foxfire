@@ -5033,7 +5033,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					// Clear the LUT entries for all the L2's that were
 					// inside the L3		
 					
-					unset($page_images[$L5][$this->L2_col][$L4][$L3]);;
+					unset($page_images[$L5][$this->L2_col][$L4][$L3]);
 					
 					$del_args[] = array(
 							    $this->L5_col=>$L5, 
@@ -5461,26 +5461,48 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		$insert_data = array();	
 		$del_args = array();		
-		$page_images = array();
+		$page_images = $this->cache;
 
 		foreach( $data as $L5 => $L4s ){	
+					    
+			// Avoid creating redundant LUT entries
+		    
+			if( FOX_sUtil::keyExists('all_cached', $page_images[$L5]) ){
+			
+				$parent_has_auth = true;			    
+			}
+			else {			    
+				$parent_has_auth = false;			    
+			}
 			
 			foreach( $L4s as $L4 => $L3s ){
 
-				$page_images[$L5][$this->L4_col][$L4] = true;
+				// Clear all objects currently inside the L4
+
+				unset($page_images[$L5]["keys"][$L4]);
+
+				// Clear the LUT entries for all the L2's and L3's 
+				// that were inside the L4		
+
+				unset($page_images[$L5][$this->L2_col][$L4]);
+				unset($page_images[$L5][$this->L3_col][$L4]);
 				
 				$del_args[] = array(
 						    $this->L5_col=>$L5, 
 						    $this->L4_col=>$L4
 				);
+				
+				// Don't set a LUT entry if the parent has authority, or the
+				// the node has no children
 
+				if(!$parent_has_auth && !empty($L3s) ){	
+
+					$page_images[$L5][$this->L4_col][$L4] = true;
+				}
+					
 				foreach( $L3s as $L3 => $L2s ){
-
-					$page_images[$L5][$this->L3_col][$L4][$L3] = true;
-
+				    					
 					foreach( $L2s as $L2 => $L1s ){
-
-						$page_images[$L5][$this->L2_col][$L4][$L3][$L2] = true;
 
 						foreach( $L1s as $L1 => $val){
 

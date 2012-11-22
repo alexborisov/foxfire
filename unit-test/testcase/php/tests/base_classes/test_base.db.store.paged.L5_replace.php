@@ -1402,11 +1402,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// COLD CACHE - Flushed after previous ADD operation
 		// ===================================================================				
 		
-		// NOTE: a L3 must have at least *one* L2->L1 walk within it in order to have an entry within the  
-		// db. If a L3->L1 walk inside it, there's nothing to write to the L1 and L2 columns in the db
-		// (which would violate the table index). In addition to this, storing empty L3's would waste
+		// NOTE: a L3 must have at least one L2->L1 walk within it in order to have an entry within the  
+		// db. Without a L2->L1 walk inside it, there's nothing to write to the L1 and L2 columns in the
+		// db (which would violate the table index). In addition to this, storing empty L3's would waste 
 		// space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
-		// that node from the datastore.
+		// that node from the datastore
 		
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
@@ -1765,11 +1765,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// WARM CACHE - Items in cache from previous ADD operation
 		// ===================================================================				
 		
-		// NOTE: a L2 must have at least *one* L1 within it in order to have an entry within the DB. If 
-		// a L2 doesn't have L1's inside it, there's nothing to write to the L1 column in the database
-		// (which would violate the table index). In addition to this, storing empty L2's would waste
-		// space in the table and cache. Therefore, overwriting a L2 node with an empty array drops
-		// that node from the datastore.
+		// NOTE: a L3 must have at least one L2->L1 walk within it in order to have an entry within the  
+		// db. Without a L2->L1 walk inside it, there's nothing to write to the L1 and L2 columns in the
+		// db (which would violate the table index). In addition to this, storing empty L3's would waste 
+		// space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
+		// that node from the datastore
 		
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
@@ -2155,11 +2155,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// HOT CACHE - All items in cache have authority from previous GET operation
 		// ===================================================================				
 		
-		// NOTE: a L3 must have at least *one* L2 within it in order to have an entry within the DB. If 
-		// a L3 doesn't have L2's inside it, there's nothing to write to the L1 column in the database
-		// (which would violate the table index). In addition to this, storing empty L3's would waste
+		// NOTE: a L3 must have at least one L2->L1 walk within it in order to have an entry within the  
+		// db. Without a L2->L1 walk inside it, there's nothing to write to the L1 and L2 columns in the
+		// db (which would violate the table index). In addition to this, storing empty L3's would waste 
 		// space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
-		// that node from the datastore.
+		// that node from the datastore
 		
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
@@ -2513,9 +2513,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
 		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
-			
-		
+					
 	}
+	
 	
        /**
 	* Test fixture for replaceL4_multi() method, cold cache
@@ -2526,7 +2526,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_replaceL4_multi_COLD() {
-return;	    
+    
 
 		self::loadData();
 		
@@ -2544,36 +2544,31 @@ return;
 		// COLD CACHE - Flushed after previous ADD operation
 		// ===================================================================				
 		
-		// NOTE: a L3 must have at least *one* L2->L1 walk within it in order to have an entry within the  
-		// db. If a L3->L1 walk inside it, there's nothing to write to the L1 and L2 columns in the db
-		// (which would violate the table index). In addition to this, storing empty L3's would waste
-		// space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
-		// that node from the datastore.
+		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
+		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
+		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
+		// that node from the datastore
 		
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
 		$test_obj->bar = "test_Bar";
 		
 		$data = array(
-				1=>array(   'X'=>array(	'K'=>array(), // Drop this L3
-							'R'=>array( 'X'=>array(	
+				1=>array(   // Overwrite this L4
+					    'X'=>array(	'W'=>array( 'X'=>array(	
 										9=>'foo',
 										3=>'bar'
 								    )					    
 							),				    
-							'V'=>array( 'K'=>array(	
+							'P'=>array( 'K'=>array(	
 										1=>'foo',
 										7=>'bar'
 								    ),
 								    'W'=>array(	1=>'baz' )					    
-							)
-				    
-							// Ignore the entire L3 'Z' node
-							// 'Z'=>array( ... )
+							)				    
 					    ),
-
-					    // Ignore the entire L4 'Y' node
-					    // 'Y'=>array( ... ),
+					    'Y'=>array(),   // Drop this L4
 
 					    // Add a new L4 'E' node
 					    'E'=>array(	'K'=>array( 'K'=>array(	
@@ -2622,34 +2617,28 @@ return;
 		// Check cache state
 		// ==============================			
 		
-		// The LUT's will be set for all L3 items that we modified, since, by overwriting an
-		// entire L3 item, we've given it authority. The other LUT arrays won't exist in the cache
+		// The LUT's will be set for all L4 items that we modified, since, by overwriting an
+		// entire L4 item, we've given it authority. The other LUT arrays won't exist in the cache
 		// yet because we haven't done a read.
 		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'L3'=>array(    'X'=>array( 
-									'R'=>true,
-									'V'=>true
-							    ),
-							    'E'=>array( 
-									'K'=>true,
-									'Z'=>true
-							    ),					    						
+		$check_cache_1 = array(	    'L4'=>array(    'X'=>true,
+							    'E'=>true,					    						
 					    ),
-					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+					    'keys'=>array(  'X'=>array(	'W'=>array( 'X'=>array(	
 												9=>'foo',
 												3=>'bar'
 										    )					    
 									),				    
-									'V'=>array( 'K'=>array(	
+									'P'=>array( 'K'=>array(	
 												1=>'foo',
 												7=>'bar'
 										    ),
-										    'W'=>array( 1=>'baz' )					    
-									)
+										    'W'=>array(	1=>'baz' )					    
+									)				    
 							    ),
 							    'E'=>array(	'K'=>array( 'K'=>array(	
 												1=>(int)1,
@@ -2666,9 +2655,7 @@ return;
 		
 		$this->assertEquals($check_cache_1, $this->cls->cache[1]);		
 		
-		$check_cache_3 = array(	    'L3'=>array(    'X'=>array( 'K'=>true,
-										'Z'=>true
-					    )),			    
+		$check_cache_3 = array(	    'L4'=>array(    'X'=>true	),			    
 					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
 												1=>(string)"foo",
 												2=>array(null, true, false, 1, 1.0, "foo")
@@ -2694,7 +2681,7 @@ return;
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
 		unset($check_cache_1, $check_cache_3, $check_cache);
-		
+return;		
 		
 		// Load updated items
 		// ==============================
@@ -2899,7 +2886,7 @@ return;
         * =======================================================================================
 	*/	
 	public function test_replaceL4_multi_WARM() {
-   
+   return;
 
 		self::loadData();		
 				
@@ -2907,11 +2894,11 @@ return;
 		// WARM CACHE - Items in cache from previous ADD operation
 		// ===================================================================				
 		
-		// NOTE: a L2 must have at least *one* L1 within it in order to have an entry within the DB. If 
-		// a L2 doesn't have L1's inside it, there's nothing to write to the L1 column in the database
-		// (which would violate the table index). In addition to this, storing empty L2's would waste
-		// space in the table and cache. Therefore, overwriting a L2 node with an empty array drops
-		// that node from the datastore.
+		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
+		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
+		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
+		// that node from the datastore
 		
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
@@ -3297,11 +3284,11 @@ return;
 		// HOT CACHE - All items in cache have authority from previous GET operation
 		// ===================================================================				
 		
-		// NOTE: a L3 must have at least *one* L2 within it in order to have an entry within the DB. If 
-		// a L3 doesn't have L2's inside it, there's nothing to write to the L1 column in the database
-		// (which would violate the table index). In addition to this, storing empty L3's would waste
-		// space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
-		// that node from the datastore.
+		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
+		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
+		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
+		// that node from the datastore
 		
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
