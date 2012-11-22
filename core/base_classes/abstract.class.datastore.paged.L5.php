@@ -5026,17 +5026,21 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				
 				foreach( $L3s as $L3 => $L2s ){
 				    
+					// Clear all objects currently inside the L3
+				    
+					unset($page_images[$L5]["keys"][$L4][$L3]);
+						
+					// Clear the LUT entries for all the L2's that were
+					// inside the L3		
+					
+					unset($page_images[$L5][$this->L2_col][$L4][$L3]);;
+					
 					$del_args[] = array(
 							    $this->L5_col=>$L5, 
 							    $this->L4_col=>$L4, 
 							    $this->L3_col=>$L3
 					);
 					
-					// Clear the LUT entries for all of the L2's that were
-					// inside the L3
-					
-					unset($page_images[$L5][$this->L2_col][$L4][$L3]);;
-
 					// Don't set a LUT entry if the parent has authority, or the
 					// the node has no children
 					

@@ -1507,7 +1507,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_replaceL3_multi_WARM() {
-return;	    
+   
 
 		self::loadData();		
 				
@@ -1526,14 +1526,21 @@ return;
 		$test_obj->bar = "test_Bar";		
 		
 		$data = array(
-				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>'foo', // 1=>null,
-											  // 2=>false,
+				1=>array(   'X'=>array(	'K'=>array(), // Drop this L3
+							'R'=>array( 'X'=>array(	
+										9=>'foo',
+										3=>'bar'
+								    )					    
+							),				    
+							'V'=>array( 'K'=>array(	
+										1=>'foo',
 										7=>'bar'
 								    ),
-								    'T'=>array(),	  // Drop this L2
 								    'W'=>array(	1=>'baz' )					    
 							)
+				    
+							// Ignore the entire L3 'Z' node
+							// 'Z'=>array( ... )
 					    ),
 
 					    // Ignore the entire L4 'Y' node
@@ -1586,32 +1593,33 @@ return;
 		// Check cache state
 		// ==============================			
 		
-		// The LUT's will be set for all L2 items that we modified, since, by overwriting an
-		// entire L2 item, we've given it authority. The other LUT arrays won't exist in the cache
+		// The LUT's will be set for all L3 items that we modified, since, by overwriting an
+		// entire L3 item, we've given it authority. The other LUT arrays won't exist in the cache
 		// yet because we haven't done a read.
 		
 		$check_cache = array(		    
-					1=>array(   'L2'=>array(    'X'=>array( 'K'=>array(
-											    'K'=>true,
-											    'T'=>true,
-											    'W'=>true
-										)
-								    ),				   
-								    'E'=>array( 'K'=>array(
-											    'K'=>true,
-											    'T'=>true
-										),
-										'Z'=>array( 'Z'=>true )									
-								    ),							
+					1=>array(   'L3'=>array(    'X'=>array( 
+										'R'=>true,
+										'V'=>true
+								    ),
+								    'E'=>array( 
+										'K'=>true,
+										'Z'=>true
+								    ),					    						
 						    ),
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>'foo', 
+						    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+													9=>'foo',
+													3=>'bar'
+											    )					    
+										),				    
+										'V'=>array( 'K'=>array(	
+													1=>'foo',
 													7=>'bar'
 											    ),
-											    'W'=>array(	1=>'baz' )							    
+											    'W'=>array( 1=>'baz' )					    
 										),
-										'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-								    ),	
+										'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+								    ),
 								    'Y'=>array(	'K'=>array( 'K'=>array(	
 													1=>(int)1,
 													2=>(int)-1
@@ -1619,7 +1627,7 @@ return;
 											    'T'=>array(	3=>(float)1.7 )							    
 										),
 										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    ),
+								    ),					    
 								    'E'=>array(	'K'=>array( 'K'=>array(	
 													1=>(int)1,
 													2=>(int)-1,
@@ -1629,9 +1637,9 @@ return;
 											    'T'=>array(	4=>null)							    
 										),
 										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    )					    
+								    )							
 						    )
-					),
+					),			
 					2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
 													1=>(string)"foo",
 													2=>array(null, true, false, 1, 1.0, "foo")
@@ -1640,10 +1648,10 @@ return;
 										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
 								    )					    
 						    )						
-					),		    
-					3=>array(   'L2'=>array(    'X'=>array( 'K'=>array( 'K'=>true ),
-										'Z'=>array( 'Z'=>true )
-						    )),			    
+					),
+					3=>array(   'L3'=>array(    'X'=>array( 'K'=>true,
+										'Z'=>true
+						    )),				    
 						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
 													1=>(string)"foo",
 													2=>array(null, true, false, 1, 1.0, "foo")
@@ -1654,10 +1662,10 @@ return;
 						    )						
 					)		    		    
 		    
-		);		
-		
+		);	
+
 		$this->assertEquals($check_cache, $this->cls->cache);			
-	
+
 		
 		// Load updated items
 		// ==============================
@@ -1681,14 +1689,19 @@ return;
 		$this->assertEquals(true, $valid);						
 		
 		$check_data = array(
-					1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-											1=>'foo', 
+					1=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+											9=>'foo',
+											3=>'bar'
+									    )					    
+								),				    
+								'V'=>array( 'K'=>array(	
+											1=>'foo',
 											7=>'bar'
 									    ),
-									    'W'=>array(	1=>'baz' )							    
+									    'W'=>array( 1=>'baz' )					    
 								),
-								'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-						    ),	
+								'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+						    ),
 						    'Y'=>array(	'K'=>array( 'K'=>array(	
 											1=>(int)1,
 											2=>(int)-1
@@ -1696,7 +1709,7 @@ return;
 									    'T'=>array(	3=>(float)1.7 )							    
 								),
 								'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-						    ),
+						    ),					    
 						    'E'=>array(	'K'=>array( 'K'=>array(	
 											1=>(int)1,
 											2=>(int)-1,
@@ -1706,7 +1719,7 @@ return;
 									    'T'=>array(	4=>null)							    
 								),
 								'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-						    )					    
+						    )							
 					),			
 					2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
 											1=>(string)"foo",
@@ -1716,7 +1729,7 @@ return;
 								'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
 						    )					    
 					),
-					3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+					3=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
 											1=>(string)"foo",
 											2=>array(null, true, false, 1, 1.0, "foo")
 									    )							    
@@ -1739,14 +1752,19 @@ return;
 						    'L4'=>null,
 						    'L3'=>null,
 						    'L2'=>null,
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>'foo', 
+						    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+													9=>'foo',
+													3=>'bar'
+											    )					    
+										),				    
+										'V'=>array( 'K'=>array(	
+													1=>'foo',
 													7=>'bar'
 											    ),
-											    'W'=>array(	1=>'baz' )							    
+											    'W'=>array( 1=>'baz' )					    
 										),
-										'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-								    ),	
+										'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+								    ),
 								    'Y'=>array(	'K'=>array( 'K'=>array(	
 													1=>(int)1,
 													2=>(int)-1
@@ -1754,7 +1772,7 @@ return;
 											    'T'=>array(	3=>(float)1.7 )							    
 										),
 										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    ),
+								    ),					    
 								    'E'=>array(	'K'=>array( 'K'=>array(	
 													1=>(int)1,
 													2=>(int)-1,
@@ -1764,7 +1782,7 @@ return;
 											    'T'=>array(	4=>null)							    
 										),
 										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    )					    
+								    )							
 						    )
 					),			
 					2=>array(   'all_cached'=>true,
