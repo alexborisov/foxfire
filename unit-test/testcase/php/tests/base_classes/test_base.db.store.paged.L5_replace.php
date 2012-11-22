@@ -1213,10 +1213,10 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// COLD CACHE - Flushed after previous ADD operation
 		// ===================================================================				
 		
-		// NOTE: a L2 must have at least *one* L1 within it in order to have an entry within the DB. If 
-		// a L2 doesn't have L1's inside it, there's nothing to write to the L1 column in the database
-		// (which would violate the table index). In addition to this, storing empty L2's would waste
-		// space in the table and cache. Therefore, overwriting a L2 node with an empty array drops
+		// NOTE: a L3 must have at least *one* L2->L1 walk within it in order to have an entry within the  
+		// db. If a L3->L1 walk inside it, there's nothing to write to the L1 and L2 columns in the db
+		// (which would violate the table index). In addition to this, storing empty L3's would waste
+		// space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
 		// that node from the datastore.
 		
 		$test_obj = new stdClass();
@@ -1291,61 +1291,79 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ==============================			
 		
-		// The LUT's will be set for all L2 items that we modified, since, by overwriting an
-		// entire L2 item, we've given it authority. The other LUT arrays won't exist in the cache
+		// The LUT's will be set for all L3 items that we modified, since, by overwriting an
+		// entire L3 item, we've given it authority. The other LUT arrays won't exist in the cache
 		// yet because we haven't done a read.
 		
-		$check_cache = array(		    
-					1=>array(   'L3'=>array(    'X'=>array( 
-										'R'=>true,
-										'V'=>true
-								    ),
-								    'E'=>array( 
-										'K'=>true,
+		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'L3'=>array(    'X'=>array( 
+									'R'=>true,
+									'V'=>true
+							    ),
+							    'E'=>array( 
+									'K'=>true,
+									'Z'=>true
+							    ),					    						
+					    ),
+					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+												9=>'foo',
+												3=>'bar'
+										    )					    
+									),				    
+									'V'=>array( 'K'=>array(	
+												1=>'foo',
+												7=>'bar'
+										    ),
+										    'W'=>array( 1=>'baz' )					    
+									)
+							    ),
+							    'E'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1,
+												3=>true,
+												5=>false
+										    ),
+										    'T'=>array(	4=>null)							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    )							
+					    )				
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		
+		$check_cache_3 = array(	    'L3'=>array(    'X'=>array( 'K'=>true,
 										'Z'=>true
-								    ),					    						
-						    ),
-						    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-													9=>'foo',
-													3=>'bar'
-											    )					    
-										),				    
-										'V'=>array( 'K'=>array(	
-													1=>'foo',
-													7=>'bar'
-											    ),
-											    'W'=>array( 1=>'baz' )					    
-										)
-								    ),
-								    'E'=>array(	'K'=>array( 'K'=>array(	
-													1=>(int)1,
-													2=>(int)-1,
-													3=>true,
-													5=>false
-											    ),
-											    'T'=>array(	4=>null)							    
-										),
-										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    )							
-						    )				
-					),			
-					3=>array(   'L3'=>array(    'X'=>array( 'K'=>true,
-										'Z'=>true
-						    )),			    
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>(string)"foo",
-													2=>array(null, true, false, 1, 1.0, "foo")
-											    )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-								    )					    
-						    )						
-					)		    		    
-		    
+					    )),			    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be in the cache.
+		// ====================================================================
+		
+		$check_cache = array(	
+					1=>$check_cache_1,
+					3=>$check_cache_3		    
 		);		
 	
 		$this->assertEquals($check_cache, $this->cls->cache);			
 
+		
 		
 		// Load updated items
 		// ==============================
@@ -1829,7 +1847,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_replaceL3_multi_HOT() {
-return;	    
+  
 
 		self::loadData();
 		
@@ -1855,10 +1873,10 @@ return;
 		// HOT CACHE - All items in cache have authority from previous GET operation
 		// ===================================================================				
 		
-		// NOTE: a L2 must have at least *one* L1 within it in order to have an entry within the DB. If 
-		// a L2 doesn't have L1's inside it, there's nothing to write to the L1 column in the database
-		// (which would violate the table index). In addition to this, storing empty L2's would waste
-		// space in the table and cache. Therefore, overwriting a L2 node with an empty array drops
+		// NOTE: a L3 must have at least *one* L2 within it in order to have an entry within the DB. If 
+		// a L3 doesn't have L2's inside it, there's nothing to write to the L1 column in the database
+		// (which would violate the table index). In addition to this, storing empty L3's would waste
+		// space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
 		// that node from the datastore.
 		
 		$test_obj = new stdClass();
@@ -1866,14 +1884,21 @@ return;
 		$test_obj->bar = "test_Bar";		
 		
 		$data = array(
-				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>'foo', // 1=>null,
-											  // 2=>false,
+				1=>array(   'X'=>array(	'K'=>array(), // Drop this L3
+							'R'=>array( 'X'=>array(	
+										9=>'foo',
+										3=>'bar'
+								    )					    
+							),				    
+							'V'=>array( 'K'=>array(	
+										1=>'foo',
 										7=>'bar'
 								    ),
-								    'T'=>array(),	  // Drop this L2
 								    'W'=>array(	1=>'baz' )					    
 							)
+				    
+							// Ignore the entire L3 'Z' node
+							// 'Z'=>array( ... )
 					    ),
 
 					    // Ignore the entire L4 'Y' node
@@ -1926,74 +1951,82 @@ return;
 		// Check cache state
 		// ==============================			
 		
-		// The LUT's will be set for all L2 items that we modified, since, by overwriting an
-		// entire L2 item, we've given it authority. The other LUT arrays won't exist in the cache
-		// yet because we haven't done a read.
+		$check_cache_1 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L5 had
+					    'L4'=>null,		    // authority from the previous GET operation
+					    'L3'=>null,
+					    'L2'=>null,
+					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+												9=>'foo',
+												3=>'bar'
+										    )					    
+									),				    
+									'V'=>array( 'K'=>array(	
+												1=>'foo',
+												7=>'bar'
+										    ),
+										    'W'=>array( 1=>'baz' )					    
+									),
+									'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+							    ),
+							    'Y'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1
+										    ),
+										    'T'=>array(	3=>(float)1.7 )							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    ),					    
+							    'E'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1,
+												3=>true,
+												5=>false
+										    ),
+										    'T'=>array(	4=>null)							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    )							
+					    )
+		);
 		
-		$check_cache = array(		    
-					1=>array(   'all_cached'=>true,
-						    'L4'=>null,
-						    'L3'=>null,
-						    'L2'=>null,					    
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>'foo', 
-													7=>'bar'
-											    ),
-											    'W'=>array(	1=>'baz' )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-								    ),	
-								    'Y'=>array(	'K'=>array( 'K'=>array(	
-													1=>(int)1,
-													2=>(int)-1
-											    ),
-											    'T'=>array(	3=>(float)1.7 )							    
-										),
-										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    ),
-								    'E'=>array(	'K'=>array( 'K'=>array(	
-													1=>(int)1,
-													2=>(int)-1,
-													3=>true,
-													5=>false
-											    ),
-											    'T'=>array(	4=>null)							    
-										),
-										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    )					    
-						    )
-					),
-					2=>array(   'all_cached'=>true,
-						    'L4'=>null,
-						    'L3'=>null,
-						    'L2'=>null,						    
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>(string)"foo",
-													2=>array(null, true, false, 1, 1.0, "foo")
-											    )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-								    )					    
-						    )						
-					),		    
-					3=>array(   
-						    'L2'=>array(    'X'=>array( 'K'=>array( 'K'=>true ),
-										'Z'=>array( 'Z'=>true )
-						    )),			    
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>(string)"foo",
-													2=>array(null, true, false, 1, 1.0, "foo")
-											    )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-								    )					    
-						    )						
-					)		    		    
-		    
-		);		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
 		
-		$this->assertEquals($check_cache, $this->cls->cache);			
-	
+		
+		$check_cache_2 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L5 had
+					    'L4'=>null,		    // authority from the previous GET operation
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+
+		$check_cache_3 = array(	    'L3'=>array(    'X'=>array( 'K'=>true,	// This L5 didn't exist when the GET operation ran. It
+									'Z'=>true	// only has authority in the L3 LUT, because the L5 was
+					    )),						// created during a L3 replace operation.			    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		
+		
+					
+return;	
 		
 		// Load updated items
 		// ==============================
