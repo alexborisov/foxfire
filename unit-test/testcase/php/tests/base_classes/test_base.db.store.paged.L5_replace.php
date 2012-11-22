@@ -622,7 +622,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 					3=>$check_cache_3,		    		    
 		);
 		
-		$this->assertEquals($check_cache, $this->cls->cache);			
+		$this->assertEquals($check_cache, $this->cls->cache);
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
 			
 		
 	}
@@ -982,7 +984,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 					3=>$check_cache_3,			    		    
 		);
 		
-		$this->assertEquals($check_cache, $this->cls->cache);			
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);		
 			
 		
 	}
@@ -1363,7 +1367,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 					3=>$check_cache_3,		    		    
 		);
 		
-		$this->assertEquals($check_cache, $this->cls->cache);			
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
 			
 		
 	}
@@ -1569,131 +1575,174 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		$this->assertEquals(true, $valid);						
 		
-		$check_data = array(
-					1=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-											9=>'foo',
-											3=>'bar'
-									    )					    
-								),				    
-								'V'=>array( 'K'=>array(	
-											1=>'foo',
-											7=>'bar'
-									    ),
-									    'W'=>array( 1=>'baz' )					    
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_data_1 = array(  'X'=>array( 'R'=>array( 'X'=>array(	
+									    9=>'foo',
+									    3=>'bar'
+								)					    
+						    ),				    
+						    'V'=>array( 'K'=>array(	
+									    1=>'foo',
+									    7=>'bar'
 								),
-								'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+								'W'=>array( 1=>'baz' )					    
 						    ),
-						    'Y'=>array(	'K'=>array( 'K'=>array(	
-											1=>(int)1,
-											2=>(int)-1
-									    ),
-									    'T'=>array(	3=>(float)1.7 )							    
-								),
-								'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-						    ),					    
-						    'E'=>array(	'K'=>array( 'K'=>array(	
-											1=>(int)1,
-											2=>(int)-1,
-											3=>true,
-											5=>false
-									    ),
-									    'T'=>array(	4=>null)							    
-								),
-								'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-						    )							
-					),			
-					2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-											1=>(string)"foo",
-											2=>array(null, true, false, 1, 1.0, "foo")
-									    )							    
-								),
-								'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-						    )					    
+						    'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
 					),
-					3=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-											1=>(string)"foo",
-											2=>array(null, true, false, 1, 1.0, "foo")
-									    )							    
+					'Y'=>array(	'K'=>array( 'K'=>array(	
+									    1=>(int)1,
+									    2=>(int)-1
 								),
-								'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-						    )					    
-					)		    
+								'T'=>array(	3=>(float)1.7 )							    
+						    ),
+						    'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					),					    
+					'E'=>array(	'K'=>array( 'K'=>array(	
+									    1=>(int)1,
+									    2=>(int)-1,
+									    3=>true,
+									    5=>false
+								),
+								'T'=>array(	4=>null)							    
+						    ),
+						    'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					)							
+		);
+		
+		$this->assertEquals($check_data_1, $result[1]);	
+		
+		$check_data_2 = array(	'X'=>array( 'K'=>array( 'K'=>array(	
+									    1=>(string)"foo",
+									    2=>array(null, true, false, 1, 1.0, "foo")
+								)							    
+						    ),
+						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_2, $result[2]);
+		
+		$check_data_3 = array(  'X'=>array( 'K'=>array( 'K'=>array(	
+									    1=>(string)"foo",
+									    2=>array(null, true, false, 1, 1.0, "foo")
+								)							    
+						    ),
+						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_3, $result[3]);		
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there
+		// ====================================================================
+		
+		$check_data = array(
+					1=>$check_data_1,
+					2=>$check_data_2,
+					3=>$check_data_3,		    
 		);
 			
 		$this->assertEquals($check_data, $result);	
+		
+		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
 
 		
 		// Check cache state
 		// ==============================			
+				
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
 		
-		$check_cache = array(		    
-					1=>array(   'all_cached'=>true,
-						    'L4'=>null,
-						    'L3'=>null,
-						    'L2'=>null,
-						    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-													9=>'foo',
-													3=>'bar'
-											    )					    
-										),				    
-										'V'=>array( 'K'=>array(	
-													1=>'foo',
-													7=>'bar'
-											    ),
-											    'W'=>array( 1=>'baz' )					    
-										),
-										'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
-								    ),
-								    'Y'=>array(	'K'=>array( 'K'=>array(	
-													1=>(int)1,
-													2=>(int)-1
-											    ),
-											    'T'=>array(	3=>(float)1.7 )							    
-										),
-										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    ),					    
-								    'E'=>array(	'K'=>array( 'K'=>array(	
-													1=>(int)1,
-													2=>(int)-1,
-													3=>true,
-													5=>false
-											    ),
-											    'T'=>array(	4=>null)							    
-										),
-										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    )							
-						    )
-					),			
-					2=>array(   'all_cached'=>true,
-						    'L4'=>null,
-						    'L3'=>null,
-						    'L2'=>null,				    
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>(string)"foo",
-													2=>array(null, true, false, 1, 1.0, "foo")
-											    )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-								    )					    
-						    )						
-					),
-					3=>array(   'all_cached'=>true,
-						    'L4'=>null,
-						    'L3'=>null,
-						    'L2'=>null,				    
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>(string)"foo",
-													2=>array(null, true, false, 1, 1.0, "foo")
-											    )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-								    )					    
-						    )						
-					)		    		    
-		    
+		$check_cache_1 = array(	    'all_cached'=>true,
+					    'L4'=>null,
+					    'L3'=>null,
+					    'L2'=>null,
+					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+												9=>'foo',
+												3=>'bar'
+										    )					    
+									),				    
+									'V'=>array( 'K'=>array(	
+												1=>'foo',
+												7=>'bar'
+										    ),
+										    'W'=>array( 1=>'baz' )					    
+									),
+									'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+							    ),
+							    'Y'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1
+										    ),
+										    'T'=>array(	3=>(float)1.7 )							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    ),					    
+							    'E'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1,
+												3=>true,
+												5=>false
+										    ),
+										    'T'=>array(	4=>null)							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    )							
+					    )
 		);
 		
-		$this->assertEquals($check_cache, $this->cls->cache);			
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L4'=>null,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+					    'L4'=>null,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there
+		// ====================================================================
+		
+		$check_cache = array(		    
+					1=>$check_cache_1,
+					2=>$check_cache_2,		    
+					3=>$check_cache_3,		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
 			
 		
 	}
@@ -1798,74 +1847,95 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// entire L3 item, we've given it authority. The other LUT arrays won't exist in the cache
 		// yet because we haven't done a read.
 		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'L3'=>array(    'X'=>array( 
+									'R'=>true,
+									'V'=>true
+							    ),
+							    'E'=>array( 
+									'K'=>true,
+									'Z'=>true
+							    ),					    						
+					    ),
+					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+												9=>'foo',
+												3=>'bar'
+										    )					    
+									),				    
+									'V'=>array( 'K'=>array(	
+												1=>'foo',
+												7=>'bar'
+										    ),
+										    'W'=>array( 1=>'baz' )					    
+									),
+									'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+							    ),
+							    'Y'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1
+										    ),
+										    'T'=>array(	3=>(float)1.7 )							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    ),					    
+							    'E'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1,
+												3=>true,
+												5=>false
+										    ),
+										    'T'=>array(	4=>null)							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    )							
+					    )
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		$check_cache_2 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'L3'=>array(    'X'=>array( 'K'=>true,
+										    'Z'=>true
+					    )),				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there
+		// ====================================================================
+		
 		$check_cache = array(		    
-					1=>array(   'L3'=>array(    'X'=>array( 
-										'R'=>true,
-										'V'=>true
-								    ),
-								    'E'=>array( 
-										'K'=>true,
-										'Z'=>true
-								    ),					    						
-						    ),
-						    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-													9=>'foo',
-													3=>'bar'
-											    )					    
-										),				    
-										'V'=>array( 'K'=>array(	
-													1=>'foo',
-													7=>'bar'
-											    ),
-											    'W'=>array( 1=>'baz' )					    
-										),
-										'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
-								    ),
-								    'Y'=>array(	'K'=>array( 'K'=>array(	
-													1=>(int)1,
-													2=>(int)-1
-											    ),
-											    'T'=>array(	3=>(float)1.7 )							    
-										),
-										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    ),					    
-								    'E'=>array(	'K'=>array( 'K'=>array(	
-													1=>(int)1,
-													2=>(int)-1,
-													3=>true,
-													5=>false
-											    ),
-											    'T'=>array(	4=>null)							    
-										),
-										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    )							
-						    )
-					),			
-					2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>(string)"foo",
-													2=>array(null, true, false, 1, 1.0, "foo")
-											    )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-								    )					    
-						    )						
-					),
-					3=>array(   'L3'=>array(    'X'=>array( 'K'=>true,
-										'Z'=>true
-						    )),				    
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>(string)"foo",
-													2=>array(null, true, false, 1, 1.0, "foo")
-											    )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-								    )					    
-						    )						
-					)		    		    
-		    
+					1=>$check_cache_1,	
+		    			2=>$check_cache_2,
+					3=>$check_cache_3		    		    
 		);	
 
-		$this->assertEquals($check_cache, $this->cls->cache);			
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
 
 		
 		// Load updated items
@@ -1889,58 +1959,73 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		$this->assertEquals(true, $valid);						
 		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_data_1 = array(	    'X'=>array(	'R'=>array( 'X'=>array(	
+										9=>'foo',
+										3=>'bar'
+								    )					    
+							),				    
+							'V'=>array( 'K'=>array(	
+										1=>'foo',
+										7=>'bar'
+								    ),
+								    'W'=>array( 1=>'baz' )					    
+							),
+							'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+					    ),
+					    'Y'=>array(	'K'=>array( 'K'=>array(	
+										1=>(int)1,
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    ),					    
+					    'E'=>array(	'K'=>array( 'K'=>array(	
+										1=>(int)1,
+										2=>(int)-1,
+										3=>true,
+										5=>false
+								    ),
+								    'T'=>array(	4=>null)							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )							
+		);
+		
+		$check_data_2 = array(	    'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+		);
+		
+		$check_data_3 = array(	    'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+		);
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there
+		// ====================================================================
+		
 		$check_data = array(
-					1=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-											9=>'foo',
-											3=>'bar'
-									    )					    
-								),				    
-								'V'=>array( 'K'=>array(	
-											1=>'foo',
-											7=>'bar'
-									    ),
-									    'W'=>array( 1=>'baz' )					    
-								),
-								'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
-						    ),
-						    'Y'=>array(	'K'=>array( 'K'=>array(	
-											1=>(int)1,
-											2=>(int)-1
-									    ),
-									    'T'=>array(	3=>(float)1.7 )							    
-								),
-								'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-						    ),					    
-						    'E'=>array(	'K'=>array( 'K'=>array(	
-											1=>(int)1,
-											2=>(int)-1,
-											3=>true,
-											5=>false
-									    ),
-									    'T'=>array(	4=>null)							    
-								),
-								'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-						    )							
-					),			
-					2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-											1=>(string)"foo",
-											2=>array(null, true, false, 1, 1.0, "foo")
-									    )							    
-								),
-								'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-						    )					    
-					),
-					3=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-											1=>(string)"foo",
-											2=>array(null, true, false, 1, 1.0, "foo")
-									    )							    
-								),
-								'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-						    )					    
-					)		    
+					1=>$check_data_1,
+					2=>$check_data_2,
+					3=>$check_data_3,		    
 		);
 			
 		$this->assertEquals($check_data, $result);	
+		
+		unset($check_data_1, $check_data_2,$check_data_3, $check_data);
 
 		
 		// Check cache state
@@ -1948,74 +2033,88 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		// The LUT's will now be set for all items that we requested in the previous GET operation
 		
-		$check_cache = array(		    
-					1=>array(   'all_cached'=>true,
-						    'L4'=>null,
-						    'L3'=>null,
-						    'L2'=>null,
-						    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-													9=>'foo',
-													3=>'bar'
-											    )					    
-										),				    
-										'V'=>array( 'K'=>array(	
-													1=>'foo',
-													7=>'bar'
-											    ),
-											    'W'=>array( 1=>'baz' )					    
-										),
-										'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
-								    ),
-								    'Y'=>array(	'K'=>array( 'K'=>array(	
-													1=>(int)1,
-													2=>(int)-1
-											    ),
-											    'T'=>array(	3=>(float)1.7 )							    
-										),
-										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    ),					    
-								    'E'=>array(	'K'=>array( 'K'=>array(	
-													1=>(int)1,
-													2=>(int)-1,
-													3=>true,
-													5=>false
-											    ),
-											    'T'=>array(	4=>null)							    
-										),
-										'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-								    )							
-						    )
-					),			
-					2=>array(   'all_cached'=>true,
-						    'L4'=>null,
-						    'L3'=>null,
-						    'L2'=>null,				    
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>(string)"foo",
-													2=>array(null, true, false, 1, 1.0, "foo")
-											    )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-								    )					    
-						    )						
-					),
-					3=>array(   'all_cached'=>true,
-						    'L4'=>null,
-						    'L3'=>null,
-						    'L2'=>null,				    
-						    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-													1=>(string)"foo",
-													2=>array(null, true, false, 1, 1.0, "foo")
-											    )							    
-										),
-										'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-								    )					    
-						    )						
-					)		    		    
-		    
+		
+		$check_cache_1 = array(	    'all_cached'=>true,
+					    'L4'=>null,
+					    'L3'=>null,
+					    'L2'=>null,
+					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
+												9=>'foo',
+												3=>'bar'
+										    )					    
+									),				    
+									'V'=>array( 'K'=>array(	
+												1=>'foo',
+												7=>'bar'
+										    ),
+										    'W'=>array( 1=>'baz' )					    
+									),
+									'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+							    ),
+							    'Y'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1
+										    ),
+										    'T'=>array(	3=>(float)1.7 )							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    ),					    
+							    'E'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1,
+												3=>true,
+												5=>false
+										    ),
+										    'T'=>array(	4=>null)							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    )							
+					    )
 		);
 		
-		$this->assertEquals($check_cache, $this->cls->cache);			
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L4'=>null,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+					    'L4'=>null,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);		
+		
+		$check_cache = array(		    
+					1=>$check_cache_1,
+					2=>$check_cache_2,	
+					3=>$check_cache_3			    		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
 			
 		
 	}
