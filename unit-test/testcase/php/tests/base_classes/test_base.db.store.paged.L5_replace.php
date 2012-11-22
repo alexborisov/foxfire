@@ -286,6 +286,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		self::loadData();
 		
 		
+		// Flush the cache
+		// ####################################################################
+		
 		try {
 			$flush_ok = $this->cls->flushCache();
 		}
@@ -300,11 +303,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// COLD CACHE - Flushed after previous ADD operation
 		// ===================================================================				
 		
-		// NOTE: a L2 must have at least *one* L1 within it in order to have an entry within the DB. If 
-		// a L2 doesn't have L1's inside it, there's nothing to write to the L1 column in the database
-		// (which would violate the table index). In addition to this, storing empty L2's would waste
-		// space in the table and cache. Therefore, overwriting a L2 node with an empty array drops
-		// that node from the datastore.
+		// NOTE: a L2 must have at least one L1 object within it in order to have an entry within the  
+		// db. Without a L1 object inside it, there's nothing to write to the L1 column in the db (which
+		// would violate the table index). In addition to this, storing empty L2's would waste space in
+		// the table and cache. Therefore, overwriting a L2 node with an empty array drops that node 
+		// from the datastore
 		
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
@@ -371,9 +374,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The LUT's will be set for all L2 items that we modified, since, by overwriting an
-		// entire L2 item, we've given it authority. The other LUT arrays won't exist in the cache
-		// yet because we haven't done a read.
+		// The LUT's will be set for all L2 nodes that we modified, since, by overwriting an
+		// entire L2 node, we've given it authority. The all_cached flag, L3, and L4 LUT 
+		// arrays won't exist in the cache yet because we haven't done a database read.
 		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
@@ -431,7 +434,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be in the cache.
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -526,7 +529,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -614,7 +617,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -648,11 +651,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// WARM CACHE - Items in cache from previous ADD operation
 		// ===================================================================				
 		
-		// NOTE: a L2 must have at least *one* L1 within it in order to have an entry within the DB. If 
-		// a L2 doesn't have L1's inside it, there's nothing to write to the L1 column in the database
-		// (which would violate the table index). In addition to this, storing empty L2's would waste
-		// space in the table and cache. Therefore, overwriting a L2 node with an empty array drops
-		// that node from the datastore.
+		// NOTE: a L2 must have at least one L1 object within it in order to have an entry within the  
+		// db. Without a L1 object inside it, there's nothing to write to the L1 column in the db (which
+		// would violate the table index). In addition to this, storing empty L2's would waste space in
+		// the table and cache. Therefore, overwriting a L2 node with an empty array drops that node 
+		// from the datastore
 		
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
@@ -719,9 +722,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The LUT's will be set for all L2 items that we modified, since, by overwriting an
-		// entire L2 item, we've given it authority. The other LUT arrays won't exist in the cache
-		// yet because we haven't done a read.
+		// The LUT's will be set for all L2 nodes that we modified, since, by overwriting an
+		// entire L2 node, we've given it authority. The all_cached flag, L3, and L4 LUT 
+		// arrays won't exist in the cache yet because we haven't done a database read.
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -800,7 +803,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -886,7 +889,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		);
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -974,7 +977,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -1005,7 +1008,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		self::loadData();
 		
 		
-		// Load updated items
+		// Load the cache
 		// ####################################################################
 		
 		$request = array(
@@ -1027,11 +1030,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// HOT CACHE - All items in cache have authority from previous GET operation
 		// ===================================================================				
 		
-		// NOTE: a L2 must have at least *one* L1 within it in order to have an entry within the DB. If 
-		// a L2 doesn't have L1's inside it, there's nothing to write to the L1 column in the database
-		// (which would violate the table index). In addition to this, storing empty L2's would waste
-		// space in the table and cache. Therefore, overwriting a L2 node with an empty array drops
-		// that node from the datastore.
+		// NOTE: a L2 must have at least one L1 object within it in order to have an entry within the  
+		// db. Without a L1 object inside it, there's nothing to write to the L1 column in the db (which
+		// would violate the table index). In addition to this, storing empty L2's would waste space in
+		// the table and cache. Therefore, overwriting a L2 node with an empty array drops that node 
+		// from the datastore
 		
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
@@ -1098,9 +1101,13 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The LUT's will be set for all L2 items that we modified, since, by overwriting an
-		// entire L2 item, we've given it authority. The other LUT arrays won't exist in the cache
-		// yet because we haven't done a read.
+		// Since we're working with a hot cache, the all_cached flag will be set for all
+		// nodes that already exist in the database. The L2, L3, and L4 LUT's for these
+		// nodes will be missing, because the all_cached flag takes priority. However, for
+		// L5 nodes that were created in the cache as a result of us adding new L2's to the
+		// datastore, entries in the parent L5 object's L2 LUT will be set. This is because
+		// the parent L5 was created, not read from the db; so its all_cached flag won't be 
+		// set because it doesn't have authority.
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
@@ -1174,7 +1181,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -1267,7 +1274,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -1356,7 +1363,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -1385,6 +1392,10 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	    
 
 		self::loadData();
+		
+		
+		// Flush the cache
+		// ####################################################################	
 		
 		try {
 			$flush_ok = $this->cls->flushCache();
@@ -1478,8 +1489,8 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The LUT's will be set for all L3 items that we modified, since, by overwriting an
-		// entire L3 item, we've given it authority. The other LUT arrays won't exist in the cache
+		// The LUT's will be set for all L3 nodes that we modified, since, by overwriting an
+		// entire L3 node, we've given it authority. The other LUT arrays won't exist in the cache
 		// yet because we haven't done a read.		
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
@@ -1538,7 +1549,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be in the cache.
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(	
@@ -1634,7 +1645,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -1728,7 +1739,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -1840,8 +1851,8 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The LUT's will be set for all L3 items that we modified, since, by overwriting an
-		// entire L3 item, we've given it authority. The other LUT arrays won't exist in the cache
+		// The LUT's will be set for all L3 nodes that we modified, since, by overwriting an
+		// entire L3 node, we've given it authority. The other LUT arrays won't exist in the cache
 		// yet because we haven't done a read.
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
@@ -1921,7 +1932,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -2012,7 +2023,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		);
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -2132,7 +2143,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		self::loadData();
 		
 		
-		// Load updated items
+		// Load the cache
 		// ####################################################################
 		
 		$request = array(
@@ -2232,6 +2243,14 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 				
+		// Since we're working with a hot cache, the all_cached flag will be set for all
+		// nodes that already exist in the database. The L2, L3, and L4 LUT's for these
+		// nodes will be missing, because the all_cached flag takes priority. However, for
+		// L5 nodes that were created in the cache as a result of us adding new L2's to the
+		// datastore, entries in the parent L5 object's L3 LUT will be set. This is because
+		// the parent L5 was created, not read from the db; so its all_cached flag won't be 
+		// set because it doesn't have authority.
+				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
 		
@@ -2310,7 +2329,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -2405,7 +2424,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_data_3, $result[3]);
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -2500,7 +2519,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -2529,6 +2548,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 		self::loadData();
 		
+		
+		// Flush the cache
+		// ####################################################################	
 		
 		try {
 			$flush_ok = $this->cls->flushCache();
@@ -2617,8 +2639,8 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The LUT's will be set for all L4 items that we modified, since, by overwriting an
-		// entire L4 item, we've given it authority. The other LUT arrays won't exist in the cache
+		// The LUT's will be set for all L4 nodes that we modified, since, by overwriting an
+		// entire L4 node, we've given it authority. The other LUT arrays won't exist in the cache
 		// yet because we haven't done a read.
 		
 		
@@ -2670,7 +2692,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be in the cache.
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(	
@@ -2758,7 +2780,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -2843,7 +2865,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -2950,8 +2972,8 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The LUT's will be set for all L4 items that we modified, since, by overwriting an
-		// entire L4 item, we've given it authority. The other LUT arrays won't exist in the cache
+		// The LUT's will be set for all L4 nodes that we modified, since, by overwriting an
+		// entire L4 node, we've given it authority. The other LUT arrays won't exist in the cache
 		// yet because we haven't done a read.
 		
 		
@@ -3015,7 +3037,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be in the cache.
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(	
@@ -3104,7 +3126,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -3189,7 +3211,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -3220,7 +3242,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		self::loadData();
 		
 		
-		// Load updated items
+		// Load the cache
 		// ####################################################################
 		
 		$request = array(
@@ -3315,7 +3337,14 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################
 		
-				
+		// Since we're working with a hot cache, the all_cached flag will be set for all
+		// nodes that already exist in the database. The L2, L3, and L4 LUT's for these
+		// nodes will be missing, because the all_cached flag takes priority. However, for
+		// L5 nodes that were created in the cache as a result of us adding new L2's to the
+		// datastore, entries in the parent L5 object's L4 LUT will be set. This is because
+		// the parent L5 was created, not read from the db; so its all_cached flag won't be 
+		// set because it doesn't have authority.
+						
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
 		
@@ -3382,7 +3411,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -3471,7 +3500,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -3556,7 +3585,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -3585,6 +3614,10 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 
 
 		self::loadData();
+		
+		
+		// Flush the cache
+		// ####################################################################	
 		
 		try {
 			$flush_ok = $this->cls->flushCache();
@@ -3647,6 +3680,10 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
+		// The all_cached flag will be set for all L5 nodes that we modified, since, 
+		// by overwriting an entire L5 item, we've given it authority. 
+				
+		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================		
 		
@@ -3665,7 +3702,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be in the cache.
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(	
@@ -3726,7 +3763,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -3781,7 +3818,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -3891,7 +3928,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -3954,7 +3991,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -4010,7 +4047,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -4040,7 +4077,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		self::loadData();
 		
 		
-		// Load updated items
+		// Load the cache
 		// ####################################################################
 		
 		$request = array(
@@ -4108,7 +4145,11 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		// Check cache state
 		// ####################################################################			
-				
+		
+		// Since we're working with a hot cache, the all_cached flag will be set for all
+		// nodes that already exist in the database. 		
+		
+		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
 		
@@ -4143,7 +4184,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -4205,7 +4246,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -4260,7 +4301,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there
+		// again. This finds L5 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
