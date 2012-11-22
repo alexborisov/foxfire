@@ -3577,7 +3577,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_replaceL5_multi_COLD() {
-    
+    return;
 
 		self::loadData();
 		

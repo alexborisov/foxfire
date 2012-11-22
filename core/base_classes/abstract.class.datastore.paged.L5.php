@@ -5191,23 +5191,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
-		
-		// NOTE: we update the class cache before the persistent cache, so that if the
-		// persistent cache write fails, the class cache will still in the correct
-		// state. Any cache pages that fail to update if the persistent cache throws an
-		// error during the write operation will remain locked, causing them to be purged 
-		// on the next read operation.
-		
-		
-		// Write the temp class cache to the class cache
-		// ===========================================================
-		
-		foreach( $page_images as $L5 => $image ){
-		    
-			$this->cache[$L5] = $image;		    		    
-		}
-		unset($L5, $image);
-		
 
 		// Overwrite the locked L5 cache pages, releasing our lock
 		// ===========================================================
@@ -5226,6 +5209,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		
+		$this->cache = $page_images;
+		
 		return (int)$rows_set;
 		
 	}
@@ -5642,23 +5628,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}		
-
-		
-		// NOTE: we update the class cache before the persistent cache, so that if the
-		// persistent cache write fails, the class cache will still in the correct
-		// state. Any cache pages that fail to update if the persistent cache throws an
-		// error during the write operation will remain locked, causing them to be purged 
-		// on the next read operation.
-		
-		
-		// Write the temp class cache to the class cache
-		// ===========================================================
-		
-		foreach( $page_images as $L5 => $image ){
-		    
-			$this->cache[$L5] = $image;		    		    
-		}
-		unset($L5, $image);
 		
 		
 		// Overwrite the locked L5 cache pages, releasing our lock
@@ -5677,6 +5646,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}
+		
+		$this->cache = $page_images;
 
 		return (int)$rows_set;
 		
@@ -5894,45 +5865,59 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// 2) Rebuild cache page images
 		// ================================================================
 
-		$update_cache = array();
+		$update_cache = $this->cache;
+		$dead_cache_pages = array();
 		$insert_data = array(); 
 
 		foreach( $data as $L5 => $L4s ){
 		    
-			$update_cache[$L5]['all_cached'] = true;	
-			
-			foreach( $L4s as $L4 => $L3s ){
+			if( empty($L4s) ){	
 
-				$update_cache[$L5][$this->L4_col][$L4] = true;
-
-				foreach( $L3s as $L3 => $L2s ){
-
-					$update_cache[$L5][$this->L3_col][$L4][$L3] = true;
-
-					foreach( $L2s as $L2 => $L1s ){
-
-						$update_cache[$L5][$this->L2_col][$L4][$L3][$L2] = true;
-
-						foreach( $L1s as $L1 => $val){
-
-							$update_cache[$L5]["keys"][$L4][$L3][$L2][$L1] = $val;
-
-							$insert_data[] = array(
-										$this->L5_col=>$L5,
-										$this->L4_col=>$L4,
-										$this->L3_col=>$L3,
-										$this->L2_col=>$L2,
-										$this->L1_col=>$L1,
-										$this->L0_col=>$val
-							);
-						}
-						unset($L1, $val);
-					}
-					unset($L2, $L1s);
-				}
-				unset($L3, $L2s);
+				$dead_cache_pages[] = $L5;
 			}
-			unset($L4, $L3s);		
+			else {
+				
+				$update_cache[$L5]['all_cached'] = true;
+
+				// Clear all objects currently inside the L5
+				
+				unset($update_cache[$L5]["keys"]);
+				
+				// Clear the LUT entries for all the L2's, L3's 
+				// and L4's that were inside the L5	
+				
+				unset($update_cache[$L5][$this->L4_col]);
+				unset($update_cache[$L5][$this->L3_col]);
+				unset($update_cache[$L5][$this->L2_col]);
+				
+				foreach( $L4s as $L4 => $L3s ){
+
+					foreach( $L3s as $L3 => $L2s ){
+
+						foreach( $L2s as $L2 => $L1s ){
+
+							foreach( $L1s as $L1 => $val){
+
+								$update_cache[$L5]["keys"][$L4][$L3][$L2][$L1] = $val;
+
+								$insert_data[] = array(
+											$this->L5_col=>$L5,
+											$this->L4_col=>$L4,
+											$this->L3_col=>$L3,
+											$this->L2_col=>$L2,
+											$this->L1_col=>$L1,
+											$this->L0_col=>$val
+								);
+							}
+							unset($L1, $val);
+						}
+						unset($L2, $L1s);
+					}
+					unset($L3, $L2s);
+				}
+				unset($L4, $L3s);
+			
+			}
 		}
 		unset($L5, $L4s);
 		
@@ -6046,22 +6031,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}		
-
-		// NOTE: we update the class cache before the persistent cache, so that if the
-		// persistent cache write fails, the class cache will still in the correct
-		// state. Any cache pages that fail to update if the persistent cache throws an
-		// error during the write operation will remain locked, causing them to be purged 
-		// on the next read operation.
-		
-		
-		// Write the temp class cache to the class cache
-		// ===========================================================
-		
-		foreach( $update_cache as $L5 => $image ){
-		    
-			$this->cache[$L5] = $image;		    		    
-		}
-		unset($L5, $image);
 		
 		
 		// Overwrite the locked L5 cache pages, releasing our lock
@@ -6081,7 +6050,32 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 		
+		
+		// Flush any dead L5 cache pages, releasing our lock
+		// ===========================================================
+		
+		if($dead_cache_pages){
+		    
+			try {
+				self::flushCachePage($dead_cache_pages);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception( array(
+					'numeric'=>11,
+					'text'=>"Error flushing cache pages",
+					'data'=>$dead_cache_pages,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}
+		
+		}
+		
+		$this->cache = $update_cache;
+		
 		return (int)$rows_set;
+		
 		
 	}
 	
