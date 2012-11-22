@@ -4536,7 +4536,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		foreach( $data as $L5 => $L4s ){				
 			
-			// Avoid creating redundant cache entries
+			// Avoid creating redundant LUT entries
 		    
 			if( FOX_sUtil::keyExists('all_cached', $page_images[$L5]) ){
 			
@@ -4574,7 +4574,10 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 								    $this->L2_col=>$L2
 						);					    
 
-						if(!$parent_has_auth){	
+						// Don't set a LUT entry if the parent has authority, or the
+						// the node has no children
+						
+						if(!$parent_has_auth && !empty($L1s) ){	
 						    
 							$page_images[$L5][$this->L2_col][$L4][$L3][$L2] = true;
 						}
@@ -4999,12 +5002,28 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		$insert_data = array();	
 		$del_args = array();		
-		$page_images = array();
+		$page_images = $this->cache;
 
 		foreach( $data as $L5 => $L4s ){	
 			
+			// Avoid creating redundant LUT entries
+		    
+			if( FOX_sUtil::keyExists('all_cached', $page_images[$L5]) ){
+			
+				$parent_has_auth = true;			    
+			}
+			else {			    
+				$parent_has_auth = false;			    
+			}
+			
 			foreach( $L4s as $L4 => $L3s ){			
 
+				if( !$parent_has_auth // performance optimization
+				    && FOX_sUtil::keyExists($L4, $page_images[$L5][$this->L4_col]) ){
+
+					$parent_has_auth = true;			    
+				}
+				
 				foreach( $L3s as $L3 => $L2s ){
 				    
 					$del_args[] = array(
@@ -5012,12 +5031,21 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 							    $this->L4_col=>$L4, 
 							    $this->L3_col=>$L3
 					);
-						
-					$page_images[$L5][$this->L3_col][$L4][$L3] = true;										
 					
-					foreach( $L2s as $L2 => $L1s ){
+					// Clear the LUT entries for all of the L2's that were
+					// inside the L3
+					
+					unset($page_images[$L5][$this->L2_col][$L4][$L3]);;
 
-						$page_images[$L5][$this->L2_col][$L4][$L3][$L2] = true;
+					// Don't set a LUT entry if the parent has authority, or the
+					// the node has no children
+					
+					if(!$parent_has_auth && !empty($L2s) ){	
+
+						$page_images[$L5][$this->L3_col][$L4][$L3] = true;
+					}
+																										
+					foreach( $L2s as $L2 => $L1s ){
 
 						foreach( $L1s as $L1 => $val){
 
