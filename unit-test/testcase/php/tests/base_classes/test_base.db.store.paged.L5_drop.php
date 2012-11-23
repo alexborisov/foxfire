@@ -185,8 +185,8 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
 		}			
 
-		// Should return (int)11 to indicate  11 keys were added
-		$this->assertEquals(11, $rows_changed); 								
+		// Should return (int)19 to indicate  19 keys were added
+		$this->assertEquals(19, $rows_changed); 								
 		
 		
 		// Check cache state
@@ -325,9 +325,9 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropL2_multi_COLD() {
+	public function test_dropMulti_COLD() {
 	    
-return;
+
 		self::loadData();
 		
 		
@@ -347,8 +347,34 @@ return;
 		
 		// COLD CACHE - Flushed after previous ADD operation
 		// ===================================================================				
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>true,
+										2=>true
+								    ),
+								    'R'=>true			    
+							),
+							'Z'=>array( 'Z'=>true ) 						
+					    )					    
+				)		    
+		);
 		
+		$ctrl = array(
+			'validate'=>true,
+			'mode'=>'trie',
+			'trap_*'=>true
+		);
+		
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
 
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
 		
 	}
 	

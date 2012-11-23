@@ -7255,8 +7255,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new FOX_dataStore_validator($struct);			
-				$tree_valid = $validator->validateL5Trie($data);
+				$validator = new FOX_dataStore_validator($struct);
+				
+				$val_ctrl = array(
+					'order'=>5,
+					'mode'=>'control',
+					'allow_wildcard'=>false,
+					'clip_order'=>false		    
+				);		
+				
+				$tree_valid = $validator->validateTrie($data, $val_ctrl);
 
 				if($tree_valid !== true){
 
@@ -7337,6 +7345,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		foreach( $del_data as $L5 => $L4s ){		
 		    
+			// Handle "true", "null" etc end nodes. The algorithm is implemented this
+			// way to avoid excessive if-else nesting indentation. We know that any
+			// non-array keys are valid end nodes because the trie passed validation
+			// at the beginning of the class method
+		    
+			if( !is_array($L4s) ){	 
+			    
+				$L4s = array();	
+			}
+			
 			if( count($L4s) == 0 ){	    // If the trie has no L4 structures, delete the
 						    // entire cache page from the class cache, and flag
 						    // the page to be flushed from the persistent cache
@@ -7347,6 +7365,11 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 			foreach( $L4s as $L4 => $L3s ){
 			    
+				if( !is_array($L3s) ){	 
+
+					$L3s = array();	
+				}
+			
 				if( count($L3s) == 0 ){	    // If the L4 structure has no L3 structures, 
 							    // delete its descendents' cache entries
 
@@ -7358,6 +7381,11 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 				foreach( $L3s as $L3 => $L2s ){
 				    
+					if( !is_array($L2s) ){	 
+
+						$L2s = array();	
+					}
+				
 					if( count($L2s) == 0 ){	    // If the L3 structure has no L2 structures, 
 								    // delete its descendents' cache entries
 
@@ -7368,6 +7396,11 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					foreach( $L2s as $L2 => $L1s ){
 
+						if( !is_array($L1s) ){	 
+
+							$L1s = array();	
+						}
+					
 						if( count($L1s) == 0 ){	    // If the L2 structure has no L1 structures, 
 									    // delete its descendents' cache entries
 
