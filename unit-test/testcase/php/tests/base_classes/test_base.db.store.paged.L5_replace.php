@@ -359,7 +359,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -367,7 +367,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		}
 		catch (FOX_exception $child) {
 
-			$this->fail($child->dumpString(1));	
+			$this->fail($child->dumpString(10));	
 		}
 		
 		
@@ -707,7 +707,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -1086,7 +1086,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -1474,7 +1474,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -1836,7 +1836,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -2228,7 +2228,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -2624,7 +2624,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -2957,7 +2957,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -3322,7 +3322,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -3665,7 +3665,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -3883,7 +3883,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			
@@ -4131,7 +4131,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$ctrl = array(		    
-				'validate'=>false		    
+				'validate'=>true		    
 		);
 				
 		try {			

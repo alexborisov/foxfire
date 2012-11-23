@@ -1098,7 +1098,8 @@ class FOX_dataStore_validator {
 		$ctrl_default = array(
 			'order'=>$this->order,
 			'mode'=>'control',
-			'allow_wildcard'=>false
+			'allow_wildcard'=>false,
+			'clip_order'=>false		    
 		);
 
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
@@ -1113,13 +1114,24 @@ class FOX_dataStore_validator {
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));			
-		}	    	    
+		}	
+		
+	    	if( ($ctrl['mode'] == 'data') && !$ctrl['clip_order'] ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"The 'clip_order' parameter must be set when operating in 'data' mode",
+				'data'=>array('ctrl'=>$ctrl),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			
+		}		
 	    		
 		try {
 		    
-			if( ($ctrl['order'] > 0) && is_array($data) ){
+			if( ($ctrl['order'] > 0) && is_array($data) && !empty($data) ){
 			    
-			
+						
 				foreach( $data as $parent_id => $children){
 
 
@@ -1143,7 +1155,8 @@ class FOX_dataStore_validator {
 									    array(
 										    'order'=>$ctrl['order'] - 1,
 										    'mode'=>$ctrl['mode'],
-										    'allow_wildcard'=>$ctrl['allow_wildcard']										
+										    'allow_wildcard'=>$ctrl['allow_wildcard'],
+										    'clip_order'=>$ctrl['clip_order'],
 									    )
 					);
 					
@@ -1159,7 +1172,7 @@ class FOX_dataStore_validator {
 						}
 						
 						return array(	
-								'message'=>$check_result,
+								'message'=>$child_result['message'],
 								'key'=>'L' . $ctrl['order'], 
 								'val'=>$parent_id,
 								'trace'=>$trace
@@ -1170,15 +1183,40 @@ class FOX_dataStore_validator {
 				unset($parent_id, $children);
 			
 			}
-			else {				
-				return true;
+			else {	
+			    
+				if( $ctrl['mode'] == 'control' ){
+				    
+					return true;
+				}
+				elseif( $ctrl['mode'] == 'data' ){
+				    
+				    
+					if( ($ctrl['order'] == 0) || ($ctrl['order'] == ($ctrl['clip_order'] - 1) ) ){
+
+						return true;
+					}
+					else {
+					    
+						$message =  "Each walk in a data trie must terminate either at the clip_order ";
+						$message .= "or at the L1 key.";						
+
+						return array(	
+								'message'=>$message,
+								'key'=>'L' . $ctrl['order'], 
+								'val'=>$parent_id,
+						);
+					}
+				    
+				}
+
 			}
 			
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>3,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->cols),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
