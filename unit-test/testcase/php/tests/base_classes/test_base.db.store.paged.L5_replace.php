@@ -1600,7 +1600,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {			
 			$this->cls->replaceL2_multi($data, $ctrl);
 			
-			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
 			$this->fail("Method replaceL2_multi failed to throw an exception on invalid L3 key");			
 		}
 		catch (FOX_exception $child) {
@@ -1633,7 +1633,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {			
 			$this->cls->replaceL2_multi($data, $ctrl);
 			
-			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
 			$this->fail("Method replaceL2_multi failed to throw an exception on invalid L4 key");			
 		}
 		catch (FOX_exception $child) {
@@ -1670,7 +1670,7 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		try {			
 			$this->cls->replaceL2_multi($data, $ctrl);
 			
-			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
 			$this->fail("Method replaceL2_multi failed to throw an exception on invalid L5 key");			
 		}
 		catch (FOX_exception $child) {
@@ -2972,6 +2972,161 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 			
 			// Execution will halt on the previous line if replaceL3_multi() throws an exception
 			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		
+		// Invalid L1 key data type
+		// ####################################################################
+	    
+		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
+		// automatically converts (string)'1' to (int)1 before sending it in to the function
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										'K'=>(string)"foo", // Invalid L1 key
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			   
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' )),
+				    			'R'=>array() // Drop this L3 node	
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L1 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}				
+		
+		// Invalid L2 key data type
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo", // Invalid key
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),
+								    // Invalid L2 key
+								    1=>array(	
+										1=>(string)"foo", // Invalid key
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),			    
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' )),
+				    			'R'=>array() // Drop this L3 node				    
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L2 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}	
+		
+		// Invalid L3 key data type
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo", 
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),			    
+							),
+				    			'R'=>array(), // Drop this L3 node				    
+							// Invalid L3 key
+							99=>array( 'K'=>array(	
+										1=>(string)"foo", 
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							)				
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L3 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}	
+		
+		// Invalid L4 key data type
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo", 
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							),
+				    			'R'=>array() // Drop this L3 node				    
+					
+					    ),
+					    // Invalid L4 key
+					    99=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo", 
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							)					
+					    )				    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L4 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Invalid L5 key data type
+		// ####################################################################
+		
+		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
+		// automatically converts (string)'1' to (int)1 before sending it in to the function
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo", 
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							)					
+					    )			    
+				),
+				// Invalid L5 key
+				'Z'=>array( 'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo", 
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							)					
+					    )			    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L5 key");			
 		}
 		catch (FOX_exception $child) {
 
