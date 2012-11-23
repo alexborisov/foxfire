@@ -1381,6 +1381,152 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 	
        /**
+	* Test fixture for replaceL2_multi() method, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL2_multi_dataIntegrity() {
+	    
+	    
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+		
+	    
+		// Valid data trie
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),
+								    'R'=>array() // Drop this L2 node				    
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' )) 						
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		
+		// Invalid data type for node at clip_order
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),
+								    'R'=>(float)17.1 // Invalid clip_order node				    
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' )) 						
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+		
+		
+		// Walk terminates above clip_order (L3)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),
+								    'R'=>array() // Drop this L2 node				    
+							),
+							'Z'=>array() 						
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		
+		// Walk terminates above clip_order (L4)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),
+								    'R'=>array() // Drop this L2 node				    
+							)						
+					    ),
+					    'R'=>array()				    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Walk terminates above clip_order (L5)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),
+								    'R'=>array() // Drop this L2 node				    
+							)						
+					    )				    
+				),
+				2=>array()
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+	    
+	}
+				
+	
+       /**
 	* Test fixture for replaceL3_multi() method, cold cache
 	*
 	* @version 1.0
@@ -2536,6 +2682,151 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 	
        /**
+	* Test fixture for replaceL3_multi() method, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL3_multi_dataIntegrity() {
+	    
+	    
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+		
+	    
+		// Valid data trie
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' )),
+							'R'=>array() // Drop this node
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		
+		// Invalid data type for node at clip_order
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' )),
+							'R'=>(string)'fail' // Invalid clip node
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+	
+		// Walk terminates below clip_order (L2)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),
+								    'R'=>array() // Invalid clip node				    
+							),
+							'Z'=>array() 						
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+
+		
+		// Walk terminates above clip_order (L4)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )								    				    
+							),
+							'Z'=>array()
+					    ),
+					    'R'=>array()  // Invalid node			    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Walk terminates above clip_order (L5)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )								    				    
+							),
+							'R'=>array() 
+					    )				    
+				),
+				2=>array() // Invalid node
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+	    
+	}
+	
+	
+       /**
 	* Test fixture for replaceL4_multi() method, cold cache
 	*
 	* @version 1.0
@@ -3603,6 +3894,149 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 	
        /**
+	* Test fixture for replaceL4_multi() method, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL4_multi_dataIntegrity() {
+	    
+	    
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+		
+	    
+		// Valid data trie
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' ))
+
+					    ),
+					    'R'=>array() // Drop this node				    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		// Invalid data type for node at clip_order
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' )),							
+					    ),
+					    'R'=>(string)'fail' // Invalid clip node				    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+	
+		// Walk terminates below clip_order (L2)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),
+								    'R'=>array() // Invalid node				    
+							),
+							'Z'=>array() 						
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Walk terminates below clip_order (L3)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )								    				    
+							),
+							'Z'=>array() // Invalid node
+					    )				    			    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Walk terminates above clip_order (L5)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )								    				    
+							),
+							'R'=>array() 
+					    )				    
+				),
+				2=>array() // Invalid node
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+	    
+	}
+	
+		
+       /**
 	* Test fixture for replaceL5_multi() method, cold cache
 	*
 	* @version 1.0
@@ -4314,6 +4748,150 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 		unset($check_cache_2, $check_cache_3, $check_cache);
 			
 		
+	}
+	
+	
+       /**
+	* Test fixture for replaceL5_multi() method, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL5_multi_dataIntegrity() {
+	    
+	    
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+		
+	    
+		// Valid data trie
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' ))
+
+					    )					    				    
+				),
+				2=>array()  // Drop this node
+		);
+		
+		try {			
+			$this->cls->replaceL5_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		// Invalid data type for node at clip_order
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' )),							
+					    ),
+					    'R'=>(string)'fail' // Invalid clip node				    
+				),
+				2=>false  // Drop this node		    
+		);
+		
+		try {			
+			$this->cls->replaceL5_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL5_multi() throws an exception
+			$this->fail("Method replaceL5_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+	
+		// Walk terminates below clip_order (L2)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    ),
+								    'R'=>array() // Invalid node				    
+							),
+							'Z'=>array() 						
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL5_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL5_multi() throws an exception
+			$this->fail("Method replaceL5_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Walk terminates below clip_order (L3)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )								    				    
+							),
+							'Z'=>array() // Invalid node
+					    )				    			    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL5_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL5_multi() throws an exception
+			$this->fail("Method replaceL5_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Walk terminates below clip_order (L4)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )								    				    
+							),
+							
+					    ),
+					    'R'=>array()  // Invalid node				    
+				)
+		);
+		
+		try {			
+			$this->cls->replaceL5_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL5_multi() throws an exception
+			$this->fail("Method replaceL5_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+	    
 	}
 	
 	
