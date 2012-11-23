@@ -348,16 +348,21 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		// COLD CACHE - Flushed after previous ADD operation
 		// ===================================================================				
 	    
+		// Drop objects
+		// ####################################################################
+		
 		$data = array(
 				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>true,
-										2=>true
+										1=>true
 								    ),
-								    'R'=>true			    
+								    'T'=>true							    
 							),
-							'Z'=>array( 'Z'=>true ) 						
-					    )					    
-				)		    
+							'Z'=>true						
+					    ),	
+					    'Y'=>true					    
+				),
+				2=>true,
+				3=>true
 		);
 		
 		$ctrl = array(
@@ -375,6 +380,50 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		}
 		
 		
+		// Verify db state
+		// ####################################################################
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		$args = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('L5','L4','L3','L2','L1')
+		);
+		
+		try {			
+			$result = $db->runSelectQuery($this->cls->_struct(), $args, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+		// NOTE: the datastore will automatically clip empty branches
+		
+		$check = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										2=>false
+								    )						    
+							)						
+					    )				    
+				)	    
+		);
+		
+                $this->assertEquals($check, $result);
+		
+		
+		// Verify class cache state
+		// ####################################################################
+		
+		$check_cache = array(
+					1=>array()
+		);
+		
+                $this->assertEquals($check_cache, $this->cls->cache);		
+
 		
 	}
 	
