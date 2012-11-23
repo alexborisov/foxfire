@@ -6108,392 +6108,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	// #####################################################################################################################
 	// #####################################################################################################################
 	
-	
-	/**
-	 * Drops multiple L5->L1 walks from the datastore
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * [MATRIX MODE] 
-         * @param array $data | Array of row arrays 
-	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
-	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
-	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
-	 *	    => VAL @param int/string $L1 | Single L1 id as int/string
-	 * 
-	 * [TRIE MODE]
-         * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
-	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
-	 *	    => ARR @param array $L3s | array of L3's in the form "L3_id"=>"L2s"
-	 *		=> ARR @param array $L2s | array of L2's in the form "L2_id"=>"L1s"
-	 *		    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
-	 *			=> KEY @param int/string | L1 id
-	 *			    => VAL @param NULL	 
-	 * 
-         * @param array $ctrl | Control parameters
-	 *	=> VAL @param bool $validate | Validate keys
-	 *	=> VAL @param string $mode | Operation mode 'matrix' | 'trie'
-	 * 
-	 * @return int | Exception on failure. Int number of rows changed on success.
-	 */
-
-	public function dropMulti($data, $ctrl=null){
-
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-
-		
-		// Add default control params
-		// ==========================
-
-		$ctrl_default = array(
-			'validate'=>true,
-			'mode'=>'trie',
-			'trap_*'=>true
-		);
-
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);		
-					
-		if( !is_array($data) || (count($data) < 1) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Invalid data array",
-				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-
-		
-		// Validate data array
-		// ===========================================================
-		
-                $struct = $this->_struct();				
-		
-		$del_data = array();
-			
-		if($ctrl['mode'] == 'matrix'){
-		    
-				
-		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
-		    
-			    
-				$validator = new FOX_dataStore_validator($struct);
-				
-				foreach( $data as $row ){   
-			
-					$row_valid = $validator->isRowSequential($row);
-					
-					if( $row_valid !== true ){
-					    
-						throw new FOX_exception( array(
-							'numeric'=>2,
-							'text'=>"Invalid row in data array",
-							'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>$child
-						));					    					    
-					}																
-
-				} 
-				unset($row);			    
-			
-			}
-
-			// Loft the individual rows into a trie, to merge overlapping entries, then clip
-			// the tree to get the highest order cache LUT's affected by the delete
-						
-			$columns = array(
-					$this->L5_col, 
-					$this->L4_col, 
-					$this->L3_col, 
-					$this->L2_col, 
-					$this->L1_col
-			);
-			
-			$trie = FOX_trie::loftMatrix($data, $columns, $ctrl=null);
-			
-			$del_data = FOX_trie::clipAssocTrie($trie, $columns, $ctrl=null);
-			
-							
-		}
-		elseif($ctrl['mode'] == 'trie'){
-		    
-		    
-			if($ctrl['validate'] != false){	    // Validate the $data array	   
-
-				$validator = new FOX_dataStore_validator($struct);			
-				$tree_valid = $validator->validateL5Trie($data);
-
-				if($tree_valid !== true){
-
-					throw new FOX_exception( array(
-						'numeric'=>3,
-						'text'=>"Invalid key in data array",
-						'data'=>$tree_valid,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>null
-					));			    
-				}				    
-			}
-			
-			$del_data = $data;						
-		    
-		}
-		else {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>4,
-				'text'=>"Invalid ctrl['mode'] parameter",
-				'data'=>$ctrl,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));			    
-		    
-		}
-		
-		
-		// Trap "DELETE * WHERE TRUE"
-		// ===========================================================		
-						    
-		if( $ctrl['trap_*'] == true ){
-
-			if( !array_keys($del_data) ){
-
-			    // @see http://en.wikipedia.org/wiki/Universal_set 
-
-			    $error_msg =  "INTERLOCK TRIP: One or more of the conditions set in the \$data array reduces to the universal set, ";
-			    $error_msg .= "which is equivalent to 'WHERE 1 = 1'. Running this command would have cleared the entire datastore. ";				
-			    $error_msg .= "If this is actually your design intent, set \$ctrl['trap_*'] = false to disable this interlock."; 
-
-			    throw new FOX_exception( array(
-				    'numeric'=>5,
-				    'text'=>"$error_msg",
-				    'data'=>$data,
-				    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				    'child'=>null
-			    ));	
-
-			}
-		}		    
-		    				
-		
-		// Lock affected cache pages
-		// ===========================================================
-
-		try {
-			$cache_pages = self::lockCachePage( array_keys($del_data) );
-			$update_cache = $cache_pages;
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>6,
-				'text'=>"Error locking cache",
-				'data'=>$del_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}			
-
-		
-		// Build db insert array and updated cache pages array
-		// ===========================================================	
-		
-		$dead_pages = array();		
-
-		foreach( $del_data as $L5 => $L4s ){		
-		    
-			if( count($L4s) == 0 ){	    // If the trie has no L4 structures, delete the
-						    // entire cache page from the class cache, and flag
-						    // the page to be flushed from the persistent cache
-			    
-				$dead_pages[] = $L5;
-				unset($update_cache[$L5]);
-			}
-			
-			foreach( $L4s as $L4 => $L3s ){
-			    
-				if( count($L3s) == 0 ){	    // If the L4 structure has no L3 structures, 
-							    // delete its descendents' cache entries
-
-					unset($update_cache[$L5][$this->L4_col][$L4]);
-					unset($update_cache[$L5][$this->L3_col][$L4]);
-					unset($update_cache[$L5][$this->L2_col][$L4]);
-					unset($update_cache[$L5]["keys"][$L4]);
-				}			    
-
-				foreach( $L3s as $L3 => $L2s ){
-				    
-					if( count($L2s) == 0 ){	    // If the L3 structure has no L2 structures, 
-								    // delete its descendents' cache entries
-
-						unset($update_cache[$L5][$this->L3_col][$L4][$L3]);
-						unset($update_cache[$L5][$this->L2_col][$L4][$L3]);
-						unset($update_cache[$L5]["keys"][$L4][$L3]);
-					}				    
-
-					foreach( $L2s as $L2 => $L1s ){
-
-						if( count($L1s) == 0 ){	    // If the L2 structure has no L1 structures, 
-									    // delete its descendents' cache entries
-
-							unset($update_cache[$L5][$this->L2_col][$L4][$L3][$L2]);
-							unset($update_cache[$L5]["keys"][$L4][$L3][$L2]);
-						}
-					
-						foreach( $L1s as $L1 => $val){
-
-							unset($update_cache[$L5]["keys"][$L4][$L3][$L2][$L1]);
-						}
-						unset($L1, $val);
-					}
-					unset($L2, $L1s);
-				}
-				unset($L3, $L2s);
-			}
-			unset($L4, $L3s);
-		}
-		unset($L5, $L4s);
-			
-		
-		// Clear the specified structures from the DB
-		// ===========================================================
-
-		$db = new FOX_db(); 
-				
-		$args = array(
-				'key_col'=>array(
-						    $this->L5_col, 
-						    $this->L4_col, 
-						    $this->L3_col, 
-						    $this->L2_col,
-						    $this->L1_col				    
-				),
-				'args'=>$data
-		);
-
-		$del_ctrl = array(
-				    'args_format'=>$ctrl['mode'],
-				    'hash_key_vals'=>false 
-		);			
-
-		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args, $del_ctrl);
-		}
-		catch (FOX_exception $child) {
-
-		    
-			// Try to unlock the cache pages we locked
-		    
-			try {
-				self::writeCachePage($cache_pages);
-			}
-			catch (FOX_exception $child_2) {
-
-				throw new FOX_exception( array(
-					'numeric'=>7,
-					'text'=>"Error while writing to the database. Error unlocking cache pages.",
-					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 
-						      'del_args'=>$args, 'del_ctrl'=>$del_ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
-			}									
-
-			throw new FOX_exception( array(
-				'numeric'=>8,
-				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
-					'data'=>array('del_args'=>$args, 'del_ctrl'=>$del_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-			
-		}
-			
-		// NOTE: we update the class cache before the persistent cache so that if the
-		// persistent cache write fails, the class cache will still in the correct
-		// state. Any cache pages that fail to update if the persistent cache throws an
-		// error during the write operation will remain locked, causing them to be pruged 
-		// on the next read operation.
-		
-		
-		// Write updated cache page images to class cache
-		// ===========================================================
-		
-		foreach($update_cache as $L5 => $page_image){
-
-			$this->cache[$L5] = $page_image;
-		}
-		unset($L5, $page_image);
-		
-				
-		// Flush dead pages from the class cache
-		// ===========================================================		
-
-		foreach($dead_pages as $L5){
-
-			unset($this->cache[$L5]);
-		}
-		unset($L5);
-		
-
-		// Write updated cache page images to persistent cache
-		// ===========================================================
-
-		if($update_cache){  // Trap deleting nothing but L5's
-		    
-			try {
-				self::writeCachePage($update_cache);
-			}
-			catch (FOX_exception $child) {
-
-				throw new FOX_exception( array(
-					'numeric'=>9,
-					'text'=>"Error writing to cache",
-					'data'=>$update_cache,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
-			}
-		}
-
-		// Flush any dead pages from the cache
-		// ===========================================================
-		
-		if($dead_pages){
-		    
-			try {
-				self::flushCachePage($dead_pages);
-			}
-			catch (FOX_exception $child) {
-
-				throw new FOX_exception( array(
-					'numeric'=>10,
-					'text'=>"Error flushing pages from cache",
-					'data'=>$dead_pages,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
-			}		    		    		    
-		}								
-		
-		return (int)$rows_changed;
-
-	}	
-	
 		
 	/**
 	 * Drops one or more L1 branches within a single L5->L2 walk from the datastore and cache
@@ -7515,6 +7129,391 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 	}
 	
+	
+	/**
+	 * Drops multiple L5->L1 walks from the datastore
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * [MATRIX MODE] 
+         * @param array $data | Array of row arrays 
+	 *	=> ARR @param int '' | Individual row array
+	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
+	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
+	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
+	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
+	 *	    => VAL @param int/string $L1 | Single L1 id as int/string
+	 * 
+	 * [TRIE MODE]
+         * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
+	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
+	 *	    => ARR @param array $L3s | array of L3's in the form "L3_id"=>"L2s"
+	 *		=> ARR @param array $L2s | array of L2's in the form "L2_id"=>"L1s"
+	 *		    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
+	 *			=> KEY @param int/string | L1 id
+	 *			    => VAL @param NULL	 
+	 * 
+         * @param array $ctrl | Control parameters
+	 *	=> VAL @param bool $validate | Validate keys
+	 *	=> VAL @param string $mode | Operation mode 'matrix' | 'trie'
+	 * 
+	 * @return int | Exception on failure. Int number of rows changed on success.
+	 */
+
+	public function dropMulti($data, $ctrl=null){
+
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+
+		
+		// Add default control params
+		// ==========================
+
+		$ctrl_default = array(
+			'validate'=>true,
+			'mode'=>'trie',
+			'trap_*'=>true
+		);
+
+		$ctrl = wp_parse_args($ctrl, $ctrl_default);		
+					
+		if( !is_array($data) || (count($data) < 1) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Invalid data array",
+				'data'=>$data,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+
+		
+		// Validate data array
+		// ===========================================================
+		
+                $struct = $this->_struct();				
+		
+		$del_data = array();
+			
+		if($ctrl['mode'] == 'matrix'){
+		    
+				
+		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
+		    
+			    
+				$validator = new FOX_dataStore_validator($struct);
+				
+				foreach( $data as $row ){   
+			
+					$row_valid = $validator->isRowSequential($row);
+					
+					if( $row_valid !== true ){
+					    
+						throw new FOX_exception( array(
+							'numeric'=>2,
+							'text'=>"Invalid row in data array",
+							'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'child'=>$child
+						));					    					    
+					}																
+
+				} 
+				unset($row);			    
+			
+			}
+
+			// Loft the individual rows into a trie, to merge overlapping entries, then clip
+			// the tree to get the highest order cache LUT's affected by the delete
+						
+			$columns = array(
+					$this->L5_col, 
+					$this->L4_col, 
+					$this->L3_col, 
+					$this->L2_col, 
+					$this->L1_col
+			);
+			
+			$trie = FOX_trie::loftMatrix($data, $columns, $ctrl=null);
+			
+			$del_data = FOX_trie::clipAssocTrie($trie, $columns, $ctrl=null);
+			
+							
+		}
+		elseif($ctrl['mode'] == 'trie'){
+		    
+		    
+			if($ctrl['validate'] != false){	    // Validate the $data array	   
+
+				$validator = new FOX_dataStore_validator($struct);			
+				$tree_valid = $validator->validateL5Trie($data);
+
+				if($tree_valid !== true){
+
+					throw new FOX_exception( array(
+						'numeric'=>3,
+						'text'=>"Invalid key in data array",
+						'data'=>$tree_valid,
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));			    
+				}				    
+			}
+			
+			$del_data = $data;						
+		    
+		}
+		else {
+		    
+			throw new FOX_exception( array(
+				'numeric'=>4,
+				'text'=>"Invalid ctrl['mode'] parameter",
+				'data'=>$ctrl,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			    
+		    
+		}
+		
+		
+		// Trap "DELETE * WHERE TRUE"
+		// ===========================================================		
+						    
+		if( $ctrl['trap_*'] == true ){
+
+			if( !array_keys($del_data) ){
+
+			    // @see http://en.wikipedia.org/wiki/Universal_set 
+
+			    $error_msg =  "INTERLOCK TRIP: One or more of the conditions set in the \$data array reduces to the universal set, ";
+			    $error_msg .= "which is equivalent to 'WHERE 1 = 1'. Running this command would have cleared the entire datastore. ";				
+			    $error_msg .= "If this is actually your design intent, set \$ctrl['trap_*'] = false to disable this interlock."; 
+
+			    throw new FOX_exception( array(
+				    'numeric'=>5,
+				    'text'=>"$error_msg",
+				    'data'=>$data,
+				    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				    'child'=>null
+			    ));	
+
+			}
+		}		    
+		    				
+		
+		// Lock affected cache pages
+		// ===========================================================
+
+		try {
+			$cache_pages = self::lockCachePage( array_keys($del_data) );
+			$update_cache = $cache_pages;
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>6,
+				'text'=>"Error locking cache",
+				'data'=>$del_data,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}			
+
+		
+		// Build db insert array and updated cache pages array
+		// ===========================================================	
+		
+		$dead_pages = array();		
+
+		foreach( $del_data as $L5 => $L4s ){		
+		    
+			if( count($L4s) == 0 ){	    // If the trie has no L4 structures, delete the
+						    // entire cache page from the class cache, and flag
+						    // the page to be flushed from the persistent cache
+			    
+				$dead_pages[] = $L5;
+				unset($update_cache[$L5]);
+			}
+			
+			foreach( $L4s as $L4 => $L3s ){
+			    
+				if( count($L3s) == 0 ){	    // If the L4 structure has no L3 structures, 
+							    // delete its descendents' cache entries
+
+					unset($update_cache[$L5][$this->L4_col][$L4]);
+					unset($update_cache[$L5][$this->L3_col][$L4]);
+					unset($update_cache[$L5][$this->L2_col][$L4]);
+					unset($update_cache[$L5]["keys"][$L4]);
+				}			    
+
+				foreach( $L3s as $L3 => $L2s ){
+				    
+					if( count($L2s) == 0 ){	    // If the L3 structure has no L2 structures, 
+								    // delete its descendents' cache entries
+
+						unset($update_cache[$L5][$this->L3_col][$L4][$L3]);
+						unset($update_cache[$L5][$this->L2_col][$L4][$L3]);
+						unset($update_cache[$L5]["keys"][$L4][$L3]);
+					}				    
+
+					foreach( $L2s as $L2 => $L1s ){
+
+						if( count($L1s) == 0 ){	    // If the L2 structure has no L1 structures, 
+									    // delete its descendents' cache entries
+
+							unset($update_cache[$L5][$this->L2_col][$L4][$L3][$L2]);
+							unset($update_cache[$L5]["keys"][$L4][$L3][$L2]);
+						}
+					
+						foreach( $L1s as $L1 => $val){
+
+							unset($update_cache[$L5]["keys"][$L4][$L3][$L2][$L1]);
+						}
+						unset($L1, $val);
+					}
+					unset($L2, $L1s);
+				}
+				unset($L3, $L2s);
+			}
+			unset($L4, $L3s);
+		}
+		unset($L5, $L4s);
+			
+		
+		// Clear the specified structures from the DB
+		// ===========================================================
+
+		$db = new FOX_db(); 
+				
+		$args = array(
+				'key_col'=>array(
+						    $this->L5_col, 
+						    $this->L4_col, 
+						    $this->L3_col, 
+						    $this->L2_col,
+						    $this->L1_col				    
+				),
+				'args'=>$data
+		);
+
+		$del_ctrl = array(
+				    'args_format'=>$ctrl['mode'],
+				    'hash_key_vals'=>false 
+		);			
+
+		try {
+			$rows_changed = $db->runDeleteQuery($struct, $args, $del_ctrl);
+		}
+		catch (FOX_exception $child) {
+
+		    
+			// Try to unlock the cache pages we locked
+		    
+			try {
+				self::writeCachePage($cache_pages);
+			}
+			catch (FOX_exception $child_2) {
+
+				throw new FOX_exception( array(
+					'numeric'=>7,
+					'text'=>"Error while writing to the database. Error unlocking cache pages.",
+					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 
+						      'del_args'=>$args, 'del_ctrl'=>$del_ctrl),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}									
+
+			throw new FOX_exception( array(
+				'numeric'=>8,
+				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
+					'data'=>array('del_args'=>$args, 'del_ctrl'=>$del_ctrl),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+			
+		}
+			
+		// NOTE: we update the class cache before the persistent cache so that if the
+		// persistent cache write fails, the class cache will still in the correct
+		// state. Any cache pages that fail to update if the persistent cache throws an
+		// error during the write operation will remain locked, causing them to be pruged 
+		// on the next read operation.
+		
+		
+		// Write updated cache page images to class cache
+		// ===========================================================
+		
+		foreach($update_cache as $L5 => $page_image){
+
+			$this->cache[$L5] = $page_image;
+		}
+		unset($L5, $page_image);
+		
+				
+		// Flush dead pages from the class cache
+		// ===========================================================		
+
+		foreach($dead_pages as $L5){
+
+			unset($this->cache[$L5]);
+		}
+		unset($L5);
+		
+
+		// Write updated cache page images to persistent cache
+		// ===========================================================
+
+		if($update_cache){  // Trap deleting nothing but L5's
+		    
+			try {
+				self::writeCachePage($update_cache);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception( array(
+					'numeric'=>9,
+					'text'=>"Error writing to cache",
+					'data'=>$update_cache,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}
+		}
+
+		// Flush any dead pages from the cache
+		// ===========================================================
+		
+		if($dead_pages){
+		    
+			try {
+				self::flushCachePage($dead_pages);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception( array(
+					'numeric'=>10,
+					'text'=>"Error flushing pages from cache",
+					'data'=>$dead_pages,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}		    		    		    
+		}								
+		
+		return (int)$rows_changed;
+
+	}	
 	
 	
 	// #####################################################################################################################

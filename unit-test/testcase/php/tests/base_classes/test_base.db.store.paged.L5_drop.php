@@ -160,7 +160,17 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		    
 		    		array( "L5"=>2, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
 		    		array( "L5"=>2, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L5"=>2, "L4"=>"X", "L3"=>"Z", "L2"=>"Z", "L1"=>3, "L0"=>$test_obj)	
+		    		array( "L5"=>2, "L4"=>"X", "L3"=>"Z", "L2"=>"Z", "L1"=>3, "L0"=>$test_obj),
+		    
+				array( "L5"=>3, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1, "L0"=>null),
+				array( "L5"=>3, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>2, "L0"=>false),
+				array( "L5"=>3, "L4"=>"X", "L3"=>"K", "L2"=>"T", "L1"=>1, "L0"=>true),
+				array( "L5"=>3, "L4"=>"X", "L3"=>"Z", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
+
+				array( "L5"=>3, "L4"=>"Y", "L3"=>"K", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
+				array( "L5"=>3, "L4"=>"Y", "L3"=>"K", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L5"=>3, "L4"=>"Y", "L3"=>"K", "L2"=>"T", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L5"=>3, "L4"=>"Y", "L3"=>"Z", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),		    
 		    
 		);		
 		
@@ -212,7 +222,25 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
 							    )	
 					    )						
-				)		    		    
+				),
+				3=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>null,
+												2=>false
+										    ),
+										    'T'=>array(	1=>true )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+							    ),	
+							    'Y'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1
+										    ),
+										    'T'=>array(	3=>(float)1.7 )							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    )
+					    )
+				)		    
 		);
 		
 		$this->assertEquals($check, $this->cls->cache);	
@@ -246,7 +274,24 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 							),
 							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
 					    )					    
-				 )		    		    
+				),
+				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>null,
+										2=>false
+								    ),
+								    'T'=>array(	1=>true )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'K'=>array(	
+										1=>(int)1,
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				)		    
 		);		
 		
 		$db = new FOX_db();	
