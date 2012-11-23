@@ -318,7 +318,7 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	
 	
        /**
-	* Test fixture for dropL2_multi() method, cold cache
+	* Test fixture for dropMulti() method, cold cache
 	*
 	* @version 1.0
 	* @since 1.0
@@ -415,8 +415,11 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
                 $this->assertEquals($check, $result);
 		
 		
-		// Verify class cache state
-		// ####################################################################
+		// Check cache state
+		// ####################################################################			
+		
+		// The all_cached flag, L2, L3, and L4 LUT's won't exist in the cache yet 
+		// because we haven't done a database read.
 		
 		$check_cache = array(
 					1=>array()
@@ -425,9 +428,344 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
                 $this->assertEquals($check_cache, $this->cls->cache);		
 
 		
+		// Verify persistent cache state by reading-back all items
+		// ####################################################################		
+		
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid); // Should report invalid because 
+						    // the '2' and '3' L5's don't exist
+		
+		$this->assertEquals($check, $result);
+		
 	}
 	
+	
+       /**
+	* Test fixture for dropMulti() method, warm cache
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropMulti_WARM() {
+	    
 
+		self::loadData();
+				
+		
+		// WARM CACHE - Items in cache from previous ADD operation
+		// ===================================================================				
+	    
+		// Drop objects
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>true
+								    ),
+								    'T'=>true							    
+							),
+							'Z'=>true						
+					    ),	
+					    'Y'=>true					    
+				),
+				2=>true,
+				3=>true
+		);
+		
+		$ctrl = array(
+			'validate'=>true,
+			'mode'=>'trie',
+			'trap_*'=>true
+		);
+		
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
+		// Verify db state
+		// ####################################################################
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		$args = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('L5','L4','L3','L2','L1')
+		);
+		
+		try {			
+			$result = $db->runSelectQuery($this->cls->_struct(), $args, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+		// NOTE: the datastore will automatically clip empty branches
+		
+		$check = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										2=>false
+								    )						    
+							)						
+					    )				    
+				)	    
+		);
+		
+                $this->assertEquals($check, $result);
+		
+		// Check cache state
+		// ####################################################################			
+		
+		// The all_cached flag, L2, L3, and L4 LUT's won't exist in the cache yet 
+		// because we haven't done a database read.
+		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												2=>false
+										    )							    
+									)					
+							    )				    
+					    )
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(
+					1=>$check_cache_1
+		);
+		
+                $this->assertEquals($check_cache, $this->cls->cache);		
+
+		
+		// Verify persistent cache state by reading-back all items
+		// ####################################################################		
+		
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid); // Should report invalid because 
+						    // the '2' and '3' L5's don't exist
+		
+		$this->assertEquals($check, $result);
+		
+	}
+	
+	
+       /**
+	* Test fixture for dropMulti() method, hot cache
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropMulti_HOT() {
+	    
+
+		self::loadData();
+				
+		
+		// Load the cache
+		// ####################################################################
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+				
+		
+		// HOT CACHE - All items in cache have authority from previous GET operation
+		// ===================================================================				
+	    
+		// Drop objects
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>true
+								    ),
+								    'T'=>true							    
+							),
+							'Z'=>true						
+					    ),	
+					    'Y'=>true					    
+				),
+				2=>true,
+				3=>true
+		);
+		
+		$ctrl = array(
+			'validate'=>true,
+			'mode'=>'trie',
+			'trap_*'=>true
+		);
+		
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
+		// Verify db state
+		// ####################################################################
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		$args = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('L5','L4','L3','L2','L1')
+		);
+		
+		try {			
+			$result = $db->runSelectQuery($this->cls->_struct(), $args, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+		// NOTE: the datastore will automatically clip empty branches
+		
+		$check = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										2=>false
+								    )						    
+							)						
+					    )				    
+				)	    
+		);
+		
+                $this->assertEquals($check, $result);
+		
+		
+		// Check cache state
+		// ####################################################################			
+		
+		// Since we're working with a hot cache, the all_cached flag will be set for all
+		// nodes that already exist in the database. The L2, L3, and L4 LUT's for these
+		// nodes will be missing, because the all_cached flag takes priority.
+		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'all_cached'=>true,
+					    'L4'=>null,
+					    'L3'=>null,
+					    'L2'=>null,
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												2=>false
+										    )							    
+									)					
+							    )				    
+					    )
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(
+					1=>$check_cache_1
+		);
+		
+                $this->assertEquals($check_cache, $this->cls->cache);		
+
+		
+		// Verify persistent cache state by reading-back all items
+		// ####################################################################		
+		
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid); // Should report invalid because 
+						    // the '2' and '3' L5's don't exist
+		
+		$this->assertEquals($check, $result);
+		
+	}
+	
+	
 	
 	function tearDown() {
 	   
