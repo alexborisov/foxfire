@@ -372,12 +372,15 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		);
 		
 		try {			
-			$this->cls->dropMulti($data, $ctrl);
+			$rows_changed = $this->cls->dropMulti($data, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
+		
+		// Should return (int)1 to indicate 18 rows were dropped
+		$this->assertEquals(18, $rows_changed);
 		
 		
 		// Verify db state
@@ -497,12 +500,15 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		);
 		
 		try {			
-			$this->cls->dropMulti($data, $ctrl);
+			$rows_changed = $this->cls->dropMulti($data, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
+		
+		// Should return (int)1 to indicate 18 rows were dropped
+		$this->assertEquals(18, $rows_changed);
 		
 		
 		// Verify db state
@@ -659,12 +665,15 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		);
 		
 		try {			
-			$this->cls->dropMulti($data, $ctrl);
+			$rows_changed = $this->cls->dropMulti($data, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
+		
+		// Should return (int)1 to indicate 18 rows were dropped
+		$this->assertEquals(18, $rows_changed);
 		
 		
 		// Verify db state
@@ -764,6 +773,171 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		$this->assertEquals($check, $result);
 		
 	}
+	
+	
+       /**
+	* Test fixture for dropL1() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL1() {
+	    
+	    
+		self::loadData();
+		
+		$ctrl = array(
+			"validate"=>true
+		);	    
+
+		// Drop a L1 in single mode
+		// ==============================================
+		
+		try {
+			$rows_changed = $this->cls->dropL1(1, "X", "K", "K", 1, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)1 to indicate 1 db row was deleted
+		$this->assertEquals(1, $rows_changed); 
+		
+		// Drop a L1 in single mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL1(2, "X", "K", "K", 1, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)1 to indicate 1 db row was deleted
+		$this->assertEquals(1, $rows_changed); 		
+		
+		
+		// Drop multiple L1's in array mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL1(3, "X", "K", "K", array(1,2), $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)2 to indicate 2 db rows were deleted
+		$this->assertEquals(2, $rows_changed); 	
+		
+		
+		// Drop multiple L1's in array mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL1(3, "Y", "K", "K", array(1,2), $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)2 to indicate 2 db rows were deleted
+		$this->assertEquals(2, $rows_changed); 	
+		
+		
+		// Verify datastore is in correct state
+		// ==============================================
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										2=>false
+								    ),
+								    'T'=>array(	1=>true )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'K'=>array(	
+										1=>(int)1,
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+				),
+				3=>array(   'X'=>array(	'K'=>array( 'T'=>array(	1=>true )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				)		    
+		);
+		
+		$request = array(
+				    1=>array(),	    // Request all L5 tries in datastore
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$ctrl = array(
+			'validate'=>true,
+			'q_mode'=>'trie',
+			'r_mode'=>'trie',		    
+			'trap_*'=>true
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(true, $valid);
+		
+		$this->assertEquals($check, $result);
+		
+		
+	}
+	
+	
+       /**
+	* Test fixture for dropL1_multi() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL1_multi() {
+	 return;   
+		self::loadData();
+		
+	}
+	
 	
 	
 	

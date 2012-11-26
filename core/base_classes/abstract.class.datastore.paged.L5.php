@@ -6151,9 +6151,14 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
 					    
-		$data = array();		
-		$data[$L5][$L4][$L3][$L2] = $L1;
+		$data = array();
 		
+		foreach($L1 as $key => $val){
+		    
+			$data[$L5][$L4][$L3][$L2][$val] = true;		    
+		}
+		unset($key, $val);
+
 		
 		if($ctrl['validate'] != false){
 		    
