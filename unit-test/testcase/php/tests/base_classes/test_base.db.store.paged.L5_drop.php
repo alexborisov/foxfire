@@ -916,8 +916,7 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 		
-		$this->assertEquals(true, $valid);
-		
+		$this->assertEquals(true, $valid);		
 		$this->assertEquals($check, $result);
 		
 		
@@ -933,8 +932,39 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_dropL1_multi() {
-	 return;   
+
+	    
 		self::loadData();
+		
+		
+		$ctrl = array(
+			"validate"=>true
+		);	    
+
+		
+		// Drop multiple L1's in single mode
+		// ==============================================
+		
+		try {
+		    
+			$drop_nodes = array(
+					array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1),
+					array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>2),
+					array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"T", "L1"=>1),
+					array( "L5"=>1, "L4"=>"X", "L3"=>"Z", "L2"=>"Z", "L1"=>3),	
+					array( "L5"=>1, "L4"=>"Y", "L3"=>"K", "L2"=>"K", "L1"=>1)	    
+			);	
+			
+			$rows_changed = $this->cls->dropL1_multi($drop_nodes, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}
+		
+		// Should return (int)5 to indicate 5 rows were dropped from the db
+		$this->assertEquals(5, $rows_changed); 	
+		
 		
 	}
 	
