@@ -1238,44 +1238,49 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($ctrl['q_mode'] == 'matrix'){
 		    
 				
-		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
-		    			    
+		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)		    		
+			    
+				$row_valid = false;			    
 
-				$validator = new FOX_dataStore_validator($struct);
+				try {			    
+					$validator = new FOX_dataStore_validator($struct);	
 				
-				$row_ctrl = array(				    
-						    'end_node_format'=>'scalar'			    
-				);
-				
-				foreach( $data as $row ){   
-			
-					try {
+					$row_ctrl = array(				    
+							    'end_node_format'=>'scalar'			    
+					);
+
+					foreach( $data as $row ){   
+						
 						$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
-					}
-					catch (FOX_exception $child) {
-
-						throw new FOX_exception( array(
-							'numeric'=>2,
-							'text'=>"Error in FOX_dataStore_validator::validateMatrixRow()",
-							'data'=>array('row'=>$row),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>$child
-						));		    
-					}				    					
-					
-					if( $row_valid !== true ){
-					    
-						throw new FOX_exception( array(
-							'numeric'=>3,
-							'text'=>"Invalid row in data array",
-							'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>$child
-						));					    					    
+				    					
+						if($row_valid !== true){						    
+							break;
+						}
+						
 					}																
-					
-				}																
-				unset($row);			    
+					unset($row);
+				
+				}
+				catch( FOX_exception $child ){
+
+					throw new FOX_exception( array(
+						'numeric'=>2,
+						'text'=>"Error in validator",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));			    			    
+				}
+				
+				if($row_valid !== true){
+
+					throw new FOX_exception( array(
+						'numeric'=>3,
+						'text'=>"Invalid row in data array",
+						'data'=>$row_valid,
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));					    					    
+				}															    
 			
 			}
 
@@ -1310,15 +1315,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 						
 		}
-		elseif($ctrl['q_mode'] == 'trie'){
-		    
+		elseif($ctrl['q_mode'] == 'trie'){		    
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
 				$struct = $this->_struct();
 
 				try {			    
-
 					$validator = new FOX_dataStore_validator($struct);
 				
 					$val_ctrl = array(
@@ -2193,33 +2196,54 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Validate data array
 		// ===========================================================
 		
-		if($ctrl['validate'] == true){
+		if($ctrl['validate'] != false){
 	    
-			$struct = $this->_struct();		    
-			$validator = new FOX_dataStore_validator($struct);
+			$struct = $this->_struct();
+				    					    
+			$row_valid = false;			    
+
+			try {			    
+				$validator = new FOX_dataStore_validator($struct);
+
+				$row_ctrl = array(				    
+						    'end_node_format'=>'array',
+						    'array_ctrl'=>array(
+									'mode'=>'normal'
+						    )
+				);
+				
+				foreach( $data as $row ){
+
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+					
+					if($row_valid !== true){
+						break;
+					}			    
+				}
+				unset($row);
+
+			}
+			catch( FOX_exception $child ){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
 			
-			$row_ctrl = array(				    
-					    'end_node_format'=>'array',
-					    'array_ctrl'=>array(
-								'mode'=>'normal'
-					    )
-			);			
-			
-			foreach( $data as $row ){
+			if($row_valid !== true){
 
-				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
-
-				if( $row_valid !== true ){
-
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Invalid row in data array",
-						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));					    					    
-				}			    
-			}	    		    		    
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Invalid row in data array",
+					'data'=>$row_valid,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));					    					    
+			}			
+	    		    		    
 		}
 		
 		
@@ -2258,12 +2282,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 		
 		try {						
-			$result = self::addMulti($set_data, $set_ctrl);
+			$rows_changed = self::addMulti($set_data, $set_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2271,7 +2295,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
-		return $result;
+		return $rows_changed;
 
 	}
 	
@@ -2398,11 +2422,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] == true){
 	    
-			$struct = $this->_struct();		    
-			$validator = new FOX_dataStore_validator($struct);
-				
-			foreach( $data as $row ){
+			$struct = $this->_struct();
+				    					    
+			$row_valid = false;			    
 
+			try {			    
+				$validator = new FOX_dataStore_validator($struct);
+				
 				$row_ctrl = array(				    
 						    'end_node_format'=>'trie',
 						    'trie_ctrl'=>array(
@@ -2410,21 +2436,40 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 							    'allow_wildcard'=>false,
 							    'clip_order'=>1	
 						    )
-				);
+				);				
 				
-				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+				foreach( $data as $row ){
 
-				if( $row_valid !== true ){
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Invalid row in data array",
-						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));					    					    
-				}			    
-			}	    		    		    
+					if($row_valid !== true){
+						break;					    					    
+					}			    
+				}
+				unset($row);
+				
+			}
+			catch( FOX_exception $child ){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			if($row_valid !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Invalid row in data array",
+					'data'=>$row_valid,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));					    					    
+			}			
+
 		}
 		
 		
@@ -2460,12 +2505,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 		
 		try {						
-			$result = self::addMulti($set_data, $set_ctrl);
+			$rows_changed = self::addMulti($set_data, $set_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2474,7 +2519,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}		
 
 		
-		return $result;
+		return $rows_changed;
 
 	}	
 	
@@ -2600,11 +2645,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] == true){
 	    
-			$struct = $this->_struct();		    
-			$validator = new FOX_dataStore_validator($struct);
-				
-			foreach( $data as $row ){
+			$struct = $this->_struct();
+				    					    
+			$row_valid = false;			    
 
+			try {			    
+				$validator = new FOX_dataStore_validator($struct);
+				
 				$row_ctrl = array(				    
 						    'end_node_format'=>'trie',
 						    'trie_ctrl'=>array(
@@ -2612,21 +2659,40 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 							    'allow_wildcard'=>false,
 							    'clip_order'=>1	
 						    )
-				);
+				);				
 				
-				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+				foreach( $data as $row ){
 
-				if( $row_valid !== true ){
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Invalid row in data array",
-						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));					    					    
-				}			    
-			}	    		    		    
+					if($row_valid !== true){
+						break;				    					    
+					}			    
+				}
+				unset($row);
+
+			}
+			catch( FOX_exception $child ){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			if($row_valid !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Invalid row in data array",
+					'data'=>$row_valid,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));					    					    
+			}			
+			
 		}		
 		
 		
@@ -2666,12 +2732,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 		
 		try {						
-			$result = self::addMulti($set_data, $set_ctrl);
+			$rows_changed = self::addMulti($set_data, $set_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2679,7 +2745,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
-		return $result;
+		return $rows_changed;
 
 	}		
 
@@ -2824,7 +2890,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 					
-					if( $row_valid !== true ){					    
+					if($row_valid !== true){					    
 						break;
 					}
 				}
@@ -2843,14 +2909,14 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 
 			
-			if( $row_valid !== true ){
+			if($row_valid !== true){
 
 				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Invalid row in data array",
 					'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
+					'child'=>null
 				));					    					    
 			}	
 			
@@ -2997,10 +3063,10 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($ctrl['mode'] == 'matrix'){
 		    
 				
-		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
-		    			    
-				$validator = new FOX_dataStore_validator($struct);
-				
+		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)		    			    
+
+				$row_valid = false;	
+
 				$row_ctrl = array(				    
 						    'end_node_format'=>'trie',
 						    'trie_ctrl'=>array(
@@ -3008,29 +3074,45 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 							    'allow_wildcard'=>false,
 							    'clip_order'=>1	
 						    )
-				);
-				
-				foreach( $data as $id => $row ){   			
-				    
-					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
-					
-					if( $row_valid !== true ){
-					    
-						throw new FOX_exception( array(
-							'numeric'=>2,
-							'text'=>"Invalid row in data array",
-							'data'=>array('faulting_row_id'=>$id,
-								      'row_array'=>$row,
-								      'error'=>$row_valid),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>$child
-						));					    					    
-					}
-												
-					$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
+				);				
 
-				} 
-				unset($id, $row);			    
+				try {			    
+					$validator = new FOX_dataStore_validator($struct);
+				
+					foreach( $data as $id => $row ){   			
+
+						$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+
+						if($row_valid !== true){
+							break;					    					    
+						}
+
+						$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
+
+					} 
+					unset($id, $row);
+
+				}
+				catch( FOX_exception $child ){
+
+					throw new FOX_exception( array(
+						'numeric'=>2,
+						'text'=>"Error in validator",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));			    			    
+				}
+				
+				if($row_valid !== true){
+
+					throw new FOX_exception( array(
+						'numeric'=>3,
+						'text'=>"Invalid row in data array",
+						'data'=>$row_valid,
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));					    					    
+				}				
 			
 			}
 			else {
@@ -3043,13 +3125,11 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 							
 		}
-		elseif($ctrl['mode'] == 'trie'){
-		    
+		elseif($ctrl['mode'] == 'trie'){		    
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
 				try {			    
-
 					$validator = new FOX_dataStore_validator($struct);	
 				
 					$valid_ctrl = array(
@@ -3064,7 +3144,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				catch( FOX_exception $child ){
 
 					throw new FOX_exception( array(
-						'numeric'=>3,
+						'numeric'=>4,
 						'text'=>"Error in validator",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>$child
@@ -3074,7 +3154,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				if($tree_valid !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>4,
+						'numeric'=>5,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3089,7 +3169,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		else {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>5,
+				'numeric'=>6,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3109,7 +3189,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>6,
+				'numeric'=>7,
 				'text'=>"Error locking cache",
 				'data'=>$update_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3175,7 +3255,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>7,
+					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error unlocking cache pages.",
 					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'insert_data'=>$insert_data),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3184,7 +3264,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>8,
+				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3203,7 +3283,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>9,
+				'numeric'=>10,
 				'text'=>"Error writing to cache",
 				'data'=>$update_cache,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3480,31 +3560,51 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] == true){
 	    
-			$struct = $this->_struct();		    
-			$validator = new FOX_dataStore_validator($struct);
+			$struct = $this->_struct();
+				    					    
+			$row_valid = false;			    
+
+			try {			    
+				$validator = new FOX_dataStore_validator($struct);
 			
-			$row_ctrl = array(				    
-					    'end_node_format'=>'array',
-					    'array_ctrl'=>array(
-								'mode'=>'normal'
-					    )
-			);			
-				
-			foreach( $data as $row ){
+				$row_ctrl = array(				    
+						    'end_node_format'=>'array',
+						    'array_ctrl'=>array(
+									'mode'=>'normal'
+						    )
+				);			
 
-				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+				foreach( $data as $row ){
 
-				if( $row_valid !== true ){
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Invalid row in data array",
-						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));					    					    
-				}			    
-			}	    		    		    
+					if($row_valid !== true){
+						break;					    					    
+					}			    
+				}
+				unset($row);
+
+			}
+			catch( FOX_exception $child ){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			if($row_valid !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Invalid row in data array",
+					'data'=>$row_valid,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));					    					    
+			}			
 		}
 		
 		
@@ -3546,7 +3646,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3681,31 +3781,52 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] == true){
 	    
-			$struct = $this->_struct();		    
-			$validator = new FOX_dataStore_validator($struct);
+			$struct = $this->_struct();
+				    					    
+			$row_valid = false;			    
+
+			try {			    
+				$validator = new FOX_dataStore_validator($struct);
 			
-			$row_ctrl = array(				    
-					    'end_node_format'=>'array',
-					    'array_ctrl'=>array(
-								'mode'=>'normal'
-					    )
-			);			
+				$row_ctrl = array(				    
+						    'end_node_format'=>'array',
+						    'array_ctrl'=>array(
+									'mode'=>'normal'
+						    )
+				);			
+
+				foreach( $data as $row ){
+
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+
+					if($row_valid !== true){
+						break;					    					    
+					}			    
+				}
+				unset($row);
 				
-			foreach( $data as $row ){
+			}	
+			catch( FOX_exception $child ){
 
-				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			if($row_valid !== true){
 
-				if( $row_valid !== true ){
-
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Invalid row in data array",
-						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));					    					    
-				}			    
-			}	    		    		    
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Invalid row in data array",
+					'data'=>$row_valid,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));					    					    
+			}
+			
 		}
 		
 		
@@ -3881,31 +4002,52 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] == true){
 	    
-			$struct = $this->_struct();		    
-			$validator = new FOX_dataStore_validator($struct);
+			$struct = $this->_struct();
+				    					    
+			$row_valid = false;			    
+
+			try {			    
+				$validator = new FOX_dataStore_validator($struct);
 			
-			$row_ctrl = array(				    
-					    'end_node_format'=>'array',
-					    'array_ctrl'=>array(
-								'mode'=>'normal'
-					    )
-			);			
+				$row_ctrl = array(				    
+						    'end_node_format'=>'array',
+						    'array_ctrl'=>array(
+									'mode'=>'normal'
+						    )
+				);			
+
+				foreach( $data as $row ){
+
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+
+					if($row_valid !== true){
+						break;					    					    
+					}			    
+				}
+				unset($row);
 				
-			foreach( $data as $row ){
+			}
+			catch( FOX_exception $child ){
 
-				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			if($row_valid !== true){
 
-				if( $row_valid !== true ){
-
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Invalid row in data array",
-						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));					    					    
-				}			    
-			}	    		    		    
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Invalid row in data array",
+					'data'=>$row_valid,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));					    					    
+			}	
+			
 		}		
 		
 		
@@ -3945,12 +4087,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 		
 		try {						
-			$result = self::setMulti($set_data, $set_ctrl);
+			$rows_changed = self::setMulti($set_data, $set_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3958,7 +4100,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
-		return $result;
+		return $rows_changed;
 
 	}		
 
@@ -4083,31 +4225,52 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		                					
 		if($ctrl['validate'] == true){
 	    
-			$struct = $this->_struct();		    
-			$validator = new FOX_dataStore_validator($struct);
+			$struct = $this->_struct();
+				    					    
+			$row_valid = false;			    
+
+			try {			    
+				$validator = new FOX_dataStore_validator($struct);
 			
-			$row_ctrl = array(				    
-					    'end_node_format'=>'array',
-					    'array_ctrl'=>array(
-								'mode'=>'normal'
-					    )
-			);			
+				$row_ctrl = array(				    
+						    'end_node_format'=>'array',
+						    'array_ctrl'=>array(
+									'mode'=>'normal'
+						    )
+				);			
+
+				foreach( $data as $row ){
+
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+
+					if($row_valid !== true){
+						break;					    					    
+					}			    
+				}
+				unset($row);
 				
-			foreach( $data as $row ){
+			}
+			catch( FOX_exception $child ){
 
-				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			if($row_valid !== true){
 
-				if( $row_valid !== true ){
-
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Invalid row in data array",
-						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));					    					    
-				}			    
-			}	    		    		    
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Invalid row in data array",
+					'data'=>$row_valid,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));					    					    
+			}			
+			
 		}	
 		
 		
@@ -4157,7 +4320,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4248,39 +4411,55 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 								
 				
 		if($ctrl['mode'] == 'matrix'){
-		    
-				
+		    			
 		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
-		    
-			    
-				$validator = new FOX_dataStore_validator($struct);
-				
-				$row_ctrl = array(				    
-						    'end_node_format'=>'array',
-						    'array_ctrl'=>array(
-									'mode'=>'normal'
-						    )
-				);				
-				
-				foreach( $data as $row ){   
-			
-					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
-					
-					if( $row_valid !== true ){
-					    
-						throw new FOX_exception( array(
-							'numeric'=>2,
-							'text'=>"Invalid row in data array",
-							'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>$child
-						));					    					    
-					}
-												
-					$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
 
-				} 
-				unset($row);			    
+				$row_valid = false;			    
+
+				try {			    
+					$validator = new FOX_dataStore_validator($struct);
+				
+					$row_ctrl = array(				    
+							    'end_node_format'=>'array',
+							    'array_ctrl'=>array(
+										'mode'=>'normal'
+							    )
+					);				
+
+					foreach( $data as $row ){   
+
+						$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+
+						if($row_valid !== true){
+							break;				    					    
+						}
+
+						$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
+
+					} 
+					unset($row);
+
+				}
+				catch( FOX_exception $child ){
+
+					throw new FOX_exception( array(
+						'numeric'=>2,
+						'text'=>"Error in validator",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));			    			    
+				}
+				
+				if($row_valid !== true){
+
+					throw new FOX_exception( array(
+						'numeric'=>3,
+						'text'=>"Invalid row in data array",
+						'data'=>$row_valid,
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));					    					    
+				}				
 			
 			}
 			else {
@@ -4293,13 +4472,11 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 							
 		}
-		elseif($ctrl['mode'] == 'trie'){
-		    
+		elseif($ctrl['mode'] == 'trie'){		    
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
 				try {			    
-
 					$validator = new FOX_dataStore_validator($struct);	
 								
 					$valid_ctrl = array(
@@ -4314,7 +4491,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				catch( FOX_exception $child ){
 
 					throw new FOX_exception( array(
-						'numeric'=>3,
+						'numeric'=>4,
 						'text'=>"Error in validator",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>$child
@@ -4324,7 +4501,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				if($tree_valid !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>4,
+						'numeric'=>5,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4339,7 +4516,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		else {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>5,
+				'numeric'=>6,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4359,7 +4536,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>6,
+				'numeric'=>7,
 				'text'=>"Error locking cache",
 				'data'=>$update_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4432,7 +4609,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				catch (FOX_exception $child_2) {
 
 					throw new FOX_exception( array(
-						'numeric'=>7,
+						'numeric'=>8,
 						'text'=>"Error while writing to the database. Error unlocking cache pages.",
 						'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'indate_data'=>$indate_data),
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4441,7 +4618,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				}									
 
 				throw new FOX_exception( array(
-					'numeric'=>8,
+					'numeric'=>9,
 					'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 					'data'=>$indate_data,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4465,7 +4642,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>9,
+					'numeric'=>10,
 					'text'=>"Couldn't initiate transaction",
 					'data'=>$data,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4493,7 +4670,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					catch (FOX_exception $child_2) {
 
 						throw new FOX_exception( array(
-							'numeric'=>10,
+							'numeric'=>11,
 							'text'=>"Error while writing to the database. Error unlocking cache pages.",
 						'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'indate_data'=>$indate_data),
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4502,7 +4679,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					}									
 
 					throw new FOX_exception( array(
-						'numeric'=>11,
+						'numeric'=>12,
 						'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 						'data'=>$indate_row,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4521,7 +4698,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>12,
+					'numeric'=>13,
 					'text'=>"Error commiting transaction to database",
 					'data'=>$data,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4560,7 +4737,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>13,
+				'numeric'=>14,
 				'text'=>"Error writing to cache",
 				'data'=>$update_cache,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4794,8 +4971,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// ===========================================================
 
 		if($ctrl['validate'] == true){
-		    
-		    
+		    		    
 			try {			    			    
 				$validator = new FOX_dataStore_validator($struct);
 			
@@ -5282,8 +5458,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// ===========================================================
 
 		if($ctrl['validate'] == true){
-		    
-		    
+		    		    
 			try {			    			    
 				$validator = new FOX_dataStore_validator($struct);
 			
@@ -7967,31 +8142,47 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 				
 		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
-		    
-			    
-				$validator = new FOX_dataStore_validator($struct);
-				
-				$row_ctrl = array(				    
-						    'end_node_format'=>'scalar'
-				);				
-				
-				foreach( $data as $row ){   
-			
-					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
-					
-					if( $row_valid !== true ){
-					    
-						throw new FOX_exception( array(
-							'numeric'=>2,
-							'text'=>"Invalid row in data array",
-							'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>$child
-						));					    					    
-					}																
 
-				} 
-				unset($row);			    
+				$row_valid = false;			    
+
+				try {			    
+					$validator = new FOX_dataStore_validator($struct);
+				
+					$row_ctrl = array(				    
+							    'end_node_format'=>'scalar'
+					);				
+
+					foreach( $data as $row ){   
+
+						$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+
+						if($row_valid !== true){
+							break;				    					    
+						}
+					} 
+					unset($row);
+
+				}
+				catch( FOX_exception $child ){
+
+					throw new FOX_exception( array(
+						'numeric'=>2,
+						'text'=>"Error in validator",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));			    			    
+				}
+				
+				if($row_valid !== true){
+
+					throw new FOX_exception( array(
+						'numeric'=>3,
+						'text'=>"Invalid row in data array",
+						'data'=>$row_valid,
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));					    					    
+				}				
 			
 			}
 
@@ -8013,8 +8204,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 							
 		}
 		elseif($ctrl['mode'] == 'trie'){
-		    
-		    
+		    		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
 				try {			    
@@ -8033,7 +8223,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				catch( FOX_exception $child ){
 
 					throw new FOX_exception( array(
-						'numeric'=>3,
+						'numeric'=>4,
 						'text'=>"Error in validator",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>$child
@@ -8043,7 +8233,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				if($tree_valid !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>4,
+						'numeric'=>5,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8058,7 +8248,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		else {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>5,
+				'numeric'=>6,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8082,7 +8272,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    $error_msg .= "If this is actually your design intent, set \$ctrl['trap_*'] = false to disable this interlock."; 
 
 			    throw new FOX_exception( array(
-				    'numeric'=>6,
+				    'numeric'=>7,
 				    'text'=>"$error_msg",
 				    'data'=>$data,
 				    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8103,7 +8293,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>7,
+				'numeric'=>8,
 				'text'=>"Error locking cache",
 				'data'=>$del_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8232,7 +8422,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>8,
+					'numeric'=>9,
 					'text'=>"Error while writing to the database. Error unlocking cache pages.",
 					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 
 						      'del_args'=>$args, 'del_ctrl'=>$del_ctrl),
@@ -8242,7 +8432,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>9,
+				'numeric'=>10,
 				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 					'data'=>array('del_args'=>$args, 'del_ctrl'=>$del_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8289,7 +8479,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>10,
+					'numeric'=>11,
 					'text'=>"Error writing to cache",
 					'data'=>$update_cache,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8309,7 +8499,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>11,
+					'numeric'=>12,
 					'text'=>"Error flushing pages from cache",
 					'data'=>$dead_pages,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
