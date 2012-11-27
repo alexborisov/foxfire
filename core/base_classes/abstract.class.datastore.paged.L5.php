@@ -1315,19 +1315,34 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new FOX_dataStore_validator($struct);
+				$struct = $this->_struct();
+
+				try {			    
+
+					$validator = new FOX_dataStore_validator($struct);
 				
-				$val_ctrl = array(
-					'order'=>$this->order,
-					'mode'=>'control'				    
-				);
-				
-				$tree_valid = $validator->validateTrie($data, $val_ctrl);
+					$val_ctrl = array(
+						'order'=>$this->order,
+						'mode'=>'control'				    
+					);
+
+					$tree_valid = $validator->validateTrie($data, $val_ctrl);
+					
+				}
+				catch( FOX_exception $child ){
+
+					throw new FOX_exception( array(
+						'numeric'=>4,
+						'text'=>"Error in validator",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));			    			    
+				}				
 
 				if($tree_valid !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>4,
+						'numeric'=>5,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1342,7 +1357,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		else {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>5,
+				'numeric'=>6,
 				'text'=>"Invalid ctrl['q_mode'] parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1366,7 +1381,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    $error_msg .= "If this is actually your design intent, set \$ctrl['trap_*'] = false to disable this interlock."; 
 
 			    throw new FOX_exception( array(
-				    'numeric'=>6,
+				    'numeric'=>7,
 				    'text'=>"$error_msg",
 				    'data'=>$data,
 				    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1386,7 +1401,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>7,
+				'numeric'=>8,
 				'text'=>"Error in self::notInClassCache()",
 				'data'=>array('get_data'=>$get_data),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1402,7 +1417,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>8,
+					'numeric'=>9,
 					'text'=>"Error reading from persistent cache",
 					'data'=>array('cache_fetch'=>array_keys($cache_fetch)),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1472,7 +1487,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				catch (FOX_exception $child) {
 
 					throw new FOX_exception( array(
-						'numeric'=>9,
+						'numeric'=>10,
 						'text'=>"Error while reading from database",
 						'data'=>array('args'=>$args, 'columns'=>$columns, 'db_ctrl'=>$db_ctrl),
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1749,7 +1764,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>10,
+					'numeric'=>11,
 					'text'=>"Error converting result to 'matrix' format",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
@@ -1760,7 +1775,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		elseif($ctrl['r_mode'] != 'trie'){
 		    
 			throw new FOX_exception( array(
-				'numeric'=>11,
+				'numeric'=>12,
 				'text'=>"Invalid ctrl['r_mode'] parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1780,7 +1795,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>12,
+					'numeric'=>13,
 					'text'=>"Error writing to persistent cache",
 					'data'=>array('update_cache'=>$update_cache, 'result'=>$result),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3033,20 +3048,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new FOX_dataStore_validator($struct);	
+				try {			    
+
+					$validator = new FOX_dataStore_validator($struct);	
 				
-				$valid_ctrl = array(
-					'order'=>$this->order,
-					'mode'=>'data',
-					'clip_order'=>0		    
-				);
-		
-				$tree_valid = $validator->validateTrie($data, $valid_ctrl);
+					$valid_ctrl = array(
+						'order'=>$this->order,
+						'mode'=>'data',
+						'clip_order'=>0		    
+					);
+
+					$tree_valid = $validator->validateTrie($data, $valid_ctrl);
+				
+				}
+				catch( FOX_exception $child ){
+
+					throw new FOX_exception( array(
+						'numeric'=>3,
+						'text'=>"Error in validator",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));			    			    
+				}				
 
 				if($tree_valid !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>3,
+						'numeric'=>4,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3061,7 +3089,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		else {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>5,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3081,7 +3109,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>5,
+				'numeric'=>6,
 				'text'=>"Error locking cache",
 				'data'=>$update_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3147,7 +3175,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>6,
+					'numeric'=>7,
 					'text'=>"Error while writing to the database. Error unlocking cache pages.",
 					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'insert_data'=>$insert_data),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3156,7 +3184,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>7,
+				'numeric'=>8,
 				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -3175,7 +3203,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>8,
+				'numeric'=>9,
 				'text'=>"Error writing to cache",
 				'data'=>$update_cache,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4270,21 +4298,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new FOX_dataStore_validator($struct);
-				
-				
-				$valid_ctrl = array(
-					'order'=>$this->order,
-					'mode'=>'data',
-					'clip_order'=>0		    
-				);
-		
-				$tree_valid = $validator->validateTrie($data, $valid_ctrl);
+				try {			    
+
+					$validator = new FOX_dataStore_validator($struct);	
+								
+					$valid_ctrl = array(
+						'order'=>$this->order,
+						'mode'=>'data',
+						'clip_order'=>0		    
+					);
+
+					$tree_valid = $validator->validateTrie($data, $valid_ctrl);
+					
+				}
+				catch( FOX_exception $child ){
+
+					throw new FOX_exception( array(
+						'numeric'=>3,
+						'text'=>"Error in validator",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));			    			    
+				}				
 
 				if($tree_valid !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>3,
+						'numeric'=>4,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4299,7 +4339,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		else {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>5,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4319,7 +4359,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>5,
+				'numeric'=>6,
 				'text'=>"Error locking cache",
 				'data'=>$update_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4392,7 +4432,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				catch (FOX_exception $child_2) {
 
 					throw new FOX_exception( array(
-						'numeric'=>6,
+						'numeric'=>7,
 						'text'=>"Error while writing to the database. Error unlocking cache pages.",
 						'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'indate_data'=>$indate_data),
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4401,7 +4441,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				}									
 
 				throw new FOX_exception( array(
-					'numeric'=>7,
+					'numeric'=>8,
 					'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 					'data'=>$indate_data,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4425,7 +4465,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>8,
+					'numeric'=>9,
 					'text'=>"Couldn't initiate transaction",
 					'data'=>$data,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4453,7 +4493,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					catch (FOX_exception $child_2) {
 
 						throw new FOX_exception( array(
-							'numeric'=>9,
+							'numeric'=>10,
 							'text'=>"Error while writing to the database. Error unlocking cache pages.",
 						'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'indate_data'=>$indate_data),
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4462,7 +4502,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					}									
 
 					throw new FOX_exception( array(
-						'numeric'=>10,
+						'numeric'=>11,
 						'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 						'data'=>$indate_row,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4481,7 +4521,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>11,
+					'numeric'=>12,
 					'text'=>"Error commiting transaction to database",
 					'data'=>$data,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4520,7 +4560,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>12,
+				'numeric'=>13,
 				'text'=>"Error writing to cache",
 				'data'=>$update_cache,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4756,20 +4796,32 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($ctrl['validate'] == true){
 		    
 		    
-			$validator = new FOX_dataStore_validator($struct);
+			try {			    			    
+				$validator = new FOX_dataStore_validator($struct);
 			
-			$val_ctrl = array(
-				'order'=>$this->order,
-				'mode'=>'data',
-				'clip_order'=>2
-			);
+				$val_ctrl = array(
+					'order'=>$this->order,
+					'mode'=>'data',
+					'clip_order'=>2
+				);
 
-			$tree_valid = $validator->validateTrie($data, $val_ctrl);
+				$tree_valid = $validator->validateTrie($data, $val_ctrl);
+				
+			}
+			catch( FOX_exception $child ){
+			    			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}			
 			
 			if($tree_valid !== true){
 			    
 				throw new FOX_exception( array(
-					'numeric'=>2,
+					'numeric'=>3,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4791,7 +4843,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4895,7 +4947,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>5,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4929,7 +4981,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>5,
+					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4938,7 +4990,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>6,
+				'numeric'=>7,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4964,7 +5016,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>7,
+					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4973,7 +5025,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>8,
+				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -4990,7 +5042,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>9,
+				'numeric'=>10,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5008,7 +5060,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>10,
+				'numeric'=>11,
 				'text'=>"Cache set error",
 				'data'=>$page_images,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5232,20 +5284,32 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($ctrl['validate'] == true){
 		    
 		    
-			$validator = new FOX_dataStore_validator($struct);
+			try {			    			    
+				$validator = new FOX_dataStore_validator($struct);
 			
-			$val_ctrl = array(
-				'order'=>$this->order,
-				'mode'=>'data',
-				'clip_order'=>3
-			);
+				$val_ctrl = array(
+					'order'=>$this->order,
+					'mode'=>'data',
+					'clip_order'=>3
+				);
 
-			$tree_valid = $validator->validateTrie($data, $val_ctrl);
+				$tree_valid = $validator->validateTrie($data, $val_ctrl);
+				
+			}
+			catch( FOX_exception $child ){
+			    			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}			
 			
 			if($tree_valid !== true){
 			    
 				throw new FOX_exception( array(
-					'numeric'=>2,
+					'numeric'=>3,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5267,7 +5331,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5370,7 +5434,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>5,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5403,7 +5467,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>5,
+					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5412,7 +5476,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>6,
+				'numeric'=>7,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5438,7 +5502,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>7,
+					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5447,7 +5511,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>8,
+				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5464,7 +5528,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>9,
+				'numeric'=>10,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5482,7 +5546,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>10,
+				'numeric'=>11,
 				'text'=>"Cache set error",
 				'data'=>$page_images,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5684,20 +5748,32 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		if($ctrl['validate'] == true){
 		    		    
-			$validator = new FOX_dataStore_validator($struct);
+			try {			    			    
+				$validator = new FOX_dataStore_validator($struct);
 			
-			$val_ctrl = array(
-				'order'=>$this->order,
-				'mode'=>'data',
-				'clip_order'=>4
-			);
+				$val_ctrl = array(
+					'order'=>$this->order,
+					'mode'=>'data',
+					'clip_order'=>4
+				);
 
-			$tree_valid = $validator->validateTrie($data, $val_ctrl);
+				$tree_valid = $validator->validateTrie($data, $val_ctrl);
+			
+			}
+			catch( FOX_exception $child ){
+			    			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}			
 			
 			if($tree_valid !== true){
 			    
 				throw new FOX_exception( array(
-					'numeric'=>2,
+					'numeric'=>3,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5718,7 +5794,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5815,7 +5891,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>5,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5847,7 +5923,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>5,
+					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5856,7 +5932,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>6,
+				'numeric'=>7,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5882,7 +5958,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>7,
+					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5891,7 +5967,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>8,
+				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5908,7 +5984,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>9,
+				'numeric'=>10,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -5926,7 +6002,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>10,
+				'numeric'=>11,
 				'text'=>"Cache set error",
 				'data'=>$page_images,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6111,20 +6187,32 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		if($ctrl['validate'] == true){
 		    
-			$validator = new FOX_dataStore_validator($struct);
+			try {			    			    
+				$validator = new FOX_dataStore_validator($struct);;
 		    
-			$val_ctrl = array(
-				'order'=>$this->order,
-				'mode'=>'data',
-				'clip_order'=>5
-			);
+				$val_ctrl = array(
+					'order'=>$this->order,
+					'mode'=>'data',
+					'clip_order'=>5
+				);
 
-			$tree_valid = $validator->validateTrie($data, $val_ctrl);
+				$tree_valid = $validator->validateTrie($data, $val_ctrl);
+			
+			}
+			catch( FOX_exception $child ){
+			    			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}			
 			
 			if($tree_valid !== true){
 			    
 				throw new FOX_exception( array(
-					'numeric'=>2,
+					'numeric'=>3,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6145,7 +6233,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6230,7 +6318,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>5,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6258,7 +6346,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>5,
+					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6267,7 +6355,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>6,
+				'numeric'=>7,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6292,7 +6380,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>7,
+					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6301,7 +6389,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>8,
+				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6318,7 +6406,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>9,
+				'numeric'=>10,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6336,7 +6424,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>10,
+				'numeric'=>11,
 				'text'=>"Cache set error",
 				'data'=>$update_cache,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6356,7 +6444,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>11,
+					'numeric'=>12,
 					'text'=>"Error flushing cache pages",
 					'data'=>$dead_cache_pages,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7553,7 +7641,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string/array $L5 | Single L5 id as int/string, multiple as array of int/string.
+	 * @param int/string/array $L5s | Single L5 id as int/string, multiple as array of int/string.
 	 * 
          * @param array $ctrl | Control parameters
 	 *	=> VAL @param bool $validate | Validate key	 
@@ -7561,7 +7649,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function dropL5($L5, $ctrl=null) {
+	public function dropL5($L5s, $ctrl=null) {
 
 		
 		if(!$this->init){
@@ -7929,21 +8017,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new FOX_dataStore_validator($struct);
+				try {			    
+					$validator = new FOX_dataStore_validator($struct);
 				
-				$val_ctrl = array(
-					'order'=>5,
-					'mode'=>'control',
-					'allow_wildcard'=>false,
-					'clip_order'=>false		    
-				);		
+					$val_ctrl = array(
+						'order'=>5,
+						'mode'=>'control',
+						'allow_wildcard'=>false,
+						'clip_order'=>false		    
+					);		
+
+					$tree_valid = $validator->validateTrie($data, $val_ctrl);
 				
-				$tree_valid = $validator->validateTrie($data, $val_ctrl);
+				}
+				catch( FOX_exception $child ){
+
+					throw new FOX_exception( array(
+						'numeric'=>3,
+						'text'=>"Error in validator",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));			    			    
+				}				
 
 				if($tree_valid !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>3,
+						'numeric'=>4,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7958,7 +8058,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		else {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>5,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -7982,7 +8082,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    $error_msg .= "If this is actually your design intent, set \$ctrl['trap_*'] = false to disable this interlock."; 
 
 			    throw new FOX_exception( array(
-				    'numeric'=>5,
+				    'numeric'=>6,
 				    'text'=>"$error_msg",
 				    'data'=>$data,
 				    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8003,7 +8103,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>6,
+				'numeric'=>7,
 				'text'=>"Error locking cache",
 				'data'=>$del_data,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8132,7 +8232,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child_2) {
 
 				throw new FOX_exception( array(
-					'numeric'=>7,
+					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error unlocking cache pages.",
 					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 
 						      'del_args'=>$args, 'del_ctrl'=>$del_ctrl),
@@ -8142,7 +8242,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}									
 
 			throw new FOX_exception( array(
-				'numeric'=>8,
+				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 					'data'=>array('del_args'=>$args, 'del_ctrl'=>$del_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8189,7 +8289,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>9,
+					'numeric'=>10,
 					'text'=>"Error writing to cache",
 					'data'=>$update_cache,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -8209,7 +8309,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>10,
+					'numeric'=>11,
 					'text'=>"Error flushing pages from cache",
 					'data'=>$dead_pages,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
