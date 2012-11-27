@@ -175,14 +175,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);
 		
 		
-		if( !is_array($L1s) ){
-		    
-			$single = true;
-			$L1s = array($L1s);
-		}
-		else{
-			$single = false;
-		}
+
 				 
 		if($ctrl['validate'] != false){		   
 
@@ -192,101 +185,114 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new FOX_dataStore_validator($struct);	
+			$validator_result = array();
 			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L5_col]['php'],
-								'format'=>'both',
-								'var'=>$L5
-			));	
+			try {
+			    
+				// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+				// a validator throws an exception, it will contain all info needed for debugging
+			    
+				$validator = new FOX_dataStore_validator($struct);	
 
-			if($is_valid !== true){
+				$validator_result['L5'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L5_col]['php'],
+									'format'=>'both',
+									'var'=>$L5
+				));							
+
+				$validator_result['L4'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L4_col]['php'],
+									'format'=>'both',
+									'var'=>$L4
+				));	
+
+				$validator_result['L3'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L3_col]['php'],
+									'format'=>'both',
+									'var'=>$L3
+				));	
+
+				$validator_result['L2'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L2_col]['php'],
+									'format'=>'both',
+									'var'=>$L2
+				));	
+				
+				// If a single L1 is sent in, we validate it *before* spinning it into an array,
+				// so we can trap strings that PHP automatically converts to ints ("17")
+				
+				if( !is_array($L1s) ){
+
+					$validator_result['L1'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L1_col]['php'],
+										'format'=>'scalar',
+										'var'=>$L1s
+					));					
+				}
+				else {
+
+					foreach( $L1s as $key => $val ){
+
+						$validator_result['L1'] = $validator->validateKey( array(
+											'type'=>$struct['columns'][$this->L1_col]['php'],
+											'format'=>'scalar',
+											'var'=>$val
+						));	
+
+						// Break the loop if we hit an invalid key
+						
+						if( $validator_result['L1'] !== true ){
+
+							break;
+						}
+
+					}
+					unset($key, $val);
+				}
+							
+			}
+			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
 					'numeric'=>1,
-					'text'=>"Invalid L5 key",
-					'data'=>$is_valid,
+					'text'=>"Error in validator class",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}	
-			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L4_col]['php'],
-								'format'=>'both',
-								'var'=>$L4
-			));	
-
-			if($is_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Invalid L4 key",
-					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
+					'child'=>$child
+				));		    
 			}
 			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L3_col]['php'],
-								'format'=>'both',
-								'var'=>$L3
-			));	
-
-			if($is_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>3,
-					'text'=>"Invalid L3 key",
-					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}
+			// This structure has to be outside the validator try-catch block to prevent it from   
+			// catching the exceptions we throw (which would cause confusing exception chains)
 			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L2_col]['php'],
-								'format'=>'both',
-								'var'=>$L2
-			));	
-
-			if($is_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>4,
-					'text'=>"Invalid L2 key",
-					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}
-			
-			foreach( $L1s as $L1 ){
-
-				$is_valid = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L1_col]['php'],
-									'format'=>'both',
-									'var'=>$L1
-				));	
-
-				if($is_valid !== true){
+			foreach( $validator_result as $key => $val ){
+			    
+				if($val !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>5,
-						'text'=>"Invalid L1 key",
-						'data'=>array('key'=>$L1, 'error'=>$is_valid),
+						'numeric'=>2,
+						'text'=>"Invalid " . $key . " key",
+						'data'=>$val,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>null
 					));			    
-				}			
+				}			    
+			    
 			}
-			unset($L1);			
+			unset($key, $val);			
 			
 		}		
 
 		// Fetch items
 		// ==========================
+		
+		if( !is_array($L1s) ){
+		    
+			$single = true;
+			$L1s = array($L1s);
+		}
+		else{
+			$single = false;
+		}		
 		
 		$get_data = array( $L5=>array( $L4=>array( $L3=>array( $L2=>array() ))));
 
@@ -391,15 +397,10 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+				
 		
-		if( !is_array($L2s) ){
-		    
-			$single = true;
-			$L2s = array($L2s);
-		}
-		else{
-			$single = false;
-		}
+		// Validate
+		// ===================================================
 		
 		if($ctrl['validate'] != false){		   
 
@@ -409,86 +410,111 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new FOX_dataStore_validator($struct);	
+			$validator_result = array();
 			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L5_col]['php'],
-								'format'=>'both',
-								'var'=>$L5
-			));	
-
-			if($is_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>1,
-					'text'=>"Invalid L5 key",
-					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}	
+			try {
+			    
+				// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+				// a validator throws an exception, it will contain all info needed for debugging
+			    
+				$validator = new FOX_dataStore_validator($struct);	
 			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L4_col]['php'],
-								'format'=>'both',
-								'var'=>$L4
-			));	
-
-			if($is_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Invalid L4 key",
-					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}
-			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L3_col]['php'],
-								'format'=>'both',
-								'var'=>$L3
-			));	
-
-			if($is_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>3,
-					'text'=>"Invalid L3 key",
-					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}
-			
-			
-			foreach( $L2s as $L2 ){
-
-				$is_valid = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L2_col]['php'],
+				$validator_result['L5'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L5_col]['php'],
 									'format'=>'both',
-									'var'=>$L2
+									'var'=>$L5
 				));	
 
-				if($is_valid !== true){
+				$validator_result['L4'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L4_col]['php'],
+									'format'=>'both',
+									'var'=>$L4
+				));	
+
+				$validator_result['L3'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L3_col]['php'],
+									'format'=>'both',
+									'var'=>$L3
+				));	
+
+
+				// If a single L2 is sent in, we validate it *before* spinning it into an array,
+				// so we can trap strings that PHP automatically converts to ints ("17")
+				
+				if( !is_array($L2s) ){
+
+					$validator_result['L2'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L2_col]['php'],
+										'format'=>'both',
+										'var'=>$L2s
+					));					
+				}
+				else {
+
+					foreach( $L2s as $key => $val ){
+
+						$validator_result['L2'] = $validator->validateKey( array(
+											'type'=>$struct['columns'][$this->L2_col]['php'],
+											'format'=>'both',
+											'var'=>$val
+						));	
+
+						// Break the loop if we hit an invalid key
+						
+						if( $validator_result['L2'] !== true ){
+
+							break;
+						}
+
+					}
+					unset($key, $val);
+				}	
+			
+			}
+			catch( FOX_exception $child ){
+			    			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			// This structure has to be outside the validator try-catch block to prevent it from   
+			// catching the exceptions we throw (which would cause confusing exception chains)
+			
+			foreach( $validator_result as $key => $val ){
+			    
+				if($val !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>4,
-						'text'=>"Invalid L2 key",
-						'data'=>array('key'=>$L2, 'error'=>$is_valid),
+						'numeric'=>2,
+						'text'=>"Invalid " . $key . " key",
+						'data'=>$val,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>null
 					));			    
-				}			
+				}			    
+			    
 			}
-			unset($L2);			
+			unset($key, $val);			
 			
 		}
+		
 		
 		// Fetch items
 		// ==========================
 
+		if( !is_array($L2s) ){
+		    
+			$single = true;
+			$L2s = array($L2s);
+		}
+		else{
+			$single = false;
+		}
+		
 		$get_data = array( $L5=>array( $L4=>array( $L3=>array() )));
 
 		foreach( $L2s as $L2 ){
@@ -510,7 +536,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>5,
+				'numeric'=>3,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -588,14 +614,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);
 		
-		if( !is_array($L3s) ){
-		    
-			$single = true;
-			$L3s = array($L3s);
-		}
-		else{
-			$single = false;
-		}
+		
+		// Validate
+		// ===================================================
 		
 		if($ctrl['validate'] != false){		   
 
@@ -605,67 +626,104 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new FOX_dataStore_validator($struct);	
+			$validator_result = array();
 			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L5_col]['php'],
-								'format'=>'both',
-								'var'=>$L5
-			));	
-
-			if($is_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>1,
-					'text'=>"Invalid L5 key",
-					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}	
+			try {
+			    
+				// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+				// a validator throws an exception, it will contain all info needed for debugging
+			    
+				$validator = new FOX_dataStore_validator($struct);	
 			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L4_col]['php'],
-								'format'=>'both',
-								'var'=>$L4
-			));	
-
-			if($is_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Invalid L4 key",
-					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}
-									
-			foreach( $L3s as $L3 ){
-
-				$is_valid = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L3_col]['php'],
+				$validator_result['L5'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L5_col]['php'],
 									'format'=>'both',
-									'var'=>$L3
+									'var'=>$L5
 				));	
 
-				if($is_valid !== true){
+				$validator_result['L4'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L4_col]['php'],
+									'format'=>'both',
+									'var'=>$L4
+				));		
+
+
+				// If a single L3 is sent in, we validate it *before* spinning it into an array,
+				// so we can trap strings that PHP automatically converts to ints ("17")
+				
+				if( !is_array($L3s) ){
+
+					$validator_result['L3'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L3_col]['php'],
+										'format'=>'both',
+										'var'=>$L3s
+					));					
+				}
+				else {
+
+					foreach( $L3s as $key => $val ){
+
+						$validator_result['L3'] = $validator->validateKey( array(
+											'type'=>$struct['columns'][$this->L3_col]['php'],
+											'format'=>'both',
+											'var'=>$val
+						));	
+
+						// Break the loop if we hit an invalid key
+						
+						if( $validator_result['L3'] !== true ){
+
+							break;
+						}
+
+					}
+					unset($key, $val);
+				}	
+			
+			}
+			catch( FOX_exception $child ){
+			    			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			// This structure has to be outside the validator try-catch block to prevent it from   
+			// catching the exceptions we throw (which would cause confusing exception chains)
+			
+			foreach( $validator_result as $key => $val ){
+			    
+				if($val !== true){
 
 					throw new FOX_exception( array(
-						'numeric'=>3,
-						'text'=>"Invalid L3 key",
-						'data'=>array('key'=>$L3, 'error'=>$is_valid),
+						'numeric'=>2,
+						'text'=>"Invalid " . $key . " key",
+						'data'=>$val,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>null
 					));			    
-				}			
+				}			    
+			    
 			}
-			unset($L3);			
+			unset($key, $val);			
 			
 		}
 		
+		
 		// Fetch items
 		// ==========================
+		
+		if( !is_array($L3s) ){
+		    
+			$single = true;
+			$L3s = array($L3s);
+		}
+		else{
+			$single = false;
+		}		
 
 		$get_data = array( $L5=>array( $L4=>array() ));
 
@@ -687,7 +745,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>3,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -764,14 +822,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);
 		
-		if( !is_array($L4s) ){
-		    
-			$single = true;
-			$L4s = array($L4s);
-		}
-		else{
-			$single = false;
-		}
+		
+		// Validate
+		// ===================================================
 		
 		if($ctrl['validate'] != false){		   
 
@@ -781,45 +834,82 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new FOX_dataStore_validator($struct);	
+			$validator_result = array();
 			
-			$is_valid = $validator->validateKey( array(
-								'type'=>$struct['columns'][$this->L5_col]['php'],
-								'format'=>'both',
-								'var'=>$L5
-			));	
+			try {
+			    
+				// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+				// a validator throws an exception, it will contain all info needed for debugging
+			    
+				$validator = new FOX_dataStore_validator($struct);	
+			
+				$validator_result['L5'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L5_col]['php'],
+									'format'=>'both',
+									'var'=>$L5
+				));			
 
-			if($is_valid !== true){
+				// If a single L4 is sent in, we validate it *before* spinning it into an array,
+				// so we can trap strings that PHP automatically converts to ints ("17")
+				
+				if( !is_array($L4s) ){
 
+					$validator_result['L4'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L4_col]['php'],
+										'format'=>'both',
+										'var'=>$L4s
+					));					
+				}
+				else {
+
+					foreach( $L4s as $key => $val ){
+
+						$validator_result['L4'] = $validator->validateKey( array(
+											'type'=>$struct['columns'][$this->L4_col]['php'],
+											'format'=>'both',
+											'var'=>$val
+						));	
+
+						// Break the loop if we hit an invalid key
+						
+						if( $validator_result['L4'] !== true ){
+
+							break;
+						}
+
+					}
+					unset($key, $val);
+				}	
+			
+			}
+			catch( FOX_exception $child ){
+			    			    
 				throw new FOX_exception( array(
 					'numeric'=>1,
-					'text'=>"Invalid L5 key",
-					'data'=>$is_valid,
+					'text'=>"Error in validator",
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}				
-									
-			foreach( $L4s as $L4 ){
-
-				$is_valid = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'both',
-									'var'=>$L4
-				));	
-
-				if($is_valid !== true){
+					'child'=>$child
+				));			    			    
+			}
+			
+			// This structure has to be outside the validator try-catch block to prevent it from   
+			// catching the exceptions we throw (which would cause confusing exception chains)
+			
+			foreach( $validator_result as $key => $val ){
+			    
+				if($val !== true){
 
 					throw new FOX_exception( array(
 						'numeric'=>2,
-						'text'=>"Invalid L4 key",
-						'data'=>array('key'=>$L4, 'error'=>$is_valid),
+						'text'=>"Invalid " . $key . " key",
+						'data'=>$val,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>null
 					));			    
-				}			
+				}			    
+			    
 			}
-			unset($L4);			
+			unset($key, $val);			
 			
 		}
 		
@@ -827,6 +917,15 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Fetch items
 		// ==========================		
 
+		if( !is_array($L4s) ){
+		    
+			$single = true;
+			$L4s = array($L4s);
+		}
+		else{
+			$single = false;
+		}
+		
 		$get_data = array( $L5=>array() );
 
 		foreach( $L4s as $L4 ){
@@ -923,14 +1022,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);
 		
-		if( !is_array($L5s) ){
-		    
-			$single = true;
-			$L5s = array($L5s);
-		}
-		else{
-			$single = false;
-		}
+		
+		// Validate
+		// ===================================================
 		
 		if($ctrl['validate'] != false){		   
 
@@ -940,28 +1034,67 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
-			$validator = new FOX_dataStore_validator($struct);								
-									
-			foreach( $L5s as $L5 ){
+			try {			    
+			    
+				$validator = new FOX_dataStore_validator($struct);					
 
-				$is_valid = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'both',
-									'var'=>$L5
-				));	
+				// If a single L5 is sent in, we validate it *before* spinning it into an array,
+				// so we can trap strings that PHP automatically converts to ints ("17")
+				
+				if( !is_array($L5s) ){
 
-				if($is_valid !== true){
+					$is_valid = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L5_col]['php'],
+										'format'=>'both',
+										'var'=>$L5s
+					));					
+				}
+				else {
 
-					throw new FOX_exception( array(
-						'numeric'=>1,
-						'text'=>"Invalid L5 key",
-						'data'=>array('key'=>$L5, 'error'=>$is_valid),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>null
-					));			    
-				}			
+					foreach( $L5s as $key => $val ){
+
+						$is_valid = $validator->validateKey( array(
+											'type'=>$struct['columns'][$this->L5_col]['php'],
+											'format'=>'both',
+											'var'=>$val
+						));	
+
+						// Break the loop if we hit an invalid key
+						
+						if( $is_valid !== true ){
+
+							break;
+						}
+
+					}
+					unset($key, $val);
+				}	
+			
+				
 			}
-			unset($L5);			
+			catch( FOX_exception $child ){
+			    			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			// This structure has to be outside the validator try-catch block to prevent it from   
+			// catching the exceptions we throw (which would cause confusing exception chains)
+						    
+			if($is_valid !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " key",
+					'data'=>$val,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));			    
+			}			    			
 			
 		}
 		
@@ -969,6 +1102,15 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Fetch items
 		// ==========================		
 
+		if( !is_array($L5s) ){
+		    
+			$single = true;
+			$L5s = array($L5s);
+		}
+		else{
+			$single = false;
+		}
+		
 		$get_data = array();
 
 		foreach( $L5s as $L5 ){
@@ -2647,33 +2789,56 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		                					
 		if($ctrl['validate'] == true){
 	    
-			$struct = $this->_struct();		    
-			$validator = new FOX_dataStore_validator($struct);
-				
-			foreach( $data as $row ){
+			$struct = $this->_struct();	
+			
+			$row_ctrl = array(				    
+					    'end_node_format'=>'trie',
+					    'trie_ctrl'=>array(
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>1	
+					    )
+			);			
 
-				$row_ctrl = array(				    
-						    'end_node_format'=>'trie',
-						    'trie_ctrl'=>array(
-							    'mode'=>'data',
-							    'allow_wildcard'=>false,
-							    'clip_order'=>1	
-						    )
-				);
-				
-				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+			try {			    
+				$validator = new FOX_dataStore_validator($struct);
 
-				if( $row_valid !== true ){
+				$row_valid = false;
 
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Invalid row in data array",
-						'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));					    					    
-				}			    
-			}	    		    		    
+				foreach( $data as $row ){
+
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
+					
+					if( $row_valid !== true ){					    
+						break;
+					}
+				}
+				unset($row);
+			
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator class",
+					'data'=>array('row_ctrl'=>$row_ctrl),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}
+
+			
+			if( $row_valid !== true ){
+
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Invalid row in data array",
+					'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));					    					    
+			}	
+			
 		}	
 		
 		
@@ -2723,7 +2888,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -6262,6 +6427,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    		    		    
 			$struct = $this->_struct();
 			
+			$validator_result = array();
+			
 			try {
 			    
 				// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
@@ -6269,34 +6436,36 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				$validator = new FOX_dataStore_validator($struct);	
 
-				$L5_valid = $validator->validateKey( array(
+				$validator_result['L5'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L5_col]['php'],
 									'format'=>'both',
 									'var'=>$L5
 				));
 
-				$L4_valid = $validator->validateKey( array(
+				$validator_result['L4'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L4_col]['php'],
 									'format'=>'both',
 									'var'=>$L4
 				));
 
-				$L3_valid = $validator->validateKey( array(
+				$validator_result['L3'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L3_col]['php'],
 									'format'=>'both',
 									'var'=>$L3
 				));
 
-				$L2_valid = $validator->validateKey( array(
+				$validator_result['L2'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L2_col]['php'],
 									'format'=>'both',
 									'var'=>$L2
 				));
 
-
+				// If a single L1 is sent in, we validate it *before* spinning it into an array,
+				// so we can trap strings that PHP automatically converts to ints ("17")
+				
 				if( !is_array($L1) ){
 
-					$L1_valid = $validator->validateKey( array(
+					$validator_result['L1'] = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L1_col]['php'],
 										'format'=>'both',
 										'var'=>$L1
@@ -6306,7 +6475,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					foreach( $L1 as $key => $val ){
 
-						$L1_valid = $validator->validateKey( array(
+						$validator_result['L1'] = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L1_col]['php'],
 											'format'=>'both',
 											'var'=>$val
@@ -6314,7 +6483,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						// Break the loop if we hit an invalid key
 						
-						if($L1_valid !== true){
+						if( $validator_result['L1'] !== true ){
 
 							break;
 						}
@@ -6334,59 +6503,24 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));			    			    
 			}
 			
-			// If a key fails validation, we throw an exception. This structure has to be outside
-			// the validator try-catch block to prevent it from catching the exceptions we throw
+			// This structure has to be outside the validator try-catch block to prevent it from   
+			// catching the exceptions we throw (which would cause confusing exception chains)
 			
-			if($L5_valid !== true){
+			foreach( $validator_result as $key => $val ){
+			    
+				if($val !== true){
 
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Invalid L5 key",
-					'data'=>$L5_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}				
-			elseif($L4_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>3,
-					'text'=>"Invalid L4 key",
-					'data'=>$L4_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
+					throw new FOX_exception( array(
+						'numeric'=>2,
+						'text'=>"Invalid " . $key . " key",
+						'data'=>$val,
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));			    
+				}			    
+			    
 			}
-			elseif($L3_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>4,
-					'text'=>"Invalid L3 key",
-					'data'=>$L3_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}
-			elseif($L2_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>5,
-					'text'=>"Invalid L2 key",
-					'data'=>$L2_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}			
-			elseif($L1_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>6,
-					'text'=>"Invalid L1 key",
-					'data'=>$L1_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}
+			unset($key, $val);
 			
 			
 		} // ENDOF: if($ctrl['validate'] != false)		
