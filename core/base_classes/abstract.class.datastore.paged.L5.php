@@ -1102,13 +1102,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				foreach( $data as $row ){   
 			
 					try {
-						$row_valid = $validator->isRowSequential($row);
+						$row_valid = $validator->validateMatrixRow($row);
 					}
 					catch (FOX_exception $child) {
 
 						throw new FOX_exception( array(
 							'numeric'=>2,
-							'text'=>"Error in FOX_dataStore_validator::isRowSequential()",
+							'text'=>"Error in FOX_dataStore_validator::validateMatrixRow()",
 							'data'=>array('row'=>$row),
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 							'child'=>$child
@@ -7346,7 +7346,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				
 				foreach( $data as $row ){   
 			
-					$row_valid = $validator->isRowSequential($row);
+					$row_valid = $validator->validateMatrixRow($row);
 					
 					if( $row_valid !== true ){
 					    

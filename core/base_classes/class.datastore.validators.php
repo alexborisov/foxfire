@@ -48,82 +48,31 @@ class FOX_dataStore_validator {
 	}
 	
 	
-	public function validateMatrixRow($row_order, $row) {
-	    	    
-		
-		if( (($this->order - count($row)) + 1) < 0){
-		    
-			return array(	'message'=>"Extra keys in row",
-					'row'=>$row);		    		    
-		}
-		
-		for($level=$row_order; $level <= $this->order; $level++){
-		    
-		   
-			// Trap missing keys
-			// ==================================================
-		    
-			if(!FOX_sUtil::keyExists($this->cols['L' . $level]['db_col'], $row) ){
-
-				return array('message'=>"Missing required key",
-						'row'=>$row, 'key'=>'L' . $level, 'val'=>$row['L' . $level]);
-			}
-						
-		    
-			// Validate the key
-			// ==================================================
-			
-			if($level == $row_order){
-			    		
-				// If we're on the lowest level, validate it as a key	
-			    
-				$check_result = self::validateKey(array(
-									'type'=>$this->cols['L' . $level]['type'],
-									'format'=>'key',
-									'var'=>$row['L' . $level]
-				));				
-				
-			}
-			else {
-			    
-				// Otherwise, validate it as a scalar			    
-				
-				$check_result = self::validateKey(array(
-									'type'=>$this->cols['L' . $level]['type'],
-									'format'=>'scalar',
-									'var'=>$row['L' . $level]
-				));
-			    			
-			}
-			
-			if( $check_result !== true ){
-
-				return array(	'message'=>$check_result,
-						'row'=>$row, 
-						'key'=>'L' . $level, 
-						'val'=>$row['L' . $level]);		    
-			}			
-
-
-		}
-		
-		
-		return true;
-	    
-	}
 	
-	
-	public function isRowSequential($row) {
+	public function validateMatrixRow($row, $ctrl=null) {
 	    
 	    
-		$row_order = ($this->order - count($row)) + 1;
+		$ctrl_default = array(
+			'order'=>$this->order,
+			'allow_array_end_nodes'=>true,
+			'array_end_node_format'=>'normal'
+		);
+
+		$ctrl = wp_parse_args($ctrl, $ctrl_default);	    
+	    
+		
+		$row_order = ($ctrl['order'] - count($row)) + 1;
 		
 		if($row_order < 0){
 		    
-			return array(	'message'=>"Extra keys in row",
-					'row'=>$row);		    		    
+			return array(
+				'numeric'=>1,	
+				'message'=>"Row contains extra keys",
+				'var'=>$row
+			);	    		    
 		}
-					    
+			
+		
 		for($level=$row_order; $level <= $this->order; $level++){
 
 
@@ -131,26 +80,82 @@ class FOX_dataStore_validator {
 			// ==================================================
 
 			if(!FOX_sUtil::keyExists($this->cols['L' . $level]['db_col'], $row) ){
-
-				return array(	'message'=>"Missing required key",
-						'row'=>$row, 'key'=>'L' . $level, 'val'=>$row['L' . $level]);
+				
+				return array(
+					'numeric'=>2,	
+					'message'=>"Row is missing at least one key",
+					'var'=>array('row'=>$row, 'key'=>'L' . $level, 'val'=>$row['L' . $level])
+				);				
 			}
 
 
 			// Validate the key
 			// ==================================================
 
-			// NOTE: we skip "L0" keys, because the L0 key is the data key and can
-			// contain ANY value of ANY data type (NULL, float, object, etc)
+			// NOTE: we skip "L0" keys. The L0 key is the data key, and can contain ANY value
+			// of ANY data type (NULL, float, object, etc). Since every possible input is valid,
+			// there's no point in validating it.
 
 			if($level > 0){		    
 
 				try {
-					$check_result = self::validateKey(array(
-										'type'=>$this->cols['L' . $level]['type'],
-										'format'=>'scalar',
-										'var'=>$row['L' . $level]
-					));
+				    
+					if( ($level == $ctrl['order']) 
+					    && ($ctrl['allow_array_end_nodes'] == true) 
+					    && is_array($row[$this->cols['L' . $level]['db_col']]) ){
+					    
+					    
+						if($ctrl['array_end_node_format'] == 'normal'){
+
+						    
+							// In 'normal' mode, array end nodes are structured as
+							// 
+							//	array( 'K1' => true,
+							//	       'K2' => true )
+							//	       
+							// ==================================================
+						    
+							$check_result = self::validateKey(array(
+												'type'=>$this->cols['L' . $level]['type'],
+												'format'=>'array',
+												'var'=>$row[$this->cols['L' . $level]['db_col']]
+							));
+							
+						}
+						else {
+						    
+							// In 'inverse' mode, array end nodes are structured as
+							// 
+							//	array( 0 => 'K1',
+							//	       1 => 'K2' )
+							//	       
+							// ==================================================						    
+						    
+							foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+							    							    
+								$check_result = self::validateKey(array(
+													'type'=>$this->cols['L' . $level]['type'],
+													'format'=>'scalar',
+													'var'=>$val
+								));
+
+								if($check_result !== true){
+									break;
+								}
+							}
+							unset($key, $val);
+						    
+						}
+						
+					}
+					else {
+					    
+						$check_result = self::validateKey(array(
+											'type'=>$this->cols['L' . $level]['type'],
+											'format'=>'scalar',
+											'var'=>$row[$this->cols['L' . $level]['db_col']]
+						));					    					    
+					}
 
 				}
 				catch (FOX_exception $child) {
@@ -169,8 +174,9 @@ class FOX_dataStore_validator {
 
 				return array(	'message'=>$check_result,
 						'row'=>$row, 
-						'key'=>'L' . $level, 
-						'val'=>$row['L' . $level]);		    
+						'key'=>$this->cols['L' . $level]['db_col'],
+						'var'=>$row[$this->cols['L' . $level]['db_col']]
+				);				    
 			}			
 
 
