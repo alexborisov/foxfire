@@ -48,13 +48,38 @@ class FOX_dataStore_validator {
 	}
 	
 	
+	/**
+	 * Validates a matrix row structure
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+         * @param array $row | matrix row structure to validate
+	 *  
+         * @param array $ctrl | Control parameters
+	 * 
+	 *	=> VAL @param int $order | Order of trie structure
+	 * 
+	 *	=> VAL @param string $end_node_format | End node format 'scalar', 'array', or 'trie'
+	 * 
+	 *	=> VAL @param array $array_ctrl | Control parameters when operating in 'array' mode
+	 *		=> VAL @param string $mode | Array format 'normal' or 'inverse'
+	 *		=> VAL @param string $end_node_format | End node format 'scalar', 'array', or 'trie'
+	 * 
+	 *	=> VAL @param array $trie_ctrl | Control parameters when operating in 'trie' mode
+	 *		=> VAL @param string $mode | Trie format 'data' or 'control'
+	 *		=> VAL @param bool $allow_wildcard | Allow wildcard character to be used
+	 *		=> VAL @param int $clip_order | Order to clip keys at when in 'data' mode
+	 * 
+	 * @return bool/array | Exception on failure, (bool)true on success, (array)data_array on failure.
+	 */	
 	
 	public function validateMatrixRow($row, $ctrl=null) {
 	    
 	    
 		$ctrl_default = array(
 					'order'=>$this->order,
-					'end_node_format'=>'scalar', // scalar, array, trie
+					'end_node_format'=>'scalar', 
 					'array_ctrl'=>array(
 							    'mode'=>'normal'
 					),
@@ -89,10 +114,19 @@ class FOX_dataStore_validator {
 				'var'=>$row
 			);	    		    
 		}
+		elseif($row_order == 0){
+
+			// NOTE: we skip "L0" keys. The L0 key is the data key, and can contain ANY value
+			// of ANY data type (NULL, float, object, etc). Since every possible input is valid,
+			// there's no point in validating it.
+		    
+			return true;
+		}		
+		
 		
 		$check_result = true;
 		
-		for($level=$row_order; $level <= $this->order; $level++){
+		for($level=$row_order; $level <= $ctrl['order']; $level++){
 
 
 			// Trap missing keys
@@ -107,225 +141,210 @@ class FOX_dataStore_validator {
 				);				
 			}
 
-
 			// Validate the key
 			// ==================================================
 
-			// NOTE: we skip "L0" keys. The L0 key is the data key, and can contain ANY value
-			// of ANY data type (NULL, float, object, etc). Since every possible input is valid,
-			// there's no point in validating it.
+			try {
 
-			if($level > 0){		    
+				if( $level == $row_order ) {
 
-				try {
-				    
-					if( $level == $row_order ) {
-					    
-						switch($ctrl['end_node_format']){
-
-						    
-							case "scalar" : {
-
-								$check_result = self::validateKey(array(
-									'type'=>$this->cols['L' . $level]['type'],
-									'format'=>'scalar',
-									'var'=>$row[$this->cols['L' . $level]['db_col']]
-								));
-
-								if( $check_result !== true ){
-
-									return array(	
-											'numeric'=>6,				    
-											'message'=>$check_result,
-											'row'=>$row, 
-											'key'=>$this->cols['L' . $level]['db_col'],
-											'var'=>$row[$this->cols['L' . $level]['db_col']]
-									);				    
-								}
-
-							} break;
-						    
-							case "array" : {
-
-								if( !is_array($row[$this->cols['L' . $level]['db_col']]) ){
-								
-								}
-								
-								if( $ctrl['array_ctrl']['mode'] == 'normal' ){
+					switch($ctrl['end_node_format']){
 
 
-									// In 'normal' mode, array end nodes are structured as
-									// 
-									//	array( 'K1' => true,
-									//	       'K2' => true )
-									//	       
-									// ==================================================
+						case "scalar" : {
 
-									foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+							$check_result = self::validateKey(array(
+								'type'=>$this->cols['L' . $level]['type'],
+								'format'=>'scalar',
+								'var'=>$row[$this->cols['L' . $level]['db_col']]
+							));
 
-										$check_result = self::validateKey(array(
-											'type'=>$this->cols['L' . $level]['type'],
-											'format'=>'scalar',
-											'var'=>$key
-										));
+							if( $check_result !== true ){
 
-										if($check_result !== true){
-											break;
-										}
-
-									}
-									unset($key, $val);
-
-									if( $check_result !== true ){
-
-										return array(	
-												'numeric'=>3,				    
-												'message'=>$check_result,
-												'row'=>$row, 
-												'key'=>$this->cols['L' . $level]['db_col'],
-												'var'=>$row[$this->cols['L' . $level]['db_col']]
-										);				    
-									}								    
-
-								}
-								else {
-
-									// In 'inverse' mode, array end nodes are structured as
-									// 
-									//	array( 0 => 'K1',
-									//	       1 => 'K2' )
-									//	       
-									// ==================================================						    
-
-									foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
-
-										$check_result = self::validateKey(array(
-											'type'=>$this->cols['L' . $level]['type'],
-											'format'=>'scalar',
-											'var'=>$val
-										));
-
-										if($check_result !== true){
-											break;
-										}
-
-									}
-									unset($key, $val);
-
-									if( $check_result !== true ){
-
-										return array(	
-												'numeric'=>4,				    
-												'message'=>$check_result,
-												'row'=>$row, 
-												'key'=>$this->cols['L' . $level]['db_col'],
-												'var'=>$row[$this->cols['L' . $level]['db_col']]
-										);				    
-									}								    
-
-								}
-
-							} break;
-							
-							case "trie" : {	
-
-								$ctrl['trie_ctrl']['order'] = $level;
-
-								$check_result = self::validateTrie(
-												    $row[$this->cols['L' . $level]['db_col']],
-												    $ctrl['trie_ctrl']
-								);
-
-								if( $check_result !== true ){
-
-									return array(	
-											'numeric'=>5,				    
-											'message'=>$check_result,
-											'row'=>$row, 
-											'key'=>$this->cols['L' . $level]['db_col'],
-											'var'=>$row[$this->cols['L' . $level]['db_col']]
-									);				    
-								}
-								
-							} break;
-							
-							default : {
-							    
-								throw new FOX_exception( array(
-									'numeric'=>2,
-									'text'=>"Invalid end_node_format parameter",
-									'data'=>$ctrl['end_node_format'],
-									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-									'child'=>null
-								));								    							    
+								return array(	
+										'numeric'=>6,				    
+										'message'=>$check_result,
+										'row'=>$row, 
+										'key'=>$this->cols['L' . $level]['db_col'],
+										'var'=>$row[$this->cols['L' . $level]['db_col']]
+								);				    
 							}
-							    
-						}												
-						
-					}
-					else {
-					    
-						$check_result = self::validateKey(array(
-											'type'=>$this->cols['L' . $level]['type'],
-											'format'=>'scalar',
+
+						} break;
+
+						case "array" : {
+
+							if( !is_array($row[$this->cols['L' . $level]['db_col']]) ){
+
+							}
+
+							if( $ctrl['array_ctrl']['mode'] == 'normal' ){
+
+
+								// In 'normal' mode, array end nodes are structured as
+								// 
+								//	array( 'K1' => true,
+								//	       'K2' => true )
+								//	       
+								// ==================================================
+
+								foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+
+									$check_result = self::validateKey(array(
+										'type'=>$this->cols['L' . $level]['type'],
+										'format'=>'scalar',
+										'var'=>$key
+									));
+
+									if($check_result !== true){
+										break;
+									}
+
+								}
+								unset($key, $val);
+
+								if( $check_result !== true ){
+
+									return array(	
+											'numeric'=>3,				    
+											'message'=>$check_result,
+											'row'=>$row, 
+											'key'=>$this->cols['L' . $level]['db_col'],
 											'var'=>$row[$this->cols['L' . $level]['db_col']]
-						));	
+									);				    
+								}								    
 
-						if( $check_result !== true ){
+							}
+							else {
 
-							return array(	
-									'numeric'=>7,				    
-									'message'=>$check_result,
-									'row'=>$row, 
-									'order'=>$ctrl['order'],
-									'level'=>$level,
-									'key'=>$this->cols['L' . $level]['db_col'],
-									'var'=>$row[$this->cols['L' . $level]['db_col']]
-							);				    
-						}						
-					}
+								// In 'inverse' mode, array end nodes are structured as
+								// 
+								//	array( 0 => 'K1',
+								//	       1 => 'K2' )
+								//	       
+								// ==================================================						    
+
+								foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+
+									$check_result = self::validateKey(array(
+										'type'=>$this->cols['L' . $level]['type'],
+										'format'=>'scalar',
+										'var'=>$val
+									));
+
+									if($check_result !== true){
+										break;
+									}
+
+								}
+								unset($key, $val);
+
+								if( $check_result !== true ){
+
+									return array(	
+											'numeric'=>4,				    
+											'message'=>$check_result,
+											'row'=>$row, 
+											'key'=>$this->cols['L' . $level]['db_col'],
+											'var'=>$row[$this->cols['L' . $level]['db_col']]
+									);				    
+								}								    
+
+							}
+
+						} break;
+
+						case "trie" : {	
+
+							$ctrl['trie_ctrl']['order'] = $level;
+
+							$check_result = self::validateTrie(
+											    $row[$this->cols['L' . $level]['db_col']],
+											    $ctrl['trie_ctrl']
+							);
+
+							if( $check_result !== true ){
+
+								return array(	
+										'numeric'=>5,				    
+										'message'=>$check_result,
+										'row'=>$row, 
+										'key'=>$this->cols['L' . $level]['db_col'],
+										'var'=>$row[$this->cols['L' . $level]['db_col']]
+								);				    
+							}
+
+						} break;
+
+						default : {
+
+							throw new FOX_exception( array(
+								'numeric'=>2,
+								'text'=>"Invalid end_node_format parameter",
+								'data'=>$ctrl['end_node_format'],
+								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+								'child'=>null
+							));								    							    
+						}
+
+					}												
 
 				}
-				catch (FOX_exception $child) {
+				else {
 
-					throw new FOX_exception( array(
-						'numeric'=>1,
-						'text'=>"Error while validating structure inside row",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));		    
-				}					
+					$check_result = self::validateKey(array(
+										'type'=>$this->cols['L' . $level]['type'],
+										'format'=>'scalar',
+										'var'=>$row[$this->cols['L' . $level]['db_col']]
+					));	
+
+					if( $check_result !== true ){
+
+						return array(	
+								'numeric'=>7,				    
+								'message'=>$check_result,
+								'row'=>$row, 
+								'order'=>$ctrl['order'],
+								'level'=>$level,
+								'key'=>$this->cols['L' . $level]['db_col'],
+								'var'=>$row[$this->cols['L' . $level]['db_col']]
+						);				    
+					}						
+				}
 
 			}
+			catch (FOX_exception $child) {
 
-			
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Error while validating structure inside row",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}					
 
 
-		}
+		} // ENDOF: for($level=$row_order; $level <= $ctrl['order']; $level++){
 
+		
 		return true;
 	    
 	}
 	
 	
 	/**
-	 * Validates a L5 trie structure 
+	 * Validates a trie structure 
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
-         * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
-	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
-	 *	    => ARR @param array $L3s | array of L3's in the form "L3_id"=>"L2s"
-	 *		=> ARR @param array $L2s | array of L2's in the form "L2_id"=>"L1s"
-	 *		    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
-	 *			=> KEY @param int/string | L1 id
-	 *			    => VAL @param bool/int/float/string/array/obj $val | key value
+         * @param array $data | trie structure to validate
 	 *  
          * @param array $ctrl | Control parameters
-	 *	=> VAL @param int $order | Order of trie
+	 *	=> VAL @param int $order | Order of trie structure
 	 *	=> VAL @param string $mode | Operation mode 'control' | 'data'
-	 *	=> VAL @param bool $allow_wildcard | Allow the wildcard character to be used	 
+	 *	=> VAL @param bool $allow_wildcard | Allow the wildcard character to be used
+	 *	=> VAL @param int $clip_order | Order to clip keys at when in 'data' mode	 
 	 * 
 	 * @return bool/array | Exception on failure, (bool)true on success, (array)data_array on failure.
 	 */
@@ -368,13 +387,10 @@ class FOX_dataStore_validator {
 		try {
 		    
 			if( $ctrl['order'] > 0 ){
-			    
-			    
+			    			    
 				if( is_array($data) && !empty($data) ){
-						
-				    
+										    
 					foreach( $data as $parent_id => $children ){
-
 
 						$check_result = self::validateKey(array(
 											'type'=>$this->cols['L' . $ctrl['order']]['type'],
