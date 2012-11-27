@@ -114,6 +114,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$this->L1_col = $columns[4];	
 		$this->L0_col = $columns[5];		
 		
+		$this->order = 5;
+			
 		if( count($args['hash_columns']) > 0 ){
 		    
 			$this->hashtable = new FOX_hashTable();
@@ -1174,7 +1176,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				$validator = new FOX_dataStore_validator($struct);
 				
 				$val_ctrl = array(
-						    'order'=>5
+					'order'=>$this->order,
+					'mode'=>'control'				    
 				);
 				
 				$tree_valid = $validator->validateTrie($data, $val_ctrl);
@@ -2870,7 +2873,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				$valid_ctrl = array(
 					'order'=>$this->order,
 					'mode'=>'data',
-					'allow_wildcard'=>false,
 					'clip_order'=>0		    
 				);
 		
@@ -4109,7 +4111,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				$valid_ctrl = array(
 					'order'=>$this->order,
 					'mode'=>'data',
-					'allow_wildcard'=>false,
 					'clip_order'=>0		    
 				);
 		
@@ -4592,13 +4593,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			$validator = new FOX_dataStore_validator($struct);
 			
-			$tree_valid = $validator->validateTrie(
-								$data,
-								array(
-									'mode'=>'data',
-									'clip_order'=>2
-								)
+			$val_ctrl = array(
+				'order'=>$this->order,
+				'mode'=>'data',
+				'clip_order'=>2
 			);
+
+			$tree_valid = $validator->validateTrie($data, $val_ctrl);
 			
 			if($tree_valid !== true){
 			    
@@ -5068,13 +5069,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			$validator = new FOX_dataStore_validator($struct);
 			
-			$tree_valid = $validator->validateTrie(
-								$data,
-								array(
-									'mode'=>'data',
-									'clip_order'=>3
-								)
+			$val_ctrl = array(
+				'order'=>$this->order,
+				'mode'=>'data',
+				'clip_order'=>3
 			);
+
+			$tree_valid = $validator->validateTrie($data, $val_ctrl);
 			
 			if($tree_valid !== true){
 			    
@@ -5520,13 +5521,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    		    
 			$validator = new FOX_dataStore_validator($struct);
 			
-			$tree_valid = $validator->validateTrie(
-								$data,
-								array(
-									'mode'=>'data',
-									'clip_order'=>4
-								)
+			$val_ctrl = array(
+				'order'=>$this->order,
+				'mode'=>'data',
+				'clip_order'=>4
 			);
+
+			$tree_valid = $validator->validateTrie($data, $val_ctrl);
 			
 			if($tree_valid !== true){
 			    
@@ -5947,13 +5948,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			$validator = new FOX_dataStore_validator($struct);
 		    
-			$tree_valid = $validator->validateTrie(
-								$data,
-								array(
-									'mode'=>'data',
-									'clip_order'=>5
-								)
+			$val_ctrl = array(
+				'order'=>$this->order,
+				'mode'=>'data',
+				'clip_order'=>5
 			);
+
+			$tree_valid = $validator->validateTrie($data, $val_ctrl);
 			
 			if($tree_valid !== true){
 			    

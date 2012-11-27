@@ -89,7 +89,8 @@ class FOX_dataStore_validator {
 				'var'=>$row
 			);	    		    
 		}
-			
+		
+		$check_result = true;
 		
 		for($level=$row_order; $level <= $this->order; $level++){
 
@@ -219,6 +220,26 @@ class FOX_dataStore_validator {
 										'var'=>$row[$this->cols['L' . $level]['db_col']]
 								);				    
 							}							
+						}
+						elseif( $ctrl['end_node_format'] == 'scalar'){
+						    
+						    
+							$check_result = self::validateKey(array(
+								'type'=>$this->cols['L' . $level]['type'],
+								'format'=>'scalar',
+								'var'=>$row[$this->cols['L' . $level]['db_col']]
+							));
+
+							if( $check_result !== true ){
+
+								return array(	
+										'numeric'=>6,				    
+										'message'=>$check_result,
+										'row'=>$row, 
+										'key'=>$this->cols['L' . $level]['db_col'],
+										'var'=>$row[$this->cols['L' . $level]['db_col']]
+								);				    
+							}							
 						}						
 						
 					}
@@ -233,7 +254,7 @@ class FOX_dataStore_validator {
 						if( $check_result !== true ){
 
 							return array(	
-									'numeric'=>6,				    
+									'numeric'=>7,				    
 									'message'=>$check_result,
 									'row'=>$row, 
 									'order'=>$ctrl['order'],
