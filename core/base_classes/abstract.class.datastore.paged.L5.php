@@ -1098,7 +1098,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    			    
 
 				$validator = new FOX_dataStore_validator($struct);
-
+				
 				foreach( $data as $row ){   
 			
 					try {
@@ -1118,7 +1118,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					if( $row_valid !== true ){
 					    
 						throw new FOX_exception( array(
-							'numeric'=>2,
+							'numeric'=>3,
 							'text'=>"Invalid row in data array",
 							'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -2777,13 +2777,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 				
 		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
-		    
-			    
+		    			    
 				$validator = new FOX_dataStore_validator($struct);
 				
-				foreach( $data as $id => $row ){   
-			
-					$row_valid = $validator->validateL1Row($row);
+				$row_ctrl = array(				    
+						    'end_node_format'=>'scalar'			    
+				);
+				
+				foreach( $data as $id => $row ){   			
+				    
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 					
 					if( $row_valid !== true ){
 					    

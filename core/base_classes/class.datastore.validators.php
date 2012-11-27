@@ -61,7 +61,7 @@ class FOX_dataStore_validator {
 					'trie_ctrl'=>array(
 							    'mode'=>'control',
 							    'allow_wildcard'=>false,
-							    'clip_order'=>false	
+							    'clip_order'=>1	
 					)		    
 		);
 
@@ -118,52 +118,99 @@ class FOX_dataStore_validator {
 
 				try {
 				    
-					if( ($level == $ctrl['order']) 
-					    && (($ctrl['end_node_format'] == 'array') || ($ctrl['end_node_format'] == 'scalarArray'))
-					    && is_array($row[$this->cols['L' . $level]['db_col']]) ){
+					if( $level == $ctrl['order'] ) {
 					    
 					    
-						if( $ctrl['array_ctrl']['mode'] == 'normal' ){
+						if( (($ctrl['end_node_format'] == 'array') || ($ctrl['end_node_format'] == 'scalarArray'))
+						    && is_array($row[$this->cols['L' . $level]['db_col']]) ){
 
+
+							    if( $ctrl['array_ctrl']['mode'] == 'normal' ){
+
+
+								    // In 'normal' mode, array end nodes are structured as
+								    // 
+								    //	array( 'K1' => true,
+								    //	       'K2' => true )
+								    //	       
+								    // ==================================================
+
+								    $check_result = self::validateKey(array(
+									    'type'=>$this->cols['L' . $level]['type'],
+									    'format'=>'array',
+									    'var'=>$row[$this->cols['L' . $level]['db_col']]
+								    ));
+								    
+								    if( $check_result !== true ){
+
+									    return array(	
+											    'numeric'=>3,				    
+											    'message'=>$check_result,
+											    'row'=>$row, 
+											    'key'=>$this->cols['L' . $level]['db_col'],
+											    'var'=>$row[$this->cols['L' . $level]['db_col']]
+									    );				    
+								    }								    
+
+							    }
+							    else {
+
+								    // In 'inverse' mode, array end nodes are structured as
+								    // 
+								    //	array( 0 => 'K1',
+								    //	       1 => 'K2' )
+								    //	       
+								    // ==================================================						    
+
+								    foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+
+									    $check_result = self::validateKey(array(
+										    'type'=>$this->cols['L' . $level]['type'],
+										    'format'=>'scalar',
+										    'var'=>$val
+									    ));
+
+									    if($check_result !== true){
+										    break;
+									    }
+									    
+								    }
+								    unset($key, $val);
+								    
+								    if( $check_result !== true ){
+
+									    return array(	
+											    'numeric'=>4,				    
+											    'message'=>$check_result,
+											    'row'=>$row, 
+											    'key'=>$this->cols['L' . $level]['db_col'],
+											    'var'=>$row[$this->cols['L' . $level]['db_col']]
+									    );				    
+								    }								    
+
+							    }
+
+						}
+						elseif( $ctrl['end_node_format'] == 'trie'){
 						    
-							// In 'normal' mode, array end nodes are structured as
-							// 
-							//	array( 'K1' => true,
-							//	       'K2' => true )
-							//	       
-							// ==================================================
-						    
-							$check_result = self::validateKey(array(
-												'type'=>$this->cols['L' . $level]['type'],
-												'format'=>'array',
-												'var'=>$row[$this->cols['L' . $level]['db_col']]
-							));
+							$ctrl['trie_ctrl']['order'] = $level;
 							
-						}
-						else {
-						    
-							// In 'inverse' mode, array end nodes are structured as
-							// 
-							//	array( 0 => 'K1',
-							//	       1 => 'K2' )
-							//	       
-							// ==================================================						    
-						    
-							foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
-							    							    
-								$check_result = self::validateKey(array(
-													'type'=>$this->cols['L' . $level]['type'],
-													'format'=>'scalar',
-													'var'=>$val
-								));
+							$check_result = self::validateTrie(
+											    $row[$this->cols['L' . $level]['db_col']],
+											    $ctrl['trie_ctrl']
+							);
 
-								if($check_result !== true){
-									break;
-								}
-							}
-							unset($key, $val);
-						    
-						}
+							if( $check_result !== true ){
+
+								return array(	
+										'numeric'=>5,				    
+										'message'=>$check_result,
+										'row'=>$row, 
+										'key'=>$this->cols['L' . $level]['db_col'],
+										'var'=>$row[$this->cols['L' . $level]['db_col']]
+								);				    
+							}							
+						}						
 						
 					}
 					else {
@@ -172,7 +219,18 @@ class FOX_dataStore_validator {
 											'type'=>$this->cols['L' . $level]['type'],
 											'format'=>'scalar',
 											'var'=>$row[$this->cols['L' . $level]['db_col']]
-						));					    					    
+						));	
+
+						if( $check_result !== true ){
+
+							return array(	
+									'numeric'=>6,				    
+									'message'=>$check_result,
+									'row'=>$row, 
+									'key'=>$this->cols['L' . $level]['db_col'],
+									'var'=>$row[$this->cols['L' . $level]['db_col']]
+							);				    
+						}						
 					}
 
 				}
@@ -180,7 +238,7 @@ class FOX_dataStore_validator {
 
 					throw new FOX_exception( array(
 						'numeric'=>1,
-						'text'=>"Error in self::self::validateKey()",
+						'text'=>"Error while validating structure inside row",
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>$child
 					));		    
@@ -188,14 +246,7 @@ class FOX_dataStore_validator {
 
 			}
 
-			if( $check_result !== true ){
-
-				return array(	'message'=>$check_result,
-						'row'=>$row, 
-						'key'=>$this->cols['L' . $level]['db_col'],
-						'var'=>$row[$this->cols['L' . $level]['db_col']]
-				);				    
-			}			
+			
 
 
 		}
@@ -1140,7 +1191,7 @@ class FOX_dataStore_validator {
 			));			
 		}	
 		
-	    	if( ($ctrl['mode'] == 'data') && !$ctrl['clip_order'] ){
+	    	if( ($ctrl['mode'] == 'data') && !is_int($ctrl['clip_order']) ){
 		    
 			throw new FOX_exception( array(
 				'numeric'=>2,
@@ -1170,7 +1221,7 @@ class FOX_dataStore_validator {
 
 						if( $check_result !== true ){
 
-							return array(	
+							return array(	'numeric'=>1,
 									'message'=>$check_result,
 									'key'=>'L' . $ctrl['order'], 
 									'val'=>$parent_id
@@ -1199,6 +1250,7 @@ class FOX_dataStore_validator {
 							}
 
 							return array(	
+									'numeric'=>2,
 									'message'=>$child_result['message'],
 									'key'=>'L' . $ctrl['order'], 
 									'val'=>$parent_id,
@@ -1219,7 +1271,7 @@ class FOX_dataStore_validator {
 							$message =  "Each walk in a control trie must terminate with either (bool)true, ";
 							$message .= "or an empty array, or must extend to the L1 key.";						
 
-							return array(	
+							return array(	'numeric'=>3,
 									'message'=>$message,
 									'key'=>'L' . $ctrl['order'], 
 									'val'=>$parent_id,
@@ -1233,14 +1285,14 @@ class FOX_dataStore_validator {
 					elseif( $ctrl['mode'] == 'data' ){
 
 
-						if( ($ctrl['order'] == 0) || ($ctrl['order'] == ($ctrl['clip_order'] - 1) ) ){
+						if( $ctrl['order'] == ($ctrl['clip_order'] - 1) ){
 
 							if( !is_array($data) && (!is_bool($data) || ($data === false)) ){
 
 								$message =  "Each walk in a data trie, that terminates at the clip_order, must ";
 								$message .= "terminate with an empty array.";						
 
-								return array(	
+								return array(	'numeric'=>4,
 										'message'=>$message,
 										'key'=>'L' . $ctrl['order'], 
 										'val'=>$parent_id,
@@ -1255,7 +1307,7 @@ class FOX_dataStore_validator {
 							$message =  "Each walk in a data trie must terminate either at the clip_order ";
 							$message .= "or at the L1 key.";						
 
-							return array(	
+							return array(	'numeric'=>5,
 									'message'=>$message,
 									'key'=>'L' . $ctrl['order'], 
 									'val'=>$parent_id,

@@ -2381,7 +2381,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		}
 		catch (FOX_exception $child) {
 
-			$this->fail($child->dumpString(1));	
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));	
 		}
 		
 		$this->assertEquals(true, $valid);
