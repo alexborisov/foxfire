@@ -2243,7 +2243,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				
 			foreach( $data as $row ){
 
-				$row_valid = $validator->validateL3Row($row);
+				$row_ctrl = array(				    
+						    'end_node_format'=>'trie',
+						    'trie_ctrl'=>array(
+							    'mode'=>'data',
+							    'allow_wildcard'=>false,
+							    'clip_order'=>1	
+						    )
+				);
+				
+				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
 				if( $row_valid !== true ){
 
@@ -2436,7 +2445,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				
 			foreach( $data as $row ){
 
-				$row_valid = $validator->validateL4Row($row);
+				$row_ctrl = array(				    
+						    'end_node_format'=>'trie',
+						    'trie_ctrl'=>array(
+							    'mode'=>'data',
+							    'allow_wildcard'=>false,
+							    'clip_order'=>1	
+						    )
+				);
+				
+				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
 				if( $row_valid !== true ){
 
@@ -2631,7 +2649,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				
 			foreach( $data as $row ){
 
-				$row_valid = $validator->validateL5Row($row);
+				$row_ctrl = array(				    
+						    'end_node_format'=>'trie',
+						    'trie_ctrl'=>array(
+							    'mode'=>'data',
+							    'allow_wildcard'=>false,
+							    'clip_order'=>1	
+						    )
+				);
+				
+				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
 				if( $row_valid !== true ){
 
@@ -2792,7 +2819,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				$validator = new FOX_dataStore_validator($struct);
 				
 				$row_ctrl = array(				    
-						    'end_node_format'=>'scalar',
+						    'end_node_format'=>'trie',
 						    'trie_ctrl'=>array(
 							    'mode'=>'data',
 							    'allow_wildcard'=>false,
@@ -2838,8 +2865,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new FOX_dataStore_validator($struct);			
-				$tree_valid = $validator->validateL5Trie($data);
+				$validator = new FOX_dataStore_validator($struct);	
+				
+				$valid_ctrl = array(
+					'order'=>$this->order,
+					'mode'=>'data',
+					'allow_wildcard'=>false,
+					'clip_order'=>0		    
+				);
+		
+				$tree_valid = $validator->validateTrie($data, $valid_ctrl);
 
 				if($tree_valid !== true){
 
@@ -3252,10 +3287,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	    
 			$struct = $this->_struct();		    
 			$validator = new FOX_dataStore_validator($struct);
+			
+			$row_ctrl = array(				    
+					    'end_node_format'=>'array',
+					    'array_ctrl'=>array(
+								'mode'=>'normal'
+					    )
+			);			
 				
 			foreach( $data as $row ){
 
-				$row_valid = $validator->validateL2Row($row);
+				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
 				if( $row_valid !== true ){
 
@@ -3446,10 +3488,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	    
 			$struct = $this->_struct();		    
 			$validator = new FOX_dataStore_validator($struct);
+			
+			$row_ctrl = array(				    
+					    'end_node_format'=>'array',
+					    'array_ctrl'=>array(
+								'mode'=>'normal'
+					    )
+			);			
 				
 			foreach( $data as $row ){
 
-				$row_valid = $validator->validateL3Row($row);
+				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
 				if( $row_valid !== true ){
 
@@ -3639,10 +3688,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	    
 			$struct = $this->_struct();		    
 			$validator = new FOX_dataStore_validator($struct);
+			
+			$row_ctrl = array(				    
+					    'end_node_format'=>'array',
+					    'array_ctrl'=>array(
+								'mode'=>'normal'
+					    )
+			);			
 				
 			foreach( $data as $row ){
 
-				$row_valid = $validator->validateL4Row($row);
+				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
 				if( $row_valid !== true ){
 
@@ -3834,10 +3890,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	    
 			$struct = $this->_struct();		    
 			$validator = new FOX_dataStore_validator($struct);
+			
+			$row_ctrl = array(				    
+					    'end_node_format'=>'array',
+					    'array_ctrl'=>array(
+								'mode'=>'normal'
+					    )
+			);			
 				
 			foreach( $data as $row ){
 
-				$row_valid = $validator->validateL5Row($row);
+				$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 
 				if( $row_valid !== true ){
 
@@ -3997,9 +4060,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				$validator = new FOX_dataStore_validator($struct);
 				
+				$row_ctrl = array(				    
+						    'end_node_format'=>'array',
+						    'array_ctrl'=>array(
+									'mode'=>'normal'
+						    )
+				);				
+				
 				foreach( $data as $row ){   
 			
-					$row_valid = $validator->validateL1Row($row);
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 					
 					if( $row_valid !== true ){
 					    
@@ -4033,8 +4103,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new FOX_dataStore_validator($struct);			
-				$tree_valid = $validator->validateL5Trie($data);
+				$validator = new FOX_dataStore_validator($struct);
+				
+				
+				$valid_ctrl = array(
+					'order'=>$this->order,
+					'mode'=>'data',
+					'allow_wildcard'=>false,
+					'clip_order'=>0		    
+				);
+		
+				$tree_valid = $validator->validateTrie($data, $valid_ctrl);
 
 				if($tree_valid !== true){
 
@@ -7368,9 +7447,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				$validator = new FOX_dataStore_validator($struct);
 				
+				$row_ctrl = array(				    
+						    'end_node_format'=>'scalar'
+				);				
+				
 				foreach( $data as $row ){   
 			
-					$row_valid = $validator->validateMatrixRow($row);
+					$row_valid = $validator->validateMatrixRow($row, $row_ctrl);
 					
 					if( $row_valid !== true ){
 					    
