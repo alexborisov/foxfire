@@ -196,25 +196,25 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 				$validator_result['L5'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L5
 				));							
 
 				$validator_result['L4'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L4
 				));	
 
 				$validator_result['L3'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L3_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L3
 				));	
 
 				$validator_result['L2'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L2_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L2
 				));	
 				
@@ -421,19 +421,19 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 				$validator_result['L5'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L5
 				));	
 
 				$validator_result['L4'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L4
 				));	
 
 				$validator_result['L3'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L3_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L3
 				));	
 
@@ -445,7 +445,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$validator_result['L2'] = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L2_col]['php'],
-										'format'=>'both',
+										'format'=>'scalar',
 										'var'=>$L2s
 					));					
 				}
@@ -455,7 +455,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						$validator_result['L2'] = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L2_col]['php'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$val
 						));	
 
@@ -637,13 +637,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 				$validator_result['L5'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L5
 				));	
 
 				$validator_result['L4'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L4
 				));		
 
@@ -655,7 +655,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$validator_result['L3'] = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L3_col]['php'],
-										'format'=>'both',
+										'format'=>'scalar',
 										'var'=>$L3s
 					));					
 				}
@@ -665,7 +665,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						$validator_result['L3'] = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L3_col]['php'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$val
 						));	
 
@@ -845,7 +845,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 				$validator_result['L5'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L5
 				));			
 
@@ -856,7 +856,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$validator_result['L4'] = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L4_col]['php'],
-										'format'=>'both',
+										'format'=>'scalar',
 										'var'=>$L4s
 					));					
 				}
@@ -866,7 +866,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						$validator_result['L4'] = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L4_col]['php'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$val
 						));	
 
@@ -1045,7 +1045,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$is_valid = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L5_col]['php'],
-										'format'=>'both',
+										'format'=>'scalar',
 										'var'=>$L5s
 					));					
 				}
@@ -1055,7 +1055,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						$is_valid = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L5_col]['php'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$val
 						));	
 
@@ -6856,25 +6856,25 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 				$validator_result['L5'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L5
 				));
 
 				$validator_result['L4'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L4
 				));
 
 				$validator_result['L3'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L3_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L3
 				));
 
 				$validator_result['L2'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L2_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L2
 				));
 
@@ -6885,7 +6885,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$validator_result['L1'] = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L1_col]['php'],
-										'format'=>'both',
+										'format'=>'scalar',
 										'var'=>$L1s
 					));					
 				}
@@ -6895,7 +6895,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						$validator_result['L1'] = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L1_col]['php'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$val
 						));	
 
@@ -7167,19 +7167,19 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 				$validator_result['L5'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L5
 				));	
 
 				$validator_result['L4'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L4
 				));	
 
 				$validator_result['L3'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L3_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L3
 				));	
 
@@ -7191,7 +7191,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$validator_result['L2'] = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L2_col]['php'],
-										'format'=>'both',
+										'format'=>'scalar',
 										'var'=>$L2s
 					));					
 				}
@@ -7201,7 +7201,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						$validator_result['L2'] = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L2_col]['php'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$val
 						));	
 
@@ -7461,13 +7461,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 				$validator_result['L5'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L5
 				));	
 
 				$validator_result['L4'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L4
 				));		
 
@@ -7479,7 +7479,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$validator_result['L3'] = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L3_col]['php'],
-										'format'=>'both',
+										'format'=>'scalar',
 										'var'=>$L3s
 					));					
 				}
@@ -7489,7 +7489,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						$validator_result['L3'] = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L3_col]['php'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$val
 						));	
 
@@ -7746,7 +7746,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 				$validator_result['L5'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'both',
+									'format'=>'scalar',
 									'var'=>$L5
 				));			
 
@@ -7757,7 +7757,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$validator_result['L4'] = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L4_col]['php'],
-										'format'=>'both',
+										'format'=>'scalar',
 										'var'=>$L4s
 					));					
 				}
@@ -7767,7 +7767,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						$validator_result['L4'] = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L4_col]['php'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$val
 						));	
 
@@ -8021,7 +8021,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					$is_valid = $validator->validateKey( array(
 										'type'=>$struct['columns'][$this->L5_col]['php'],
-										'format'=>'both',
+										'format'=>'scalar',
 										'var'=>$L5s
 					));					
 				}
@@ -8031,7 +8031,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 						$is_valid = $validator->validateKey( array(
 											'type'=>$struct['columns'][$this->L5_col]['php'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$val
 						));	
 

@@ -378,7 +378,7 @@ class FOX_dataStore_validator {
 
 						$check_result = self::validateKey(array(
 											'type'=>$this->cols['L' . $ctrl['order']]['type'],
-											'format'=>'both',
+											'format'=>'scalar',
 											'var'=>$parent_id
 						));				
 
@@ -538,12 +538,12 @@ class FOX_dataStore_validator {
 		}
 		
 		if( empty($args['format'])  
-		    || (($args['format'] != 'scalar') && ($args['format'] != 'array') && ($args['format'] != 'both')) 
+		    || (($args['format'] != 'scalar') && ($args['format'] != 'array') ) 
 		){
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Format must be either 'scalar', 'array', or 'both'",
+				'text'=>"Format must be either 'scalar' or 'array'",
 				'data'=>$args,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
@@ -621,48 +621,7 @@ class FOX_dataStore_validator {
 					}				    				    
 				    
 				} break;
-			    
-				case "both" : {
-				    				    
-					if( is_array($args['var']) ){
-					    
-						foreach( $args['var'] as $key => $val){
-
-
-							if( !is_int($val) || empty($val) ){
-
-								$message_str =  "Each key in the array must be an int ";	
-								$message_str .= "(not just a string that converts to an int)";	
-						
-								$result = array(
-									'numeric'=>5,									    
-									'message'=>$message_str,
-									'var'=>$args['var'],
-									'faulting_key'=>$key							    
-								);
-
-								break;
-							}					    
-						}
-						unset($key, $val);					    
-					}
-					elseif( !is_int($args['var']) || empty($args['var']) ){
-					    
-						$message_str =  "Must be a scalar int, or an array where each key is ";	
-						$message_str .= "an int (not just a string that converts to an int)";	
-								
-						$result = array(	
-						    	'numeric'=>6,	
-							'message'=>$message_str,
-							'var'=>$args['var']							    
-						);	
-						
-					}					
-					
-				    
-				} break;				
-				
-			
+			    								
 			}
 									
 			
@@ -677,7 +636,7 @@ class FOX_dataStore_validator {
 					if( !is_string($args['var']) || empty($args['var']) ){
 					    
 						$result = array(
-						    	'numeric'=>7,	
+						    	'numeric'=>5,	
 							'message'=>"Must be a non-null string.",
 							'var'=>$args['var']
 						);					    					    
@@ -688,7 +647,7 @@ class FOX_dataStore_validator {
 						$message_str .= "used as an array key. For example, (string)'7'. ";
 						
 						$result = array(
-						    	'numeric'=>8,	
+						    	'numeric'=>6,	
 							'message'=>$message_str,
 							'var'=>$args['var']
 						);					    					    
@@ -702,7 +661,7 @@ class FOX_dataStore_validator {
 					if( !is_array($args['var']) ){
 					    
 						$result = array(
-						    	'numeric'=>9,	
+						    	'numeric'=>7,	
 							'message'=>"Must be an array, where each key is a string.",
 							'var'=>$args['var']						    
 						);
@@ -716,7 +675,7 @@ class FOX_dataStore_validator {
 							if( !is_string($val) || empty($val) ){
 
 								$result = array(
-								    	'numeric'=>10,	
+								    	'numeric'=>8,	
 									'message'=>"Each key in the array must be a string.",
 									'var'=>$args['var'],
 									'faulting_key'=>$key							    
@@ -730,7 +689,7 @@ class FOX_dataStore_validator {
 								$message_str .= "used as an array key. For example, (string)'7'. ";
 
 								$result = array(
-									'numeric'=>11,	
+									'numeric'=>9,	
 									'message'=>$message_str,
 									'var'=>$args['var'],
 									'faulting_key'=>$key								    
@@ -741,66 +700,7 @@ class FOX_dataStore_validator {
 					}				    				    
 				    
 				} break;
-			    
-				case "both" : {
-				    				    
-					if( is_array($args['var']) ){
-					    
-						foreach( $args['var'] as $key => $val){
 
-
-							if( !is_string($val) || empty($val) ){
-
-								$result = array(
-									'numeric'=>12,	
-									'message'=>"Each key in the array must be a string.",
-									'var'=>$args['var'],
-									'faulting_key'=>$key							    
-								);
-
-								break;
-							}
-							elseif( is_numeric($val) ){	
-					    
-								$message_str =  "Cannot be a string that PHP will auto-convert to an int when ";	
-								$message_str .= "used as an array key. For example, (string)'7'. ";
-
-								$result = array(
-									'numeric'=>13,	
-									'message'=>$message_str,
-									'var'=>$args['var'],
-									'faulting_key'=>$key								    
-								);					    					    
-							}
-						}
-						unset($key, $val);
-						
-					}
-					elseif( !is_string($args['var']) || empty($args['var']) ){
-					    
-						$result = array(	
-						    	'numeric'=>14,	
-							'message'=>"Must be a non-null string, or an array where each key is a string.",
-							'var'=>$args['var']							    
-						);	
-						
-					}
-					elseif( is_numeric($args['var']) ){
-
-						$message_str =  "Cannot be a string that PHP will auto-convert to an int when ";	
-						$message_str .= "used as an array key. For example, (string)'7'. ";
-
-						$result = array(
-							'numeric'=>15,	
-							'message'=>$message_str,
-							'var'=>$args['var']							    
-						);					    					    
-					}					
-					
-				    
-				} break;
-								
-			
 			}
 			
 		}	
