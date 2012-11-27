@@ -386,71 +386,98 @@ class FOX_dataStore_validator {
 	    		
 		try {
 		    
-			if( $ctrl['order'] > 0 ){
+			if($ctrl['order'] == 0){
+			    
+				// We're at L0 in a walk
+				return true;
+			}
+
 			    			    
-				if( is_array($data) && !empty($data) ){
-										    
-					foreach( $data as $parent_id => $children ){
+			if( is_array($data) && !empty($data) ){
 
-						$check_result = self::validateKey(array(
-											'type'=>$this->cols['L' . $ctrl['order']]['type'],
-											'format'=>'scalar',
-											'var'=>$parent_id
-						));				
+			    
+				foreach( $data as $parent_id => $children ){
 
-						if( $check_result !== true ){
+					$check_result = self::validateKey(array(
+										'type'=>$this->cols['L' . $ctrl['order']]['type'],
+										'format'=>'scalar',
+										'var'=>$parent_id
+					));				
 
-							return array(	'numeric'=>1,
-									'message'=>$check_result,
-									'key'=>'L' . $ctrl['order'], 
-									'val'=>$parent_id
-							);			    
+					if( $check_result !== true ){
+
+						return array(	'numeric'=>1,
+								'message'=>$check_result,
+								'key'=>'L' . $ctrl['order'], 
+								'val'=>$parent_id
+						);			    
+					}
+
+					$child_result = self::validateTrie(
+									    $children, 
+									    array(
+										    'order'=>$ctrl['order'] - 1,
+										    'mode'=>$ctrl['mode'],
+										    'allow_wildcard'=>$ctrl['allow_wildcard'],
+										    'clip_order'=>$ctrl['clip_order'],
+									    )
+					);
+
+					if( $child_result !== true ){
+
+						if( FOX_sUtil::keyExists('trace', $child_result) ){
+
+							$trace = array_merge($child_result['trace'], array( 'L' . $ctrl['order'] => $parent_id) );
+						}
+						else {
+
+						    $trace = array( 'L' . $ctrl['order'] => $parent_id);
 						}
 
-						$child_result = self::validateTrie(
-										    $children, 
-										    array(
-											    'order'=>$ctrl['order'] - 1,
-											    'mode'=>$ctrl['mode'],
-											    'allow_wildcard'=>$ctrl['allow_wildcard'],
-											    'clip_order'=>$ctrl['clip_order'],
-										    )
-						);
+						return array(	
+								'numeric'=>2,
+								'message'=>$child_result['message'],
+								'key'=>'L' . $ctrl['order'], 
+								'val'=>$parent_id,
+								'trace'=>$trace
+						);			    
+					}					
 
-						if( $child_result !== true ){
-
-							if( FOX_sUtil::keyExists('trace', $child_result) ){
-
-								$trace = array_merge($child_result['trace'], array( 'L' . $ctrl['order'] => $parent_id) );
-							}
-							else {
-
-							    $trace = array( 'L' . $ctrl['order'] => $parent_id);
-							}
-
-							return array(	
-									'numeric'=>2,
-									'message'=>$child_result['message'],
-									'key'=>'L' . $ctrl['order'], 
-									'val'=>$parent_id,
-									'trace'=>$trace
-							);			    
-						}					
-
-					}
-					unset($parent_id, $children);
-				
 				}
-				else {
-				    				    
-					if( $ctrl['mode'] == 'control' ){
+				unset($parent_id, $children);
+
+			}
+			else {
+
+				if( $ctrl['mode'] == 'control' ){
+
+					if( !is_array($data) && (!is_bool($data) || ($data === false)) ){
+
+						$message =  "Each walk in a control trie must terminate with either (bool)true, ";
+						$message .= "or an empty array, or must extend to the L1 key.";						
+
+						return array(	'numeric'=>3,
+								'message'=>$message,
+								'key'=>'L' . $ctrl['order'], 
+								'val'=>$parent_id,
+						);					    
+					}
+					else {					
+						return true;
+					}
+
+				}
+				elseif( $ctrl['mode'] == 'data' ){
+
+
+					if( $ctrl['order'] == ($ctrl['clip_order'] - 1) ){
 
 						if( !is_array($data) && (!is_bool($data) || ($data === false)) ){
 
-							$message =  "Each walk in a control trie must terminate with either (bool)true, ";
-							$message .= "or an empty array, or must extend to the L1 key.";						
+							$message =  "Each walk in a data trie, that terminates at the clip_order, must ";
+							$message .= "terminate with an empty array.";						
 
-							return array(	'numeric'=>3,
+							return array(	'numeric'=>4,
 									'message'=>$message,
 									'key'=>'L' . $ctrl['order'], 
 									'val'=>$parent_id,
@@ -458,51 +485,24 @@ class FOX_dataStore_validator {
 						}
 						else {					
 							return true;
-						}
-
+						}					    						
 					}
-					elseif( $ctrl['mode'] == 'data' ){
+					else {
+
+						$message =  "Each walk in a data trie must terminate either at the clip_order ";
+						$message .= "or at the L1 key.";						
+
+						return array(	'numeric'=>5,
+								'message'=>$message,
+								'key'=>'L' . $ctrl['order'], 
+								'val'=>$parent_id,
+						);
+					}
+
+				}				    				    
 
 
-						if( $ctrl['order'] == ($ctrl['clip_order'] - 1) ){
-
-							if( !is_array($data) && (!is_bool($data) || ($data === false)) ){
-
-								$message =  "Each walk in a data trie, that terminates at the clip_order, must ";
-								$message .= "terminate with an empty array.";						
-
-								return array(	'numeric'=>4,
-										'message'=>$message,
-										'key'=>'L' . $ctrl['order'], 
-										'val'=>$parent_id,
-								);					    
-							}
-							else {					
-								return true;
-							}					    						
-						}
-						else {
-
-							$message =  "Each walk in a data trie must terminate either at the clip_order ";
-							$message .= "or at the L1 key.";						
-
-							return array(	'numeric'=>5,
-									'message'=>$message,
-									'key'=>'L' . $ctrl['order'], 
-									'val'=>$parent_id,
-							);
-						}
-
-					}				    				    
-				    
-					
-				} // ENDOF: if( is_array($data) && !empty($data) )
-			
-			}
-			else {	
-				// We're at L0 in a walk
-				return true;
-			}
+			} // ENDOF: if( is_array($data) && !empty($data) )
 			
 			
 		}
