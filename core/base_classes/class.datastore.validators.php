@@ -118,7 +118,7 @@ class FOX_dataStore_validator {
 
 				try {
 				    
-					if( $level == $ctrl['order'] ) {
+					if( $level == $row_order ) {
 					    
 					    
 						if( (($ctrl['end_node_format'] == 'array') || ($ctrl['end_node_format'] == 'scalarArray'))
@@ -135,11 +135,20 @@ class FOX_dataStore_validator {
 								    //	       
 								    // ==================================================
 
-								    $check_result = self::validateKey(array(
-									    'type'=>$this->cols['L' . $level]['type'],
-									    'format'=>'array',
-									    'var'=>$row[$this->cols['L' . $level]['db_col']]
-								    ));
+								    foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+
+									    $check_result = self::validateKey(array(
+										    'type'=>$this->cols['L' . $level]['type'],
+										    'format'=>'scalar',
+										    'var'=>$key
+									    ));
+
+									    if($check_result !== true){
+										    break;
+									    }
+									    
+								    }
+								    unset($key, $val);
 								    
 								    if( $check_result !== true ){
 
@@ -227,6 +236,8 @@ class FOX_dataStore_validator {
 									'numeric'=>6,				    
 									'message'=>$check_result,
 									'row'=>$row, 
+									'order'=>$ctrl['order'],
+									'level'=>$level,
 									'key'=>$this->cols['L' . $level]['db_col'],
 									'var'=>$row[$this->cols['L' . $level]['db_col']]
 							);				    
