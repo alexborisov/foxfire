@@ -53,13 +53,31 @@ class FOX_dataStore_validator {
 	    
 	    
 		$ctrl_default = array(
-			'order'=>$this->order,
-			'allow_array_end_nodes'=>true,
-			'array_end_node_format'=>'normal'
+					'order'=>$this->order,
+					'end_node_format'=>'scalarArray', // scalar, array, trie
+					'array_ctrl'=>array(
+							    'mode'=>'normal'
+					),
+					'trie_ctrl'=>array(
+							    'mode'=>'control',
+							    'allow_wildcard'=>false,
+							    'clip_order'=>false	
+					)		    
 		);
 
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);	    
 	    
+		
+	    	if($ctrl['order'] > $this->order){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Specified order is too high for this storage class",
+				'data'=>array("order"=>$ctrl['order'], "class_order"=>$this->order),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			
+		}		
 		
 		$row_order = ($ctrl['order'] - count($row)) + 1;
 		
@@ -101,11 +119,11 @@ class FOX_dataStore_validator {
 				try {
 				    
 					if( ($level == $ctrl['order']) 
-					    && ($ctrl['allow_array_end_nodes'] == true) 
+					    && (($ctrl['end_node_format'] == 'array') || ($ctrl['end_node_format'] == 'scalarArray'))
 					    && is_array($row[$this->cols['L' . $level]['db_col']]) ){
 					    
 					    
-						if($ctrl['array_end_node_format'] == 'normal'){
+						if( $ctrl['array_ctrl']['mode'] == 'normal' ){
 
 						    
 							// In 'normal' mode, array end nodes are structured as

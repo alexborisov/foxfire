@@ -295,7 +295,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		);
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'q_mode'=>'trie',
 				'r_mode'=>'trie',		    
 		);
@@ -626,7 +626,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		);
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'q_mode'=>'trie',
 				'r_mode'=>'trie',		    
 		);
@@ -1011,7 +1011,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		);
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'q_mode'=>'trie',
 				'r_mode'=>'trie',		    
 		);
@@ -1383,7 +1383,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		);
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'q_mode'=>'trie',
 				'r_mode'=>'trie',		    
 		);
@@ -1767,7 +1767,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		);		
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'q_mode'=>'trie',
 				'r_mode'=>'trie',		    
 		);
@@ -2166,7 +2166,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		);		
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'q_mode'=>'trie',
 				'r_mode'=>'trie',		    
 		);
@@ -2565,7 +2565,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 					
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -2601,7 +2601,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		
@@ -2638,7 +2638,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 					
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -2679,7 +2679,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		
@@ -2721,7 +2721,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 					
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -2762,7 +2762,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		
@@ -2804,7 +2804,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 					
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -2850,7 +2850,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		
@@ -2892,7 +2892,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();					
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -2936,7 +2936,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		
@@ -2978,7 +2978,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -3024,7 +3024,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		
@@ -3067,7 +3067,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();					
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -3113,7 +3113,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		
@@ -3156,7 +3156,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -3211,7 +3211,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		
@@ -3258,7 +3258,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();					
 		
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -3313,7 +3313,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		
@@ -3360,7 +3360,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'trie'		    
 		);
 		
@@ -3428,7 +3428,7 @@ class core_L5_paged_abstract_getMethods extends RAZ_testCase {
 		self::loadData();
 							
 		$ctrl = array(		    
-				'validate'=>false,
+				'validate'=>true,
 				'r_mode'=>'matrix'		    
 		);
 		

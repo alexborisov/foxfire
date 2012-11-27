@@ -1167,8 +1167,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
-				$validator = new FOX_dataStore_validator($struct);			
-				$tree_valid = $validator->validateL5Trie($data);
+				$validator = new FOX_dataStore_validator($struct);
+				
+				$val_ctrl = array(
+						    'order'=>5
+				);
+				
+				$tree_valid = $validator->validateTrie($data, $val_ctrl);
 
 				if($tree_valid !== true){
 
