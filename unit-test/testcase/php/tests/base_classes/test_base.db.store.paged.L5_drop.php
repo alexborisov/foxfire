@@ -1376,7 +1376,7 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	*/	
 	public function test_dropL1_multi() {
 
-	return;    
+	    
 		self::loadData();
 		
 		
@@ -1406,8 +1406,88 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		}
 		
 		// Should return (int)5 to indicate 5 rows were dropped from the db
-		$this->assertEquals(5, $rows_changed); 	
+		$this->assertEquals(5, $rows_changed); 
 		
+		
+		// Drop multiple L1's in multi mode
+		// ==============================================
+		
+		try {
+		    
+			$drop_nodes = array(
+					array( "L5"=>2, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>array(1,2)),
+					array( "L5"=>3, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>array(1,2))	    
+			);	
+			
+			$rows_changed = $this->cls->dropL1_multi($drop_nodes, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}
+		
+		// Should return (int)4 to indicate 4 rows were dropped from the db
+		$this->assertEquals(4, $rows_changed); 		
+		
+		// Verify datastore is in correct state
+		// ==============================================
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				1=>array(   'Y'=>array(	'K'=>array( 'K'=>array(	
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+				),
+				3=>array(   'X'=>array(	'K'=>array( 'T'=>array(	1=>true )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'K'=>array(	
+										1=>(int)1,
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				)		    
+		);	
+		
+		$request = array(
+				    1=>array(),	    // Request all L5 tries in datastore
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$ctrl = array(
+			'validate'=>true,
+			'q_mode'=>'trie',
+			'r_mode'=>'trie',		    
+			'trap_*'=>true
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(true, $valid);		
+		$this->assertEquals($check, $result);
 		
 	}
 	
