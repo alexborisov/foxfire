@@ -359,7 +359,10 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 							),
 							'Z'=>true						
 					    ),	
-					    'Y'=>true					    
+					    'Y'=>array(	// Collapse this node
+							'K'=>true,
+							'Z'=>true
+					    )				    
 				),
 				2=>true,
 				3=>true
@@ -485,7 +488,10 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 							),
 							'Z'=>true						
 					    ),	
-					    'Y'=>true					    
+					    'Y'=>array(	// Collapse this node
+							'K'=>true,
+							'Z'=>true
+					    )
 				),
 				2=>true,
 				3=>true
@@ -653,7 +659,10 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 							),
 							'Z'=>true						
 					    ),	
-					    'Y'=>true					    
+					    'Y'=>array(	// Collapse this node
+							'K'=>true,
+							'Z'=>true
+					    )				    
 				),
 				2=>true,
 				3=>true
@@ -1886,6 +1895,119 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		$this->assertEquals(false, $valid);	// L5 branch '2' shouldn't exist	
 		$this->assertEquals($check, $result);
 		
+		
+	}
+	
+	
+       /**
+	* Test fixture for dropL3_multi() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL3_multi() {
+
+	    
+		self::loadData();
+		
+		
+		$ctrl = array(
+			"validate"=>true
+		);	    
+
+		
+		// Drop multiple L3's in single mode
+		// ==============================================
+		
+		try {
+		    
+			$drop_nodes = array(
+					array( "L5"=>1, "L4"=>"X", "L3"=>"K"),
+					array( "L5"=>1, "L4"=>"X", "L3"=>"Z"),	
+					array( "L5"=>1, "L4"=>"Y", "L3"=>"K")	    
+			);	
+			
+			$rows_changed = $this->cls->dropL3_multi($drop_nodes, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}
+		
+		// Should return (int)7 to indicate 7 rows were dropped from the db
+		$this->assertEquals(7, $rows_changed); 
+		
+
+		// Drop multiple L3's in multi mode
+		// ==============================================
+		
+		try {
+		    
+			$drop_nodes = array(
+					array( "L5"=>2, "L4"=>"X", "L3"=>array("K","Z")),
+					array( "L5"=>3, "L4"=>"Y", "L3"=>array("K","Z"))	    
+			);	
+			
+			$rows_changed = $this->cls->dropL3_multi($drop_nodes, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}
+		
+		// Should return (int)7 to indicate 7 rows were dropped from the db
+		$this->assertEquals(7, $rows_changed); 		
+
+		
+		// Verify datastore is in correct state
+		// ==============================================
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				1=>array(   'Y'=>array(	'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				),			
+				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>null,
+										2=>false
+								    ),
+								    'T'=>array(	1=>true )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    )					    
+				)		    
+		);	
+		
+		$request = array(
+				    1=>array(),	    // Request all L5 tries in datastore
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$ctrl = array(
+			'validate'=>true,
+			'q_mode'=>'trie',
+			'r_mode'=>'trie',		    
+			'trap_*'=>true
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid);	// L5 node '2' shouldn't exist	
+		$this->assertEquals($check, $result);
 		
 	}
 	
