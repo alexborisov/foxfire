@@ -318,14 +318,14 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	
 	
        /**
-	* Test fixture for dropMulti() method, cold cache
+	* Test fixture for dropMulti() method, trie mode, cold cache
 	*
 	* @version 1.0
 	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropMulti_COLD() {
+	public function test_dropMulti_trie_COLD() {
 	    
 
 		self::loadData();
@@ -460,14 +460,14 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	
 	
        /**
-	* Test fixture for dropMulti() method, warm cache
+	* Test fixture for dropMulti() method, trie mode, warm cache
 	*
 	* @version 1.0
 	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropMulti_WARM() {
+	public function test_dropMulti_trie_WARM() {
 	    
 
 		self::loadData();
@@ -605,14 +605,14 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	
 	
        /**
-	* Test fixture for dropMulti() method, hot cache
+	* Test fixture for dropMulti() method, trie mode, hot cache
 	*
 	* @version 1.0
 	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropMulti_HOT() {
+	public function test_dropMulti_trie_HOT() {
 	    
 
 		self::loadData();
