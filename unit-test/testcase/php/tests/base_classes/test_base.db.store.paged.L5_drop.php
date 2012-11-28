@@ -2012,6 +2012,122 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Test fixture for dropL4() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL4() {
+   
+	    
+		self::loadData();
+		
+		$ctrl = array(
+			"validate"=>true
+		);	    
+
+		// Drop a L4 in single mode
+		// ==============================================
+		
+		try {
+			$rows_changed = $this->cls->dropL4(1, "X", $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)4 to indicate 4 db rows were deleted
+		$this->assertEquals(4, $rows_changed); 
+		
+		// Drop a L4 in single mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL4(1, "Y", $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)4 to indicate 4 db rows were deleted
+		$this->assertEquals(4, $rows_changed); 		
+
+		
+		// Drop multiple L4's in array mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL4(2, array("X"), $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)3 to indicate 3 db rows were deleted
+		$this->assertEquals(3, $rows_changed); 	
+		
+		
+		// Drop multiple L4's in array mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL4(3, array("X", "Y"), $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)8 to indicate 8 db rows were deleted
+		$this->assertEquals(8, $rows_changed); 	
+		
+
+		// Verify datastore is in correct state
+		// ==============================================
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		// The delete operations should have cleared the entire datastore
+		$check = array();		
+		
+		$request = array(
+				    1=>array(),	    // Request all L5 tries in datastore
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$ctrl = array(
+			'validate'=>true,
+			'q_mode'=>'trie',
+			'r_mode'=>'trie',		    
+			'trap_*'=>true
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid);	// None of the requested keys should exist	
+		$this->assertEquals($check, $result);
+		
+		
+	}
+	
+	
 	function tearDown() {
 	   
 		$this->cls = new FOX_dataStore_paged_L5_tester_dropMethods();
