@@ -8291,7 +8291,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-
 		
 		// Add default control params
 		// ==========================
@@ -8382,9 +8381,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					$this->L1_col
 			);
 			
-			$trie = FOX_trie::loftMatrix($data, $columns, $ctrl=null);
+			$trie = FOX_trie::loftMatrix($data, $columns, null);
 			
-			$del_data = FOX_trie::clipAssocTrie($trie, $columns, $ctrl=null);
+			$del_data = FOX_trie::clipAssocTrie($trie, $columns, null);
 			
 							
 		}
