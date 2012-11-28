@@ -7175,6 +7175,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
 		
+		
 		// Validate
 		// ===================================================
 		
@@ -7279,22 +7280,30 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		
-		// Fetch items
-		// ==========================
-
-		if( !is_array($L2s) ){
-		    
+		// Spin into trie format
+		// ===================================================
+		
+		if( !is_array($L2s) ){		    
 			$L2s = array($L2s);
 		}
-							    
-		$data = array();		
-		$data[$L5][$L4][$L3] = $L2s;		
+		
+		$data = array();
+		
+		foreach($L2s as $key => $val){
+		    
+			$data[$L5][$L4][$L3][$val] = true;		    
+		}
+		unset($key, $val);		
+		
+		
+		// Drop nodes
+		// ===================================================
 		
 		$drop_ctrl = array(
 				    'mode'=>'trie',
 				    'validate'=>false
 		);
-		
+
 		try {
 			$rows_changed = self::dropMulti($data, $drop_ctrl);
 		}
@@ -7567,15 +7576,24 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		
-		// Fetch items
-		// ==========================
+		// Spin into trie format
+		// ===================================================
 		
-		if( !is_array($L3s) ){
+		if( !is_array($L3s) ){		    
 			$L3s = array($L3s);
 		}
-				
-		$data = array();		
-		$data[$L5][$L4] = $L3s;
+		
+		$data = array();
+		
+		foreach($L3s as $key => $val){
+		    
+			$data[$L5][$L4][$val] = true;		    
+		}
+		unset($key, $val);		
+		
+		
+		// Drop nodes
+		// ===================================================
 		
 		
 		$drop_ctrl = array(
@@ -7845,16 +7863,24 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		
-		// Fetch items
-		// ==========================		
-
+		// Spin into trie format
+		// ===================================================
+		
 		if( !is_array($L4s) ){		    
 			$L4s = array($L4s);
 		}
-
 		
-		$data = array();		
-		$data[$L5] = $L4s;		
+		$data = array();
+		
+		foreach($L4s as $key => $val){
+		    
+			$data[$L5][$val] = true;		    
+		}
+		unset($key, $val);		
+		
+		
+		// Drop nodes
+		// ===================================================		
 		
 		$drop_ctrl = array(
 				    'mode'=>'trie',
@@ -8105,12 +8131,24 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		
-		// Fetch items
-		// ==========================		
-
+		// Spin into trie format
+		// ===================================================
+		
 		if( !is_array($L5s) ){		    
 			$L5s = array($L5s);
 		}
+		
+		$data = array();
+		
+		foreach($L5s as $key => $val){
+		    
+			$data[$val] = true;		    
+		}
+		unset($key, $val);		
+		
+		
+		// Drop nodes
+		// ===================================================	
 			
 		$drop_ctrl = array(
 				    'mode'=>'trie',
