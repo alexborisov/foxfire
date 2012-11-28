@@ -43,7 +43,7 @@ class FOX_testPlan extends RAZ_testPlan_base {
 //		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.album.module.manager.php');
 //		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.media.module.manager.php');
 //		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.network.module.manager.php');
-//		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.disk.cache.php');
+//		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.disk.cache.php');    
 	}
 	
 	
