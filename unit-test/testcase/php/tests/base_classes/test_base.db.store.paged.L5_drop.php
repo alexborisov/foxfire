@@ -2322,6 +2322,139 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Test fixture for dropL5_multi() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL5_multi() {
+
+	    
+		self::loadData();
+		
+		
+		$drop_ctrl = array(
+			"validate"=>true
+		);	    
+
+		
+		// Drop multiple L5's in single mode
+		// ==============================================
+		
+		try {
+		    
+			$drop_nodes = array(
+					array( "L5"=>1),
+					array( "L5"=>2),
+			    		array( "L5"=>3)	
+			);	
+			
+			$rows_changed = $this->cls->dropL5_multi($drop_nodes, $drop_ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}
+		
+		// Should return (int)19 to indicate 19 rows were dropped from the db
+		$this->assertEquals(19, $rows_changed); 				
+
+		
+		// Verify datastore is in correct state
+		// ==============================================
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array();   // The deletes should have cleared the entire datastore	
+		
+		$request = array(
+				    1=>array(),	    // Request all L5 tries in datastore
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$get_ctrl = array(
+			'validate'=>true,
+			'q_mode'=>'trie',
+			'r_mode'=>'trie',		    
+			'trap_*'=>true
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $get_ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid);	// None of the requested nodes should exist	
+		$this->assertEquals($check, $result);
+		
+		
+		// Reload the datastore
+		// ==============================================
+		
+		self::loadData();
+		
+		
+		// Drop multiple L5's in array mode
+		// ==============================================
+		
+		try {
+		    
+			$drop_nodes = array(
+					array( "L5"=>array(1,3) )
+			);	
+			
+			$rows_changed = $this->cls->dropL5_multi($drop_nodes, $drop_ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}
+		
+		// Should return (int)16 to indicate 16 rows were dropped from the db
+		$this->assertEquals(16, $rows_changed); 				
+
+		
+		// Verify datastore is in correct state
+		// ==============================================		
+		
+		$check = array(
+				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+				)		    
+		);   			
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $get_ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid);	// The '1' and '3' L5 nodes shouldn't exist	
+		$this->assertEquals($check, $result);		
+		
+	}
+	
+	
 	function tearDown() {
 	   
 		$this->cls = new FOX_dataStore_paged_L5_tester_dropMethods();
