@@ -8847,11 +8847,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 		}
 			
-		// NOTE: we update the class cache before the persistent cache so that if the
-		// persistent cache write fails, the class cache will still in the correct
-		// state. Any cache pages that fail to update if the persistent cache throws an
-		// error during the write operation will remain locked, causing them to be pruged 
-		// on the next read operation.
+		// NOTE: we *must* update the class cache before the persistent cache so that if 
+		// the persistent cache write fails, the class cache will still in the correct
+		// state. If we failed to do this, the class cache could end up with 'ghost' pages
+		// that no longer exist in the db. If the persistent cache throws an error during  
+		// the write operation, any pages that fail to update will remain locked, causing  
+		// them to be purged on the next read operation. This guarantees cache coherency.
 		
 		
 		// Write updated cache page images to class cache

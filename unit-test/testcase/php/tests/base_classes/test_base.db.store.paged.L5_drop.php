@@ -2455,6 +2455,478 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Tests keyType validators for every possible combination of L5->L1 walks for
+        * all dropL[x]() methods
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	
+	public function test_dataIntegrity_dropLx_keyType() {
+	    
+		
+		self::loadData();
+					
+		
+		$ctrl = array(		    
+				'validate'=>true,
+				'r_mode'=>'trie'		    
+		);
+		
+		// L1 - Single VALID L1
+		// ===========================================
+		
+		$valid = false;
+		
+		try {			
+			$rows_changed = $this->cls->dropL1(1, 'Y', 'K', 'K', 1, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(1, $rows_changed);
+		
+		unset($rows_changed);
+		
+		
+		// L1 - Single invalid L1 key
+		// ===========================================
+		
+		try {			
+			$result = $this->cls->dropL1(1, 'Y', 'K', 'K', "T", $ctrl);
+			
+			// Execution will halt on the previous line if dropL1() throws an exception
+			$this->fail("Method dropL1() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L1 - Single invalid L1 key in 'multi' mode
+		// =================================================
+		
+		try {			
+			$result = $this->cls->dropL1(1, 'Y', 'K', 'K', array(1, "T"), $ctrl);
+			
+			// Execution will halt on the previous line if dropL1() throws an exception
+			$this->fail("Method dropL1() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L1 - Multiple invalid L1 keys in 'multi' mode
+		// ====================================================
+		
+		try {			
+			$result = $this->cls->dropL1(1, 'Y', 'K', 'K', array("Q", "T"), $ctrl);
+			
+			// Execution will halt on the previous line if dropL1() throws an exception
+			$this->fail("Method dropL1() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L1 - Valid L1, invalid L2
+		// ===========================================
+
+		try {			
+			$result = $this->cls->dropL1(1, 'Y', 'K', 2, 1, $ctrl);
+			
+			// Execution will halt on the previous line if dropL1() throws an exception
+			$this->fail("Method dropL1() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+
+		}			
+				
+		// L1 - Valid L1, invalid L3
+		// ===========================================
+
+		
+		try {			
+			$result = $this->cls->dropL1(1, 'Y', 7, 'K', 1, $ctrl);
+			
+			// Execution will halt on the previous line if dropL1() throws an exception
+			$this->fail("Method dropL1() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+		
+		// L1 - Valid L1, invalid L4
+		// ===========================================
+
+		try {			
+			$result = $this->cls->dropL1(1, '4', 'K', 'K', 1, $ctrl);
+			
+			// Execution will halt on the previous line if dropL1() throws an exception
+			$this->fail("Method dropL1() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+		
+		// L1 - Valid L1, invalid L5
+		// ===========================================
+
+		try {			
+			$result = $this->cls->dropL1('2', 'Y', 'K', 'K', 1, $ctrl);
+			
+			// Execution will halt on the previous line if dropL1() throws an exception
+			$this->fail("Method dropL1() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+		// ==========================================================================================	
+		
+		
+		// L2 - Single VALID L2
+		// ===========================================
+		
+		$valid = false;
+		
+		try {			
+			$rows_changed = $this->cls->dropL2(1, 'Y', 'K', 'K', $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(1, $rows_changed);	// One key was already deleted in L1 tests
+		
+		unset($rows_changed);		
+		
+		
+		// L2 - Single invalid L2 key
+		// ===========================================
+		
+		try {			
+			$result = $this->cls->dropL2(1, 'Y', 'K', 1, $ctrl);
+			
+			// Execution will halt on the previous line if dropL2() throws an exception
+			$this->fail("Method dropL2() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L2 - Single invalid L2 key in 'multi' mode
+		// =================================================
+		
+		try {			
+			$result = $this->cls->dropL2(1, 'Y', 'K', array(1,'K'), $ctrl);
+			
+			// Execution will halt on the previous line if dropL2() throws an exception
+			$this->fail("Method dropL2() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L2 - Multiple invalid L2 keys in 'multi' mode
+		// ====================================================
+		
+		try {			
+			$result = $this->cls->dropL2(1, 'Y', 'K', array('1','2'), $ctrl);
+			
+			// Execution will halt on the previous line if dropL2() throws an exception
+			$this->fail("Method dropL2() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		
+		// L2 - Valid L2, invalid L3
+		// ===========================================		
+		
+		try {			
+			$result = $this->cls->dropL2(1, 'Y', '1', 'K', $ctrl);
+			
+			// Execution will halt on the previous line if dropL2() throws an exception
+			$this->fail("Method dropL2() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+				
+		// L2 - Valid L2, invalid L4
+		// ===========================================		
+		
+		try {			
+			$result = $this->cls->dropL2(1, 6, 'K', 'K', $ctrl);
+			
+			// Execution will halt on the previous line if dropL2() throws an exception
+			$this->fail("Method dropL2() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+		
+		// L2 - Valid L2, invalid L5
+		// ===========================================		
+		
+		try {			
+			$result = $this->cls->dropL2('2', 'Y', 'K', 'K', $ctrl);
+			
+			// Execution will halt on the previous line if dropL2() throws an exception
+			$this->fail("Method dropL2() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+		
+		// ==========================================================================================	
+		
+		
+		// L3 - Single VALID L3
+		// ===========================================
+		
+		$valid = false;
+		
+		try {			
+			$rows_changed = $this->cls->dropL3(1, 'Y', 'K', $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(1, $rows_changed); // 2 rows already deleted in previous tests
+		
+		unset($rows_changed);		
+		
+		
+		// L3 - Single invalid L3 key
+		// ===========================================
+		
+		try {			
+			$result = $this->cls->dropL3(1, 'Y', '6', $ctrl);
+			
+			// Execution will halt on the previous line if dropL3() throws an exception
+			$this->fail("Method dropL3() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L3 - Single invalid L3 key in 'multi' mode
+		// =================================================
+		
+		try {			
+			$result = $this->cls->dropL3(1, 'Y', array(99, 'R'), $ctrl);
+			
+			// Execution will halt on the previous line if dropL3() throws an exception
+			$this->fail("Method dropL3() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L3 - Multiple invalid L3 keys in 'multi' mode
+		// ====================================================
+		
+		try {			
+			$result = $this->cls->dropL3(1, 'Y', array(1,2), $ctrl);
+			
+			// Execution will halt on the previous line if dropL3() throws an exception
+			$this->fail("Method dropL3() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		
+		// L3 - Valid L3, invalid L4
+		// ===========================================		
+		
+		try {			
+			$result = $this->cls->dropL3(1, 2, 'K', $ctrl);
+			
+			// Execution will halt on the previous line if dropL3() throws an exception
+			$this->fail("Method dropL3() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+				
+		// L3 - Valid L3, invalid L5
+		// ===========================================		
+		
+		try {			
+			$result = $this->cls->dropL3('2', 'Y', 'K', $ctrl);
+			
+			// Execution will halt on the previous line if dropL3() throws an exception
+			$this->fail("Method dropL3() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+	
+		}			
+		
+		// ==========================================================================================		
+		
+		
+		// L4 - Single VALID L4
+		// ===========================================
+		
+		$valid = false;
+		
+		try {			
+			$rows_changed = $this->cls->dropL4(1, 'Y', $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(1, $rows_changed);	// 3 rows deleted in previous tests
+		
+		unset($rows_changed);		
+		
+		
+		// L4 - Single invalid L4 key
+		// ===========================================
+		
+		try {			
+			$result = $this->cls->dropL4(1, '7', $ctrl);
+			
+			// Execution will halt on the previous line if dropL4() throws an exception
+			$this->fail("Method dropL4() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L4 - Single invalid L4 key in 'multi' mode
+		// =================================================
+		
+		try {			
+			$result = $this->cls->dropL4(1, array('Y', 99), $ctrl);
+			
+			// Execution will halt on the previous line if dropL4() throws an exception
+			$this->fail("Method dropL4() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L4 - Multiple invalid L4 keys in 'multi' mode
+		// ====================================================
+		
+		try {			
+			$result = $this->cls->dropL4(1, array(2,'4'), $ctrl);
+			
+			// Execution will halt on the previous line if dropL4() throws an exception
+			$this->fail("Method dropL4() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		
+		// L4 - Valid L4, invalid L5
+		// ===========================================		
+		
+		try {			
+			$result = $this->cls->dropL4('2', 'Y', $ctrl);
+			
+			// Execution will halt on the previous line if dropL4() throws an exception
+			$this->fail("Method dropL4() failed to throw an exception on invalid key type");			
+		}
+		catch (FOX_exception $child) {
+	
+		}				
+		
+		// ==========================================================================================	
+	
+		
+		// L4 - Single VALID L5
+		// ===========================================
+		
+		$valid = false;
+		
+		try {			
+			$rows_changed = $this->cls->dropL5(1, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(4, $rows_changed);
+		
+		unset($rows_changed);		
+		
+		
+		// L5 - Single invalid L5 key
+		// ===========================================
+		
+		try {			
+			$result = $this->cls->dropL5('2', $ctrl);
+			
+			// Execution will halt on the previous line if dropL5() throws an exception
+			$this->fail("Method dropL5() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L5 - Single invalid L5 key in 'multi' mode
+		// =================================================
+		
+		try {			
+			$result = $this->cls->dropL5(array(), $ctrl);
+			
+			// Execution will halt on the previous line if dropL5() throws an exception
+			$this->fail("Method dropL5() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// L5 - Multiple invalid L5 keys in 'multi' mode
+		// ====================================================
+		
+		try {			
+			$result = $this->cls->dropL5(array('T',null), $ctrl);
+			
+			// Execution will halt on the previous line if dropL5() throws an exception
+			$this->fail("Method dropL5() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+				
+		
+	}
+	
+	
 	function tearDown() {
 	   
 		$this->cls = new FOX_dataStore_paged_L5_tester_dropMethods();
