@@ -79,6 +79,7 @@ class FOX_dataStore_validator {
 	    
 		$ctrl_default = array(
 					'order'=>$this->order,
+					'expected_keys'=>null,
 					'end_node_format'=>'scalar', 
 					'array_ctrl'=>array(
 							    'mode'=>'normal'
@@ -106,11 +107,11 @@ class FOX_dataStore_validator {
 		
 		$row_order = ($ctrl['order'] - count($row)) + 1;
 		
-		if($row_order < 0){
+		if( !is_null($ctrl['expected_keys']) && (count($row) != $ctrl['expected_keys']) ){
 		    
 			return array(
 				'numeric'=>1,	
-				'message'=>"Row contains extra keys",
+				'message'=>"Row does not contain correct number of keys",
 				'var'=>$row
 			);	    		    
 		}

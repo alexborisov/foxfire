@@ -7040,7 +7040,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L1_col]) ){
 
-						$row_ctrl = array( 
+						$row_ctrl = array(  'expected_keys'=>5,
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -7048,7 +7048,10 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						);											
 					}
 					else {
-						$row_ctrl = array('end_node_format'=>'scalar');
+						$row_ctrl = array(
+								    'expected_keys'=>5,
+								    'end_node_format'=>'scalar'
+						);
 					}
 
 					$validator_result = $validator->validateMatrixRow($row, $row_ctrl);
@@ -7388,7 +7391,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L2_col]) ){
 
-						$row_ctrl = array( 
+						$row_ctrl = array(  'expected_keys'=>4,
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -7396,7 +7399,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						);											
 					}
 					else {
-						$row_ctrl = array('end_node_format'=>'scalar');
+						$row_ctrl = array(  'expected_keys'=>4,
+								    'end_node_format'=>'scalar'
+						);
 					}
 
 					$validator_result = $validator->validateMatrixRow($row, $row_ctrl);
@@ -7726,7 +7731,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L3_col]) ){
 
-						$row_ctrl = array( 
+						$row_ctrl = array(  'expected_keys'=>3,
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -7734,7 +7739,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						);											
 					}
 					else {
-						$row_ctrl = array('end_node_format'=>'scalar');
+						$row_ctrl = array(  'expected_keys'=>3,
+								    'end_node_format'=>'scalar'
+						);
 					}
 
 					$validator_result = $validator->validateMatrixRow($row, $row_ctrl);
@@ -8053,7 +8060,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L4_col]) ){
 
-						$row_ctrl = array( 
+						$row_ctrl = array(  'expected_keys'=>2,
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -8061,7 +8068,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						);											
 					}
 					else {
-						$row_ctrl = array('end_node_format'=>'scalar');
+						$row_ctrl = array(  'expected_keys'=>2,
+								    'end_node_format'=>'scalar'
+						);
 					}
 
 					$validator_result = $validator->validateMatrixRow($row, $row_ctrl);
@@ -8361,7 +8370,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L5_col]) ){
 
-						$row_ctrl = array( 
+						$row_ctrl = array(  'expected_keys'=>1,
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -8369,7 +8378,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						);											
 					}
 					else {
-						$row_ctrl = array('end_node_format'=>'scalar');
+						$row_ctrl = array(  'expected_keys'=>1,
+								    'end_node_format'=>'scalar'
+						);
 					}
 
 					$validator_result = $validator->validateMatrixRow($row, $row_ctrl);

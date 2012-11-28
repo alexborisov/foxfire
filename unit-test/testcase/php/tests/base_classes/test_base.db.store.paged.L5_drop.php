@@ -2160,6 +2160,27 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		catch (FOX_exception $child) {
 
 		}				
+
+		// L1 - Valid L1, extraneous key
+		// ####################################################################
+
+		try {			
+			$data = array(
+
+					array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1, "L9"=>false),
+					array( "L5"=>1, "L4"=>"Z", "L3"=>"K", "L2"=>"K", "L1"=>3	    )		    
+			);	
+			
+			$this->cls->dropL1_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL1() throws an exception
+			$this->fail("Method dropL1() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+	
 		
 	}	
 	
