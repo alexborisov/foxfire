@@ -3471,6 +3471,221 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	
 	
        /**
+	* Test fixture for dropL4_multi() method, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL4_multi_dataIntegrity() {
+	    
+	    
+		$ctrl = array(
+			'validate'=>true
+		);
+		
+	    
+		// Valid data matrix
+		// ####################################################################
+	    
+		$data = array(
+
+				array( "L5"=>1, "L4"=>"X" ),
+				array( "L5"=>1, "L4"=>"Y" )		    
+		);		
+						
+		try {			
+			$this->cls->dropL4_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+			
+		// Single invalid L4 key
+		// ####################################################################
+		
+		try {			
+			$data = array(
+
+					array( "L5"=>1, "L4"=>"X" ),
+					array( "L5"=>1, "L4"=>9   )		    
+			);	
+			
+			$this->cls->dropL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL4_multi() throws an exception
+			$this->fail("Method dropL4_multi() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		
+		// Single invalid L4 key in 'multi' mode
+		// ####################################################################
+		
+		try {			
+			$data = array(
+
+					array( "L5"=>1, "L4"=>array("K",'2') ),
+					array( "L5"=>1, "L4"=>"X"	     )		    
+			);	
+			
+			$this->cls->dropL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL4_multi() throws an exception
+			$this->fail("Method dropL4_multi() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Multiple invalid L4 keys in 'multi' mode
+		// ####################################################################
+		
+		try {			
+			$data = array(
+
+					array( "L5"=>1, "L4"=>array(1,'2') ),
+					array( "L5"=>1, "L4"=>"X"	   )		    
+			);	
+			
+			$this->cls->dropL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL4_multi() throws an exception
+			$this->fail("Method dropL4_multi() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}				
+		
+		// Valid L4, invalid L5
+		// ####################################################################
+
+		try {			
+			$data = array(
+
+					array( "L5"=>null, "L4"=>"X" ),
+					array( "L5"=>1,	   "L4"=>"Z" )		    
+			);	
+			
+			$this->cls->dropL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL4_multi() throws an exception
+			$this->fail("Method dropL4_multi() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+		// Empty data array
+		// ####################################################################	    		
+
+		try {			
+			$data = array();	
+			
+			$this->cls->dropL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL4_multi() throws an exception
+			$this->fail("Method dropL4_multi() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}				
+
+		// Valid L4, extraneous key
+		// ####################################################################
+
+		try {			
+			$data = array(
+
+					array( "L5"=>1, "L4"=>"X", "L3"=>"K" ),
+					array( "L5"=>1, "L4"=>"Z"	     )		    
+			);	
+			
+			$this->cls->dropL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL4_multi() throws an exception
+			$this->fail("Method dropL4_multi() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+	
+		// Missing L4 key
+		// ####################################################################
+
+		try {			
+			$data = array(
+
+					array( "L5"=>1		  ),
+					array( "L5"=>1, "L4"=>"Z" )		    
+			);	
+			
+			$this->cls->dropL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL4_multi() throws an exception
+			$this->fail("Method dropL4_multi() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+		// Valid L4, missing L5 key
+		// ####################################################################
+
+		try {			
+			$data = array(
+
+					array( "L5"=>1, "L4"=>"X" ),
+					array(		"L4"=>"Z" )		    
+			);	
+			
+			$this->cls->dropL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL4_multi() throws an exception
+			$this->fail("Method dropL4_multi() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}	
+		
+		// Valid L4, unknown key swapped for L5 key
+		// ####################################################################
+
+		try {			
+			$data = array(
+
+					array( "L5"=>1, "L4"=>"X" ),
+					array( "L0"=>2, "L4"=>"Z" )		    
+			);	
+			
+			$this->cls->dropL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropL4_multi() throws an exception
+			$this->fail("Method dropL4_multi() failed to throw an exception on invalid key type");
+			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+	
+	}	
+	
+	
+       /**
 	* Test fixture for dropL5() method
 	*
 	* @version 1.0
