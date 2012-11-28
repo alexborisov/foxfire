@@ -8283,7 +8283,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 		
 		try {
-			$rows_changed = self::dropMulti($L5s, $drop_ctrl);
+			$rows_changed = self::dropMulti($data, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    

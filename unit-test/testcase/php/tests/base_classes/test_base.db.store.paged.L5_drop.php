@@ -2235,6 +2235,93 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Test fixture for dropL5() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL5() {
+   
+	    
+		self::loadData();
+		
+		$ctrl = array(
+			"validate"=>true
+		);	    
+
+		// Drop a L5 in single mode
+		// ==============================================
+		
+		try {
+			$rows_changed = $this->cls->dropL5(2, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));			
+		}			
+
+		// Should return (int)3 to indicate 3 db rows were deleted
+		$this->assertEquals(3, $rows_changed); 
+		
+
+		// Drop multiple L5's in array mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL5(array(3,1), $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)16 to indicate 16 db rows were deleted
+		$this->assertEquals(16, $rows_changed); 	
+				
+
+		// Verify datastore is in correct state
+		// ==============================================
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		// The delete operations should have cleared the entire datastore
+		$check = array();		
+		
+		$request = array(
+				    1=>array(),	    // Request all L5 tries in datastore
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$ctrl = array(
+			'validate'=>true,
+			'q_mode'=>'trie',
+			'r_mode'=>'trie',		    
+			'trap_*'=>true
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid);	// None of the requested keys should exist	
+		$this->assertEquals($check, $result);
+		
+		
+	}
+	
+	
 	function tearDown() {
 	   
 		$this->cls = new FOX_dataStore_paged_L5_tester_dropMethods();
