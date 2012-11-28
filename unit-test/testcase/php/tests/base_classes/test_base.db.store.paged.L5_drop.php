@@ -1632,6 +1632,127 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	}	
 	
 	
+       /**
+	* Test fixture for dropL2_multi() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL2_multi() {
+
+	    
+		self::loadData();
+		
+		
+		$ctrl = array(
+			"validate"=>true
+		);	    
+
+		
+		// Drop multiple L2's in single mode
+		// ==============================================
+		
+		try {
+		    
+			$drop_nodes = array(
+					array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K"),
+					array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"T"),
+					array( "L5"=>1, "L4"=>"X", "L3"=>"Z", "L2"=>"Z"),	
+					array( "L5"=>1, "L4"=>"Y", "L3"=>"K", "L2"=>"K")	    
+			);	
+			
+			$rows_changed = $this->cls->dropL2_multi($drop_nodes, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}
+		
+		// Should return (int)6 to indicate 6 rows were dropped from the db
+		$this->assertEquals(6, $rows_changed); 
+		
+		
+		// Drop multiple L2's in multi mode
+		// ==============================================
+		
+		try {
+		    
+			$drop_nodes = array(
+					array( "L5"=>2, "L4"=>"X", "L3"=>"K", "L2"=>array("K")),
+					array( "L5"=>3, "L4"=>"X", "L3"=>"K", "L2"=>array("K","T"))	    
+			);	
+			
+			$rows_changed = $this->cls->dropL2_multi($drop_nodes, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}
+		
+		// Should return (int)5 to indicate 5 rows were dropped from the db
+		$this->assertEquals(5, $rows_changed); 		
+		
+		
+		// Verify datastore is in correct state
+		// ==============================================
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				1=>array(   'Y'=>array(	'K'=>array( 'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+				),
+				3=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'K'=>array(	
+										1=>(int)1,
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				)		    
+		);	
+		
+		$request = array(
+				    1=>array(),	    // Request all L5 tries in datastore
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$ctrl = array(
+			'validate'=>true,
+			'q_mode'=>'trie',
+			'r_mode'=>'trie',		    
+			'trap_*'=>true
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(true, $valid);		
+		$this->assertEquals($check, $result);
+		
+	}
+	
+	
 	function tearDown() {
 	   
 		$this->cls = new FOX_dataStore_paged_L5_tester_dropMethods();
