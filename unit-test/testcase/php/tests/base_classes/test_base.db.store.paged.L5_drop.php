@@ -424,9 +424,7 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		// The all_cached flag, L2, L3, and L4 LUT's won't exist in the cache yet 
 		// because we haven't done a database read.
 		
-		$check_cache = array(
-					1=>array()
-		);
+		$check_cache = array();
 		
                 $this->assertEquals($check_cache, $this->cls->cache);		
 
@@ -548,13 +546,16 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The all_cached flag, L2, L3, and L4 LUT's won't exist in the cache yet 
-		// because we haven't done a database read.
+		// The all_cached flag won't exist in the cache yet because we haven't 
+		// done a database read. The L2, L3, and L4 LUT's will be null.
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+		$check_cache_1 = array(	    'L4'=>null,
+					    'L3'=>null,
+					    'L2'=>null,
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
 												2=>false
 										    )							    
 									)					
@@ -877,9 +878,7 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		// The all_cached flag, L2, L3, and L4 LUT's won't exist in the cache yet 
 		// because we haven't done a database read.
 		
-		$check_cache = array(
-					1=>array()
-		);
+		$check_cache = array();
 		
                 $this->assertEquals($check_cache, $this->cls->cache);		
 
@@ -982,7 +981,7 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		// NOTE: the datastore will automatically clip empty branches
 		
-		$check = array(
+		$check = array(		    		    
 				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
 										2=>false
 								    )						    
@@ -996,13 +995,17 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The all_cached flag, L2, L3, and L4 LUT's won't exist in the cache yet 
-		// because we haven't done a database read.
+		// The all_cached flagwon't exist in the cache yet because we haven't done 
+		// a database read. The L2, L3, and L4 LUT's will be null.
 		
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+		$check_cache_1 = array(	    
+					    'L4'=>null,
+					    'L3'=>null,
+					    'L2'=>null,		    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
 												2=>false
 										    )							    
 									)					
@@ -1828,7 +1831,7 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		// Should return (int)4 to indicate 4 db rows were deleted
 		$this->assertEquals(4, $rows_changed); 	
 		
-var_dump($this->cls->cache); die;
+
 		// Verify datastore is in correct state
 		// ==============================================
 		
@@ -1880,7 +1883,7 @@ var_dump($this->cls->cache); die;
 			$this->fail($child->dumpString(1));	
 		}
 		
-		$this->assertEquals(true, $valid);		
+		$this->assertEquals(false, $valid);	// L5 branch '2' shouldn't exist	
 		$this->assertEquals($check, $result);
 		
 		

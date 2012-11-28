@@ -8581,14 +8581,14 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if( !is_array($L4s) ){	 
 			    
 				$L4s = array();	
-			}
+			}			
 			
-			if( count($L4s) == 0 ){	    // If the trie has no L4 structures, delete the
-						    // entire cache page from the class cache, and flag
-						    // the page to be flushed from the persistent cache
-			    
-				$dead_pages[] = $L5;
+			if( count($L4s) == 0 ){			// If the trie has no L4 structures, delete the
+								// entire cache page from the class cache, and flag
+				$dead_pages[] = $L5;		// the page to be flushed from the persistent cache			    
 				unset($update_cache[$L5]);
+				
+				continue;				
 			}
 			
 			foreach( $L4s as $L4 => $L3s ){
@@ -8647,6 +8647,23 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				unset($L3, $L2s);
 			}
 			unset($L4, $L3s);
+			
+			
+			// Clear empty walks from the keystore and LUT's
+			// ==========================================================================		
+
+			$update_cache[$L5]['keys']	  = FOX_sUtil::arrayPrune($update_cache[$L5]['keys'], 4);			
+			$update_cache[$L5][$this->L2_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L2_col], 3);
+			$update_cache[$L5][$this->L3_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L3_col], 2);	
+			$update_cache[$L5][$this->L4_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L4_col], 1);
+			
+			
+			if( count($update_cache[$L5]['keys']) == 0 ){	    // If a cache page is empty after being pruned, delete 
+									    // the entire cache page from the class cache, and flag
+				$dead_pages[] = $L5;			    // the page to be flushed from the persistent cache
+				unset($update_cache[$L5]);
+			}			
+						
 		}
 		unset($L5, $L4s);
 			
