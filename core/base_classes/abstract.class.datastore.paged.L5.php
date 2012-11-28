@@ -8602,8 +8602,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					$val_ctrl = array(
 						'order'=>5,
 						'mode'=>'control',
-						'allow_wildcard'=>false,
-						'clip_order'=>false		    
+						'allow_wildcard'=>false		    
 					);		
 
 					$tree_valid = $validator->validateTrie($data, $val_ctrl);
