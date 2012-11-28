@@ -1492,6 +1492,144 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Test fixture for dropL2() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL2() {
+   
+	    
+		self::loadData();
+		
+		$ctrl = array(
+			"validate"=>true
+		);	    
+
+		// Drop a L2 in single mode
+		// ==============================================
+		
+		try {
+			$rows_changed = $this->cls->dropL2(1, "X", "K", "K", $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)2 to indicate 2 db rows were deleted
+		$this->assertEquals(2, $rows_changed); 
+		
+		// Drop a L2 in single mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL2(1, "X", "K", "T", $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)1 to indicate 1 db row was deleted
+		$this->assertEquals(1, $rows_changed); 		
+		
+		
+		// Drop multiple L2's in array mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL2(3, "X", "K", array("K", "T"), $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)3 to indicate 3 db rows were deleted
+		$this->assertEquals(3, $rows_changed); 	
+		
+		
+		// Drop multiple L2's in array mode
+		// ==============================================	    
+
+		try {
+			$rows_changed = $this->cls->dropL2(3, "Y", "K", array("K", "T"), $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+		}			
+
+		// Should return (int)3 to indicate 3 db rows were deleted
+		$this->assertEquals(3, $rows_changed); 	
+		
+
+		// Verify datastore is in correct state
+		// ==============================================
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				1=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'K'=>array(	
+										1=>(int)1,
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+				),
+				3=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				)		    
+		);		
+		
+		$request = array(
+				    1=>array(),	    // Request all L5 tries in datastore
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$ctrl = array(
+			'validate'=>true,
+			'q_mode'=>'trie',
+			'r_mode'=>'trie',		    
+			'trap_*'=>true
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(true, $valid);		
+		$this->assertEquals($check, $result);
+		
+		
+	}	
 	
 	
 	function tearDown() {
