@@ -1059,24 +1059,10 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 	
 		}		
 		
-		// Invalid L5 node value
+		// Empty data array
 		// ####################################################################
 	    
-		$data = array(
-				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>true
-								    ),
-								    'T'=>true							    
-							),
-							'Z'=>true						
-					    ),	
-					    'Y'=>array(	// Collapse this node
-							'K'=>true,
-							'Z'=>true
-					    )
-				),
-				2=>"fail"
-		);
+		$data = array();
 		
 		try {			
 			$this->cls->dropMulti($data, $ctrl);
@@ -1087,7 +1073,7 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 		catch (FOX_exception $child) {
 	
 		}		
-	    
+		
 		
 	}
 	
@@ -1533,6 +1519,178 @@ class core_L5_paged_abstract_dropMethods extends RAZ_testCase {
 						    // the '2' and '3' L5's don't exist
 		
 		$this->assertEquals($check, $result);
+		
+	}
+	
+	
+	
+	
+       /**
+	* Test fixture for dropMulti() method, matrix mode, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropMulti_matrix_dataIntegrity() {
+	    
+	    
+		$ctrl = array(
+			'validate'=>true,
+			'mode'=>'matrix',
+			'trap_*'=>true
+		);
+		
+	    
+		// Valid data matrix
+		// ####################################################################
+	    
+		$data = array(
+
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"T"		),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"Z"			),	
+				array( "L5"=>1, "L4"=>"Y", "L3"=>"K"			),
+		    		array( "L5"=>1, "L4"=>"Y", "L3"=>"Z"			)
+		);		
+						
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		
+		// Invalid L1 node data type
+		// ####################################################################
+	    
+		$data = array(
+
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>'1'),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"T"		),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"Z"			),	
+				array( "L5"=>1, "L4"=>"Y", "L3"=>"K"			),
+		    		array( "L5"=>1, "L4"=>"Y", "L3"=>"Z"			)
+		);	
+		
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropMulti() throws an exception
+			$this->fail("Method dropMulti failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+	
+		
+		// Invalid L2 node data type
+		// ####################################################################
+	    
+		$data = array(
+
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>1		),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"Z"			),	
+				array( "L5"=>1, "L4"=>"Y", "L3"=>"K"			),
+		    		array( "L5"=>1, "L4"=>"Y", "L3"=>"Z"			)
+		);	
+		
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropMulti() throws an exception
+			$this->fail("Method dropMulti failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+		
+		
+		// Invalid L3 node data type
+		// ####################################################################
+	    
+		$data = array(
+
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"T"		),
+				array( "L5"=>1, "L4"=>"X", "L3"=>1			),	
+				array( "L5"=>1, "L4"=>"Y", "L3"=>"K"			),
+		    		array( "L5"=>1, "L4"=>"Y", "L3"=>"Z"			)
+		);	
+		
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropMulti() throws an exception
+			$this->fail("Method dropMulti failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+						
+		// Invalid L4 node data type
+		// ####################################################################
+	    
+		$data = array(
+
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"T"		),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"Z"			),	
+				array( "L5"=>1, "L4"=>"Y", "L3"=>"K"			),
+		    		array( "L5"=>1, "L4"=>"1"			)
+		);	
+		
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropMulti() throws an exception
+			$this->fail("Method dropMulti failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}				
+				
+		// Invalid L5 node data type
+		// ####################################################################
+	    
+		$data = array(
+
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"T"		),
+				array( "L5"=>1, "L4"=>"X", "L3"=>"Z"			),	
+				array( "L5"=>1, "L4"=>"Y", "L3"=>"K"			),
+		    		array( "L5"=>'1'					)
+		);	
+		
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropMulti() throws an exception
+			$this->fail("Method dropMulti failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}				
+		
+		// Empty data array
+		// ####################################################################
+	    
+		$data = array();
+		
+		try {			
+			$this->cls->dropMulti($data, $ctrl);
+			
+			// Execution will halt on the previous line if dropMulti() throws an exception
+			$this->fail("Method dropMulti failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+		
 		
 	}
 	
