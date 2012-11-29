@@ -19,31 +19,12 @@ class core_datastore_validators extends RAZ_testCase {
     	function setUp() {
 	    
 		parent::setUp();
-		
-		$this->struct = array(
-
-			"table" => "FOX_dataStore_paged_tester_validators",
-			"engine" => "InnoDB",
-			"cache_namespace" => "FOX_dataStore_paged_L5_base",
-			"cache_strategy" => "paged",
-			"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
-			"columns" => array(
-			    "L5" =>	array(	"php"=>"int",    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",	"auto_inc"=>false,  "default"=>null,
-				// This forces every zone + rule + key_type + key_id combination to be unique
-				"index"=>array("name"=>"top_level_index",	"col"=>array("L5", "L4", "L3", "L2", "L1"), "index"=>"PRIMARY"), "this_row"=>true),
-			    "L4" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-			    "L3" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-			    "L2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-			    "L1" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-			    "L0" =>	array(	"php"=>"serialize", "sql"=>"longtext",	"format"=>"%s", "width"=>null,	"flags"=>"",		"auto_inc"=>false,  "default"=>null,	"index"=>false),
-			)
-		);	
-		
+					
 	}
 	
 	
        /**
-	* Test fixture for dropMulti() method, trie mode, cold cache
+	* Test fixture for test_validateKey() method
 	*
 	* @version 1.0
 	* @since 1.0
@@ -53,7 +34,22 @@ class core_datastore_validators extends RAZ_testCase {
 	public function test_validateKey() {
 	    
 	    			
-		$cls = new FOX_dataStore_validator($this->struct);
+		$struct = array(
+
+			"table" => "FOX_dataStore_validators",
+			"engine" => "InnoDB",
+			"cache_namespace" => "FOX_dataStore_validators",
+			"cache_strategy" => "paged",
+			"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
+			"columns" => array(
+			    "X3" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X1" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X0" =>	array(	"php"=>"serialize", "sql"=>"longtext",	"format"=>"%s", "width"=>null,	"flags"=>"",		"auto_inc"=>false,  "default"=>null,	"index"=>false),
+			)
+		);
+		
+		$cls = new FOX_dataStore_validator($struct);
 		
 		
 		// SCALAR INT
@@ -555,52 +551,289 @@ class core_datastore_validators extends RAZ_testCase {
 		
 	}
 	
-	
-	
+		
        /**
-	* Test fixture for dropMulti() method, trie mode, cold cache
+	* Test fixture for test_validateTrie() method
 	*
 	* @version 1.0
 	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
-	public function test_validateKTrie() {
-	return;   
+	public function test_validateTrie_control() {
+ 
 	    
 		$struct = array(
 
-			"table" => "FOX_dataStore_paged_tester_validators",
+			"table" => "FOX_dataStore_validators",
 			"engine" => "InnoDB",
-			"cache_namespace" => "FOX_dataStore_paged_L5_base",
+			"cache_namespace" => "FOX_dataStore_validators",
 			"cache_strategy" => "paged",
 			"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 			"columns" => array(
-			    "L5" =>	array(	"php"=>"int",    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",	"auto_inc"=>false,  "default"=>null,
-				// This forces every zone + rule + key_type + key_id combination to be unique
-				"index"=>array("name"=>"top_level_index",	"col"=>array("L5", "L4", "L3", "L2", "L1"), "index"=>"PRIMARY"), "this_row"=>true),
-			    "L4" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-			    "L3" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-			    "L2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-			    "L1" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-			    "L0" =>	array(	"php"=>"serialize", "sql"=>"longtext",	"format"=>"%s", "width"=>null,	"flags"=>"",		"auto_inc"=>false,  "default"=>null,	"index"=>false),
+			    "X3" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X1" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X0" =>	array(	"php"=>"serialize", "sql"=>"longtext",	"format"=>"%s", "width"=>null,	"flags"=>"",		"auto_inc"=>false,  "default"=>null,	"index"=>false),
 			)
-		);	
+		);
 		
-		$cls = new FOX_dataStore_validator($struct);
+		$cls = new FOX_dataStore_validator($struct);	
 		
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'control',
+			'allow_wildcard'=>false,
+			'clip_order'=>false		    
+		);		
+		
+		
+		// PASS - Valid control trie
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+				2=>true
+		);
 		
 		try {			
-			$result = $cls->validateKey( array(
-							    'type'=>$this->cols['L' . $level]['type'],
-							    'format'=>'scalar',
-							    'var'=>$row[$this->cols['L' . $level]['db_col']]
-			));	
+			$result = $cls->validateTrie($data, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
-		}		
+		}
+
+		$this->assertEquals(true, $result);	
+
+		
+		// PASS - Empty control trie
+		// ####################################################################
+	    
+		$data = array();
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);
+		
+		
+		// FAIL - Wrong control trie data type
+		// ####################################################################
+	    
+		$data = "foo";
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);		
+		
+		
+		// FAIL - Invalid L1 node data type
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	"F"=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+				2=>true
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);	
+		
+		
+		// FAIL - Invalid L2 node data type
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   1=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+				2=>true
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);		
+		
+		
+		// FAIL - Invalid L2 node value
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>'foo'				    
+				),
+				2=>true
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);	
+		
+		
+		// FAIL - Invalid L3 node data type
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+				'F'=>true
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);	
+		
+		
+		// FAIL - Invalid L3 node value
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+				2=>'X'
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);							
+		
+		
+		// FAIL - wildcards when not allowed
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+				'*'=>true
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);	
+		
+		
+		
+		// PASS - wildcards when allowed
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'control',
+			'allow_wildcard'=>true,
+			'clip_order'=>false		    
+		);
+		
+		$data = array(
+				1=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+				'*'=>true
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);
+		
+		
+		// FAIL - wildcard with invalid value
+		// ####################################################################		
+		
+		$data = array(
+				1=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+				'*'=>'foo'
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);		
+		
 		
 	}
 	

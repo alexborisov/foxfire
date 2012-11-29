@@ -87,6 +87,7 @@ class FOX_dataStore_validator {
 					'trie_ctrl'=>array(
 							    'mode'=>'control',
 							    'allow_wildcard'=>false,
+							    'wildcard_token'=>'*',
 							    'clip_order'=>1	
 					)		    
 		);
@@ -344,7 +345,8 @@ class FOX_dataStore_validator {
          * @param array $ctrl | Control parameters
 	 *	=> VAL @param int $order | Order of trie structure
 	 *	=> VAL @param string $mode | Operation mode 'control' | 'data'
-	 *	=> VAL @param bool $allow_wildcard | Allow the wildcard character to be used
+	 *	=> VAL @param bool $allow_wildcard | Allow wildcards (universal selector) to be used in control tries
+	 *	=> VAL @param string $wildcard_token | String to use as wildcard token
 	 *	=> VAL @param int $clip_order | Order to clip keys at when in 'data' mode	 
 	 * 
 	 * @return bool/array | Exception on failure, (bool)true on success, (array)data_array on failure.
@@ -357,6 +359,7 @@ class FOX_dataStore_validator {
 			'order'=>$this->order,
 			'mode'=>'control',
 			'allow_wildcard'=>false,
+			'wildcard_token'=>'*',		    
 			'clip_order'=>false		    
 		);
 
@@ -383,6 +386,17 @@ class FOX_dataStore_validator {
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));			
+		}
+		
+	    	if( ($ctrl['mode'] == 'data') && ($ctrl['allow_wildcard'] != false) ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Wildcard selectors cannot be used in 'data' mode",
+				'data'=>array('ctrl'=>$ctrl),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			
 		}		
 	    		
 		try {
@@ -392,28 +406,32 @@ class FOX_dataStore_validator {
 				// We're at L0 in a walk
 				return true;
 			}
-
 			    			    
 			if( is_array($data) && !empty($data) ){
 
 			    
 				foreach( $data as $parent_id => $children ){
 
-					$check_result = self::validateKey(array(
-										'type'=>$this->cols['L' . $ctrl['order']]['type'],
-										'format'=>'scalar',
-										'var'=>$parent_id
-					));				
+				    
+					if( !(($ctrl['allow_wildcard'] == true) && ($parent_id == $ctrl['wildcard_token'])) ){
+					    
+					    
+						$check_result = self::validateKey(array(
+											'type'=>$this->cols['L' . $ctrl['order']]['type'],
+											'format'=>'scalar',
+											'var'=>$parent_id
+						));				
 
-					if( $check_result !== true ){
+						if( $check_result !== true ){
 
-						return array(	'numeric'=>1,
-								'message'=>$check_result,
-								'key'=>'L' . $ctrl['order'], 
-								'val'=>$parent_id
-						);			    
+							return array(	'numeric'=>1,
+									'message'=>$check_result,
+									'key'=>'L' . $ctrl['order'], 
+									'val'=>$parent_id
+							);			    
+						}					    
 					}
-
+					
 					$child_result = self::validateTrie(
 									    $children, 
 									    array(
@@ -510,7 +528,7 @@ class FOX_dataStore_validator {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->cols),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
