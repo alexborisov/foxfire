@@ -549,11 +549,46 @@ class core_datastore_validators extends RAZ_testCase {
 		$this->assertNotEquals(true, $result);	
 		
 		
+		// EXCEPTION - invalid 'type' parameter
+		// ####################################################################
+		
+		try {			
+			$result = $cls->validateKey( array(
+							    'type'=>'fail',
+							    'format'=>'array',
+							    'var'=>array('A','2','B','C')
+			));
+			
+			// Execution will halt on the previous line if validateKey() throws an exception
+			$this->fail("Method validateKey() failed to throw an exception on invalid 'type' parameter");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+		
+		
+		// EXCEPTION - invalid 'format' parameter
+		// ####################################################################
+		
+		try {			
+			$result = $cls->validateKey( array(
+							    'type'=>'string',
+							    'format'=>'fail',
+							    'var'=>array('A','2','B','C')
+			));
+			
+			// Execution will halt on the previous line if validateKey() throws an exception
+			$this->fail("Method validateKey() failed to throw an exception on invalid 'format' parameter");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+		
 	}
 	
 		
        /**
-	* Test fixture for test_validateTrie() method
+	* Test fixture for test_validateTrie() method, 'control' mode
 	*
 	* @version 1.0
 	* @since 1.0
@@ -624,8 +659,8 @@ class core_datastore_validators extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 
-		$this->assertEquals(true, $result);
-		
+		$this->assertEquals(true, $result);			
+				
 		
 		// FAIL - Wrong control trie data type
 		// ####################################################################
@@ -832,7 +867,364 @@ class core_datastore_validators extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 
+		$this->assertNotEquals(true, $result);	
+		
+		
+		// EXCEPTION - Invalid order
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>7,
+			'mode'=>'control',
+			'allow_wildcard'=>true,
+			'clip_order'=>false		    
+		);	
+		
+		$data = "foo";
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+			
+			// Execution will halt on the previous line if validateTrie() throws an exception
+			$this->fail("Method validateTrie() failed to throw an exception on invalid class order");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+		
+		
+	}
+	
+	
+       /**
+	* Test fixture for test_validateTrie() method, 'data' mode
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_validateTrie_data() {
+ 
+	    
+		$struct = array(
+
+			"table" => "FOX_dataStore_validators",
+			"engine" => "InnoDB",
+			"cache_namespace" => "FOX_dataStore_validators",
+			"cache_strategy" => "paged",
+			"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
+			"columns" => array(
+			    "X3" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X1" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X0" =>	array(	"php"=>"serialize", "sql"=>"longtext",	"format"=>"%s", "width"=>null,	"flags"=>"",		"auto_inc"=>false,  "default"=>null,	"index"=>false),
+			)
+		);
+		
+		$cls = new FOX_dataStore_validator($struct);				
+		
+		
+		// PASS - Valid data trie
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);
+		
+		$data = array(
+				1=>array(   'X'=>array(	1=>(string)"foo",
+							5=>null				    
+					    ),	
+					    'Y'=>array()				    
+				)
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);	
+
+		
+		// FAIL - Empty data trie
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);
+		
+		$data = array();
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);			
+				
+		
+		// FAIL - Wrong data trie data type
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);
+		
+		$data = "foo";
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
 		$this->assertNotEquals(true, $result);		
+		
+		
+		// FAIL - Branches terminating above clip plane
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);
+		
+		$data = array(
+				1=>array(   'X'=>array(	1=>(string)"foo",
+							5=>null				    
+					    ),	
+					    'Y'=>true				    
+				),
+				2=>true
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Branches terminating below clip plane, but not at L1
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>1		    
+		);
+		
+		$data = array(
+				1=>array(   'X'=>array(	1=>(string)"foo",
+							5=>null				    
+					    ),	
+					    'Y'=>true				    
+				),
+				2=>true
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Invalid L1 node data type
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);
+		
+		$data = array(
+				1=>array(   'X'=>array(	"F"=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				)
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);	
+		
+		
+		// FAIL - Invalid L2 node data type
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);
+		
+		$data = array(
+				1=>array(   1=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				)
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);		
+		
+		
+		// FAIL - Invalid L2 node value
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);
+		
+		$data = array(
+				1=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>'foo'				    
+				)
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);	
+		
+		
+		// FAIL - Invalid L3 node data type
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);
+		
+		$data = array(
+				1=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+				'F'=>array(   'X'=>array(	1=>true,
+							5=>true				    
+					    ),	
+					    'Y'=>true				    
+				),
+		);
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);									
+							
+		
+		// EXCEPTION - Wildcards in 'data' mode
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>true,
+			'clip_order'=>2		    
+		);	
+		
+		$data = "foo";
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+			
+			// Execution will halt on the previous line if validateTrie() throws an exception
+			$this->fail("Method validateTrie() failed to throw an exception on wildcards in 'data' mode");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+		
+		
+		// EXCEPTION - Invalid order
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>7,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);	
+		
+		$data = "foo";
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+			
+			// Execution will halt on the previous line if validateTrie() throws an exception
+			$this->fail("Method validateTrie() failed to throw an exception on invalid class order");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
 		
 		
 	}
