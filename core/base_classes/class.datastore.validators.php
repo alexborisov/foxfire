@@ -310,7 +310,7 @@ class FOX_dataStore_validator {
 								}								    
 
 							}
-							else {
+							elseif($ctrl['array_ctrl']['mode'] == 'inverse') {
 
 								// In 'inverse' mode, array end nodes are structured as
 								// 
@@ -361,6 +361,17 @@ class FOX_dataStore_validator {
 								}								    
 
 							}
+							else {
+							    
+								throw new FOX_exception( array(
+									'numeric'=>4,
+									'text'=>"Invalid ['array_ctrl']['mode'] parameter",
+									'data'=>$ctrl['array_ctrl']['mode'],
+									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+									'child'=>null
+								));							    
+							    
+							}
 
 						} break;
 
@@ -377,7 +388,7 @@ class FOX_dataStore_validator {
 							catch (FOX_exception $child) {
 
 								throw new FOX_exception( array(
-									'numeric'=>4,
+									'numeric'=>5,
 									'text'=>"Error in self::validateTrie()",
 									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 									'child'=>$child
@@ -400,7 +411,7 @@ class FOX_dataStore_validator {
 						default : {
 
 							throw new FOX_exception( array(
-								'numeric'=>5,
+								'numeric'=>6,
 								'text'=>"Invalid end_node_format parameter",
 								'data'=>$ctrl['end_node_format'],
 								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -425,7 +436,7 @@ class FOX_dataStore_validator {
 					catch (FOX_exception $child) {
 
 						throw new FOX_exception( array(
-							'numeric'=>6,
+							'numeric'=>7,
 							'text'=>"Error in self::validateKey()",
 							'data'=>$val_args,
 							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -439,7 +450,6 @@ class FOX_dataStore_validator {
 								'numeric'=>8,				    
 								'message'=>$check_result,
 								'row'=>$row, 
-								'order'=>$order,
 								'key'=>$this->order_dict[$order]['db_col'],
 								'var'=>$row[$this->order_dict[$order]['db_col']]
 						);				    
