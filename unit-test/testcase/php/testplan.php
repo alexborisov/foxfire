@@ -135,6 +135,8 @@ class FOX_testPlan extends RAZ_testPlan_base {
 //			),
 		    
 			"base" => array(
+				array( "enable"=>true,	 "name"=>"Validators",	"mock"=>array(), "file"=>"/tests/base_classes/test_base.datastore.validators.php" ),
+			    
 				array( "enable"=>false,	 "name"=>"L5 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/test_base.db.store.paged.L5_add.php" ),
 				array( "enable"=>false,	 "name"=>"L5 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/test_base.db.store.paged.L5_set.php" ),
 				array( "enable"=>false,	 "name"=>"L5 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/test_base.db.store.paged.L5_get.php" ),
