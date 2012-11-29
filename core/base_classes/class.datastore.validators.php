@@ -100,7 +100,7 @@ class FOX_dataStore_validator {
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);	    
 	    
 		
-		// Invert 'allowed_keys' and 'required_keys' arrays
+		// Invert 'allowed_keys', 'required_keys', and 'ignored_keys' 
 		// ============================================================
 		
 		if( !empty($ctrl['allowed_keys']) ){
@@ -185,6 +185,9 @@ class FOX_dataStore_validator {
 			unset($key, $val);
 		}
 		
+		
+		// Process row
+		// ============================================================
 		
 		$lowest_order_key = true;
 		
@@ -363,28 +366,25 @@ class FOX_dataStore_validator {
 
 						case "trie" : {	
 
-							$ctrl['trie_ctrl']['order'] = $order;
-							
-							$val_args = array(
-									    $row[$this->order_dict[$order]['db_col']],
-									    $ctrl['trie_ctrl']
-							);
+							$ctrl['trie_ctrl']['order'] = $order;							
 
 							try {			
-								$check_result = self::validateTrie($val_args);
+								$check_result = self::validateTrie(
+												    $row[$this->order_dict[$order]['db_col']],
+												    $ctrl['trie_ctrl']
+								);
 							}
 							catch (FOX_exception $child) {
 
 								throw new FOX_exception( array(
 									'numeric'=>4,
 									'text'=>"Error in self::validateTrie()",
-									'data'=>$val_args,
 									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 									'child'=>$child
 								));	
 							}							
 
-							if( $check_result !== true ){
+							if( $check_result !== true ){  
 
 								return array(	
 										'numeric'=>7,				    
@@ -439,8 +439,7 @@ class FOX_dataStore_validator {
 								'numeric'=>8,				    
 								'message'=>$check_result,
 								'row'=>$row, 
-								'order'=>$ctrl['order'],
-								'level'=>$order,
+								'order'=>$order,
 								'key'=>$this->order_dict[$order]['db_col'],
 								'var'=>$row[$this->order_dict[$order]['db_col']]
 						);				    
@@ -457,299 +456,6 @@ class FOX_dataStore_validator {
 
 	    
 	}
-	
-	
-//	/**
-//	 * Validates a matrix row structure
-//	 *
-//	 * @version 1.0
-//	 * @since 1.0
-//	 *
-//         * @param array $row | matrix row structure to validate
-//	 *  
-//         * @param array $ctrl | Control parameters
-//	 * 
-//	 *	=> VAL @param int $order | Order of trie structure
-//	 * 
-//	 *	=> VAL @param string $end_node_format | End node format 'scalar', 'array', or 'trie'
-//	 * 
-//	 *	=> VAL @param array $array_ctrl | Control parameters when operating in 'array' mode
-//	 *		=> VAL @param string $mode | Array format 'normal' or 'inverse'
-//	 *		=> VAL @param string $end_node_format | End node format 'scalar', 'array', or 'trie'
-//	 * 
-//	 *	=> VAL @param array $trie_ctrl | Control parameters when operating in 'trie' mode
-//	 *		=> VAL @param string $mode | Trie format 'data' or 'control'
-//	 *		=> VAL @param bool $allow_wildcard | Allow wildcard character to be used
-//	 *		=> VAL @param int $clip_order | Order to clip keys at when in 'data' mode
-//	 * 
-//	 * @return bool/array | Exception on failure, (bool)true on success, (array)data_array on failure.
-//	 */	
-//	
-//	public function validateMatrixRow($row, $ctrl=null) {
-//	    
-//	    
-//		$ctrl_default = array(
-//					'order'=>$this->order,
-//					'expected_keys'=>null,
-//					'allow_null_keys'=>false,
-//					'end_node_format'=>'scalar', 
-//					'array_ctrl'=>array(
-//							    'mode'=>'normal'
-//					),
-//					'trie_ctrl'=>array(
-//							    'mode'=>'control',
-//							    'allow_wildcard'=>false,
-//							    'wildcard_token'=>'*',
-//							    'clip_order'=>1	
-//					)		    
-//		);
-//
-//		$ctrl = wp_parse_args($ctrl, $ctrl_default);	    
-//	    
-//		
-//	    	if($ctrl['order'] > $this->order){
-//		    
-//			throw new FOX_exception( array(
-//				'numeric'=>1,
-//				'text'=>"Specified order is too high for this storage class",
-//				'data'=>array("order"=>$ctrl['order'], "class_order"=>$this->order),
-//				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-//				'child'=>null
-//			));			
-//		}		
-//		
-//		$row_order = ($ctrl['order'] - count($row)) + 1;
-//		
-//		if( !is_null($ctrl['expected_keys']) && (count($row) != $ctrl['expected_keys']) ){
-//		    
-//			return array(
-//				'numeric'=>1,	
-//				'message'=>"Row does not contain correct number of keys",
-//				'var'=>$row
-//			);	    		    
-//		}
-//		elseif($row_order == 0){
-//
-//			// NOTE: we skip "L0" keys. The L0 key is the data key, and can contain ANY value
-//			// of ANY data type (NULL, float, object, etc). Since every possible input is valid,
-//			// there's no point in validating it.
-//		    
-//			return true;
-//		}		
-//		
-//		
-//		$check_result = true;
-//		
-//		for($order=$row_order; $order <= $ctrl['order']; $order++){
-//
-//
-//			// Trap missing keys
-//			// ==================================================
-//
-//			if(!FOX_sUtil::keyExists($this->order_dict[$order]['db_col'], $row) ){
-//				
-//				return array(
-//					'numeric'=>2,	
-//					'message'=>"Row is missing at least one key",
-//					'var'=>array(
-//						     'row'=>$row, 
-//						     'key'=>$this->order_dict[$order]['db_col'], 
-//						     'val'=>$row[$this->order_dict[$order]['db_col']]
-//					 )
-//				);				
-//			}
-//
-//			// Validate the key
-//			// ==================================================
-//
-//			try {
-//
-//				// If $order == $row_order, we're at the lowest-order key in the row, which
-//				// is the end node. So validate it as an end node.
-//			    
-//				if( $order == $row_order ) {
-//
-//					switch($ctrl['end_node_format']){
-//
-//						case "scalar" : {
-//
-//							$check_result = self::validateKey(array(
-//								'type'=>$this->order_dict[$order]['type'],
-//								'format'=>'scalar',
-//								'var'=>$row[$this->order_dict[$order]['db_col']]
-//							));
-//
-//							if( $check_result !== true ){
-//
-//								return array(	
-//										'numeric'=>6,				    
-//										'message'=>$check_result,
-//										'row'=>$row, 
-//										'key'=>$this->order_dict[$order]['db_col'],
-//										'var'=>$row[$this->order_dict[$order]['db_col']]
-//								);				    
-//							}
-//
-//						} break;
-//
-//						case "array" : {
-//
-//							if( !is_array($row[$this->order_dict[$order]['db_col']]) ){
-//
-//							}
-//
-//							if( $ctrl['array_ctrl']['mode'] == 'normal' ){
-//
-//
-//								// In 'normal' mode, array end nodes are structured as
-//								// 
-//								//	array( 'K1' => true,
-//								//	       'K2' => true )
-//								//	       
-//								// ==================================================
-//
-//								foreach( $row[$this->order_dict[$order]['db_col']] as $key => $val ){
-//
-//									$check_result = self::validateKey(array(
-//										'type'=>$this->order_dict[$order]['type'],
-//										'format'=>'scalar',
-//										'var'=>$key
-//									));
-//
-//									if($check_result !== true){
-//										break;
-//									}
-//
-//								}
-//								unset($key, $val);
-//
-//								if( $check_result !== true ){
-//
-//									return array(	
-//											'numeric'=>3,				    
-//											'message'=>$check_result,
-//											'row'=>$row, 
-//											'key'=>$this->order_dict[$order]['db_col'],
-//											'var'=>$row[$this->order_dict[$order]['db_col']]
-//									);				    
-//								}								    
-//
-//							}
-//							else {
-//
-//								// In 'inverse' mode, array end nodes are structured as
-//								// 
-//								//	array( 0 => 'K1',
-//								//	       1 => 'K2' )
-//								//	       
-//								// ==================================================						    
-//
-//								foreach( $row[$this->order_dict[$order]['db_col']] as $key => $val ){
-//
-//									$check_result = self::validateKey(array(
-//										'type'=>$this->order_dict[$order]['type'],
-//										'format'=>'scalar',
-//										'var'=>$val
-//									));
-//
-//									if($check_result !== true){
-//										break;
-//									}
-//
-//								}
-//								unset($key, $val);
-//
-//								if( $check_result !== true ){
-//
-//									return array(	
-//											'numeric'=>4,				    
-//											'message'=>$check_result,
-//											'row'=>$row, 
-//											'key'=>$this->order_dict[$order]['db_col'],
-//											'var'=>$row[$this->order_dict[$order]['db_col']]
-//									);				    
-//								}								    
-//
-//							}
-//
-//						} break;
-//
-//						case "trie" : {	
-//
-//							$ctrl['trie_ctrl']['order'] = $order;
-//
-//							$check_result = self::validateTrie(
-//											    $row[$this->order_dict[$order]['db_col']],
-//											    $ctrl['trie_ctrl']
-//							);
-//
-//							if( $check_result !== true ){
-//
-//								return array(	
-//										'numeric'=>5,				    
-//										'message'=>$check_result,
-//										'row'=>$row, 
-//										'key'=>$this->order_dict[$order]['db_col'],
-//										'var'=>$row[$this->order_dict[$order]['db_col']]
-//								);				    
-//							}
-//
-//						} break;
-//
-//						default : {
-//
-//							throw new FOX_exception( array(
-//								'numeric'=>2,
-//								'text'=>"Invalid end_node_format parameter",
-//								'data'=>$ctrl['end_node_format'],
-//								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-//								'child'=>null
-//							));								    							    
-//						}
-//
-//					}												
-//
-//				}
-//				else {
-//
-//					$check_result = self::validateKey(array(
-//										'type'=>$this->order_dict[$order]['type'],
-//										'format'=>'scalar',
-//										'var'=>$row[$this->order_dict[$order]['db_col']]
-//					));	
-//
-//					if( $check_result !== true ){
-//
-//						return array(	
-//								'numeric'=>7,				    
-//								'message'=>$check_result,
-//								'row'=>$row, 
-//								'order'=>$ctrl['order'],
-//								'level'=>$order,
-//								'key'=>$this->order_dict[$order]['db_col'],
-//								'var'=>$row[$this->order_dict[$order]['db_col']]
-//						);				    
-//					}						
-//				}
-//
-//			}
-//			catch (FOX_exception $child) {
-//
-//				throw new FOX_exception( array(
-//					'numeric'=>1,
-//					'text'=>"Error while validating structure inside row",
-//					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-//					'child'=>$child
-//				));		    
-//			}					
-//
-//
-//		} // ENDOF: for($order=$row_order; $order <= $ctrl['order']; $order++){
-//
-//		
-//		return true;
-//	    
-//	}
 	
 	
 	/**

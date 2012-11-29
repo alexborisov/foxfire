@@ -3056,12 +3056,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				$row_valid = false;	
 
 				$row_ctrl = array(				    
-						    'end_node_format'=>'trie',
-						    'trie_ctrl'=>array(
-							    'mode'=>'data',
-							    'allow_wildcard'=>false,
-							    'clip_order'=>1	
-						    )
+						    'end_node_format'=>'scalar',
 				);				
 
 				try {			    
@@ -4408,10 +4403,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					$validator = new FOX_dataStore_validator($struct);
 				
 					$row_ctrl = array(				    
-							    'end_node_format'=>'array',
-							    'array_ctrl'=>array(
-										'mode'=>'normal'
-							    )
+							    'end_node_format'=>'scalar'
 					);				
 
 					foreach( $data as $row ){   
@@ -7040,7 +7032,20 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L1_col]) ){
 
-						$row_ctrl = array(  'expected_keys'=>5,
+						$row_ctrl = array(  'required_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col,
+											    $this->L2_col,
+											    $this->L1_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col,
+											    $this->L2_col,
+											    $this->L1_col
+								    ),
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -7049,7 +7054,20 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					}
 					else {
 						$row_ctrl = array(
-								    'expected_keys'=>5,
+								    'required_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col,
+											    $this->L2_col,
+											    $this->L1_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col,
+											    $this->L2_col,
+											    $this->L1_col
+								    ),
 								    'end_node_format'=>'scalar'
 						);
 					}
@@ -7391,7 +7409,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L2_col]) ){
 
-						$row_ctrl = array(  'expected_keys'=>4,
+						$row_ctrl = array(  'required_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col,
+											    $this->L2_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col,
+											    $this->L2_col
+								    ),
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -7399,7 +7428,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						);											
 					}
 					else {
-						$row_ctrl = array(  'expected_keys'=>4,
+						$row_ctrl = array(  'required_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col,
+											    $this->L2_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col,
+											    $this->L2_col
+								    ),
 								    'end_node_format'=>'scalar'
 						);
 					}
@@ -7731,7 +7771,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L3_col]) ){
 
-						$row_ctrl = array(  'expected_keys'=>3,
+						$row_ctrl = array(  'required_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col
+								    ),
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -7739,7 +7788,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						);											
 					}
 					else {
-						$row_ctrl = array(  'expected_keys'=>3,
+						$row_ctrl = array(  'required_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col,
+											    $this->L3_col
+								    ),
 								    'end_node_format'=>'scalar'
 						);
 					}
@@ -8060,7 +8118,14 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L4_col]) ){
 
-						$row_ctrl = array(  'expected_keys'=>2,
+						$row_ctrl = array(  'required_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col
+								    ),
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -8068,7 +8133,14 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						);											
 					}
 					else {
-						$row_ctrl = array(  'expected_keys'=>2,
+						$row_ctrl = array(  'required_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col,
+											    $this->L4_col
+								    ),
 								    'end_node_format'=>'scalar'
 						);
 					}
@@ -8370,7 +8442,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if( is_array($row[$this->L5_col]) ){
 
-						$row_ctrl = array(  'expected_keys'=>1,
+						$row_ctrl = array(  'required_keys'=>array(
+											    $this->L5_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col
+								    ),
 								    'end_node_format'=>'array',
 								    'array_ctrl'=>array(
 											'mode'=>'inverse'
@@ -8378,7 +8455,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						);											
 					}
 					else {
-						$row_ctrl = array(  'expected_keys'=>1,
+						$row_ctrl = array(  'required_keys'=>array(
+											    $this->L5_col
+								    ),
+								    'allowed_keys'=>array(
+											    $this->L5_col
+								    ),
 								    'end_node_format'=>'scalar'
 						);
 					}
