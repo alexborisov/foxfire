@@ -33,17 +33,22 @@ class FOX_dataStore_validator {
 	    
 	    
 		$this->struct = $struct;
-		$this->cols = array();
+		
+		$this->order_dict = array();
+		$this->col_dict = array();		
+		
 		$this->order = count($struct['columns']) - 1;
 		
 		$col_index = $this->order;
 		
 		foreach( $struct['columns'] as $col_name => $data ){
 		    
-			$this->cols[ 'L' . $col_index ] = array('db_col'=>$col_name, 'type'=>$data['php']);
+			$this->order_dict[$col_index] = array('db_col'=>$col_name, 'type'=>$data['php']);
+			$this->col_dict[$col_name] = array('order'=>$col_index, 'type'=>$data['php']);			
 			
 			$col_index--;
 		}
+		unset($col_name, $data);
 				
 	}
 	
@@ -57,8 +62,6 @@ class FOX_dataStore_validator {
          * @param array $row | matrix row structure to validate
 	 *  
          * @param array $ctrl | Control parameters
-	 * 
-	 *	=> VAL @param int $order | Order of trie structure
 	 * 
 	 *	=> VAL @param string $end_node_format | End node format 'scalar', 'array', or 'trie'
 	 * 
@@ -78,9 +81,9 @@ class FOX_dataStore_validator {
 	    
 	    
 		$ctrl_default = array(
-					'order'=>$this->order,
-					'expected_keys'=>null,
-					'allow_null_keys'=>false,
+					'allowed_keys'=>array_keys($this->col_dict),
+					'required_keys'=>array(),		    
+					'allow_foreign_keys'=>false,
 					'end_node_format'=>'scalar', 
 					'array_ctrl'=>array(
 							    'mode'=>'normal'
@@ -96,86 +99,87 @@ class FOX_dataStore_validator {
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);	    
 	    
 		
-	    	if($ctrl['order'] > $this->order){
-		    
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Specified order is too high for this storage class",
-				'data'=>array("order"=>$ctrl['order'], "class_order"=>$this->order),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));			
-		}		
+		// Trap missing keys
+		// ============================================================
 		
-		$row_order = ($ctrl['order'] - count($row)) + 1;
-		
-		if( !is_null($ctrl['expected_keys']) && (count($row) != $ctrl['expected_keys']) ){
-		    
-			return array(
-				'numeric'=>1,	
-				'message'=>"Row does not contain correct number of keys",
-				'var'=>$row
-			);	    		    
-		}
-		elseif($row_order == 0){
+		foreach( $ctrl['required_keys'] as $key ){
+		    		    
+			if( !FOX_sUtil::keyExists($key, $row) ){
 
-			// NOTE: we skip "L0" keys. The L0 key is the data key, and can contain ANY value
-			// of ANY data type (NULL, float, object, etc). Since every possible input is valid,
-			// there's no point in validating it.
-		    
-			return true;
-		}		
-		
-		
-		$check_result = true;
-		
-		for($level=$row_order; $level <= $ctrl['order']; $level++){
-
-
-			// Trap missing keys
-			// ==================================================
-
-			if(!FOX_sUtil::keyExists($this->cols['L' . $level]['db_col'], $row) ){
-				
 				return array(
-					'numeric'=>2,	
-					'message'=>"Row is missing at least one key",
-					'var'=>array(
-						     'row'=>$row, 
-						     'key'=>$this->cols['L' . $level]['db_col'], 
-						     'val'=>$row[$this->cols['L' . $level]['db_col']]
-					 )
-				);				
+					'numeric'=>1,	
+					'message'=>"Row is missing a required key: '$key'",
+					'var'=>$row
+				);	    		    
+			}		    			
+		}
+		unset($key);
+		
+		
+		// Trap foreign keys
+		// ============================================================
+		
+		if($ctrl['allow_foreign_keys'] == false){
+		    
+			foreach( $row as $key => $val ){
+
+				if( !FOX_sUtil::keyExists($key, $ctrl['allowed_keys']) ){
+
+					return array(
+						'numeric'=>2,	
+						'message'=>"Row contains a foreign key: '$key', and 'allow_foreign_keys' is false",
+						'var'=>$row
+					);	    		    
+				}		    
 			}
+			unset($key, $val);
+		}
+		
+		
+		$lowest_order_key = true;
+		
+		for( $order = 1; $order <= $this->order; $order++ ){
 
-			// Validate the key
-			// ==================================================
+		    
+			if( FOX_sUtil::keyExists($this->order_dict[$order]['db_col'], $row) ){
 
-			try {
-
-				// If $level == $row_order, we're at the lowest-order key in the row, which
-				// is the end node. So validate it as an end node.
 			    
-				if( $level == $row_order ) {
-
+				if($lowest_order_key){
+				    				    
+					$lowest_order_key = false;
+				    
 					switch($ctrl['end_node_format']){
 
 						case "scalar" : {
+						    
+							$val_args = array(
+									'type'=>$this->order_dict[$order]['type'],
+									'format'=>'scalar',
+									'var'=>$row[$this->order_dict[$order]['db_col']]
+							);
+							
+							try {			
+								$check_result = self::validateKey($val_args);
+							}
+							catch (FOX_exception $child) {
 
-							$check_result = self::validateKey(array(
-								'type'=>$this->cols['L' . $level]['type'],
-								'format'=>'scalar',
-								'var'=>$row[$this->cols['L' . $level]['db_col']]
-							));
+								throw new FOX_exception( array(
+									'numeric'=>1,
+									'text'=>"Error in self::validateKey()",
+									'data'=>$val_args,
+									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+									'child'=>$child
+								));	
+							}						    
 
 							if( $check_result !== true ){
 
 								return array(	
-										'numeric'=>6,				    
+										'numeric'=>3,				    
 										'message'=>$check_result,
 										'row'=>$row, 
-										'key'=>$this->cols['L' . $level]['db_col'],
-										'var'=>$row[$this->cols['L' . $level]['db_col']]
+										'key'=>$this->order_dict[$order]['db_col'],
+										'var'=>$row[$this->order_dict[$order]['db_col']]
 								);				    
 							}
 
@@ -183,8 +187,15 @@ class FOX_dataStore_validator {
 
 						case "array" : {
 
-							if( !is_array($row[$this->cols['L' . $level]['db_col']]) ){
-
+							if( !is_array($row[$this->order_dict[$order]['db_col']]) ){
+							    							    
+								return array(	
+										'numeric'=>4,				    
+										'message'=>"Must be an array",
+										'row'=>$row, 
+										'key'=>$this->order_dict[$order]['db_col'],
+										'var'=>$row[$this->order_dict[$order]['db_col']]
+								);							    
 							}
 
 							if( $ctrl['array_ctrl']['mode'] == 'normal' ){
@@ -197,15 +208,31 @@ class FOX_dataStore_validator {
 								//	       
 								// ==================================================
 
-								foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+								foreach( $row[$this->order_dict[$order]['db_col']] as $key => $val ){
 
-									$check_result = self::validateKey(array(
-										'type'=>$this->cols['L' . $level]['type'],
-										'format'=>'scalar',
-										'var'=>$key
-									));
+								    
+									$val_args = array(
+											    'type'=>$this->order_dict[$order]['type'],
+											    'format'=>'scalar',
+											    'var'=>$key
+									);
+
+									try {			
+										$check_result = self::validateKey($val_args);
+									}
+									catch (FOX_exception $child) {
+
+										throw new FOX_exception( array(
+											'numeric'=>2,
+											'text'=>"Error in self::validateKey()",
+											'data'=>$val_args,
+											'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+											'child'=>$child
+										));	
+									}						
 
 									if($check_result !== true){
+									    
 										break;
 									}
 
@@ -215,11 +242,11 @@ class FOX_dataStore_validator {
 								if( $check_result !== true ){
 
 									return array(	
-											'numeric'=>3,				    
+											'numeric'=>5,				    
 											'message'=>$check_result,
 											'row'=>$row, 
-											'key'=>$this->cols['L' . $level]['db_col'],
-											'var'=>$row[$this->cols['L' . $level]['db_col']]
+											'key'=>$this->order_dict[$order]['db_col'],
+											'var'=>$row[$this->order_dict[$order]['db_col']]
 									);				    
 								}								    
 
@@ -233,15 +260,30 @@ class FOX_dataStore_validator {
 								//	       
 								// ==================================================						    
 
-								foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+								foreach( $row[$this->order_dict[$order]['db_col']] as $key => $val ){
+								    
+									$val_args = array(
+											    'type'=>$this->order_dict[$order]['type'],
+											    'format'=>'scalar',
+											    'var'=>$val
+									);
 
-									$check_result = self::validateKey(array(
-										'type'=>$this->cols['L' . $level]['type'],
-										'format'=>'scalar',
-										'var'=>$val
-									));
+									try {			
+										$check_result = self::validateKey($val_args);
+									}
+									catch (FOX_exception $child) {
+
+										throw new FOX_exception( array(
+											'numeric'=>3,
+											'text'=>"Error in self::validateKey()",
+											'data'=>$val_args,
+											'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+											'child'=>$child
+										));	
+									}								    
 
 									if($check_result !== true){
+									    
 										break;
 									}
 
@@ -251,11 +293,11 @@ class FOX_dataStore_validator {
 								if( $check_result !== true ){
 
 									return array(	
-											'numeric'=>4,				    
+											'numeric'=>6,				    
 											'message'=>$check_result,
 											'row'=>$row, 
-											'key'=>$this->cols['L' . $level]['db_col'],
-											'var'=>$row[$this->cols['L' . $level]['db_col']]
+											'key'=>$this->order_dict[$order]['db_col'],
+											'var'=>$row[$this->order_dict[$order]['db_col']]
 									);				    
 								}								    
 
@@ -265,21 +307,35 @@ class FOX_dataStore_validator {
 
 						case "trie" : {	
 
-							$ctrl['trie_ctrl']['order'] = $level;
-
-							$check_result = self::validateTrie(
-											    $row[$this->cols['L' . $level]['db_col']],
-											    $ctrl['trie_ctrl']
+							$ctrl['trie_ctrl']['order'] = $order;
+							
+							$val_args = array(
+									    $row[$this->order_dict[$order]['db_col']],
+									    $ctrl['trie_ctrl']
 							);
+
+							try {			
+								$check_result = self::validateTrie($val_args);
+							}
+							catch (FOX_exception $child) {
+
+								throw new FOX_exception( array(
+									'numeric'=>4,
+									'text'=>"Error in self::validateTrie()",
+									'data'=>$val_args,
+									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+									'child'=>$child
+								));	
+							}							
 
 							if( $check_result !== true ){
 
 								return array(	
-										'numeric'=>5,				    
+										'numeric'=>7,				    
 										'message'=>$check_result,
 										'row'=>$row, 
-										'key'=>$this->cols['L' . $level]['db_col'],
-										'var'=>$row[$this->cols['L' . $level]['db_col']]
+										'key'=>$this->order_dict[$order]['db_col'],
+										'var'=>$row[$this->order_dict[$order]['db_col']]
 								);				    
 							}
 
@@ -288,7 +344,7 @@ class FOX_dataStore_validator {
 						default : {
 
 							throw new FOX_exception( array(
-								'numeric'=>2,
+								'numeric'=>5,
 								'text'=>"Invalid end_node_format parameter",
 								'data'=>$ctrl['end_node_format'],
 								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -297,46 +353,52 @@ class FOX_dataStore_validator {
 						}
 
 					}												
-
-				}
+			       
+			        }
 				else {
+				    
+					$val_args = array(
+							    'type'=>$this->order_dict[$order]['type'],
+							    'format'=>'scalar',
+							    'var'=>$row[$this->order_dict[$order]['db_col']]
+					);
 
-					$check_result = self::validateKey(array(
-										'type'=>$this->cols['L' . $level]['type'],
-										'format'=>'scalar',
-										'var'=>$row[$this->cols['L' . $level]['db_col']]
-					));	
+					try {			
+						$check_result = self::validateKey($val_args);
+					}
+					catch (FOX_exception $child) {
+
+						throw new FOX_exception( array(
+							'numeric'=>6,
+							'text'=>"Error in self::validateKey()",
+							'data'=>$val_args,
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'child'=>$child
+						));	
+					}										
 
 					if( $check_result !== true ){
 
 						return array(	
-								'numeric'=>7,				    
+								'numeric'=>8,				    
 								'message'=>$check_result,
 								'row'=>$row, 
 								'order'=>$ctrl['order'],
-								'level'=>$level,
-								'key'=>$this->cols['L' . $level]['db_col'],
-								'var'=>$row[$this->cols['L' . $level]['db_col']]
+								'level'=>$order,
+								'key'=>$this->order_dict[$order]['db_col'],
+								'var'=>$row[$this->order_dict[$order]['db_col']]
 						);				    
-					}						
+					}				    
+				    
 				}
-
+				
 			}
-			catch (FOX_exception $child) {
 
-				throw new FOX_exception( array(
-					'numeric'=>1,
-					'text'=>"Error while validating structure inside row",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
-			}					
-
-
-		} // ENDOF: for($level=$row_order; $level <= $ctrl['order']; $level++){
-
+		}
+		
 		
 		return true;
+
 	    
 	}
 	
@@ -422,21 +484,21 @@ class FOX_dataStore_validator {
 //		
 //		$check_result = true;
 //		
-//		for($level=$row_order; $level <= $ctrl['order']; $level++){
+//		for($order=$row_order; $order <= $ctrl['order']; $order++){
 //
 //
 //			// Trap missing keys
 //			// ==================================================
 //
-//			if(!FOX_sUtil::keyExists($this->cols['L' . $level]['db_col'], $row) ){
+//			if(!FOX_sUtil::keyExists($this->order_dict[$order]['db_col'], $row) ){
 //				
 //				return array(
 //					'numeric'=>2,	
 //					'message'=>"Row is missing at least one key",
 //					'var'=>array(
 //						     'row'=>$row, 
-//						     'key'=>$this->cols['L' . $level]['db_col'], 
-//						     'val'=>$row[$this->cols['L' . $level]['db_col']]
+//						     'key'=>$this->order_dict[$order]['db_col'], 
+//						     'val'=>$row[$this->order_dict[$order]['db_col']]
 //					 )
 //				);				
 //			}
@@ -446,19 +508,19 @@ class FOX_dataStore_validator {
 //
 //			try {
 //
-//				// If $level == $row_order, we're at the lowest-order key in the row, which
+//				// If $order == $row_order, we're at the lowest-order key in the row, which
 //				// is the end node. So validate it as an end node.
 //			    
-//				if( $level == $row_order ) {
+//				if( $order == $row_order ) {
 //
 //					switch($ctrl['end_node_format']){
 //
 //						case "scalar" : {
 //
 //							$check_result = self::validateKey(array(
-//								'type'=>$this->cols['L' . $level]['type'],
+//								'type'=>$this->order_dict[$order]['type'],
 //								'format'=>'scalar',
-//								'var'=>$row[$this->cols['L' . $level]['db_col']]
+//								'var'=>$row[$this->order_dict[$order]['db_col']]
 //							));
 //
 //							if( $check_result !== true ){
@@ -467,8 +529,8 @@ class FOX_dataStore_validator {
 //										'numeric'=>6,				    
 //										'message'=>$check_result,
 //										'row'=>$row, 
-//										'key'=>$this->cols['L' . $level]['db_col'],
-//										'var'=>$row[$this->cols['L' . $level]['db_col']]
+//										'key'=>$this->order_dict[$order]['db_col'],
+//										'var'=>$row[$this->order_dict[$order]['db_col']]
 //								);				    
 //							}
 //
@@ -476,7 +538,7 @@ class FOX_dataStore_validator {
 //
 //						case "array" : {
 //
-//							if( !is_array($row[$this->cols['L' . $level]['db_col']]) ){
+//							if( !is_array($row[$this->order_dict[$order]['db_col']]) ){
 //
 //							}
 //
@@ -490,10 +552,10 @@ class FOX_dataStore_validator {
 //								//	       
 //								// ==================================================
 //
-//								foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+//								foreach( $row[$this->order_dict[$order]['db_col']] as $key => $val ){
 //
 //									$check_result = self::validateKey(array(
-//										'type'=>$this->cols['L' . $level]['type'],
+//										'type'=>$this->order_dict[$order]['type'],
 //										'format'=>'scalar',
 //										'var'=>$key
 //									));
@@ -511,8 +573,8 @@ class FOX_dataStore_validator {
 //											'numeric'=>3,				    
 //											'message'=>$check_result,
 //											'row'=>$row, 
-//											'key'=>$this->cols['L' . $level]['db_col'],
-//											'var'=>$row[$this->cols['L' . $level]['db_col']]
+//											'key'=>$this->order_dict[$order]['db_col'],
+//											'var'=>$row[$this->order_dict[$order]['db_col']]
 //									);				    
 //								}								    
 //
@@ -526,10 +588,10 @@ class FOX_dataStore_validator {
 //								//	       
 //								// ==================================================						    
 //
-//								foreach( $row[$this->cols['L' . $level]['db_col']] as $key => $val ){
+//								foreach( $row[$this->order_dict[$order]['db_col']] as $key => $val ){
 //
 //									$check_result = self::validateKey(array(
-//										'type'=>$this->cols['L' . $level]['type'],
+//										'type'=>$this->order_dict[$order]['type'],
 //										'format'=>'scalar',
 //										'var'=>$val
 //									));
@@ -547,8 +609,8 @@ class FOX_dataStore_validator {
 //											'numeric'=>4,				    
 //											'message'=>$check_result,
 //											'row'=>$row, 
-//											'key'=>$this->cols['L' . $level]['db_col'],
-//											'var'=>$row[$this->cols['L' . $level]['db_col']]
+//											'key'=>$this->order_dict[$order]['db_col'],
+//											'var'=>$row[$this->order_dict[$order]['db_col']]
 //									);				    
 //								}								    
 //
@@ -558,10 +620,10 @@ class FOX_dataStore_validator {
 //
 //						case "trie" : {	
 //
-//							$ctrl['trie_ctrl']['order'] = $level;
+//							$ctrl['trie_ctrl']['order'] = $order;
 //
 //							$check_result = self::validateTrie(
-//											    $row[$this->cols['L' . $level]['db_col']],
+//											    $row[$this->order_dict[$order]['db_col']],
 //											    $ctrl['trie_ctrl']
 //							);
 //
@@ -571,8 +633,8 @@ class FOX_dataStore_validator {
 //										'numeric'=>5,				    
 //										'message'=>$check_result,
 //										'row'=>$row, 
-//										'key'=>$this->cols['L' . $level]['db_col'],
-//										'var'=>$row[$this->cols['L' . $level]['db_col']]
+//										'key'=>$this->order_dict[$order]['db_col'],
+//										'var'=>$row[$this->order_dict[$order]['db_col']]
 //								);				    
 //							}
 //
@@ -595,9 +657,9 @@ class FOX_dataStore_validator {
 //				else {
 //
 //					$check_result = self::validateKey(array(
-//										'type'=>$this->cols['L' . $level]['type'],
+//										'type'=>$this->order_dict[$order]['type'],
 //										'format'=>'scalar',
-//										'var'=>$row[$this->cols['L' . $level]['db_col']]
+//										'var'=>$row[$this->order_dict[$order]['db_col']]
 //					));	
 //
 //					if( $check_result !== true ){
@@ -607,9 +669,9 @@ class FOX_dataStore_validator {
 //								'message'=>$check_result,
 //								'row'=>$row, 
 //								'order'=>$ctrl['order'],
-//								'level'=>$level,
-//								'key'=>$this->cols['L' . $level]['db_col'],
-//								'var'=>$row[$this->cols['L' . $level]['db_col']]
+//								'level'=>$order,
+//								'key'=>$this->order_dict[$order]['db_col'],
+//								'var'=>$row[$this->order_dict[$order]['db_col']]
 //						);				    
 //					}						
 //				}
@@ -626,7 +688,7 @@ class FOX_dataStore_validator {
 //			}					
 //
 //
-//		} // ENDOF: for($level=$row_order; $level <= $ctrl['order']; $level++){
+//		} // ENDOF: for($order=$row_order; $order <= $ctrl['order']; $order++){
 //
 //		
 //		return true;
@@ -717,7 +779,7 @@ class FOX_dataStore_validator {
 					    
 					    
 						$check_result = self::validateKey(array(
-											'type'=>$this->cols['L' . $ctrl['order']]['type'],
+											'type'=>$this->order_dict[$ctrl['order']]['type'],
 											'format'=>'scalar',
 											'var'=>$parent_id
 						));				
@@ -726,7 +788,7 @@ class FOX_dataStore_validator {
 
 							return array(	'numeric'=>1,
 									'message'=>$check_result,
-									'key'=>'L' . $ctrl['order'], 
+									'key'=>$ctrl['order'], 
 									'val'=>$parent_id
 							);			    
 						}					    
@@ -746,17 +808,17 @@ class FOX_dataStore_validator {
 
 						if( FOX_sUtil::keyExists('trace', $child_result) ){
 
-							$trace = array_merge($child_result['trace'], array( 'L' . $ctrl['order'] => $parent_id) );
+							$trace = array_merge($child_result['trace'], array( $ctrl['order'] => $parent_id) );
 						}
 						else {
 
-						    $trace = array( 'L' . $ctrl['order'] => $parent_id);
+						    $trace = array( $ctrl['order'] => $parent_id);
 						}
 
 						return array(	
 								'numeric'=>2,
 								'message'=>$child_result['message'],
-								'key'=>'L' . $ctrl['order'], 
+								'key'=>$ctrl['order'], 
 								'val'=>$parent_id,
 								'trace'=>$trace
 						);			    
@@ -777,7 +839,7 @@ class FOX_dataStore_validator {
 
 						return array(	'numeric'=>3,
 								'message'=>$message,
-								'key'=>'L' . $ctrl['order'], 
+								'key'=>$ctrl['order'], 
 								'val'=>$parent_id,
 						);					    
 					}
@@ -798,7 +860,7 @@ class FOX_dataStore_validator {
 
 							return array(	'numeric'=>4,
 									'message'=>$message,
-									'key'=>'L' . $ctrl['order'], 
+									'key'=>$ctrl['order'], 
 									'val'=>$parent_id,
 							);					    
 						}
@@ -813,7 +875,7 @@ class FOX_dataStore_validator {
 
 						return array(	'numeric'=>5,
 								'message'=>$message,
-								'key'=>'L' . $ctrl['order'], 
+								'key'=>$ctrl['order'], 
 								'val'=>$parent_id,
 						);
 					}
@@ -830,7 +892,7 @@ class FOX_dataStore_validator {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error in validator",
-				'data'=>array("columns"=>$this->cols),
+				'data'=>array("columns"=>$this->order_dict),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));		    
