@@ -1258,7 +1258,7 @@ class core_datastore_validators extends RAZ_testCase {
 		$cls = new FOX_dataStore_validator($struct);				
 		
 		
-		// PASS - Auto $expected_keys, X3->X0 walk
+		// PASS - X3->X0 walk
 		// ####################################################################
 	    
 		$ctrl = array(
@@ -1278,7 +1278,7 @@ class core_datastore_validators extends RAZ_testCase {
 		$this->assertEquals(true, $result);	
 
 		
-		// PASS - Auto $expected_keys, X3->X1 walk
+		// PASS - X3->X1 walk
 		// ####################################################################
 	    
 		$ctrl = array(
@@ -1298,7 +1298,7 @@ class core_datastore_validators extends RAZ_testCase {
 		$this->assertEquals(true, $result);			
 		
 		
-		// PASS - Auto $expected_keys, X3->X2 walk
+		// PASS - X3->X2 walk
 		// ####################################################################
 	    
 		$ctrl = array(
@@ -1318,7 +1318,7 @@ class core_datastore_validators extends RAZ_testCase {
 		$this->assertEquals(true, $result);
 		
 		
-		// PASS - Auto $expected_keys, X3->X3 walk
+		// PASS - X3->X3 walk
 		// ####################################################################
 	    
 		$ctrl = array(
@@ -1358,7 +1358,7 @@ class core_datastore_validators extends RAZ_testCase {
 		$this->assertEquals(true, $result);		
 		
 		
-		// PASS - Non-sequential keys
+		// PASS - Null keys, when allowed
 		// ####################################################################
 	    
 		$ctrl = array(
@@ -1378,54 +1378,149 @@ class core_datastore_validators extends RAZ_testCase {
 		$this->assertEquals(true, $result);
 		
 		
+		// FAIL - Null keys, when not allowed
+		// ####################################################################
+	    
+		$ctrl = array(	'required_keys'=>array('X3','X2','X1'),
+				'end_node_format'=>'scalar'		    
+		);
 		
-		return;
-														
-		// EXCEPTION - Wildcards in 'data' mode
+		$row = array('X3'=>1, 'X1'=>1, 'X0'=>array('foo',17,null) );
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// PASS - Foreign keys, when allowed
+		// ####################################################################
+	    
+		$ctrl = array(	'allow_foreign_keys'=>true,
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array('X3'=>1, 'X1'=>1, 'X0'=>array('foo',17,null), 'X12'=>true );
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);		
+							
+		
+		// FAIL - Foreign keys, by implcation, when not allowed
+		// ####################################################################
+	    
+		$ctrl = array(	'allow_foreign_keys'=>false,
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array('X3'=>1, 'X1'=>1, 'X0'=>array('foo',17,null), 'X12'=>true );
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Foreign keys, by definition, when not allowed
+		// ####################################################################
+	    
+		$ctrl = array(	'allow_foreign_keys'=>false,
+				'allowed_keys'=>array('X3','X2','X1'),
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array('X3'=>1, 'X2'=>'Y', 'X1'=>1, 'X0'=>array('foo',17,null) ); 
+		
+		// Fails on 'X0' even though its in the class definition array, because
+		// its not present in the 'allowed_keys' array
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);	
+		
+		
+		// FAIL - Incorrect 'X1' data type
 		// ####################################################################
 	    
 		$ctrl = array(
-			'order'=>3,
-			'mode'=>'data',
-			'allow_wildcard'=>true,
-			'clip_order'=>2		    
-		);	
+				'end_node_format'=>'scalar'		    
+		);
 		
-		$data = "foo";
+		$row = array('X3'=>1, 'X2'=>'Y', 'X1'=>'1', 'X0'=>array('foo',17,null) );
 		
 		try {			
-			$result = $cls->validateTrie($data, $ctrl);
-			
-			// Execution will halt on the previous line if validateTrie() throws an exception
-			$this->fail("Method validateTrie() failed to throw an exception on wildcards in 'data' mode");			
+			$result = $cls->validateMatrixRow($row, $ctrl);
 		}
 		catch (FOX_exception $child) {
-	
+
+			$this->fail($child->dumpString(1));	
 		}
+
+		$this->assertNotEquals(true, $result);		
 		
 		
-		// EXCEPTION - Invalid order
+		// FAIL - Incorrect 'X2' data type
 		// ####################################################################
 	    
 		$ctrl = array(
-			'order'=>7,
-			'mode'=>'data',
-			'allow_wildcard'=>false,
-			'clip_order'=>2		    
-		);	
+				'end_node_format'=>'scalar'		    
+		);
 		
-		$data = "foo";
+		$row = array('X3'=>1, 'X2'=>2, 'X1'=>1, 'X0'=>array('foo',17,null) );
 		
 		try {			
-			$result = $cls->validateTrie($data, $ctrl);
-			
-			// Execution will halt on the previous line if validateTrie() throws an exception
-			$this->fail("Method validateTrie() failed to throw an exception on invalid class order");			
+			$result = $cls->validateMatrixRow($row, $ctrl);
 		}
 		catch (FOX_exception $child) {
-	
-		}		
-				
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);	
+		
+		
+		// FAIL - Incorrect 'X3' data type
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array('X3'=>"F", 'X2'=>'Y', 'X1'=>1, 'X0'=>array('foo',17,null) );
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);		
+		
 	}
 	
 	

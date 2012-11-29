@@ -136,7 +136,7 @@ class FOX_dataStore_validator {
 		// Trap missing keys
 		// ============================================================
 		
-		foreach( $ctrl['required_keys'] as $key ){
+		foreach( $ctrl['required_keys'] as $key => $fake_var){
 		    		    
 			if( !FOX_sUtil::keyExists($key, $row) ){
 
@@ -147,7 +147,7 @@ class FOX_dataStore_validator {
 				);	    		    
 			}		    			
 		}
-		unset($key);
+		unset($key, $fake_var);
 		
 		
 		// Trap foreign keys
