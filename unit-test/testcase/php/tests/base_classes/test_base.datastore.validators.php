@@ -1238,7 +1238,7 @@ class core_datastore_validators extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_validateMatrixRow_scalar() {
- return;
+
 	    
 		$struct = array(
 
@@ -1262,7 +1262,6 @@ class core_datastore_validators extends RAZ_testCase {
 		// ####################################################################
 	    
 		$ctrl = array(
-				'expected_keys'=>null,
 				'end_node_format'=>'scalar'		    
 		);
 		
@@ -1283,7 +1282,6 @@ class core_datastore_validators extends RAZ_testCase {
 		// ####################################################################
 	    
 		$ctrl = array(
-				'expected_keys'=>null,
 				'end_node_format'=>'scalar'		    
 		);
 		
@@ -1304,7 +1302,6 @@ class core_datastore_validators extends RAZ_testCase {
 		// ####################################################################
 	    
 		$ctrl = array(
-				'expected_keys'=>null,
 				'end_node_format'=>'scalar'		    
 		);
 		
@@ -1325,7 +1322,6 @@ class core_datastore_validators extends RAZ_testCase {
 		// ####################################################################
 	    
 		$ctrl = array(
-				'expected_keys'=>null,
 				'end_node_format'=>'scalar'		    
 		);
 		
@@ -1346,7 +1342,6 @@ class core_datastore_validators extends RAZ_testCase {
 		// ####################################################################
 	    
 		$ctrl = array(
-				'expected_keys'=>null,
 				'end_node_format'=>'scalar'		    
 		);
 		
@@ -1367,7 +1362,6 @@ class core_datastore_validators extends RAZ_testCase {
 		// ####################################################################
 	    
 		$ctrl = array(
-				'expected_keys'=>null,
 				'end_node_format'=>'scalar'		    
 		);
 		

@@ -99,6 +99,40 @@ class FOX_dataStore_validator {
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);	    
 	    
 		
+		// Invert 'allowed_keys' and 'required_keys' arrays
+		// ============================================================
+		
+		if( !empty($ctrl['allowed_keys']) ){
+		    
+			$temp = array();
+
+			foreach( $ctrl['allowed_keys'] as $id => $val){
+
+				$temp[$val] = true;
+			}
+			unset($id, $val);
+
+			$ctrl['allowed_keys'] = $temp;
+			
+			unset($temp);		
+		}		
+		
+		if( !empty($ctrl['required_keys']) ){
+		    
+			$temp = array();
+
+			foreach( $ctrl['required_keys'] as $id => $val){
+
+				$temp[$val] = true;
+			}
+			unset($id, $val);
+
+			$ctrl['required_keys'] = $temp;	
+
+			unset($temp);		
+		}
+		
+			
 		// Trap missing keys
 		// ============================================================
 		
