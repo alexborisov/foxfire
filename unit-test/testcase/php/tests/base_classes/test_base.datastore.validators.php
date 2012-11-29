@@ -1225,8 +1225,213 @@ class core_datastore_validators extends RAZ_testCase {
 		catch (FOX_exception $child) {
 	
 		}		
+				
+	}
+	
+	
+       /**
+	* Test fixture for validateMatrixRow() method, 'scalar' mode
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_validateMatrixRow_scalar() {
+ 
+	    
+		$struct = array(
+
+			"table" => "FOX_dataStore_validators",
+			"engine" => "InnoDB",
+			"cache_namespace" => "FOX_dataStore_validators",
+			"cache_strategy" => "paged",
+			"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
+			"columns" => array(
+			    "X3" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X1" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X0" =>	array(	"php"=>"serialize", "sql"=>"longtext",	"format"=>"%s", "width"=>null,	"flags"=>"",		"auto_inc"=>false,  "default"=>null,	"index"=>false),
+			)
+		);
+		
+		$cls = new FOX_dataStore_validator($struct);				
 		
 		
+		// PASS - Auto $expected_keys, X3->X0 walk
+		// ####################################################################
+	    
+		$ctrl = array(
+				'expected_keys'=>null,
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array('X3'=>1, 'X2'=>'Y', 'X1'=>1, 'X0'=>array('foo',17,null) );
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);	
+
+		
+		// PASS - Auto $expected_keys, X3->X1 walk
+		// ####################################################################
+	    
+		$ctrl = array(
+				'expected_keys'=>null,
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array('X3'=>1, 'X2'=>'Y', 'X1'=>1 );
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);			
+		
+		
+		// PASS - Auto $expected_keys, X3->X2 walk
+		// ####################################################################
+	    
+		$ctrl = array(
+				'expected_keys'=>null,
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array('X3'=>1, 'X2'=>'Y');
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);
+		
+		
+		// PASS - Auto $expected_keys, X3->X3 walk
+		// ####################################################################
+	    
+		$ctrl = array(
+				'expected_keys'=>null,
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array('X3'=>1);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);			
+		
+		
+		// PASS - Empty row (allows SELECT *)
+		// ####################################################################
+	    
+		$ctrl = array(
+				'expected_keys'=>null,
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array();
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);		
+		
+		
+		// PASS - Non-sequential keys
+		// ####################################################################
+	    
+		$ctrl = array(
+				'expected_keys'=>null,
+				'end_node_format'=>'scalar'		    
+		);
+		
+		$row = array('X3'=>1, 'X1'=>1, 'X0'=>array('foo',17,null) );
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);
+		
+		
+		
+		return;
+														
+		// EXCEPTION - Wildcards in 'data' mode
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>3,
+			'mode'=>'data',
+			'allow_wildcard'=>true,
+			'clip_order'=>2		    
+		);	
+		
+		$data = "foo";
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+			
+			// Execution will halt on the previous line if validateTrie() throws an exception
+			$this->fail("Method validateTrie() failed to throw an exception on wildcards in 'data' mode");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+		
+		
+		// EXCEPTION - Invalid order
+		// ####################################################################
+	    
+		$ctrl = array(
+			'order'=>7,
+			'mode'=>'data',
+			'allow_wildcard'=>false,
+			'clip_order'=>2		    
+		);	
+		
+		$data = "foo";
+		
+		try {			
+			$result = $cls->validateTrie($data, $ctrl);
+			
+			// Execution will halt on the previous line if validateTrie() throws an exception
+			$this->fail("Method validateTrie() failed to throw an exception on invalid class order");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+				
 	}
 	
 	
