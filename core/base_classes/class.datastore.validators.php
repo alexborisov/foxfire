@@ -82,7 +82,8 @@ class FOX_dataStore_validator {
 	    
 		$ctrl_default = array(
 					'allowed_keys'=>array_keys($this->col_dict),
-					'required_keys'=>array(),		    
+					'required_keys'=>array(),
+					'ignored_keys'=>array($this->order_dict[0]['db_col']),	// Ignore the L0 column
 					'allow_foreign_keys'=>false,
 					'end_node_format'=>'scalar', 
 					'array_ctrl'=>array(
@@ -132,6 +133,21 @@ class FOX_dataStore_validator {
 			unset($temp);		
 		}
 		
+		if( !empty($ctrl['ignored_keys']) ){
+		    
+			$temp = array();
+
+			foreach( $ctrl['ignored_keys'] as $id => $val){
+
+				$temp[$val] = true;
+			}
+			unset($id, $val);
+
+			$ctrl['ignored_keys'] = $temp;	
+
+			unset($temp);		
+		}		
+		
 			
 		// Trap missing keys
 		// ============================================================
@@ -174,6 +190,12 @@ class FOX_dataStore_validator {
 		
 		for( $order = 1; $order <= $this->order; $order++ ){
 
+			// Skip ignored keys
+		    
+			if( FOX_sUtil::keyExists($this->order_dict[$order]['db_col'], $ctrl['ignored_keys']) ){	
+			    
+				continue;
+			}
 		    
 			if( FOX_sUtil::keyExists($this->order_dict[$order]['db_col'], $row) ){
 
