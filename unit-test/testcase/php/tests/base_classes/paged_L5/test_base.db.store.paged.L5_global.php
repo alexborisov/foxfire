@@ -182,7 +182,7 @@ class core_L5_paged_abstract_globalMethods extends RAZ_testCase {
 		}
 		catch (FOX_exception $child) {
 
-			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));			
 		}			
 
 		// Should return (int)19 to indicate  19 keys were added

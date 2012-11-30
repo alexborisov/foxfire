@@ -659,7 +659,7 @@ abstract class FOX_db_base {
 	 * @since 1.0
 	 * 
 	 * @param array $ctrl | Control parameters 
-	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	  
+	 *	=> VAL @param float $seconds |  Time in seconds from present time until lock expires	  
 	 *	=> VAL @param string $mode | 'fetch' -  Returns an array of requested cache keys
 	 *				     'update' - Overwrites class cache array with requested keys
 	 * 	  
@@ -681,6 +681,13 @@ abstract class FOX_db_base {
 				'child'=>null
 			));		    		    
 		}		
+		
+//		$ctrl_default = array(
+//			'seconds'=>5.0,
+//                        'mode'=>'fetch'		    
+//		);
+//
+//		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
 		
 		$ctrl['process_id'] = $this->process_id;		
 		$ctrl['engine'] = $struct["cache_engine"];
@@ -740,7 +747,7 @@ abstract class FOX_db_base {
 	 * @param string/array $keys | Single key as string. Multiple keys as array of strings.
 	 * 
 	 * @param array $ctrl | Control parameters 
-	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	  
+	 *	=> VAL @param float $seconds |  Time in seconds from present time until lock expires	  
 	 *	=> VAL @param string $mode | 'fetch' -  Returns an array of requested cache keys
 	 *				     'update' - Overwrites class cache array with requested keys
 	 * 
@@ -764,7 +771,7 @@ abstract class FOX_db_base {
 		}
 		
 		$ctrl_default = array(
-			'seconds'=>5,
+			'seconds'=>5.0,
                         'mode'=>'fetch'		    
 		);
 

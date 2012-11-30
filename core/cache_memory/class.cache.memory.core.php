@@ -975,7 +975,7 @@ class FOX_mCache {
 			));
 		}
 		
-		if( !FOX_sUtil::keyExists('seconds', $args) || !is_int($args['seconds']) ) {
+		if( !FOX_sUtil::keyExists('seconds', $args) ) {
 
 			throw new FOX_exception( array(
 				'numeric'=>4,
@@ -1110,7 +1110,7 @@ class FOX_mCache {
 			));
 		}
 		
-		if( !FOX_sUtil::keyExists('seconds', $args) || !is_int($args['seconds']) ) {
+		if( !FOX_sUtil::keyExists('seconds', $args) ) {
 
 			throw new FOX_exception( array(
 				'numeric'=>4,

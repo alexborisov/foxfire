@@ -198,7 +198,6 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 * @since 1.0
 	 *
 	 * @param string $namespace | Class namespace
-	 * @param int $process_id | Process ID to use as owner 
 	 * @param int $seconds |  Time in seconds from present time until lock expires	  
 	 * 
 	 * @return bool | Exception on failure. True on success.
@@ -256,11 +255,9 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 					$offset = $lock['offset'];				    				    
 				}								 
 				else {
-					// If the lock isn't owned by the current PID, throw an exception if the 
-					// lock is valid, or flush the namespace if the lock is expired.
 				    
 					$expiry_time = $lock['expire'];
-					$current_time = time();
+					$current_time = microtime(true);
 
 					if( $current_time < $expiry_time ){
 
@@ -292,12 +289,141 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				}
 				
 			}
-
 			 
 			$keys = array(			    
 					"fox.ns_lock.".$ns => array( 
 								    'pid'=>$this->process_id, 
-								    'expire'=>( time() + $seconds ),
+								    'expire'=>( microtime(true) + $seconds ),
+								    'offset'=>$offset
+					),
+					"fox.ns_offset.".$ns => -1			    
+			);
+
+			// NOTE: apc_store() has a different error reporting format when
+			// passed an array @see http://php.net/manual/en/function.apc-store.php
+			
+			$cache_result = apc_store($keys);
+
+			if( count($cache_result) != 0 ){
+
+				throw new FOX_exception(array(
+					'numeric'=>5,
+					'text'=>"Error writing to cache engine",
+					'data'=>$keys,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}
+						
+		}
+		
+		return true;
+
+	}
+	
+	
+	/**
+	 * Unlocks a locked namespace within the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $namespace | Class namespace	  
+	 * 
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function unlockNamespace($ns, $seconds){
+
+	    
+		if( !$this->isActive() ){
+		    
+			throw new FOX_exception(array(
+				'numeric'=>1,
+				'text'=>"Cache driver is not active",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			
+		}
+		else {
+
+			if( empty($ns) ){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Empty namespace value",
+					'data'=>$ns,			    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));		    		
+			}
+			
+			try {
+				$offset = self::getOffset($ns);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception(array(
+					'numeric'=>3,
+					'text'=>"Error in self::getOffset()",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}
+						
+			// If the namespace is *already* locked, fetch the lock info array
+			
+			if($offset == -1){
+			    			    
+				$lock = apc_fetch("fox.ns_lock.".$ns);				
+								
+				// If the lock is owned by the current PID, just write back the lock array
+				// to the cache with an updated timestamp, refreshing the lock.
+				
+				if( $lock['pid'] == $this->process_id ){
+				    
+					$offset = $lock['offset'];				    				    
+				}								 
+				else {
+				    
+					$expiry_time = $lock['expire'];
+					$current_time = microtime(true);
+
+					if( $current_time < $expiry_time ){
+
+						// Lock is still valid
+					    
+						throw new FOX_exception(array(
+							'numeric'=>4,
+							'text'=>"Namespace is already locked",
+							'data'=>array('ns'=>$ns, 'lock'=>$lock),
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'child'=>null
+						));					    
+					}
+					else {				    
+						// If the lock is expired, increment the namespace offset to
+						// flush any keys involved in the previous lock
+
+						$offset = $lock['offset'];
+
+						if($offset < $this->max_offset){ 
+
+							$offset++;
+						}
+						else {
+							$offset = 1;
+						}
+					}
+				
+				}
+				
+			}
+			 
+			$keys = array(			    
+					"fox.ns_lock.".$ns => array( 
+								    'pid'=>$this->process_id, 
+								    'expire'=>( microtime(true) + $seconds ),
 								    'offset'=>$offset
 					),
 					"fox.ns_offset.".$ns => -1			    
@@ -528,19 +654,17 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 								
 				// If the lock is owned by the current PID, set the $offset variable to
 				// the value stored in the $lock array. This makes the keys valid when
-				// the lock is released by the the process that set it, but flushes the
-				// keys if the lock expires.
+				// the lock is released by the the process that set it, but causes them
+				// to be flushed if the lock expires.
 				
 				if( $lock['pid'] == $this->process_id ){
 				    
 					$offset = $lock['offset'];				    				    
 				}								 
 				else {
-					// If the lock isn't owned by the current PID, throw an exception if the 
-					// lock is valid, or flush the namespace if the lock is expired.
 				    							
 					$expiry_time = $lock['expire'];
-					$current_time = time();
+					$current_time = microtime(true);
 
 					if( $current_time < $expiry_time ){
 
@@ -680,19 +804,17 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 								
 				// If the lock is owned by the current PID, set the $offset variable to
 				// the value stored in the $lock array. This makes the keys valid when
-				// the lock is released by the the process that set it, but flushes the
-				// keys if the lock expires.
+				// the lock is released by the the process that set it, but causes them
+				// to be flushed if the lock expires.
 				
 				if( $lock['pid'] == $this->process_id ){
 				    
 					$offset = $lock['offset'];				    				    
 				}								 
-				else {
-					// If the lock isn't owned by the current PID, throw an exception if the 
-					// lock is valid, or flush the namespace if the lock is expired.			
+				else {			
 				
 					$expiry_time = $lock['expire'];
-					$current_time = time();
+					$current_time = microtime(true);
 
 					if( $current_time < $expiry_time ){
 
@@ -824,12 +946,10 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				    
 					$offset = $lock['offset'];				    				    
 				}								 
-				else {
-					// If the lock isn't owned by the current PID, throw an exception if the 
-					// lock is valid, or flush the namespace if the lock is expired.			
+				else {			
 				
 					$expiry_time = $lock['expire'];
-					$current_time = time();
+					$current_time = microtime(true);
 
 					if( $current_time < $expiry_time ){
 
@@ -947,12 +1067,10 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				    
 					$offset = $lock['offset'];				    				    
 				}								 
-				else {
-					// If the lock isn't owned by the current PID, throw an exception if the 
-					// lock is valid, or flush the namespace if the lock is expired.				
+				else {				
 				
 					$expiry_time = $lock['expire'];
-					$current_time = time();
+					$current_time = microtime(true);
 
 					if( $current_time < $expiry_time ){
 
@@ -1098,12 +1216,10 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				    
 					$offset = $lock['offset'];				    				    
 				}								 
-				else {
-					// If the lock isn't owned by the current PID, throw an exception if the 
-					// lock is valid, or flush the namespace if the lock is expired.				
+				else {				
 				
 					$expiry_time = $lock['expire'];
-					$current_time = time();
+					$current_time = microtime(true);
 
 					if( $current_time < $expiry_time ){
 
@@ -1220,12 +1336,10 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				    
 					$offset = $lock['offset'];				    				    
 				}								 
-				else {
-					// If the lock isn't owned by the current PID, throw an exception if the 
-					// lock is valid, or flush the namespace if the lock is expired.					
-				
+				else {					
+				    
 					$expiry_time = $lock['expire'];
-					$current_time = time();
+					$current_time = microtime(true);
 
 					if( $current_time < $expiry_time ){
 

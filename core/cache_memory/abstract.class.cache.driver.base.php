@@ -139,7 +139,7 @@ abstract class FOX_mCache_driver_base {
 		else {
 
 			$expiry_time = $cache_image['lock']['expire'];
-			$current_time = time();
+			$current_time = microtime(true);
 
 			if( $current_time > $expiry_time ){
 
@@ -235,7 +235,7 @@ abstract class FOX_mCache_driver_base {
 			else {
 
 				$expiry_time = $cache_result[$page_name]['lock']['expire'];
-				$current_time = time();
+				$current_time = microtime(true);
 
 				if( $current_time > $expiry_time ){
 
@@ -404,7 +404,7 @@ abstract class FOX_mCache_driver_base {
 			));
 		}
 		
-		$lock_array = array( 'pid'=>$args['process_id'], 'expire'=> ( time() + $args['seconds'] ) );
+		$lock_array = array( 'pid'=>$args['process_id'], 'expire'=> ( microtime(true) + $args['seconds'] ) );
 		
 		
 		// CASE 1: The namespace has no cache entry
@@ -539,7 +539,7 @@ abstract class FOX_mCache_driver_base {
 			else {
 
 				$expiry_time = $cache_result[$page]['lock']['expire'];
-				$current_time = time();
+				$current_time = microtime(true);
 
 				if( $current_time > $expiry_time ){
 
@@ -576,7 +576,7 @@ abstract class FOX_mCache_driver_base {
 		// =============================================================
 		
 		$cache_image = array();		
-		$lock_array = array( 'pid'=>$args['process_id'], 'expire'=> ( time() + $args['seconds'] ) );
+		$lock_array = array( 'pid'=>$args['process_id'], 'expire'=> ( microtime(true) + $args['seconds'] ) );
 		
 		foreach( $processed_result as $page => $data ){
 		    
