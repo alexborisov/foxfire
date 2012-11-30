@@ -162,7 +162,18 @@ abstract class FOX_db_base {
 	public function flushCachePage($pages) {
 
 
-		$struct = $this->_struct();				
+		$struct = $this->_struct();	
+		
+		if($struct['cache_strategy'] != 'paged'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a paged cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
 		
 		try {
 			$this->mCache->flushCachePage( array( 
@@ -174,7 +185,7 @@ abstract class FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>$pages,			    
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -280,13 +291,24 @@ abstract class FOX_db_base {
 	    
 		$struct = $this->_struct();
 		
+		if($struct['cache_strategy'] != 'paged'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a paged cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
+		
 		try {
 			$cache_result = self::readCachePage($pages);
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"Error calling self::readCachePage()",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
@@ -320,6 +342,17 @@ abstract class FOX_db_base {
 	    
 		
                 $struct = $this->_struct();
+		
+		if($struct['cache_strategy'] != 'monolithic'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a monolithic cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
 
 		try {
 			$cache_image = $this->mCache->readCache( 
@@ -333,7 +366,7 @@ abstract class FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct),                                   
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -362,6 +395,17 @@ abstract class FOX_db_base {
 	    	    
 		
 		$struct = $this->_struct();
+		
+		if($struct['cache_strategy'] != 'paged'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a paged cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
 																								    			    
 		try {
 			$result = $this->mCache->readCachePage( array( 
@@ -373,7 +417,7 @@ abstract class FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct, 'pages'=>$pages),				    
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -400,7 +444,18 @@ abstract class FOX_db_base {
 	public function saveCache(){
 	    
 	    
-		$struct = $this->_struct();		
+		$struct = $this->_struct();	
+		
+		if($struct['cache_strategy'] != 'monolithic'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a monolithic cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
 
 		try {
 			self::writeCache($this->cache);
@@ -408,7 +463,7 @@ abstract class FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"error calling self::writeCache()",
 				'data'=>array("struct"=>$struct, "cache"=>$this->cache),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -438,6 +493,17 @@ abstract class FOX_db_base {
 
 		$struct = $this->_struct();
 		
+		if($struct['cache_strategy'] != 'paged'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a paged cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
+		
 		if(!is_array($pages)){
 			$pages = array($pages); 
 		}
@@ -452,7 +518,7 @@ abstract class FOX_db_base {
 			}
 			else {			    
 				throw new FOX_exception( array(
-					'numeric'=>1,
+					'numeric'=>2,
 					'text'=>"Called with key name that doesn't exist in the class cache",
 					'data'=>array("faulting_page"=>$page_name, "cache"=>$this->cache),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -467,7 +533,7 @@ abstract class FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>3,
 				'text'=>"Error in self::writeCachePage()",
 				'data'=>$processed_pages,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -495,6 +561,17 @@ abstract class FOX_db_base {
 
 		
 		$struct = $this->_struct();
+		
+		if($struct['cache_strategy'] != 'monolithic'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a monolithic cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
 
 		try {
 			$this->mCache->writeCache( array( 
@@ -506,7 +583,7 @@ abstract class FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>array("struct"=>$struct, "image"=>$image),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -535,6 +612,17 @@ abstract class FOX_db_base {
 
 	    
 		$struct = $this->_struct();
+		
+		if($struct['cache_strategy'] != 'paged'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a paged cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
 
 		try {
 			$this->mCache->writeCachePage( array( 
@@ -583,6 +671,17 @@ abstract class FOX_db_base {
 	
 		$struct = $this->_struct();
 		
+		if($struct['cache_strategy'] != 'monolithic'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a monolithic cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
+		
 		$ctrl['process_id'] = $this->process_id;		
 		$ctrl['engine'] = $struct["cache_engine"];
 		$ctrl['namespace'] = $struct["cache_namespace"];
@@ -593,7 +692,7 @@ abstract class FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct),				    
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -618,7 +717,7 @@ abstract class FOX_db_base {
 		else {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>3,
 				'text'=>"Invalid ctrl 'mode' parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -630,10 +729,10 @@ abstract class FOX_db_base {
 	
 	
 	/**
-	 * Loads a monolithic class cache array from the persistent cache and locks the class 
-	 * namespace until the timeout expires or the PID releases the lock by writing to the 
-	 * cache. Read requests in the namespace will throw an exception until the lock expires. 
-	 * Write and delete requests will remove the lock and clear/update the namespace.
+	 * Loads the requested pages from the persistent cache, then locks the requested cache 
+	 * pages until the timeout expires or the PID releases the lock by overwriting the pages. 
+	 * Read requests in the namespace will throw an exception until the lock expires. Write
+	 * and delete requests will remove the lock and clear/update the namespace.
 	 *
 	 * @version 1.0
 	 * @since 1.0
@@ -652,6 +751,17 @@ abstract class FOX_db_base {
 	    	    
 
 		$struct = $this->_struct();
+		
+		if($struct['cache_strategy'] != 'paged'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a paged cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}
 		
 		$ctrl_default = array(
 			'seconds'=>5,
@@ -672,7 +782,7 @@ abstract class FOX_db_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"Cache get error",
 				'data'=>array('struct'=>$struct),				    
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -702,7 +812,7 @@ abstract class FOX_db_base {
 		else {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>3,
 				'text'=>"Invalid ctrl 'mode' parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -716,6 +826,72 @@ abstract class FOX_db_base {
 	}		
 
 
+	/**
+	 * Loads the requested pages from the persistent cache, then locks the requested cache 
+	 * pages until the timeout expires or the PID releases the lock by overwriting the pages. 
+	 * Read requests in the namespace will throw an exception until the lock expires. Write
+	 * and delete requests will remove the lock and clear/update the namespace.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 
+	 * @param string/array $keys | Single key as string. Multiple keys as array of strings.
+	 * 
+	 * @param array $ctrl | Control parameters 
+	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	  
+	 *	=> VAL @param string $mode | 'fetch' -  Returns an array of requested cache keys
+	 *				     'update' - Overwrites class cache array with requested keys
+	 * 
+	 * @return mixed | Exception on failure. Mixed on success.
+	 */
+
+	public function lockNamespace($keys, $ctrl=null){
+	    	    
+
+		$struct = $this->_struct();
+		
+		if($struct['cache_strategy'] != 'paged'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a paged cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}		
+		
+		$ctrl_default = array(
+			'seconds'=>5,
+                        'mode'=>'fetch'		    
+		);
+
+		$ctrl = wp_parse_args($ctrl, $ctrl_default);			
+		
+		try {
+			$cache_image = $this->mCache->lockCachePage( array( 
+				'process_id'=>$this->process_id,		    
+				'engine'=>$struct["cache_engine"], 
+				'namespace'=>$struct["cache_namespace"],
+				'pages'=>$keys,
+				'seconds'=>$ctrl['seconds']
+			));
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Cache get error",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+									
+		
+	}
+	
+	
 
 } // End of abstract class FOX_db_base
 
