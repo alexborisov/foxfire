@@ -2113,6 +2113,40 @@ class core_datastore_validators extends RAZ_testCase {
 		$this->assertEquals(true, $result);	
 		
 		
+		// PASS - Valid control trie, implied trie order
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>null,
+						    'mode'=>'control',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>false		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											5=>true				    
+									    ),	
+									    'Y'=>true				    
+								),
+								2=>true
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);	
+		
+		
 		// PASS - Wildcards, when allowed
 		// ####################################################################
 	    
@@ -2573,11 +2607,571 @@ class core_datastore_validators extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Test fixture for validateMatrixRow() method, 'trie' mode, 'data' trie
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_validateMatrixRow_trie_data() {
+
+	    
+		$struct = array(
+
+			"table" => "FOX_dataStore_validators",
+			"engine" => "InnoDB",
+			"cache_namespace" => "FOX_dataStore_validators",
+			"cache_strategy" => "paged",
+			"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
+			"columns" => array(
+			    "X5" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X4" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),			    
+			    "X3" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X1" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+			    "X0" =>	array(	"php"=>"serialize", "sql"=>"longtext",	"format"=>"%s", "width"=>null,	"flags"=>"",		"auto_inc"=>false,  "default"=>null,	"index"=>false),
+			)
+		);
+		
+		$cls = new FOX_dataStore_validator($struct);	
+	    
+		
+		// PASS - Valid data trie, branch terminating at clip order, TRUE node
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											5=>true				    
+									    ),	
+									    'Y'=>true				    
+								)
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);	
+		
+		
+		// PASS - Valid data trie, branch terminating at clip order, ARRAY node
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											5=>true				    
+									    ),	
+									    'Y'=>array()				    
+								)
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);
+		
+		
+		// PASS - Valid data trie, L1 node values ignored
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											5=>"foo"				    
+									    )				    
+								)
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);
+		
+		
+		// PASS - Valid data trie, implied trie order
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>null,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											5=>"foo"				    
+									    )				    
+								)
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertEquals(true, $result);
+		
+		
+		// FAIL - Invalid L1 node data type
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											"F"=>true				    
+									    ),	
+									    'Y'=>array()				    
+								)
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Invalid L2 node value
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>"Fail"				    
+								)
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Invalid L3 data type
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								),
+								"F"=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								)		    
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Invalid L3 value
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								),
+								2=>"FAIL"
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Branch terminates above clip plane
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								),
+								2=>true
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Branch terminates below clip plane, but not at L1
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>3		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								)
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - L3 isn't a trie
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'Y', 'X3'=>"FAIL");
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Invalid L4 value
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>1, 'X4'=>'2', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								)
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);
+		
+		
+		// FAIL - Invalid L5 value
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array(
+						    'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>2.4, 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								),
+								2=>"FAIL"
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		$this->assertNotEquals(true, $result);		
+		
+		
+		// EXCEPTION - Invalid ['trie_ctrl']['order']
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=> 'trie',
+				'trie_ctrl'=>array( 'order'=>99,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>'1', 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								),
+								'F'=>true
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+			
+			// Execution will halt on the previous line if validateMatrixRow() throws an exception
+			$this->fail("Method validateMatrixRow() failed to throw an exception on invalid trie ['trie_ctrl']['order']");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+		
+		
+		// EXCEPTION - Missing ['trie_ctrl']['clip_order']
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=>'trie',
+				'trie_ctrl'=>array( 'order'=>2,
+						    'mode'=>'data',
+						    'allow_wildcard'=>false,
+						    'clip_order'=>null		    
+				)		    
+		);
+		
+		$row = array('X5'=>'1', 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								),
+								'F'=>true
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+			
+			// Execution will halt on the previous line if validateMatrixRow() throws an exception
+			$this->fail("Method validateMatrixRow() failed to throw an exception on missing trie ['trie_ctrl']['clip_order']");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+		
+		
+		// EXCEPTION - Wildcards on data trie
+		// ####################################################################
+	    
+		$ctrl = array(
+				'end_node_format'=> 'trie',
+				'trie_ctrl'=>array( 'order'=>3,
+						    'mode'=>'data',
+						    'allow_wildcard'=>true,
+						    'clip_order'=>2		    
+				)		    
+		);
+		
+		$row = array('X5'=>'1', 'X4'=>'Y', 'X3'=>array(
+								1=>array(   'X'=>array(	1=>true,
+											2=>true				    
+									    ),	
+									    'Y'=>true				    
+								),
+								'F'=>true
+						    ) 
+		);
+		
+		try {			
+			$result = $cls->validateMatrixRow($row, $ctrl);
+			
+			// Execution will halt on the previous line if validateMatrixRow() throws an exception
+			$this->fail("Method validateMatrixRow() failed to throw an exception on wildcards on data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+		
+		
+	}
+	
+		
 	function tearDown() {
 	   
 		parent::tearDown();
 	}
-
     
 }
 

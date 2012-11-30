@@ -463,10 +463,8 @@ class FOX_dataStore_validator {
 			}
 
 		}
-		
-		
+				
 		return true;
-
 	    
 	}
 	
@@ -503,11 +501,11 @@ class FOX_dataStore_validator {
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
 		
 		
-	    	if($ctrl['order'] > $this->order){
+	    	if( ($ctrl['order'] > $this->order) || ($ctrl['order'] < 0) ){
 		    
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Specified order is too high for this storage class",
+				'text'=>"Specified order is not valid",
 				'data'=>array("order"=>$ctrl['order'], "class_order"=>$this->order),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
@@ -716,22 +714,19 @@ class FOX_dataStore_validator {
 				'data'=>$args,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
-			));		
-			
+			));					
 		}
 		
 		if( empty($args['format'])  
 		    || (($args['format'] != 'scalar') && ($args['format'] != 'array') ) 
 		){
-
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Format must be either 'scalar' or 'array'",
 				'data'=>$args,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
-			));		
-			
+			));					
 		}		
 		
 		$result = true;		
@@ -744,8 +739,7 @@ class FOX_dataStore_validator {
 				'var'=>$args['var']				    
 			);
 			
-			return $result;			
-			
+			return $result;						
 		}		
 		
 		if( $args['type'] == 'int' ){
