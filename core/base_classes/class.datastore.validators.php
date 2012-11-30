@@ -377,7 +377,10 @@ class FOX_dataStore_validator {
 
 						case "trie" : {	
 
-							$ctrl['trie_ctrl']['order'] = $order;							
+							if( !isset($ctrl['trie_ctrl']['order']) ){
+							    
+								$ctrl['trie_ctrl']['order'] = $order;	
+							}
 
 							try {			
 								$check_result = self::validateTrie(
@@ -509,12 +512,23 @@ class FOX_dataStore_validator {
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));			
-		}	
+		}
+		
+	    	if( ($ctrl['mode'] != 'data') && ($ctrl['mode'] != 'control') ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Invalid 'mode' parameter",
+				'data'=>array('ctrl'=>$ctrl),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			
+		}			
 		
 	    	if( ($ctrl['mode'] == 'data') && !is_int($ctrl['clip_order']) ){
 		    
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>3,
 				'text'=>"The 'clip_order' parameter must be set when operating in 'data' mode",
 				'data'=>array('ctrl'=>$ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -525,7 +539,7 @@ class FOX_dataStore_validator {
 	    	if( ($ctrl['mode'] == 'data') && ($ctrl['allow_wildcard'] != false) ){
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Wildcard selectors cannot be used in 'data' mode",
 				'data'=>array('ctrl'=>$ctrl),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -662,7 +676,7 @@ class FOX_dataStore_validator {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>5,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->order_dict),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
