@@ -31,6 +31,9 @@
 class FOX_mCache {
 	
     
+    	var $process_id;		    // Unique process id for this thread. Used by the cache engine instances
+					    // for namespace-level cache locking. 
+	
 	var $engines;			    // Cache engine singletons array	
 
 
@@ -39,21 +42,31 @@ class FOX_mCache {
 
 	public function __construct($args=null){
 
+	    
 		// Handle dependency-injection for unit tests
 	    
-		if($args){
+		if(FOX_sUtil::keyExists('process_id', $args)){
+		    
+			$this->process_id = $args['process_id'];
+		}
+		else {	
+			global $fox;
+			$this->process_id = $fox->process_id;
+		}
+		
+		if(FOX_sUtil::keyExists('engines', $args)){
 		    
 			$this->engines = &$args['engines'];
 		}
 		else {	
 			$this->engines = array(
-				'apc'		=>  new FOX_mCache_driver_apc(),
-				'memcached'	=>  new FOX_mCache_driver_memcached(),
-				'redis'		=>  new FOX_mCache_driver_redis(),
-				'thread'	=>  new FOX_mCache_driver_thread(),  			    
-				'loopback'	=>  new FOX_mCache_driver_loopback()    			    				
+				'apc'		=>  new FOX_mCache_driver_apc( array('process_id'=>$this->process_id) ),
+				'memcached'	=>  new FOX_mCache_driver_memcached( array('process_id'=>$this->process_id) ),
+				'redis'		=>  new FOX_mCache_driver_redis( array('process_id'=>$this->process_id) ),
+				'thread'	=>  new FOX_mCache_driver_thread( array('process_id'=>$this->process_id) ),  			    
+				'loopback'	=>  new FOX_mCache_driver_loopback( array('process_id'=>$this->process_id) )    			    				
 			);
-		}	
+		}		
 		
 	}
 
