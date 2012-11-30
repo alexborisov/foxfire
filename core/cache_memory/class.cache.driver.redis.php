@@ -27,6 +27,10 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	
 	var $can_connect;		    // True if the driver can connect to the Redis installation	
 	
+	var $process_id;		    // Unique process id for this thread. Used for namespace-level locking.
+	
+	var $max_offset;		    // Value at which cache offset rolls over to zero.	
+	
 	var $engine;			    // Cache engine instance
 	
 	var $server;			    // Redis servers to connect to	
@@ -35,8 +39,27 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	// ================================================================================================================
 	
 	
-	public function __construct(){
+	public function __construct($args=null){
 		
+	    
+		// Handle dependency-injection for unit tests
+	    
+		if(FOX_sUtil::keyExists('process_id', $args)){
+		    
+			$this->process_id = $args['process_id'];
+		}
+		else {	
+			global $fox;
+			$this->process_id = $fox->process_id;
+		}
+
+		if(FOX_sUtil::keyExists('max_offset', $args)){
+		    
+			$this->max_offset = $args['max_offset'];
+		}
+		else {	
+			$this->max_offset = 2147483646;  // (32-bit maxint)
+		}		
 	    
 	    	$this->has_libs = true;
 		

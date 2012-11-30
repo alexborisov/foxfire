@@ -22,6 +22,10 @@ class FOX_mCache_driver_thread extends FOX_mCache_driver_base {
 	
 	var $is_active;			    // If true, the driver is active
 	
+	var $process_id;		    // Unique process id for this thread. Used for namespace-level locking.
+	
+	var $max_offset;		    // Value at which cache offset rolls over to zero.	
+	
 	var $cache;			    // Cache data array
 	
 	var $max_keys;			    // The maximum number of keys to store. Setting this paramater to high 
@@ -34,15 +38,35 @@ class FOX_mCache_driver_thread extends FOX_mCache_driver_base {
 
 	public function __construct($args=null){
 
-		$this->cache = array();	
-		
-		if($args){
+	    
+		// Handle dependency-injection for unit tests
+	    
+		if(FOX_sUtil::keyExists('process_id', $args)){
 		    
-			$this->max_keys = &$args['max_keys'];
+			$this->process_id = $args['process_id'];
+		}
+		else {	
+			global $fox;
+			$this->process_id = $fox->process_id;
+		}
+		
+		if(FOX_sUtil::keyExists('max_keys', $args)){
+		    
+			$this->max_keys = $args['max_keys'];
 		}
 		else {	
 			$this->max_keys = 1000;
-		}	
+		}
+		
+		if(FOX_sUtil::keyExists('max_offset', $args)){
+		    
+			$this->max_offset = $args['max_offset'];
+		}
+		else {	
+			$this->max_offset = 2147483646;  // (32-bit maxint)
+		}
+				
+		$this->cache = array();				
 		
 		if($this->enable == true){
 
