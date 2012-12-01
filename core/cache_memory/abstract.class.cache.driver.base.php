@@ -374,12 +374,12 @@ abstract class FOX_mCache_driver_base {
 		}
 		catch (FOX_exception $child) {
 
-			if($child['numeric'] == 4){
+			if($child->data['numeric'] == 4){
 			    
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Namespace is currently locked by another PID",
-					'data'=>$child['data'],				    
+					'data'=>$child->data['data'],				    
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
@@ -406,12 +406,12 @@ abstract class FOX_mCache_driver_base {
 		}
 		catch (FOX_exception $child) {
 
-			if($child['numeric'] == 4){
+			if($child->data['numeric'] == 4){
 			    
 				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Write collision during locking sequence. The other PID won.",
-					'data'=>$child['data'],				    
+					'data'=>$child->data['data'],				    
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
@@ -474,12 +474,12 @@ abstract class FOX_mCache_driver_base {
 		}
 		catch (FOX_exception $child) {
 
-			if($child['numeric'] == 4){
+			if($child->data['numeric'] == 4){
 			    
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Namespace is currently locked by another PID",
-					'data'=>$child['data'],				    
+					'data'=>$child->data['data'],				    
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
@@ -577,22 +577,22 @@ abstract class FOX_mCache_driver_base {
 		catch (FOX_exception $child) {
 
 		    
-			if($child['numeric'] == 5){
+			if($child->data['numeric'] == 5){
 			    
 				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Namespace was flushed by another PID during page locking sequence.",
-					'data'=>$child['data'],				    
+					'data'=>$child->data['data'],				    
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
 			}
-			elseif($child['numeric'] == 4){	
+			elseif($child->data['numeric'] == 4){	
 			    
 				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Namespace was locked by another PID during page locking sequence.",
-					'data'=>$child['data'],				    
+					'data'=>$child->data['data'],				    
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));			    			    
