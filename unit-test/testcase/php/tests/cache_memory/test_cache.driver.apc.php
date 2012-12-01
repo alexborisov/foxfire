@@ -22,7 +22,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		
 		parent::setUp();
 	
-		$this->cls = new FOX_mCache_driver_apc();				
+		$this->cls = new FOX_mCache_driver_apc(array('process_id'=>2650));				
 
 		if( !$this->cls->isActive() ){
 
@@ -1157,7 +1157,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		
 		parent::setUp();
 	
-		$this->cls = new FOX_mCache_driver_apc();			
+		$this->cls = new FOX_mCache_driver_apc(array('process_id'=>2650));			
 
 		if( !$this->cls->isActive() ){
 
@@ -1249,8 +1249,13 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 	function test_writeCachePage_readCachePage() {
 	    
 	    	   	
-		$flush_ok = $this->cls->flushAll();
-		$this->assertEquals(true, $flush_ok);
+		try {
+			$this->cls->flushAll();
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
 		
 		// Test positive and negative versions of all PHP
 		// data types in a single namespace	
@@ -1326,8 +1331,13 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 	function test_flushCachePage() {
 	    
    	   	
-		$flush_ok = $this->cls->flushAll();
-		$this->assertEquals(true, $flush_ok);		
+		try {
+			$this->cls->flushAll();
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 	    
 		
 		// Write all possible data types to two different namespaces
@@ -1481,8 +1491,13 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 	function test_lockCache() {
 	    
 	    	   	
-		$flush_ok = $this->cls->flushAll();
-		$this->assertEquals(true, $flush_ok);
+		try {
+			$this->cls->flushAll();
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
 		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
@@ -1622,8 +1637,13 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 	function test_lockCachePage() {
 	    
 	    	   	
-		$flush_ok = $this->cls->flushAll();
-		$this->assertEquals(true, $flush_ok);		
+		try {
+			$this->cls->flushAll();
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 	    
 		
 		// Write all possible data types to two different namespaces

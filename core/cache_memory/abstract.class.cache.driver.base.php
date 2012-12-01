@@ -27,14 +27,14 @@ abstract class FOX_mCache_driver_base {
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
 	 * 
-	 * @return bool | Exception on failure. True on success.
+	 * @return int | Exception on failure. Int current namespace offset on success.
 	 */
 
 	public function flushCache($args) {
 
 		
 		try {
-			$this->flushNamespace($args["namespace"]);		
+			$offset = $this->flushNamespace($args["namespace"]);		
 		}
 		catch (FOX_exception $child) {
 
@@ -47,7 +47,7 @@ abstract class FOX_mCache_driver_base {
 			));
 		}
 		
-		return true;
+		return $offset;
 
 	}
 
@@ -62,6 +62,7 @@ abstract class FOX_mCache_driver_base {
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
 	 *	=> VAL @param string/array $pages | Single page as string. Multiple pages as array of string.
+	 *	=> VAL @param int $check_offset | Offset to check against
 	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -70,7 +71,7 @@ abstract class FOX_mCache_driver_base {
 
 		
 		try {
-			$this->delMulti($args["namespace"], $args['pages']);
+			$this->delMulti($args["namespace"], $args['pages'], $args['check_offset']);
 		}
 		catch (FOX_exception $child) {
 
@@ -97,16 +98,19 @@ abstract class FOX_mCache_driver_base {
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
-	 * 	 
+	 * 
+	 * @return bool &$valid | True if key exists in cache. False if not.
+	 * @return int &$offset | Current namespace offset 	 
          * @return array | Exception on failure. Monolithic cache image on success.
          */
 
-        public function readCache($args, &$valid=null){	    
+        public function readCache($args, &$valid=null, &$offset=null){	    
 
+	    
 		$valid = false;
 	    
 		try {
-			$cache_image = $this->get($args["namespace"], "cache", $valid);
+			$cache_image = $this->get($args["namespace"], "cache", $valid, $offset);
 		}
 		catch (FOX_exception $child) {
 
@@ -119,48 +123,13 @@ abstract class FOX_mCache_driver_base {
 			));
 		}
 		
-
-		// CASE 1: The namespace has no cache entry
-		// =============================================================                
+		
 		if(!$valid){
 
 			$result = null;
-
-		}
-		// CASE 2: The namespace has a cache entry, but its not locked
-		// =============================================================                
-		elseif( !FOX_sUtil::keyExists("lock", $cache_image) ) {
-
-			$result = $cache_image;             
-
-		}
-		// CASE 3: The namespace has a cache entry, and its locked
-		// =============================================================
+		}              
 		else {
-
-			$expiry_time = $cache_image['lock']['expire'];
-			$current_time = microtime(true);
-
-			if( $current_time > $expiry_time ){
-
-				// If the lock has expired, the cache contents are no longer
-				// valid. So return an empty page image. 
-
-				$result = null;                                       
-			}
-			else {
-				// If the lock is still active, throw an exception and let
-				// the calling function decide what it wants to do
-
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Namespace is currently locked",
-					'data'=>$cache_image['lock'],
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));
-			}
-
+			$result = $cache_image;             
 		}
 		
                 return $result;
@@ -178,11 +147,12 @@ abstract class FOX_mCache_driver_base {
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
 	 *	=> VAL @param string/array $pages | Single page as string. Multiple pages as array of string.
-	 * 	 
+	 * 	
+	 * @return int &$offset | Current namespace offset
 	 * @return array | Exception on failure. Array of paged cache page images on success.
 	 */
 
-	public function readCachePage($args){	    	    	  	    
+	public function readCachePage($args, &$offset=null){	    	    	  	    
 								 
 				
 	    	if( !is_array($args['pages']) ){
@@ -194,17 +164,29 @@ abstract class FOX_mCache_driver_base {
 		// =============================================================
 		
 		try {
-			$cache_result = $this->getMulti($args["namespace"], $args['pages']);
+			$cache_result = $this->getMulti($args["namespace"], $args['pages'], $offset);
 		}
 		catch (FOX_exception $child) {
 
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error in descendent->getMulti()",
-				'data'=>$args,				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
+			if($child['numeric'] == 4){
+			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Namespace is currently locked by another PID",
+					'data'=>$child['data'],				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in descendent::getMulti()",
+					'data'=>$args,				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
 		}
 		
 		// Process keys
@@ -268,7 +250,7 @@ abstract class FOX_mCache_driver_base {
 		}
 		else {
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>3,
 				'text'=>"One or more pages are currently locked",
 				'data'=>$locked_pages,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -290,15 +272,17 @@ abstract class FOX_mCache_driver_base {
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
-	 *	=> VAL @param string $image | Cache image 
+	 *	=> VAL @param string $image | Cache image
+	 *	=> VAL @param int $check_offset | Offset to check against
 	 * 	 
 	 * @return bool | Exception on failure. True on success.
 	 */
 
 	public function writeCache($args){
 
+	    
 		try {
-			$this->set($args["namespace"], "cache", $args['image']);
+			$this->set($args["namespace"], "cache", $args['image'], $args['check_offset']);
 		}
 		catch (FOX_exception $child) {
 
@@ -326,6 +310,7 @@ abstract class FOX_mCache_driver_base {
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
 	 *	=> VAL @param string/array $pages | Single page as string. Multiple pages as array of string.
+	 *	=> VAL @param int $check_offset | Offset to check against
 	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
@@ -342,7 +327,7 @@ abstract class FOX_mCache_driver_base {
 		}	    
 		
 		try {
-			$this->setMulti($args["namespace"], $args['pages']);
+			$this->setMulti($args["namespace"], $args['pages'], $args['check_offset']);
 		}
 		catch (FOX_exception $child) {
 
@@ -372,102 +357,85 @@ abstract class FOX_mCache_driver_base {
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
 	 *	=> VAL @param int $process_id | Process ID to use as owner 
-	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	  
-	 * 	  
+	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	
+	 *   
+	 * @return int &$offset | Current namespace offset	  
 	 * @return array | Exception on failure. Cache image on success.
 	 */
 
-	public function lockCache($args){
+	public function lockCache($args, &$offset=null){
 	    	    
 		
-		// Try to fetch the current entry from the persistent cache
+		// Try to lock the cache namespace
 		// =============================================================
-			
-		// NOTE: in order to guarantee that the local class cache array isn't 
-		// overwritten until all operations in the locking process are successful, 
-		// and because loadCache() strips the lock array from cache entries as 
-		// it loads them, we have to manually perform all the operations
+	    
+		try {
+			$this->lockNamespace($args["namespace"], $args['seconds']);
+		}
+		catch (FOX_exception $child) {
+
+			if($child['numeric'] == 4){
+			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Namespace is currently locked by another PID",
+					'data'=>$child['data'],				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in descendent::lockNamespace()",
+					'data'=>$args,				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+		}
+		
+	    
+		// Try to fetch the current entry from the persistent cache
+		// =============================================================			
 		
 		$valid = false;
 		
 		try {
-			$cache_image = $this->get($args["namespace"], "cache", $valid);
+			$cache_image = $this->get($args["namespace"], "cache", $valid, $offset);
 		}
 		catch (FOX_exception $child) {
 
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error in descendent->get()",
-				'data'=>$args,				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-		
-		$lock_array = array( 'pid'=>$args['process_id'], 'expire'=> ( microtime(true) + $args['seconds'] ) );
-		
-		
-		// CASE 1: The namespace has no cache entry
-		// =============================================================		
-		if(!$valid){
-		    
-			$class_cache = array();		    
-			$cache_image = array('lock'=>$lock_array);
-			
-			// Write an empty cache array containing the lock array back to the persistent cache
-
-			try {
-				$this->set($args["namespace"], "cache", $cache_image);
-			}
-			catch (FOX_exception $child) {
-
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Error in descendent->set()",
-					'data'=>array("args"=>$args, "cache_image"=>$cache_image),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));
-			}					
-			
-		}
-		// CASE 2: The namespace has a cache entry, but its not locked
-		// =============================================================		
-		elseif( !FOX_sUtil::keyExists("lock", $cache_image) ) {
-		    
-			$class_cache = $cache_image;		    
-			$cache_image['lock'] = $lock_array;
-		    
-			try {
-				$this->set($args["namespace"], "cache", $cache_image);
-			}
-			catch (FOX_exception $child) {
-
+			if($child['numeric'] == 4){
+			    
 				throw new FOX_exception( array(
 					'numeric'=>3,
-					'text'=>"Error in descendent->set()",
-					'data'=>array("args"=>$args, "cache_image"=>$cache_image),
+					'text'=>"Write collision during locking sequence. The other PID won.",
+					'data'=>$child['data'],				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>4,
+					'text'=>"Error in descendent::get()",
+					'data'=>$args,				    
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
-				));
-			}				    
-			
+				));			    			    
+			}
 		}
-		// CASE 3: The namespace has a cache entry, and its locked
-		// =============================================================
-		else {
+		
+	
+		if(!$valid){
 		    
-			throw new FOX_exception( array(
-				'numeric'=>4,
-				'text'=>"Namespace is currently locked",
-				'data'=>$cache_image['lock'],
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));		    		    
+			return array();				
+		}		
+		else {		    
+			return $cache_image;		    
 		}
 		
-		
-		return $class_cache;
 		
 	}	
 	
@@ -489,10 +457,11 @@ abstract class FOX_mCache_driver_base {
 	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	  
 	 *	=> VAL @param string/array $pages | Single page as string. Multiple pages as array of string.	 
 	 * 
+	 * @return int &$offset | Current namespace offset	 
 	 * @return mixed | Exception on failure. Mixed on success.
 	 */
 
-	public function lockCachePage($args){
+	public function lockCachePage($args, &$offset=null){
 	    
 	
 	    	if( !is_array($args['pages']) ){
@@ -501,17 +470,29 @@ abstract class FOX_mCache_driver_base {
 		}	    
 			    
 		try {
-			$cache_result = $this->getMulti($args["namespace"], $args['pages']);
+			$cache_result = $this->getMulti($args["namespace"], $args['pages'], $offset);
 		}
 		catch (FOX_exception $child) {
 
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error in descendent->getMulti()",
-				'data'=>$args,				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
+			if($child['numeric'] == 4){
+			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Namespace is currently locked by another PID",
+					'data'=>$child['data'],				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in descendent::getMulti()",
+					'data'=>$args,				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
 		}
 
 		$processed_result = array();
@@ -562,7 +543,7 @@ abstract class FOX_mCache_driver_base {
 		if( count($locked_pages) != 0 ){
 
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>3,
 				'text'=>"One or more requested pages are currently locked",
 				'data'=>$locked_pages,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -591,17 +572,42 @@ abstract class FOX_mCache_driver_base {
 		
 		
 		try {
-			$this->setMulti($args["namespace"], $cache_image);
+			$this->setMulti($args["namespace"], $cache_image, $offset);
 		}
 		catch (FOX_exception $child) {
 
-			throw new FOX_exception( array(
-				'numeric'=>3,
-				'text'=>"Error in descendent->setMulti()",
-				'data'=>$cache_image,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
+		    
+			if($child['numeric'] == 5){
+			    
+				throw new FOX_exception( array(
+					'numeric'=>4,
+					'text'=>"Namespace was flushed by another PID during page locking sequence.",
+					'data'=>$child['data'],				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}
+			elseif($child['numeric'] == 4){	
+			    
+				throw new FOX_exception( array(
+					'numeric'=>5,
+					'text'=>"Namespace was locked by another PID during page locking sequence.",
+					'data'=>$child['data'],				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));			    			    
+			}
+			else {
+			
+				throw new FOX_exception( array(
+					'numeric'=>6,
+					'text'=>"Error in descendent::setMulti()",
+					'data'=>$cache_image,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			
+			}
+			
 		}
 		
 		return $processed_result;

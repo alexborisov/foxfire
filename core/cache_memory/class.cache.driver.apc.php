@@ -796,8 +796,8 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
 	 * @param bool &$valid | True if key exists in cache. False if not.
-	 * @param int &$offset | Current namespace offset
 	 * 
+	 * @return int &$offset | Current namespace offset
 	 * @return mixed | Exception on failure. Stored data item on success.
 	 */
 
