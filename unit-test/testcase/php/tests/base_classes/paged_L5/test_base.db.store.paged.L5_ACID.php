@@ -144,6 +144,24 @@ class core_L5_paged_abstract_setMethods extends RAZ_testCase {
 	
 		return;
 		
+		// Scenario #1 
+		// =====================================================
+		// PID 1 locks three cache pages
+		// PID 2 locks the namespace
+		// PID 1 tries to overwrite the pages it locked
+		
+		// Scenario #2 
+		// =====================================================
+		// PID 1 locks three cache pages
+		// PID 2 flushes the namespace
+		// PID 1 tries to save the pages it locked		
+		
+		// Scenario #3
+		// =====================================================
+		// PID 1 locks three cache pages
+		// PID 2 tries to delete two of those pages
+		// PID 1 tries to save the pages it locked
+		
 	}
 	
 	

@@ -559,11 +559,12 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
 	 * @param mixed $val | Value to assign
+	 * @param int $check_offset | Offset to check against
 	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function set($ns, $var, $val){
+	public function set($ns, $var, $val, $check_offset=null){
 
 			
 		if( !$this->isActive() ){
@@ -627,7 +628,18 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				
 			}
 			else {
-				// If the namespace isn't locked, just do a standard cache write
+				// Check the current offset matches the expected offset
+			    
+				if( ($check_offset !== null) && ($check_offset != $offset) ){
+				    				    
+					throw new FOX_exception(array(
+						'numeric'=>5,
+						'text'=>"Current offset doesn't match expected offset",
+						'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));				    				    
+				}
 			    
 				$key = "fox." . $ns . "." . $offset . "." . $var;
 
@@ -636,7 +648,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				if(!$store_ok){
 
 					throw new FOX_exception(array(
-						'numeric'=>5,
+						'numeric'=>6,
 						'text'=>"Error writing to cache engine",
 						'data'=>array('namespace'=>$ns, 'offset'=>$offset),
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -660,10 +672,12 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Data to set in the form "key"=>"val"
+	 * @param int $check_offset | Offset to check against
+	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function setMulti($ns, $data){
+	public function setMulti($ns, $data, $check_offset=null){
 
 	    
 		if( !$this->isActive() ){
@@ -729,6 +743,19 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				
 			}			
 
+			// Check the current offset matches the expected offset
+
+			if( ($check_offset !== null) && ($check_offset != $offset) ){
+
+				throw new FOX_exception(array(
+					'numeric'=>5,
+					'text'=>"Current offset doesn't match expected offset",
+					'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));				    				    
+			}
+				
 			// Add namespace prefix to each keyname
 			
 			foreach($data as $key => $val){
@@ -745,7 +772,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			if( count($cache_result) != 0 ){
 
 				throw new FOX_exception(array(
-					'numeric'=>5,
+					'numeric'=>6,
 					'text'=>"Error writing to cache",
 					'data'=>array('namespace'=>$ns, 'data'=>$data, 'error'=>$cache_result),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -769,11 +796,12 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
 	 * @param bool &$valid | True if key exists in cache. False if not.
+	 * @param int &$offset | Current namespace offset
 	 * 
 	 * @return mixed | Exception on failure. Stored data item on success.
 	 */
 
-	public function get($ns, $var, &$valid=null){
+	public function get($ns, $var, &$valid=null, &$offset=null){
 
 	    
 		if( !$this->isActive() ){
@@ -854,10 +882,12 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $names | Array of cache variable names
+	 * @param int &$offset | Current namespace offset
+	 * 	 
 	 * @return mixed | Exception on failure. Stored data item on success.
 	 */
 
-	public function getMulti($ns, $names){
+	public function getMulti($ns, $names, &$offset=null){
 
 	    
 		if( !$this->isActive() ){
@@ -965,11 +995,12 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of key
+	 * @param int $check_offset | Offset to check against	 
 	 * 
 	 * @return bool | Exception on failure. True on key exists. False on key doesn't exist.
 	 */
 
-	public function del($ns, $var){
+	public function del($ns, $var, $check_offset=null){
 
 	    
 		if( !$this->isActive() ){
@@ -1033,6 +1064,19 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				
 			}
 			
+			// Check the current offset matches the expected offset
+
+			if( ($check_offset !== null) && ($check_offset != $offset) ){
+
+				throw new FOX_exception(array(
+					'numeric'=>5,
+					'text'=>"Current offset doesn't match expected offset",
+					'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));				    				    
+			}			
+			
 			$key = "fox." . $ns . "." . $offset . "." . $var;
 			$delete_ok = apc_delete($key);
 			
@@ -1051,10 +1095,12 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Key names as array of strings.
+	 * @param int $check_offset | Offset to check against
+	 * 
 	 * @return int | Exception on failure. Int number of keys deleted on success.
 	 */
 
-	public function delMulti($ns, $data){
+	public function delMulti($ns, $data, $check_offset=null){
 
 	    
 		if( !$this->isActive() ){
@@ -1115,8 +1161,21 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 					));					    
 				}
 				
-			}
+			}			
 			
+			// Check the current offset matches the expected offset
+
+			if( ($check_offset !== null) && ($check_offset != $offset) ){
+
+				throw new FOX_exception(array(
+					'numeric'=>5,
+					'text'=>"Current offset doesn't match expected offset",
+					'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));				    				    
+			}
+				
 			$processed = array();
 
 			// Add namespace prefix to each keyname
