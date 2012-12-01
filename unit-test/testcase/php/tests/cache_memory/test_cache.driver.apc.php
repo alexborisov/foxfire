@@ -1830,7 +1830,6 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);
 		
-		return;
 		
 		// Check other namespace is still unlocked
 		// =====================================================		

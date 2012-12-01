@@ -258,37 +258,14 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 					$offset = $lock['offset'];				    				    
 				}								 
 				else {
-				    
-					$expiry_time = $lock['expire'];
-					$current_time = microtime(true);
 
-					if( $current_time < $expiry_time ){
-
-						// Lock is still valid
-					    
-						throw new FOX_exception(array(
-							'numeric'=>4,
-							'text'=>"Namespace is already locked",
-							'data'=>array('ns'=>$ns, 'lock'=>$lock),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>null
-						));					    
-					}
-					else {				    
-						// If the lock is expired, increment the namespace offset to
-						// flush any keys involved in the previous lock
-
-						$offset = $lock['offset'];
-
-						if($offset < $this->max_offset){ 
-
-							$offset++;
-						}
-						else {
-							$offset = 1;
-						}
-					}
-				
+					throw new FOX_exception(array(
+						'numeric'=>4,
+						'text'=>"Namespace is already locked",
+						'data'=>array('ns'=>$ns, 'lock'=>$lock),
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));					    
 				}
 				
 			}
@@ -560,11 +537,12 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 * @param string $var | Name of the cache variable
 	 * @param mixed $val | Value to assign
 	 * @param int $check_offset | Offset to check against
+	 * @param bool $clear_lock | True to clear a namespace lock, if the PID owns it	 
 	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function set($ns, $var, $val, $check_offset=null){
+	public function set($ns, $var, $val, $check_offset=null, $clear_lock=false){
 
 			
 		if( !$this->isActive() ){
@@ -602,6 +580,8 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				));		    
 			}								
 
+			$namespace_locked = false;
+			
 			if($offset == -1){
 			    			    
 				$lock = apc_fetch("fox.ns_lock.".$ns);				
@@ -613,7 +593,8 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				
 				if( $lock['pid'] == $this->process_id ){
 				    
-					$offset = $lock['offset'];				    				    
+					$offset = $lock['offset'];
+					$namespace_locked = true;					
 				}								 
 				else {
 				    							
@@ -640,21 +621,31 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 						'child'=>null
 					));				    				    
 				}
-			    
-				$key = "fox." . $ns . "." . $offset . "." . $var;
+				
+				$keys = array(			    
+						"fox." . $ns . "." . $offset . "." . $var => $val		    
+				);
+				
+				if( $namespace_locked && $clear_lock ){
+				    
+					$keys["fox.ns_offset.".$ns] = $offset;				    
+				}
 
-				$store_ok = apc_store($key, $val);
+				// NOTE: apc_store() has a different error reporting format when
+				// passed an array @see http://php.net/manual/en/function.apc-store.php
 
-				if(!$store_ok){
+				$cache_result = apc_store($keys);			
+
+				if( count($cache_result) != 0 ){
 
 					throw new FOX_exception(array(
 						'numeric'=>6,
 						'text'=>"Error writing to cache engine",
-						'data'=>array('namespace'=>$ns, 'offset'=>$offset),
+						'data'=>$keys,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>null
 					));
-				}			
+				}				
 			}
 			
 		}
@@ -673,11 +664,12 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Data to set in the form "key"=>"val"
 	 * @param int $check_offset | Offset to check against
+	 * @param bool $clear_lock | True to clear a namespace lock, if the PID owns it	 
 	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function setMulti($ns, $data, $check_offset=null){
+	public function setMulti($ns, $data, $check_offset=null, $clear_lock=false){
 
 	    
 		if( !$this->isActive() ){
@@ -716,7 +708,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			}
 			
 			$processed = array();
-
+			$namespace_locked = false;
 			
 			if($offset == -1){
 			    			    
@@ -729,7 +721,8 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				
 				if( $lock['pid'] == $this->process_id ){
 				    
-					$offset = $lock['offset'];				    				    
+					$offset = $lock['offset'];
+					$namespace_locked = true;
 				}								 
 				else {							
 					throw new FOX_exception(array(
@@ -763,6 +756,12 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				$processed["fox." . $ns . "." . $offset . "." . $key] = $val;
 			}
 			unset($key, $val);
+
+				
+			if( $namespace_locked && $clear_lock ){
+
+				$processed["fox.ns_offset.".$ns] = $offset;				    
+			}			
 
 			// NOTE: apc_store() has a different error reporting format when
 			// passed an array @see http://php.net/manual/en/function.apc-store.php

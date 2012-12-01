@@ -282,7 +282,7 @@ abstract class FOX_mCache_driver_base {
 
 	    
 		try {
-			$this->set($args["namespace"], "cache", $args['image'], $args['check_offset']);
+			$this->set($args["namespace"], "cache", $args['image'], $args['check_offset'], true);
 		}
 		catch (FOX_exception $child) {
 
@@ -434,8 +434,7 @@ abstract class FOX_mCache_driver_base {
 		}		
 		else {		    
 			return $cache_image;		    
-		}
-		
+		}		
 		
 	}	
 	
