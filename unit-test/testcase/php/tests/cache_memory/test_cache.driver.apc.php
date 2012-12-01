@@ -146,8 +146,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}
-			
-		
+					
 		// Test positive and negative versions of all PHP
 		// data types in a single namespace	
 	    
@@ -273,8 +272,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}		
-	    
-		
+	    		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
 		
@@ -761,18 +759,35 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		}		
 
 		// The cache should report the key as valid
-		$this->assertEquals(false, $del_ok);		
+		$this->assertEquals(false, $del_ok);	
+		
+		
+		// Check for exception on mismatched offset
+		// =====================================================
+		
+		try {						
+			$del_ok = $this->cls->del('ns_99', 'var_2', 99);
+			
+			$this->fail("Failed to throw an exception on non-matching offset");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
 			
 		
 	}
 	
 	
 	function test_del_multi() {
-	    	    
+	    	 
 	    
-		$flush_ok = $this->cls->flushAll();
-		$this->assertEquals(true, $flush_ok);		
-	    
+		try {
+			$this->cls->flushAll();
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}			    
 		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
@@ -815,35 +830,49 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		);
 		
 		
-		// Write keys to cache
-		// =====================================================
-		
 		foreach( $test_data as $item ){
 		    
-			$set_ok = $this->cls->set($item['ns'], $item['var'], $item['val']);
+			$check_offset = 1;  // Since the cache has been globally flushed, and the
+					    // namespace hasn't been flushed since, offset will be 1
 			
-			// The cache engine should return true to indicate the key was set
-			$this->assertEquals(true, $set_ok);		    
+			try {
+				$this->cls->set($item['ns'], $item['var'], $item['val'], $check_offset);
+			}
+			catch (FOX_exception $child) {
+
+				$this->fail($child->dumpString(1));		    
+			}		    
 		}
 		unset($item);
 		
 		
-		// Verify the keys are in the cache
-		// =====================================================
+		// Verify all keys are in the cache
+		// ===================================================		
 		
 		foreach( $test_data as $item ){
 		    
 			$valid = false;
-			$value = $this->cls->get($item['ns'], $item['var'], $valid);
+			$current_offset = false;			
 			
+			try {
+				$value = $this->cls->get($item['ns'], $item['var'], $valid, $current_offset);
+			}
+			catch (FOX_exception $child) {
+
+				$this->fail($child->dumpString(1));		    
+			}			
+						
 			// The cache should report the key as valid
 			$this->assertEquals(true, $valid);
 			
 			// The returned value should match the value we set
-			$this->assertEquals($item['val'], $value);	
+			$this->assertEquals($item['val'], $value);
+			
+			// The reported offset should be 1
+			$this->assertEquals(1, $current_offset);				
 			
 		}
-		unset($item);	
+		unset($item);
 		
 		
 		// Delete some keys
@@ -869,24 +898,60 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		unset($item);	
 		
 		
-		$keys_deleted = $this->cls->delMulti('ns_1', $del_keys_a);
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+
+		try {
+			$keys_deleted = $this->cls->delMulti('ns_1', $del_keys_a, $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 
 		// The cache should report deleting 6 keys
 		$this->assertEquals(6, $keys_deleted);	
 		
 		
-		$keys_deleted = $this->cls->delMulti('ns_2', $del_keys_b);
+		try {
+			$keys_deleted = $this->cls->delMulti('ns_2', $del_keys_b, $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 
 		// The cache should report deleting 8 keys
 		$this->assertEquals(8, $keys_deleted);	
 		
 		
 		// Try deleting nonexistent keys
-		$keys_deleted = $this->cls->delMulti('ns_1', array('var_97','var_98','var_99') );
+		// =====================================================
+		
+		try {
+			$keys_deleted = $this->cls->delMulti('ns_1', array('var_97','var_98','var_99'), $check_offset );
+		}
+		catch (FOX_exception $child) {
 
-		// The cache should report deleting 0 keys
-		$this->assertEquals(0, $keys_deleted);			
+			$this->fail($child->dumpString(1));		    
+		}	
 				
+		// The cache should report deleting 0 keys
+		$this->assertEquals(0, $keys_deleted);	
+		
+		
+		// Check for exception on mismatched offset
+		// =====================================================
+		
+		try {						
+			$keys_deleted = $this->cls->delMulti('ns_1', array('var_97','var_98','var_99'), 99 );
+			
+			$this->fail("Failed to throw an exception on non-matching offset");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+		
 		
 		// Verify the correct keys were deleted
 		// =====================================================
@@ -894,25 +959,35 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		foreach( $test_data as $item ){
 		    		    		    
 			$valid = false;
-			$value = $this->cls->get($item['ns'], $item['var'], $valid);
-						
+			$current_offset = false;			
+			
+			try {
+				$value = $this->cls->get($item['ns'], $item['var'], $valid, $current_offset);
+			}
+			catch (FOX_exception $child) {
+
+				$this->fail($child->dumpString(1));		    
+			}								
+		
 			if( $item['delete'] == true ){
 			    
 				// The cache should report the key as invalid
 				$this->assertEquals(false, $valid);
 
 				// The returned value should be null
-				$this->assertEquals(null, $value);
-				
+				$this->assertEquals(null, $value);				
 			}
 			else {
 				// The cache should report the key as valid
 				$this->assertEquals(true, $valid);
 
 				// The returned value should match the value we set
-				$this->assertEquals($item['val'], $value);			    
-			    
-			}	
+				$this->assertEquals($item['val'], $value);			    			    
+			}
+			
+			// The reported offset should be 1
+			$this->assertEquals(1, $current_offset);
+			
 		}
 		unset($item);		
 			
@@ -1094,8 +1169,13 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 	function test_writeCache_readCache() {
 	    
 	    	   	
-		$flush_ok = $this->cls->flushAll();
-		$this->assertEquals(true, $flush_ok);
+		try {
+			$this->cls->flushAll();
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
 		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
