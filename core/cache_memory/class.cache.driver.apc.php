@@ -255,7 +255,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				
 				if( $lock['pid'] == $this->process_id ){
 				    
-					$offset = -1;				    				    
+					$offset = $lock['offset'];				    				    
 				}								 
 				else {
 				    
@@ -868,7 +868,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			$result = apc_fetch($key, $valid);			
 			
 		}
-		
+
 		return $result;
 
 	}

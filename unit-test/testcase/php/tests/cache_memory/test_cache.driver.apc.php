@@ -1737,10 +1737,10 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Lock one of the namespaces
 		// =====================================================		
 		
-		$this->cls->process_id = 8888;
+		$current_offset = false;
 		
 		try {
-			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0) );
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $current_offset );
 		}
 		catch (FOX_exception $child) {
 
@@ -1750,17 +1750,38 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Returned keys should match original data set		
 		$this->assertEquals($test_data_a, $cache_image);
 		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
 		
-		// Check attempting to lock an already locked namespace
-		// using a different PID
+		
+		// PASS - Trying to lock an already locked namespace
+		// with the PID that owns the lock
+		// =====================================================	
+		
+		$current_offset = false;
+		
+		try {
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $current_offset );			
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// EXCEPTION - Trying to lock an already locked namespace
+		// with a PID that doesn't own the lock
 		// =====================================================	
 		
 		$this->cls->process_id = 9999;
 		
 		try {
-			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0) );
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $current_offset );
 			
-			$this->fail("Failed to throw an exception on non-matching offset");
+			$this->fail("Failed to throw an exception on foreign PID attempting to lock already locked namespace");
 		}
 		catch (FOX_exception $child) {
 		    
@@ -1768,19 +1789,48 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			$this->assertEquals(1, $child->data['numeric']);;		    
 		}
 		
-		$this->cls->process_id = 2650;
 		
-		// Check attempting to read a locked namespace
+		// EXCEPTION - Trying to read from a locked namespace  
+		// using a PID that doesn't own the lock
 		// =====================================================	
+		
+		$this->cls->process_id = 9999;
 		
 		try {
 			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1') );
+			
+			$this->fail("Failed to throw an exception on foreign PID attempting to read locked namespace");
 		}
 		catch (FOX_exception $child) {
 		    
-			// Should throw exception #1 - Namespace locked
-			$this->assertEquals(1, $child->data['numeric']);;		    
+			// Should throw exception #1 - Already locked
+			$this->assertEquals(1, $child->data['numeric']);		    
 		}
+
+		
+		// PASS - Trying to read from a locked namespace with 
+		// the PID that owns the lock
+		// =====================================================	
+		
+		$this->cls->process_id = 2650;
+		$current_offset = false;
+		$valid = false;
+				
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid, $current_offset);
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// The cache should be valid
+		$this->assertEquals(true, $valid);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
+		
+		return;
 		
 		// Check other namespace is still unlocked
 		// =====================================================		
