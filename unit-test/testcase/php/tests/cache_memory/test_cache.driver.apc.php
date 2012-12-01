@@ -1135,8 +1135,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->assertEquals(4, $child->data['numeric']);;		    
 		}
 		
-		
-		
+				
 		// Verify the keys are in the cache
 		// =====================================================
 		
@@ -1174,8 +1173,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);		
 		
-		
-		
+
 	}
 	
 		
@@ -1957,8 +1955,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
-		}		
-	    
+		}			    
 		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
@@ -2023,32 +2020,63 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		unset($item);
 		
+		
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+					
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$write_pages_a, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
 
-		$write_ok = $this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$write_pages_a) );
-		
-		// The cache engine should return true to indicate success
-		$this->assertEquals(true, $write_ok);			
-		
-		$write_ok = $this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$write_pages_b) );
-		
-		// The cache engine should return true to indicate success
-		$this->assertEquals(true, $write_ok);		
-		
-		
+			$this->fail($child->dumpString(1));		    
+		}
+			
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$write_pages_b, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+			
 		
 		// Verify the pages are in the cache
 		// =====================================================
 		
-		$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($write_pages_a)) );
-		
+		$current_offset = false;
+					
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($write_pages_a)), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+				
 		// Returned keys should match original data set		
 		$this->assertEquals($write_pages_a, $result);
 		
-		$result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($write_pages_b)) );
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
+		
+		
+		$current_offset = false;
+					
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($write_pages_b)), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
 		
 		// Returned keys should match original data set			
 		$this->assertEquals($write_pages_b, $result);
 		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
+				
 				
 		// Lock some pages
 		// =====================================================
@@ -2072,12 +2100,25 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		unset($item);		
 		
-		$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a)) );
 		
-		// The cache engine should return true to indicate success
+		try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a)) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// The cache engine should return the page image
 		$this->assertEquals($lock_pages_a, $lock_image);			
 		
-		$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b)) );
+		try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b)) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
 		
 		// The cache engine should return true to indicate success
 		$this->assertEquals($lock_pages_b, $lock_image);
@@ -2095,6 +2136,8 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 				
 				try {
 					$cache_result = $this->cls->readCachePage( array('namespace'=>$item['ns'], 'pages'=>$item['var']) ); 
+					
+					$this->fail("Failed to throw an exception on locked cache page");
 				}
 				catch (FOX_exception $child) {
 
@@ -2136,6 +2179,8 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		
 		try {
 			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>$page_names_a) ); 
+			
+			$this->fail("Failed to throw an exception on locked cache page");
 		}
 		catch (FOX_exception $child) {
 
