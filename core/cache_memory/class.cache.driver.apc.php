@@ -412,7 +412,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
-	 * @return bool | Exception on failure. True on success.
+	 * @return int | Exception on failure. Int offset on success.
 	 */
 
 	public function flushNamespace($ns){
@@ -483,7 +483,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			}			
 		}		
 		
-		return true;
+		return $offset;
 
 	}
 
