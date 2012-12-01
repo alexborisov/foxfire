@@ -1830,11 +1830,26 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);
 		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_data_a, $cache_image);		
+		
 		
 		// Check other namespace is still unlocked
 		// =====================================================		
 		
-		$cache_image = $this->cls->readCache( array('namespace'=>'ns_2') );
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid, $current_offset );
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		// The cache should be valid
+		$this->assertEquals(true, $valid);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 		
 		// Returned keys should match original data set			
 		$this->assertEquals($test_data_b, $cache_image);
@@ -1843,21 +1858,49 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Release the lock
 		// =====================================================
 		
-		$set_ok = $this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>$test_data_a) );
-		
-		// The cache engine should return true to indicate the key was set
-		$this->assertEquals(true, $set_ok);
+		try {
+			$this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>$test_data_a) );
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
 		
 		
 		// Verify the keys are in the cache
 		// =====================================================
 		
-		$cache_image = $this->cls->readCache( array('namespace'=>'ns_1') );
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid, $current_offset );
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}		
 		
-		// Returned keys should match original data set		
+		// The cache should be valid
+		$this->assertEquals(true, $valid);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
+		
+		// Returned keys should match original data set			
 		$this->assertEquals($test_data_a, $cache_image);
+
 		
-		$cache_image = $this->cls->readCache( array('namespace'=>'ns_2') );
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid, $current_offset );
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		// The cache should be valid
+		$this->assertEquals(true, $valid);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 		
 		// Returned keys should match original data set			
 		$this->assertEquals($test_data_b, $cache_image);		

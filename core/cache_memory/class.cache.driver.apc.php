@@ -757,7 +757,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			}
 			unset($key, $val);
 
-				
+			
 			if( $namespace_locked && $clear_lock ){
 
 				$processed["fox.ns_offset.".$ns] = $offset;				    
@@ -1036,7 +1036,6 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 					'child'=>$child
 				));		    
 			}
-
 			
 			if($offset == -1){
 			    			    
@@ -1048,7 +1047,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				
 				if( $lock['pid'] == $this->process_id ){
 				    
-					$offset = $lock['offset'];				    				    
+					$offset = $lock['offset'];					
 				}								 
 				else {				
 
@@ -1078,6 +1077,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			
 			$key = "fox." . $ns . "." . $offset . "." . $var;
 			$delete_ok = apc_delete($key);
+									
 			
 		}
 		
@@ -1094,7 +1094,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Key names as array of strings.
-	 * @param int $check_offset | Offset to check against
+	 * @param int $check_offset | Offset to check against	 
 	 * 
 	 * @return int | Exception on failure. Int number of keys deleted on success.
 	 */
@@ -1147,7 +1147,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				
 				if( $lock['pid'] == $this->process_id ){
 				    
-					$offset = $lock['offset'];				    				    
+					$offset = $lock['offset'];					
 				}								 
 				else {					
 
