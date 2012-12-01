@@ -298,7 +298,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 		}
 
 		
-		return true;
+		return $offset;
 
 	}
 	

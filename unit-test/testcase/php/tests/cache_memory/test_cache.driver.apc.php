@@ -243,6 +243,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);		
 		
+		
 		$current_offset = false;
 		
 		try {
@@ -998,8 +999,13 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 	function test_ns_locking() {
 	    	    
 	    
-		$flush_ok = $this->cls->flushAll();
-		$this->assertEquals(true, $flush_ok);
+		try {
+			$this->cls->flushAll();
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
 		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
@@ -1042,15 +1048,25 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		// Write keys to cache
 		// =====================================================
 		
-		$set_ok = $this->cls->setMulti('ns_1', $test_data_a);
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+			
+		try {
+			$this->cls->setMulti('ns_1', $test_data_a, $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
 		
-		// The cache engine should return true to indicate the key was set
-		$this->assertEquals(true, $set_ok);	
-		
-		$set_ok = $this->cls->setMulti('ns_2', $test_data_b);
-		
-		// The cache engine should return true to indicate the key was set
-		$this->assertEquals(true, $set_ok);
+		try {
+			$this->cls->setMulti('ns_2', $test_data_b, $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
 		
 				
 		// Lock ns_1
@@ -1058,10 +1074,16 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 		$this->cls->process_id = 1337;
 		
-		$lock_ok = $this->cls->lockNamespace('ns_1', 5.0);
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 		
-		// Returned keys should match original data set		
-		$this->assertEquals(true, $lock_ok);		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);		
 		
 		
 		// EXCEPTION - 'LOCK' by other PID
@@ -1070,7 +1092,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		$this->cls->process_id = 6900;
 		
 		try {
-			$lock_ok = $this->cls->lockNamespace('ns_1', 5.0);
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
 			
 			$this->fail("Failed to throw an exception on LOCK by foreign PID on locked namespace");
 		}
@@ -1087,12 +1109,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		$this->cls->process_id = 6900;
 		
 		try {
-			$set_ok = $this->cls->set('ns_1', 'test_1', 'fail');
-			
-			$lock = apc_fetch("fox.ns_lock.".'ns_1');
-			
-			var_dump($lock);
-			
+			$this->cls->set('ns_1', 'test_1', 'fail');			
 			$this->fail("Failed to throw an exception on SET by foreign PID on locked namespace");
 		}
 		catch (FOX_exception $child) {
@@ -1124,16 +1141,38 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		// =====================================================
 		
 		$this->cls->process_id = 1337;
+		$current_offset = false;
 		
-		$result = $this->cls->getMulti('ns_1', array_keys($test_data_a) );
+		try {
+			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 		
 		// Returned keys should match original data set		
 		$this->assertEquals($test_data_a, $result);
 		
-		$result = $this->cls->getMulti('ns_2', array_keys($test_data_b) );
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 		
+		
+		$current_offset = false;
+		
+		try {
+			$result = $this->cls->getMulti('ns_2', array_keys($test_data_b), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
 		// Returned keys should match original data set			
-		$this->assertEquals($test_data_b, $result);		
+		$this->assertEquals($test_data_b, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 		
 		
 		
