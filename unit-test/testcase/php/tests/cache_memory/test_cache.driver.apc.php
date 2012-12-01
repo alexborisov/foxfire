@@ -1218,30 +1218,69 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Write keys to cache
 		// =====================================================
 		
-		$set_ok = $this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>$test_data_a) );
 		
-		// The cache engine should return true to indicate the key was set
-		$this->assertEquals(true, $set_ok);	
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+
+		try {
+			$this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>$test_data_a, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		try {
+			$this->cls->writeCache( array('namespace'=>'ns_2', 'image'=>$test_data_b, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 		
-		$set_ok = $this->cls->writeCache( array('namespace'=>'ns_2', 'image'=>$test_data_b) );
-		
-		// The cache engine should return true to indicate the key was set
-		$this->assertEquals(true, $set_ok);
-		
-		
+
 		// Verify the keys are in the cache
 		// =====================================================
 		
-		$cache_image = $this->cls->readCache( array('namespace'=>'ns_1') );
+		$current_offset = false;
+		$valid = false;
+		
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid, $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 		
 		// Returned keys should match original data set		
-		$this->assertEquals($test_data_a, $cache_image);
+		$this->assertEquals($test_data_a, $cache_image);		
 		
-		$cache_image = $this->cls->readCache( array('namespace'=>'ns_2') );
+		// The cache should be valid
+		$this->assertEquals(true, $valid);
+				
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 		
+		$current_offset = false;
+		$valid = false;
+		
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid, $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+
 		// Returned keys should match original data set			
 		$this->assertEquals($test_data_b, $cache_image);
 		
+		// The cache should be valid
+		$this->assertEquals(true, $valid);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);			
 								    	   			    
 	}
 
@@ -1300,29 +1339,62 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Write pages to cache
 		// =====================================================
 		
-		$write_ok = $this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$test_pages_a) );
 		
-		// The cache engine should return true to indicate success
-		$this->assertEquals(true, $write_ok);			
-		
-		$write_ok = $this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$test_pages_b) );
-		
-		// The cache engine should return true to indicate success
-		$this->assertEquals(true, $write_ok);
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$test_pages_a, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$test_pages_b, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 		
 		
 		// Fetch pages from cache
 		// =====================================================
 		
-		$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($test_pages_a)) );
+		$current_offset = false;
+		
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($test_pages_a)), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 		
 		// Returned keys should match original data set		
 		$this->assertEquals($test_pages_a, $result);
 		
-		$result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($test_pages_b)) );
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 		
+		$current_offset = false;
+		
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($test_pages_b)), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+
 		// Returned keys should match original data set			
-		$this->assertEquals($test_pages_b, $result);		
+		$this->assertEquals($test_pages_b, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
+				
 						    	   			    
 	}
 	
@@ -1404,30 +1476,60 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		unset($item);
 		
 
-		$write_ok = $this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$write_pages_a) );
-		
-		// The cache engine should return true to indicate success
-		$this->assertEquals(true, $write_ok);			
-		
-		$write_ok = $this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$write_pages_b) );
-		
-		// The cache engine should return true to indicate success
-		$this->assertEquals(true, $write_ok);		
-		
-		
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$write_pages_a, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$write_pages_b, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+				
 		
 		// Verify the pages are in the cache
 		// =====================================================
 		
-		$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($write_pages_a)) );
+		$current_offset = false;
+		
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($write_pages_a)), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 		
 		// Returned keys should match original data set		
 		$this->assertEquals($write_pages_a, $result);
 		
-		$result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($write_pages_b)) );
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 		
+		$current_offset = false;
+		
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($write_pages_b)), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+
 		// Returned keys should match original data set			
 		$this->assertEquals($write_pages_b, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
 		
 				
 		// Flush some pages
@@ -1452,34 +1554,61 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		unset($item);		
 		
-		$flush_ok = $this->cls->flushCachePage( array('namespace'=>'ns_1', 'pages'=>$flush_pages_a) );
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
 		
-		// The cache engine should return true to indicate success
-		$this->assertEquals(true, $flush_ok);			
+		try {
+			$pages_deleted = $this->cls->flushCachePage( array('namespace'=>'ns_1', 'pages'=>$flush_pages_a, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 		
-		$flush_ok = $this->cls->flushCachePage( array('namespace'=>'ns_2', 'pages'=>$flush_pages_b) );
+		// The cache engine should return the number of pages deleted
+		$this->assertEquals(count($flush_pages_a), $pages_deleted);			
 		
-		// The cache engine should return true to indicate success
-		$this->assertEquals(true, $flush_ok);
+		
+		try {
+			$pages_deleted = $this->cls->flushCachePage( array('namespace'=>'ns_2', 'pages'=>$flush_pages_b, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		// The cache engine should return the number of pages deleted
+		$this->assertEquals(count($flush_pages_b), $pages_deleted);
 		
 
 		
 		// Verify the correct pages were flushed
 		// =====================================================
 		
-		foreach( $test_data as $item ){
-		    		    		    
-			$cache_result = $this->cls->readCachePage( array('namespace'=>$item['ns'], 'pages'=>$item['var']) ); 
+		foreach( $test_data as $item ){		    		    		    
+			
+			$current_offset = false;
+
+			try {
+				$result = $this->cls->readCachePage( array('namespace'=>$item['ns'], 'pages'=>$item['var']), $current_offset );
+			}
+			catch (FOX_exception $child) {
+
+				$this->fail($child->dumpString(1));		    
+			}		
+
+			// The reported offset should be 1
+			$this->assertEquals(1, $current_offset);			
 						
 			if( $item['flush'] == true ){			   
 
 				// The key shouldn't exist in the results array
-				$this->assertEquals( array(), $cache_result);				
+				$this->assertEquals( array(), $result);				
 			}
 			else {
 
 				// The returned value should match the value we set	
-				$this->assertEquals( array( $item['var']=>$item['val'] ) , $cache_result);					
+				$this->assertEquals( array( $item['var']=>$item['val'] ) , $result);					
 			}	
 		}
 		unset($item);
@@ -1540,29 +1669,69 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Write keys to cache
 		// =====================================================
 		
-		$set_ok = $this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>$test_data_a) );
 		
-		// The cache engine should return true to indicate the key was set
-		$this->assertEquals(true, $set_ok);	
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+
+		try {
+			$this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>$test_data_a, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		try {
+			$this->cls->writeCache( array('namespace'=>'ns_2', 'image'=>$test_data_b, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 		
-		$set_ok = $this->cls->writeCache( array('namespace'=>'ns_2', 'image'=>$test_data_b) );
-		
-		// The cache engine should return true to indicate the key was set
-		$this->assertEquals(true, $set_ok);
-		
-		
+
 		// Verify the keys are in the cache
 		// =====================================================
 		
-		$cache_image = $this->cls->readCache( array('namespace'=>'ns_1') );
+		$current_offset = false;
+		$valid = false;
+		
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid, $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 		
 		// Returned keys should match original data set		
-		$this->assertEquals($test_data_a, $cache_image);
+		$this->assertEquals($test_data_a, $cache_image);		
 		
-		$cache_image = $this->cls->readCache( array('namespace'=>'ns_2') );
+		// The cache should be valid
+		$this->assertEquals(true, $valid);
+				
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 		
+		$current_offset = false;
+		$valid = false;
+		
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid, $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+
 		// Returned keys should match original data set			
 		$this->assertEquals($test_data_b, $cache_image);
+		
+		// The cache should be valid
+		$this->assertEquals(true, $valid);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
 		
 		
 		// Lock one of the namespaces

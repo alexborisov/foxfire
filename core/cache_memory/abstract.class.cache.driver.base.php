@@ -71,7 +71,7 @@ abstract class FOX_mCache_driver_base {
 
 		
 		try {
-			$this->delMulti($args["namespace"], $args['pages'], $args['check_offset']);
+			$keys_deleted = $this->delMulti($args["namespace"], $args['pages'], $args['check_offset']);
 		}
 		catch (FOX_exception $child) {
 
@@ -84,7 +84,7 @@ abstract class FOX_mCache_driver_base {
 			));
 		}
 		
-		return true;
+		return $keys_deleted;
 
 	}
 	
@@ -126,7 +126,7 @@ abstract class FOX_mCache_driver_base {
 		
 		if(!$valid){
 
-			$result = null;
+			$result = array();
 		}              
 		else {
 			$result = $cache_image;             
