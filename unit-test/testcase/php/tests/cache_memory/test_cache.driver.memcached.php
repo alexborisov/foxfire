@@ -17,7 +17,7 @@
 
 class core_mCache_driver_memcached_ops_basic extends RAZ_testCase {
 
-    
+        
     	function setUp() {
 		
 		parent::setUp();

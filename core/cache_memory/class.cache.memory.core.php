@@ -10,7 +10,8 @@
  *  -> Server level caching
  *  -> Data Center level caching
  *  -> Namespacing
- *  -> Page locking
+ *  -> Page-level locking
+ *  -> Namespace-level locking
  *  -> Transactions
  *  -> Supports APC cache engine
  *  -> Supports Memcached cache engine

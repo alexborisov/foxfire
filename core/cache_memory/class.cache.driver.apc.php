@@ -51,7 +51,10 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	    
 		if(FOX_sUtil::keyExists('process_id', $args)){
 		    
-			$this->process_id = $args['process_id'];
+			// Binding to a reference is important. It makes the cache engine $process_id
+			// update if the FOX_mCache is changed, which we do during unit testing.
+		    
+			$this->process_id = &$args['process_id'];
 		}
 		else {	
 			global $fox;
@@ -244,15 +247,15 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			// If the namespace is *already* locked, fetch the lock info array
 			
 			if($offset == -1){
-			    			    
-				$lock = apc_fetch("fox.ns_lock.".$ns);				
-								
+			    			   
+				$lock = apc_fetch("fox.ns_lock.".$ns);
+				
 				// If the lock is owned by the current PID, just write back the lock array
 				// to the cache with an updated timestamp, refreshing the lock.
 				
 				if( $lock['pid'] == $this->process_id ){
 				    
-					$offset = $lock['offset'];				    				    
+					$offset = -1;				    				    
 				}								 
 				else {
 				    
@@ -302,7 +305,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			// NOTE: apc_store() has a different error reporting format when
 			// passed an array @see http://php.net/manual/en/function.apc-store.php
 			
-			$cache_result = apc_store($keys);
+			$cache_result = apc_store($keys);			
 
 			if( count($cache_result) != 0 ){
 
@@ -316,6 +319,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			}
 						
 		}
+
 		
 		return true;
 
@@ -333,7 +337,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function unlockNamespace($ns, $seconds){
+	public function unlockNamespace($ns){
 
 	    
 		if( !$this->isActive() ){
@@ -371,78 +375,27 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				));		    
 			}
 						
-			// If the namespace is *already* locked, fetch the lock info array
+			// Only try to load the lock array if the namespace is actually locked
 			
 			if($offset == -1){
 			    			    
 				$lock = apc_fetch("fox.ns_lock.".$ns);				
 								
-				// If the lock is owned by the current PID, just write back the lock array
-				// to the cache with an updated timestamp, refreshing the lock.
+				$offset = $lock['offset'];
+
+				$store_ok = apc_store("fox.ns_offset.".$ns, $offset);
+
+				if(!$store_ok){
+
+					throw new FOX_exception(array(
+						'numeric'=>4,
+						'text'=>"Error writing to cache engine",
+						'data'=>array('namespace'=>$ns, 'offset'=>$offset),
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));
+				}						
 				
-				if( $lock['pid'] == $this->process_id ){
-				    
-					$offset = $lock['offset'];				    				    
-				}								 
-				else {
-				    
-					$expiry_time = $lock['expire'];
-					$current_time = microtime(true);
-
-					if( $current_time < $expiry_time ){
-
-						// Lock is still valid
-					    
-						throw new FOX_exception(array(
-							'numeric'=>4,
-							'text'=>"Namespace is already locked",
-							'data'=>array('ns'=>$ns, 'lock'=>$lock),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>null
-						));					    
-					}
-					else {				    
-						// If the lock is expired, increment the namespace offset to
-						// flush any keys involved in the previous lock
-
-						$offset = $lock['offset'];
-
-						if($offset < $this->max_offset){ 
-
-							$offset++;
-						}
-						else {
-							$offset = 1;
-						}
-					}
-				
-				}
-				
-			}
-			 
-			$keys = array(			    
-					"fox.ns_lock.".$ns => array( 
-								    'pid'=>$this->process_id, 
-								    'expire'=>( microtime(true) + $seconds ),
-								    'offset'=>$offset
-					),
-					"fox.ns_offset.".$ns => -1			    
-			);
-
-			// NOTE: apc_store() has a different error reporting format when
-			// passed an array @see http://php.net/manual/en/function.apc-store.php
-			
-			$cache_result = apc_store($keys);
-
-			if( count($cache_result) != 0 ){
-
-				throw new FOX_exception(array(
-					'numeric'=>5,
-					'text'=>"Error writing to cache engine",
-					'data'=>$keys,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));
 			}
 						
 		}
@@ -528,7 +481,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 					'child'=>null
 				));
 			}			
-		}
+		}		
 		
 		return true;
 
@@ -547,7 +500,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 
 	public function getOffset($ns){
 
-	    
+		
 		if( !$this->isActive() ){
 		    
 			throw new FOX_exception(array(
@@ -572,7 +525,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			
 			$offset = apc_fetch("fox.ns_offset.".$ns);
 
-			if(!$offset){
+			if($offset == false){
 
 				$offset = 1;
 				$store_ok = apc_store("fox.ns_offset.".$ns, $offset);
@@ -612,7 +565,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 
 	public function set($ns, $var, $val){
 
-	    
+			
 		if( !$this->isActive() ){
 		    
 			throw new FOX_exception(array(
@@ -741,6 +694,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			
 		}
 
+		
 		return true;
 		
 	}

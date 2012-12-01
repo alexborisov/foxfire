@@ -413,6 +413,10 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 	public function getOffset($ns){
 
 	    
+    // NOTE: when writing the namespace-locking code, set the lock array FIRST
+    // then write the -1 lock offset. This guarantees the lock offset flag won't
+    // beset if the lock array write fails	    
+	    
 		if( !$this->isActive() ){
 		    
 			throw new FOX_exception(array(
