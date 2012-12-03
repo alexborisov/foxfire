@@ -168,12 +168,12 @@ abstract class FOX_mCache_driver_base {
 		}
 		catch (FOX_exception $child) {
 
-			if($child['numeric'] == 4){
+			if($child->data['numeric'] == 4){
 			    
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Namespace is currently locked by another PID",
-					'data'=>$child['data'],				    
+					'data'=>$child->data['data'],				    
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
@@ -369,7 +369,7 @@ abstract class FOX_mCache_driver_base {
 		// =============================================================
 	    
 		try {
-			$this->lockNamespace($args["namespace"], $args['seconds']);
+			$lock_offset = $this->lockNamespace($args["namespace"], $args['seconds']);
 		}
 		catch (FOX_exception $child) {
 
@@ -399,17 +399,24 @@ abstract class FOX_mCache_driver_base {
 		// =============================================================			
 		
 		$valid = false;
+		$get_offset = false;
 		
 		try {
-			$cache_image = $this->get($args["namespace"], "cache", $valid, $offset);
+			$cache_image = $this->get($args["namespace"], "cache", $valid, $get_offset);
 		}
 		catch (FOX_exception $child) {
 
 			if($child->data['numeric'] == 4){
 			    
+				// During the namespace locking sequence, the current PID will read the current offset
+				// from the cache, then set the lock array and offset. If a second PID reads the offset
+				// before the current PID changes it, and overwrites the lock array after the current PID
+				// has written to it, a write collision will occur. In this situation, the second PID will 
+				// have control of the namespace. 
+			    
 				throw new FOX_exception( array(
 					'numeric'=>3,
-					'text'=>"Write collision during locking sequence. The other PID won.",
+					'text'=>"Write collision during namespace locking sequence. The other PID won.",
 					'data'=>$child->data['data'],				    
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
@@ -426,6 +433,21 @@ abstract class FOX_mCache_driver_base {
 			}
 		}
 		
+		
+		if($lock_offset == $get_offset){
+		    
+			$offset = $lock_offset;
+		}
+		else {
+		    
+			throw new FOX_exception( array(
+				'numeric'=>5,
+				'text'=>"Namespace was flushed by a different PID during read sequence",
+				'data'=>array('new_offset'=>$get_offset),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}
 	
 		if(!$valid){
 		    

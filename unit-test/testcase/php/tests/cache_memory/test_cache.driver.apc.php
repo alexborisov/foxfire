@@ -231,7 +231,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			catch (FOX_exception $child) {
 
 				// Should throw exception #4 - Namespace locked
-				$this->assertEquals(4, $child->data['numeric']);;		    
+				$this->assertEquals(4, $child->data['numeric']);		    
 			}							
 		}
 		unset($var, $val);
@@ -487,7 +487,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		catch (FOX_exception $child) {
 
 			// Should throw exception #4 - Namespace locked
-			$this->assertEquals(4, $child->data['numeric']);;		    
+			$this->assertEquals(4, $child->data['numeric']);		    
 		}
 		
 		
@@ -694,7 +694,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			catch (FOX_exception $child) {
 
 				// Should throw exception #4 - Namespace locked
-				$this->assertEquals(4, $child->data['numeric']);;		    
+				$this->assertEquals(4, $child->data['numeric']);		    
 			}							
 			
 		}
@@ -1717,7 +1717,12 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
     
 	function test_writeCache_readCache() {
 	    
-	    	   	
+	    
+	    	// NOTE: lockNamespace() is not used directly on monolithic caches. Instead, a
+		// monolithic cache is locked using lockCache() and the lock is cleared by either
+		// flushCache(), writeCache(), or saveCache(). Use of lockCache() on monolithic
+		// caches is blocked in abstract class "FOX_db_base".
+	    
 		try {
 			$this->cls->flushAll();
 		}
@@ -1884,10 +1889,40 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			'p_11'=>array('key_1'=>null)
 		);		
 		
+		// Lock ns_1 as PID #1337 and ns_2 as PID #6900
+		// ########################################################		
+
+		$this->cls->process_id = 1337;
 		
-		// Write pages to cache
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);		
+
+		$this->cls->process_id = 6900;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
+		// Verify PID #1337 can write to ns_1
 		// =====================================================
 		
+		$this->cls->process_id = 1337;
 		
 		$check_offset = 1;  // Since the cache has been globally flushed, and the
 				    // namespace hasn't been flushed since, offset will be 1
@@ -1900,50 +1935,232 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
+		
+		// Verify PID #6900 can't write to ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$test_pages_a, 'check_offset'=>$check_offset) );
+			$this->fail("Failed to throw an exception on writeCachePage() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+		
+		
+		// Verify PID #6900 can write to ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+
 		try {
 			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$test_pages_b, 'check_offset'=>$check_offset) );
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
-		}		
+		}
 		
 		
-		// Fetch pages from cache
+		// Verify PID #1337 can't write to ns_2
 		// =====================================================
 		
-		$current_offset = false;
+		$this->cls->process_id = 1337;
 		
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$test_pages_b, 'check_offset'=>$check_offset) );
+			$this->fail("Failed to throw an exception on writeCachePage() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+		
+		
+		// Verify PID #1337 can read from ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+		
+		$current_offset = false;
+
 		try {
 			$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($test_pages_a)), $current_offset );
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
-		}		
-		
+		}
+
 		// Returned keys should match original data set		
 		$this->assertEquals($test_pages_a, $result);
 		
 		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// Verify PID #6900 can't read from ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($test_pages_a)), $current_offset );
+			$this->fail("Failed to throw an exception on readCachePage() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+		
+		
+		// Verify PID #6900 can read from ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
 		
 		$current_offset = false;
-		
+
 		try {
 			$result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($test_pages_b)), $current_offset );
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
-		}		
+		}
 
 		// Returned keys should match original data set			
 		$this->assertEquals($test_pages_b, $result);
 		
 		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);
+		
+		
+		// Verify PID #1337 can't read from ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($test_pages_b)), $current_offset );
+			$this->fail("Failed to throw an exception on readCachePage() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+		
+		
+		// Unlock ns_1 and ns_2 as PID #1337
+		// ########################################################		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);	
 				
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);		
+
+			
+		// Verify PID #6900 can write to ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$test_pages_a, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+				
+		// Verify PID #1337 can write to ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$test_pages_b, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		
+		// Verify PID #6900 can read from ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		
+		$current_offset = false;
+
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($test_pages_a)), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_pages_a, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// Verify PID #1337 can read from ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+		
+		$current_offset = false;
+
+		try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($test_pages_a)), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_pages_a, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 						    	   			    
 	}
 	
@@ -2335,7 +2552,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		catch (FOX_exception $child) {
 		    
 			// Should throw exception #1 - Already locked
-			$this->assertEquals(1, $child->data['numeric']);;		    
+			$this->assertEquals(1, $child->data['numeric']);		    
 		}
 		
 		
