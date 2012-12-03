@@ -888,7 +888,10 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				    
 					$offset = $lock['offset'];				    				    
 				}								 
-				else {							
+				else {	
+					$offset = null;	    // Prevent PHP from setting the $offset
+							    // variable if we're in an error state
+					
 					throw new FOX_exception(array(
 						'numeric'=>4,
 						'text'=>"Namespace is currently locked",
@@ -975,7 +978,9 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 					$offset = $lock['offset'];				    				    
 				}								 
 				else {				
-				    
+					$offset = null;	    // Prevent PHP from setting the $offset
+							    // variable if we're in an error state
+					
 					throw new FOX_exception(array(
 						'numeric'=>4,
 						'text'=>"Namespace is currently locked",

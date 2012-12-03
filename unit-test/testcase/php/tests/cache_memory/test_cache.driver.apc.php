@@ -2796,6 +2796,22 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		);		
 		
 		
+		$test_data_c = array(
+		    		    
+			'var_1'=>array('key_1'=>$test_obj),
+		    	'var_2'=>array('key_1'=>1, 'key_2'=>1.0, 'key_3'=>"foo"),
+			'var_3'=>array('key_1'=>(string)"foo"),		    
+			'var_4'=>array('key_1'=>(float)-1.6),	
+		    	'var_5'=>array('key_1'=>(float)1.7),
+			'var_6'=>array('key_1'=>(int)-1),	
+		    	'var_7'=>array('key_1'=>(int)1),
+			'var_8'=>array('key_1'=>(int)0),
+			'var_9'=>array('key_1'=>true),			    
+			'var_10'=>array('key_1'=>false),		    
+			'var_11'=>array('key_1'=>null)
+		);		
+		
+		
 		// Write keys to cache
 		// =====================================================
 		
@@ -2819,7 +2835,14 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 		
+		try {
+			$this->cls->writeCache( array('namespace'=>'ns_3', 'image'=>$test_data_c, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
 
+			$this->fail($child->dumpString(1));		    
+		}
+		
 		// Verify the keys are in the cache
 		// =====================================================
 		
@@ -2863,177 +2886,251 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);
 		
+		$current_offset = false;
+		$valid = false;
 		
-		// Lock one of the namespaces
-		// =====================================================		
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_3'), $valid, $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+
+		// Returned keys should match original data set			
+		$this->assertEquals($test_data_c, $cache_image);
 		
+		// The cache should be valid
+		$this->assertEquals(true, $valid);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// Lock ns_1 as PID #1337 and ns_2 as PID #6900
+		// ########################################################		
+
+		$this->cls->process_id = 1337;
+		$lock_offset = false;
+		
+		try {
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $lock_offset );			
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_data_a, $cache_image);
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		$this->cls->process_id = 6900;
+		$lock_offset = false;
+		
+		try {
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_2', 'seconds'=>5.0), $lock_offset );			
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_data_b, $cache_image);
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// PASS - PID #1337 attempting to lock ns_1
+		// =====================================================	
+		
+		$this->cls->process_id = 1337;
+		$lock_offset = false;
+		
+		try {
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $lock_offset );			
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_data_a, $cache_image);
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// EXCEPTION - PID #6900 attempting to lock ns_1
+		// =====================================================	
+		
+		$this->cls->process_id = 6900;
+		$lock_offset = false;
+		
+		try {
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $lock_offset );
+			$this->fail("Failed to throw an exception on lockCache() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+		
+		
+		// EXCEPTION - PID #6900 attempting to read ns_1
+		// =====================================================	
+		
+		$this->cls->process_id = 6900;
+
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid);
+			$this->fail("Failed to throw an exception on readCache() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+		
+		
+		// PASS - PID #6900 attempting to lock ns_2
+		// =====================================================	
+		
+		$this->cls->process_id = 6900;
+		$lock_offset = false;
+		
+		try {
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_2', 'seconds'=>5.0), $lock_offset );			
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_data_b, $cache_image);
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// EXCEPTION - PID #1337 attempting to lock ns_2
+		// =====================================================	
+		
+		$this->cls->process_id = 1337;
+		$lock_offset = false;
+		
+		try {
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_2', 'seconds'=>5.0), $lock_offset );
+			$this->fail("Failed to throw an exception on lockCache() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+			
+		// EXCEPTION - PID #1337 attempting to read ns_2
+		// =====================================================	
+		
+		$this->cls->process_id = 1337;
+		
+		try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid);
+			$this->fail("Failed to throw an exception on readCache() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+		
+		
+		// PASS - PID #2650 attempting to read ns_3
+		// =====================================================	
+		
+		$this->cls->process_id = 6900;
 		$current_offset = false;
 		
 		try {
-			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $current_offset );
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_3'), $valid, $current_offset );			
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_data_c, $cache_image);
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// Unlock ns_1 and ns_2 
+		// ########################################################		
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Returned keys should match original data set		
-		$this->assertEquals($test_data_a, $cache_image);
-		
-		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);
-		
-		
-		// PASS - Trying to lock an already locked namespace
-		// with the PID that owns the lock
-		// =====================================================	
-		
-		$current_offset = false;
-		
-		try {
-			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $current_offset );			
-		}
-		catch (FOX_exception $child) {
-		    
-			$this->fail($child->dumpString(1));		    
-		}
-		
-		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);
-		
-		
-		// EXCEPTION - Trying to lock an already locked namespace
-		// with a PID that doesn't own the lock
-		// =====================================================	
-		
-		$this->cls->process_id = 9999;
-		
-		try {
-			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $current_offset );
 			
-			$this->fail("Failed to throw an exception on foreign PID attempting to lock already locked namespace");
-		}
-		catch (FOX_exception $child) {
-		    
-			// Should throw exception #1 - Already locked
-			$this->assertEquals(1, $child->data['numeric']);		    
-		}
-		
-		
-		// EXCEPTION - Trying to read from a locked namespace  
-		// using a PID that doesn't own the lock
-		// =====================================================	
-		
-		$this->cls->process_id = 9999;
-		
+		$this->assertEquals(1, $lock_offset);	
+				
 		try {
-			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1') );
-			
-			$this->fail("Failed to throw an exception on foreign PID attempting to read locked namespace");
+			$lock_offset = $this->cls->unlockNamespace('ns_2', 5.0);
 		}
 		catch (FOX_exception $child) {
-		    
-			// Should throw exception #1 - Already locked
-			$this->assertEquals(1, $child->data['numeric']);		    
-		}
 
+			$this->fail($child->dumpString(1));		    
+		}				
+			
+		$this->assertEquals(1, $lock_offset);	
 		
-		// PASS - Trying to read from a locked namespace with 
-		// the PID that owns the lock
+		
+		// PASS - PID #2650 attempting to read ns_1
 		// =====================================================	
 		
 		$this->cls->process_id = 2650;
-		$current_offset = false;
-		$valid = false;
-				
+		$lock_offset = false;
+		
 		try {
-			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid, $current_offset);
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid, $current_offset );			
 		}
 		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
 		}
-		
-		// The cache should be valid
-		$this->assertEquals(true, $valid);
-		
-		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);
 		
 		// Returned keys should match original data set		
-		$this->assertEquals($test_data_a, $cache_image);		
+		$this->assertEquals($test_data_a, $cache_image);
+		
+		$this->assertEquals(1, $current_offset);	
 		
 		
-		// Check other namespace is still unlocked
-		// =====================================================		
+		// PASS - PID #2650 attempting to read ns_2
+		// =====================================================	
+		
+		$this->cls->process_id = 2650;
+		$lock_offset = false;
 		
 		try {
-			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid, $current_offset );
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid, $current_offset );			
 		}
 		catch (FOX_exception $child) {
 		    
 			$this->fail($child->dumpString(1));		    
-		}		
+		}
 		
-		// The cache should be valid
-		$this->assertEquals(true, $valid);
-		
-		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);		
-		
-		// Returned keys should match original data set			
+		// Returned keys should match original data set		
 		$this->assertEquals($test_data_b, $cache_image);
 		
-		
-		// Release the lock
-		// =====================================================
-		
-		try {
-			$this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>$test_data_a) );
-		}
-		catch (FOX_exception $child) {
-		    
-			$this->fail($child->dumpString(1));		    
-		}
-		
-		
-		// Verify the keys are in the cache
-		// =====================================================
-		
-		try {
-			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid, $current_offset );
-		}
-		catch (FOX_exception $child) {
-		    
-			$this->fail($child->dumpString(1));		    
-		}		
-		
-		// The cache should be valid
-		$this->assertEquals(true, $valid);
-		
-		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);		
-		
-		// Returned keys should match original data set			
-		$this->assertEquals($test_data_a, $cache_image);
-
-		
-		try {
-			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid, $current_offset );
-		}
-		catch (FOX_exception $child) {
-		    
-			$this->fail($child->dumpString(1));		    
-		}		
-		
-		// The cache should be valid
-		$this->assertEquals(true, $valid);
-		
-		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);		
-		
-		// Returned keys should match original data set			
-		$this->assertEquals($test_data_b, $cache_image);		
 		
 		
 	}	
