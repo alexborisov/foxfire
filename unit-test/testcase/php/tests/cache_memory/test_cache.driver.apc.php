@@ -42,51 +42,72 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 												    
+		// Write all possible data types to two different namespaces
+		// ==========================================================
+	    
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
-		$test_obj->bar = "test_Bar";
-	    
-		$test_data = array(
+		$test_obj->bar = "test_Bar";	    
+		
+		$test_data_a = array(
 		    
-			// Test positive and negative versions of all PHP
-			// data types in a single namespace
-		    
-			array('ns'=>'ns_1', 'var'=>'var_1', 'val'=>null),
-			array('ns'=>'ns_1', 'var'=>'var_2', 'val'=>false),
-			array('ns'=>'ns_1', 'var'=>'var_3', 'val'=>true),		    
-			array('ns'=>'ns_1', 'var'=>'var_4', 'val'=>(int)0),
-			array('ns'=>'ns_1', 'var'=>'var_5', 'val'=>(int)1),
-			array('ns'=>'ns_1', 'var'=>'var_6', 'val'=>(int)-1),
-			array('ns'=>'ns_1', 'var'=>'var_7', 'val'=>(float)1.7),
-			array('ns'=>'ns_1', 'var'=>'var_8', 'val'=>(float)-1.6),
-			array('ns'=>'ns_1', 'var'=>'var_9', 'val'=>(string)"foo"),
-			array('ns'=>'ns_1', 'var'=>'var_10', 'val'=>array(null, true, false, 1, 1.0, "foo")),	
-			array('ns'=>'ns_1', 'var'=>'var_11', 'val'=>$test_obj),
-		    
-			// Test the mirror image of the same dataset in a second namespace
-		    
-			array('ns'=>'ns_2', 'var'=>'var_1', 'val'=>$test_obj),
-		    	array('ns'=>'ns_2', 'var'=>'var_2', 'val'=>array(1, 1.0, "foo")),
-			array('ns'=>'ns_2', 'var'=>'var_3', 'val'=>(string)"foo"),		    
-			array('ns'=>'ns_2', 'var'=>'var_4', 'val'=>(float)-1.6),	
-		    	array('ns'=>'ns_2', 'var'=>'var_5', 'val'=>(float)1.7),
-			array('ns'=>'ns_2', 'var'=>'var_6', 'val'=>(int)-1),	
-		    	array('ns'=>'ns_2', 'var'=>'var_7', 'val'=>(int)1),
-			array('ns'=>'ns_2', 'var'=>'var_8', 'val'=>(int)0),
-			array('ns'=>'ns_2', 'var'=>'var_9', 'val'=>true),			    
-			array('ns'=>'ns_2', 'var'=>'var_10', 'val'=>false),		    
-			array('ns'=>'ns_2', 'var'=>'var_11', 'val'=>null),
+			'var_1'=>null,
+			'var_2'=>false,
+			'var_3'=>true,		    
+			'var_4'=>(int)0,
+			'var_5'=>(int)1,
+			'var_6'=>(int)-1,
+			'var_7'=>(float)1.7,
+			'var_8'=>(float)-1.6,
+			'var_9'=>(string)"foo",
+			'var_10'=>array(null, true, false, 1, 1.0, "foo"),	
+			'var_11', 'val'=>$test_obj,
 		);
 		
+		$test_data_b = array(
+		    		    
+			'var_1'=>$test_obj,
+		    	'var_2'=>array(1, 1.0, "foo"),
+			'var_3'=>(string)"foo",		    
+			'var_4'=>(float)-1.6,	
+		    	'var_5'=>(float)1.7,
+			'var_6'=>(int)-1,	
+		    	'var_7'=>(int)1,
+			'var_8'=>(int)0,
+			'var_9'=>true,			    
+			'var_10'=>false,		    
+			'var_11'=>null
+		);	
+		
+		
+		// Lock ns_1 as PID #1337
+		// =====================================================		
 
-		foreach( $test_data as $item ){
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+
+		// Verify PID #1337 can write to ns_1
+		// =====================================================
+		
+		foreach( $test_data_a as $var => $val ){
 		    		
 		    
 			$check_offset = 1;  // Since the cache has been globally flushed, and the
 					    // namespace hasn't been flushed since, offset will be 1
 			
 			try {
-				$this->cls->set($item['ns'], $item['var'], $item['val'], $check_offset);
+				$this->cls->set('ns_1', $var, $val, $check_offset);
 			}
 			catch (FOX_exception $child) {
 
@@ -94,27 +115,87 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			}		    									
 			
 		}
-		unset($item);
+		unset($var, $val);
 		
 		// Check for exception on current offset doesn't match expected offset
 		
 		try {						
-			$this->cls->set('ns_1', 'var_1', 'foo', 99);	
-			
+			$this->cls->set('ns_1', 'var_1', 'foo', 99);				
 			$this->fail("Failed to throw an exception on non-matching offset");			
 		}
 		catch (FOX_exception $child) {
 	
 		}		
+				
+		// Verify PID #6900 can't write to ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		
+		foreach( $test_data_a as $var => $val ){
+		    		
+		    
+			$check_offset = 1;  // Since the cache has been globally flushed, and the
+					    // namespace hasn't been flushed since, offset will be 1
+			
+			try {
+				$this->cls->set('ns_1', $var, $val, $check_offset);
+				$this->fail("Failed to throw an exception on set() by foreign PID on locked namespace");
+			}
+			catch (FOX_exception $child) {
+
+				// Should throw exception #4 - Namespace locked
+				$this->assertEquals(4, $child->data['numeric']);;		    
+			}		    												
+		}
+		unset($var, $val);
 		
 		
-		foreach( $test_data as $item ){
+		// Verify PID #6900 can write to ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		
+		foreach( $test_data_b as $var => $val ){
+		    		
+		    
+			$check_offset = 1;  // Since the cache has been globally flushed, and the
+					    // namespace hasn't been flushed since, offset will be 1
+			
+			try {
+				$this->cls->set('ns_2', $var, $val, $check_offset);
+			}
+			catch (FOX_exception $child) {
+
+				$this->fail($child->dumpString(1));		    
+			}		    									
+			
+		}
+		unset($var, $val);
+		
+		// Check for exception on current offset doesn't match expected offset
+		
+		try {						
+			$this->cls->set('ns_2', 'var_1', 'foo', 99);	
+			
+			$this->fail("Failed to throw an exception on non-matching offset");			
+		}
+		catch (FOX_exception $child) {
+	
+		}
+		
+		// Verify PID #1337 can read from ns_1
+		// =====================================================		
+		
+		$this->cls->process_id = 1337;
+		
+		foreach( $test_data_a as $var => $val ){
 		    
 			$valid = false;
 			$current_offset = false;
 			
 			try {
-				$value = $this->cls->get($item['ns'], $item['var'], $valid, $current_offset);
+				$value = $this->cls->get('ns_1', $var, $valid, $current_offset);
 			}
 			catch (FOX_exception $child) {
 
@@ -125,14 +206,112 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->assertEquals(true, $valid);
 			
 			// The returned value should match the value we set
-			$this->assertEquals($item['val'], $value);
+			$this->assertEquals($val, $value);
 			
 			// The reported offset should be 1
 			$this->assertEquals(1, $current_offset);				
 			
 		}
-		unset($item);			    	   		
-	    
+		unset($var,$val);
+		
+		// Verify PID #6900 can't read from ns_1
+		// =====================================================		
+		
+		$this->cls->process_id = 6900;
+		
+		foreach( $test_data_a as $var => $val ){
+		    
+			$valid = false;
+			$current_offset = false;
+			
+			try {
+				$value = $this->cls->get('ns_1', $var, $valid, $current_offset);
+				$this->fail("Failed to throw an exception on get() by foreign PID on locked namespace");
+			}
+			catch (FOX_exception $child) {
+
+				// Should throw exception #4 - Namespace locked
+				$this->assertEquals(4, $child->data['numeric']);;		    
+			}							
+		}
+		unset($var, $val);
+		
+		
+		// Verify PID #6900 can read from ns_2
+		// =====================================================
+		
+		foreach( $test_data_b as $var => $val ){
+		    
+			$valid = false;
+			$current_offset = false;
+			
+			try {
+				$value = $this->cls->get('ns_2', $var, $valid, $current_offset);
+			}
+			catch (FOX_exception $child) {
+
+				$this->fail($child->dumpString(1));		    
+			}
+			
+			// The cache should report the key as valid
+			$this->assertEquals(true, $valid);
+			
+			// The returned value should match the value we set
+			$this->assertEquals($val, $value);
+			
+			// The reported offset should be 1
+			$this->assertEquals(1, $current_offset);				
+			
+		}
+		unset($var, $val);		
+		
+		// Unlock ns_1 as PID #1337
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
+		// Verify PID #6900 can read from ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		
+		foreach( $test_data_a as $var => $val ){
+		    
+			$valid = false;
+			$current_offset = false;
+			
+			try {
+				$value = $this->cls->get('ns_1', $var, $valid, $current_offset);
+			}
+			catch (FOX_exception $child) {
+
+				$this->fail($child->dumpString(1));		    
+			}
+			
+			// The cache should report the key as valid
+			$this->assertEquals(true, $valid);
+			
+			// The returned value should match the value we set
+			$this->assertEquals($val, $value);
+			
+			// The reported offset should be 1
+			$this->assertEquals(1, $current_offset);				
+			
+		}
+		unset($var, $val);		
+		
 	}
 	
 	
@@ -996,7 +1175,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 	}
 	
 	
-	function test_ns_locking() {
+	function test_lockNamespace_unlockNamespace() {
 	    	    
 	    
 		try {
@@ -1045,7 +1224,64 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		);		
 		
 		
-		// Write keys to cache
+		// Lock ns_1
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
+		// PASS - 'set()' by PID that owns the lock
+		// =====================================================
+		
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+			
+		try {
+			$this->cls->set('ns_1', 'var_12', 'baz', $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		try {
+			$this->cls->set('ns_1', 'var_13', 'baz', $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+
+		
+		try {
+			$this->cls->set('ns_2', 'var_12', 'baz', $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		try {
+			$this->cls->set('ns_2', 'var_12', 'baz', $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		
+		// PASS - 'setMulti()' by PID that owns the lock
 		// =====================================================
 		
 		$check_offset = 1;  // Since the cache has been globally flushed, and the
@@ -1066,51 +1302,70 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
-		}
+		}		
 		
-				
-		// Lock ns_1
-		// =====================================================		
-
+		
+		// PASS - 'getMulti()' by PID that owns the lock
+		// =====================================================
+		
 		$this->cls->process_id = 1337;
+		$current_offset = false;
 		
 		try {
-			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a), $current_offset );
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
-		}				
+		}		
 		
-		// Lock offset should be 1	
-		$this->assertEquals(1, $lock_offset);		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_data_a, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
+
+		$current_offset = false;
+		
+		try {
+			$result = $this->cls->getMulti('ns_2', array_keys($test_data_b), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		// Returned keys should match original data set			
+		$this->assertEquals($test_data_b, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);				
 		
 		
-		// EXCEPTION - 'LOCK' by other PID
+		
+		// EXCEPTION - 'lockNamespace()' by foreign PID
 		// =====================================================		
 
 		$this->cls->process_id = 6900;
 		
 		try {
-			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
-			
-			$this->fail("Failed to throw an exception on LOCK by foreign PID on locked namespace");
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);			
+			$this->fail("Failed to throw an exception on lockNamespace() by foreign PID on locked namespace");
 		}
 		catch (FOX_exception $child) {
 		    
 			// Should throw exception #4 - Namespace locked
 			$this->assertEquals(4, $child->data['numeric']);;		    
-		}
+		}		
 		
-		
-		// EXCEPTION - 'SET' by other PID
+		// EXCEPTION - 'set()' by foreign PID
 		// =====================================================		
 
 		$this->cls->process_id = 6900;
 		
 		try {
 			$this->cls->set('ns_1', 'test_1', 'fail');			
-			$this->fail("Failed to throw an exception on SET by foreign PID on locked namespace");
+			$this->fail("Failed to throw an exception on set() by foreign PID on locked namespace");
 		}
 		catch (FOX_exception $child) {
 		    
@@ -1118,8 +1373,22 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->assertEquals(4, $child->data['numeric']);;		    
 		}
 
+		// EXCEPTION - 'setMulti()' by foreign PID
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
 		
-		// EXCEPTION - 'GET' by other PID
+		try {
+			$this->cls->setMulti('ns_1', $test_data_a);			
+			$this->fail("Failed to throw an exception on setMulti() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+		    
+			// Should throw exception #4 - Namespace locked
+			$this->assertEquals(4, $child->data['numeric']);;		    
+		}		
+		
+		// EXCEPTION - 'get()' by foreign PID
 		// =====================================================		
 
 		$this->cls->process_id = 6900;
@@ -1127,7 +1396,37 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		
 		try {
 			$this->cls->get('ns_1', 'test_1', $valid);
-			$this->fail("Failed to throw an exception on GET by foreign PID on locked namespace");
+			$this->fail("Failed to throw an exception on get() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+		    
+			// Should throw exception #4 - Namespace locked
+			$this->assertEquals(4, $child->data['numeric']);;		    
+		}
+				
+		// EXCEPTION - 'getMulti()' by foreign PID
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
+		
+		try {
+			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a));
+			$this->fail("Failed to throw an exception on getMulti() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+		    
+			// Should throw exception #4 - Namespace locked
+			$this->assertEquals(4, $child->data['numeric']);;		    
+		}		
+		
+		// EXCEPTION - 'del()' by foreign PID
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
+		
+		try {
+			$result = $this->cls->del('ns_1', 'var_1');
+			$this->fail("Failed to throw an exception on del() by foreign PID on locked namespace");
 		}
 		catch (FOX_exception $child) {
 		    
@@ -1135,7 +1434,21 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->assertEquals(4, $child->data['numeric']);;		    
 		}
 		
-				
+		// EXCEPTION - 'delMulti()' by foreign PID
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
+		
+		try {
+			$result = $this->cls->delMulti('ns_1', array('var_1','var_2','var_3'));
+			$this->fail("Failed to throw an exception on delMulti() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+		    
+			// Should throw exception #4 - Namespace locked
+			$this->assertEquals(4, $child->data['numeric']);;		    
+		}
+		
 		// Verify the keys are in the cache
 		// =====================================================
 		

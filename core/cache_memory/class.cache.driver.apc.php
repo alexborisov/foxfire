@@ -360,14 +360,22 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 								
 				$offset = $lock['offset'];
 
-				$store_ok = apc_store("fox.ns_offset.".$ns, $offset);
+				$keys = array(			    
+						"fox.ns_lock.".$ns => false,
+						"fox.ns_offset.".$ns => $offset			    
+				);
 
-				if(!$store_ok){
+				// NOTE: apc_store() has a different error reporting format when
+				// passed an array @see http://php.net/manual/en/function.apc-store.php
+
+				$cache_result = apc_store($keys);			
+
+				if( count($cache_result) != 0 ){
 
 					throw new FOX_exception(array(
 						'numeric'=>4,
 						'text'=>"Error writing to cache engine",
-						'data'=>array('namespace'=>$ns, 'offset'=>$offset),
+						'data'=>$keys,
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>null
 					));
@@ -377,7 +385,7 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 						
 		}
 		
-		return true;
+		return $offset;
 
 	}
 	
@@ -608,45 +616,45 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				}						
 				
 			}
-			else {
-				// Check the current offset matches the expected offset
-			    
-				if( ($check_offset !== null) && ($check_offset != $offset) ){
-				    				    
-					throw new FOX_exception(array(
-						'numeric'=>5,
-						'text'=>"Current offset doesn't match expected offset",
-						'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>null
-					));				    				    
-				}
-				
-				$keys = array(			    
-						"fox." . $ns . "." . $offset . "." . $var => $val		    
-				);
-				
-				if( $namespace_locked && $clear_lock ){
-				    
-					$keys["fox.ns_offset.".$ns] = $offset;				    
-				}
 
-				// NOTE: apc_store() has a different error reporting format when
-				// passed an array @see http://php.net/manual/en/function.apc-store.php
+			// Check the current offset matches the expected offset
 
-				$cache_result = apc_store($keys);			
+			if( ($check_offset !== null) && ($check_offset != $offset) ){
 
-				if( count($cache_result) != 0 ){
-
-					throw new FOX_exception(array(
-						'numeric'=>6,
-						'text'=>"Error writing to cache engine",
-						'data'=>$keys,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>null
-					));
-				}				
+				throw new FOX_exception(array(
+					'numeric'=>5,
+					'text'=>"Current offset doesn't match expected offset",
+					'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));				    				    
 			}
+
+			$keys = array(			    
+					"fox." . $ns . "." . $offset . "." . $var => $val		    
+			);
+
+			if( $namespace_locked && $clear_lock ){
+
+				$keys["fox.ns_offset.".$ns] = $offset;				    
+			}
+
+			// NOTE: apc_store() has a different error reporting format when
+			// passed an array @see http://php.net/manual/en/function.apc-store.php
+
+			$cache_result = apc_store($keys);			
+
+			if( count($cache_result) != 0 ){
+
+				throw new FOX_exception(array(
+					'numeric'=>6,
+					'text'=>"Error writing to cache engine",
+					'data'=>$keys,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}				
+			
 			
 		}
 		
