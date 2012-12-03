@@ -531,7 +531,6 @@ abstract class FOX_mCache_driver_base {
 	 * 
          * @param array $args | Control args
 	 *	=> VAL @param string $namespace | Class namespace
-	 *	=> VAL @param int $process_id | Process ID to use as owner 
 	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	  
 	 *	=> VAL @param string/array $pages | Single page as string. Multiple pages as array of string.	 
 	 * 
@@ -607,6 +606,17 @@ abstract class FOX_mCache_driver_base {
 
 					$processed_result[$page] = array();					    
 				}
+				elseif($cache_result[$page]['lock']['pid'] == $this->process_id){
+				    				    
+					// If the lock is owned by the current PID, just write back the lock array to the cache
+					// with an updated timestamp, refreshing the lock. This provides important functionality,
+					// letting a PID that has a lock on the page extend its lock time incrementally as it
+					// works through a complex processing job. If the PID had to release and reset the lock
+					// each time, the data would be venerable to being overwritten by other PID's.		
+				    
+					unset($cache_result[$page]['lock']);
+					$processed_result[$page] = $cache_result[$page];					
+				}
 				else {
 					// Othewise, the lock is still valid, so flag the key
 					$locked_pages[$page] = $cache_result[$page]['lock'];
@@ -635,7 +645,7 @@ abstract class FOX_mCache_driver_base {
 		// =============================================================
 		
 		$cache_image = array();		
-		$lock_array = array( 'pid'=>$args['process_id'], 'expire'=> ( microtime(true) + $args['seconds'] ) );
+		$lock_array = array( 'pid'=>$this->process_id, 'expire'=> ( microtime(true) + $args['seconds'] ) );
 		
 		foreach( $processed_result as $page => $data ){
 		    

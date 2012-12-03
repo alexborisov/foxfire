@@ -3267,7 +3267,35 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);
 				
-				
+		
+		// Lock ns_1 as PID #1337 and ns_2 as PID #6900
+		// ########################################################		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		$this->assertEquals(1, $lock_offset);		
+
+		$this->cls->process_id = 6900;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+			
+		$this->assertEquals(1, $lock_offset);
+		
+		
 		// Lock some pages
 		// =====================================================
 		
@@ -3291,27 +3319,100 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		unset($item);		
 		
 		
+		// Verify PID #1337 can lock pages in ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+		$current_offset = false;
+		
+		try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a), 'seconds'=>5.0), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+				
+		// The cache engine should return the page images
+		$this->assertEquals($lock_pages_a, $lock_image);
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// Verify PID #6900 can't lock pages in ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+
 		try {
 			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a), 'seconds'=>5.0) );
+			$this->fail("Failed to throw an exception on lockCachePage() by foreign PID on locked namespace");
 		}
 		catch (FOX_exception $child) {
 
-			$this->fail($child->dumpString(1));		    
-		}
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}		
 		
-		// The cache engine should return the page image
-		$this->assertEquals($lock_pages_a, $lock_image);			
+		
+		// Verify PID #6900 can lock pages in ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		$current_offset = false;
 		
 		try {
-			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b), 'seconds'=>5.0) );
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b), 'seconds'=>5.0), $current_offset );
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
 		}
-		
-		// The cache engine should return true to indicate success
+				
+		// The cache engine should return the page images
 		$this->assertEquals($lock_pages_b, $lock_image);
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// Verify PID #1337 can't lock pages in ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+
+		try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b), 'seconds'=>5.0) );
+			$this->fail("Failed to throw an exception on lockCachePage() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}		
+
+		
+		// Unlock ns_1 and ns_2
+		// ########################################################		
+
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+			
+		$this->assertEquals(1, $lock_offset);	
+				
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+			
+		$this->assertEquals(1, $lock_offset);			
 		
 		
 		// Verify the correct pages were locked
@@ -3332,7 +3433,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 				}
 				catch (FOX_exception $child) {
 
-					// Should throw exception #3 - Namespace locked
+					// Should throw exception #3 - One or more pages are currently locked
 					$this->assertEquals(3, $child->data['numeric']);
 				}
 			
@@ -3372,13 +3473,12 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		
 		
 		try {
-			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>$page_names_a), $current_offset); 
-			
+			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>$page_names_a), $current_offset); 			
 			$this->fail("Failed to throw an exception on locked cache page");
 		}
 		catch (FOX_exception $child) {
 
-			// Should throw exception #3 - One or more pages locked
+			// Should throw exception #3 - One or more pages are currently locked
 			$this->assertEquals(3, $child->data['numeric']);
 			
 			// Data array should contain locked page PID/time arrays. We only check to
@@ -3388,6 +3488,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		
 		try {
 			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>$page_names_b), $current_offset); 
+			$this->fail("Failed to throw an exception on locked cache page");
 		}
 		catch (FOX_exception $child) {
 
@@ -3422,24 +3523,176 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		unset($item);
 		
+		
 		$current_offset = false;
 			
-		$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($unlocked_pages_a)), $current_offset); 
-		
+		try {
+			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($unlocked_pages_a)), $current_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
 		$this->assertEquals($unlocked_pages_a, $cache_result);
 		
-		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);		
+		
 		
 		$current_offset = false;
 		
-		$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($unlocked_pages_b)), $current_offset); 
-		
+		try {
+			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($unlocked_pages_b)), $current_offset); 
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+				
 		$this->assertEquals($unlocked_pages_b, $cache_result);	
 		
-		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
+		
+		
+		
+		// Verify PID #1337 can lock pages it already owns
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+		$current_offset = false;
+		
+		try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a), 'seconds'=>5.0), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+				
+		// The cache engine should return the page images
+		$this->assertEquals($lock_pages_a, $lock_image);
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// Verify PID #6900 can't lock pages that PID #1337 owns
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+
+		try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a), 'seconds'=>5.0) );
+			$this->fail("Failed to throw an exception on lockCachePage() on pages locked by a foreign PID");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #3 - One or more pages locked
+			$this->assertEquals(3, $child->data['numeric']);		    
+		}		
+		
+		
+		// Verify PID #6900 can lock pages it already owns
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		$current_offset = false;
+		
+		try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b), 'seconds'=>5.0), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+				
+		// The cache engine should return the page images
+		$this->assertEquals($lock_pages_b, $lock_image);
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// Verify PID #1337 can't lock pages that PID #6900 owns
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+
+		try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b), 'seconds'=>5.0) );
+			$this->fail("Failed to throw an exception on lockCachePage() on pages locked by a foreign PID");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #3 - One or more pages locked
+			$this->assertEquals(3, $child->data['numeric']);		    
+		}
+		
+		
+		// Clear PID #1337's locks by writing to its pages
+		// =====================================================
+		
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+		
+		$this->cls->process_id = 1337;
+		
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$write_pages_a, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		
+		// Clear PID #6900's locks by writing to its pages
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		
+		try {
+			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$write_pages_b, 'check_offset'=>$check_offset) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+			
+		
+		// Check the cache pages are now unlocked
+		// =====================================================
+		
+		$this->cls->process_id = 2650;
+		
+		$current_offset = false;
+			
+		try {
+			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($unlocked_pages_a)), $current_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		$this->assertEquals($unlocked_pages_a, $cache_result);
+		
 		$this->assertEquals(1, $current_offset);		
-										    	   			    
+		
+		
+		$current_offset = false;
+		
+		try {
+			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($unlocked_pages_b)), $current_offset); 
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+				
+		$this->assertEquals($unlocked_pages_b, $cache_result);	
+		
+		$this->assertEquals(1, $current_offset);
+		
+		
 	}
 	
 	
