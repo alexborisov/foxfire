@@ -562,6 +562,35 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 	    		
+		
+		// Lock ns_1 and ns_2 as PID #1337
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);		
+		
+		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
 		
@@ -617,7 +646,8 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		unset($item);
 		
 		
-		// Verify all keys are in the cache
+		// Verify all keys are in the cache and can be 
+		// accessed by PID #1337
 		// ===================================================		
 		
 		foreach( $test_data as $item ){
@@ -646,8 +676,35 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		unset($item);
 		
 		
-		// Flush the cache
+		// Verify none of the keys can be accessed by
+		// PID #6900
+		// ===================================================		
+		
+		$this->cls->process_id = 6900;
+		
+		foreach( $test_data as $item ){
+		    
+			$valid = false;
+			$current_offset = false;
+			
+			try {
+				$value = $this->cls->get($item['ns'], $item['var'], $valid, $current_offset);
+				$this->fail("Failed to throw an exception on get() by foreign PID on locked namespace");
+			}
+			catch (FOX_exception $child) {
+
+				// Should throw exception #4 - Namespace locked
+				$this->assertEquals(4, $child->data['numeric']);;		    
+			}							
+			
+		}
+		unset($item);
+		
+		
+		// Flush the cache as PID #6900
 		// ===================================================
+		
+		$this->cls->process_id = 6900;
 		
 		try {
 			$this->cls->flushAll();
@@ -658,8 +715,11 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		}
 		
 		
-		// Verify all keys return null and are flagged as invalid
+		// Verify all keys can be read by PID #1337, all keys
+		// return null, and are flagged as invalid
 		// ===================================================		
+		
+		$this->cls->process_id = 1337;
 		
 		foreach( $test_data as $item ){
 		    
@@ -684,7 +744,39 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->assertEquals(1, $current_offset);				
 			
 		}
-		unset($item);		
+		unset($item);
+		
+		
+		// Verify all keys can be read by PID #6900, all keys
+		// return null, and are flagged as invalid
+		// ===================================================		
+		
+		$this->cls->process_id = 6900;
+		
+		foreach( $test_data as $item ){
+		    
+			$valid = false;
+			$current_offset = false;			
+			
+			try {
+				$value = $this->cls->get($item['ns'], $item['var'], $valid, $current_offset);
+			}
+			catch (FOX_exception $child) {
+
+				$this->fail($child->dumpString(1));		    
+			}			
+			
+			// The cache should report the key as valid
+			$this->assertEquals(false, $valid);
+			
+			// The returned value should match the value we set
+			$this->assertEquals(null, $value);
+			
+			// The reported offset should be 1
+			$this->assertEquals(1, $current_offset);				
+			
+		}
+		unset($item);			
 	    
 	}	
 	
@@ -848,7 +940,106 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		$this->assertEquals($test_data_b, $result);
 		
 		// The reported offset should be 1, because ns_2 wasn't flushed
-		$this->assertEquals(1, $current_offset);		
+		$this->assertEquals(1, $current_offset);	
+		
+		
+		// Lock ns_2 as PID #1337
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
+		// Flush ns_2 as PID #6900
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		
+		try {
+			$new_offset = $this->cls->flushNamespace('ns_2');
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		// Should be (int)2, because this is the first flush of this
+		// namespace, following a complete cache flush
+		
+		$this->assertEquals(2, $new_offset);	
+		
+		
+		// Verify the keys in the flushed namespace were cleared
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+		
+		$current_offset = false;
+						
+		try {
+			$result = $this->cls->getMulti('ns_2', array_keys($test_data_a), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		// Returned keys should be an empty array	
+		$this->assertEquals(array(), $result);
+		
+		// The reported offset should be 2, because ns_2 was flushed
+		$this->assertEquals(2, $current_offset);	
+		
+		
+		// Flush ns_2 again as PID #1337
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+		
+		try {
+			$new_offset = $this->cls->flushNamespace('ns_2');
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		// Should be (int)3, because this is the second flush of this
+		// namespace, following a complete cache flush
+		
+		$this->assertEquals(3, $new_offset);	
+		
+		
+		// Verify the keys in the flushed namespace were cleared
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+		
+		$current_offset = false;
+						
+		try {
+			$result = $this->cls->getMulti('ns_2', array_keys($test_data_a), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		// Returned keys should be an empty array	
+		$this->assertEquals(array(), $result);
+		
+		// The reported offset should be 3, because ns_2 was flushed a second time
+		$this->assertEquals(3, $current_offset);		
 								    	   			    
 	}
 	

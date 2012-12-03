@@ -440,10 +440,13 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 						
 			// If the namespace is currently locked, recover the offset from the lock array
 			
+			$namespace_locked = false;
+			
 			if($offset == -1){
 			    			    
 				$lock = apc_fetch("fox.ns_lock.".$ns);				
-				$offset = $lock['offset'];				    				    		    			    
+				$offset = $lock['offset'];
+				$namespace_locked = true;
 			}
 
 			if($offset < $this->max_offset){   
@@ -454,18 +457,31 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 				$offset = 1;
 			}	
 			
-			$store_ok = apc_store("fox.ns_offset.".$ns, $offset);
+			$keys = array(			    
+					"fox.ns_offset.".$ns => $offset			    
+			);
+			
+			if($namespace_locked == true){
+			    
+				$keys["fox.ns_lock.".$ns] = false;			    
+			}
 
-			if(!$store_ok){
+			// NOTE: apc_store() has a different error reporting format when
+			// passed an array @see http://php.net/manual/en/function.apc-store.php
+
+			$cache_result = apc_store($keys);			
+
+			if( count($cache_result) != 0 ){
 
 				throw new FOX_exception(array(
 					'numeric'=>4,
-					'text'=>"Error writing to cache engine while setting namespace offset",
-					'data'=>array('namespace'=>$ns, 'offset'=>$offset, 'lock'=>$lock),
+					'text'=>"Error writing to cache engine",
+					'data'=>$keys,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
-			}			
+			}
+			
 		}		
 		
 		return $offset;
