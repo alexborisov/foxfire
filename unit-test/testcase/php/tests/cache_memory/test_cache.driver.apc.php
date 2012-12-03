@@ -145,7 +145,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			catch (FOX_exception $child) {
 
 				// Should throw exception #4 - Namespace locked
-				$this->assertEquals(4, $child->data['numeric']);;		    
+				$this->assertEquals(4, $child->data['numeric']);		    
 			}		    												
 		}
 		unset($var, $val);
@@ -366,7 +366,24 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		);		
 		
 		
-		// Write keys to cache
+		// Lock ns_1 as PID #1337
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);		
+		
+		
+		// Verify PID #1337 can write to ns_1
 		// =====================================================
 		
 		
@@ -381,6 +398,38 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
+		
+		// Check for exception on current offset doesn't match expected offset
+		
+		try {						
+			$this->cls->setMulti('ns_1', $test_data_a, 99);				
+			$this->fail("Failed to throw an exception on non-matching offset");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+		
+		// Verify PID #6900 can't write to ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		
+		    
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+			
+		try {
+			$this->cls->setMulti('ns_1', $test_data_a, $check_offset);
+			$this->fail("Failed to throw an exception on set() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #4 - Namespace locked
+			$this->assertEquals(4, $child->data['numeric']);		    
+		}		    												
+
+		// Verify PID #6900 can write to ns_2
+		// =====================================================
 		
 		try {
 			$this->cls->setMulti('ns_2', $test_data_b, $check_offset);
@@ -400,11 +449,12 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		}
 		catch (FOX_exception $child) {
 	
-		}
+		}		
 		
+		// Verify PID #1337 can read from ns_1
+		// =====================================================		
 		
-		// Fetch keys from cache
-		// =====================================================
+		$this->cls->process_id = 1337;
 		
 		$current_offset = false;
 		
@@ -423,7 +473,28 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		$this->assertEquals(1, $current_offset);		
 		
 		
+		// Verify PID #6900 can't read from ns_1
+		// =====================================================		
+		
+		$this->cls->process_id = 6900;
+		
 		$current_offset = false;
+
+		try {
+			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a), $current_offset );
+			$this->fail("Failed to throw an exception on getMulti() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #4 - Namespace locked
+			$this->assertEquals(4, $child->data['numeric']);;		    
+		}
+		
+		
+		// Verify PID #6900 can read from ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
 		
 		try {
 			$result = $this->cls->getMulti('ns_2', array_keys($test_data_b), $current_offset );
@@ -437,7 +508,45 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		$this->assertEquals($test_data_b, $result);
 		
 		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);		
+		$this->assertEquals(1, $current_offset);	
+		
+		
+		// Unlock ns_1 as PID #1337
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
+		// Verify PID #6900 can read from ns_1
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
+		
+		try {
+			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		// Returned keys should match original data set			
+		$this->assertEquals($test_data_a, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
+		
 						    	   			    
 	}
 	
