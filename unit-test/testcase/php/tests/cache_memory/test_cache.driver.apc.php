@@ -2102,7 +2102,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		
 		
 		try {
-			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a)) );
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a), 'seconds'=>5.0) );
 		}
 		catch (FOX_exception $child) {
 
@@ -2113,7 +2113,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		$this->assertEquals($lock_pages_a, $lock_image);			
 		
 		try {
-			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b)) );
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b), 'seconds'=>5.0) );
 		}
 		catch (FOX_exception $child) {
 
@@ -2129,29 +2129,33 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		
 		foreach( $test_data as $item ){
 		    		    		    			
-						
+			$current_offset = false;
+
 			if( $item['lock'] == true ){			   
 
 				// If the page is locked, it should throw an exception
 				
 				try {
-					$cache_result = $this->cls->readCachePage( array('namespace'=>$item['ns'], 'pages'=>$item['var']) ); 
+					$cache_result = $this->cls->readCachePage( array('namespace'=>$item['ns'], 'pages'=>$item['var']), $current_offset ); 
 					
 					$this->fail("Failed to throw an exception on locked cache page");
 				}
 				catch (FOX_exception $child) {
 
-					// Should throw exception #2 - Namespace locked
-					$this->assertEquals(2, $child->data['numeric']);
+					// Should throw exception #3 - Namespace locked
+					$this->assertEquals(3, $child->data['numeric']);
 				}
 			
 			}
 			else {
-				$cache_result = $this->cls->readCachePage( array('namespace'=>$item['ns'], 'pages'=>$item['var']) ); 
+				$cache_result = $this->cls->readCachePage( array('namespace'=>$item['ns'], 'pages'=>$item['var']), $current_offset ); 
 				
 				// The returned value should match the value we set	
 				$this->assertEquals( array( $item['var']=>$item['val'] ) , $cache_result);					
 			}
+			
+			// The reported offset should be 1
+			$this->assertEquals(1, $current_offset);
 			
 		}
 		unset($item);
@@ -2172,33 +2176,33 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			else {
 
 				$page_names_b[] = $item['var'];	
-			}
-						
+			}						
 		}
 		unset($item);	
 		
+		
 		try {
-			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>$page_names_a) ); 
+			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>$page_names_a), $current_offset); 
 			
 			$this->fail("Failed to throw an exception on locked cache page");
 		}
 		catch (FOX_exception $child) {
 
-			// Should throw exception #2 - One or more pages locked
-			$this->assertEquals(2, $child->data['numeric']);
+			// Should throw exception #3 - One or more pages locked
+			$this->assertEquals(3, $child->data['numeric']);
 			
 			// Data array should contain locked page PID/time arrays. We only check to
 			// make sure the page names are correct.
 			$this->assertEquals( array_keys($lock_pages_a), array_keys($child->data['data']) );			
-		}
+		}				
 		
 		try {
-			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>$page_names_b) ); 
+			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>$page_names_b), $current_offset); 
 		}
 		catch (FOX_exception $child) {
 
-			// Should throw exception #2 - One or more pages locked
-			$this->assertEquals(2, $child->data['numeric']);
+			// Should throw exception #3 - One or more pages locked
+			$this->assertEquals(3, $child->data['numeric']);
 			
 			// Data array should contain locked page PID/time arrays. We only check to
 			// make sure the page names are correct.
@@ -2228,14 +2232,23 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		unset($item);
 		
-		
-		$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($unlocked_pages_a) )); 
+		$current_offset = false;
+			
+		$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($unlocked_pages_a)), $current_offset); 
 		
 		$this->assertEquals($unlocked_pages_a, $cache_result);
 		
-		$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($unlocked_pages_b) )); 
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 		
-		$this->assertEquals($unlocked_pages_b, $cache_result);		
+		$current_offset = false;
+		
+		$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($unlocked_pages_b)), $current_offset); 
+		
+		$this->assertEquals($unlocked_pages_b, $cache_result);	
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
 										    	   			    
 	}
 	

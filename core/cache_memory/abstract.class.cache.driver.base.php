@@ -222,7 +222,6 @@ abstract class FOX_mCache_driver_base {
 				if( $current_time > $expiry_time ){
 
 					// Don't write the page to the array
-
 					//$processed_result[$page_name] = array();					    
 				}
 				else {
@@ -462,7 +461,7 @@ abstract class FOX_mCache_driver_base {
 
 	public function lockCachePage($args, &$offset=null){
 	    
-	
+
 	    	if( !is_array($args['pages']) ){
 		    
 			$args['pages'] = array($args['pages']);
@@ -477,7 +476,7 @@ abstract class FOX_mCache_driver_base {
 			    
 				throw new FOX_exception( array(
 					'numeric'=>1,
-					'text'=>"Namespace is currently locked by another PID",
+					'text'=>"Cache namespace is currently locked by another PID",
 					'data'=>$child->data['data'],				    
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
