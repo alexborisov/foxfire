@@ -2348,8 +2348,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+			
 		$this->assertEquals(1, $lock_offset);	
 				
 		try {
@@ -2359,8 +2358,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+			
 		$this->assertEquals(1, $lock_offset);		
 
 			
@@ -2569,7 +2567,35 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);
 		
-				
+		
+		// Lock ns_1 as PID #1337 and ns_2 as PID #6900
+		// ########################################################		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		$this->assertEquals(1, $lock_offset);		
+
+		$this->cls->process_id = 6900;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+			
+		$this->assertEquals(1, $lock_offset);
+		
+		
 		// Flush some pages
 		// =====================================================
 		
@@ -2592,8 +2618,29 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		unset($item);		
 		
+		
+		// Verify PID #6900 can't flush pages from ns_1
+		// =====================================================
+		
 		$check_offset = 1;  // Since the cache has been globally flushed, and the
 				    // namespace hasn't been flushed since, offset will be 1
+		
+		$this->cls->process_id = 6900;
+
+		try {
+			$pages_deleted = $this->cls->flushCachePage( array('namespace'=>'ns_1', 'pages'=>$flush_pages_a, 'check_offset'=>$check_offset) );
+			$this->fail("Failed to throw an exception on flushCachePage() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+		
+		// Verify PID #1337 can flush pages from ns_1
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
 		
 		try {
 			$pages_deleted = $this->cls->flushCachePage( array('namespace'=>'ns_1', 'pages'=>$flush_pages_a, 'check_offset'=>$check_offset) );
@@ -2607,6 +2654,26 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		$this->assertEquals(count($flush_pages_a), $pages_deleted);			
 		
 		
+		// Verify PID #1337 can't flush pages from ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 1337;
+
+		try {
+			$pages_deleted = $this->cls->flushCachePage( array('namespace'=>'ns_2', 'pages'=>$flush_pages_b, 'check_offset'=>$check_offset) );
+			$this->fail("Failed to throw an exception on flushCachePage() by foreign PID on locked namespace");
+		}
+		catch (FOX_exception $child) {
+
+			// Should throw exception #1 - Namespace locked
+			$this->assertEquals(1, $child->data['numeric']);		    
+		}
+		
+		// Verify PID #6900 can flush pages from ns_2
+		// =====================================================
+		
+		$this->cls->process_id = 6900;		
+		
 		try {
 			$pages_deleted = $this->cls->flushCachePage( array('namespace'=>'ns_2', 'pages'=>$flush_pages_b, 'check_offset'=>$check_offset) );
 		}
@@ -2618,7 +2685,32 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// The cache engine should return the number of pages deleted
 		$this->assertEquals(count($flush_pages_b), $pages_deleted);
 		
+		
+		// Unlock ns_1 and ns_2 as PID #2650
+		// ########################################################		
 
+		$this->cls->process_id = 2650;
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+			
+		$this->assertEquals(1, $lock_offset);	
+				
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		$this->assertEquals(1, $lock_offset);
+		
 		
 		// Verify the correct pages were flushed
 		// =====================================================
