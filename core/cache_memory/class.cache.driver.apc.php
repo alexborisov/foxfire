@@ -246,12 +246,21 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 						
 			// If the namespace is *already* locked, fetch the lock info array
 			
-			if($offset == -1){
-			    			   
+			if($offset != -1){
+			    
+				$already_locked = false;
+			}
+			else {
+			    
+			    	$already_locked = true;
+				
 				$lock = apc_fetch("fox.ns_lock.".$ns);
 				
-				// If the lock is owned by the current PID, just write back the lock array
-				// to the cache with an updated timestamp, refreshing the lock.
+				// If the lock is owned by the current PID, just write back the lock array to the cache
+				// with an updated timestamp, refreshing the lock. This provides important functionality,
+				// letting a PID that has a lock on the namespace extend its lock time incrementally as it
+				// works through a complex processing job. If the PID had to release and reset the lock
+				// each time, the data would be venerable to being overwritten by other PID's.
 				
 				if( $lock['pid'] == $this->process_id ){
 				    
@@ -275,9 +284,13 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 								    'pid'=>$this->process_id, 
 								    'expire'=>( microtime(true) + $seconds ),
 								    'offset'=>$offset
-					),
-					"fox.ns_offset.".$ns => -1			    
+					)			    
 			);
+			
+			if(!$already_locked){
+			    
+				$keys["fox.ns_offset.".$ns] = -1;
+			}
 
 			// NOTE: apc_store() has a different error reporting format when
 			// passed an array @see http://php.net/manual/en/function.apc-store.php

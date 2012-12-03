@@ -114,13 +114,25 @@ abstract class FOX_mCache_driver_base {
 		}
 		catch (FOX_exception $child) {
 
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error in descendent->get()",
-				'data'=>$args,                                   
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
+			if($child->data['numeric'] == 4){
+			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Namespace is currently locked by another PID",
+					'data'=>$child->data['data'],				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in descendent::get()",
+					'data'=>$args,				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
 		}
 		
 		
@@ -285,13 +297,36 @@ abstract class FOX_mCache_driver_base {
 		}
 		catch (FOX_exception $child) {
 
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error in descendent->set()",
-				'data'=>$args,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
+			if($child->data['numeric'] == 4){
+			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Namespace is currently locked by another PID",
+					'data'=>$child->data['data'],				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}
+			elseif($child->data['numeric'] == 5) {	
+			    
+				throw new FOX_exception(array(
+					'numeric'=>2,
+					'text'=>"Current offset doesn't match expected offset",
+					'data'=>$child->data['data'],
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));			    			    
+			}			
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Error in descendent::set()",
+					'data'=>$args,				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
 		}
 		
 		return true;
@@ -330,13 +365,36 @@ abstract class FOX_mCache_driver_base {
 		}
 		catch (FOX_exception $child) {
 
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error in descendent->setMulti()",
-				'data'=>$args,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
+			if($child->data['numeric'] == 4){
+			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Namespace is currently locked by another PID",
+					'data'=>$child->data['data'],				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}
+			elseif($child->data['numeric'] == 5) {	
+			    
+				throw new FOX_exception(array(
+					'numeric'=>2,
+					'text'=>"Current offset doesn't match expected offset",
+					'data'=>$child->data['data'],
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));			    			    
+			}			
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Error in descendent::set()",
+					'data'=>$args,				    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+						
 		}
 		
 		return true;
