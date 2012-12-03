@@ -1115,6 +1115,40 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		unset($item);
 		
 		
+		// Lock ns_1 as PID #1337
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
+		// Lock ns_2 as PID #6900
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
 		// Verify the keys are in the cache
 		// =====================================================
 		
@@ -1123,6 +1157,14 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$valid = false;
 			$current_offset = false;			
 			
+			if($item['ns'] == 'ns_1'){
+			    
+				$this->cls->process_id = 1337;
+			}
+			else {
+				$this->cls->process_id = 6900;    
+			}
+						
 			try {
 				$value = $this->cls->get($item['ns'], $item['var'], $valid, $current_offset);
 			}
@@ -1154,19 +1196,97 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 				
 			if( $item['delete'] == true ){
 
-				try {
-					$del_ok = $this->cls->del($item['ns'], $item['var'], $check_offset);
+				// If the key is in ns_1, verify PID #6900 can't delete it
+				// and PID #1337 can delete it
+			    
+				if($item['ns'] == 'ns_1'){
+				    
+					$this->cls->process_id = 6900; 
+				    
+					try {						
+						$del_ok = $this->cls->del($item['ns'], $item['var'], $check_offset);				
+						$this->fail("Failed to throw an exception on foreign PID attempting to delete key from locked namespace");			
+					}
+					catch (FOX_exception $child) {
+
+					}
+		
+					$this->cls->process_id = 1337; 
+					
+					try {
+						$del_ok = $this->cls->del($item['ns'], $item['var'], $check_offset);
+					}
+					catch (FOX_exception $child) {
+
+						$this->fail($child->dumpString(1));		    
+					}				
+
+					// The cache should report the key as valid
+					$this->assertEquals(true, $del_ok);
+
 				}
-				catch (FOX_exception $child) {
+				else {
+				    
+					// If the key is in ns_2, verify PID #1337 can't delete it
+					// and PID #6900 can delete it
+				    
+					$this->cls->process_id = 1337; 
+				    
+					try {						
+						$del_ok = $this->cls->del($item['ns'], $item['var'], $check_offset);				
+						$this->fail("Failed to throw an exception on foreign PID attempting to delete key from locked namespace");			
+					}
+					catch (FOX_exception $child) {
 
-					$this->fail($child->dumpString(1));		    
-				}				
+					}
+		
+					$this->cls->process_id = 6900; 
+					
+					try {
+						$del_ok = $this->cls->del($item['ns'], $item['var'], $check_offset);
+					}
+					catch (FOX_exception $child) {
 
-				// The cache should report the key as valid
-				$this->assertEquals(true, $del_ok);			    			    
+						$this->fail($child->dumpString(1));		    
+					}				
+
+					// The cache should report the key as valid
+					$this->assertEquals(true, $del_ok);				    
+				    
+				}
 			}			
 		}
 		unset($item);	
+		
+		
+		// Unlock both namespaces
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_1');
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_2');
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
 		
 		
 		// Verify the correct keys were deleted
@@ -1354,6 +1474,39 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		}
 		unset($item);
 		
+		// Lock ns_1 as PID #1337
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
+		// Lock ns_2 as PID #6900
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
 		
 		// Delete some keys
 		// =====================================================
@@ -1379,8 +1532,24 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		
 		
 		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1
+				    // namespace hasn't been flushed since, offset will be 1	
 
+		// Verify PID #6900 can't delete from ns_1
+		
+		$this->cls->process_id = 6900; 
+		
+		try {						
+			$keys_deleted = $this->cls->delMulti('ns_1', $del_keys_a, $check_offset);				
+			$this->fail("Failed to throw an exception on foreign PID attempting to delete multiple keys from locked namespace");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Verify PID #1337 can delete from ns_1
+		
+		$this->cls->process_id = 1337; 
+		
 		try {
 			$keys_deleted = $this->cls->delMulti('ns_1', $del_keys_a, $check_offset);
 		}
@@ -1393,6 +1562,22 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		$this->assertEquals(6, $keys_deleted);	
 		
 		
+		// Verify PID #1337 can't delete from ns_2
+		
+		$this->cls->process_id = 1337; 
+		
+		try {						
+			$keys_deleted = $this->cls->delMulti('ns_2', $del_keys_b, $check_offset);				
+			$this->fail("Failed to throw an exception on foreign PID attempting to delete multiple keys from locked namespace");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+				
+		// Verify PID #6900 can delete from ns_2
+		
+		$this->cls->process_id = 6900; 
+		
 		try {
 			$keys_deleted = $this->cls->delMulti('ns_2', $del_keys_b, $check_offset);
 		}
@@ -1403,6 +1588,35 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 		// The cache should report deleting 8 keys
 		$this->assertEquals(8, $keys_deleted);	
+		
+		
+		// Unlock both namespaces
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_1');
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_2');
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
 		
 		
 		// Try deleting nonexistent keys
@@ -1472,322 +1686,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		unset($item);		
 			
 		
-	}
-	
-	
-	function test_lockNamespace_unlockNamespace() {
-	    	    
-	    
-		try {
-			$this->cls->flushAll();
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}
-		
-		// Write all possible data types to two different namespaces
-		// ==========================================================
-	    
-		$test_obj = new stdClass();
-		$test_obj->foo = "11";
-		$test_obj->bar = "test_Bar";	    
-		
-		$test_data_a = array(
-		    
-			'var_1'=>null,
-			'var_2'=>false,
-			'var_3'=>true,		    
-			'var_4'=>(int)0,
-			'var_5'=>(int)1,
-			'var_6'=>(int)-1,
-			'var_7'=>(float)1.7,
-			'var_8'=>(float)-1.6,
-			'var_9'=>(string)"foo",
-			'var_10'=>array(null, true, false, 1, 1.0, "foo"),	
-			'var_11', 'val'=>$test_obj,
-		);
-		
-		$test_data_b = array(
-		    		    
-			'var_1'=>$test_obj,
-		    	'var_2'=>array(1, 1.0, "foo"),
-			'var_3'=>(string)"foo",		    
-			'var_4'=>(float)-1.6,	
-		    	'var_5'=>(float)1.7,
-			'var_6'=>(int)-1,	
-		    	'var_7'=>(int)1,
-			'var_8'=>(int)0,
-			'var_9'=>true,			    
-			'var_10'=>false,		    
-			'var_11'=>null
-		);		
-		
-		
-		// Lock ns_1
-		// =====================================================		
-
-		$this->cls->process_id = 1337;
-		
-		try {
-			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}				
-		
-		// Lock offset should be 1	
-		$this->assertEquals(1, $lock_offset);
-		
-		
-		// PASS - 'set()' by PID that owns the lock
-		// =====================================================
-		
-		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1
-			
-		try {
-			$this->cls->set('ns_1', 'var_12', 'baz', $check_offset);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}
-		
-		try {
-			$this->cls->set('ns_1', 'var_13', 'baz', $check_offset);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}		
-
-		
-		try {
-			$this->cls->set('ns_2', 'var_12', 'baz', $check_offset);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}
-		
-		try {
-			$this->cls->set('ns_2', 'var_12', 'baz', $check_offset);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}		
-		
-		
-		// PASS - 'setMulti()' by PID that owns the lock
-		// =====================================================
-		
-		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1
-			
-		try {
-			$this->cls->setMulti('ns_1', $test_data_a, $check_offset);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}
-
-		
-		try {
-			$this->cls->setMulti('ns_2', $test_data_b, $check_offset);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}		
-		
-		
-		// PASS - 'getMulti()' by PID that owns the lock
-		// =====================================================
-		
-		$this->cls->process_id = 1337;
-		$current_offset = false;
-		
-		try {
-			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a), $current_offset );
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}		
-		
-		// Returned keys should match original data set		
-		$this->assertEquals($test_data_a, $result);
-		
-		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);		
-
-		$current_offset = false;
-		
-		try {
-			$result = $this->cls->getMulti('ns_2', array_keys($test_data_b), $current_offset );
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}
-
-		// Returned keys should match original data set			
-		$this->assertEquals($test_data_b, $result);
-		
-		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);				
-		
-		
-		
-		// EXCEPTION - 'lockNamespace()' by foreign PID
-		// =====================================================		
-
-		$this->cls->process_id = 6900;
-		
-		try {
-			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);			
-			$this->fail("Failed to throw an exception on lockNamespace() by foreign PID on locked namespace");
-		}
-		catch (FOX_exception $child) {
-		    
-			// Should throw exception #4 - Namespace locked
-			$this->assertEquals(4, $child->data['numeric']);;		    
-		}		
-		
-		// EXCEPTION - 'set()' by foreign PID
-		// =====================================================		
-
-		$this->cls->process_id = 6900;
-		
-		try {
-			$this->cls->set('ns_1', 'test_1', 'fail');			
-			$this->fail("Failed to throw an exception on set() by foreign PID on locked namespace");
-		}
-		catch (FOX_exception $child) {
-		    
-			// Should throw exception #4 - Namespace locked
-			$this->assertEquals(4, $child->data['numeric']);;		    
-		}
-
-		// EXCEPTION - 'setMulti()' by foreign PID
-		// =====================================================		
-
-		$this->cls->process_id = 6900;
-		
-		try {
-			$this->cls->setMulti('ns_1', $test_data_a);			
-			$this->fail("Failed to throw an exception on setMulti() by foreign PID on locked namespace");
-		}
-		catch (FOX_exception $child) {
-		    
-			// Should throw exception #4 - Namespace locked
-			$this->assertEquals(4, $child->data['numeric']);;		    
-		}		
-		
-		// EXCEPTION - 'get()' by foreign PID
-		// =====================================================		
-
-		$this->cls->process_id = 6900;
-		$valid = false;
-		
-		try {
-			$this->cls->get('ns_1', 'test_1', $valid);
-			$this->fail("Failed to throw an exception on get() by foreign PID on locked namespace");
-		}
-		catch (FOX_exception $child) {
-		    
-			// Should throw exception #4 - Namespace locked
-			$this->assertEquals(4, $child->data['numeric']);;		    
-		}
-				
-		// EXCEPTION - 'getMulti()' by foreign PID
-		// =====================================================		
-
-		$this->cls->process_id = 6900;
-		
-		try {
-			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a));
-			$this->fail("Failed to throw an exception on getMulti() by foreign PID on locked namespace");
-		}
-		catch (FOX_exception $child) {
-		    
-			// Should throw exception #4 - Namespace locked
-			$this->assertEquals(4, $child->data['numeric']);;		    
-		}		
-		
-		// EXCEPTION - 'del()' by foreign PID
-		// =====================================================		
-
-		$this->cls->process_id = 6900;
-		
-		try {
-			$result = $this->cls->del('ns_1', 'var_1');
-			$this->fail("Failed to throw an exception on del() by foreign PID on locked namespace");
-		}
-		catch (FOX_exception $child) {
-		    
-			// Should throw exception #4 - Namespace locked
-			$this->assertEquals(4, $child->data['numeric']);;		    
-		}
-		
-		// EXCEPTION - 'delMulti()' by foreign PID
-		// =====================================================		
-
-		$this->cls->process_id = 6900;
-		
-		try {
-			$result = $this->cls->delMulti('ns_1', array('var_1','var_2','var_3'));
-			$this->fail("Failed to throw an exception on delMulti() by foreign PID on locked namespace");
-		}
-		catch (FOX_exception $child) {
-		    
-			// Should throw exception #4 - Namespace locked
-			$this->assertEquals(4, $child->data['numeric']);;		    
-		}
-		
-		// Verify the keys are in the cache
-		// =====================================================
-		
-		$this->cls->process_id = 1337;
-		$current_offset = false;
-		
-		try {
-			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a), $current_offset );
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}		
-		
-		// Returned keys should match original data set		
-		$this->assertEquals($test_data_a, $result);
-		
-		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);		
-		
-		
-		$current_offset = false;
-		
-		try {
-			$result = $this->cls->getMulti('ns_2', array_keys($test_data_b), $current_offset );
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));		    
-		}
-
-		// Returned keys should match original data set			
-		$this->assertEquals($test_data_b, $result);
-		
-		// The reported offset should be 1
-		$this->assertEquals(1, $current_offset);		
-		
-
-	}
+	}	
 	
 		
 	function tearDown() {
