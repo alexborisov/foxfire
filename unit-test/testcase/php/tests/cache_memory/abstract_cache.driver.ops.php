@@ -1249,7 +1249,7 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		unset($item);	
 		
 		
-		// Unlock both namespaces
+		// Unlock ns_1 as PID #1337
 		// =====================================================		
 
 		$this->cls->process_id = 1337;
@@ -1264,6 +1264,10 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 			
 		$this->assertEquals(1, $lock_offset);
 		
+		// Unlock ns_2 as PID #6900
+		// =====================================================	
+		
+		$this->cls->process_id = 6900;
 		
 		try {
 			$lock_offset = $this->cls->unlockNamespace('ns_2');
@@ -1581,7 +1585,7 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		$this->assertEquals(8, $keys_deleted);	
 		
 		
-		// Unlock both namespaces
+		// Unlock ns_1 as PID #1337 
 		// =====================================================		
 
 		$this->cls->process_id = 1337;
@@ -1596,6 +1600,11 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 
 		$this->assertEquals(1, $lock_offset);
 		
+		
+		// Unlock ns_2 as PID #6900 
+		// =====================================================
+		
+		$this->cls->process_id = 6900;
 		
 		try {
 			$lock_offset = $this->cls->unlockNamespace('ns_2');

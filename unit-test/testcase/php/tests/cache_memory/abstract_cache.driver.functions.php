@@ -647,8 +647,8 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		}
 		
 		
-		// Unlock ns_1 and ns_2 as PID #1337
-		// ########################################################		
+		// Unlock ns_1 as PID #1337
+		// =====================================================	
 
 		$this->cls->process_id = 1337;
 		
@@ -661,7 +661,13 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		}				
 			
 		$this->assertEquals(1, $lock_offset);	
-				
+		
+		
+		// Unlock ns_2 as PID #6900
+		// =====================================================	
+
+		$this->cls->process_id = 6900;
+		
 		try {
 			$lock_offset = $this->cls->unlockNamespace('ns_2', 5.0);
 		}
@@ -993,10 +999,10 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		$this->assertEquals(count($flush_pages_b), $pages_deleted);
 		
 		
-		// Unlock ns_1 and ns_2 as PID #2650
-		// ########################################################		
+		// Unlock ns_1 as PID #1337
+		// =====================================================		
 
-		$this->cls->process_id = 2650;
+		$this->cls->process_id = 1337;
 		
 		try {
 			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
@@ -1007,7 +1013,13 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		}				
 			
 		$this->assertEquals(1, $lock_offset);	
-				
+		
+		
+		// Unlock ns_2 as PID #6900
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
+		
 		try {
 			$lock_offset = $this->cls->unlockNamespace('ns_2', 5.0);
 		}
@@ -1371,8 +1383,10 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		$this->assertEquals(1, $current_offset);
 		
 		
-		// Unlock ns_1 and ns_2 
-		// ########################################################		
+		// Unlock ns_1 as PID #1337
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
 		
 		try {
 			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
@@ -1383,16 +1397,22 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		}				
 			
 		$this->assertEquals(1, $lock_offset);	
-				
+		
+		
+		// Unlock ns_2 as PID #6900
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
+		
 		try {
 			$lock_offset = $this->cls->unlockNamespace('ns_2', 5.0);
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
-		}				
-			
-		$this->assertEquals(1, $lock_offset);	
+		}
+		
+		$this->assertEquals(1, $lock_offset);
 		
 		
 		// PASS - PID #2650 attempting to read ns_1
@@ -1686,9 +1706,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		}		
 
 		
-		// Unlock ns_1 and ns_2
-		// ########################################################		
+		// Unlock ns_1 as PID #1337
+		// =====================================================		
 
+		$this->cls->process_id = 1337;
+		
 		try {
 			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
 		}
@@ -1698,15 +1720,21 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		}				
 			
 		$this->assertEquals(1, $lock_offset);	
-				
+		
+		
+		// Unlock ns_2 as PID #6900
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
+		
 		try {
 			$lock_offset = $this->cls->unlockNamespace('ns_2', 5.0);
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
-		}				
-			
+		}
+		
 		$this->assertEquals(1, $lock_offset);			
 		
 		
