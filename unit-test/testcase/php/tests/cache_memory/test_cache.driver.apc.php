@@ -159,8 +159,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		foreach( $test_data_b as $var => $val ){
 		    		
 		    
-			$check_offset = 1;  // Since the cache has been globally flushed, and the
-					    // namespace hasn't been flushed since, offset will be 1
+			$check_offset = 1;  
 			
 			try {
 				$this->cls->set('ns_2', $var, $val, $check_offset);
@@ -173,16 +172,18 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		}
 		unset($var, $val);
 		
-		// Check for exception on current offset doesn't match expected offset
+		
+		// Check current offset doesn't match expected offset
+		// =====================================================
 		
 		try {						
-			$this->cls->set('ns_2', 'var_1', 'foo', 99);	
-			
+			$this->cls->set('ns_2', 'var_1', 'foo', 99);				
 			$this->fail("Failed to throw an exception on non-matching offset");			
 		}
 		catch (FOX_exception $child) {
 	
 		}
+		
 		
 		// Verify PID #1337 can read from ns_1
 		// =====================================================		
@@ -213,6 +214,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			
 		}
 		unset($var,$val);
+		
 		
 		// Verify PID #6900 can't read from ns_1
 		// =====================================================		
@@ -264,6 +266,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			
 		}
 		unset($var, $val);		
+		
 		
 		// Unlock ns_1 as PID #1337
 		// =====================================================		
@@ -379,16 +382,16 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 		
-		// Lock offset should be 1	
+		// Since the cache has been globally flushed, and the
+		// namespace hasn't been flushed since, offset will be 1
+		
 		$this->assertEquals(1, $lock_offset);		
 		
 		
 		// Verify PID #1337 can write to ns_1
 		// =====================================================
-		
-		
-		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1
+				
+		$check_offset = 1;  
 			
 		try {
 			$this->cls->setMulti('ns_1', $test_data_a, $check_offset);
@@ -399,7 +402,8 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		}
 
 		
-		// Check for exception on current offset doesn't match expected offset
+		// Check current offset doesn't match expected offset
+		// =====================================================
 		
 		try {						
 			$this->cls->setMulti('ns_1', $test_data_a, 99);				
@@ -409,14 +413,12 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 	
 		}		
 		
+		
 		// Verify PID #6900 can't write to ns_1
 		// =====================================================
 		
 		$this->cls->process_id = 6900;
-		
-		    
-		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1
+		$check_offset = 1;  
 			
 		try {
 			$this->cls->setMulti('ns_1', $test_data_a, $check_offset);
@@ -428,6 +430,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->assertEquals(4, $child->data['numeric']);		    
 		}		    												
 
+		
 		// Verify PID #6900 can write to ns_2
 		// =====================================================
 		
@@ -440,11 +443,11 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		}		
 		
 		
-		// Check for exception on current offset doesn't match expected offset
+		// Check current offset doesn't match expected offset
+		// =====================================================
 		
 		try {						
-			$this->cls->setMulti('ns_2', $test_data_b, 99);	
-			
+			$this->cls->setMulti('ns_2', $test_data_b, 99);				
 			$this->fail("Failed to throw an exception on non-matching offset");			
 		}
 		catch (FOX_exception $child) {
@@ -454,8 +457,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		// Verify PID #1337 can read from ns_1
 		// =====================================================		
 		
-		$this->cls->process_id = 1337;
-		
+		$this->cls->process_id = 1337;		
 		$current_offset = false;
 		
 		try {
@@ -476,8 +478,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		// Verify PID #6900 can't read from ns_1
 		// =====================================================		
 		
-		$this->cls->process_id = 6900;
-		
+		$this->cls->process_id = 6900;		
 		$current_offset = false;
 
 		try {
@@ -576,7 +577,9 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 		
-		// Lock offset should be 1	
+		// Since the cache has been globally flushed, and the
+		// namespace hasn't been flushed since, offset will be 1
+		
 		$this->assertEquals(1, $lock_offset);
 		
 		try {
@@ -586,8 +589,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+			
 		$this->assertEquals(1, $lock_offset);		
 		
 		
@@ -956,7 +958,6 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 		
-		// Lock offset should be 1	
 		$this->assertEquals(1, $lock_offset);
 		
 		
@@ -1023,8 +1024,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		// Verify the keys in the flushed namespace were cleared
 		// =====================================================
 		
-		$this->cls->process_id = 1337;
-		
+		$this->cls->process_id = 1337;		
 		$current_offset = false;
 						
 		try {
@@ -1127,8 +1127,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+			
 		$this->assertEquals(1, $lock_offset);
 		
 		
@@ -1144,8 +1143,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+			
 		$this->assertEquals(1, $lock_offset);
 		
 		
@@ -1191,8 +1189,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		
 		foreach( $test_data as $item ){
 		    		    
-			$check_offset = 1;  // Since the cache has been globally flushed, and the
-					    // namespace hasn't been flushed since, offset will be 1
+			$check_offset = 1;  
 				
 			if( $item['delete'] == true ){
 
@@ -1271,8 +1268,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+			
 		$this->assertEquals(1, $lock_offset);
 		
 		
@@ -1283,8 +1279,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+			
 		$this->assertEquals(1, $lock_offset);
 		
 		
@@ -1341,7 +1336,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		// The cache should report the key as valid
+		// The cache should report the key as invalid
 		$this->assertEquals(false, $del_ok);	
 		
 		
@@ -1358,7 +1353,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		// The cache should report the key as valid
+		// The cache should report the key as invalid
 		$this->assertEquals(false, $del_ok);	
 		
 		
@@ -1474,6 +1469,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		}
 		unset($item);
 		
+		
 		// Lock ns_1 as PID #1337
 		// =====================================================		
 
@@ -1487,7 +1483,6 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 		
-		// Lock offset should be 1	
 		$this->assertEquals(1, $lock_offset);
 		
 		
@@ -1503,8 +1498,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+	
 		$this->assertEquals(1, $lock_offset);
 		
 		
@@ -1530,13 +1524,12 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		}
 		unset($item);	
 		
-		
-		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1	
-
+				  	
 		// Verify PID #6900 can't delete from ns_1
-		
+		// =====================================================
+				
 		$this->cls->process_id = 6900; 
+		$check_offset = 1;
 		
 		try {						
 			$keys_deleted = $this->cls->delMulti('ns_1', $del_keys_a, $check_offset);				
@@ -1546,7 +1539,9 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 		}
 		
+		
 		// Verify PID #1337 can delete from ns_1
+		// =====================================================
 		
 		$this->cls->process_id = 1337; 
 		
@@ -1563,6 +1558,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		
 		
 		// Verify PID #1337 can't delete from ns_2
+		// =====================================================
 		
 		$this->cls->process_id = 1337; 
 		
@@ -1573,8 +1569,10 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 		catch (FOX_exception $child) {
 
 		}
-				
+		
+		
 		// Verify PID #6900 can delete from ns_2
+		// =====================================================
 		
 		$this->cls->process_id = 6900; 
 		
@@ -1602,8 +1600,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+
 		$this->assertEquals(1, $lock_offset);
 		
 		
@@ -1614,8 +1611,7 @@ class core_mCache_driver_apc_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}				
-		
-		// Lock offset should be 1	
+	
 		$this->assertEquals(1, $lock_offset);
 		
 		
@@ -1718,10 +1714,10 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 	function test_writeCache_readCache() {
 	    
 	    
-	    	// NOTE: lockNamespace() is not used directly on monolithic caches. Instead, a
-		// monolithic cache is locked using lockCache() and the lock is cleared by either
+	    	// NOTE: lockNamespace() is not used directly on a monolithic cache. Instead, 
+		// the cache is locked using lockCache() and the lock is cleared by either
 		// flushCache(), writeCache(), or saveCache(). Use of lockCache() on monolithic
-		// caches is blocked in abstract class "FOX_db_base".
+		// caches is blocked by exception in descendent abstract class "FOX_db_base".
 	    
 		try {
 			$this->cls->flushAll();
@@ -1770,10 +1766,11 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 
 		
 		// NOTE: if there is currently a lock on a monolithic cache namespace, 
-		// if the PID that owns the lock writes to the cache using writeCache() 
+		// and if the PID that owns the lock writes to the cache using writeCache() 
 		// it will clear that lock. If a foreign PID tries to use writeCache()
 		// on a namespace locked by a different PID, it will trigger an exception.
 					
+		
 		// Lock ns_1 as PID #1337 and ns_2 as PID #6900
 		// ########################################################		
 
@@ -2087,8 +2084,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Verify PID #6900 can read from ns_2
 		// =====================================================
 		
-		$this->cls->process_id = 6900;
-				
+		$this->cls->process_id = 6900;				
 		$current_offset = false;
 		$valid = false;
 		
@@ -2228,9 +2224,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// =====================================================
 		
 		$this->cls->process_id = 6900;
-		
-		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1
+		$check_offset = 1;  
 
 		try {
 			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$test_pages_b, 'check_offset'=>$check_offset) );
@@ -2245,9 +2239,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// =====================================================
 		
 		$this->cls->process_id = 1337;
-		
-		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1
+		$check_offset = 1;  
 
 		try {
 			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$test_pages_b, 'check_offset'=>$check_offset) );
@@ -2263,8 +2255,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Verify PID #1337 can read from ns_1
 		// =====================================================
 		
-		$this->cls->process_id = 1337;
-		
+		$this->cls->process_id = 1337;		
 		$current_offset = false;
 
 		try {
@@ -2301,8 +2292,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Verify PID #6900 can read from ns_2
 		// =====================================================
 		
-		$this->cls->process_id = 6900;
-		
+		$this->cls->process_id = 6900;		
 		$current_offset = false;
 
 		try {
@@ -2392,8 +2382,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Verify PID #6900 can read from ns_1
 		// =====================================================
 		
-		$this->cls->process_id = 6900;
-		
+		$this->cls->process_id = 6900;		
 		$current_offset = false;
 
 		try {
@@ -2414,8 +2403,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Verify PID #1337 can read from ns_2
 		// =====================================================
 		
-		$this->cls->process_id = 1337;
-		
+		$this->cls->process_id = 1337;		
 		$current_offset = false;
 
 		try {
@@ -2622,10 +2610,8 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Verify PID #6900 can't flush pages from ns_1
 		// =====================================================
 		
-		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1
-		
 		$this->cls->process_id = 6900;
+		$check_offset = 1; 
 
 		try {
 			$pages_deleted = $this->cls->flushCachePage( array('namespace'=>'ns_1', 'pages'=>$flush_pages_a, 'check_offset'=>$check_offset) );
@@ -2814,8 +2800,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		
 		// Write keys to cache
 		// =====================================================
-		
-		
+				
 		$check_offset = 1;  // Since the cache has been globally flushed, and the
 				    // namespace hasn't been flushed since, offset will be 1
 
@@ -2922,8 +2907,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		
 		// Returned keys should match original data set		
-		$this->assertEquals($test_data_a, $cache_image);
-		
+		$this->assertEquals($test_data_a, $cache_image);		
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -2939,8 +2923,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		
 		// Returned keys should match original data set		
-		$this->assertEquals($test_data_b, $cache_image);
-		
+		$this->assertEquals($test_data_b, $cache_image);		
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -2959,8 +2942,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		
 		// Returned keys should match original data set		
-		$this->assertEquals($test_data_a, $cache_image);
-		
+		$this->assertEquals($test_data_a, $cache_image);		
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -3012,8 +2994,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		
 		// Returned keys should match original data set		
-		$this->assertEquals($test_data_b, $cache_image);
-		
+		$this->assertEquals($test_data_b, $cache_image);		
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -3033,6 +3014,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			$this->assertEquals(1, $child->data['numeric']);		    
 		}
 			
+		
 		// EXCEPTION - PID #1337 attempting to read ns_2
 		// =====================================================	
 		
@@ -3065,7 +3047,6 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		
 		// Returned keys should match original data set		
 		$this->assertEquals($test_data_c, $cache_image);
-		
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -3128,8 +3109,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 		
 		// Returned keys should match original data set		
-		$this->assertEquals($test_data_b, $cache_image);
-		
+		$this->assertEquals($test_data_b, $cache_image);		
 		$this->assertEquals(1, $current_offset);		
 		
 		
@@ -3246,8 +3226,6 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 				
 		// Returned keys should match original data set		
 		$this->assertEquals($write_pages_a, $result);
-		
-		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);		
 		
 		
@@ -3263,8 +3241,6 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		
 		// Returned keys should match original data set			
 		$this->assertEquals($write_pages_b, $result);
-		
-		// The reported offset should be 1
 		$this->assertEquals(1, $current_offset);
 				
 		
@@ -3334,8 +3310,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 				
 		// The cache engine should return the page images
-		$this->assertEquals($lock_pages_a, $lock_image);
-		
+		$this->assertEquals($lock_pages_a, $lock_image);		
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -3370,8 +3345,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 				
 		// The cache engine should return the page images
-		$this->assertEquals($lock_pages_b, $lock_image);
-		
+		$this->assertEquals($lock_pages_b, $lock_image);		
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -3534,8 +3508,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($unlocked_pages_a, $cache_result);
-		
+		$this->assertEquals($unlocked_pages_a, $cache_result);		
 		$this->assertEquals(1, $current_offset);		
 		
 		
@@ -3549,8 +3522,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 				
-		$this->assertEquals($unlocked_pages_b, $cache_result);	
-		
+		$this->assertEquals($unlocked_pages_b, $cache_result);			
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -3570,8 +3542,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 				
 		// The cache engine should return the page images
-		$this->assertEquals($lock_pages_a, $lock_image);
-		
+		$this->assertEquals($lock_pages_a, $lock_image);		
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -3606,8 +3577,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		}
 				
 		// The cache engine should return the page images
-		$this->assertEquals($lock_pages_b, $lock_image);
-		
+		$this->assertEquals($lock_pages_b, $lock_image);		
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -3630,11 +3600,11 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Clear PID #1337's locks by writing to its pages
 		// =====================================================
 		
-		$check_offset = 1;  // Since the cache has been globally flushed, and the
-				    // namespace hasn't been flushed since, offset will be 1
-		
 		$this->cls->process_id = 1337;
 		
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+
 		try {
 			$this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$write_pages_a, 'check_offset'=>$check_offset) );
 		}
@@ -3661,8 +3631,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 		// Check the cache pages are now unlocked
 		// =====================================================
 		
-		$this->cls->process_id = 2650;
-		
+		$this->cls->process_id = 2650;		
 		$current_offset = false;
 			
 		try {
@@ -3673,8 +3642,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($unlocked_pages_a, $cache_result);
-		
+		$this->assertEquals($unlocked_pages_a, $cache_result);		
 		$this->assertEquals(1, $current_offset);		
 		
 		
@@ -3688,8 +3656,7 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 				
-		$this->assertEquals($unlocked_pages_b, $cache_result);	
-		
+		$this->assertEquals($unlocked_pages_b, $cache_result);			
 		$this->assertEquals(1, $current_offset);
 		
 		
@@ -3702,10 +3669,5 @@ class core_mCache_driver_apc_classFunctions extends RAZ_testCase {
 	}	
 	
 }
-
-
-
-
-
 
 ?>
