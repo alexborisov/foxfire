@@ -26,18 +26,18 @@ class core_mCache_driver_memcached_ops_basic extends core_mCache_driver_ops {
 		
 		parent::setUp();
 	
-		$this->cls = new FOX_mCache_driver_memcached();
-		
-		// Force class to use 'basic' mode
-		$this->cls->use_full = false;
-		$this->cls->use_basic = true;		    
-		$this->cls->use_portable = false;
-		
 		$args = array(
 			'compress_threshold' => 0.2,
 			'flush_propagation_delay' => 1200,
 			'set_propagation_delay' => 0,		    
 		);
+		
+		$this->cls = new FOX_mCache_driver_memcached($args);
+		
+		// Force class to use 'basic' mode
+		$this->cls->use_full = false;
+		$this->cls->use_basic = true;		    
+		$this->cls->use_portable = false;
 		
 		// Run the contructor function again to update
 		$this->cls->__construct($args);		
@@ -63,19 +63,19 @@ class core_mCache_driver_memcached_classFunctions_basic extends core_mCache_driv
 		
 		parent::setUp();
 	
-		$this->cls = new FOX_mCache_driver_memcached();
-		
-		// Force class to use 'basic' mode
-		$this->cls->use_full = false;
-		$this->cls->use_basic = true;		    
-		$this->cls->use_portable = false;
-		
 		$args = array(
 			'compress_threshold' => 0.2,
 			'flush_propagation_delay' => 1200,
 			'set_propagation_delay' => 0,		    
 		);
 		
+		$this->cls = new FOX_mCache_driver_memcached($args);
+		
+		// Force class to use 'basic' mode
+		$this->cls->use_full = false;
+		$this->cls->use_basic = true;		    
+		$this->cls->use_portable = false;
+				
 		// Run the contructor function again to update
 		$this->cls->__construct($args);			
 
