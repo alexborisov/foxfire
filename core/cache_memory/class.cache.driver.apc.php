@@ -369,9 +369,19 @@ class FOX_mCache_driver_apc extends FOX_mCache_driver_base {
 			
 			if($offset == -1){
 			    			    
-				$lock = apc_fetch("fox.ns_lock.".$ns);				
-								
-				$offset = $lock['offset'];
+				$lock = apc_fetch("fox.ns_lock.".$ns);	
+				
+				// If the lock is being released by the PID that set it,
+				// restore the offset to the saved value. If its being unlocked
+				// by a foreign PID, increment it by 1 to flush the namespace
+				
+				if( $lock['pid'] == $this->process_id ){
+				    
+					$offset = $lock['offset'];				    				    
+				}								 
+				else {												
+					$offset = $lock['offset'] + 1;
+				}
 
 				$keys = array(			    
 						"fox.ns_lock.".$ns => false,

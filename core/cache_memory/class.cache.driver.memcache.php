@@ -85,45 +85,79 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 	
 	var $servers;			    // Memcached servers to connect to
 	var $compress_threshold;	    // Data compression threshold
+	
+	var $flush_propagation_delay;	    // Propagation delay for a FLUSH_ALL command to reach all nodes
+					    // in memcached server cluster
+	
+	var $set_propagation_delay;	    // Propagation delay for a SET command to reach all nodes
+					    // in memcached server cluster	
 		
 	
 	// ================================================================================================================
 	
 	
 	public function __construct($args=null){
+
+	    
+		// Handle dependency-injection 
+		// ===========================================================
+	    
+		// NOTE: Memcached's flush() has one-second granularity. It only affects items
+		// set a minimum of 1 second before it, and it could affect items set for up to
+		// one second after it. This it probably in Memcached's implementation to handle
+		// network latency across multiple servers, and would never be a problem in production
+		// because the only time a site would dump the *entire* cache is on a server reboot.
+		// @see http://ca2.php.net/manual/en/memcache.flush.php
+
+		// However, its a HUGE issue during unit testing when the cache has to be flushed 
+		// between every test fixture ...potentially hundreds of times a second, and the unit
+		// tests are usually run against a SINGLE memcached instance. As such, the unit tests
+		// usually set this value to almost zero. If you experience problems with the memcached
+		// test fixture on your system, you may need to increase the 'flush_propagation_delay'
+		// parameter
+	    
+	    
+		$args_default = array(
+			'max_offset' => 2147483646,  // 32-BIT MAXINT
+			'servers' => array(   
+					    array('ip'=>'127.0.0.1', 'port'=>11211, 'persist'=>false, 'weight'=>100) 
+			),
+			'compress_threshold' => 0.2,
+			'flush_propagation_delay' => 1200000,
+			'set_propagation_delay' => 0,		    
+		);
+
+		$args = wp_parse_args($args, $args_default);
 		
-	    
-		// Handle dependency-injection for unit tests
-	    
+		foreach($args_default as $key => $var){
+		    
+			$this->{$key} = $var;		    
+		}
+		unset($key, $var);
+		
+		
+		// Handle process-id binding
+		// ===========================================================
+		
 		if(FOX_sUtil::keyExists('process_id', $args)){
 		    
-			$this->process_id = $args['process_id'];
+			// Binding to a reference is important. It makes the cache engine $process_id
+			// update if the FOX_mCache is changed, which we do during unit testing.
+		    
+			$this->process_id = &$args['process_id'];			
 		}
 		else {	
 			global $fox;
 			$this->process_id = $fox->process_id;
 		}	
 		
-		if(FOX_sUtil::keyExists('max_offset', $args)){
-		    
-			$this->max_offset = $args['max_offset'];
-		}
-		else {	
-			$this->max_offset = 2147483646;  // (32-bit maxint)
-		}		
-	    
-		$this->has_libs = false;
-		
-		$this->servers = array(  
-					    array('ip'=>'127.0.0.1', 'port'=>11211, 'persist'=>false, 'weight'=>100) 
-		); 
-		
-		$this->compress_threshold = 0.2;
-		
-		    
+
 		// CASE 1: Try for the "Memcached" extension, which is the fastest and
 		// has the most advanced features.
 		// =======================================================================
+		
+		$this->has_libs = false;
+		
 		if( class_exists("Memcached") && ($this->use_full == true) ){
 
 			$this->has_libs = true;
@@ -315,25 +349,286 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			// one second after it. This it probably in Memcached's implementation to handle
 			// network latency across multiple servers, and would never be a problem in production
 			// because the only time a site would dump the *entire* cache is on a server reboot.
-			// 
-			// However, its a HUGE issue during unit testing when the cache has to be flushed 
-			// between every test fixture ...potentially hundreds of times a second. To prevent
-			// incredibly frustrating debug problems, we've hard-coded timing margins around the
-			// flush method. @see http://ca2.php.net/manual/en/memcache.flush.php
-
+			// @see http://ca2.php.net/manual/en/memcache.flush.php
+		   
 		    
-			usleep(1200000);
+			usleep($this->flush_propagation_delay);
 		    
 			$this->engine->flush();	
 			
-			usleep(1200000);
-			
+			usleep($this->flush_propagation_delay);			
 		}
 		
 		return true;
 		
 	}
 
+	
+	/**
+	 * Locks an entire namespace within the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $namespace | Class namespace
+	 * @param int $seconds |  Time in seconds from present time until lock expires	  
+	 * 
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function lockNamespace($ns, $seconds){
+
+	    
+		if( !$this->isActive() ){
+		    
+			throw new FOX_exception(array(
+				'numeric'=>1,
+				'text'=>"Cache driver is not active",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			
+		}
+		else {
+
+			if( empty($ns) ){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Empty namespace value",
+					'data'=>$ns,			    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));		    		
+			}
+			
+			try {
+				$offset = self::getOffset($ns);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception(array(
+					'numeric'=>3,
+					'text'=>"Error in self::getOffset()",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}
+						
+			
+			
+			if($offset != -1){
+			    
+				$already_locked = false;
+			}
+			else {
+			    
+				// If the namespace is *already* locked, fetch the lock info array
+				// ================================================================
+			    
+			    	$already_locked = true;
+				
+				$lock = $this->engine->get("fox.ns_lock.".$ns);	
+				
+				// NOTE: data structures stored to memcached must be serialized				
+				$lock = unserialize($lock);
+				
+				// If the lock is owned by the current PID, just write back the lock array to the cache
+				// with an updated timestamp, refreshing the lock. This provides important functionality,
+				// letting a PID that has a lock on the namespace extend its lock time incrementally as it
+				// works through a complex processing job. If the PID had to release and reset the lock
+				// each time, the data would be venerable to being overwritten by other PID's.
+				
+				if( $lock['pid'] == $this->process_id ){
+				    
+					$offset = $lock['offset'];				    				    
+				}								 
+				else {
+
+					throw new FOX_exception(array(
+						'numeric'=>4,
+						'text'=>"Namespace is already locked",
+						'data'=>array('ns'=>$ns, 'lock'=>$lock),
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));					    
+				}
+				
+			}
+			 
+			$lock_array = array( 
+					    'pid'=>$this->process_id, 
+					    'expire'=>( microtime(true) + $seconds ),
+					    'offset'=>$offset
+			);
+			
+			// NOTE: data structures stored to memcached must be serialized	
+			$lock_array = serialize($lock_array);
+			
+			
+			// If the cache engine can operate in 'full' mode, do both
+			// writes as a single operation to guarantee atomicity
+			// ==============================================================
+			
+			if( $this->mode == 'full' ){
+			    
+				$keys = array(			    
+						"fox.ns_lock.".$ns => $lock_array
+				);
+
+				if(!$already_locked){
+
+					$keys["fox.ns_offset.".$ns] = -1;
+				}			    
+			    
+				$set_ok = $this->engine->setMulti($keys, $expire=0);
+				
+				if(!$set_ok){
+
+					throw new FOX_exception(array(
+						'numeric'=>5,
+						'text'=>"Error writing to cache in 'full' mode",
+						'data'=>array('keys'=>$keys, 'set_ok'=>$set_ok),
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));
+				}				
+			}
+			
+			// If the cache engine can only operate in 'basic' mode, write the lock array first, then
+			// the offset. That way, if the lock write fails we can abort, and if the offset write
+			// fails, debug info will be present in the lock array if we want it, and it will be
+			// harmlessly overwritten the next time a PID tries to lock the namespace
+			// ==============================================================	
+			
+			else {
+			    			    
+				$set_ok = $this->engine->set("fox.ns_lock.".$ns, $lock_array, false, $expire=0);
+			    
+				if(!$set_ok){
+
+					throw new FOX_exception(array(
+						'numeric'=>6,
+						'text'=>"Error writing lock array to cache in 'basic' mode",
+						'data'=>array('key'=>"fox.ns_lock.".$ns, 'val'=>$lock_array),
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));
+				}
+				
+				if(!$already_locked){
+
+					$set_ok = $this->engine->set("fox.ns_offset.".$ns, -1, false, $expire=0);
+
+					if(!$set_ok){
+
+						throw new FOX_exception(array(
+							'numeric'=>7,
+							'text'=>"Error writing namespace offset to cache in 'basic' mode",
+							'data'=>array('key'=>"fox.ns_offset.".$ns, 'val'=>-1),
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'child'=>null
+						));
+					}					
+				}					
+			    
+			}		
+						
+		}
+
+		
+		return $offset;
+
+	}
+	
+	
+	/**
+	 * Unlocks a locked namespace within the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $namespace | Class namespace	  
+	 * 
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function unlockNamespace($ns){
+
+	    
+		if( !$this->isActive() ){
+		    
+			throw new FOX_exception(array(
+				'numeric'=>1,
+				'text'=>"Cache driver is not active",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			
+		}
+		else {
+
+			if( empty($ns) ){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Empty namespace value",
+					'data'=>$ns,			    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));		    		
+			}
+			
+			try {
+				$offset = self::getOffset($ns);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception(array(
+					'numeric'=>3,
+					'text'=>"Error in self::getOffset()",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}
+						
+			// Only try to load the lock array if the namespace is actually locked
+			// ================================================================			
+			
+			if($offset == -1){
+			    			    
+				$lock = apc_fetch("fox.ns_lock.".$ns);				
+								
+				$offset = $lock['offset'];
+
+				$keys = array(			    
+						"fox.ns_lock.".$ns => false,
+						"fox.ns_offset.".$ns => $offset			    
+				);
+
+				// NOTE: apc_store() has a different error reporting format when
+				// passed an array @see http://php.net/manual/en/function.apc-store.php
+
+				$cache_result = apc_store($keys);			
+
+				if( count($cache_result) != 0 ){
+
+					throw new FOX_exception(array(
+						'numeric'=>4,
+						'text'=>"Error writing to cache engine",
+						'data'=>$keys,
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>null
+					));
+				}						
+				
+			}
+						
+		}
+		
+		return $offset;
+
+	}
+	
+	
 
 	/**
 	 * Removes all entries within the specified namespace from the cache.
@@ -413,9 +708,9 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 	public function getOffset($ns){
 
 	    
-    // NOTE: when writing the namespace-locking code, set the lock array FIRST
-    // then write the -1 lock offset. This guarantees the lock offset flag won't
-    // beset if the lock array write fails	    
+		// NOTE: when writing the namespace-locking code, set the lock array FIRST
+		// then write the -1 lock offset. This guarantees the lock offset flag won't
+		// be set if the lock array write fails	    
 	    
 		if( !$this->isActive() ){
 		    
