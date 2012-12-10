@@ -14,8 +14,8 @@
  * ========================================================================================================
  */
 
-require ( dirname( __FILE__ ) . '/abstract_cache.driver.functions.php' );
-require ( dirname( __FILE__ ) . '/abstract_cache.driver.ops.php' );
+require_once ( dirname( __FILE__ ) . '/abstract_cache.driver.functions.php' );
+require_once ( dirname( __FILE__ ) . '/abstract_cache.driver.ops.php' );
 
 
 class core_mCache_driver_apc_ops extends core_mCache_driver_ops {

@@ -23,10 +23,23 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		parent::setUp();
 	}
 	
-
+	
+       /**
+	* Tests the cache driver's set() and get() methods, used for setting an retrieving
+        * single data keys
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/
+	
 	function test_set_single_get_single() {
 	    	    	    		
 		
+		// Flush the entire cache engine
+		// ==========================================================
+	    
 		try {
 			$this->cls->flushAll();
 		}
@@ -34,6 +47,7 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}
+		
 												    
 		// Write all possible data types to two different namespaces
 		// ==========================================================
@@ -310,10 +324,22 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		
 	}
 	
+       /**
+	* Tests the cache driver's setMulti() and getMulti() methods, used for setting an 
+        * retrieving multiple data keys in a single, atomic operation.
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/
 	
 	function test_set_multi_get_multi() {
 	    
 	    	   	
+		// Flush the entire cache engine
+		// ==========================================================
+	    
 		try {
 			$this->cls->flushAll();
 		}
@@ -322,8 +348,9 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 					
-		// Test positive and negative versions of all PHP
-		// data types in a single namespace	
+		
+		// Write all possible data types to two different namespaces
+		// ==========================================================
 	    
 		$test_obj = new stdClass();
 		$test_obj->foo = "11";
@@ -545,8 +572,21 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Tests the cache driver's flushAll() method, which is used to delete ALL data from
+        * ALL namespaces in the cache engine.
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	
 	function test_flushAll() {
 
+	    
+		// Flush the entire cache engine
+		// ==========================================================
 	    
 		try {
 			$this->cls->flushAll();
@@ -776,9 +816,22 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 	}	
 	
 	
+       /**
+	* Tests the cache driver's flushNamespace() method, which is used to delete ALL keys
+        * from a SINGLE namespace
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	
 	function test_flushNamespace() {
 	    
 	    	   	
+		// Flush the entire cache engine
+		// ==========================================================
+	    
 		try {
 			$this->cls->flushAll();
 		}
@@ -786,6 +839,7 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}
+		
 		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
@@ -921,6 +975,7 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		// The reported offset should be 2, because ns_1 was flushed
 		$this->assertEquals(2, $current_offset);
 		
+		
 		$current_offset = false;
 						
 		try {
@@ -1036,9 +1091,22 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 								    	   			    
 	}
 	
-
-	function test_del_single() {
-	    	    
+	
+       /**
+	* Tests the cache driver's lockNamespace() and unlockNamespace() methods, which are used
+        * to block ALL operations for a single namespace.
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/
+	
+	function test_lockNamespace_unlockNamespace() {
+	    
+	    	   	
+		// Flush the entire cache engine
+		// ==========================================================
 	    
 		try {
 			$this->cls->flushAll();
@@ -1046,7 +1114,252 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));		    
-		}		    
+		}
+		
+		
+		// Write all possible data types to two different namespaces
+		// ==========================================================
+	    
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";	    
+		
+		$test_data_a = array(
+		    
+			'var_1'=>null,
+			'var_2'=>false,
+			'var_3'=>true,		    
+			'var_4'=>(int)0,
+			'var_5'=>(int)1,
+			'var_6'=>(int)-1,
+			'var_7'=>(float)1.7,
+			'var_8'=>(float)-1.6,
+			'var_9'=>(string)"foo",
+			'var_10'=>array(null, true, false, 1, 1.0, "foo"),	
+			'var_11', 'val'=>$test_obj,
+		);
+		
+		$test_data_b = array(
+		    		    
+			'var_1'=>$test_obj,
+		    	'var_2'=>array(1, 1.0, "foo"),
+			'var_3'=>(string)"foo",		    
+			'var_4'=>(float)-1.6,	
+		    	'var_5'=>(float)1.7,
+			'var_6'=>(int)-1,	
+		    	'var_7'=>(int)1,
+			'var_8'=>(int)0,
+			'var_9'=>true,			    
+			'var_10'=>false,		    
+			'var_11'=>null
+		);		
+		
+		
+		// Write keys to cache
+		// =====================================================
+		
+		$check_offset = 1;  // Since the cache has been globally flushed, and the
+				    // namespace hasn't been flushed since, offset will be 1
+			
+		try {
+			$this->cls->setMulti('ns_1', $test_data_a, $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		
+		try {
+			$this->cls->setMulti('ns_2', $test_data_b, $check_offset);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
+		
+		// Verify the keys are in the cache
+		// =====================================================
+		
+		$current_offset = false;
+		
+		try {
+			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		// Returned keys should match original data set		
+		$this->assertEquals($test_data_a, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);		
+		
+		$current_offset = false;
+		
+		try {
+			$result = $this->cls->getMulti('ns_2', array_keys($test_data_b), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
+		// Returned keys should match original data set			
+		$this->assertEquals($test_data_b, $result);
+		
+		// The reported offset should be 1
+		$this->assertEquals(1, $current_offset);
+		
+		
+		// Lock ns_1 as PID #1337
+		// =====================================================		
+
+		$this->cls->process_id = 1337;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+		
+				
+		// Lock ns_1 as PID #6900
+		// =====================================================		
+
+		$this->cls->process_id = 6900;
+		
+		try {
+			$lock_offset = $this->cls->lockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+		
+		// Lock offset should be 1	
+		$this->assertEquals(1, $lock_offset);
+				
+		
+		// Unlock ns_1 as PID #6900
+		// =====================================================		
+
+		// If a locked namespace is unlocked by a foreign PID, the entire 
+		// namespace is flushed to maintain data integrity. So the offset
+		// will have been incremented to 2.
+		
+		$this->cls->process_id = 6900;
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_1', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+
+		$this->assertEquals(2, $lock_offset);
+		
+		
+		// Unlock ns_2 as PID #6900
+		// =====================================================		
+
+		// Since the namespace is being unlocked by the PID that owns the 
+		// lock, the offset will be restored and its keys will be preserved.
+		
+		$this->cls->process_id = 6900;
+		
+		try {
+			$lock_offset = $this->cls->unlockNamespace('ns_2', 5.0);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
+
+		$this->assertEquals(1, $lock_offset);
+		
+				
+		// Verify the keys in the flushed namespace were cleared
+		// =====================================================
+		
+		// We use PID #2650 to check that the namespace is now unlocked
+		
+		$this->cls->process_id = 2650;	
+		$current_offset = false;
+						
+		try {
+			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		// Returned keys should be an empty array	
+		$this->assertEquals(array(), $result);
+		
+		// The reported offset should be 2, because ns_1 was flushed
+		$this->assertEquals(2, $current_offset);		
+		
+		
+		// Verify the keys in the flushed namespace were cleared
+		// =====================================================		
+				
+		// We use PID #2650 to check that the namespace is now unlocked
+		
+		$this->cls->process_id = 2650;	
+		$current_offset = false;
+						
+		try {
+			$result = $this->cls->getMulti('ns_2', array_keys($test_data_b), $current_offset );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		// Returned keys should match original data set			
+		$this->assertEquals($test_data_b, $result);
+		
+		// The reported offset should be 1, because ns_2 wasn't flushed
+		$this->assertEquals(1, $current_offset);	
+				   	   			    
+	}
+	
+	
+       /**
+	* Tests the cache driver's del() method, which is used to delete a single key from 
+        * a single namespace.
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/
+	
+	function test_del_single() {
+	    	    
+	    
+		// Flush the entire cache engine
+		// ==========================================================
+	    
+		try {
+			$this->cls->flushAll();
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+		
 		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
@@ -1194,8 +1507,12 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 					$this->cls->process_id = 6900; 
 				    
 					try {						
-						$del_ok = $this->cls->del($item['ns'], $item['var'], $check_offset);				
-						$this->fail("Failed to throw an exception on foreign PID attempting to delete key from locked namespace");			
+						$del_ok = $this->cls->del($item['ns'], $item['var'], $check_offset);
+						
+						$fail_msg  = "Failed to throw an exception on foreign PID attempting ";
+						$fail_msg .= "to delete key from locked namespace.";
+						
+						$this->fail($fail_msg);			
 					}
 					catch (FOX_exception $child) {
 
@@ -1223,8 +1540,12 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 					$this->cls->process_id = 1337; 
 				    
 					try {						
-						$del_ok = $this->cls->del($item['ns'], $item['var'], $check_offset);				
-						$this->fail("Failed to throw an exception on foreign PID attempting to delete key from locked namespace");			
+						$del_ok = $this->cls->del($item['ns'], $item['var'], $check_offset);
+						
+						$fail_msg  = "Failed to throw an exception on foreign PID attempting ";
+						$fail_msg .= "to delete key from a locked namespace.";
+						
+						$this->fail($fail_msg);										
 					}
 					catch (FOX_exception $child) {
 
@@ -1264,6 +1585,7 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 			
 		$this->assertEquals(1, $lock_offset);
 		
+		
 		// Unlock ns_2 as PID #6900
 		// =====================================================	
 		
@@ -1278,8 +1600,7 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		}				
 			
 		$this->assertEquals(1, $lock_offset);
-		
-		
+				
 		
 		// Verify the correct keys were deleted
 		// =====================================================
@@ -1365,13 +1686,25 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		catch (FOX_exception $child) {
 	
 		}		
-			
-		
+					
 	}
 	
 	
+       /**
+	* Tests the cache driver's delMulti() method, which is used to delete a multiple keys 
+        * a single namespace as an atomic operation.
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/
+	
 	function test_del_multi() {
 	    	 
+	    
+		// Flush the entire cache engine
+		// ==========================================================
 	    
 		try {
 			$this->cls->flushAll();
@@ -1380,6 +1713,7 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));		    
 		}			    
+		
 		
 		// Write all possible data types to two different namespaces
 		// ==========================================================
@@ -1530,7 +1864,11 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		
 		try {						
 			$keys_deleted = $this->cls->delMulti('ns_1', $del_keys_a, $check_offset);				
-			$this->fail("Failed to throw an exception on foreign PID attempting to delete multiple keys from locked namespace");			
+			
+			$fail_msg  = "Failed to throw an exception on foreign PID attempting ";
+			$fail_msg .= "to delete multiple keys from a locked namespace.";
+			
+			$this->fail($fail_msg);				
 		}
 		catch (FOX_exception $child) {
 
@@ -1560,13 +1898,17 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		$this->cls->process_id = 1337; 
 		
 		try {						
-			$keys_deleted = $this->cls->delMulti('ns_2', $del_keys_b, $check_offset);				
-			$this->fail("Failed to throw an exception on foreign PID attempting to delete multiple keys from locked namespace");			
+			$keys_deleted = $this->cls->delMulti('ns_2', $del_keys_b, $check_offset);
+			
+			$fail_msg  = "Failed to throw an exception on foreign PID attempting ";
+			$fail_msg .= "to delete multiple keys from a locked namespace.";
+			
+			$this->fail($fail_msg);		
 		}
 		catch (FOX_exception $child) {
 
 		}
-		
+			
 		
 		// Verify PID #6900 can delete from ns_2
 		// =====================================================
@@ -1636,8 +1978,7 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 		// =====================================================
 		
 		try {						
-			$keys_deleted = $this->cls->delMulti('ns_1', array('var_97','var_98','var_99'), 99 );
-			
+			$keys_deleted = $this->cls->delMulti('ns_1', array('var_97','var_98','var_99'), 99 );			
 			$this->fail("Failed to throw an exception on non-matching offset");			
 		}
 		catch (FOX_exception $child) {
@@ -1693,6 +2034,5 @@ abstract class core_mCache_driver_ops extends RAZ_testCase {
 	}
 
 }
-
 
 ?>

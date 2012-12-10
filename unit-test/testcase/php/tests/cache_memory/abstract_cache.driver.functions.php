@@ -133,7 +133,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		
 		try {
 			$this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>$test_data_a, 'check_offset'=>$check_offset) );
-			$this->fail("Failed to throw an exception on writeCache() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on writeCache() by foreign ";
+			$fail_msg .= "PID on locked namespace";
+			
+			$this->fail($fail_msg);			
 		}
 		catch (FOX_exception $child) {
 
@@ -162,7 +166,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		
 		try {
 			$this->cls->writeCache( array('namespace'=>'ns_2', 'image'=>$test_data_b, 'check_offset'=>$check_offset) );
-			$this->fail("Failed to throw an exception on writeCache() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on writeCache() by foreign ";
+			$fail_msg .= "PID on locked namespace";
+			
+			$this->fail($fail_msg);				
 		}
 		catch (FOX_exception $child) {
 
@@ -248,7 +256,12 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		
 		try {
 			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid, $current_offset );
-			$this->fail("Failed to throw an exception on readCache() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on readCache() by foreign ";
+			$fail_msg .= "PID on a locked namespace";
+			
+			$this->fail($fail_msg);	
+			
 		}
 		catch (FOX_exception $child) {
 
@@ -289,7 +302,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		
 		try {
 			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid, $current_offset );
-			$this->fail("Failed to throw an exception on readCache() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on readCache() by foreign ";
+			$fail_msg .= "PID on a locked namespace";
+			
+			$this->fail($fail_msg);	
 		}
 		catch (FOX_exception $child) {
 
@@ -532,7 +549,12 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$test_pages_a, 'check_offset'=>$check_offset) );
-			$this->fail("Failed to throw an exception on writeCachePage() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on writeCachePage() by a foreign ";
+			$fail_msg .= "PID on a locked namespace";
+			
+			$this->fail($fail_msg);	
+
 		}
 		catch (FOX_exception $child) {
 
@@ -564,7 +586,12 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$this->cls->writeCachePage( array('namespace'=>'ns_2', 'pages'=>$test_pages_b, 'check_offset'=>$check_offset) );
-			$this->fail("Failed to throw an exception on writeCachePage() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on writeCachePage() by a foreign ";
+			$fail_msg .= "PID on a locked namespace";
+			
+			$this->fail($fail_msg);	
+			
 		}
 		catch (FOX_exception $child) {
 
@@ -601,7 +628,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($test_pages_a)), $current_offset );
-			$this->fail("Failed to throw an exception on readCachePage() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on readCachePage() by a foreign ";
+			$fail_msg .= "PID on a locked namespace";
+			
+			$this->fail($fail_msg);				
 		}
 		catch (FOX_exception $child) {
 
@@ -638,7 +669,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($test_pages_b)), $current_offset );
-			$this->fail("Failed to throw an exception on readCachePage() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on readCachePage() by a foreign ";
+			$fail_msg .= "PID on a locked namespace";
+			
+			$this->fail($fail_msg);					
 		}
 		catch (FOX_exception $child) {
 
@@ -942,7 +977,12 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$pages_deleted = $this->cls->flushCachePage( array('namespace'=>'ns_1', 'pages'=>$flush_pages_a, 'check_offset'=>$check_offset) );
-			$this->fail("Failed to throw an exception on flushCachePage() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on flushCachePage() by a foreign ";
+			$fail_msg .= "PID on a locked namespace";
+			
+			$this->fail($fail_msg);	
+			
 		}
 		catch (FOX_exception $child) {
 
@@ -974,7 +1014,12 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$pages_deleted = $this->cls->flushCachePage( array('namespace'=>'ns_2', 'pages'=>$flush_pages_b, 'check_offset'=>$check_offset) );
-			$this->fail("Failed to throw an exception on flushCachePage() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on flushCachePage() by a foreign ";
+			$fail_msg .= "PID on a locked namespace";
+			
+			$this->fail($fail_msg);	
+			
 		}
 		catch (FOX_exception $child) {
 
@@ -1287,7 +1332,12 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		
 		try {
 			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1', 'seconds'=>5.0), $lock_offset );
-			$this->fail("Failed to throw an exception on lockCache() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on lockCache() by a foreign ";
+			$fail_msg .= "PID on a namespace currently locked by a different PID";
+			
+			$this->fail($fail_msg);				
+
 		}
 		catch (FOX_exception $child) {
 
@@ -1303,7 +1353,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid);
-			$this->fail("Failed to throw an exception on readCache() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on readCache() by a foreign ";
+			$fail_msg .= "PID on a locked namespace.";
+			
+			$this->fail($fail_msg);	
 		}
 		catch (FOX_exception $child) {
 
@@ -1339,7 +1393,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		
 		try {
 			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_2', 'seconds'=>5.0), $lock_offset );
-			$this->fail("Failed to throw an exception on lockCache() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on lockCache() by a foreign ";
+			$fail_msg .= "PID on a locked namespace.";
+			
+			$this->fail($fail_msg);				
 		}
 		catch (FOX_exception $child) {
 
@@ -1355,7 +1413,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		
 		try {
 			$cache_image = $this->cls->readCache( array('namespace'=>'ns_2'), $valid);
-			$this->fail("Failed to throw an exception on readCache() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on readCache() by a foreign ";
+			$fail_msg .= "PID on a locked namespace.";
+			
+			$this->fail($fail_msg);				
 		}
 		catch (FOX_exception $child) {
 
@@ -1662,7 +1724,12 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a), 'seconds'=>5.0) );
-			$this->fail("Failed to throw an exception on lockCachePage() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on lockCachePage() by a foreign ";
+			$fail_msg .= "PID on a locked namespace.";
+			
+			$this->fail($fail_msg);				
+
 		}
 		catch (FOX_exception $child) {
 
@@ -1697,7 +1764,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b), 'seconds'=>5.0) );
-			$this->fail("Failed to throw an exception on lockCachePage() by foreign PID on locked namespace");
+			
+			$fail_msg  = "Failed to throw an exception on lockCachePage() by a foreign ";
+			$fail_msg .= "PID on a locked namespace.";
+			
+			$this->fail($fail_msg);	
 		}
 		catch (FOX_exception $child) {
 
@@ -1752,7 +1823,7 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 				try {
 					$cache_result = $this->cls->readCachePage( array('namespace'=>$item['ns'], 'pages'=>$item['var']), $current_offset ); 
 					
-					$this->fail("Failed to throw an exception on locked cache page");
+					$this->fail("Failed to throw an exception on readCachePage() on an a locked cache page");
 				}
 				catch (FOX_exception $child) {
 
@@ -1797,7 +1868,7 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		
 		try {
 			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>$page_names_a), $current_offset); 			
-			$this->fail("Failed to throw an exception on locked cache page");
+			$this->fail("Failed to throw an exception on readCachePage() on an a locked cache page");
 		}
 		catch (FOX_exception $child) {
 
@@ -1811,7 +1882,7 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 		
 		try {
 			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_2', 'pages'=>$page_names_b), $current_offset); 
-			$this->fail("Failed to throw an exception on locked cache page");
+			$this->fail("Failed to throw an exception on readCachePage() on an a locked cache page");
 		}
 		catch (FOX_exception $child) {
 
@@ -1902,7 +1973,11 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($lock_pages_a), 'seconds'=>5.0) );
-			$this->fail("Failed to throw an exception on lockCachePage() on pages locked by a foreign PID");
+			
+			$fail_msg  = "Failed to throw an exception on lockCachePage() on a cache ";
+			$fail_msg .= "page already locked by a foreign PID.";
+			
+			$this->fail($fail_msg);	
 		}
 		catch (FOX_exception $child) {
 
@@ -1937,7 +2012,12 @@ abstract class core_mCache_driver_classFunctions extends RAZ_testCase {
 
 		try {
 			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_2', 'pages'=>array_keys($lock_pages_b), 'seconds'=>5.0) );
-			$this->fail("Failed to throw an exception on lockCachePage() on pages locked by a foreign PID");
+			
+			$fail_msg  = "Failed to throw an exception on lockCachePage() on a cache ";
+			$fail_msg .= "pages already locked by a foreign PID.";
+			
+			$this->fail($fail_msg);	
+			
 		}
 		catch (FOX_exception $child) {
 
