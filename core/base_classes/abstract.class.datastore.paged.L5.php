@@ -44,7 +44,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					    // selectors. Since "*" is an illegal name for an SQL column, it will never
 					    // create conflicts. @see http://en.wikipedia.org/wiki/Wildcard_character
 	
-	var $hashing_active;		    // Hash walk token values
+	var $hashing_on;		    // Hash walk token values
 	var $hashtable;			    // Hash table instance used for hashing tokens
 	
 	var $debug_on;			    // Send debugging info to the debug handler	
@@ -113,10 +113,10 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if(FOX_sUtil::keyExists('hash_columns', $args) ){
 		    
 			$this->hashtable = new FOX_hashTable();
-			$this->hashing_active = true;		    
+			$this->hashing_on = true;		    
 		}
 		else {
-			$this->hashing_active = false;		    		    
+			$this->hashing_on = false;		    		    
 		}
 		
 		// Debug events
@@ -206,6 +206,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_start",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -219,6 +229,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				 
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}	
+			
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -316,7 +336,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				}			    
 			    
 			}
-			unset($key, $val);			
+			unset($key, $val);
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 			
 		}		
 
@@ -348,7 +378,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 				
 		try {
-			$result = self::getMulti($get_data, $get_ctrl, $valid);
+			$result = self::getMulti($get_data, $get_ctrl, $valid);	
 		}
 		catch (FOX_exception $child) {
 		    
@@ -389,6 +419,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_end",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -426,6 +466,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_start",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -442,6 +492,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -534,7 +594,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				}			    
 			    
 			}
-			unset($key, $val);			
+			unset($key, $val);	
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 			
 		}
 		
@@ -604,6 +674,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_end",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -640,6 +720,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_start",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -656,6 +746,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -742,7 +842,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				}			    
 			    
 			}
-			unset($key, $val);			
+			unset($key, $val);	
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 			
 		}
 		
@@ -811,6 +921,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_end",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -846,6 +966,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_start",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -862,6 +992,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -941,7 +1081,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				}			    
 			    
 			}
-			unset($key, $val);			
+			unset($key, $val);	
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 			
 		}
 		
@@ -1010,6 +1160,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_end",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -1044,6 +1204,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_start",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -1060,6 +1230,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -1124,7 +1304,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));			    
-			}			    			
+			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 			
 		}
 		
@@ -1182,6 +1372,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 		}
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_end",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -1233,6 +1433,15 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler( array(
+				'text'=>"method_start",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -1268,7 +1477,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($ctrl['q_mode'] == 'matrix'){
 		    
 				
-		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)		    		
+		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
+
+				if($this->debug_on){
+
+					extract( $this->debug_handler( array(
+						'text'=>"matrix_validate_start",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}			    
 			    
 				$row_valid = false;			    
 
@@ -1310,14 +1529,34 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>null
 					));					    					    
-				}															    
+				}
+				
+				if($this->debug_on){
+
+					extract( $this->debug_handler( array(
+						'text'=>"matrix_validate_end",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}				
 			
 			}
 
 			// Loft the individual rows into a trie (to merge overlapping objects) then clip
 			// the tree to get the highest order objects we need to fetch
 			// =============================================================================			
-						
+				
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"matrix_transform_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+				
 			$columns = array(
 					$this->L5_col, 
 					$this->L4_col, 
@@ -1343,11 +1582,31 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'child'=>$child
 				));		    
 			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"matrix_transform_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 						
 		}
 		elseif($ctrl['q_mode'] == 'trie'){		    
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
+			    
+				if($this->debug_on){
+
+					extract( $this->debug_handler( array(
+						'text'=>"trie_validate_start",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}			    
 
 				$struct = $this->_struct();
 
@@ -1381,7 +1640,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>null
 					));			    
-				}				    
+				}
+				
+				if($this->debug_on){
+
+					extract( $this->debug_handler( array(
+						'text'=>"trie_validate_end",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}				
 			}
 			
 			$get_data = $data;						
@@ -1426,10 +1695,20 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		// Find all requested objects that don't have authority in the class cache (L5 to L2),
 		// or which don't exist in the class cache (L1) and try to load them from the persistent cache
-		// ==============================================================================================			
-				
+		// ==============================================================================================
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler( array(
+				'text'=>"class_cache_prescan_start",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+			
 		try {
-			$cache_fetch = self::notInClassCache($get_data, $this->cache);				 
+			$cache_fetch = self::notInClassCache($get_data, $this->cache);	
 		}
 		catch (FOX_exception $child) {
 
@@ -1442,9 +1721,29 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    			
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler( array(
+				'text'=>"class_cache_prescan_end",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
+		
 		if($cache_fetch){
 		    
-			try {
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"persistent_cache_fetch_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+				
+			try {			    
 				$cache_pages = self::readCachePage( array_keys($cache_fetch) );
 			}
 			catch (FOX_exception $child) {
@@ -1456,15 +1755,20 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
 				));		    			
-			}		
+			}
+			
+			if($this->debug_on){
 
+				extract( $this->debug_handler( array(
+					'text'=>"persistent_cache_fetch_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 
 			foreach( $cache_pages as $page_id => $page_image ){
 
-				if($page_id == 99){
-				
-				    echo "HIT-1"; die;
-				}
 				// NOTE: because of the way cache operations are implemented throughout
 				// this class, the persistent cache *always* has authority over the class
 				// cache, which makes it impossible for a situation to occur where there
@@ -1482,7 +1786,27 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			// or which didn't exist in the class cache (L1) and try to load them from the database
 			// =====================================================================================		
 
-			$db_fetch = self::notInClassCache($cache_fetch, $this->cache);			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"class_cache_postscan_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+				
+			$db_fetch = self::notInClassCache($cache_fetch, $this->cache);
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"class_cache_postscan_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 
 			if($db_fetch){
 
@@ -1511,11 +1835,21 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 									$this->L2_col,
 									$this->L1_col
 						    ),		    
-						    'hash_key_vals'=>$this->hashing_active 
+						    'hash_key_vals'=>$this->hashing_on 
 				);			
 
+				if($this->debug_on){
+
+					extract( $this->debug_handler( array(
+						'text'=>"db_fetch_start",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+					
 				try {
-					$db_result = $db->runSelectQuery($struct, $args, $columns, $db_ctrl);				
+					$db_result = $db->runSelectQuery($struct, $args, $columns, $db_ctrl);	
 				}
 				catch (FOX_exception $child) {
 
@@ -1527,9 +1861,29 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'child'=>$child
 					));		    			
 				}
+				
+				if($this->debug_on){
+
+					extract( $this->debug_handler( array(
+						'text'=>"db_fetch_end",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}				
 
 				if($db_result){
 
+					if($this->debug_on){
+
+						extract( $this->debug_handler( array(
+							'text'=>"db_result_transform_start",
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+					
 					// Copy L5 pages in $this->cache to $update_cache as needed, then merge the db
 					// results into the L5 $update_cache pages. This saves memory over duplicating
 					// the entire $this->cache variable.
@@ -1645,7 +1999,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					}
 					unset($L5, $L4s);
-				
+					
+					if($this->debug_on){
+
+						extract( $this->debug_handler( array(
+							'text'=>"db_result_transform_end",
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}									
 					
 				}  // ENDOF: if($db_result)
 
@@ -1659,7 +2022,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Build the updated cache image, and generate the result from the image (this 
 		// lets us still return a result in the event of a cache write failure)
 		// ==========================================================================
-								
+			
+		if($this->debug_on){
+
+			extract( $this->debug_handler( array(
+				'text'=>"class_cache_rebuild_start",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+					
 		if($update_cache){
 		    
 			$cache_image = $this->cache;
@@ -1674,10 +2047,29 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			// Just bind by reference to save memory
 			$cache_image =& $this->cache;
 		}
-			
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler( array(
+				'text'=>"class_cache_rebuild_end",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		$result = array();
 		$valid = true;		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler( array(
+				'text'=>"result_build_start",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		foreach( $get_data as $L5 => $L4s ){		
 					    
@@ -1776,10 +2168,28 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($L5, $L4s);
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler( array(
+				'text'=>"result_build_end",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		if($ctrl['r_mode'] == 'matrix'){
 		    
-		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"result_matrix_transform_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			$flatten_ctrl = array('mode'=>'data');	    // Set to 'data' mode so flattenAssocTrie() 
 								    // returns the values inside the trie's end nodes			
 			$flatten_cols = array(
@@ -1802,7 +2212,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
 				));		    
-			}					
+			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"result_matrix_transform_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 		    
 		}
 		elseif($ctrl['r_mode'] != 'trie'){
@@ -1822,6 +2242,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		if($update_cache){  // Trap no changed pages
 		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"persistent_cache_write_start",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 			try {
 				self::writeCachePage($update_cache);
 			}
@@ -1835,6 +2265,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'child'=>$child
 				));		    
 			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler( array(
+					'text'=>"persistent_cache_write_end",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 		}
 		
 		
@@ -1843,10 +2283,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		$this->cache = $cache_image;
 		
-		
+		if($this->debug_on){
+
+			extract( $this->debug_handler( array(
+				'text'=>"method_end",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+			
 		return $result;
 		
-
 	}	
 	
 	
