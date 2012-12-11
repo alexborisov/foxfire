@@ -178,7 +178,7 @@ class FOX_math {
 				'numeric'=>1,
 				'text'=>"Called with non-number as data source",
 				'data'=>$num,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		}

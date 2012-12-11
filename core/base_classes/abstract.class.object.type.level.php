@@ -70,7 +70,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error reading from database",
 				'data'=>array('args'=>$args,'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -81,7 +81,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Object type already exists",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -99,7 +99,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Error writing to database",
 					'data'=>$data,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -122,7 +122,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Cache read error",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -140,7 +140,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Cache write error",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -180,7 +180,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Cache read error",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -201,7 +201,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Error reading from database",
 						'data'=>array('columns'=>$columns, 'ctrl'=>$ctrl),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    
 				}				
@@ -219,7 +219,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 						throw new FOX_exception( array(
 							'numeric'=>3,
 							'text'=>"Cache read error",
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));		    
 					}
@@ -237,7 +237,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 						throw new FOX_exception( array(
 							'numeric'=>4,
 							'text'=>"Cache write error",
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));		    
 					}
@@ -293,7 +293,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					'numeric'=>1,
 					'text'=>"Missing rank key",
 					'data'=>array('module_id'=>$module_id, 'type_id'=>$type_id, 'ranks'=>$ranks),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -331,7 +331,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Cache read error",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -367,7 +367,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 						'numeric'=>3,
 						'text'=>"Error reading from database",
 						'data'=>array('args'=>$args, 'ctrl'=>$ctrl),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    
 				}				
@@ -397,7 +397,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Rank array has more keys than database",
 				'data'=>array('ranks'=>$ranks, 'result_array'=>$result_array),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -407,7 +407,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Rank array has less keys than database",
 				'data'=>array('ranks'=>$ranks, 'result_array'=>$result_array),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -423,7 +423,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Couldn't initiate transaction",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -439,7 +439,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>7,
 				'text'=>"Cache read error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}	
@@ -473,7 +473,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 							'text'=>"Error writing to database. Rollback failed.",
 							'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 
 								      'columns'=>$columns, 'ctrl'=>$ctrl),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));		    
 					}
@@ -482,7 +482,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 						'numeric'=>9,
 						'text'=>"Error writing to database. Rollback successful.",
 						'data'=>array('row_data'=>$row_data, 'args'=>$args),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    
 				}				
@@ -501,7 +501,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>10,
 				'text'=>"Couldn't commit transaction",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -538,7 +538,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>11,
 				'text'=>"Cache write error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -579,7 +579,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Missing level_id in data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -606,7 +606,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error reading from database",
 				'data'=>array('level_id'=>$data["level_id"], 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -647,7 +647,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Error reading from database",
 					'data'=>array('args'=>$args,'ctrl'=>$ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}			
@@ -658,7 +658,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					'numeric'=>4,
 					'text'=>"Rank you are trying to change target item to already exists",
 					'data'=>array('data'=>$data, 'faulting_rank'=>$update_data["rank"]),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -686,7 +686,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -702,7 +702,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error writing to database",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}			
@@ -748,7 +748,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>7,
 				'text'=>"Cache write error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -800,7 +800,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error reading from database",
 				'data'=>array('args'=>$args, 'columns'=>$columns, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -824,7 +824,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache read error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -842,7 +842,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error while deleting from database",
 				'data'=>array("level_id"=>$level_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -870,7 +870,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Cache write error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -925,7 +925,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error reading from database",
 				'data'=>array('args'=>$args, 'columns'=>$columns, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -947,7 +947,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache read error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -964,7 +964,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error while deleting from database",
 				'data'=>array("type_id"=>$type_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -992,7 +992,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Cache write error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1074,7 +1074,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					'numeric'=>1,
 					'text'=>"Error reading from database",
 					'data'=>array('args'=>$args,'ctrl'=>$ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}			
@@ -1095,7 +1095,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Cache read error",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    
 				}
@@ -1129,7 +1129,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>4,
 						'text'=>"Cache write error",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    
 				}
@@ -1186,7 +1186,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error reading from database",
 				'data'=>array('args'=>$args, 'columns'=>$columns, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1208,7 +1208,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache read error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1226,7 +1226,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error while deleting from database",
 				'data'=>array("module_id"=>$module_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1254,7 +1254,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Cache write error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1316,7 +1316,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Cache read error",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    
 				}
@@ -1362,7 +1362,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Error reading from database",
 					'data'=>array('args'=>$args, 'columns'=>$columns, 'ctrl'=>$ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -1383,7 +1383,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Cache read error",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    
 				}
@@ -1404,7 +1404,7 @@ abstract class FOX_objectTypeLevel_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>4,
 						'text'=>"Cache write error",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    
 				}

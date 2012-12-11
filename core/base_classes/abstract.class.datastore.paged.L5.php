@@ -201,16 +201,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_start",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -231,9 +231,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -314,7 +314,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator class",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -330,7 +330,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    
@@ -340,9 +340,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -386,7 +386,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>6,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -421,9 +421,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_end",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -461,16 +461,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_start",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -494,9 +494,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -572,7 +572,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -588,7 +588,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    
@@ -598,9 +598,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -645,7 +645,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -676,9 +676,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_end",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -715,16 +715,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_start",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -748,9 +748,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -820,7 +820,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -836,7 +836,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    
@@ -846,9 +846,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -892,7 +892,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -923,9 +923,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_end",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -961,16 +961,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_start",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -994,9 +994,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1059,7 +1059,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -1075,7 +1075,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    
@@ -1085,9 +1085,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1131,7 +1131,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1162,9 +1162,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_end",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -1199,16 +1199,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_start",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -1232,9 +1232,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1287,7 +1287,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -1301,16 +1301,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Invalid " . $key . " key",
 					'data'=>$val,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"validate_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1354,7 +1354,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error calling self::getMulti()",
 				'data'=>array('get_data'=>$get_data, 'get_ctrl'=>$get_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1374,9 +1374,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_end",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -1428,16 +1428,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
 
 		if($this->debug_on){
 		    
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_start",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -1461,7 +1461,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1481,9 +1481,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 				if($this->debug_on){
 
-					extract( $this->debug_handler( array(
+					extract( $this->debug_handler->event( array(
 						'text'=>"matrix_validate_start",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
 					)));		    
@@ -1515,7 +1515,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Error in validator",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));			    			    
 				}
@@ -1526,16 +1526,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>3,
 						'text'=>"Invalid row in data array",
 						'data'=>$row_valid,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));					    					    
 				}
 				
 				if($this->debug_on){
 
-					extract( $this->debug_handler( array(
+					extract( $this->debug_handler->event( array(
 						'text'=>"matrix_validate_end",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
 					)));		    
@@ -1549,9 +1549,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"matrix_transform_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1578,16 +1578,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Error in FOX_trie::clipAssocTrie()",
 					'data'=>array('trie'=>$trie, 'columns'=>$columns, 'clip_ctrl'=>$clip_ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"matrix_transform_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1600,9 +1600,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				if($this->debug_on){
 
-					extract( $this->debug_handler( array(
+					extract( $this->debug_handler->event( array(
 						'text'=>"trie_validate_start",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
 					)));		    
@@ -1626,7 +1626,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>4,
 						'text'=>"Error in validator",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));			    			    
 				}				
@@ -1637,16 +1637,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>5,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}
 				
 				if($this->debug_on){
 
-					extract( $this->debug_handler( array(
+					extract( $this->debug_handler->event( array(
 						'text'=>"trie_validate_end",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
 					)));		    
@@ -1662,7 +1662,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>6,
 				'text'=>"Invalid ctrl['q_mode'] parameter",
 				'data'=>$ctrl,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		    
@@ -1686,7 +1686,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				    'numeric'=>7,
 				    'text'=>"$error_msg",
 				    'data'=>$data,
-				    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				    'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				    'child'=>null
 			    ));	
 
@@ -1699,9 +1699,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"class_cache_prescan_start",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -1716,16 +1716,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>8,
 				'text'=>"Error in self::notInClassCache()",
 				'data'=>array('get_data'=>$get_data),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    			
 		}
 		
 		if($this->debug_on){
 
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"class_cache_prescan_end",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -1735,9 +1735,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"persistent_cache_fetch_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1752,16 +1752,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>9,
 					'text'=>"Error reading from persistent cache",
 					'data'=>array('cache_fetch'=>array_keys($cache_fetch)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    			
 			}
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"persistent_cache_fetch_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1788,9 +1788,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"class_cache_postscan_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1800,9 +1800,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"class_cache_postscan_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -1840,9 +1840,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 				if($this->debug_on){
 
-					extract( $this->debug_handler( array(
+					extract( $this->debug_handler->event( array(
 						'text'=>"db_fetch_start",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
 					)));		    
@@ -1857,16 +1857,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>10,
 						'text'=>"Error while reading from database",
 						'data'=>array('args'=>$args, 'columns'=>$columns, 'db_ctrl'=>$db_ctrl),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    			
 				}
 				
 				if($this->debug_on){
 
-					extract( $this->debug_handler( array(
+					extract( $this->debug_handler->event( array(
 						'text'=>"db_fetch_end",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
 					)));		    
@@ -1876,9 +1876,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 					if($this->debug_on){
 
-						extract( $this->debug_handler( array(
+						extract( $this->debug_handler->event( array(
 							'text'=>"db_result_transform_start",
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'parent'=>$this,
 							'vars'=>compact(array_keys(get_defined_vars()))
 						)));		    
@@ -2002,9 +2002,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					
 					if($this->debug_on){
 
-						extract( $this->debug_handler( array(
+						extract( $this->debug_handler->event( array(
 							'text'=>"db_result_transform_end",
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'parent'=>$this,
 							'vars'=>compact(array_keys(get_defined_vars()))
 						)));		    
@@ -2025,9 +2025,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 		if($this->debug_on){
 
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"class_cache_rebuild_start",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -2050,9 +2050,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"class_cache_rebuild_end",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -2063,9 +2063,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"result_build_start",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -2170,9 +2170,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"result_build_end",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -2182,9 +2182,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"result_matrix_transform_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -2209,16 +2209,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>11,
 					'text'=>"Error converting result to 'matrix' format",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"result_matrix_transform_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -2231,7 +2231,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>12,
 				'text'=>"Invalid ctrl['r_mode'] parameter",
 				'data'=>$ctrl,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}
@@ -2244,9 +2244,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"persistent_cache_write_start",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -2261,16 +2261,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>13,
 					'text'=>"Error writing to persistent cache",
 					'data'=>array('update_cache'=>$update_cache, 'result'=>$result),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
 			
 			if($this->debug_on){
 
-				extract( $this->debug_handler( array(
+				extract( $this->debug_handler->event( array(
 					'text'=>"persistent_cache_write_end",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
@@ -2285,9 +2285,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($this->debug_on){
 
-			extract( $this->debug_handler( array(
+			extract( $this->debug_handler->event( array(
 				'text'=>"method_end",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
@@ -2458,7 +2458,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2482,7 +2482,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::addL1_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -2521,7 +2521,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2545,7 +2545,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -2583,7 +2583,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2605,7 +2605,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::addL2_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -2645,7 +2645,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2665,7 +2665,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}		
@@ -2706,7 +2706,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -2717,7 +2717,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid row in data array",
 					'data'=>$row_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    					    
 			}			
@@ -2768,7 +2768,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -2806,7 +2806,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2828,7 +2828,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::addL3_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -2868,7 +2868,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2889,7 +2889,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}		
@@ -2932,7 +2932,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -2943,7 +2943,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid row in data array",
 					'data'=>$row_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    					    
 			}			
@@ -2991,7 +2991,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -3030,7 +3030,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -3051,7 +3051,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::addL4_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -3091,7 +3091,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -3112,7 +3112,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}		
@@ -3155,7 +3155,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -3166,7 +3166,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid row in data array",
 					'data'=>$row_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    					    
 			}			
@@ -3218,7 +3218,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -3256,7 +3256,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -3276,7 +3276,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::addL5_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -3316,7 +3316,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -3337,7 +3337,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}		
@@ -3381,7 +3381,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Error in validator class",
 					'data'=>array('row_ctrl'=>$row_ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -3393,7 +3393,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid row in data array",
 					'data'=>array('faulting_row'=>$row, 'error'=>$row_valid),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    					    
 			}	
@@ -3450,7 +3450,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error in self::addMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -3502,7 +3502,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -3525,7 +3525,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -3571,7 +3571,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Error in validator",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));			    			    
 				}
@@ -3582,7 +3582,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>3,
 						'text'=>"Invalid row in data array",
 						'data'=>$row_valid,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));					    					    
 				}				
@@ -3619,7 +3619,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>4,
 						'text'=>"Error in validator",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));			    			    
 				}				
@@ -3630,7 +3630,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>5,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}				    
@@ -3645,7 +3645,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>6,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		    
@@ -3665,7 +3665,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>7,
 				'text'=>"Error locking cache",
 				'data'=>$update_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}			
@@ -3731,7 +3731,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error unlocking cache pages.",
 					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'insert_data'=>$insert_data),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -3740,7 +3740,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 			
@@ -3759,7 +3759,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>10,
 				'text'=>"Error writing to cache",
 				'data'=>$update_cache,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}			
@@ -3812,7 +3812,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -3837,7 +3837,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::setL1_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -3876,7 +3876,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -3900,7 +3900,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -3938,7 +3938,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -3961,7 +3961,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::setL2_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -4001,7 +4001,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -4022,7 +4022,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}		
@@ -4063,7 +4063,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -4074,7 +4074,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid row in data array",
 					'data'=>$row_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    					    
 			}			
@@ -4122,7 +4122,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -4160,7 +4160,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -4182,7 +4182,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::setL3_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -4222,7 +4222,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -4243,7 +4243,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}		
@@ -4284,7 +4284,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -4295,7 +4295,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid row in data array",
 					'data'=>$row_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    					    
 			}
@@ -4343,7 +4343,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -4382,7 +4382,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -4403,7 +4403,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::setL4_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -4443,7 +4443,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -4464,7 +4464,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}		
@@ -4505,7 +4505,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -4516,7 +4516,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid row in data array",
 					'data'=>$row_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    					    
 			}	
@@ -4568,7 +4568,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -4606,7 +4606,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -4626,7 +4626,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::setL5_multi()",
 				'data'=>array('data'=>$data, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -4666,7 +4666,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -4687,7 +4687,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}		
@@ -4728,7 +4728,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -4739,7 +4739,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid row in data array",
 					'data'=>$row_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    					    
 			}			
@@ -4796,7 +4796,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error in self::setMulti()",
 				'data'=>array('set_data'=>$set_data, 'set_ctrl'=>$set_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -4846,7 +4846,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -4869,7 +4869,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -4915,7 +4915,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Error in validator",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));			    			    
 				}
@@ -4926,7 +4926,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>3,
 						'text'=>"Invalid row in data array",
 						'data'=>$row_valid,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));					    					    
 				}				
@@ -4963,7 +4963,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>4,
 						'text'=>"Error in validator",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));			    			    
 				}				
@@ -4974,7 +4974,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>5,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}				    
@@ -4989,7 +4989,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>6,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		    
@@ -5009,7 +5009,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>7,
 				'text'=>"Error locking cache",
 				'data'=>$update_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -5082,7 +5082,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>8,
 						'text'=>"Error while writing to the database. Error unlocking cache pages.",
 						'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'indate_data'=>$indate_data),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));		    
 				}									
@@ -5091,7 +5091,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>9,
 					'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 					'data'=>$indate_data,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}			
@@ -5115,7 +5115,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>10,
 					'text'=>"Couldn't initiate transaction",
 					'data'=>$data,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}			
@@ -5143,7 +5143,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 							'numeric'=>11,
 							'text'=>"Error while writing to the database. Error unlocking cache pages.",
 						'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 'indate_data'=>$indate_data),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));		    
 					}									
@@ -5152,7 +5152,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>12,
 						'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 						'data'=>$indate_row,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 
@@ -5171,7 +5171,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>13,
 					'text'=>"Error commiting transaction to database",
 					'data'=>$data,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -5210,7 +5210,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>14,
 				'text'=>"Error writing to cache",
 				'data'=>$update_cache,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}			
@@ -5252,7 +5252,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -5334,7 +5334,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -5350,7 +5350,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    
@@ -5380,7 +5380,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error calling self::replaceL2_multi",
 				'data'=>array('replace_data'=>$replace_data, 'replace_ctrl'=>$replace_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -5420,7 +5420,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -5441,7 +5441,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}				
@@ -5471,7 +5471,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}			
@@ -5482,7 +5482,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}
@@ -5504,7 +5504,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -5608,7 +5608,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -5642,7 +5642,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -5651,7 +5651,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>7,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -5677,7 +5677,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -5686,7 +5686,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}				
@@ -5703,7 +5703,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>10,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -5721,7 +5721,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>11,
 				'text'=>"Cache set error",
 				'data'=>$page_images,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -5768,7 +5768,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -5827,7 +5827,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in key validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -5843,7 +5843,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    			    
@@ -5869,7 +5869,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error in trie validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}			
@@ -5880,7 +5880,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>4,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}			
@@ -5907,7 +5907,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Error calling self::replaceL3_multi",
 				'data'=>array('replace_data'=>$replace_data, 'replace_ctrl'=>$replace_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -5947,7 +5947,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -5968,7 +5968,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}				
@@ -5998,7 +5998,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}			
@@ -6009,7 +6009,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}
@@ -6031,7 +6031,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -6134,7 +6134,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -6167,7 +6167,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -6176,7 +6176,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>7,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -6202,7 +6202,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -6211,7 +6211,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}				
@@ -6228,7 +6228,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>10,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -6246,7 +6246,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>11,
 				'text'=>"Cache set error",
 				'data'=>$page_images,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -6289,7 +6289,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -6342,7 +6342,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in key validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -6358,7 +6358,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    			    
@@ -6384,7 +6384,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error in trie validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}			
@@ -6395,7 +6395,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>4,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}			
@@ -6422,7 +6422,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Error calling self::replaceL4_multi",
 				'data'=>array('replace_data'=>$replace_data, 'replace_ctrl'=>$replace_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -6462,7 +6462,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -6483,7 +6483,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}				
@@ -6513,7 +6513,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}			
@@ -6524,7 +6524,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}					
@@ -6545,7 +6545,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -6642,7 +6642,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -6674,7 +6674,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -6683,7 +6683,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>7,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -6709,7 +6709,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -6718,7 +6718,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}				
@@ -6735,7 +6735,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>10,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -6753,7 +6753,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>11,
 				'text'=>"Cache set error",
 				'data'=>$page_images,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -6796,7 +6796,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -6837,7 +6837,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in key validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -6851,7 +6851,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Invalid L5 key",
 					'data'=>$L5_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}			    			    
@@ -6875,7 +6875,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error in trie validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}			
@@ -6886,7 +6886,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>4,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}			
@@ -6913,7 +6913,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Error calling self::replaceL5_multi",
 				'data'=>array('replace_data'=>$replace_data, 'replace_ctrl'=>$replace_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -6953,7 +6953,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -6974,7 +6974,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}				
@@ -7004,7 +7004,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}			
@@ -7015,7 +7015,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Invalid key in data array",
 					'data'=>$tree_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}
@@ -7036,7 +7036,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error locking cache pages",
 				'data'=>array("pages"=>$L5_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -7121,7 +7121,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -7149,7 +7149,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -7158,7 +7158,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>7,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -7183,7 +7183,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>8,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -7192,7 +7192,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>9,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}				
@@ -7209,7 +7209,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>10,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -7227,7 +7227,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>11,
 				'text'=>"Cache set error",
 				'data'=>$update_cache,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -7247,7 +7247,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>12,
 					'text'=>"Error flushing cache pages",
 					'data'=>$dead_cache_pages,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -7292,7 +7292,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -7386,7 +7386,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -7402,7 +7402,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    
@@ -7447,7 +7447,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error calling self::dropMulti()",
 				'data'=>array('data'=>$data, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -7485,7 +7485,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -7601,7 +7601,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator class",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -7615,7 +7615,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Invalid row in data array",
 				'data'=>$validator_result,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		}			    
@@ -7638,7 +7638,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -7675,7 +7675,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -7764,7 +7764,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -7780,7 +7780,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    
@@ -7824,7 +7824,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error calling self::dropMulti()",
 				'data'=>array('data'=>$data, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -7861,7 +7861,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -7972,7 +7972,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator class",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -7986,7 +7986,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Invalid row in data array",
 				'data'=>$validator_result,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		}			    			
@@ -8008,7 +8008,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -8043,7 +8043,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -8126,7 +8126,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -8142,7 +8142,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    
@@ -8187,7 +8187,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error calling self::self::dropMulti()",
 				'data'=>array('data'=>$data, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -8223,7 +8223,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -8329,7 +8329,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator class",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -8343,7 +8343,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Invalid row in data array",
 				'data'=>$validator_result,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		}			    			
@@ -8365,7 +8365,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -8400,7 +8400,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -8476,7 +8476,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -8492,7 +8492,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>2,
 						'text'=>"Invalid " . $key . " key",
 						'data'=>$val,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}			    
@@ -8536,7 +8536,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error calling self::dropMulti()",
 				'data'=>array('data'=>$data, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -8571,7 +8571,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -8670,7 +8670,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator class",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -8684,7 +8684,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Invalid row in data array",
 				'data'=>$validator_result,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		}			    			
@@ -8706,7 +8706,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -8740,7 +8740,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -8806,7 +8806,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -8820,7 +8820,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Invalid L5 key",
 					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}			    			
@@ -8862,7 +8862,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error calling self::dropMulti()",
 				'data'=>array('data'=>$L5s, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -8896,7 +8896,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -8988,7 +8988,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in validator class",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -9002,7 +9002,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Invalid row in data array",
 				'data'=>$validator_result,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		}			    			
@@ -9025,7 +9025,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error in self::dropMulti()",
 				'data'=>array('data'=>$data, 'processed'=>$processed, 'drop_ctrl'=>$drop_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -9076,7 +9076,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -9098,7 +9098,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -9141,7 +9141,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Error in validator",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));			    			    
 				}
@@ -9152,7 +9152,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>3,
 						'text'=>"Invalid row in data array",
 						'data'=>$row_valid,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));					    					    
 				}				
@@ -9197,7 +9197,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>4,
 						'text'=>"Error in validator",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));			    			    
 				}				
@@ -9208,7 +9208,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'numeric'=>5,
 						'text'=>"Invalid key in data array",
 						'data'=>$tree_valid,
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));			    
 				}				    
@@ -9223,7 +9223,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>6,
 				'text'=>"Invalid ctrl['mode'] parameter",
 				'data'=>$ctrl,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			    
 		    
@@ -9247,7 +9247,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				    'numeric'=>7,
 				    'text'=>"$error_msg",
 				    'data'=>$data,
-				    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				    'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				    'child'=>null
 			    ));	
 
@@ -9268,7 +9268,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>8,
 				'text'=>"Error locking cache",
 				'data'=>$del_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}			
@@ -9415,7 +9415,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'text'=>"Error while writing to the database. Error unlocking cache pages.",
 					'data'=>array('cache_exception'=>$child_2, 'cache_pages'=>$cache_pages, 
 						      'del_args'=>$args, 'del_ctrl'=>$del_ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}									
@@ -9424,7 +9424,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>10,
 				'text'=>"Error while writing to the database. Successfully unlocked cache pages.",
 					'data'=>array('del_args'=>$args, 'del_ctrl'=>$del_ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 			
@@ -9472,7 +9472,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>11,
 					'text'=>"Error writing to cache",
 					'data'=>$update_cache,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -9492,7 +9492,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>12,
 					'text'=>"Error flushing pages from cache",
 					'data'=>$dead_pages,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		    		    		    
@@ -9526,7 +9526,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -9594,7 +9594,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));			    			    
 			}
@@ -9608,7 +9608,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Invalid item",
 					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    
 			}			    			
@@ -9628,7 +9628,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error locking cache namespace",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -9648,7 +9648,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error while deleting from database",
 				'data'=>$args,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -9664,7 +9664,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Cache flush error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -9691,7 +9691,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>0,
 				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -9707,7 +9707,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache namespace",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -9724,7 +9724,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error while clearing the database",
 				'data'=>null,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -9740,7 +9740,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error flushing cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}

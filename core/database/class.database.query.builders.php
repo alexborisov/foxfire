@@ -75,7 +75,7 @@ class FOX_queryBuilder {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error building object",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -89,7 +89,7 @@ class FOX_queryBuilder {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error during render",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -132,7 +132,7 @@ class FOX_queryBuilder {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error building object",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -146,7 +146,7 @@ class FOX_queryBuilder {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error during render",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -194,7 +194,7 @@ class FOX_queryBuilder {
 				'numeric'=>1,
 				'text'=>"Empty struct or args arrays",
 				'data'=>array("struct"=>$struct, "args"=>$args, "caller"=>$caller, "prefix"=>$prefix),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -210,7 +210,7 @@ class FOX_queryBuilder {
 					'numeric'=>2,
 					'text'=>"Parse error in WHERE group",
 					'data'=>array("group"=>$group, "struct"=>$struct, "args"=>$args, "caller"=>$caller, "prefix"=>$prefix),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -286,7 +286,7 @@ class FOX_queryBuilder {
 					'numeric'=>1,
 					'text'=>$text,
 					'data'=>array("struct"=>$struct, "args"=>$args, "caller"=>$caller, "prefix"=>$prefix),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -330,7 +330,7 @@ class FOX_queryBuilder {
 						'numeric'=>2,
 						'text'=>$text,
 						'data'=>array("struct"=>$struct, "args"=>$args, "caller"=>$caller, "prefix"=>$prefix),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));
 				}
@@ -548,7 +548,7 @@ class FOX_queryBuilder {
 					'text'=>"Error building primary args WHERE construct",
 					'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
 						      "function_name"=>$function_name, "prefix"=>$prefix),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -606,7 +606,7 @@ class FOX_queryBuilder {
 						'text'=>"Error building joined table WHERE construct",
 						'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
 							      "function_name"=>$function_name, "prefix"=>$prefix),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -1095,7 +1095,7 @@ class FOX_queryBuilder {
 					'text'=>"Error building primary args WHERE construct",
 					'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
 						      "function_name"=>$function_name, "prefix"=>$alias["tables"][$primary_struct["table"]]),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1169,7 +1169,7 @@ class FOX_queryBuilder {
 						'text'=>"Error building joined table WHERE construct",
 						'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
 							      "function_name"=>$function_name, "prefix"=>$alias["tables"][$join_struct["table"]]),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -1797,7 +1797,7 @@ class FOX_queryBuilder {
 					'numeric'=>1,
 					'text'=>"Error in WHERE clause generator",
 					'data'=>array("struct"=>$struct, "args"=>$args, "function_name"=>$function_name),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -2041,7 +2041,7 @@ class FOX_queryBuilder {
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "col"=>$col, "op"=>$op, "val"=>$val, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2179,7 +2179,7 @@ class FOX_queryBuilder {
 					'numeric'=>1,
 					'text'=>"Error in WHERE clause generator",
 					'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "function_name"=>$function_name),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -2198,7 +2198,7 @@ class FOX_queryBuilder {
 				'numeric'=>2,
 				'text'=>$text,
 				'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "function_name"=>$function_name),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2261,7 +2261,7 @@ class FOX_queryBuilder {
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "columns"=>$columns),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2736,7 +2736,7 @@ class FOX_queryBuilder {
 					'numeric'=>1,
 					'text'=>"Error in buildWhere generator",
 					'data'=>array("struct"=>$struct, "args"=>$args, "ctrl"=>$ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -2757,7 +2757,7 @@ class FOX_queryBuilder {
 				'numeric'=>2,
 				'text'=>$text,
 				'data'=>array("struct"=>$struct, "args"=>$args, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2808,7 +2808,7 @@ class FOX_queryBuilder {
 				'numeric'=>1,
 				'text'=>"Error in guery generator",
 				'data'=>array("struct"=>$struct, "args"=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2865,7 +2865,7 @@ class FOX_queryBuilder {
 					'numeric'=>1,
 					'text'=>"Tried to use SQL reserved word as column name",
 					'data'=>array("struct"=>$struct, "illegal_key"=>$key),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -2894,7 +2894,7 @@ class FOX_queryBuilder {
 				'numeric'=>2,
 				'text'=>"Missing table definition array",
 				'data'=>array("struct"=>$struct),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2908,7 +2908,7 @@ class FOX_queryBuilder {
 				'numeric'=>3,
 				'text'=>"Missing columns array",
 				'data'=> array("struct"=>$struct),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2930,7 +2930,7 @@ class FOX_queryBuilder {
 					'numeric'=>4,
 					'text'=>"Missing column name",
 					'data'=> array("columns_array"=>$struct["columns"], "name"=>$name, "params"=>$params),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -2944,7 +2944,7 @@ class FOX_queryBuilder {
 					'text'=>"Missing sql data type. \n",
 					'data'=>array("columns_array"=>$struct["columns"], "name"=>$name,
 						      "params"=>$params, "type"=>$params["sql"]),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -2980,7 +2980,7 @@ class FOX_queryBuilder {
 							'numeric'=>6,
 							'text'=>"MySQL tables cannot have more than one auto-increment column",
 							'data'=> array("params"=>$params),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>null
 						));
 					}
@@ -3032,7 +3032,7 @@ class FOX_queryBuilder {
 						'numeric'=>7,
 						'text'=>"FULLTEXT indices cannot be added to InnoDB tables. \n",
 						'data'=> array("params"=>$params),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));					
 				}
@@ -3094,7 +3094,7 @@ class FOX_queryBuilder {
 								'numeric'=>8,
 								'text'=>"FULLTEXT indices cannot be added to InnoDB tables",
 								'data'=> array("params"=>$params),
-								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+								'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 								'child'=>null
 							));
 						}

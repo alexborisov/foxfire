@@ -50,7 +50,7 @@ class FOX_version {
 					'numeric'=>1,
 					'text'=>"Called with invalid comparison operator. ",
 					'data'=>array("ver1"=>$ver1, "ver2"=>$ver2, "op"=>$op),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				    )
 			);
 		}

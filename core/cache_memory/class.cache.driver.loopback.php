@@ -108,7 +108,7 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -138,7 +138,7 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>$ns,			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -168,7 +168,7 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>$ns,			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -202,7 +202,7 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -234,7 +234,7 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -266,7 +266,7 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -300,7 +300,7 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -333,7 +333,7 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -364,7 +364,7 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}

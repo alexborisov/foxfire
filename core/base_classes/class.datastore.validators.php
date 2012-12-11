@@ -226,7 +226,7 @@ class FOX_dataStore_validator {
 									'numeric'=>1,
 									'text'=>"Error in self::validateKey()",
 									'data'=>$val_args,
-									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+									'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 									'child'=>$child
 								));	
 							}						    
@@ -285,7 +285,7 @@ class FOX_dataStore_validator {
 											'numeric'=>2,
 											'text'=>"Error in self::validateKey()",
 											'data'=>$val_args,
-											'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+											'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 											'child'=>$child
 										));	
 									}						
@@ -336,7 +336,7 @@ class FOX_dataStore_validator {
 											'numeric'=>3,
 											'text'=>"Error in self::validateKey()",
 											'data'=>$val_args,
-											'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+											'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 											'child'=>$child
 										));	
 									}								    
@@ -367,7 +367,7 @@ class FOX_dataStore_validator {
 									'numeric'=>4,
 									'text'=>"Invalid ['array_ctrl']['mode'] parameter",
 									'data'=>$ctrl['array_ctrl']['mode'],
-									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+									'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 									'child'=>null
 								));							    
 							    
@@ -393,7 +393,7 @@ class FOX_dataStore_validator {
 								throw new FOX_exception( array(
 									'numeric'=>5,
 									'text'=>"Error in self::validateTrie()",
-									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+									'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 									'child'=>$child
 								));	
 							}							
@@ -417,7 +417,7 @@ class FOX_dataStore_validator {
 								'numeric'=>6,
 								'text'=>"Invalid end_node_format parameter",
 								'data'=>$ctrl['end_node_format'],
-								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+								'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 								'child'=>null
 							));								    							    
 						}
@@ -442,7 +442,7 @@ class FOX_dataStore_validator {
 							'numeric'=>7,
 							'text'=>"Error in self::validateKey()",
 							'data'=>$val_args,
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));	
 					}										
@@ -507,7 +507,7 @@ class FOX_dataStore_validator {
 				'numeric'=>1,
 				'text'=>"Specified order is not valid",
 				'data'=>array("order"=>$ctrl['order'], "class_order"=>$this->order),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -518,7 +518,7 @@ class FOX_dataStore_validator {
 				'numeric'=>2,
 				'text'=>"Invalid 'mode' parameter",
 				'data'=>array('ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}			
@@ -529,7 +529,7 @@ class FOX_dataStore_validator {
 				'numeric'=>3,
 				'text'=>"The 'clip_order' parameter must be set when operating in 'data' mode",
 				'data'=>array('ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -540,7 +540,7 @@ class FOX_dataStore_validator {
 				'numeric'=>4,
 				'text'=>"Wildcard selectors cannot be used in 'data' mode",
 				'data'=>array('ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}		
@@ -677,7 +677,7 @@ class FOX_dataStore_validator {
 				'numeric'=>5,
 				'text'=>"Error in validator",
 				'data'=>array("columns"=>$this->order_dict),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -712,7 +712,7 @@ class FOX_dataStore_validator {
 				'numeric'=>1,
 				'text'=>"Type must be either 'int' or 'string'",
 				'data'=>$args,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));					
 		}
@@ -724,7 +724,7 @@ class FOX_dataStore_validator {
 				'numeric'=>2,
 				'text'=>"Format must be either 'scalar' or 'array'",
 				'data'=>$args,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));					
 		}		

@@ -129,7 +129,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 							"key_id"=>$key_id,
 							"skip_load"=>$skip_load
 					),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -165,7 +165,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Cache get error",
 					'data'=>array("module_ids"=>array_keys($db_result)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -242,7 +242,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Cache set error",
 				'data'=>$update_cache,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -282,7 +282,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::load()",
 				'data'=> $module_id,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -316,7 +316,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::load()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -352,7 +352,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'text'=>"Error calling self::load()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id,
 						'branch_id'=>$branch_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -389,7 +389,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'text'=>"Error calling self::load()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id,
 						'branch_id'=>$branch_id, 'key_id'=>$key_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -434,7 +434,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Attempted to pass multiple module id's, type_ids, or branch_id's when specifying key_id",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -454,7 +454,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 						'text'=>"Cache get error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
 								"branch_id"=>$branch_ids, "key_id"=>$key_ids),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -504,7 +504,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 						'text'=>"Load error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
 								"branch_id"=>$branch_ids, "missing_keys"=>$missing_keys),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -556,7 +556,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>4,
 					'text'=>"Attempted to pass multiple module id's, or type_ids when specifying branch_id",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -576,7 +576,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 						'text'=>"Cache get error",
 						'data'=>array("module_id"=>$module_id,"type_id"=>$type_ids,
 								"branch_id"=>$branch_ids, "key_id"=>$key_ids),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -626,7 +626,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 						'text'=>"Load error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
 								"branch_id"=>$branch_ids, "missing_types"=>$missing_types),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -678,7 +678,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>7,
 					'text'=>"Attempted to pass multiple module id's when specifying type_id",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -697,7 +697,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 						'text'=>"Cache get error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
 								"branch_id"=>$branch_ids, "key_id"=>$key_ids),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -742,7 +742,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 						'text'=>"Load error",
 						'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
 								"branch_id"=>$branch_ids, "key_id"=>$key_ids, "missing_type_ids"=>$missing_type_ids),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -823,7 +823,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 						'numeric'=>13,
 						'text'=>"Load error",
 						'data'=>array("missing_module_ids"=>$missing_module_ids),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -874,7 +874,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'text'=>"Bad input args",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids,
 					      "branch_id"=>$branch_ids, "key_id"=>$key_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -905,7 +905,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> $module_id,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -940,7 +940,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -977,7 +977,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'text'=>"Error calling self::get()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id,
 						'branch_id'=>$branch_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1016,7 +1016,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'text'=>"Error calling self::get()",
 				'data'=> array('module_id'=>$module_id, 'type_id'=>$type_id,
 						'branch_id'=>$branch_id, 'key_id'=>$key_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1062,7 +1062,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::setKeyMulti",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1104,7 +1104,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Empty data array",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1121,7 +1121,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Empty module_id",
 					'data'=>$row,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -1132,7 +1132,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>4,
 					'text'=>"Empty type_id name",
 					'data'=>$row,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -1143,7 +1143,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>5,
 					'text'=>"Empty key type",
 					'data'=>$row,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -1154,7 +1154,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>6,
 					'text'=>"Empty key id",
 					'data'=>$row,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -1182,7 +1182,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>7,
 					'text'=>"Cache lock error",
 					'data'=>$row,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1196,7 +1196,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>8,
 					'text'=>"Error while writing to the database",
 					'data'=>$data,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1214,7 +1214,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>9,
 					'text'=>"Cache set error",
 					'data'=>$this->cache[$row["module_id"]],
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1243,7 +1243,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>10,
 					'text'=>"Cache get error",
 					'data'=>$update_data,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1259,7 +1259,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>11,
 					'text'=>"Couldn't initiate transaction",
 					'data'=>$data,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1296,7 +1296,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 										'numeric'=>12,
 										'text'=>"Error while writing to the database. Error rolling back.",
 										'data'=>array('rollback_exception'=>$child_2),
-										'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+										'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 										'child'=>$child
 									));
 								}
@@ -1305,7 +1305,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 									'numeric'=>13,
 									'text'=>"Error while writing to the database. Successful rollback.",
 									'data'=>$data,
-									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+									'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 									'child'=>$child
 								));
 							}
@@ -1336,7 +1336,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>14,
 					'text'=>"Error commiting transaction to database",
 					'data'=>$data,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1353,7 +1353,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>15,
 					'text'=>"Cache set error",
 					'data'=>$data,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1403,7 +1403,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Empty or incorrect module_id",
 				'data'=>array("module_id"=>$module_id, "data"=>$data),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1414,7 +1414,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Empty or malformed data array",
 				'data'=>array("module_id"=>$module_id, "data"=>$data),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1431,7 +1431,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_id"=>$module_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1449,7 +1449,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Couldn't initiate transaction",
 				'data'=>array("module_id"=>$module_id, "data"=>$data),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1475,7 +1475,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>5,
 					'text'=>"Error while deleting from the database. Error rolling back.",
 					'data'=>array('rollback_exception'=>$child_2, "module_id"=>$module_id),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1484,7 +1484,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>6,
 				'text'=>"Error while deleting from the database. Successful rollback.",
 				'data'=>array("module_id"=>$module_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1542,7 +1542,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'numeric'=>7,
 					'text'=>"Error while writing to the database. Error rolling back.",
 					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -1551,7 +1551,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>8,
 				'text'=>"Error while writing to the database. Successful rollback.",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1568,7 +1568,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>9,
 				'text'=>"Error commiting transaction to database",
 				'data'=>$insert_data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1586,7 +1586,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>10,
 				'text'=>"Cache set error",
 				'data'=>array("module_id"=>$module_id, "update_data"=>$update_cache),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1626,7 +1626,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_id, "branch_id"=>$branch_id, "key_id"=>$key_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1636,7 +1636,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Attempted to pass multiple module ids, type_ids, or branch_ids",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1653,7 +1653,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_id"=>$module_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1677,7 +1677,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error while deleting from database",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_id, "branch_id"=>$branch_id, "key_id"=>$key_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1711,7 +1711,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Cache set error",
 				'data'=>array("module_id"=>$module_id, "update_cache"=>$update_cache),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1749,7 +1749,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_id, "branch_id"=>$branch_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1759,7 +1759,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				    'numeric'=>2,
 				    'text'=>"Attempted to pass multiple module ids, or type_ids",
-				    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				    'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				    'child'=>null
 			));
 		}
@@ -1776,7 +1776,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_id"=>$module_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1799,7 +1799,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error while deleting from database",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_id, "branch_id"=>$branch_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1834,7 +1834,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Cache set error",
 				'data'=>array("module_id"=>$module_id, "update_cache"=>$update_cache),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1871,7 +1871,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1881,7 +1881,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Attempted to pass multiple module id's",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1898,7 +1898,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_id"=>$module_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1920,7 +1920,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error while deleting from database",
 				'data'=>array("module_id"=>$module_id, "type_id"=>$type_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1956,7 +1956,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Cache set error",
 				'data'=>array("module_id"=>$module_id, "update_cache"=>$update_cache),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1990,7 +1990,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Empty module_id",
 				'data'=>array("module_ids"=>$module_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2007,7 +2007,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error locking cache page",
 				'data'=>array("module_ids"=>$module_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2028,7 +2028,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error while deleting from database",
 				'data'=>array("module_ids"=>$module_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2045,7 +2045,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error flushing cache pages",
 				'data'=>array("module_ids"=>$module_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2081,7 +2081,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Empty keys array",
 				'data'=>array("keys"=>$keys),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2123,7 +2123,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>array("keys"=>$keys, "args"=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2140,7 +2140,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'data'=>array("keys"=>$keys),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2171,7 +2171,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("branch_id"=>$branch_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2189,7 +2189,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>array("branch_id"=>$branch_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2204,7 +2204,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'data'=>array("branch_id"=>$branch_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2236,7 +2236,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Empty control parameter",
 				'data'=>array("type_id"=>$type_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -2254,7 +2254,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error while deleting from database",
 				'data'=>array("type_id"=>$type_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2271,7 +2271,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Cache flush error",
 				'data'=>array("type_id"=>$type_ids),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2306,7 +2306,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error while clearing the database",
 				'data'=>null,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -2322,7 +2322,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Cache flush error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}

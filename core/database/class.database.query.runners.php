@@ -90,7 +90,7 @@ class FOX_queryRunner {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'data'=>array('faulting_format'=>$ctrl["format"],"query"=>$query, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1153,7 +1153,7 @@ class FOX_queryRunner {
 				'numeric'=>2,
 				'text'=>"Error during query execution",
 				'data'=>array($sql, $sql_error),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}

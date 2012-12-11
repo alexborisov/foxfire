@@ -110,7 +110,7 @@ class FOX_trie_clip_iterator {
 												"value"=>$key, 
 									)
 							),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));
 					}
@@ -134,7 +134,7 @@ class FOX_trie_clip_iterator {
 												"value"=>$key, 
 									)
 							),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));		    
 					}								

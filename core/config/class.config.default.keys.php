@@ -85,7 +85,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -123,7 +123,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -174,7 +174,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -239,7 +239,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -287,7 +287,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -336,7 +336,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -384,7 +384,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -440,7 +440,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -513,7 +513,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -556,7 +556,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -606,7 +606,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -655,7 +655,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -725,7 +725,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -771,7 +771,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -821,7 +821,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -899,7 +899,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -941,7 +941,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -984,7 +984,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>1,
 					'text'=>"Error creating key",
 					'data'=>$key,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -1012,7 +1012,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating network modules table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1025,7 +1025,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing network modules cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1042,7 +1042,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error loading network modules",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1059,7 +1059,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error fetching admin modules",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1076,7 +1076,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>5,
 					'text'=>"Error installing network module",
 					'data'=>$module,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}	
@@ -1109,7 +1109,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating media modules table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1122,7 +1122,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing media modules cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1139,7 +1139,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error loading media modules",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1156,7 +1156,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error fetching admin modules",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1173,7 +1173,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>5,
 					'text'=>"Error installing media module",
 					'data'=>$module,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}	
@@ -1206,7 +1206,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating album modules table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1219,7 +1219,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing album modules cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1236,7 +1236,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error loading album modules",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1252,7 +1252,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error fetching album modules",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1269,7 +1269,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>5,
 					'text'=>"Error installing album module",
 					'data'=>$module,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}		
@@ -1302,7 +1302,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating page modules table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1315,7 +1315,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing page modules cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1332,7 +1332,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error loading page modules",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1348,7 +1348,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error fetching admin page modules",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1365,7 +1365,7 @@ class FOX_config_defaultKeys {
 					'numeric'=>5,
 					'text'=>"Error installing page module",
 					'data'=>$module,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -1423,7 +1423,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error truncating table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1436,7 +1436,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error flushing cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1469,7 +1469,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error in key loader",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1486,7 +1486,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error loading network module keys",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1502,7 +1502,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error loading media module keys",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}	
@@ -1518,7 +1518,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error loading album module keys",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1534,7 +1534,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>7,
 				'text'=>"Error loading page module keys",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1552,7 +1552,7 @@ class FOX_config_defaultKeys {
 			throw new FOX_exception( array(
 				'numeric'=>8,
 				'text'=>"Error loading RBAC schema",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}

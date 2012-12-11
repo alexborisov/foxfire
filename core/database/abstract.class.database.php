@@ -38,7 +38,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Failed to create table",
 				'data'=>array('struct'=>$this->_struct() ),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -69,7 +69,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Failed to remove table",
 				'data'=>array('struct'=>$this->_struct() ),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -100,7 +100,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Failed to truncate table",
 				'data'=>array('struct'=>$this->_struct() ),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -138,7 +138,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -170,7 +170,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a paged cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -188,7 +188,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>$pages,			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -242,7 +242,7 @@ abstract class FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error calling self::readCache()",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -264,7 +264,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Unrecognized cache strategy",
 				'data'=>$struct['cache_strategy'],
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}
@@ -297,7 +297,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a paged cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -310,7 +310,7 @@ abstract class FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error calling self::readCachePage()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -349,7 +349,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a monolithic cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -369,7 +369,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct),                                   
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -402,7 +402,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a paged cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -420,7 +420,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct, 'pages'=>$pages),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -452,7 +452,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a monolithic cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -466,7 +466,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"error calling self::writeCache()",
 				'data'=>array("struct"=>$struct, "cache"=>$this->cache),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -499,7 +499,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a paged cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -521,7 +521,7 @@ abstract class FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Called with key name that doesn't exist in the class cache",
 					'data'=>array("faulting_page"=>$page_name, "cache"=>$this->cache),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));			    			    
 			}
@@ -536,7 +536,7 @@ abstract class FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error in self::writeCachePage()",
 				'data'=>$processed_pages,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -568,7 +568,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a monolithic cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -586,7 +586,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>array("struct"=>$struct, "image"=>$image),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -619,7 +619,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a paged cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -637,7 +637,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Cache set error",
 				'data'=>$pages,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -677,7 +677,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a monolithic cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -702,7 +702,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error in cache singleton",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -727,7 +727,7 @@ abstract class FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Invalid ctrl 'mode' parameter",
 				'data'=>$ctrl,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    		    
 		}	
@@ -765,7 +765,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a paged cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}
@@ -792,7 +792,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Cache get error",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -822,7 +822,7 @@ abstract class FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Invalid ctrl 'mode' parameter",
 				'data'=>$ctrl,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		    
@@ -856,7 +856,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a paged cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}		
@@ -881,7 +881,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error in mCache->lockNamespace()",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -913,7 +913,7 @@ abstract class FOX_db_base {
 				'numeric'=>1,
 				'text'=>"This method can only be used on classes that use a paged cache",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		    
 		}				
@@ -931,7 +931,7 @@ abstract class FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error in mCache->unlockNamespace()",
 				'data'=>array('struct'=>$struct),				    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}

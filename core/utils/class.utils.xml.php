@@ -42,7 +42,7 @@ class FOX_xml {
 				'numeric'=>1,
 				'text'=>"Couldn't open the file",
 				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 				)
 			);
@@ -79,7 +79,7 @@ class FOX_xml {
 				'numeric'=>1,
 				'text'=>"Called with empty XML string",
 				'data'=>$contents,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			    )
 			);
@@ -90,7 +90,7 @@ class FOX_xml {
 			throw new FOX_exception(array(
 				'numeric'=>2,
 				'text'=>"Host system is missing the PHP xml_parser_create function ",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 				)
 			);
@@ -112,7 +112,7 @@ class FOX_xml {
 			    throw new FOX_exception(array(
 				'numeric'=>3,
 				'text'=>"Parser error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 				)
 			);

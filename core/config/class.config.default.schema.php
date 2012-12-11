@@ -76,7 +76,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing group types table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -89,7 +89,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing group types cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -151,7 +151,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding group type",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -174,7 +174,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing token key types table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -187,7 +187,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing token key types cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -212,7 +212,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while creating new token key type",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -235,7 +235,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing group keyrings table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -248,7 +248,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing group keyrings cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -267,7 +267,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding group keyring",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -290,7 +290,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing group members table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -303,7 +303,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing group members cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -317,7 +317,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding members to groups",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}				    
@@ -340,7 +340,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing album types table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -353,7 +353,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing album types cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -436,7 +436,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding album type",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -459,7 +459,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while clearing album type levels table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -472,7 +472,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error while flushing album type levels cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -721,7 +721,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error while adding album type level",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}					
@@ -748,7 +748,7 @@ class FOX_config_defaultSchema {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in schema loader",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}

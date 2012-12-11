@@ -135,7 +135,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Database is already in a transaction. \n",
 				'data'=> array("handle" => $this->dbh),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 
@@ -167,7 +167,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Database failed to start a transaction, \n",
 				'data'=> array("handle"=>$this->dbh, "result"=>$db_result),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -200,7 +200,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Database not currently in a transaction. \n",
 				'data'=> array("handle" => $this->dbh),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -232,7 +232,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Database failed to commit the transaction, \n",
 				'data'=> array("handle"=>$this->dbh, "result"=>$db_result),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -265,7 +265,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Database not currently in a transaction. \n",
 				'data'=> array("handle" => $this->dbh),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -297,7 +297,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Database failed to rollback transaction. \n",
 				'data'=> array("handle"=>$this->dbh, "result"=>$db_result),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -389,7 +389,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Called with empty primary arg",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -400,7 +400,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Called with empty join arg",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -418,7 +418,7 @@ class FOX_db {
 				'numeric'=>3,
 				'text'=>"Error in query generator",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -435,7 +435,7 @@ class FOX_db {
 				'numeric'=>4,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -526,7 +526,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Called with empty primary arg",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -537,7 +537,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Called with empty join arg",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -554,7 +554,7 @@ class FOX_db {
 				'numeric'=>3,
 				'text'=>"Error in query generator",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    		    
 		}
@@ -571,7 +571,7 @@ class FOX_db {
 				'numeric'=>4,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array( "primary"=>$primary, "join"=>$join, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -661,7 +661,7 @@ class FOX_db {
 							'text'=>"Called with argument referencing nonexistent column name",
 							'data'=>array("faulting_column"=>$arg["col"], "struct"=>$struct, "args"=>$args, 
 								      "columns"=>$columns, "ctrl"=>$ctrl),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>null
 						));
 					}
@@ -683,7 +683,7 @@ class FOX_db {
 								'text'=>"Called with argument referencing nonexistent column name",
 								'data'=>array("faulting_column"=>$arg["col"], "struct"=>$struct, "args"=>$args, 
 									      "columns"=>$columns, "ctrl"=>$ctrl),
-								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+								'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 								'child'=>null
 							));
 						}
@@ -706,7 +706,7 @@ class FOX_db {
 							'text'=>"Called with argument referencing nonexistent column name",
 							'data'=>array("faulting_column"=>$arg["col"], "struct"=>$struct, "args"=>$args, 
 								      "columns"=>$columns, "ctrl"=>$ctrl),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>null
 						));
 					}
@@ -730,7 +730,7 @@ class FOX_db {
 				'numeric'=>4,
 				'text'=>"Error in query generator",
 				'data'=>array( "struct"=>$struct, "args"=>$args, "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -748,7 +748,7 @@ class FOX_db {
 				'numeric'=>5,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -822,7 +822,7 @@ class FOX_db {
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "col"=>$col, "op"=>$op, "val"=>$val,
 					      "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -840,7 +840,7 @@ class FOX_db {
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("struct"=>$struct, "col"=>$col, "op"=>$op, "val"=>$val,
 					      "columns"=>$columns, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -900,7 +900,7 @@ class FOX_db {
 					'text'=>"Called with argument referencing nonexistent db column",
 					'data'=>array("faulting_column"=>$arg["col"], "struct"=>$struct, "data"=>$data, 
 						      "args"=>$args, "columns"=>$columns, 'ctrl'=>$ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 
@@ -919,7 +919,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "columns"=>$columns, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -937,7 +937,7 @@ class FOX_db {
 				'numeric'=>3,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array('query'=>$query),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -988,7 +988,7 @@ class FOX_db {
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "col"=>$col, "op"=>$op,
 					      "val"=>$val, "columns"=>$columns, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1005,7 +1005,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array('query'=>$query),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1061,7 +1061,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "columns"=>$columns, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1078,7 +1078,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1131,7 +1131,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "columns"=>$columns, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1148,7 +1148,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1199,7 +1199,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "data"=>$data, "columns"=>$columns, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1216,7 +1216,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1270,7 +1270,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "args"=>$args, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1287,7 +1287,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1327,7 +1327,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, "col"=>$col, "op"=>$op, "val"=>$val, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1344,7 +1344,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1406,7 +1406,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Failure during check if table exists query",
 				'data'=>array('struct'=>$struct, 'sql'=>$sql),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1417,7 +1417,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Target table already exists in the database",
 				'data'=>array('struct'=>$struct, 'sql'=>$sql, 'matches'=>$matches),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    
 		}
@@ -1435,7 +1435,7 @@ class FOX_db {
 				'numeric'=>3,
 				'text'=>"Failure in query builder",
 				'data'=>array('struct'=>$struct, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1452,7 +1452,7 @@ class FOX_db {
 				'numeric'=>4,
 				'text'=>"Failure when running query on SQL server",
 				'data'=>array('struct'=>$struct, 'sql'=>$sql, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}		
@@ -1470,7 +1470,7 @@ class FOX_db {
 				'numeric'=>5,
 				'text'=>"Table was not successfully created",
 				'data'=>array('struct'=>$struct, 'sql'=>$sql, 'ctrl'=>$ctrl, 'sql_response'=>$sql_response),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    
 		}
@@ -1517,7 +1517,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Called with missing table name",
 				'data'=>array("struct"=>$struct, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1536,7 +1536,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1554,7 +1554,7 @@ class FOX_db {
 				'numeric'=>3,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1603,7 +1603,7 @@ class FOX_db {
 				'numeric'=>1,
 				'text'=>"Called with missing table name",
 				'data'=>array("struct"=>$struct, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -1620,7 +1620,7 @@ class FOX_db {
 				'numeric'=>2,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1637,7 +1637,7 @@ class FOX_db {
 				'numeric'=>3,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}

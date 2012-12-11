@@ -87,7 +87,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -104,7 +104,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -126,7 +126,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$token),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -154,7 +154,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"DB Select exception",
 					'data'=>array( "args"=>$args, "column"=>$column, "ctrl"=>$ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -183,7 +183,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array( "token"=>"token_".$token, "id"=>"id_".$id),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -207,7 +207,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -224,7 +224,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -245,7 +245,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$token),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -273,7 +273,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"DB Select exception",
 					'data'=>array("ctrl"=>$ctrl),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -338,7 +338,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -361,7 +361,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -378,7 +378,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -399,7 +399,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -414,7 +414,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -445,7 +445,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>5,
 					'text'=>"dbfetchToken exception",
 					'data'=>array( "fetch values"=>$fetch_values),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -506,7 +506,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -533,7 +533,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -550,7 +550,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -571,7 +571,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -586,7 +586,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -608,7 +608,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>5,
 					'text'=>"dbfetchToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -665,7 +665,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -690,7 +690,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -707,7 +707,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -729,7 +729,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -745,7 +745,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -778,7 +778,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>5,
 					'text'=>"dbfetchToken exception",
 					'data'=>array( "fetch values"=>$fetch_values),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -837,7 +837,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -861,7 +861,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -879,7 +879,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -901,7 +901,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -917,7 +917,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -940,7 +940,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>5,
 					'text'=>"dbfetchToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -998,7 +998,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -1023,7 +1023,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1041,7 +1041,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1063,7 +1063,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1100,7 +1100,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"cacheFetchToken exception",
 						'data'=>array("cache_values"=>$cache_fetch),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -1125,7 +1125,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1143,7 +1143,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1165,7 +1165,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1192,7 +1192,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>4,
 						'text'=>"CacheFetchToken exception",
 						'data'=>array("tokens"=>$add_tokens),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -1217,7 +1217,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1235,7 +1235,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1257,7 +1257,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1294,7 +1294,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>4,
 						'text'=>"cacheFetchId exception",
 						'data'=>array("cache_values"=>$cache_fetch),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -1318,7 +1318,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1336,7 +1336,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1358,7 +1358,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1385,7 +1385,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>4,
 						'text'=>"cacheFetchId exception",
 						'data'=>array("cache_values"=>$ids),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -1410,7 +1410,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1428,7 +1428,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1450,7 +1450,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1483,7 +1483,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getToken exception",
 					'data'=>array( "getToken"=>$get_token),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1506,7 +1506,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1524,7 +1524,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1546,7 +1546,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1567,7 +1567,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getToken exception",
 					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1590,7 +1590,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1608,7 +1608,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1630,7 +1630,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1667,7 +1667,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getToken exception",
 					'data'=>array( "getToken"=>$get_token),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1696,7 +1696,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1714,7 +1714,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1736,7 +1736,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1757,7 +1757,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getToken exception",
 					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1786,7 +1786,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1804,7 +1804,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1826,7 +1826,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1844,7 +1844,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1878,7 +1878,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"getToken exception",
 					'data'=>array( "getToken"=>$get_token),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1936,7 +1936,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -1961,7 +1961,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -1979,7 +1979,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2001,7 +2001,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2019,7 +2019,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2040,7 +2040,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getToken exception",
 					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2098,7 +2098,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -2122,7 +2122,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2140,7 +2140,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2174,7 +2174,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"getToken exception",
 					'data'=>array( "getToken"=>$get_token),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2232,7 +2232,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -2257,7 +2257,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2275,7 +2275,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2296,7 +2296,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getToken exception",
 					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2354,7 +2354,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -2378,7 +2378,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2396,7 +2396,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2419,7 +2419,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2440,7 +2440,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getToken exception",
 					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2498,7 +2498,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -2522,7 +2522,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2540,7 +2540,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2562,7 +2562,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2597,7 +2597,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getId exception",
 					'data'=>array( "getId"=>$get_id),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2621,7 +2621,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2639,7 +2639,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2661,7 +2661,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2684,7 +2684,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getId exception",
 					'data'=>array( "get ids"=>$get_ids),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2707,7 +2707,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2725,7 +2725,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2747,7 +2747,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2786,7 +2786,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getId exception",
 					'data'=>array( "getId"=>$get_id),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2816,7 +2816,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2834,7 +2834,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2856,7 +2856,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2882,7 +2882,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getId exception",
 					'data'=>array( "get ids"=>$get_ids),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2912,7 +2912,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2930,7 +2930,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2952,7 +2952,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -2970,7 +2970,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3005,7 +3005,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getId exception",
 					'data'=>array( "getId"=>$get_id),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3063,7 +3063,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -3088,7 +3088,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3106,7 +3106,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3128,7 +3128,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3146,7 +3146,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3168,7 +3168,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"getId exception",
 					'data'=>array( "get ids"=>$get_ids),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3226,7 +3226,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>5,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -3251,7 +3251,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3269,7 +3269,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3291,7 +3291,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3310,7 +3310,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"dropAll exception",
 					'data'=>null,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3332,7 +3332,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>5,
 					'text'=>"DB select exception",
 					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3387,7 +3387,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>6,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -3411,7 +3411,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3429,7 +3429,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3451,7 +3451,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3485,7 +3485,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"dropToken exception",
 					'data'=>array( "drop values"=>$drop_values),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3504,7 +3504,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>5,
 					'text'=>"DB select exception",
 					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3559,7 +3559,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>6,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -3584,7 +3584,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3602,7 +3602,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3624,7 +3624,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3645,7 +3645,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"dropToken exception",
 					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3664,7 +3664,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>5,
 					'text'=>"DB select exception",
 					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3719,7 +3719,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>6,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -3744,7 +3744,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3762,7 +3762,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3784,7 +3784,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3818,7 +3818,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"dropId exception",
 					'data'=>array( "drop values"=>$drop_values),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3837,7 +3837,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>5,
 					'text'=>"DB select exception",
 					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3892,7 +3892,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>6,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);
@@ -3917,7 +3917,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>1,
 					'text'=>"Class truncate exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3935,7 +3935,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>2,
 					'text'=>"Class flushCache exception",
 					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3957,7 +3957,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>3,
 					'text'=>"addToken exception",
 					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3979,7 +3979,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>4,
 					'text'=>"dropId exception",
 					'data'=>array( "drop ids"=>$drop_ids),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -3998,7 +3998,7 @@ class core_base_dictionary extends RAZ_testCase {
 					'numeric'=>5,
 					'text'=>"DB select exception",
 					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				    )
 			);
@@ -4053,7 +4053,7 @@ class core_base_dictionary extends RAZ_testCase {
 						'numeric'=>6,
 						'text'=>"Cache get exception",
 						'data'=>array("cache_values"=>$cache_values),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					    )
 				);

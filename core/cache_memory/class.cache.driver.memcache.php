@@ -306,7 +306,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -338,7 +338,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -384,7 +384,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -396,7 +396,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>$ns,			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));		    		
 			}
@@ -409,7 +409,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -448,7 +448,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>4,
 						'text'=>"Namespace is already locked",
 						'data'=>array('ns'=>$ns, 'lock'=>$lock),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));					    
 				}
@@ -488,7 +488,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>5,
 						'text'=>"Error writing to cache in 'full' mode",
 						'data'=>array('keys'=>$keys, 'set_ok'=>$set_ok),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));
 				}				
@@ -510,7 +510,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>6,
 						'text'=>"Error writing lock array to cache in 'basic' mode",
 						'data'=>array('key'=>"fox.ns_lock.".$ns, 'val'=>$lock_array),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));
 				}
@@ -525,7 +525,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 							'numeric'=>7,
 							'text'=>"Error writing namespace offset to cache in 'basic' mode",
 							'data'=>array('key'=>"fox.ns_offset.".$ns, 'val'=>-1),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>null
 						));
 					}					
@@ -560,7 +560,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -572,7 +572,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>$ns,			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));		    		
 			}
@@ -585,7 +585,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}
@@ -632,7 +632,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 							'numeric'=>5,
 							'text'=>"Error writing to cache in 'full' mode",
 							'data'=>array('keys'=>$keys, 'set_ok'=>$set_ok),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>null
 						));
 					}				
@@ -653,7 +653,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 							'numeric'=>6,
 							'text'=>"Error writing namespace offset to cache in 'basic' mode",
 							'data'=>array('key'=>"fox.ns_offset.".$ns, 'val'=>$offset),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>null
 						));
 					}
@@ -666,7 +666,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 							'numeric'=>7,
 							'text'=>"Error clearing lock array from cache in 'basic' mode",
 							'data'=>array('key'=>"fox.ns_lock.".$ns, 'val'=>false),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>null
 						));
 					}					
@@ -701,7 +701,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -713,7 +713,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				'numeric'=>2,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -726,7 +726,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>3,
 				'text'=>"Error in self::getOffset()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -781,7 +781,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>4,
 					'text'=>"Error writing to cache in 'full' mode",
 					'data'=>array('keys'=>$keys, 'set_ok'=>$set_ok),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}				
@@ -807,7 +807,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>5,
 						'text'=>"Error clearing lock array from cache in 'basic' mode",
 						'data'=>array('key'=>"fox.ns_lock.".$ns, 'val'=>false),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));
 				}
@@ -825,7 +825,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>6,
 					'text'=>"Error writing namespace offset to cache in 'basic' mode",
 					'data'=>array('key'=>"fox.ns_offset.".$ns, 'val'=>$offset),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}				
@@ -856,7 +856,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -868,7 +868,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));		    		
 			}
@@ -891,7 +891,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>3,
 						'text'=>"Error writing to cache",
 						'data'=>array('namespace'=>$ns, 'offset'=>$offset, 'expire'=>$expire),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));
 				}
@@ -927,7 +927,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -939,7 +939,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Empty namespace value",
 					'data'=>array('ns'=>$ns),			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));		    		
 			}
@@ -952,7 +952,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				throw new FOX_exception(array(
 					'numeric'=>3,
 					'text'=>"Error in self::getOffset()",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));		    
 			}								
@@ -982,7 +982,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>4,
 						'text'=>"Namespace is currently locked",
 						'data'=>array('ns'=>$ns, 'lock'=>$lock),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));	
 				}						
@@ -997,7 +997,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>5,
 					'text'=>"Current offset doesn't match expected offset",
 					'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));				    				    
 			}
@@ -1033,7 +1033,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>5,
 						'text'=>"Error writing to cache in 'full' mode",
 						'data'=>array('keys'=>$keys, 'set_ok'=>$set_ok),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));
 				}				
@@ -1059,7 +1059,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>6,
 						'text'=>"Error writing data key to cache in 'basic' mode",
 						'data'=>array('key'=>$keyname, 'sval'=>$sval),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));
 				}
@@ -1078,7 +1078,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 							'numeric'=>7,
 							'text'=>"Error clearing lock array from cache in 'basic' mode",
 							'data'=>array('key'=>"fox.ns_lock.".$ns, 'val'=>false),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>null
 						));
 					}
@@ -1091,7 +1091,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 							'numeric'=>8,
 							'text'=>"Error writing namespace offset to cache in 'basic' mode",
 							'data'=>array('key'=>"fox.ns_offset.".$ns, 'val'=>$offset),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>null
 						));
 					}			    
@@ -1128,7 +1128,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -1139,7 +1139,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				'numeric'=>2,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -1153,7 +1153,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>3,
 				'text'=>"Error in self::getOffset()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1184,7 +1184,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>4,
 					'text'=>"Namespace is currently locked",
 					'data'=>array('ns'=>$ns, 'lock'=>$lock),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));	
 			}	
@@ -1199,7 +1199,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				'numeric'=>5,
 				'text'=>"Current offset doesn't match expected offset",
 				'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));				    				    
 		}
@@ -1245,7 +1245,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>6,
 					'text'=>"Error writing to cache in 'full' mode",
 					'data'=>array('processed'=>$processed, 'expire'=>$expire, 'set_ok'=>$set_ok),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}				
@@ -1283,7 +1283,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>7,
 					'text'=>"Error writing to cache in 'basic' mode",
 					'data'=>array('processed'=>$processed, 'failed_keys'=>$failed_keys),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -1302,7 +1302,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>8,
 						'text'=>"Error clearing lock array from cache in 'basic' mode",
 						'data'=>array('key'=>"fox.ns_lock.".$ns, 'val'=>false),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));
 				}
@@ -1315,7 +1315,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 						'numeric'=>9,
 						'text'=>"Error writing namespace offset to cache in 'basic' mode",
 						'data'=>array('key'=>"fox.ns_offset.".$ns, 'val'=>$offset),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>null
 					));
 				}			    
@@ -1350,7 +1350,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -1362,7 +1362,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				'numeric'=>2,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -1375,7 +1375,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>3,
 				'text'=>"Error in self::getOffset()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}											
@@ -1404,7 +1404,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>4,
 					'text'=>"Namespace is currently locked",
 					'data'=>array('ns'=>$ns, 'lock'=>$lock),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    
 			}
@@ -1480,7 +1480,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -1492,7 +1492,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				'numeric'=>2,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -1505,7 +1505,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>3,
 				'text'=>"Error in self::getOffset()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1534,7 +1534,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>4,
 					'text'=>"Namespace is currently locked",
 					'data'=>array('ns'=>$ns, 'lock'=>$lock),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    
 			}
@@ -1615,7 +1615,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -1627,7 +1627,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				'numeric'=>2,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -1640,7 +1640,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>3,
 				'text'=>"Error in self::getOffset()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1666,7 +1666,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>4,
 					'text'=>"Namespace is currently locked",
 					'data'=>array('ns'=>$ns, 'lock'=>$lock),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    
 			}
@@ -1681,7 +1681,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				'numeric'=>5,
 				'text'=>"Current offset doesn't match expected offset",
 				'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));				    				    
 		}			
@@ -1716,7 +1716,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Cache driver is not active",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));			
 		}
@@ -1728,7 +1728,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				'numeric'=>2,
 				'text'=>"Empty namespace value",
 				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));		    		
 		}
@@ -1741,7 +1741,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			throw new FOX_exception(array(
 				'numeric'=>3,
 				'text'=>"Error in self::getOffset()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));		    
 		}
@@ -1767,7 +1767,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 					'numeric'=>4,
 					'text'=>"Namespace is currently locked",
 					'data'=>array('ns'=>$ns, 'lock'=>$lock),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));					    
 			}
@@ -1782,7 +1782,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 				'numeric'=>5,
 				'text'=>"Current offset doesn't match expected offset",
 				'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));				    				    
 		}

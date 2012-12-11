@@ -116,7 +116,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error reading from database",
 				'data'=>array('args'=>$args, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -139,7 +139,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>2,
 						'text'=>"Cache read error",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -207,7 +207,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Cache write error",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>$child
 				));
 			}
@@ -257,7 +257,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 					'numeric'=>1,
 					'text'=>"Attempted to specify multiple trees or branches when specifying nodes",
 					'data'=>array('trees'=>$trees, 'branch'=>$branches, 'nodes'=>$nodes),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -288,7 +288,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 						throw new FOX_exception( array(
 							'numeric'=>2,
 							'text'=>"Cache read error",
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));
 					}
@@ -323,7 +323,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>3,
 						'text'=>"Error in self::load()",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -355,7 +355,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 					'numeric'=>4,
 					'text'=>"Attempted to specify multiple trees when specifying branch",
 					'data'=>array('trees'=>$trees, 'branch'=>$branches, 'nodes'=>$nodes),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 					'child'=>null
 				));
 			}
@@ -385,7 +385,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 						throw new FOX_exception( array(
 							'numeric'=>5,
 							'text'=>"Cache read error",
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));
 					}
@@ -419,7 +419,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>6,
 						'text'=>"Error in self::load()",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -466,7 +466,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 						throw new FOX_exception( array(
 							'numeric'=>7,
 							'text'=>"Cache read error",
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 							'child'=>$child
 						));
 					};
@@ -499,7 +499,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>8,
 						'text'=>"Error in self::load()",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				}
@@ -534,7 +534,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 					throw new FOX_exception( array(
 						'numeric'=>9,
 						'text'=>"Cache read error",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 						'child'=>$child
 					));
 				};
@@ -558,7 +558,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>10,
 				'text'=>"Bad input format",
 				'data'=>array('trees'=>$trees, 'branches'=>$branches, 'nodes'=>$nodes),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -583,7 +583,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -615,7 +615,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('tree'=>$tree),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -649,7 +649,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -685,7 +685,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -724,7 +724,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error calling self::get()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -791,7 +791,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Tree, Branch, and Node keys must be valid strings that do not map to ints",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -805,7 +805,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Filter method doesn't exist",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'filter'=>$filter),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -825,7 +825,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'text'=>"Error in filter function",
 				'data'=>array('filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
 					      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -837,7 +837,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'text'=>"Filter function reports value data isn't valid",
 				'data'=>array('filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
 					      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -854,7 +854,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -877,7 +877,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>6,
 				'text'=>"Error writing to database",
 				'data'=>array('args'=>$args, 'columns'=>$columns, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -902,7 +902,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>7,
 				'text'=>"Cache write error",
 				'data'=>array('cache_image'=>$cache_image),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -939,7 +939,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Invalid tree, branch, or node",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			));
 		}
@@ -958,7 +958,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error in self::getNode()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -969,7 +969,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Attempted to set data for nonexistent node",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -987,7 +987,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'text'=>"Error in self::writeNode()",
 				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node,
 					       'val'=>$val, 'filter'=>$filter, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1030,7 +1030,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1053,7 +1053,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1086,7 +1086,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Cache write error",
 				'data'=>array('cache_image'=>$cache_image),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1130,7 +1130,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1152,7 +1152,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1187,7 +1187,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Cache write error",
 				'data'=>array('cache_image'=>$cache_image),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1228,7 +1228,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1250,7 +1250,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1287,7 +1287,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Cache write error",
 				'data'=>array('cache_image'=>$cache_image),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1326,7 +1326,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1342,7 +1342,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error truncating database table",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1358,7 +1358,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error flushing cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1398,7 +1398,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1420,7 +1420,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1436,7 +1436,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error flushing cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1475,7 +1475,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1496,7 +1496,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error deleting from database",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}
@@ -1513,7 +1513,7 @@ class FOX_dataStore_monolithic_L3_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Error flushing cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>$child
 			));
 		}

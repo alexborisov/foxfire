@@ -84,7 +84,7 @@ class FOX_sUtil {
 				'numeric'=>1,
 				'text'=>"Walk is not a valid array",
 				'data'=>array( "walk"=>$walk, "tree"=>$tree),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			    )
 			);
@@ -96,7 +96,7 @@ class FOX_sUtil {
 				'numeric'=>2,
 				'text'=>"Tree is not a valid array",
 				'data'=>array( "walk"=>$walk, "tree"=>$tree),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
 				'child'=>null
 			    )
 			);
