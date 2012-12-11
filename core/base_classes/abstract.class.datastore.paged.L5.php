@@ -44,6 +44,15 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					    // selectors. Since "*" is an illegal name for an SQL column, it will never
 					    // create conflicts. @see http://en.wikipedia.org/wiki/Wildcard_character
 	
+	var $hashing_active;		    // Hash walk token values
+	var $hashtable;			    // Hash table instance used for hashing tokens
+	
+	var $debug_on;			    // Send debugging info to the debug handler	
+	var $debug_handler;		    // Local copy of debug singleton
+	
+	var $metrology_on;		    // Send cache and database timing data to the metrology handler	
+	var $metrology_handler;		    // Local copy of metrology singleton
+	
 
 	/* ================================================================================================================
 	 *	Cache Strategy: "paged"
@@ -97,13 +106,56 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 	public function init($args=null){
 	    
+	
+		// Column hashing
+		// ===========================================================
 	    
-		$args_default = array(
-			'hash_columns'=>array()
-		);
+		if(FOX_sUtil::keyExists('hash_columns', $args) ){
+		    
+			$this->hashtable = new FOX_hashTable();
+			$this->hashing_active = true;		    
+		}
+		else {
+			$this->hashing_active = false;		    		    
+		}
+		
+		// Debug events
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('debug_on', $args) && ($args['debug_on'] == true) ){
+		    
+			if(FOX_sUtil::keyExists('debug_handler', $args)){
 
-		$args = wp_parse_args($args, $args_default);
+				$this->debug_handler =& $args->debug_handler;		    
+			}
+			else {
+				global $fox;
+				$this->debug_handler =& $fox->debug_handler;		    		    
+			}	    
+		}
+		else {
+			$this->debug_on = false;		    		    
+		}
+		
+		// Metrology events
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('metrology_on', $args) && ($args['metrology_on'] == true) ){
+		    
+			if(FOX_sUtil::keyExists('metrology_handler', $args)){
+
+				$this->metrology_handler =& $args->metrology_handler;		    
+			}
+			else {
+				global $fox;
+				$this->metrology_handler =& $fox->metrology_handler;		    		    
+			}		    
+		}
+		else {
+			$this->metrology_on = false;		    		    
+		}			
 			    
+		
                 $struct = $this->_struct();		
 		$columns = array_keys($struct['columns']);
 		
@@ -115,17 +167,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$this->L0_col = $columns[5];		
 		
 		$this->order = 5;
-			
-		if( count($args['hash_columns']) > 0 ){
-		    
-			$this->hashtable = new FOX_hashTable();
-			$this->hash_columns = $args['hash_columns'];
-			$this->hashing_active = true;
-		}
-		else {
-			$this->hashing_active = false;
-		}
-						
+								
 		$this->init = true;
 	    
 	}
@@ -9141,8 +9183,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));		    
-		}
-		
+		}		
 		
 		$db = new FOX_db();
 		
@@ -9207,7 +9248,22 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
-		
+		// Lock the entire cache namespace
+		// ===========================================================
+
+		try {
+			self::lockNamespace();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error locking cache namespace",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+				
 		$db = new FOX_db();
 		$struct = $this->_struct();		
 
@@ -9217,7 +9273,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"Error while clearing the database",
 				'data'=>null,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -9234,12 +9290,14 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Cache flush error",
+				'numeric'=>3,
+				'text'=>"Error flushing cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));		    
-		}	
+		}
+		
+		return true;
 
 	}
 
