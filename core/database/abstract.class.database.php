@@ -682,12 +682,12 @@ abstract class FOX_db_base {
 			));		    		    
 		}		
 		
-//		$ctrl_default = array(
-//			'seconds'=>5.0,
-//                        'mode'=>'fetch'		    
-//		);
-//
-//		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl_default = array(
+			'seconds'=>5.0,
+                        'mode'=>'fetch'		    
+		);
+
+		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
 		
 		$ctrl['process_id'] = $this->process_id;		
 		$ctrl['engine'] = $struct["cache_engine"];
@@ -834,25 +834,18 @@ abstract class FOX_db_base {
 
 
 	/**
-	 * Loads the requested pages from the persistent cache, then locks the requested cache 
-	 * pages until the timeout expires or the PID releases the lock by overwriting the pages. 
-	 * Read requests in the namespace will throw an exception until the lock expires. Write
-	 * and delete requests will remove the lock and clear/update the namespace.
+	 * Locks the class' entire namespace, giving the locking PID exclusive control of it.
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 * 
-	 * @param string/array $keys | Single key as string. Multiple keys as array of strings.
-	 * 
 	 * @param array $ctrl | Control parameters 
 	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	  
-	 *	=> VAL @param string $mode | 'fetch' -  Returns an array of requested cache keys
-	 *				     'update' - Overwrites class cache array with requested keys
 	 * 
-	 * @return mixed | Exception on failure. Mixed on success.
+	 * @return mixed | Exception on failure. True on success.
 	 */
 
-	public function lockNamespace($keys, $ctrl=null){
+	public function lockNamespace($ctrl=null){
 	    	    
 
 		$struct = $this->_struct();
@@ -869,32 +862,81 @@ abstract class FOX_db_base {
 		}		
 		
 		$ctrl_default = array(
-			'seconds'=>5,
-                        'mode'=>'fetch'		    
+			'seconds'=>5,	    
 		);
 
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);			
 		
 		try {
-			$cache_image = $this->mCache->lockCachePage( array( 
+			$result = $this->mCache->lockNamespace( array( 
 				'process_id'=>$this->process_id,		    
 				'engine'=>$struct["cache_engine"], 
 				'namespace'=>$struct["cache_namespace"],
-				'pages'=>$keys,
 				'seconds'=>$ctrl['seconds']
 			));
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Cache get error",
+				'numeric'=>2,
+				'text'=>"Error in mCache->lockNamespace()",
 				'data'=>array('struct'=>$struct),				    
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));
 		}
 									
+		return $result;
+		
+	}
+	
+	
+	/**
+	 * Releases an exclusive PID lock on the class' namespace. If released by a different
+	 * PID than the one that set the lock, the class namespace will be flushed to maintain
+	 * data integrity.
+	 *
+	 * @version 1.0
+	 * @since 1.0  
+	 * 
+	 * @return int | Exception on failure. Int current offset on success.
+	 */
+
+	public function unlockNamespace(){
+	    	    
+
+		$struct = $this->_struct();
+		
+		if($struct['cache_strategy'] != 'paged'){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"This method can only be used on classes that use a paged cache",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		    
+		}				
+		
+		try {
+			$result = $this->mCache->unlockNamespace( array( 
+				'process_id'=>$this->process_id,		    
+				'engine'=>$struct["cache_engine"], 
+				'namespace'=>$struct["cache_namespace"]
+			));
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error in mCache->unlockNamespace()",
+				'data'=>array('struct'=>$struct),				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+									
+		return $result;
 		
 	}
 	

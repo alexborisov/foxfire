@@ -126,13 +126,13 @@ class FOX_testPlan extends RAZ_testPlan_base {
 //				array( "enable"=>true,	"name"=>"Op Update", "mock"=>array(), "file"=>"/tests/database/test_db.op.update.php" ),			    			    			    
 //			),
 //
-			"memory_cache" => array(
-				array( "enable"=>true,  "name"=>"Loopback", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.loopback.php" ),
-				array( "enable"=>true,  "name"=>"Thread", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.thread.php" ),				    
-				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php" ),	
-			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php" ),
-			    	array( "enable"=>true,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
-			),
+//			"memory_cache" => array(
+//				array( "enable"=>true,  "name"=>"Loopback", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.loopback.php" ),
+//				array( "enable"=>true,  "name"=>"Thread", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.thread.php" ),				    
+//				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php" ),	
+//			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php" ),
+//			    	array( "enable"=>true,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
+//			),
 		    
 			"base" => array(
 				array( "enable"=>false,	 "name"=>"Validators",	"mock"=>array(), "file"=>"/tests/base_classes/test_base.datastore.validators.php" ),

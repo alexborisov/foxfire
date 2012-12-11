@@ -1217,6 +1217,257 @@ class FOX_mCache {
 	}	
 
 
+	/**
+	 * Locks the class' entire namespace, giving the specified PID exclusive control of it.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 
+         * @param array $args | Control args
+	 *	=> VAL @param array $engine | Class cache engines array
+	 *	=> VAL @param string $namespace | Class namespace
+	 *	=> VAL @param int $process_id | Process ID to use as owner 
+	 *	=> VAL @param int $seconds |  Time in seconds from present time until lock expires	  
+	 * 
+	 * @return mixed | Exception on failure. True on success.
+	 */
+
+	public function lockNamespace($args=null){
+	    
+	    
+		// Heavily error-check. Bad parameters passed to this method could cause 
+		// difficult-to-debug intermittent errors throughout the plugin
+		// =====================================================================
+
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Invalid engine parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+		
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Invalid namespace parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+		
+		if( !FOX_sUtil::keyExists('process_id', $args) || !is_int($args['process_id']) ) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Invalid process_id parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+		
+		if( !FOX_sUtil::keyExists('seconds', $args) ) {
+
+			throw new FOX_exception( array(
+				'numeric'=>4,
+				'text'=>"Invalid seconds parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+				
+										
+		// Find the first active cache engine specified by the class
+		// =====================================================================		
+	    
+		$engine = false;
+		
+		foreach( $args['engine'] as $engine_name ){
+		    
+			// Check engine exists
+		    
+			if( FOX_sUtil::keyExists($engine_name, $this->engines) ){
+
+				// Check engine is active
+			    
+				if( $this->engines[$engine_name]->isActive() ){
+
+					$engine =& $this->engines[$engine_name];
+					break;
+				}
+			}
+			else {
+			    
+				throw new FOX_exception( array(
+					'numeric'=>5,
+					'text'=>"Specified engine name doesn't exist",
+					'data'=>$engine_name,			    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}			
+		}
+		unset($engine_name);
+		
+		if(!$engine){
+		    
+			// If none of the requested engines are active, 
+			// use the loopback engine
+		    
+			$engine =& $this->engines['loopback'];
+		}
+			
+		$engine_args = array(
+			'process_id'=>$args['process_id'],
+			'seconds'=>$args['seconds']		    
+		);
+			    
+		try {
+			$result = $engine->lockNamespace($engine_args);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>6,
+				'text'=>"Error in engine->lockNamespace()",
+				'data'=>$engine_args,				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}	
+		
+		return $result;
+					
+	}	
+	
+	
+	/**
+	 * Releases an exclusive PID lock on the class' namespace. If released by a different
+	 * PID than the one that set the lock, the class namespace will be flushed to maintain
+	 * data integrity.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 
+         * @param array $args | Control args
+	 *	=> VAL @param array $engine | Class cache engines array
+	 *	=> VAL @param string $namespace | Class namespace
+	 *	=> VAL @param int $process_id | Process ID to use as owner   
+	 * 
+	 * @return int | Exception on failure. Int current offset on success.
+	 */
+
+	public function unlockNamespace($args=null){
+	    
+	    
+		// Heavily error-check. Bad parameters passed to this method could cause 
+		// difficult-to-debug intermittent errors throughout the plugin
+		// =====================================================================
+
+		if( !FOX_sUtil::keyExists('engine', $args) || empty($args['engine']) ) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Invalid engine parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+		
+		if( !FOX_sUtil::keyExists('namespace', $args) || empty($args['namespace']) ) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Invalid namespace parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+		
+		if( !FOX_sUtil::keyExists('process_id', $args) || !is_int($args['process_id']) ) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Invalid process_id parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}		
+		
+										
+		// Find the first active cache engine specified by the class
+		// =====================================================================		
+	    
+		$engine = false;
+		
+		foreach( $args['engine'] as $engine_name ){
+		    
+			// Check engine exists
+		    
+			if( FOX_sUtil::keyExists($engine_name, $this->engines) ){
+
+				// Check engine is active
+			    
+				if( $this->engines[$engine_name]->isActive() ){
+
+					$engine =& $this->engines[$engine_name];
+					break;
+				}
+			}
+			else {
+			    
+				throw new FOX_exception( array(
+					'numeric'=>4,
+					'text'=>"Specified engine name doesn't exist",
+					'data'=>$engine_name,			    
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}			
+		}
+		unset($engine_name);
+		
+		if(!$engine){
+		    
+			// If none of the requested engines are active, 
+			// use the loopback engine
+		    
+			$engine =& $this->engines['loopback'];
+		}
+			
+		$engine_args = array(
+			'process_id'=>$args['process_id']		    
+		);
+			    
+		try {
+			$result = $engine->unlockNamespace($engine_args);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>5,
+				'text'=>"Error in engine->unlockNamespace()",
+				'data'=>$engine_args,				    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}	
+		
+		return $result;
+					
+	}
+	
+	
 
 } // End of class FOX_mCache
 
