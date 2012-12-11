@@ -42,30 +42,38 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	public function __construct($args=null){
 		
 	    
-		// Handle dependency-injection for unit tests
-	    
+		$args_default = array(
+			'max_offset' => 2147483646,  // 32-BIT MAXINT
+			'server' => array('ip'=>'127.0.0.1', 'port'=>6379, 'database'=>15, 'alias'=>'first')	    
+		);
+
+		$args = wp_parse_args($args, $args_default);
+		
+		foreach($args as $key => $var){
+		    
+			$this->{$key} = $var;		    
+		}
+		unset($key, $var);
+		
+		
+		// Handle process-id binding
+		// ===========================================================
+		
 		if(FOX_sUtil::keyExists('process_id', $args)){
 		    
-			$this->process_id = $args['process_id'];
+			// Binding to a reference is important. It makes the cache engine $process_id
+			// update if the FOX_mCache is changed, which we do during unit testing.
+		    
+			$this->process_id = &$args['process_id'];			
 		}
 		else {	
 			global $fox;
 			$this->process_id = $fox->process_id;
 		}
-
-		if(FOX_sUtil::keyExists('max_offset', $args)){
-		    
-			$this->max_offset = $args['max_offset'];
-		}
-		else {	
-			$this->max_offset = 2147483646;  // (32-bit maxint)
-		}		
-	    
+			    
 	    	$this->has_libs = true;
 		
 		if($this->enable == true){
-		    
-			$this->server = array('ip'=>'127.0.0.1', 'port'=>6379, 'database'=>15, 'alias'=>'first');
 
 			require_once ( FOX_PATH_LIB . '/predis/autoload.php' );
 
@@ -192,13 +200,207 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 
 
 	/**
+	 * Locks an entire namespace within the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $namespace | Class namespace
+	 * @param int $seconds |  Time in seconds from present time until lock expires	  
+	 * 
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function lockNamespace($ns, $seconds){
+
+	    
+		if( !$this->isActive() ){
+		    
+			throw new FOX_exception(array(
+				'numeric'=>1,
+				'text'=>"Cache driver is not active",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			
+		}
+
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Empty namespace value",
+				'data'=>$ns,			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+
+		try {
+			$offset = self::getOffset($ns);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception(array(
+				'numeric'=>3,
+				'text'=>"Error in self::getOffset()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+
+		// If the namespace is *already* locked, fetch the lock info array
+
+		if($offset != -1){
+
+			$already_locked = false;
+		}
+		else {
+
+			$already_locked = true;
+
+			$lock = $this->engine->get("fox.ns_lock.".$ns);
+			$lock = unserialize($lock);
+
+			// If the lock is owned by the current PID, just write back the lock array to the cache
+			// with an updated timestamp, refreshing the lock. This provides important functionality,
+			// letting a PID that has a lock on the namespace extend its lock time incrementally as it
+			// works through a complex processing job. If the PID had to release and reset the lock
+			// each time, the data would be venerable to being overwritten by other PID's.
+
+			if( $lock['pid'] == $this->process_id ){
+
+				$offset = $lock['offset'];				    				    
+			}								 
+			else {
+
+				throw new FOX_exception(array(
+					'numeric'=>4,
+					'text'=>"Namespace is already locked",
+					'data'=>array('ns'=>$ns, 'lock'=>$lock),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));					    
+			}
+
+		}
+
+		$lock_array = array( 
+				    'pid'=>$this->process_id, 
+				    'expire'=>( microtime(true) + $seconds ),
+				    'offset'=>$offset
+		);
+
+		$keys = array();
+
+		$keys[] = "fox.ns_lock.".$ns;
+		$keys[] = serialize($lock_array);
+
+		if(!$already_locked){
+
+			$keys[] = "fox.ns_offset.".$ns;
+			$keys[] = -1;
+		}
+
+		$this->engine->mset($keys);
+		
+		
+		return $offset;
+
+	}
+	
+	
+	/**
+	 * Unlocks a locked namespace within the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $namespace | Class namespace	  
+	 * 
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function unlockNamespace($ns){
+
+	    
+		if( !$this->isActive() ){
+		    
+			throw new FOX_exception(array(
+				'numeric'=>1,
+				'text'=>"Cache driver is not active",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			
+		}
+
+
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Empty namespace value",
+				'data'=>$ns,			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+
+		try {
+			$offset = self::getOffset($ns);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception(array(
+				'numeric'=>3,
+				'text'=>"Error in self::getOffset()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+
+		// Only try to load the lock array if the namespace is actually locked
+
+		if($offset == -1){
+
+			$lock = $this->engine->get("fox.ns_lock.".$ns);
+			$lock = unserialize($lock);
+
+			// If the lock is being released by the PID that set it,
+			// restore the offset to the saved value. If its being unlocked
+			// by a foreign PID, increment it by 1 to flush the namespace
+
+			if( $lock['pid'] == $this->process_id ){
+
+				$offset = $lock['offset'];				    				    
+			}								 
+			else {												
+				$offset = $lock['offset'] + 1;
+			}
+
+			$keys = array();
+
+			$keys[] = "fox.ns_lock.".$ns;
+			$keys[] = false;
+			$keys[] = "fox.ns_offset.".$ns;
+			$keys[] = $offset;
+
+			$this->engine->mset($keys);						
+
+		}								
+		
+		return $offset;
+
+	}
+	
+	
+	/**
 	 * Removes all entries within the specified namespace from the cache.
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
-	 * @return bool | Exception on failure. True on success.
+	 * @return int | Exception on failure. Int offset on success.
 	 */
 
 	public function flushNamespace($ns){
@@ -224,34 +426,58 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));		    		
-			}	
+			}
 			
-			$offset = self::getOffset($ns);
+			try {
+				$offset = self::getOffset($ns);
+			}
+			catch (FOX_exception $child) {
 
-			if($offset < 255){
+				throw new FOX_exception(array(
+					'numeric'=>3,
+					'text'=>"Error in self::getOffset()",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}
+						
+			// If the namespace is currently locked, recover the offset from the lock array
+			
+			$namespace_locked = false;
+			
+			if($offset == -1){
+			    			    
+				$lock = $this->engine->get("fox.ns_lock.".$ns);
+				$lock = unserialize($lock);
+				
+				$offset = $lock['offset'];
+				$namespace_locked = true;
+			}
+
+			if($offset < $this->max_offset){   
+			    
 				$offset++;
 			}
 			else {
 				$offset = 1;
+			}	
+			
+			$keys = array();
+			
+			$keys[] = "fox.ns_offset.".$ns;
+			$keys[]	= $offset;
+						
+			if($namespace_locked){
+			    
+				$keys[] = "fox.ns_lock.".$ns;
+				$keys[] = false;			    
 			}
-
-			$expire = 0;			
-			$set_ok = $this->engine->set("fox.ns_offset.".$ns, $offset, $expire);
-			
-			if(!$set_ok){
-
-				throw new FOX_exception(array(
-					'numeric'=>3,
-					'text'=>"Error writing to cache",
-					'data'=>array('ns'=>$ns, 'offset'=>$offset, 'expire'=>$expire),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			
-			}			
-			
-		}
 		
-		return true;
+			$this->engine->mset($keys);
+			
+		}		
+		
+		return $offset;
 
 	}
 
@@ -263,12 +489,12 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	 * @since 1.0
 	 *
 	 * @param string $ns | Namespace of the cache variable
-	 * @return bool | Exception on failure. Int offset on success.
+	 * @return bool | False on failure. True on success.
 	 */
 
 	public function getOffset($ns){
 
-	    
+		
 		if( !$this->isActive() ){
 		    
 			throw new FOX_exception(array(
@@ -279,7 +505,7 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 			));			
 		}
 		else {
-			
+		    
 			if( empty($ns) ){
 
 				throw new FOX_exception( array(
@@ -290,30 +516,27 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 					'child'=>null
 				));		    		
 			}
-		
-			$offset = $this->engine->get("fox.ns_offset.".$ns);			
-
-			// If there is no offset key for the namespace present in 
-			// the cache, create one
 			
-			if(!$offset){
+			$offset = $this->engine->get("fox.ns_offset.".$ns);
+
+			if($offset == false){
 
 				$offset = 1;
-			
-				$set_ok = $this->engine->set("fox.ns_offset.".$ns, $offset);				
+				$store_ok = $this->engine->set("fox.ns_offset.".$ns, $offset);
 
-				if(!$set_ok){
+				if(!$store_ok){
 				    
 					throw new FOX_exception(array(
 						'numeric'=>3,
-						'text'=>"Error writing to cache",
-						'data'=>array('namespace'=>$ns, 'offset'=>$offset, 'expire'=>$expire),
+						'text'=>"Error writing to cache engine while setting new offset",
+						'data'=>array('namespace'=>$ns, 'offset'=>$offset),
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>null
 					));
 				}
 
-			}											
+			}
+			
 		}
 		
 		return $offset;
@@ -330,13 +553,15 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of the cache variable
 	 * @param mixed $val | Value to assign
+	 * @param int $check_offset | Offset to check against
+	 * @param bool $clear_lock | True to clear a namespace lock, if the PID owns it	 
 	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function set($ns, $var, $val){
+	public function set($ns, $var, $val, $check_offset=null, $clear_lock=false){
 
-	    
+			
 		if( !$this->isActive() ){
 		    
 			throw new FOX_exception(array(
@@ -345,62 +570,91 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));			
+		}			
+			
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
 		}
-		else {			
-			
-			if( empty($ns) ){
 
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Empty namespace value",
-					'data'=>array('ns'=>$ns),			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));		    		
-			}
-			
-			try {
-				$offset = self::getOffset($ns);
-			}
-			catch (FOX_exception $child) {
+		try {
+			$offset = self::getOffset($ns);
+		}
+		catch (FOX_exception $child) {
 
-				throw new FOX_exception(array(
-					'numeric'=>3,
-					'text'=>"Error in self::getOffset()",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
-			}
-		
-			$key = "fox." . $ns . "." . $offset . "." . $var;
-			$expire = 0;
-			
-			// Neither of PHP's memcache libraries understands the difference
-			// between (bool)true, (int)1, and (float)1. So we have to serialize
-			// EVERY piece of data we send to the cache. This increases cache
-			// value memory usage by 400% for small items, and CPU usage by
-			// at least an order of magnitude when fetching large items. 
-			
-			$sval = serialize($val);
-			
-			$set_ok = $this->engine->set($key, $sval);
-			
-			if(!$set_ok){
+			throw new FOX_exception(array(
+				'numeric'=>3,
+				'text'=>"Error in self::getOffset()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}								
+
+		$namespace_locked = false;
+
+		if($offset == -1){
+
+			$lock = $this->engine->get("fox.ns_lock.".$ns);
+			$lock = unserialize($lock);			
+
+			// If the lock is owned by the current PID, set the $offset variable to
+			// the value stored in the $lock array. This makes the keys valid when
+			// the lock is released by the the process that set it, but causes them
+			// to be flushed if the lock expires.
+
+			if( $lock['pid'] == $this->process_id ){
+
+				$offset = $lock['offset'];
+				$namespace_locked = true;					
+			}								 
+			else {
 
 				throw new FOX_exception(array(
 					'numeric'=>4,
-					'text'=>"Error writing to cache",
-					'data'=>array('key'=>$key, 'val'=>$val, 'offset'=>$offset),
+					'text'=>"Namespace is currently locked",
+					'data'=>array('ns'=>$ns, 'lock'=>$lock),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
-				));
-			}			
-			
+				));	
+			}						
+
 		}
 
+		// Check the current offset matches the expected offset
+
+		if( ($check_offset !== null) && ($check_offset != $offset) ){
+
+			throw new FOX_exception(array(
+				'numeric'=>5,
+				'text'=>"Current offset doesn't match expected offset",
+				'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));				    				    
+		}
+
+		
+		$keys = array();
+		$keys[] = "fox." . $ns . "." . $offset . "." . $var;
+		$keys[] = serialize($val);
+
+		if( $namespace_locked && $clear_lock ){
+
+			$keys[] = "fox.ns_offset.".$ns;
+			$keys[] = $offset;			    
+		}
+
+		$this->engine->mset($keys);				
+		
 		return true;
 		
-	}
+	}	
 
 
 	/**
@@ -411,11 +665,14 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Data to set in the form "key"=>"val"
+	 * @param int $check_offset | Offset to check against
+	 * @param bool $clear_lock | True to clear a namespace lock, if the PID owns it	 
+	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function setMulti($ns, $data){
-	    
+	public function setMulti($ns, $data, $check_offset=null, $clear_lock=false){
+
 	    
 		if( !$this->isActive() ){
 		    
@@ -426,100 +683,115 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 				'child'=>null
 			));			
 		}
-		else {	
 
-			if( empty($ns) ){
+		if( empty($ns) ){
 
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Empty namespace value",
-					'data'=>array('ns'=>$ns),			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));		    		
-			}
-			
-			try {
-				$offset = self::getOffset($ns);
-			}
-			catch (FOX_exception $child) {
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+
+		
+		try {
+			$offset = self::getOffset($ns);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception(array(
+				'numeric'=>3,
+				'text'=>"Error in self::getOffset()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+
+		$processed = array();
+		$namespace_locked = false;
+
+		if($offset == -1){
+
+			$lock = $this->engine->get("fox.ns_lock.".$ns);	
+
+			// NOTE: data structures stored to memcached must be serialized				
+			$lock = unserialize($lock);			
+
+			// If the lock is owned by the current PID, set the $offset variable to
+			// the value stored in the $lock array. This makes the keys valid when
+			// the lock is released by the the process that set it, but causes them
+			// to be flushed if the lock expires.
+
+			if( $lock['pid'] == $this->process_id ){
+
+				$offset = $lock['offset'];
+				$namespace_locked = true;					
+			}								 
+			else {
 
 				throw new FOX_exception(array(
-					'numeric'=>3,
-					'text'=>"Error in self::getOffset()",
+					'numeric'=>4,
+					'text'=>"Namespace is currently locked",
+					'data'=>array('ns'=>$ns, 'lock'=>$lock),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
-			}
-			
-			$processed = array();
+					'child'=>null
+				));	
+			}	
 
-			// Add namespace prefix to each keyname
-			
-			foreach($data as $key => $val){
+		}			
 
-				// Neither of PHP's memcache libraries understands the difference
-				// between (bool)true, (int)1, and (float)1. So we have to serialize
-				// EVERY piece of data we send to the cache. This increases cache
-				// value memory usage by 400% for small items, and CPU usage by
-				// at least an order of magnitude when fetching large items. 
+		// Check the current offset matches the expected offset
 
-				$sval = serialize($val);
-			
-				$processed["fox." . $ns . "." . $offset . "." . $key] = $sval;							
-			}
-			unset($key, $val);
-			
-			$expire = 0;
-			
-			if( $this->mode == 'full' ){
-			    
-				$set_ok = $this->engine->setMulti($processed, $expire);
-				
-				if(!$set_ok){
+		if( ($check_offset !== null) && ($check_offset != $offset) ){
 
-					throw new FOX_exception(array(
-						'numeric'=>4,
-						'text'=>"Error writing to cache in 'full' mode",
-						'data'=>array('processed'=>$processed, 'expire'=>$expire, 'set_ok'=>$set_ok),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>null
-					));
-				}				
-			}
-			else {
-			    
-				$key_count = 0;
-				$failed_keys = array();
-
-				foreach( $processed as $key => $val){
-					    
-					$set_ok = $this->engine->set($key, $val, false, $expire);
-
-					if($set_ok){
-						$key_count++;
-					}
-					else {
-						$failed_keys[] = array('key'=>$key, 'val'=>$val, 'expire'=>$expire);
-					}
-				}
-				unset($key, $val);
-
-				if( $key_count != count($processed) ){
-
-					throw new FOX_exception(array(
-						'numeric'=>5,
-						'text'=>"Error writing to cache in 'basic' mode",
-						'data'=>array('processed'=>$processed, 'failed_keys'=>$failed_keys),
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>null
-					));
-				}	
-			    
-			}
-
-			
+			throw new FOX_exception(array(
+				'numeric'=>5,
+				'text'=>"Current offset doesn't match expected offset",
+				'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));				    				    
 		}
+
+		$processed = array();
+
+		// Add namespace prefix to each keyname
+
+		foreach($data as $key => $val){
+
+			// Neither of PHP's memcache libraries understands the difference
+			// between (bool)true, (int)1, and (float)1. So we have to serialize
+			// EVERY piece of data we send to the cache. 
+
+			$sval = serialize($val);
+
+			$processed["fox." . $ns . "." . $offset . "." . $key] = $sval;							
+		}
+		unset($key, $val);
+
+		// Clear lock, if required
+		// ==================================
+
+		if( $namespace_locked && $clear_lock ){
+
+			$processed["fox.ns_offset.".$ns] = $offset;
+			$processed["fox.ns_lock.".$ns] = false;					
+		}	
+
+		
+		$keys = array();
+		
+		foreach( $processed as $key => $val ){
+		    
+			$keys[] = $key;
+			$keys[] = $val;
+		}
+		unset($key, $val);
+		
+		
+		$this->engine->mset($keys);				
 		
 		return true;
 
@@ -536,10 +808,11 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	 * @param string $var | Name of the cache variable
 	 * @param bool &$valid | True if key exists in cache. False if not.
 	 * 
-	 * @return mixed | Exception on failure. Null and invalid on nonexistent. Stored data item and valid on success.
+	 * @return int &$offset | Current namespace offset
+	 * @return mixed | Exception on failure. Stored data item on success.
 	 */
 
-	public function get($ns, $var, &$valid=null){
+	public function get($ns, $var, &$valid=null, &$offset=null){
 
 	    
 		if( !$this->isActive() ){
@@ -551,80 +824,80 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 				'child'=>null
 			));			
 		}
-		else {	
 
-			if( empty($ns) ){
 
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Empty namespace value",
-					'data'=>array('ns'=>$ns),			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));		    		
-			}
-			
-			try {
-				$offset = self::getOffset($ns);
-			}
-			catch (FOX_exception $child) {
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+
+		try {
+			$offset = self::getOffset($ns);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception(array(
+				'numeric'=>3,
+				'text'=>"Error in self::getOffset()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}											
+
+
+		if($offset == -1){
+
+			$lock = $this->engine->get("fox.ns_lock.".$ns);
+			$lock = unserialize($lock);			
+
+			// If the lock is owned by the current PID, set the $offset variable to
+			// the value stored in the $lock array. This lets the process that owns
+			// the lock read from the cache.
+
+			if( $lock['pid'] == $this->process_id ){
+
+				$offset = $lock['offset'];				    				    
+			}								 
+			else {	
+				$offset = null;	    // Prevent PHP from setting the $offset
+						    // variable if we're in an error state
 
 				throw new FOX_exception(array(
-					'numeric'=>3,
-					'text'=>"Error in self::getOffset()",
+					'numeric'=>4,
+					'text'=>"Namespace is currently locked",
+					'data'=>array('ns'=>$ns, 'lock'=>$lock),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
+					'child'=>null
+				));					    
 			}
-			
-			$key = "fox." . $ns . "." . $offset . "." . $var;
-			
-			if( $this->mode == 'full' ){
-			    
-				$result = $this->engine->get($key);	
 
-				// Check if the key is valid
-
-				if( $this->engine->getResultCode() == Memcached::RES_NOTSTORED ){
-
-					$valid = false;
-				}
-				else {
-					$valid = true;
-				}			
-			}
-			else {
-			    
-			        // The Memcache class doesn't have a "key valid" flag. To check if
-				// the key is valid, we request the key using the get() method's
-				// array format, and if the key is missing from the results array,
-				// we know its not a valid key
-			    
-				$cache_result = $this->engine->mget( array($key) );	
-
-				if( FOX_sUtil::keyExists($key, $cache_result)){
-
-					$valid = true;
-					$result = $cache_result[$key];
-				}
-				else {
-					$valid = false;
-					$result = null;
-				}			    			    			    
-			}
-			
 		}
-		
-		// Neither of PHP's memcache libraries understands the difference
-		// between (bool)true, (int)1, and (float)1. So we have to serialize
-		// EVERY piece of data we send to the cache. This increases cache
-		// value memory usage by 400% for small items, and CPU usage by
-		// at least an order of magnitude when fetching large items. 
 
+		$key = "fox." . $ns . "." . $offset . "." . $var;
+		
+		$cache_result = $this->engine->mget( array($key) );	
+
+		if( FOX_sUtil::keyExists($key, $cache_result)){
+
+			$valid = true;
+			$result = $cache_result[$key];
+		}
+		else {
+			$valid = false;
+			$result = null;
+		}		
+			
 		$result = unserialize($result);
+		
 				
 		return $result;
-
+		
 	}
 
 
@@ -636,10 +909,12 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $names | Array of cache variable names
-	 * @return mixed | Exception on failure. Stored data items array on success.
+	 * @param int &$offset | Current namespace offset
+	 * 	 
+	 * @return mixed | Exception on failure. Stored data item on success.
 	 */
 
-	public function getMulti($ns, $names){
+	public function getMulti($ns, $names, &$offset=null){
 
 	    
 		if( !$this->isActive() ){
@@ -651,82 +926,93 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 				'child'=>null
 			));			
 		}
-		else {	
 
-			if( empty($ns) ){
+		if( empty($ns) ){
 
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Empty namespace value",
-					'data'=>array('ns'=>$ns),			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));		    		
-			}
-			
-			try {
-				$offset = self::getOffset($ns);
-			}
-			catch (FOX_exception $child) {
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+
+		try {
+			$offset = self::getOffset($ns);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception(array(
+				'numeric'=>3,
+				'text'=>"Error in self::getOffset()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+
+
+		if($offset == -1){
+
+			$lock = $this->engine->get("fox.ns_lock.".$ns);
+			$lock = unserialize($lock);			
+
+			// If the lock is owned by the current PID, set the $offset variable to
+			// the value stored in the $lock array. This lets the process that owns
+			// the lock read from the cache.
+
+			if( $lock['pid'] == $this->process_id ){
+
+				$offset = $lock['offset'];				    				    
+			}								 
+			else {				
+				$offset = null;	    // Prevent PHP from setting the $offset
+						    // variable if we're in an error state
 
 				throw new FOX_exception(array(
-					'numeric'=>3,
-					'text'=>"Error in self::getOffset()",
+					'numeric'=>4,
+					'text'=>"Namespace is currently locked",
+					'data'=>array('ns'=>$ns, 'lock'=>$lock),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
-			}
-			
-			// Add namespace prefix to each keyname
-			foreach($names as $key){
-
-				$processed[] = "fox." . $ns . "." . $offset . "." . $key;
-			}
-			unset($key);
-
-			if( $this->mode == 'full'){
-			    
-				// PHP's 'memcached' class uses the getMulti() 
-				// method for fetching multiple keys at once
-				$cache_result = $this->engine->getMulti($processed);			
-			}
-			else {
-				// PHP's 'memcache' class supports passing an 
-				// array of keys to the get() method			    
-				$cache_result = $this->engine->get($processed);
+					'child'=>null
+				));					    
 			}
 
-			$result = array();
+		}			
 
-			foreach($names as $key){
+		// Add namespace prefix to each keyname
+		foreach($names as $key){
 
-				// BEFORE: "namespace.offset.keyname"=>"value"
-				// AFTER:  "keyname"=>"value"
-
-				$prefixed_name = "fox." . $ns . "." . $offset . "." . $key;
-
-				// This prevents the loop from creating keys
-				// in the $result array if they don't exist in
-				// the $cache_result array
-				
-				if( array_key_exists($prefixed_name, $cache_result) ){	    
-				    
-					// Neither of PHP's memcache libraries understands the difference
-					// between (bool)true, (int)1, and (float)1. So we have to serialize
-					// EVERY piece of data we send to the cache. This increases cache
-					// value memory usage by 400% for small items, and CPU usage by
-					// at least an order of magnitude when fetching large items. 
-
-					$skey = $cache_result[$prefixed_name];
-
-					$result[$key] = unserialize($skey);	    
-				}
-
-			}
-			unset($key);					
-			
+			$processed[] = "fox." . $ns . "." . $offset . "." . $key;
 		}
+		unset($key);
+
 		
+		$cache_result = $this->engine->mget($processed);
+
+		// Predis will return an array of the form "keyname"=>"value". If a key doesn't exist in the
+		// cache, the requested key will not be present in the results array.
+
+		$result = array();
+
+		foreach($names as $key){
+
+			// BEFORE: "namespace.offset.keyname"=>"value"
+			// AFTER:  "keyname"=>"value"
+
+			$prefixed_name = "fox." . $ns . "." . $offset . "." . $key;
+
+			// This prevents the loop from creating keys in the $result array 
+			// if they don't exist in the $cache_result array
+			
+			if( array_key_exists($prefixed_name, $cache_result) ){	    
+										   										   
+				$result[$key] = unserialize($cache_result[$prefixed_name]);			    
+			}
+
+		}
+		unset($key);					
+							
 		return $result;	
 
 	}
@@ -740,11 +1026,12 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param string $var | Name of key
+	 * @param int $check_offset | Offset to check against	 
 	 * 
-	 * @return bool | Exception on failure. False on key nonesistent. True on key exists.
+	 * @return bool | Exception on failure. True on key exists. False on key doesn't exist.
 	 */
 
-	public function del($ns, $var){
+	public function del($ns, $var, $check_offset=null){
 
 	    
 		if( !$this->isActive() ){
@@ -756,36 +1043,73 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 				'child'=>null
 			));			
 		}
-		else {	
 
-			if( empty($ns) ){
+		if( empty($ns) ){
 
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Empty namespace value",
-					'data'=>array('ns'=>$ns),			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));		    		
-			}
-			
-			try {
-				$offset = self::getOffset($ns);
-			}
-			catch (FOX_exception $child) {
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+
+		try {
+			$offset = self::getOffset($ns);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception(array(
+				'numeric'=>3,
+				'text'=>"Error in self::getOffset()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+
+		if($offset == -1){
+
+			$lock = $this->engine->get("fox.ns_lock.".$ns);
+			$lock = unserialize($lock);			
+
+			// If the lock is owned by the current PID, set the $offset variable to
+			// the value stored in the $lock array. This lets the process that owns
+			// the lock delete from the cache.
+
+			if( $lock['pid'] == $this->process_id ){
+
+				$offset = $lock['offset'];					
+			}								 
+			else {				
 
 				throw new FOX_exception(array(
-					'numeric'=>3,
-					'text'=>"Error in self::getOffset()",
+					'numeric'=>4,
+					'text'=>"Namespace is currently locked",
+					'data'=>array('ns'=>$ns, 'lock'=>$lock),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
+					'child'=>null
+				));					    
 			}
-			
-			$key = "fox." . $ns . "." . $offset . "." . $var;
-			$delete_ok = $this->engine->delete($key);			
 
 		}
+
+		// Check the current offset matches the expected offset
+
+		if( ($check_offset !== null) && ($check_offset != $offset) ){
+
+			throw new FOX_exception(array(
+				'numeric'=>5,
+				'text'=>"Current offset doesn't match expected offset",
+				'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));				    				    
+		}			
+
+		$key = "fox." . $ns . "." . $offset . "." . $var;
+		$delete_ok = $this->engine->delete($key);
+									
 		
 		return $delete_ok;
 		
@@ -800,10 +1124,12 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	 *
 	 * @param string $ns | Namespace of the cache variable
 	 * @param array $data | Key names as array of strings.
-	 * @return bool | Exception on failure. Int number of keys deleted on success.
+	 * @param int $check_offset | Offset to check against	 
+	 * 
+	 * @return int | Exception on failure. Int number of keys deleted on success.
 	 */
 
-	public function delMulti($ns, $data){
+	public function delMulti($ns, $data, $check_offset=null){
 
 	    
 		if( !$this->isActive() ){
@@ -815,64 +1141,90 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 				'child'=>null
 			));			
 		}
-		else {	
 
-			if( empty($ns) ){
+		if( empty($ns) ){
 
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Empty namespace value",
-					'data'=>array('ns'=>$ns),			    
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));		    		
-			}
-			
-			try {
-				$offset = self::getOffset($ns);
-			}
-			catch (FOX_exception $child) {
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+
+		try {
+			$offset = self::getOffset($ns);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception(array(
+				'numeric'=>3,
+				'text'=>"Error in self::getOffset()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+
+		if($offset == -1){
+
+			$lock = $this->engine->get("fox.ns_lock.".$ns);
+			$lock = unserialize($lock);			
+
+			// If the lock is owned by the current PID, set the $offset variable to
+			// the value stored in the $lock array. This lets the process that owns
+			// the lock delete from the cache.
+
+			if( $lock['pid'] == $this->process_id ){
+
+				$offset = $lock['offset'];					
+			}								 
+			else {					
 
 				throw new FOX_exception(array(
-					'numeric'=>3,
-					'text'=>"Error in self::getOffset()",
+					'numeric'=>4,
+					'text'=>"Namespace is currently locked",
+					'data'=>array('ns'=>$ns, 'lock'=>$lock),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
+					'child'=>null
+				));					    
 			}
-			
-			$processed = array();
 
-			// Add namespace prefix to each keyname
+		}			
 
-			foreach($data as $val){
+		// Check the current offset matches the expected offset
 
-				$processed[] =  "fox." . $ns . "." . $offset . "." . $val ;
-			}
-			unset($val);			
-			
-			// Memcached doesn't have a multi-delete feature, which means we can't
-			// make multi-delete operations atomic. 
-			
-			$key_count = 0;
-			
-			foreach( $processed as $key ){
-			    
-				// If the key existed in the cache, the memcache class will return
-				// true. Otherwise it will return false.
-			    
-				$key_existed = $this->engine->delete($key);
-				
-				if($key_existed){
-					$key_count++;
-				}
-			}			
+		if( ($check_offset !== null) && ($check_offset != $offset) ){
 
+			throw new FOX_exception(array(
+				'numeric'=>5,
+				'text'=>"Current offset doesn't match expected offset",
+				'data'=>array('current_offset'=>$offset, 'expected_offset'=>$check_offset),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));				    				    
 		}
+
+		$processed = array();
+
+		// Add namespace prefix to each keyname
+
+		foreach($data as $val){
+
+			$processed[] =  "fox." . $ns . "." . $offset . "." . $val ;
+		}
+		unset($val);			
+
+
+		$cache_result = $this->engine->delm($processed);
+
+		$keys_deleted = count($data) - count($cache_result);			
+
 		
-		return $key_count;
+		return $keys_deleted;
 
 	}
+	
 
 
 } // End of class FOX_mCache_driver_redis

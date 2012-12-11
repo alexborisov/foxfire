@@ -1014,9 +1014,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			// ==============================================================
 			
 			if( $this->mode == 'full' ){
-			    
-				
-			    
+			    							    
 				$keys = array(			    
 						"fox." . $ns . "." . $offset . "." . $var => $sval		    
 				);
@@ -1235,8 +1233,8 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 
 			if( $namespace_locked && $clear_lock ){
 
-				$keys["fox.ns_offset.".$ns] = $offset;
-				$keys["fox.ns_lock.".$ns] = false;					
+				$processed["fox.ns_offset.".$ns] = $offset;
+				$processed["fox.ns_lock.".$ns] = false;					
 			}	
 
 			$set_ok = $this->engine->setMulti($processed, $expire);

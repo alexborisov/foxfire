@@ -131,7 +131,7 @@ class FOX_testPlan extends RAZ_testPlan_base {
 				array( "enable"=>true,  "name"=>"Thread", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.thread.php" ),				    
 				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php" ),	
 			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php" ),
-			    	array( "enable"=>false,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
+			    	array( "enable"=>true,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
 			),
 		    
 			"base" => array(
