@@ -9061,7 +9061,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				$validator = new FOX_dataStore_validator($struct);					
 
-				// If a single L5 is sent in, we validate it *before* spinning it into an array,
+				// If a single L1 is sent in, we validate it *before* spinning it into an array,
 				// so we can trap strings that PHP automatically converts to ints ("17")
 				
 				if( !is_array($L1s) ){
@@ -9182,17 +9182,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 
 	/**
-	 * Drops one or more L2's for *ALL L3 TRIES* in the datastore
-	 *
+	 * Drops one or more L2's from *ALL L3 TRIES* in the datastore.
+	 * 
 	 * @version 1.0
 	 * @since 1.0
 	 * @param int/string/array $L2s | Single L2 as int/string, multiple as array of int/string.
 	 * @return int | Exception on failure. Number of rows changed on success.
 	 */
 
-	public function dropL2Global($L2s) {
-	    
-	    
+	public function dropL2_global($L2s, $ctrl=null) {
+
+		
 		if(!$this->init){
 
 			throw new FOX_exception( array(
@@ -9203,19 +9203,107 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
-		$struct = $this->_struct();			
+		$ctrl_default = array(
+			"validate"=>true
+		);
 
-		if( empty($L2s) ){
+		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+					    
+		
+		// Validate
+		// ===================================================
+		
+		if($ctrl['validate'] != false){		   
+
+			// Each variable has to be validated individually. If we spin the variables
+			// into a trie, PHP will automatically convert strings that map to ints ("17")
+			// into (int) keys, which will defeat the validators
+		    		    		    
+			$struct = $this->_struct();
+			
+			try {			    
+			    
+				$validator = new FOX_dataStore_validator($struct);					
+
+				// If a single L2 is sent in, we validate it *before* spinning it into an array,
+				// so we can trap strings that PHP automatically converts to ints ("17")
+				
+				if( !is_array($L2s) ){
+
+					$is_valid = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L2_col]['php'],
+										'format'=>'scalar',
+										'var'=>$L2s
+					));					
+				}
+				else {
+
+					foreach( $L2s as $key => $val ){
+
+						$is_valid = $validator->validateKey( array(
+											'type'=>$struct['columns'][$this->L2_col]['php'],
+											'format'=>'scalar',
+											'var'=>$val
+						));	
+
+						// Break the loop if we hit an invalid key
+						
+						if( $is_valid !== true ){
+
+							break;
+						}
+
+					}
+					unset($key, $val);
+				}	
+			
+				
+			}
+			catch( FOX_exception $child ){
+			    			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));			    			    
+			}
+			
+			// This structure has to be outside the validator try-catch block to prevent it from   
+			// catching the exceptions we throw (which would cause confusing exception chains)
+						    
+			if($is_valid !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid L2 key",
+					'data'=>$is_valid,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));			    
+			}			    			
+			
+			
+		} // ENDOF: if($ctrl['validate'] != false){
+
+		
+		// Lock the entire cache namespace
+		// ===========================================================
+
+		try {
+			self::lockNamespace();
+		}
+		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Empty args array",
-				'data'=>$L2s,
+				'numeric'=>3,
+				'text'=>"Error locking cache namespace",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
+				'child'=>$child
+			));		    
 		}
-
+		
+		
 		$db = new FOX_db();
 		
 		$args = array(
@@ -9228,7 +9316,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>4,
 				'text'=>"Error while deleting from database",
 				'data'=>$args,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -9245,7 +9333,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>5,
 				'text'=>"Cache flush error",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
