@@ -318,14 +318,14 @@ class core_L5_paged_abstract_globalMethods extends RAZ_testCase {
 	
 	
        /**
-	* Test fixture for dropMulti() method, trie mode, cold cache
+	* Test fixture for dropL1_global() method, single item
 	*
 	* @version 1.0
 	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropL1_global() {
+	public function test_dropL1_global_single() {
 	    
 
 		self::loadData();			
@@ -346,7 +346,7 @@ class core_L5_paged_abstract_globalMethods extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 		
-		// Should return (int)7 to indicate 7 rows were dropped
+		// Should report 7 rows were dropped
 		$this->assertEquals(7, $rows_changed);
 		
 		
@@ -453,6 +453,123 @@ class core_L5_paged_abstract_globalMethods extends RAZ_testCase {
 		
 	}
 	
+       /**
+	* Test fixture for dropL1_global() method, multiple items
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropL1_global_multi() {
+	    
+
+		self::loadData();			
+	    
+		
+		// Drop objects
+		// ####################################################################
+
+		$drop_ctrl = array(
+			"validate"=>true
+		);
+		
+		try {			
+			$rows_changed = $this->cls->dropL1_global(array(1,2), $drop_ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		// Should report 12 rows were dropped
+		$this->assertEquals(12, $rows_changed);
+		
+		
+		// Verify db state
+		// ####################################################################
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		$args = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('L5','L4','L3','L2','L1')
+		);
+		
+		try {			
+			$result = $db->runSelectQuery($this->cls->_struct(), $args, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+		// NOTE: the datastore will automatically clip empty branches
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				1=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+				),
+				3=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				)		    
+		);	
+		
+                $this->assertEquals($check, $result);
+		
+		
+		// Check class cache state
+		// ####################################################################					
+		
+		$check_cache = array();		
+                $this->assertEquals($check_cache, $this->cls->cache);		
+
+		
+		// Verify persistent cache state by reading-back all items
+		// ####################################################################		
+		
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(true, $valid);  // Should report valid because all
+						    // requested L5's exist
+		
+		$this->assertEquals($check, $result);
+		
+		
+	}
 	
 
 	
