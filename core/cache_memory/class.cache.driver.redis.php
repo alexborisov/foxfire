@@ -18,7 +18,7 @@
 class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 	
 	
-	var $enable = false;		    // True to enable the driver. False to disable it.
+	var $enable = true;		    // True to enable the driver. False to disable it.
 	
 	var $is_active;			    // If true, the driver is active
 	
@@ -290,15 +290,14 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 				    'offset'=>$offset
 		);
 
-		$keys = array();
-
-		$keys[] = "fox.ns_lock.".$ns;
-		$keys[] = serialize($lock_array);
+		$keys = array(
+				"fox.ns_lock.".$ns => serialize($lock_array)
+		);
+		
 
 		if(!$already_locked){
 
-			$keys[] = "fox.ns_offset.".$ns;
-			$keys[] = -1;
+			$keys["fox.ns_offset.".$ns] = -1;
 		}
 
 		$this->engine->mset($keys);
@@ -377,12 +376,10 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 				$offset = $lock['offset'] + 1;
 			}
 
-			$keys = array();
-
-			$keys[] = "fox.ns_lock.".$ns;
-			$keys[] = false;
-			$keys[] = "fox.ns_offset.".$ns;
-			$keys[] = $offset;
+			$keys = array(
+					"fox.ns_lock.".$ns => false,
+					"fox.ns_offset.".$ns => $offset
+			);
 
 			$this->engine->mset($keys);						
 
@@ -462,15 +459,13 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 				$offset = 1;
 			}	
 			
-			$keys = array();
-			
-			$keys[] = "fox.ns_offset.".$ns;
-			$keys[]	= $offset;
+			$keys = array(
+					"fox.ns_offset.".$ns=>$offset			    
+			);
 						
 			if($namespace_locked){
 			    
-				$keys[] = "fox.ns_lock.".$ns;
-				$keys[] = false;			    
+				$keys["fox.ns_lock.".$ns] = false;		    
 			}
 		
 			$this->engine->mset($keys);
@@ -640,14 +635,13 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 		}
 
 		
-		$keys = array();
-		$keys[] = "fox." . $ns . "." . $offset . "." . $var;
-		$keys[] = serialize($val);
+		$keys = array(		    
+				"fox." . $ns . "." . $offset . "." . $var => serialize($val)
+		);
 
 		if( $namespace_locked && $clear_lock ){
 
-			$keys[] = "fox.ns_offset.".$ns;
-			$keys[] = $offset;			    
+			$keys["fox.ns_offset.".$ns] = $offset;			    
 		}
 
 		$this->engine->mset($keys);				
@@ -779,19 +773,9 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 			$processed["fox.ns_offset.".$ns] = $offset;
 			$processed["fox.ns_lock.".$ns] = false;					
 		}	
-
-		
-		$keys = array();
-		
-		foreach( $processed as $key => $val ){
-		    
-			$keys[] = $key;
-			$keys[] = $val;
-		}
-		unset($key, $val);
 		
 		
-		$this->engine->mset($keys);				
+		$this->engine->mset($processed);				
 		
 		return true;
 
@@ -881,21 +865,19 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 
 		$key = "fox." . $ns . "." . $offset . "." . $var;
 		
-		$cache_result = $this->engine->mget( array($key) );	
+		$cache_result = $this->engine->get($key);	
 
-		if( FOX_sUtil::keyExists($key, $cache_result)){
+		if( $cache_result !== null ){
 
 			$valid = true;
-			$result = $cache_result[$key];
+			$result = unserialize($cache_result);
 		}
 		else {
 			$valid = false;
 			$result = null;
 		}		
-			
-		$result = unserialize($result);
-		
-				
+					
+					
 		return $result;
 		
 	}
@@ -986,33 +968,25 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 			$processed[] = "fox." . $ns . "." . $offset . "." . $key;
 		}
 		unset($key);
-
 		
 		$cache_result = $this->engine->mget($processed);
 
-		// Predis will return an array of the form "keyname"=>"value". If a key doesn't exist in the
-		// cache, the requested key will not be present in the results array.
+		// Predis will return an array of the form "offset"=>"value". If a key doesn't exist in the
+		// cache, value will be NULL
 
 		$result = array();
 
-		foreach($names as $key){
-
-			// BEFORE: "namespace.offset.keyname"=>"value"
-			// AFTER:  "keyname"=>"value"
-
-			$prefixed_name = "fox." . $ns . "." . $offset . "." . $key;
-
-			// This prevents the loop from creating keys in the $result array 
-			// if they don't exist in the $cache_result array
-			
-			if( array_key_exists($prefixed_name, $cache_result) ){	    
+		foreach($names as $key => $name){
+		    			
+			if( $cache_result[$key] !== null ){	    
 										   										   
-				$result[$key] = unserialize($cache_result[$prefixed_name]);			    
+				$result[$name] = unserialize($cache_result[$key]);			    
 			}
 
 		}
 		unset($key);					
-							
+			
+		
 		return $result;	
 
 	}
@@ -1108,10 +1082,15 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 		}			
 
 		$key = "fox." . $ns . "." . $offset . "." . $var;
-		$delete_ok = $this->engine->delete($key);
-									
+		$keys_deleted = $this->engine->del($key);
 		
-		return $delete_ok;
+		if($keys_deleted == 1){
+		
+			return true;
+		}
+		else {
+			return false;
+		}
 		
 	}
 
@@ -1215,14 +1194,11 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 		}
 		unset($val);			
 
-
-		$cache_result = $this->engine->delm($processed);
-
-		$keys_deleted = count($data) - count($cache_result);			
-
+		$keys_deleted = $this->engine->del($processed);		
 		
 		return $keys_deleted;
 
+		
 	}
 	
 
