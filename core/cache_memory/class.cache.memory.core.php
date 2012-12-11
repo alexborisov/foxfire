@@ -1323,21 +1323,16 @@ class FOX_mCache {
 		    
 			$engine =& $this->engines['loopback'];
 		}
-			
-		$engine_args = array(
-			'process_id'=>$args['process_id'],
-			'seconds'=>$args['seconds']		    
-		);
-			    
+				    
 		try {
-			$result = $engine->lockNamespace($engine_args);
+			$result = $engine->lockNamespace($args['namespace'], $args['seconds']);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error in engine->lockNamespace()",
-				'data'=>$engine_args,				    
+				'data'=>$args,				    
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));
@@ -1444,20 +1439,16 @@ class FOX_mCache {
 		    
 			$engine =& $this->engines['loopback'];
 		}
-			
-		$engine_args = array(
-			'process_id'=>$args['process_id']		    
-		);
 			    
 		try {
-			$result = $engine->unlockNamespace($engine_args);
+			$result = $engine->unlockNamespace($args['namespace']);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Error in engine->unlockNamespace()",
-				'data'=>$engine_args,				    
+				'data'=>$args,				    
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));

@@ -325,65 +325,29 @@ class core_L5_paged_abstract_globalMethods extends RAZ_testCase {
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropMulti_trie_COLD() {
+	public function test_dropL1_global() {
 	    
 
-		self::loadData();
-		
-		
-		// Flush the cache
-		// ####################################################################
-		
-		try {
-			$flush_ok = $this->cls->flushCache();
-		}
-		catch (FOX_exception $child) {
-		    
-			$this->fail($child->dumpString(1));		    
-		}
-				
-		$this->assertEquals(true, $flush_ok);		
-				
-		
-		// COLD CACHE - Flushed after previous ADD operation
-		// ===================================================================				
+		self::loadData();			
 	    
+		
 		// Drop objects
 		// ####################################################################
-		
-		$data = array(
-				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>true
-								    ),
-								    'T'=>true							    
-							),
-							'Z'=>true						
-					    ),	
-					    'Y'=>array(	// Collapse this node
-							'K'=>true,
-							'Z'=>true
-					    )				    
-				),
-				2=>true,
-				3=>true
-		);
-		
-		$ctrl = array(
-			'validate'=>true,
-			'mode'=>'trie',
-			'trap_*'=>true
+
+		$drop_ctrl = array(
+			"validate"=>true
 		);
 		
 		try {			
-			$rows_changed = $this->cls->dropMulti($data, $ctrl);
+			$rows_changed = $this->cls->dropL1_global(1, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
 		
-		// Should return (int)1 to indicate 18 rows were dropped
-		$this->assertEquals(18, $rows_changed);
+		// Should return (int)7 to indicate 7 rows were dropped
+		$this->assertEquals(7, $rows_changed);
 		
 		
 		// Verify db state
@@ -409,26 +373,55 @@ class core_L5_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		// NOTE: the datastore will automatically clip empty branches
 		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
 		$check = array(
 				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
 										2=>false
-								    )						    
-							)						
-					    )				    
-				)	    
-		);
+								    )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'K'=>array(	
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+				),
+				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										2=>false
+								    )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'K'=>array(	
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				)		    
+		);	
 		
                 $this->assertEquals($check, $result);
 		
 		
-		// Check cache state
-		// ####################################################################			
+		// Check class cache state
+		// ####################################################################					
 		
-		// The all_cached flag, L2, L3, and L4 LUT's won't exist in the cache yet 
-		// because we haven't done a database read.
-		
-		$check_cache = array();
-		
+		$check_cache = array();		
                 $this->assertEquals($check_cache, $this->cls->cache);		
 
 		
@@ -452,10 +445,11 @@ class core_L5_paged_abstract_globalMethods extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 		
-		$this->assertEquals(false, $valid); // Should report invalid because 
-						    // the '2' and '3' L5's don't exist
+		$this->assertEquals(true, $valid);  // Should report valid because all
+						    // requested L5's exist
 		
 		$this->assertEquals($check, $result);
+		
 		
 	}
 	
