@@ -959,7 +959,6 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 					'child'=>null
 				));					    
 			}
-
 		}			
 
 		// Add namespace prefix to each keyname
@@ -971,8 +970,9 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 		
 		$cache_result = $this->engine->mget($processed);
 
-		// Predis will return an array of the form "offset"=>"value". If a key doesn't exist in the
-		// cache, value will be NULL
+		// The Predis 'mget' operator accepts an array of the form "offset"=>"keyname", 
+		// and returns an array of the  form "offset"=>"value". If a requested key doesn't 
+		// exist in the cache, the value at its offset in the return array will be will be NULL
 
 		$result = array();
 
@@ -1082,6 +1082,10 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 		}			
 
 		$key = "fox." . $ns . "." . $offset . "." . $var;
+		
+		// The Predis 'del' operator can take input as a string or as an array,
+		// and returns the number of items that were successfully deleted
+		
 		$keys_deleted = $this->engine->del($key);
 		
 		if($keys_deleted == 1){
@@ -1194,6 +1198,9 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 		}
 		unset($val);			
 
+		// The Predis 'del' operator can take input as a string or as an array,
+		// and returns the number of items that were successfully deleted
+		
 		$keys_deleted = $this->engine->del($processed);		
 		
 		return $keys_deleted;
