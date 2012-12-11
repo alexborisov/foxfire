@@ -22,7 +22,7 @@ class core_mCache_driver_loopback_ops extends RAZ_testCase {
 		
 		parent::setUp();
 	
-		$this->cls = new FOX_mCache_driver_loopback();				
+		$this->cls = new FOX_mCache_driver_loopback(array('process_id'=>2650));				
 
 		if( !$this->cls->isActive() ){
 
@@ -34,7 +34,13 @@ class core_mCache_driver_loopback_ops extends RAZ_testCase {
 	function test_set_single_get_single() {
 	    	    
 	    
-		$set_ok = $this->cls->set('ns_1', 'var_1', 'test_value');
+		try {
+			$set_ok = $this->cls->set('ns_1', 'var_1', 'test_value');
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 
 		// The cache engine should return true to indicate the key was set
 		$this->assertEquals(true, $set_ok);
@@ -42,8 +48,15 @@ class core_mCache_driver_loopback_ops extends RAZ_testCase {
 		 
 		// Try to fetch the key we just set
 		$valid = false;
-		$value = $this->cls->get('ns_1', 'var_1', $valid);
+		
+		try {
+			$value = $this->cls->get('ns_1', 'var_1', $valid);
+		}
+		catch (FOX_exception $child) {
 
+			$this->fail($child->dumpString(1));		    
+		}		
+		
 		// The cache should report the key as not valid valid
 		$this->assertEquals(false, $valid);
 
@@ -70,7 +83,13 @@ class core_mCache_driver_loopback_ops extends RAZ_testCase {
 			'var_6'=>(int)-1,
 		);
 		
-		$set_ok = $this->cls->setMulti('ns_1', $test_data_a);
+		try {
+			$set_ok = $this->cls->setMulti('ns_1', $test_data_a);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}					
 		
 		// The cache engine should return true to indicate the keys were set
 		$this->assertEquals(true, $set_ok);	
@@ -79,7 +98,13 @@ class core_mCache_driver_loopback_ops extends RAZ_testCase {
 		// Fetch keys from cache
 		// =====================================================
 		
-		$result = $this->cls->getMulti('ns_1', array_keys($test_data_a) );
+		try {
+			$result = $this->cls->getMulti('ns_1', array_keys($test_data_a) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 		
 		// Returned keys should be an empty array	
 		$this->assertEquals(array(), $result);
@@ -90,27 +115,44 @@ class core_mCache_driver_loopback_ops extends RAZ_testCase {
 	
 	function test_flushAll() {
 	    
-		$flush_ok = $this->cls->flushAll();
+		try {
+			$flush_ok = $this->cls->flushAll();
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}	
+				
 		$this->assertEquals(true, $flush_ok);					    
 	}	
 	
 	
 	function test_flushNamespace() {
 	    
-		
-		$flush_ok = $this->cls->flushNamespace('ns_1');
-		
-		$this->assertEquals(true, $flush_ok);
+		try {
+			$offset = $this->cls->flushNamespace('ns_1');
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+						
+		$this->assertEquals(1, $offset);
 								    	   			    
 	}
 	
 
 	function test_del_single() {
 	    	    
-	    
-			    
-		$del_ok = $this->cls->del('ns_1', 'var_1');
+	    	
+	    	try {
+			$del_ok = $this->cls->del('ns_1', 'var_1');
+		}
+		catch (FOX_exception $child) {
 
+			$this->fail($child->dumpString(1));		    
+		}
+		
 		// The cache should report the key was successfully deleted
 		$this->assertEquals(true, $del_ok);			    			    
 		
@@ -121,8 +163,14 @@ class core_mCache_driver_loopback_ops extends RAZ_testCase {
 	    	    
 	    
 		$del_keys_a = array('var_1','var_3','var_3','var_4','var_5','var_6');		
-		
-		$keys_deleted = $this->cls->delMulti('ns_1', $del_keys_a);
+				
+	    	try {
+			$keys_deleted = $this->cls->delMulti('ns_1', $del_keys_a);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}		
 
 		// The cache should report deleting 6 keys
 		$this->assertEquals(6, $keys_deleted);	
@@ -145,7 +193,7 @@ class core_mCache_driver_loopback_classFunctions extends RAZ_testCase {
 		
 		parent::setUp();
 	
-		$this->cls = new FOX_mCache_driver_loopback();			
+		$this->cls = new FOX_mCache_driver_loopback(array('process_id'=>2650));			
 
 		if( !$this->cls->isActive() ){
 
@@ -157,17 +205,29 @@ class core_mCache_driver_loopback_classFunctions extends RAZ_testCase {
 	function test_writeCache_readCache() {
 	    
 		
-		$set_ok = $this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>array('var_1'=>'A','var_2'=>'B')) );
+	    	try {
+			$set_ok = $this->cls->writeCache( array('namespace'=>'ns_1', 'image'=>array('var_1'=>'A','var_2'=>'B')) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 		
 		// Should return true to indicate success	
 		$this->assertEquals(true, $set_ok);
 		
 		$valid = false;
 		
-		$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid );
-						
-		// Returned image should be NULL	
-		$this->assertEquals(null, $cache_image);
+	    	try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+				
+		// Returned image should be empty array	
+		$this->assertEquals(array(), $cache_image);
 		
 		// Image should be invalid	
 		$this->assertEquals(false, $valid);		
@@ -186,13 +246,24 @@ class core_mCache_driver_loopback_classFunctions extends RAZ_testCase {
 			'p_4'=>array('key_1'=>(int)0),
 		);
 	
-		
-		$write_ok = $this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$test_pages_a) );
-		
+	    	try {
+			$write_ok = $this->cls->writeCachePage( array('namespace'=>'ns_1', 'pages'=>$test_pages_a) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+						
 		// The cache engine should return true to indicate success
 		$this->assertEquals(true, $write_ok);					
 		
-		$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($test_pages_a)) );
+	    	try {
+			$result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array_keys($test_pages_a)) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 		
 		// Should return an empty array
 		$this->assertEquals( array(), $result);
@@ -205,10 +276,16 @@ class core_mCache_driver_loopback_classFunctions extends RAZ_testCase {
 	function test_flushCachePage() {
 	       	   	
 		
-		$flush_ok = $this->cls->flushCachePage( array('namespace'=>'ns_1', 'pages'=>array('p_1','p_2','p_3')) );
+	    	try {
+			$flush_ok = $this->cls->flushCachePage( array('namespace'=>'ns_1', 'pages'=>array('p_1','p_2','p_3')) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 		
-		// Should return true
-		$this->assertEquals(true, $flush_ok);			
+		// Should return (Int)3 to show 3 pages were flushed
+		$this->assertEquals(3, $flush_ok);			
 												    	   			    
 	}
 	
@@ -218,15 +295,27 @@ class core_mCache_driver_loopback_classFunctions extends RAZ_testCase {
 	    			
 		// Lock a namespace	
 		
-		$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1') );
-		
+	    	try {
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1') );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+					
 		// Should return empty array		
 		$this->assertEquals(array(), $cache_image);				
 		
 		// Check attempting to lock an already locked namespace
 		
-		$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1') );
-		
+	    	try {
+			$cache_image = $this->cls->lockCache( array('namespace'=>'ns_1') );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+
 		// Should allow it and return empty array
 		$this->assertEquals(array(), $cache_image);		
 
@@ -234,10 +323,17 @@ class core_mCache_driver_loopback_classFunctions extends RAZ_testCase {
 		// Check attempting to read a locked namespace	
 		
 		$valid = false;
-		$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid);
+		
+	    	try {
+			$cache_image = $this->cls->readCache( array('namespace'=>'ns_1'), $valid);
+		}
+		catch (FOX_exception $child) {
 
-		// Should return NULL value
-		$this->assertEquals(null, $cache_image);
+			$this->fail($child->dumpString(1));		    
+		}		
+		
+		// Should return an empty array
+		$this->assertEquals(array(), $cache_image);
 		
 		// Should be invalid
 		$this->assertEquals(false, $valid);		
@@ -249,20 +345,41 @@ class core_mCache_driver_loopback_classFunctions extends RAZ_testCase {
 	    
 	    
 		// Lock multiple cache pages
-		$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array('p_1','p_2','p_3') ) );
-		
+	    
+	    	try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array('p_1','p_2','p_3') ) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}
+						
 		// Should return an array of empty cache page arrays
 		$this->assertEquals( array('p_1'=>array(),'p_2'=>array(),'p_3'=>array()), $lock_image);	
 		
 		
 		// Lock the same pages again
-		$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array('p_1','p_2','p_3') ) );
+		
+	    	try {
+			$lock_image = $this->cls->lockCachePage( array('namespace'=>'ns_1', 'pages'=>array('p_1','p_2','p_3') ) );
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 		
 		// Should return an array of empty cache page arrays
 		$this->assertEquals( array('p_1'=>array(),'p_2'=>array(),'p_3'=>array()), $lock_image);		
 		
 		// Try to read the locked pages
-		$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array('p_1','p_2','p_3') ) ); 
+		
+	    	try {
+			$cache_result = $this->cls->readCachePage( array('namespace'=>'ns_1', 'pages'=>array('p_1','p_2','p_3') ) ); 
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));		    
+		}				
 		
 		// Should return an empty array
 		$this->assertEquals( array(), $cache_result);		

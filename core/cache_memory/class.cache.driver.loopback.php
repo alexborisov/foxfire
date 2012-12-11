@@ -19,9 +19,27 @@
 
 class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 
-
+	
+	var $process_id;		    // Unique process id for this thread. Used for namespace-level locking.
+		
 
 	public function __construct($args=null){
+	    
+	    
+		// Handle process-id binding
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('process_id', $args)){
+		    
+			// Binding to a reference is important. It makes the cache engine $process_id
+			// update if the FOX_mCache is changed, which we do during unit testing.
+		    
+			$this->process_id = &$args['process_id'];			
+		}
+		else {	
+			global $fox;
+			$this->process_id = $fox->process_id;
+		}	    
 		
 	}
 	
@@ -57,181 +75,17 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 	
 	
 	/**
-	 * Stores a value into the cache
+	 * Removes all entries in the cache.
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param string $ns | Namespace of the cache variable
-	 * @param string $var | Name of the cache variable
-	 * @param mixed $val | Value to assign
-	 * @return bool | False on failure. True on success.
+	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function set($ns, $var, $val){
-		
-	    
-		if( empty($ns) ){
+	public function flushAll(){
 
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Empty namespace value",
-				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));		    		
-		}
-			
-		return true;
-	}
-
-
-	/**
-	 * Stores multiple values into the cache
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param string $ns | Namespace of the cache variable
-	 * @param array $data | Data to set in the form "key"=>"val"
-	 * @return bool | False on failure. True on success.
-	 */
-
-	public function setMulti($ns, $data){	    
-		
-	    
-		if( empty($ns) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Empty namespace value",
-				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));		    		
-		}
-		
-		return true;
-	}
-
-
-	/**
-	 * Retrieves a value from the cache
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param string $ns | Namespace of the cache variable
-	 * @param string $var | Name of the cache variable
-	 * @param bool &$valid | True if key exists in cache. False if not.
-	 * @return mixed | False on failure. Stored data item on success.
-	 */
-
-	public function get($ns, $var, &$valid=null){
-
-	    
-		if( empty($ns) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Empty namespace value",
-				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));		    		
-		}
-		
-		$valid = false;
-		
-		return null;
-	}
-
-
-	/**
-	 * Retrieves multiple values from the cache
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param string $ns | Namespace of the cache variable
-	 * @param array $names | Array of cache variable names
-	 * @return mixed | False on failure. Stored data item on success.
-	 */
-
-	public function getMulti($ns, $names){
-
-	    
-		if( empty($ns) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Empty namespace value",
-				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));		    		
-		}
-		
-		return array();
-	}
-
-
-	/**
-	 * Deletes an item from the cache
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param string $ns | Namespace of the cache variable
-	 * @param string $var | Name of key
-	 * @return bool | False on failure. True on success.
-	 */
-
-	public function del($ns, $var){
-
-	    
-		if( empty($ns) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Empty namespace value",
-				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));		    		
-		}
-		
-		return true;
-	}
-	
-
-	/**
-	 * Deletes multiple items from the cache
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param string $ns | Namespace of the cache variable
-	 * @param array $data | Key names as array of strings.
-	 * @return bool | False on failure. Int number of keys deleted on success.
-	 */
-
-	public function delMulti($ns, $data){
-
-	    
-		if( empty($ns) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Empty namespace value",
-				'data'=>array('ns'=>$ns),			    
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));		    		
-		}
-		
-		return count($data);
-		
+		return true;	
 	}	
 	
 	
@@ -259,23 +113,270 @@ class FOX_mCache_driver_loopback extends FOX_mCache_driver_base {
 			));		    		
 		}
 		
-		return true;
+		return 1;
 	}
 	
 	
 	/**
-	 * Removes all entries in the cache.
+	 * Locks an entire namespace within the cache
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
+	 * @param string $namespace | Class namespace
+	 * @param int $seconds |  Time in seconds from present time until lock expires	  
+	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function flushAll(){
+	public function lockNamespace($ns, $seconds){
 
-		return true;	
-	}		
+
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Empty namespace value",
+				'data'=>$ns,			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+
+		return 1;
+
+	}
+	
+	
+	/**
+	 * Unlocks a locked namespace within the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $namespace | Class namespace	  
+	 * 
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function unlockNamespace($ns){
+
+
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Empty namespace value",
+				'data'=>$ns,			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+
+		return 1;
+
+	}
+	
+	
+	/**
+	 * Stores a value into the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $ns | Namespace of the cache variable
+	 * @param string $var | Name of the cache variable
+	 * @param mixed $val | Value to assign
+	 * @param int $check_offset | Offset to check against
+	 * @param bool $clear_lock | True to clear a namespace lock, if the PID owns it	 
+	 * 
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function set($ns, $var, $val, $check_offset=null, $clear_lock=false){
+		
+	    
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+			
+		return true;
+	}
+
+
+	/**
+	 * Stores multiple values into the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $ns | Namespace of the cache variable
+	 * @param array $data | Data to set in the form "key"=>"val"
+	 * @param int $check_offset | Offset to check against
+	 * @param bool $clear_lock | True to clear a namespace lock, if the PID owns it	 
+	 * 
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function setMulti($ns, $data, $check_offset=null, $clear_lock=false){	    
+		
+	    
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+		
+		return true;
+	}
+
+
+	/**
+	 * Retrieves a value from the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $ns | Namespace of the cache variable
+	 * @param string $var | Name of the cache variable
+	 * @param bool &$valid | True if key exists in cache. False if not.
+	 * 
+	 * @return int &$offset | Current namespace offset
+	 * @return mixed | Exception on failure. Stored data item on success.
+	 */
+
+	public function get($ns, $var, &$valid=null, &$offset=null){
+
+	    
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+		
+		$valid = false;
+		$offset = 1;
+		
+		return null;
+	}
+
+
+	/**
+	 * Retrieves multiple values from the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $ns | Namespace of the cache variable
+	 * @param array $names | Array of cache variable names
+	 * @param int &$offset | Current namespace offset
+	 * 	 
+	 * @return mixed | Exception on failure. Stored data item on success.
+	 */
+
+	public function getMulti($ns, $names, &$offset=null){
+
+	    
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+		
+		$offset = 1;
+		
+		return array();
+	}
+
+
+	/**
+	 * Deletes an item from the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $ns | Namespace of the cache variable
+	 * @param string $var | Name of key
+	 * @param int $check_offset | Offset to check against	 
+	 * 
+	 * @return bool | Exception on failure. True on key exists. False on key doesn't exist.
+	 */
+
+	public function del($ns, $var, $check_offset=null){
+
+	    
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+		
+		return true;
+	}
+	
+
+	/**
+	 * Deletes multiple items from the cache
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $ns | Namespace of the cache variable
+	 * @param array $data | Key names as array of strings.
+	 * @param int $check_offset | Offset to check against	 
+	 * 
+	 * @return int | Exception on failure. Int number of keys deleted on success.
+	 */
+
+	public function delMulti($ns, $data, $check_offset=null){
+
+	    
+		if( empty($ns) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Empty namespace value",
+				'data'=>array('ns'=>$ns),			    
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    		
+		}
+		
+		return count($data);
+		
+	}	
+	
+
+	
+	
+		
 
 	
 
