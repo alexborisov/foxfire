@@ -9018,16 +9018,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	
 	
 	/**
-	 * Drops one or more L1's from *ALL L2 TRIES* in the datastore.
+	 * Drops one or more items of the specified level from ALL WALKS in the datastore.
 	 * 
 	 * @version 1.0
 	 * @since 1.0
-	 * @param int/string/array $L1s | Single L1 as int/string, multiple as array of int/string.
+	 * @param int $level | Level to drop items from	 
+	 * @param int/string/array $items | Single item as int/string, multiple as array of int/string.
+	 * 
 	 * @return int | Exception on failure. Number of rows changed on success.
 	 */
 
-	public function dropL1_global($L1s, $ctrl=null) {
-
+	public function dropGlobal($level, $items, $ctrl=null) {
+		
 		
 		if(!$this->init){
 
@@ -9038,6 +9040,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
+		
+		$col = "L" . $level . "_col";
 		
 		$ctrl_default = array(
 			"validate"=>true
@@ -9061,23 +9065,23 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				$validator = new FOX_dataStore_validator($struct);					
 
-				// If a single L1 is sent in, we validate it *before* spinning it into an array,
+				// If a single item is sent in, we validate it *before* spinning it into an array,
 				// so we can trap strings that PHP automatically converts to ints ("17")
 				
-				if( !is_array($L1s) ){
+				if( !is_array($items) ){
 
 					$is_valid = $validator->validateKey( array(
-										'type'=>$struct['columns'][$this->L1_col]['php'],
+										'type'=>$struct['columns'][$this->$col]['php'],
 										'format'=>'scalar',
-										'var'=>$L1s
+										'var'=>$items
 					));					
 				}
 				else {
 
-					foreach( $L1s as $key => $val ){
+					foreach( $items as $key => $val ){
 
 						$is_valid = $validator->validateKey( array(
-											'type'=>$struct['columns'][$this->L1_col]['php'],
+											'type'=>$struct['columns'][$this->$col]['php'],
 											'format'=>'scalar',
 											'var'=>$val
 						));	
@@ -9112,7 +9116,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 				throw new FOX_exception( array(
 					'numeric'=>2,
-					'text'=>"Invalid L1 key",
+					'text'=>"Invalid item",
 					'data'=>$is_valid,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
@@ -9143,7 +9147,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$db = new FOX_db();
 		
 		$args = array(
-				array("col"=>$this->L1_col, "op"=>"=", "val"=>$L1s)
+				array("col"=>$this->$col, "op"=>"=", "val"=>$items)
 		);
 
 		try {
@@ -9176,327 +9180,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
-		return (int)$rows_changed;
-
-	}
-
-
-	/**
-	 * Drops one or more L2's from *ALL L3 TRIES* in the datastore.
-	 * 
-	 * @version 1.0
-	 * @since 1.0
-	 * @param int/string/array $L2s | Single L2 as int/string, multiple as array of int/string.
-	 * @return int | Exception on failure. Number of rows changed on success.
-	 */
-
-	public function dropL2_global($L2s, $ctrl=null) {
-
-		
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-		
-		$ctrl_default = array(
-			"validate"=>true
-		);
-
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
-					    
-		
-		// Validate
-		// ===================================================
-		
-		if($ctrl['validate'] != false){		   
-
-			// Each variable has to be validated individually. If we spin the variables
-			// into a trie, PHP will automatically convert strings that map to ints ("17")
-			// into (int) keys, which will defeat the validators
-		    		    		    
-			$struct = $this->_struct();
-			
-			try {			    
-			    
-				$validator = new FOX_dataStore_validator($struct);					
-
-				// If a single L2 is sent in, we validate it *before* spinning it into an array,
-				// so we can trap strings that PHP automatically converts to ints ("17")
-				
-				if( !is_array($L2s) ){
-
-					$is_valid = $validator->validateKey( array(
-										'type'=>$struct['columns'][$this->L2_col]['php'],
-										'format'=>'scalar',
-										'var'=>$L2s
-					));					
-				}
-				else {
-
-					foreach( $L2s as $key => $val ){
-
-						$is_valid = $validator->validateKey( array(
-											'type'=>$struct['columns'][$this->L2_col]['php'],
-											'format'=>'scalar',
-											'var'=>$val
-						));	
-
-						// Break the loop if we hit an invalid key
-						
-						if( $is_valid !== true ){
-
-							break;
-						}
-
-					}
-					unset($key, $val);
-				}	
-			
-				
-			}
-			catch( FOX_exception $child ){
-			    			    
-				throw new FOX_exception( array(
-					'numeric'=>1,
-					'text'=>"Error in validator",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));			    			    
-			}
-			
-			// This structure has to be outside the validator try-catch block to prevent it from   
-			// catching the exceptions we throw (which would cause confusing exception chains)
-						    
-			if($is_valid !== true){
-
-				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Invalid L2 key",
-					'data'=>$is_valid,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    
-			}			    			
-			
-			
-		} // ENDOF: if($ctrl['validate'] != false){
-
-		
-		// Lock the entire cache namespace
-		// ===========================================================
-
-		try {
-			self::lockNamespace();
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>3,
-				'text'=>"Error locking cache namespace",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}
-		
-		
-		$db = new FOX_db();
-		
-		$args = array(
-				array("col"=>$this->L2_col, "op"=>"=", "val"=>$L2s)
-		);
-
-		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>4,
-				'text'=>"Error while deleting from database",
-				'data'=>$args,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}		
-
-		// Since this operation affects ALL L5 pages, we have to flush the 
-		// entire cache namespace
-		
-		try {
-			self::flushCache();
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>5,
-				'text'=>"Cache flush error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}		
-
-		return (int)$rows_changed;
-
-	}
-
-
-	/**
-	 * Drops one or more L3s for for *ALL L4 TRIES* in the datastore
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param int/string $L3s | Single L3 as int/string, multiple as array of int/string.
-	 * @return int | Exception on failure. Number of rows changed on success.
-	 */
-
-	public function dropL3Global($L3s) {
-
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-
-		
-		$struct = $this->_struct();				
-
-		if( empty($L3s) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Empty args array",
-				'data'=>$L3s,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-
-		$db = new FOX_db();
-		
-		$args = array(
-				array("col"=>$this->L3_col, "op"=>"=", "val"=>$L3s)
-		);
-
-		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error while deleting from database",
-				'data'=>$args,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}		
-
-		// Since this operation affects ALL L5 pages, we have to flush the 
-		// entire cache namespace
-		
-		try {
-			self::flushCache();
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>3,
-				'text'=>"Cache flush error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}		
-
-		
-		return (int)$rows_changed;
-
-	}
-
-
-	/**
-	 * Drops one or more L4s for for *ALL L5 TRIES* in the datastore
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 * @param int/string/array $L4s | Single L4 as int/string, multiple as array of int/string.
-	 * @return int | Exception on failure. Number of rows changed on success.
-	 */
-
-	public function dropL4Global($L4s) {
-
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-
-		
-		$struct = $this->_struct();					
-		
-		if( empty($L4s) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Empty args array",
-				'data'=>$L4s,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-
-		$db = new FOX_db();
-		
-		$args = array(
-				array("col"=>$this->L4_col, "op"=>"=", "val"=>$L4s)
-		);
-
-		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error while deleting from database",
-				'data'=>$args,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}		
-
-		// Since this operation affects ALL L5 pages, we have to flush the 
-		// entire cache namespace
-		
-		try {
-			self::flushCache();
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>3,
-				'text'=>"Cache flush error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}		
-
-		
 		return (int)$rows_changed;
 
 	}
