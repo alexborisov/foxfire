@@ -80,7 +80,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -103,7 +103,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"DB select exception",
 				'data'=>array("args"=>$args, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -138,7 +138,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Cache write error",
 					'data'=>array("cache update"=>$cache_update),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
 			}
@@ -181,7 +181,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"null parameter passed as ids exception",
 				'data'=>array("ids"=>$ids),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -205,7 +205,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"DB select exception",
 				'data'=>array("args"=>$args, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -241,7 +241,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Cache write error",
 					'data'=>array("cache update"=>$cache_update),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
 			}
@@ -284,7 +284,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}		
@@ -311,7 +311,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Cache getMulti exception",
 				'data'=>array("cache_keys"=>$cache_keys),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -356,7 +356,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"null parameter passed as ids exception",
 				'data'=>array("tokens"=>$ids),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -382,7 +382,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Cache getMulti exception",
 				'data'=>array("cache_keys"=>$cache_keys),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));  
 		}		
@@ -431,7 +431,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}	 	    
@@ -464,7 +464,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error writing to database",
 				'data'=>array("data"=>$data),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -507,7 +507,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Cache write error",
 				'data'=>array("cache update"=>$cache_update),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -562,7 +562,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));  
 		}	
@@ -609,7 +609,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"CacheFetchToken exception",
 					'data'=>array("tokens"=>$missing_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
 			}
@@ -634,7 +634,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Error in self::dbFetchToken()",
 					'data'=>array("tokens"=>$missing_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
 			}
@@ -659,7 +659,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Error in self::addToken()",
 					'data'=>array("tokens"=>$missing_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
 			}	
@@ -699,7 +699,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"null parameter passed as ids exception",
 				'data'=>array("tokens"=>$ids),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -746,7 +746,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 					'numeric'=>2,
 					'text'=>"Error in self::cacheFetchId()",
 					'data'=>array("ids"=>$missing_ids),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
 			}			
@@ -774,7 +774,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 					'numeric'=>3,
 					'text'=>"Error in self::dbFetchId()",
 					'data'=>array("ids"=>$missing_ids),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
 			}
@@ -818,7 +818,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"null parameter passed as tokens exception",
 				'data'=>array("tokens"=>$tokens),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -838,7 +838,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"getToken exception",
 				'data'=>array("tokens"=>$tokens),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -865,7 +865,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error locking cache pages",
 				'data'=>$cache_pages,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}		
@@ -887,7 +887,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error deleting from database",
 				'data'=>array("args"=>$args),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -904,7 +904,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Error flushing cache pages",
 				'data'=>$cache_pages,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}		
@@ -946,7 +946,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"null parameter passed as ids exception",
 				'data'=>array("tokens"=>$ids),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			)); 
 		}	    
@@ -968,7 +968,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error in self::getId()",
 				'data'=>array("tokens"=>$ids),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -995,7 +995,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>3,
 				'text'=>"Error locking cache pages",
 				'data'=>$cache_pages,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -1017,7 +1017,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>4,
 				'text'=>"Error deleting from database",
 				'data'=>array("args"=>$args),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
 		}
@@ -1035,7 +1035,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>5,
 				'text'=>"Error flushing cache pages",
 				'data'=>$cache_pages,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}		
@@ -1080,7 +1080,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>1,
 				'text'=>"Error flushing cache",
 				'data'=>null,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));	    
 		}
@@ -1094,7 +1094,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				'numeric'=>2,
 				'text'=>"Error truncating table",
 				'data'=>null,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));	    
 		}	

@@ -83,7 +83,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Error loading cache",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -110,7 +110,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 				'numeric'=>1,
 				'text'=>"No key names posted with form",
 				'data'=> $post,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -149,7 +149,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in sanitizer function",
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
 			}
@@ -160,7 +160,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 					'numeric'=>3,
 					'text'=>"Called with invalid tree name",
 					'data'=>array('raw_tree'=>$raw_tree, 'san_error'=>$tree_error),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -170,7 +170,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 					'numeric'=>4,
 					'text'=>"Called with invalid branch name",
 					'data'=>array('raw_branch'=>$raw_branch, 'san_error'=>$branch_error),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -180,7 +180,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 					'numeric'=>5,
 					'text'=>"Called with invalid key name",
 					'data'=>array('raw_key'=>$raw_key, 'san_error'=>$key_error),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -215,7 +215,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 					throw new FOX_exception( array(
 						'numeric'=>6,
 						'text'=>"Error in self::get()",
-						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>$child
 					));
 				}
@@ -246,7 +246,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 							'text'=>"Trying to set nonexistent key. Tree: $tree | Branch: $branch | Key: $key",
 							'data'=>array('current_keys_array'=>$current_keys_array,
 								      'tree'=>$tree, 'branch'=>$branch, 'key'=>$key),
-							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 							'child'=>null
 						));
 					}
@@ -271,7 +271,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 							'text'=>"Error in filter function",
 							'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
 								      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
-							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 							'child'=>$child
 						));
 					}
@@ -283,7 +283,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 							'text'=>"Filter function reports value data isn't valid",
 							'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
 								      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
-							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 							'child'=>null
 						));
 					}
@@ -303,7 +303,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 								'text'=>"Error setting key. Tree: $tree | Branch: $branch | Key: $key",
 								'data'=>array('tree'=>$tree, 'branch'=>$branch,
 									      'key'=>$key, 'new_val'=>$new_val),
-								'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+								'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 								'child'=>$child
 							));
 						}
@@ -405,7 +405,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in self::getNodeVal()",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -416,7 +416,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 				'numeric'=>2,
 				'text'=>"Key doesn't exist",
 				'data'=>array('tree'=>$tree, 'branch'=>$branch, 'key'=>$key),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}

@@ -130,7 +130,7 @@ class FOX_dbUtil {
 				'numeric'=>1,
 				'text'=>"Error running SHOW STATUS query",
 				'data'=>array("data_group"=>$data_group),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
 		}
@@ -206,7 +206,7 @@ class FOX_dbUtil {
 					'numeric'=>2,
 					'text'=>"Not a recognized data group. \n",
 					'data'=>array("data_group"=>$data_group),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}

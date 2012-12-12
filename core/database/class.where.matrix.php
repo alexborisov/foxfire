@@ -104,7 +104,7 @@ class FOX_queryBuilder_whereMatrix {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error during build process",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
 		}
@@ -199,7 +199,7 @@ class FOX_queryBuilder_whereMatrix {
 				'text'=>"Error creating root node",
 				'data'=>array("args"=>$this->args, "columns"=>$this->columns, 
 					      "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}	    
@@ -221,7 +221,7 @@ class FOX_queryBuilder_whereMatrix {
 				'text'=>"Error during reduce",
 				'data'=>array("args"=>$this->args, "columns"=>$this->columns, 
 					      "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}		
@@ -242,7 +242,7 @@ class FOX_queryBuilder_whereMatrix {
 					'text'=>"$error_msg",
 					'data'=>array("args"=>$this->args, "columns"=>$this->columns, 
 						    "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			
 			}
@@ -263,7 +263,7 @@ class FOX_queryBuilder_whereMatrix {
 					'text'=>"Error during render",
 					'data'=>array("args"=>$this->args, "columns"=>$this->columns, 
 						    "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
 			}		    

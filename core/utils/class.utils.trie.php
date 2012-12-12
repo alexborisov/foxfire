@@ -44,7 +44,7 @@ class FOX_trie {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error creating iterator object",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
 		}				
@@ -57,7 +57,7 @@ class FOX_trie {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error rendering to array",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
 		}
@@ -105,7 +105,7 @@ class FOX_trie {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error creating iterator object",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
 		}				
@@ -118,7 +118,7 @@ class FOX_trie {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error rendering to array",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
 		}

@@ -151,7 +151,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Missing or invalid input",
 				'data'=>$ctrl,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));			
 		}		
@@ -186,7 +186,7 @@ class FOX_mCache {
 					throw new FOX_exception( array(
 						'numeric'=>1,
 						'text'=>"Error in cache engine driver",						
-						'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>$child
 					));		    
 				}		    
@@ -200,7 +200,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Specified engine name doesn't exist",
 				'data'=>$engine_name,			    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));			    			    
 		}			
@@ -235,7 +235,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -246,7 +246,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}		
@@ -277,7 +277,7 @@ class FOX_mCache {
 					'numeric'=>3,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -301,7 +301,7 @@ class FOX_mCache {
 				'numeric'=>4,
 				'text'=>"Cache flush error",
 				'data'=>array('engine'=>$engine, 'args'=>$args),			    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -339,7 +339,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -350,7 +350,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -361,7 +361,7 @@ class FOX_mCache {
 				'numeric'=>3,
 				'text'=>"Invalid pages parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}		
@@ -397,7 +397,7 @@ class FOX_mCache {
 					'numeric'=>4,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -422,7 +422,7 @@ class FOX_mCache {
 				'numeric'=>5,
 				'text'=>"Error in engine->flushCachePage()",
 				'data'=>$args,			    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -459,7 +459,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -470,7 +470,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}		
@@ -501,7 +501,7 @@ class FOX_mCache {
 					'numeric'=>3,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -526,7 +526,7 @@ class FOX_mCache {
 				'numeric'=>4,
 				'text'=>"Error in engine->readCache()",
 				'data'=>$args,                                   
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -564,7 +564,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -575,7 +575,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -586,7 +586,7 @@ class FOX_mCache {
 				'numeric'=>3,
 				'text'=>"Invalid pages parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}		
@@ -616,7 +616,7 @@ class FOX_mCache {
 					'numeric'=>4,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -648,7 +648,7 @@ class FOX_mCache {
 					'numeric'=>5,
 					'text'=>"Called with reserved page name 'cache'",
 					'data'=>$args['pages'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));		    		  
 			}
@@ -665,7 +665,7 @@ class FOX_mCache {
 				'numeric'=>6,
 				'text'=>"Error in engine->readCachePage()",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
 		}				
@@ -702,7 +702,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -713,7 +713,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}		
@@ -743,7 +743,7 @@ class FOX_mCache {
 					'numeric'=>3,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -767,7 +767,7 @@ class FOX_mCache {
 				'numeric'=>4,
 				'text'=>"Error in engine->writeCache()",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -805,7 +805,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -816,7 +816,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}		
@@ -827,7 +827,7 @@ class FOX_mCache {
 				'numeric'=>3,
 				'text'=>"Invalid pages parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}						
@@ -857,7 +857,7 @@ class FOX_mCache {
 					'numeric'=>4,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -889,7 +889,7 @@ class FOX_mCache {
 					'numeric'=>5,
 					'text'=>"Called with reserved page name 'cache'",
 					'data'=>$args['pages'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));		    		  
 			}
@@ -908,7 +908,7 @@ class FOX_mCache {
 				'numeric'=>6,
 				'text'=>"Error in engine->writeCachePage()",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -949,7 +949,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -960,7 +960,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -971,7 +971,7 @@ class FOX_mCache {
 				'numeric'=>3,
 				'text'=>"Invalid process_id parameter",
 				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -982,7 +982,7 @@ class FOX_mCache {
 				'numeric'=>4,
 				'text'=>"Invalid seconds parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}									    		
@@ -1012,7 +1012,7 @@ class FOX_mCache {
 					'numeric'=>5,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -1040,7 +1040,7 @@ class FOX_mCache {
 				'numeric'=>6,
 				'text'=>"Error in engine->lockCache()",
 				'data'=>$args,				    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -1084,7 +1084,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1095,7 +1095,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1106,7 +1106,7 @@ class FOX_mCache {
 				'numeric'=>3,
 				'text'=>"Invalid process_id parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1117,7 +1117,7 @@ class FOX_mCache {
 				'numeric'=>4,
 				'text'=>"Invalid seconds parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1128,7 +1128,7 @@ class FOX_mCache {
 				'numeric'=>5,
 				'text'=>"Invalid pages parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}		
@@ -1158,7 +1158,7 @@ class FOX_mCache {
 					'numeric'=>6,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -1190,7 +1190,7 @@ class FOX_mCache {
 					'numeric'=>7,
 					'text'=>"Called with reserved page name 'cache'",
 					'data'=>$args['pages'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));		    		  
 			}
@@ -1207,7 +1207,7 @@ class FOX_mCache {
 				'numeric'=>8,
 				'text'=>"Error in engine->lockCachePage()",
 				'data'=>$args,				    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}	
@@ -1245,7 +1245,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1256,7 +1256,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1267,7 +1267,7 @@ class FOX_mCache {
 				'numeric'=>3,
 				'text'=>"Invalid process_id parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1278,7 +1278,7 @@ class FOX_mCache {
 				'numeric'=>4,
 				'text'=>"Invalid seconds parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1309,7 +1309,7 @@ class FOX_mCache {
 					'numeric'=>5,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -1333,7 +1333,7 @@ class FOX_mCache {
 				'numeric'=>6,
 				'text'=>"Error in engine->lockNamespace()",
 				'data'=>$args,				    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}	
@@ -1372,7 +1372,7 @@ class FOX_mCache {
 				'numeric'=>1,
 				'text'=>"Invalid engine parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1383,7 +1383,7 @@ class FOX_mCache {
 				'numeric'=>2,
 				'text'=>"Invalid namespace parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -1394,7 +1394,7 @@ class FOX_mCache {
 				'numeric'=>3,
 				'text'=>"Invalid process_id parameter",
 				'data'=>$args,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}		
@@ -1425,7 +1425,7 @@ class FOX_mCache {
 					'numeric'=>4,
 					'text'=>"Specified engine name doesn't exist",
 					'data'=>$engine_name,			    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}			
@@ -1449,7 +1449,7 @@ class FOX_mCache {
 				'numeric'=>5,
 				'text'=>"Error in engine->unlockNamespace()",
 				'data'=>$args,				    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}	

@@ -88,6 +88,7 @@ $fox = new stdClass();
 
 require ( dirname( __FILE__ ) . '/utils/class.utils.debug.php' );
 require ( dirname( __FILE__ ) . '/utils/class.utils.debug.diff.php' );
+require ( dirname( __FILE__ ) . '/utils/class.utils.debug.handler.php' );
 require ( dirname( __FILE__ ) . '/utils/class.utils.network.php' );
 require ( dirname( __FILE__ ) . '/utils/class.utils.math.php' );
 require ( dirname( __FILE__ ) . '/utils/class.utils.trie.php' );

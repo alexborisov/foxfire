@@ -19,11 +19,9 @@ class FOX_debugHandler {
     
 	var $init_time;				    
 	
-	var $log_events;
+	var $triggers;
 	
-	var $log_buffer;	
-	
-	var $intercept_events;	
+	var $log_buffer;		
 	
 
 	// ============================================================================================================ //
@@ -31,23 +29,65 @@ class FOX_debugHandler {
 
 	public function  __construct() {
 
-		$this->log_events = array();
+		$this->triggers = array();
 		$this->log_buffer = array();
-		$this->intercept_events = array();
 		
 	}
 
+	
+	public function addTrigger($data){
+
+	    
+		if(!FOX_sUtil::keyExists('type', $data) || (($data['type'] != 'log') || ($data['type'] != 'intercept')) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Invalid trigger 'type' paramater",
+				'data'=>$data,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			    
+		}
+		
+		$this->log_buffer[] = array(
+					    'pid'=>$data['pid'],
+					    'text'=>$data['text'],		    
+					    'file'=>$data['file'], 
+					    'class'=>$data['class'], 
+					    'function'=>$data['function'], 
+					    'line'=>$data['line'], 
+		    
+		);
+		
+		return array();
+		
+	}
+	
+	
 
 	public function event($data){
 
-	    
-		if( array_key_exists($data['pid'], $this->trap_buffer) ){
+
 		
+		$this->log_buffer[] = array(
+					    'pid'=>$data['pid'],
+					    'file'=>$data['file'], 
+					    'class'=>$data['class'], 
+					    'function'=>$data['function'], 
+					    'line'=>$data['line'], 
+					    'text'=>$data['text'],		    
+		);
 		
-		}
+		return array();
 		
-		$this->buffer[] = $data;
 	}
+	
+	public function dump(){
+
+	    
+		var_dump($this->log_buffer);
+		
+	}	
 
 
 } // End of class FOX_exceptionHandler

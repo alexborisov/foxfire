@@ -93,7 +93,7 @@ class FOX_trie_clip {
 				'numeric'=>1,
 				'text'=>"Error creating root node",
 				'data'=>array("trie"=>$this->trie, "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}	    	   
@@ -108,7 +108,7 @@ class FOX_trie_clip {
 				'numeric'=>3,
 				'text'=>"Error during render",
 				'data'=>array("args"=>$this->args, "max_depth"=>$this->max_depth, "ctrl"=>$this->ctrl),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}		    

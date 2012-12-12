@@ -199,7 +199,7 @@ class FOX_wp {
 				'numeric'=>1,
 				'text'=>"Database error",
 				'data'=>array($sql, $sql_error),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
@@ -399,7 +399,7 @@ class FOX_wp {
 					'numeric'=>1,
 					'text'=>"Unrecognized response code",
 					'data'=>$code,
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));				
 			}

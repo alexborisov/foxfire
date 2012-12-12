@@ -42,7 +42,7 @@ abstract class FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Error in descendent->flushNamespace()",
 				'data'=>$args,			    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -79,7 +79,7 @@ abstract class FOX_mCache_driver_base {
 				'numeric'=>1,
 				'text'=>"Error in descendent->delMulti()",
 				'data'=>$args,			    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
@@ -120,7 +120,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>1,
 					'text'=>"Namespace is currently locked by another PID",
 					'data'=>$child->data['data'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -129,7 +129,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Error in descendent::get()",
 					'data'=>$args,				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}
@@ -186,7 +186,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>1,
 					'text'=>"Namespace is currently locked by another PID",
 					'data'=>$child->data['data'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -195,7 +195,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Error in descendent::getMulti()",
 					'data'=>$args,				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}
@@ -264,7 +264,7 @@ abstract class FOX_mCache_driver_base {
 				'numeric'=>3,
 				'text'=>"One or more pages are currently locked",
 				'data'=>$locked_pages,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));			    			    
 		}
@@ -303,7 +303,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>1,
 					'text'=>"Namespace is currently locked by another PID",
 					'data'=>$child->data['data'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -313,7 +313,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Current offset doesn't match expected offset",
 					'data'=>$child->data['data'],
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    			    
 			}			
@@ -322,7 +322,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>3,
 					'text'=>"Error in descendent::set()",
 					'data'=>$args,				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}
@@ -371,7 +371,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>1,
 					'text'=>"Namespace is currently locked by another PID",
 					'data'=>$child->data['data'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -381,7 +381,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Current offset doesn't match expected offset",
 					'data'=>$child->data['data'],
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    			    
 			}			
@@ -390,7 +390,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>3,
 					'text'=>"Error in descendent::set()",
 					'data'=>$args,				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}
@@ -437,7 +437,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>1,
 					'text'=>"Namespace is currently locked by another PID",
 					'data'=>$child->data['data'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -446,7 +446,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Error in descendent::lockNamespace()",
 					'data'=>$args,				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}
@@ -476,7 +476,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>3,
 					'text'=>"Write collision during namespace locking sequence. The other PID won.",
 					'data'=>$child->data['data'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -485,7 +485,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>4,
 					'text'=>"Error in descendent::get()",
 					'data'=>$args,				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}
@@ -502,7 +502,7 @@ abstract class FOX_mCache_driver_base {
 				'numeric'=>5,
 				'text'=>"Namespace was flushed by a different PID during read sequence",
 				'data'=>array('new_offset'=>$get_offset),				    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));		    		    
 		}
@@ -557,7 +557,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>1,
 					'text'=>"Cache namespace is currently locked by another PID",
 					'data'=>$child->data['data'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -566,7 +566,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>2,
 					'text'=>"Error in descendent::getMulti()",
 					'data'=>$args,				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			    			    
 			}
@@ -634,7 +634,7 @@ abstract class FOX_mCache_driver_base {
 				'numeric'=>3,
 				'text'=>"One or more requested pages are currently locked",
 				'data'=>$locked_pages,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));			    			    
 		}
@@ -671,7 +671,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>4,
 					'text'=>"Namespace was flushed by another PID during page locking sequence.",
 					'data'=>$child->data['data'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -681,7 +681,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>5,
 					'text'=>"Namespace was locked by another PID during page locking sequence.",
 					'data'=>$child->data['data'],				    
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    			    
 			}
@@ -691,7 +691,7 @@ abstract class FOX_mCache_driver_base {
 					'numeric'=>6,
 					'text'=>"Error in descendent::setMulti()",
 					'data'=>$cache_image,
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));			
 			}

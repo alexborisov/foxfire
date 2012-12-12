@@ -130,7 +130,7 @@ class FOX_cast {
 					'numeric'=>1,
 					'text'=>"Called with missing or invalid out_type",
 					'data'=>array("class_name"=>$class_name, "value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -284,7 +284,7 @@ class FOX_cast {
 					'numeric'=>1,
 					'text'=>"Called with missing or invalid out_type",
 					'data'=>array("class_name"=>$class_name, "value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));
 			}
@@ -389,7 +389,7 @@ class FOX_cast {
 					'numeric'=>1,
 					'text'=>"Called with missing or invalid format",
 					'data'=>array("class_name"=>$class_name, "format"=>$format),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    
 			    

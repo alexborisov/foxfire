@@ -149,7 +149,7 @@ class FOX_trie_flatten_iterator {
 												"value"=>$key, 
 									)
 							),
-							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 							'child'=>$child
 						));
 					}
@@ -179,7 +179,7 @@ class FOX_trie_flatten_iterator {
 												"value"=>$key, 
 									)
 							),
-							'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 							'child'=>$child
 						));		    
 					}								

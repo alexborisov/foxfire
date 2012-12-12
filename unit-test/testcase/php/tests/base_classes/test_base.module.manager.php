@@ -84,7 +84,7 @@ class FOX_moduleManager_test_stub extends FOX_module_manager_base {
 			$error = array(
 				'numeric'=>1,
 				'text'=>"Cache load error",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'method'=>__METHOD__, 'line'=>__LINE__, 
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$cache_get_error
 			);
 			return false;
