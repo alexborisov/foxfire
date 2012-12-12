@@ -213,6 +213,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_start",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -236,6 +237,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"validate_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -345,6 +347,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"validate_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -426,6 +429,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_end",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -473,6 +477,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_start",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -499,6 +504,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"validate_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -603,6 +609,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"validate_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -681,6 +688,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_end",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -727,6 +735,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_start",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -753,6 +762,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"validate_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -851,6 +861,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+				    	'pid'=>$this->process_id,
 					'text'=>"validate_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -928,6 +939,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_end",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -973,6 +985,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_start",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -999,6 +1012,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"validate_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1090,6 +1104,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"validate_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1167,6 +1182,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_end",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -1211,6 +1227,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_start",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -1237,6 +1254,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"validate_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1313,6 +1331,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"validate_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1379,6 +1398,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_end",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -1440,6 +1460,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 		    
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_start",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -1486,6 +1507,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				if($this->debug_on){
 
 					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,					    
 						'text'=>"matrix_validate_start",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
@@ -1538,6 +1560,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				if($this->debug_on){
 
 					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,					    
 						'text'=>"matrix_validate_end",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
@@ -1554,6 +1577,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"matrix_transform_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1590,6 +1614,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"matrix_transform_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1605,6 +1630,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				if($this->debug_on){
 
 					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,					    
 						'text'=>"trie_validate_start",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
@@ -1649,6 +1675,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				if($this->debug_on){
 
 					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,					    
 						'text'=>"trie_validate_end",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
@@ -1704,6 +1731,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"class_cache_prescan_start",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -1728,6 +1756,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"class_cache_prescan_end",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -1740,6 +1769,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"persistent_cache_fetch_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1764,6 +1794,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"persistent_cache_fetch_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1793,6 +1824,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"class_cache_postscan_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1805,6 +1837,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"class_cache_postscan_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -1845,6 +1878,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				if($this->debug_on){
 
 					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,					    
 						'text'=>"db_fetch_start",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
@@ -1869,6 +1903,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				if($this->debug_on){
 
 					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,					    
 						'text'=>"db_fetch_end",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
@@ -1881,6 +1916,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					if($this->debug_on){
 
 						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,						    
 							'text'=>"db_result_transform_start",
 							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 							'parent'=>$this,
@@ -2007,6 +2043,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					if($this->debug_on){
 
 						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,						    
 							'text'=>"db_result_transform_end",
 							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 							'parent'=>$this,
@@ -2025,17 +2062,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		// Build the updated cache image, and generate the result from the image (this 
 		// lets us still return a result in the event of a cache write failure)
-		// ==========================================================================
-			
-		if($this->debug_on){
-
-			extract( $this->debug_handler->event( array(
-				'text'=>"class_cache_rebuild_start",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'parent'=>$this,
-				'vars'=>compact(array_keys(get_defined_vars()))
-			)));		    
-		}
+		// ==========================================================================			
 					
 		if($update_cache){
 		    
@@ -2052,22 +2079,13 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			$cache_image =& $this->cache;
 		}
 		
-		if($this->debug_on){
-
-			extract( $this->debug_handler->event( array(
-				'text'=>"class_cache_rebuild_end",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'parent'=>$this,
-				'vars'=>compact(array_keys(get_defined_vars()))
-			)));		    
-		}		
-		
 		$result = array();
 		$valid = true;		
 		
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"result_build_start",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -2175,6 +2193,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"result_build_end",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -2187,6 +2206,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"result_matrix_transform_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -2221,6 +2241,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"result_matrix_transform_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -2249,6 +2270,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"persistent_cache_write_start",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -2273,6 +2295,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
 					'text'=>"persistent_cache_write_end",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'parent'=>$this,
@@ -2290,6 +2313,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
 				'text'=>"method_end",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
@@ -2330,6 +2354,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		//  1) If an object has authority in the class cache skip it
 		//  2) If the object doesn't have authority and has no descendents, flag it
 		//  3) Otherwise, repeat the algorithm on the object's descendents
+	    
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}	    
 	    
 		$result = array();
 	    	    
@@ -2424,6 +2459,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		unset($L5, $L4s);
 		
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		
 		return $result;
 		
 	    
@@ -2467,6 +2514,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		$data = array( array( 
 				$this->L5_col=>$L5, 
@@ -2491,6 +2548,19 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		
 		return $result;
 
 	}
@@ -2530,6 +2600,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$ctrl_default = array(
 			"validate"=>true
@@ -2554,6 +2634,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}	
@@ -2592,6 +2684,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$data = array( array(
 				$this->L5_col=>$L5, 
 				$this->L4_col=>$L4, 
@@ -2614,6 +2718,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+				
 		return $result;
 
 	}
@@ -2654,6 +2770,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -2680,6 +2808,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){
 	    
+		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			$struct = $this->_struct();
 				    					    
 			$row_valid = false;			    
@@ -2724,6 +2864,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));					    					    
+			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
 			}			
 	    		    		    
 		}
@@ -2736,6 +2887,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// where two rows in the data array contain the same L5->L2 walk.
 		
 		$set_data = array();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		foreach( $data as $row ){
 
@@ -2754,6 +2916,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($row);		
 		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add to db
 		// ===========================================================
@@ -2777,6 +2950,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $rows_changed;
 
 	}
@@ -2815,6 +3000,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$data = array( array(
 				$this->L5_col=>$L5, 
@@ -2837,6 +3032,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -2877,6 +3084,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -2903,6 +3120,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// ===========================================================		
 		
 		if($ctrl['validate'] == true){
+		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}		    
 	    
 			$struct = $this->_struct();
 				    					    
@@ -2952,6 +3180,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));					    					    
 			}			
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 		
 		
@@ -2962,6 +3201,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// where two rows in the data array contain the same L5->L3 walk.
 		
 		$set_data = array();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		foreach( $data as $row ){
 			
@@ -2977,7 +3227,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($row);
 		
+		if($this->debug_on){
 
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add to db
 		// ===========================================================
 		
@@ -3000,6 +3260,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return $rows_changed;
 
@@ -3039,6 +3309,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		$data = array( array( 
 				$this->L5_col=>$L5, 
@@ -3060,6 +3340,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -3100,6 +3392,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -3127,6 +3429,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] == true){
 	    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			$struct = $this->_struct();
 				    					    
 			$row_valid = false;			    
@@ -3175,6 +3488,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));					    					    
 			}			
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}		
 		
 		
@@ -3185,6 +3509,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// where two rows in the data array contain the same L5 key.
 		
 		$set_data = array();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		foreach( $data as $row ){
 
@@ -3204,6 +3539,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($row);
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add to db
 		// ===========================================================
@@ -3227,6 +3572,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $rows_changed;
 
 	}		
@@ -3265,6 +3621,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		$data = array( array(
 				$this->L5_col=>$L5, 
@@ -3285,6 +3651,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -3325,6 +3702,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -3352,6 +3739,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		                					
 		if($ctrl['validate'] == true){
 	    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			$struct = $this->_struct();	
 			
 			$row_ctrl = array(				    
@@ -3402,6 +3800,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));					    					    
 			}	
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}	
 		
 		
@@ -3412,6 +3821,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// where two rows in the data array contain the same L5 key.
 		
 		$set_data = array();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		foreach( $data as $row ){
 
@@ -3436,6 +3856,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($row);
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add to db
 		// ===========================================================
@@ -3459,6 +3889,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}		
@@ -3511,6 +3952,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -3542,10 +3993,20 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		$update_data = array();
 			
-		if($ctrl['mode'] == 'matrix'){
-		    
-				
-		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)		    			    
+		if($ctrl['mode'] == 'matrix'){		   
+		
+		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)	
+
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_validate_start",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}			    
 
 				$row_valid = false;	
 
@@ -3591,20 +4052,65 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					));					    					    
 				}				
 			
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_validate_end",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+				
 			}
 			else {
 			    
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_transform_start",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+				
 				foreach( $data as $row ){   
 					
 					$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
 				} 
-				unset($row);			    			    
+				unset($row);	
+
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_transform_end",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+				
 			}
 							
 		}
 		elseif($ctrl['mode'] == 'trie'){		    
 		    
-			if($ctrl['validate'] != false){	    // Validate the $data array	   
+			if($ctrl['validate'] != false){	    // Validate the $data array	  
+			    
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"trie_validate_start",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}			    
 
 				try {			    
 					$validator = new FOX_dataStore_validator($struct);	
@@ -3637,7 +4143,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>null
 					));			    
-				}				    
+				}
+				
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"trie_validate_end",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}				
 			}
 			
 			$update_data = $data;						
@@ -3659,6 +4176,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Lock affected cache pages
 		// ===========================================================
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+				
 		try {
 			$cache_pages = self::lockCachePage( array_keys($update_data) );
 			$update_cache = $cache_pages;
@@ -3674,11 +4202,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}			
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		
 		// Build db insert array and updated cache pages array
 		// ===========================================================		
 
 		$insert_data = array();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 
 		foreach( $update_data as $L5 => $L4s ){
 
@@ -3712,11 +4262,32 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($L5, $L4s);
 			
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}			
 		
 		// Write to database
 		// ===========================================================
 		
-		$db = new FOX_db(); 		
+		$db = new FOX_db(); 
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_write_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 
 		try {
 			$rows_changed = $db->runInsertQueryMulti($struct, $insert_data, $columns=null);
@@ -3749,11 +4320,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 			
 		}
+			
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_write_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 				
-							
+		
 		// Write updated cache page images to persistent cache
 		// ===========================================================
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			self::writeCachePage($update_cache);
 		}
@@ -3768,6 +4361,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}			
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Write updated cache page images to class cache
 		// ===========================================================
@@ -3779,7 +4382,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		unset($L5, $page_image);		
 
 
+		if($this->debug_on){
 
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		
 		return (int)$rows_changed;
 
 	}	
@@ -3821,6 +4435,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$data = array( array(
 				$this->L5_col=>$L5, 
@@ -3846,6 +4470,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -3885,6 +4521,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$ctrl_default = array(
 			"validate"=>true
@@ -3893,8 +4539,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
 		
 		$ctrl['mode'] = 'matrix';
-		
-		
+				
 		try {						
 			$result = self::setMulti($data, $ctrl);
 		}
@@ -3909,6 +4554,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}	
@@ -3947,6 +4603,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$data = array( array(
 				$this->L5_col=>$L5, 
@@ -3970,6 +4636,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -4010,6 +4687,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -4037,6 +4724,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] == true){
 	    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			$struct = $this->_struct();
 				    					    
 			$row_valid = false;			    
@@ -4081,7 +4779,19 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));					    					    
-			}			
+			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 		
 		
@@ -4092,6 +4802,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// where two rows in the data array contain the same L5->L2 walk.
 		
 		$set_data = array();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		foreach( $data as $row ){
 
@@ -4108,6 +4829,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($row);		
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add to db
 		// ===========================================================
@@ -4131,6 +4862,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -4169,6 +4911,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$data = array( array(
 				$this->L5_col=>$L5, 
@@ -4191,6 +4943,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -4231,6 +4994,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -4258,6 +5031,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] == true){
 	    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			$struct = $this->_struct();
 				    					    
 			$row_valid = false;			    
@@ -4304,6 +5088,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));					    					    
 			}
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 		
 		
@@ -4314,6 +5109,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// where two rows in the data array contain the same L5->L3 walk.
 		
 		$set_data = array();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		foreach( $data as $row ){
 			
@@ -4329,7 +5135,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($row);
 		
+		if($this->debug_on){
 
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add to db
 		// ===========================================================
 		
@@ -4352,6 +5168,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		return $result;
 
@@ -4391,6 +5217,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$data = array( array(
 				$this->L5_col=>$L5, 
@@ -4412,6 +5248,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -4452,6 +5299,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -4479,6 +5336,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] == true){
 	    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			$struct = $this->_struct();
 				    					    
 			$row_valid = false;			    
@@ -4525,6 +5393,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));					    					    
 			}	
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}		
 		
 		
@@ -4535,6 +5414,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// where two rows in the data array contain the same L5 key.
 		
 		$set_data = array();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		foreach( $data as $row ){
 
@@ -4554,6 +5444,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($row);
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add to db
 		// ===========================================================
@@ -4577,6 +5477,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $rows_changed;
 
 	}		
@@ -4615,6 +5526,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$data = array( array(
 				$this->L5_col=>$L5, 
@@ -4635,6 +5556,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -4675,6 +5607,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -4702,6 +5644,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		                					
 		if($ctrl['validate'] == true){
 	    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			$struct = $this->_struct();
 				    					    
 			$row_valid = false;			    
@@ -4746,6 +5699,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));					    					    
+			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
 			}			
 			
 		}	
@@ -4758,6 +5722,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// where two rows in the data array contain the same L5 key.
 		
 		$set_data = array();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		foreach( $data as $row ){
 
@@ -4782,6 +5757,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($row);
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"trie_transform_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add to db
 		// ===========================================================
@@ -4805,6 +5790,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}		
@@ -4855,6 +5851,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -4891,6 +5897,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    			
 		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
 
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_validate_start",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+		
 				$row_valid = false;			    
 
 				try {			    
@@ -4935,14 +5952,48 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					));					    					    
 				}				
 			
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_validate_end",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+				
 			}
 			else {
 			    
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_transform_start",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+				
 				foreach( $data as $row ){   
 					
 					$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
 				} 
-				unset($row);			    			    
+				unset($row);	
+
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_transform_end",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}	
+				
 			}
 							
 		}
@@ -4950,6 +6001,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"trie_validate_start",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+				
 				try {			    
 					$validator = new FOX_dataStore_validator($struct);	
 								
@@ -4981,7 +6043,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>null
 					));			    
-				}				    
+				}
+				
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"trie_validate_end",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}				
 			}
 			
 			$update_data = $data;						
@@ -5003,6 +6076,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Lock affected cache pages
 		// ===========================================================
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+				
 		try {
 			$cache_pages = self::lockCachePage( array_keys($update_data) );
 			$update_cache = $cache_pages;
@@ -5018,11 +6102,32 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Build db indate array and updated cache pages array
 		// ===========================================================		
 
-		$indate_data = array();		
+		$indate_data = array();	
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		foreach( $update_data as $L5 => $L4s ){
 
@@ -5057,7 +6162,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($L5, $L4s);
 			
-			
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Write to database
 		// ===========================================================
 		
@@ -5069,7 +6184,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if( count($indate_data) == 1 ){
 						
-			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"db_indate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			try {
 				$rows_changed = $db->runIndateQuery($struct, $indate_data[0], $columns=null);
 			}
@@ -5100,7 +6225,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));		    
 			}			
 			
+			if($this->debug_on){
 
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"db_indate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 		}
 		
 		// CASE 2: Transactions are required.
@@ -5108,6 +6243,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		else {			
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"db_transaction_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 			// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 			
 			try {
@@ -5126,7 +6272,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			
 			$rows_changed = 0;
 			
+			if($this->debug_on){
 
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"db_indate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 			foreach( $indate_data as $indate_row){
 			    
 			    
@@ -5165,7 +6321,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 			unset($indate_row);
 									
+			if($this->debug_on){
 
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"db_indate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 			try {
 				$db->commitTransaction();
 			}
@@ -5180,7 +6346,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));		    
 			}
 			
-			// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@			
+			// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"db_transaction_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 
 		}
 		
@@ -5204,6 +6381,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		// Write updated cache page images to persistent cache
 		// ===========================================================
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 
 		try {
 			self::writeCachePage($update_cache);
@@ -5219,6 +6407,27 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}			
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return (int)$rows_changed;
 	
@@ -5261,6 +6470,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -5276,6 +6496,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -5360,7 +6591,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				}			    
 			    
 			}
-			unset($key, $val);			
+			unset($key, $val);
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}		
 			
 		}
 		
@@ -5388,6 +6630,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return $rows_changed;
 		
@@ -5429,6 +6682,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -5458,6 +6721,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		if($ctrl['validate'] == true){
 		    		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			try {			    			    
 				$validator = new FOX_dataStore_validator($struct);
 			
@@ -5490,7 +6764,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'child'=>null
 				));			    
 			}
-					
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 						
 
@@ -5498,6 +6783,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// ===========================================================
 		
 		$L5_ids = array_keys($data);
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		try {
 			$page_images = self::lockCachePage($L5_ids);
@@ -5513,6 +6809,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// 1) Build $insert_data array
 		// 2) Calculate $del_args
@@ -5523,6 +6829,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$del_args = array();		
 		$page_images = $this->cache;
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		foreach( $data as $L5 => $L4s ){				
 			
 			// Avoid creating redundant LUT entries
@@ -5594,12 +6911,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($L5, $L4s);
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		// Update the database
 		// ===========================================================
 		
 		$db = new FOX_db();
 			
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 		
@@ -5632,6 +6970,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		$del_ctrl = array('args_format'=>'matrix');
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
@@ -5660,12 +7009,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
 
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Insert updated walks
 		// ===========================================================
 
 		$insert_cols = null;
 		$insert_ctrl = null;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
@@ -5695,9 +7065,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}				
 
-		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		if($this->debug_on){
 
-
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$db->commitTransaction();
 		}
@@ -5711,10 +7089,34 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}		
-				
+		
+		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Overwrite the locked L5 cache pages, releasing our lock
 		// ===========================================================
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			self::writeCachePage($page_images);
@@ -5730,13 +7132,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Write the temp class cache to the class cache
 		// ===========================================================		
 		
 		$this->cache = $page_images;
 		
+		if($this->debug_on){
 
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return (int)$rows_set;
 		
 	}
@@ -5777,6 +7199,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -5792,6 +7225,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -5889,6 +7333,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));			    
 			}			
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 		
 
@@ -5915,6 +7370,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return $rows_changed;
 		
@@ -5956,6 +7422,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -5985,6 +7461,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		if($ctrl['validate'] == true){
 		    		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			try {			    			    
 				$validator = new FOX_dataStore_validator($struct);
 			
@@ -6017,7 +7504,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'child'=>null
 				));			    
 			}
-					
+				
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 						
 
@@ -6025,6 +7523,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// ===========================================================
 		
 		$L5_ids = array_keys($data);
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			$page_images = self::lockCachePage($L5_ids);
@@ -6040,6 +7549,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// 1) Build $insert_data array
 		// 2) Calculate $del_args
@@ -6050,6 +7569,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$del_args = array();		
 		$page_images = $this->cache;
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		foreach( $data as $L5 => $L4s ){	
 			
 			// Avoid creating redundant LUT entries
@@ -6120,12 +7650,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($L5, $L4s);
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Update the database
 		// ===========================================================
 		
 		$db = new FOX_db();
 			
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 		
@@ -6157,6 +7708,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		$del_ctrl = array('args_format'=>'matrix');
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
@@ -6185,12 +7747,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 
 		// Insert updated walks
 		// ===========================================================
 
 		$insert_cols = null;
 		$insert_ctrl = null;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
@@ -6220,9 +7803,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}				
 
-		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		if($this->debug_on){
 
-
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$db->commitTransaction();
 		}
@@ -6237,9 +7828,34 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		
+		
+		if($this->debug_on){
 
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		
 		// Overwrite the locked L5 cache pages, releasing our lock
 		// ===========================================================
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			self::writeCachePage($page_images);
@@ -6255,8 +7871,29 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$this->cache = $page_images;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return (int)$rows_set;
 		
@@ -6298,6 +7935,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -6313,6 +7961,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -6404,6 +8063,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));			    
 			}			
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 		
 
@@ -6430,6 +8100,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return $rows_changed;
 		
@@ -6471,6 +8152,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -6500,6 +8191,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		if($ctrl['validate'] == true){
 		    		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			try {			    			    
 				$validator = new FOX_dataStore_validator($struct);
 			
@@ -6531,7 +8233,19 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    
-			}					
+			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}	
+			
 		}
 						
 
@@ -6539,6 +8253,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// ===========================================================
 		
 		$L5_ids = array_keys($data);
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		try {
 			$page_images = self::lockCachePage($L5_ids);
@@ -6554,6 +8279,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		// 1) Build $insert_data array
 		// 2) Calculate $del_args
@@ -6564,6 +8299,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$del_args = array();		
 		$page_images = $this->cache;
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		foreach( $data as $L5 => $L4s ){	
 					    
 			// Avoid creating redundant LUT entries
@@ -6628,12 +8374,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($L5, $L4s);
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Update the database
 		// ===========================================================
 		
 		$db = new FOX_db();
 			
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 		
@@ -6664,6 +8431,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		$del_ctrl = array('args_format'=>'matrix');
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
+		
 		try {
 			$db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
@@ -6692,12 +8470,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 
 		// Insert updated walks
 		// ===========================================================
 
 		$insert_cols = null;
 		$insert_ctrl = null;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
@@ -6727,9 +8526,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}				
 
-		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		if($this->debug_on){
 
-
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$db->commitTransaction();
 		}
@@ -6744,9 +8551,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 		
+		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Overwrite the locked L5 cache pages, releasing our lock
 		// ===========================================================
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			self::writeCachePage($page_images);
@@ -6762,8 +8593,30 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$this->cache = $page_images;
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return (int)$rows_set;
 		
 	}
@@ -6805,6 +8658,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -6820,6 +8684,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -6895,6 +8770,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));			    
 			}			
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 		}
 		
 
@@ -6922,6 +8808,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+			
 		return $rows_changed;
 		
 	}
@@ -6962,6 +8859,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Add default control params
 		// ==========================
@@ -6991,6 +8898,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		if($ctrl['validate'] == true){
 		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			try {			    			    
 				$validator = new FOX_dataStore_validator($struct);;
 		    
@@ -7023,13 +8941,35 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'child'=>null
 				));			    
 			}
-					
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		} 
 		
 		// Lock all L5 cache pages in the $data array
 		// ===========================================================
 		
 		$L5_ids = array_keys($data);
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			self::lockCachePage($L5_ids);
@@ -7045,6 +8985,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// 1) Build $insert_data array
 		// 2) Rebuild cache page images
@@ -7054,6 +9004,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$dead_cache_pages = array();
 		$insert_data = array(); 
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		foreach( $data as $L5 => $L4s ){
 		    
 			if( empty($L4s) ){	
@@ -7107,11 +9068,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		unset($L5, $L4s);
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
 		
 		// Update the database
 		// ===========================================================
 		
 		$db = new FOX_db();		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -7138,6 +9121,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 		
 		$del_ctrl = null;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			$db->runDeleteQuery($struct, $args, $del_ctrl);
@@ -7167,11 +9161,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Insert updated walks
 		// ===========================================================
 
 		$insert_col = null;
 		$insert_ctrl = null;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_col, $insert_ctrl);
@@ -7201,8 +9217,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}				
 
-		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		if($this->debug_on){
 
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 
 		try {
 			$db->commitTransaction();
@@ -7218,9 +9242,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 		
+		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Overwrite the locked L5 cache pages, releasing our lock
 		// ===========================================================
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			self::writeCachePage($update_cache);
@@ -7236,12 +9284,33 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		// Flush any dead L5 cache pages, releasing our lock
 		// ===========================================================
 		
 		if($dead_cache_pages){
 		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			try {
 				self::flushCachePage($dead_cache_pages);
 			}
@@ -7256,9 +9325,32 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));		    
 			}
 		
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 		}
 		
 		$this->cache = $update_cache;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+			
 		
 		return (int)$rows_set;
 		
@@ -7301,6 +9393,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 			
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$ctrl_default = array(
 			"validate"=>true
 		);
@@ -7313,6 +9416,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -7414,7 +9528,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 			unset($key, $val);
 			
-			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		} // ENDOF: if($ctrl['validate'] != false)		
 					
 		
@@ -7456,6 +9580,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $rows_changed;
 		
 	}
@@ -7494,6 +9629,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$ctrl_default = array(
 			"validate"=>true
@@ -7510,6 +9655,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Build args array
 		// ==========================
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
+		
 		try {	
 			if($ctrl['validate'] != false){
 
@@ -7524,6 +9680,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				if($ctrl['validate'] != false){
 
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_start",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 					if( is_array($row[$this->L1_col]) ){
 
 						$row_ctrl = array(  'required_keys'=>array(
@@ -7574,6 +9741,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						break;		    
 					}	
 					
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_end",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 				}
 
 				// If the value is a single key, convert it to an array so the
@@ -7610,6 +9788,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// This structure has to be outside the validator try-catch block to prevent it from   
 		// catching the exceptions we throw (which would cause confusing exception chains)
 
@@ -7647,6 +9836,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		
 		return $rows_changed;	      
 		
@@ -7684,6 +9884,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$ctrl_default = array(
 			"validate"=>true
 		);
@@ -7696,6 +9907,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -7792,6 +10014,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 			unset($key, $val);			
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 		
 		
@@ -7833,6 +10066,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $rows_changed;
 		
 	}
@@ -7870,6 +10114,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$ctrl_default = array(
 			"validate"=>true
@@ -7887,6 +10141,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Build args array
 		// ==========================
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {	
 			if($ctrl['validate'] != false){
 
@@ -7901,6 +10166,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				if($ctrl['validate'] != false){
 
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_start",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 					if( is_array($row[$this->L2_col]) ){
 
 						$row_ctrl = array(  'required_keys'=>array(
@@ -7946,6 +10222,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						break;		    
 					}	
 					
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_end",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 				}
 
 				// If the value is a single key, convert it to an array so the
@@ -7981,6 +10268,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// This structure has to be outside the validator try-catch block to prevent it from   
 		// catching the exceptions we throw (which would cause confusing exception chains)
 
@@ -8017,6 +10315,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return $rows_changed;	      
 		
@@ -8052,6 +10360,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$ctrl_default = array(
 			"validate"=>true
 		);
@@ -8064,6 +10383,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -8154,6 +10484,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 			unset($key, $val);			
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 		
 		
@@ -8196,6 +10537,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $rows_changed;
 		
 	}
@@ -8232,6 +10584,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$ctrl_default = array(
 			"validate"=>true
@@ -8249,6 +10611,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Build args array
 		// ==========================
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {	
 			if($ctrl['validate'] != false){
 
@@ -8263,6 +10636,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				if($ctrl['validate'] != false){
 
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_start",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 					if( is_array($row[$this->L3_col]) ){
 
 						$row_ctrl = array(  'required_keys'=>array(
@@ -8304,6 +10688,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						break;		    
 					}	
 					
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_end",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 				}
 
 				// If the value is a single key, convert it to an array so the
@@ -8338,6 +10733,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// This structure has to be outside the validator try-catch block to prevent it from   
 		// catching the exceptions we throw (which would cause confusing exception chains)
 
@@ -8374,6 +10780,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return $rows_changed;	      
 		
@@ -8409,6 +10825,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$ctrl_default = array(
 			"validate"=>true
 		);
@@ -8421,6 +10848,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -8504,6 +10942,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 			unset($key, $val);			
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 		
 		
@@ -8545,6 +10994,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $rows_changed;
 		
 	}
@@ -8580,6 +11040,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$ctrl_default = array(
 			"validate"=>true
@@ -8596,6 +11066,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Build args array
 		// ==========================
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
+		
 		try {	
 			if($ctrl['validate'] != false){
 
@@ -8610,6 +11091,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				if($ctrl['validate'] != false){
 
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_start",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 					if( is_array($row[$this->L4_col]) ){
 
 						$row_ctrl = array(  'required_keys'=>array(
@@ -8646,6 +11138,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						break;		    
 					}	
 					
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_end",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 				}
 
 				// If the value is a single key, convert it to an array so the
@@ -8679,6 +11182,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// This structure has to be outside the validator try-catch block to prevent it from   
 		// catching the exceptions we throw (which would cause confusing exception chains)
 
@@ -8715,6 +11229,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return $rows_changed;	   
 		
@@ -8749,6 +11273,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$ctrl_default = array(
 			"validate"=>true
 		);
@@ -8761,6 +11296,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -8829,7 +11375,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));			    
 			}			    			
 			
-			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		} // ENDOF: if($ctrl['validate'] != false){	
 		
 		
@@ -8871,6 +11427,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $rows_changed;
 		
 	}
@@ -8905,6 +11472,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$ctrl_default = array(
 			"validate"=>true
@@ -8921,6 +11498,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Build args array
 		// ==========================
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {	
 			if($ctrl['validate'] != false){
 
@@ -8935,6 +11523,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 				if($ctrl['validate'] != false){
 
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_start",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 					if( is_array($row[$this->L5_col]) ){
 
 						$row_ctrl = array(  'required_keys'=>array(
@@ -8967,6 +11566,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						break;		    
 					}	
 					
+					if($this->debug_on){
+
+						extract( $this->debug_handler->event( array(
+							'pid'=>$this->process_id,			    
+							'text'=>"validate_end",
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'parent'=>$this,
+							'vars'=>compact(array_keys(get_defined_vars()))
+						)));		    
+					}
+		
 				}
 
 				// If the value is a single key, convert it to an array so the
@@ -8997,6 +11607,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// This structure has to be outside the validator try-catch block to prevent it from   
 		// catching the exceptions we throw (which would cause confusing exception chains)
 
@@ -9034,6 +11655,16 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return $rows_changed;	   
 		
@@ -9085,6 +11716,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -9120,6 +11762,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				
 		    	if($ctrl['validate'] != false){	    // Performance optimization (saves 1 op per key)
 
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_validate_start",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+		
 				$row_valid = false;			    
 
 				try {			    
@@ -9161,6 +11814,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					));					    					    
 				}				
 			
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"matrix_validate_end",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+		
 			}
 
 			// Loft the individual rows into a trie, to merge overlapping entries, then clip
@@ -9174,9 +11838,31 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					$this->L1_col
 			);
 			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"matrix_transform_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			$trie = FOX_trie::loftMatrix($data, $columns, null);
 			
 			$del_data = FOX_trie::clipAssocTrie($trie, $columns, null);
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"matrix_transform_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
 			
 							
 		}
@@ -9184,6 +11870,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		    		    
 			if($ctrl['validate'] != false){	    // Validate the $data array	   
 
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"trie_validate_start",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+		
 				try {			    
 					$validator = new FOX_dataStore_validator($struct);
 				
@@ -9215,7 +11912,19 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>null
 					));			    
-				}				    
+				}
+				
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"trie_validate_end",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+				
 			}
 			
 			$del_data = $data;						
@@ -9262,6 +11971,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Lock affected cache pages
 		// ===========================================================
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$cache_pages = self::lockCachePage( array_keys($del_data) );
 			$update_cache = $cache_pages;
@@ -9277,12 +11997,34 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}			
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		
 		// Build db insert array and updated cache pages array
 		// ===========================================================	
 		
 		$dead_pages = array();		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		foreach( $del_data as $L5 => $L4s ){		
 		    
 			// Handle "true", "null" etc end nodes. The algorithm is implemented this
@@ -9375,7 +12117,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				$dead_pages[] = $L5;			    // the page to be flushed from the persistent cache
 				unset($update_cache[$L5]);
 			}			
-						
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"build_data_array_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		}
 		unset($L5, $L4s);
 			
@@ -9385,6 +12138,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		$db = new FOX_db(); 
 				
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$args = array(
 				'key_col'=>array(
 						    $this->L5_col, 
@@ -9433,7 +12197,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 			
 		}
-			
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// NOTE: we *must* update the class cache before the persistent cache so that if 
 		// the persistent cache write fails, the class cache will still in the correct
 		// state. If we failed to do this, the class cache could end up with 'ghost' pages
@@ -9467,6 +12242,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		if($update_cache){  // Trap deleting nothing but L5's
 		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_write_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			try {
 				self::writeCachePage($update_cache);
 			}
@@ -9480,6 +12266,18 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'child'=>$child
 				));		    
 			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_write_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 		}
 
 		// Flush any dead pages from the cache
@@ -9487,6 +12285,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($dead_pages){
 		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 			try {
 				self::flushCachePage($dead_pages);
 			}
@@ -9499,9 +12308,32 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));		    
-			}		    		    		    
+			}
+
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
 		}								
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+			
 		return (int)$rows_changed;
 
 	}	
@@ -9535,6 +12367,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$col = "L" . $level . "_col";
 		
 		$ctrl_default = array(
@@ -9549,6 +12392,17 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		if($ctrl['validate'] != false){		   
 
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 			// Each variable has to be validated individually. If we spin the variables
 			// into a trie, PHP will automatically convert strings that map to ints ("17")
 			// into (int) keys, which will defeat the validators
@@ -9617,13 +12471,34 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				));			    
 			}			    			
 			
-			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
 		} // ENDOF: if($ctrl['validate'] != false){
 
 		
 		// Lock the entire cache namespace
 		// ===========================================================
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			self::lockNamespace();
 		}
@@ -9637,7 +12512,29 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$db = new FOX_db();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$args = array(
 				array("col"=>$this->$col, "op"=>"=", "val"=>$items)
@@ -9657,8 +12554,30 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Since this operation affects ALL L5 pages, we have to flush the 
 		// entire cache namespace
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_flush_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			self::flushCache();
@@ -9673,6 +12592,28 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persisent_cache_flush_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return (int)$rows_changed;
 
 	}
@@ -9700,9 +12641,31 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));
 		}
 		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Lock the entire cache namespace
 		// ===========================================================
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			self::lockNamespace();
 		}
@@ -9715,8 +12678,31 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}
-				
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$db = new FOX_db();
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_truncate_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();		
 
 		try {
@@ -9733,8 +12719,30 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			));		    
 		}		
 
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_truncate_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Since this operation affects ALL L5 pages, we have to flush the 
 		// entire cache namespace
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_flush_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			self::flushCache();
@@ -9747,6 +12755,28 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
+		}
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_flush_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
 		}
 		
 		return true;
