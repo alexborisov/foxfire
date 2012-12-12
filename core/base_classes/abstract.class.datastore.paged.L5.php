@@ -6,6 +6,7 @@
  * 
  * FEATURES
  * --------------------------------------
+ *  -> ACID compliant
  *  -> Transient cache support
  *  -> Persistent cache support
  *  -> Progressive cache loading
@@ -13,6 +14,7 @@
  *  -> Fully atomic operations
  *  -> Advanced error handling
  *  -> Multi-thread safe
+ *  -> Multi-server safe 
  *	
  * DESIGN NOTES
  * --------------------------------------
@@ -37,6 +39,8 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	
 	var $cache;			    // Main cache array for this class
 	
+	var $db;			    // Local copy of database singleton
+	
 	var $mCache;			    // Local copy of memory cache singleton. Used by FOX_db_base for cache 
 					    // operations. Loaded by descendent class.	
 	
@@ -48,10 +52,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 	var $hashtable;			    // Hash table instance used for hashing tokens
 	
 	var $debug_on;			    // Send debugging info to the debug handler	
-	var $debug_handler;		    // Local copy of debug singleton
-	
-	var $metrology_on;		    // Send cache and database timing data to the metrology handler	
-	var $metrology_handler;		    // Local copy of metrology singleton
+	var $debug_handler;		    // Local copy of debug singleton	
 	
 
 	/* ================================================================================================================
@@ -139,24 +140,15 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			$this->debug_on = false;		    		    
 		}
 		
-		// Metrology events
+		// Database singleton
 		// ===========================================================
 		
-		if(FOX_sUtil::keyExists('metrology_on', $args) && ($args['metrology_on'] == true) ){
+		if(FOX_sUtil::keyExists('db', $args) ){
 		    
-			$this->metrology_on = true;
-			
-			if(FOX_sUtil::keyExists('metrology_handler', $args)){
-
-				$this->metrology_handler =& $args['metrology_handler'];		    
-			}
-			else {
-				global $fox;
-				$this->metrology_handler =& $fox->metrology_handler;		    		    
-			}		    
+			$this->db =& $args['db'];		    
 		}
 		else {
-			$this->metrology_on = false;		    		    
+			$this->db = new FOX_db();		    		    
 		}			
 			    
 		
@@ -1847,8 +1839,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 			if($db_fetch){
 
-				$db = new FOX_db(); 
-
 				$columns = null;
 
 				$args = array(
@@ -1887,7 +1877,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				}
 					
 				try {
-					$db_result = $db->runSelectQuery($struct, $args, $columns, $db_ctrl);	
+					$db_result = $this->db->runSelectQuery($struct, $args, $columns, $db_ctrl);	
 				}
 				catch (FOX_exception $child) {
 
@@ -4276,8 +4266,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// Write to database
 		// ===========================================================
 		
-		$db = new FOX_db(); 
-		
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
@@ -4290,7 +4278,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}		
 
 		try {
-			$rows_changed = $db->runInsertQueryMulti($struct, $insert_data, $columns=null);
+			$rows_changed = $this->db->runInsertQueryMulti($struct, $insert_data, $columns=null);
 		}
 		catch (FOX_exception $child) {
 
@@ -6174,9 +6162,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		// Write to database
-		// ===========================================================
-		
-		$db = new FOX_db(); 		
+		// ===========================================================		
 
 
 		// CASE 1: Transactions aren't required.
@@ -6196,7 +6182,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 		
 			try {
-				$rows_changed = $db->runIndateQuery($struct, $indate_data[0], $columns=null);
+				$rows_changed = $this->db->runIndateQuery($struct, $indate_data[0], $columns=null);
 			}
 			catch (FOX_exception $child) {
 
@@ -6257,7 +6243,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 			
 			try {
-				$db->beginTransaction();
+				$this->db->beginTransaction();
 			}
 			catch (FOX_exception $child) {
 
@@ -6287,7 +6273,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			    
 			    
 				try {
-					$rows_changed += (int)$db->runIndateQuery($struct, $indate_row, $columns=null);
+					$rows_changed += (int)$this->db->runIndateQuery($struct, $indate_row, $columns=null);
 				}
 				catch (FOX_exception $child) {
 
@@ -6333,7 +6319,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}
 			
 			try {
-				$db->commitTransaction();
+				$this->db->commitTransaction();
 			}
 			catch (FOX_exception $child) {
 
@@ -6923,9 +6909,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}		
 		
 		// Update the database
-		// ===========================================================
-		
-		$db = new FOX_db();
+		// ===========================================================		
 			
 		if($this->debug_on){
 
@@ -6942,7 +6926,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		
 		try {
-			$db->beginTransaction();
+			$this->db->beginTransaction();
 		}
 		catch (FOX_exception $child) {
 		    
@@ -6982,12 +6966,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$db->runDeleteQuery($struct, $args, $del_ctrl);
+			$this->db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			try {
-				$db->rollbackTransaction();
+				$this->db->rollbackTransaction();
 			}
 			catch (FOX_exception $child_2) {
 
@@ -7038,12 +7022,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
+			$rows_set = $this->db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			try {
-				$db->rollbackTransaction();
+				$this->db->rollbackTransaction();
 			}
 			catch (FOX_exception $child_2) {
 
@@ -7077,7 +7061,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$db->commitTransaction();
+			$this->db->commitTransaction();
 		}
 		catch (FOX_exception $child) {
 		    
@@ -7662,9 +7646,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		// Update the database
-		// ===========================================================
-		
-		$db = new FOX_db();
+		// ===========================================================		
 			
 		if($this->debug_on){
 
@@ -7681,7 +7663,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		
 		try {
-			$db->beginTransaction();
+			$this->db->beginTransaction();
 		}
 		catch (FOX_exception $child) {
 		    
@@ -7720,12 +7702,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$db->runDeleteQuery($struct, $args, $del_ctrl);
+			$this->db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			try {
-				$db->rollbackTransaction();
+				$this->db->rollbackTransaction();
 			}
 			catch (FOX_exception $child_2) {
 
@@ -7776,12 +7758,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
+			$rows_set = $this->db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			try {
-				$db->rollbackTransaction();
+				$this->db->rollbackTransaction();
 			}
 			catch (FOX_exception $child_2) {
 
@@ -7815,7 +7797,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$db->commitTransaction();
+			$this->db->commitTransaction();
 		}
 		catch (FOX_exception $child) {
 		    
@@ -8387,9 +8369,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		// Update the database
 		// ===========================================================
-		
-		$db = new FOX_db();
-			
+
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
@@ -8405,7 +8385,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		
 		try {
-			$db->beginTransaction();
+			$this->db->beginTransaction();
 		}
 		catch (FOX_exception $child) {
 		    
@@ -8443,12 +8423,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}		
 		
 		try {
-			$db->runDeleteQuery($struct, $args, $del_ctrl);
+			$this->db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			try {
-				$db->rollbackTransaction();
+				$this->db->rollbackTransaction();
 			}
 			catch (FOX_exception $child_2) {
 
@@ -8499,12 +8479,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
+			$rows_set = $this->db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			try {
-				$db->rollbackTransaction();
+				$this->db->rollbackTransaction();
 			}
 			catch (FOX_exception $child_2) {
 
@@ -8538,7 +8518,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$db->commitTransaction();
+			$this->db->commitTransaction();
 		}
 		catch (FOX_exception $child) {
 		    
@@ -9081,9 +9061,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		// Update the database
 		// ===========================================================
-		
-		$db = new FOX_db();		
-		
+
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
@@ -9100,7 +9078,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 
 		
 		try {
-			$db->beginTransaction();
+			$this->db->beginTransaction();
 		}
 		catch (FOX_exception $child) {
 		    
@@ -9134,12 +9112,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$db->runDeleteQuery($struct, $args, $del_ctrl);
+			$this->db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			try {
-				$db->rollbackTransaction();
+				$this->db->rollbackTransaction();
 			}
 			catch (FOX_exception $child_2) {
 
@@ -9190,12 +9168,12 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		
 		try {
-			$rows_set = $db->runInsertQueryMulti($struct, $insert_data, $insert_col, $insert_ctrl);
+			$rows_set = $this->db->runInsertQueryMulti($struct, $insert_data, $insert_col, $insert_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
 			try {
-				$db->rollbackTransaction();
+				$this->db->rollbackTransaction();
 			}
 			catch (FOX_exception $child_2) {
 
@@ -9229,7 +9207,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 
 		try {
-			$db->commitTransaction();
+			$this->db->commitTransaction();
 		}
 		catch (FOX_exception $child) {
 		    
@@ -12135,8 +12113,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		
 		// Clear the specified structures from the DB
 		// ===========================================================
-
-		$db = new FOX_db(); 
 				
 		if($this->debug_on){
 
@@ -12166,7 +12142,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);			
 
 		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args, $del_ctrl);
+			$rows_changed = $this->db->runDeleteQuery($struct, $args, $del_ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -12523,8 +12499,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			)));		    
 		}
 		
-		$db = new FOX_db();
-		
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
@@ -12541,7 +12515,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 
 		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args, $ctrl=null);
+			$rows_changed = $this->db->runDeleteQuery($struct, $args, $ctrl=null);
 		}
 		catch (FOX_exception $child) {
 		    
@@ -12689,9 +12663,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
 		}
-		
-		$db = new FOX_db();
-		
+
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
@@ -12706,7 +12678,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		$struct = $this->_struct();		
 
 		try {
-			$db->runTruncateTable($struct);
+			$this->db->runTruncateTable($struct);
 		}
 		catch (FOX_exception $child) {
 		    
