@@ -184,6 +184,7 @@ else {
 	// Load the database classes, as all the core classes need them
 	// ===============================================================
 	
+	require ( dirname( __FILE__ ) . '/database/class.database.driver.mysql.php' );	
 	require ( dirname( __FILE__ ) . '/database/class.database.core.php' );
 	require ( dirname( __FILE__ ) . '/database/class.database.query.builders.php' );
 	require ( dirname( __FILE__ ) . '/database/class.where.matrix.php' );

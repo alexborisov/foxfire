@@ -297,7 +297,7 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_setL1() {
-	
+		    
 	    
 		$debug_handler = new FOX_debugHandler();
 	    
