@@ -17,9 +17,6 @@
 class FOX_db_driver_mysql {
 
 
-	var $show_errors = false;	// bool	    | Whether to show SQL/DB errors
-	var $suppress_errors = false;	// bool	    | Whether to suppress errors during the DB bootstrapping.
-	var $last_error = '';		// string   | The last error during query
 	var $num_queries = 0;		// int	    | Amount of queries made
 	var $num_rows = 0;		// int	    | Count of rows returned by previous query
 	var $rows_affected = 0;		// int	    | Count of affected rows by previous query
@@ -51,79 +48,108 @@ class FOX_db_driver_mysql {
 	 * @param string $dbname MySQL database name
 	 * @param string $dbhost MySQL database host
 	 */
-	function __construct( $dbuser, $dbpassword, $dbname, $dbhost, $set_debug = null, $set_collate = null, $set_charset = null, $set_savequeries = null ) {
+	function __construct($args) {
 
+	    
+		$args_default = array(
+					'db_host'=>'',	
+		    			'db_name'=>'',
+					'db_user'=>'',
+					'db_pass'=>'',
+					'collate'=>false,
+					'charset'=>'utf8'	
+		);
+		
+		if(!FOX_sUtil::keyExists('db_host', $args)){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Missing 'db_host' parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			    
+		}
+		
+		if(!FOX_sUtil::keyExists('db_name', $args)){
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Missing 'db_name' parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			    
+		}
+		
+		if(!FOX_sUtil::keyExists('db_user', $args)){
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Missing 'db_user' parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			    
+		}		
+		
+		if(!FOX_sUtil::keyExists('db_pass', $args)){
+
+			throw new FOX_exception( array(
+				'numeric'=>4,
+				'text'=>"Missing 'db_pass' parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			    
+		}
+		
 		register_shutdown_function( array( &$this, '__destruct' ) );
 
-		define( 'OBJECT', 'OBJECT', true );
-		define( 'OBJECT_K', 'OBJECT_K' );
-		define( 'ARRAY_A', 'ARRAY_A' );
-		define( 'ARRAY_N', 'ARRAY_N' );
+		if($args['collate']){
+			$this->collate = $args['collate'];
+		}
 
-		$this->save_queries = $set_savequeries;
+		$this->db_host = $args['db_host'];
+		$this->db_name = $args['db_name'];		
+		$this->db_user = $args['db_user'];
+		$this->db_pass = $args['db_pass'];
+		
+		$this->dbh = @mysql_connect( $this->db_host, $this->db_user, $this->db_pass, true );
 
+		if(!$this->dbh){
 
-		if($set_debug == true){
-			$this->show_errors();
+			throw new FOX_exception( array(
+				'numeric'=>5,
+				'text'=>"Failed to connect to SQL server",
+				'data'=>array('args'=>$args, 'dbh'=>$this->dbh),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));		    		    
 		}
 
 
-		if($set_collate){
-			$this->collate = $set_collate;
-		}
-		else {
+		if( function_exists( 'mysql_set_charset' ) ){
 
-			if ( defined( 'DB_COLLATE' ) ) {
-				$this->collate = DB_COLLATE;
-			}
-		}
-
-
-		// Set a default charset type. This is different from how WordPress does it, but OK for our application
-		$this->charset = 'utf8';
-
-		if($set_charset){
-			$this->charset = $set_charset;
+			mysql_set_charset($this->charset, $this->dbh);
+			$this->real_escape = true;
 		}
 		else {
 
-			if ( defined( 'DB_CHARSET' ) ){
-				$this->charset = DB_CHARSET;
+			$query = $this->prepare('SET NAMES %s', $this->charset);
+
+			if( !empty( $this->collate ) ){
+			    
+				$query .= $this->prepare(' COLLATE %s', $this->collate);
 			}
+
+			$this->query( $query );
 		}
 
 
-
-		$this->dbuser = $dbuser;
-		$this->dbh = @mysql_connect( $dbhost, $dbuser, $dbpassword, true );
-
-		// Failed to connect to SQL server
-		if ( !$this->dbh ) {
-			return false;
-		}
-
-		$this->ready = true;
-
-		if ( $this->has_cap( 'collation' ) && !empty( $this->charset ) ) {
-
-			if ( function_exists( 'mysql_set_charset' ) ) {
-
-				mysql_set_charset( $this->charset, $this->dbh );
-				$this->real_escape = true;
-			}
-			else {
-
-				$query = $this->prepare( 'SET NAMES %s', $this->charset );
-
-				if ( ! empty( $this->collate ) ){
-					$query .= $this->prepare( ' COLLATE %s', $this->collate );
-				}
-
-				$this->query( $query );
-			}
-		}
-
-		$this->select( $dbname, $this->dbh );
+		$this->select($this->db_name, $this->dbh);
+		
+		
 	}
 
 
@@ -389,71 +415,6 @@ class FOX_db_driver_mysql {
 		</div>";
 
 	}
-
-
-
-	/**
-	 * Enables showing of database errors.
-	 *
-	 * @version 3.1
-	 * @since 0.1
-	 * @param bool $show Whether to show or hide errors
-	 * @return bool Old value for showing errors.
-	 */
-	function show_errors( $show = true ) {
-		$errors = $this->show_errors;
-		$this->show_errors = $show;
-		return $errors;
-	}
-
-
-
-	/**
-	 * Disables showing of database errors.
-	 *
-	 * @version 3.1
-	 * @since 0.1
-	 * @return bool Whether showing of errors was active
-	 */
-	function hide_errors() {
-		$show = $this->show_errors;
-		$this->show_errors = false;
-		return $show;
-	}
-
-
-
-	/**
-	 * Whether to suppress database errors.
-	 *
-	 *
-	 * @version 3.1
-	 * @since 0.1
-	 * @param bool $suppress Optional. New value. Defaults to true.
-	 * @return bool Old value
-	 */
-	function suppress_errors( $suppress = true ) {
-
-		$errors = $this->suppress_errors;
-		$this->suppress_errors = (bool) $suppress;
-		return $errors;
-	}
-
-
-
-	/**
-	 * Kill cached query results.
-	 *
-	 * @version 3.1
-	 * @since 0.1
-	 * @return void
-	 */
-	function flush() {
-		$this->last_result = array();
-		$this->col_info    = null;
-		$this->last_query  = null;
-	}
-
 
 
 	/**
@@ -849,62 +810,6 @@ class FOX_db_driver_mysql {
 			}
 		}
 	}
-
-
-
-	/**
-	 * Starts the timer, for debugging purposes.
-	 *
-	 * @version 3.1
-	 * @since 0.1
-	 * @return true
-	 */
-	function timer_start() {
-		$mtime            = explode( ' ', microtime() );
-		$this->time_start = $mtime[1] + $mtime[0];
-		return true;
-	}
-
-
-
-	/**
-	 * Stops the debugging timer.
-	 *
-	 * @version 3.1
-	 * @since 0.1
-	 * @return int Total time spent on the query, in milliseconds
-	 */
-	function timer_stop() {
-		$mtime      = explode( ' ', microtime() );
-		$time_end   = $mtime[1] + $mtime[0];
-		$time_total = $time_end - $this->time_start;
-		return $time_total;
-	}
-
-
-
-	/**
-	 * Wraps errors in a nice header and footer and dies.
-	 *
-	 * Will not die if wpdb::$show_errors is true
-	 *
-	 * @version 3.1
-	 * @since 0.1
-	 * @param string $message The Error message
-	 * @param string $error_code Optional. A Computer readable string to identify the error.
-	 * @return false|void
-	 */
-	function bail( $message, $error_code = '500' ) {
-		if ( !$this->show_errors ) {
-			if ( class_exists( 'WP_Error' ) )
-				$this->error = new WP_Error($error_code, $message);
-			else
-				$this->error = $message;
-			return false;
-		}
-		wp_die($message);
-	}
-
 
 
 

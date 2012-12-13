@@ -88,7 +88,10 @@ class FOX_db {
 			$this->builder = new FOX_queryBuilder($this);
 			$this->runner = new FOX_queryRunner($this);
 		}
-		else {
+		else {			
+//			$this->db = new FOX_db_driver_mysql();
+//			
+//			$this->db->connect();
 			global $wpdb;
 			$this->db =& $wpdb;
 			$this->dbh =& $wpdb->dbh;
