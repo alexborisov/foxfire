@@ -46,7 +46,7 @@ class FOX_queryRunner {
 	 * @param string $string to escape
 	 * @return void
 	 */
-	function escape_by_ref(&$string) {
+	function escape_by_ref(&$string){
 	    
 		$string = mysql_real_escape_string($string, $this->parent->dbh);
 	}
@@ -65,7 +65,7 @@ class FOX_queryRunner {
          * @return string | Prepared query string	 
 	 */
 	
-	function prepare($args) {
+	function prepare($args){
 
 		$query = array_shift($args);
 		
