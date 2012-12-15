@@ -104,7 +104,7 @@ class FOX_db_driver_mysql {
 			));			    
 		}
 		
-		register_shutdown_function( array( &$this, '__destruct' ) );
+//		register_shutdown_function( array( &$this, '__destruct' ) );
 
 		$this->db_host = $args['db_host'];
 		$this->db_name = $args['db_name'];		

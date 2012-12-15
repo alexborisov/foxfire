@@ -88,16 +88,30 @@ class FOX_db {
 			$this->builder = new FOX_queryBuilder($this);
 			$this->runner = new FOX_queryRunner($this);
 		}
-		else {			
-//			$this->db = new FOX_db_driver_mysql();
-//			
-//			$this->db->connect();
-			global $wpdb;
+		else {	
+		    
+			global $wpdb;			
+			
+//			$this->db = new FOX_db_driver_mysql( array(
+//								    'db_host'=>$wpdb->dbhost,
+//								    'db_name'=>$wpdb->dbname,
+//								    'db_user'=>$wpdb->dbuser,
+//								    'db_pass'=>$wpdb->dbpassword,
+//								    'charset'=>$wpdb->charset,			    			    
+//			));
+//
+//			$this->dbh =& $this->db->dbh;
+//			$this->base_prefix =& $wpdb->base_prefix;
+//			$this->charset =& $this->db->charset;
+			
 			$this->db =& $wpdb;
 			$this->dbh =& $wpdb->dbh;
 			$this->base_prefix =& $wpdb->base_prefix;
 			$this->charset =& $wpdb->charset;
 			$this->collate =& $wpdb->collate;
+			$this->builder = new FOX_queryBuilder($this);
+			$this->runner = new FOX_queryRunner($this);			
+			
 			$this->builder = new FOX_queryBuilder($this);
 			$this->runner = new FOX_queryRunner($this);
 		}
