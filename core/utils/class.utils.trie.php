@@ -95,7 +95,7 @@ class FOX_trie {
 			'null_token' => '*'
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		try {
 			$cls = new FOX_trie_clip($trie, $columns, $ctrl);
@@ -215,7 +215,7 @@ class FOX_trie {
 			'null_token' => '*'
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		$result = array();
 
@@ -302,7 +302,7 @@ class FOX_trie {
 			'null_token' => '*'
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		$result = array();
 

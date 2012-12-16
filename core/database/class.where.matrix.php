@@ -86,7 +86,7 @@ class FOX_queryBuilder_whereMatrix {
 			'mode' => 'matrix'
 		);
 
-		$this->ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$this->ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		if($this->ctrl['hash_token_vals'] == true){
 		    

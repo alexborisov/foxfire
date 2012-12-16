@@ -127,7 +127,7 @@ class FOX_mCache_driver_memcached extends FOX_mCache_driver_base {
 			'set_propagation_delay' => 0,		    
 		);
 
-		$args = wp_parse_args($args, $args_default);
+		$args = FOX_sUtil::parseArgs($args, $args_default);
 		
 		foreach($args as $key => $var){
 		    

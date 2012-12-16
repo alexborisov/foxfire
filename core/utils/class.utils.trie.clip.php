@@ -65,7 +65,7 @@ class FOX_trie_clip {
 			'null_token' => '*'
 		);
 
-		$this->ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$this->ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		$this->null_token = $this->ctrl['null_token'];		
 						

@@ -47,7 +47,7 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 			'server' => array('ip'=>'127.0.0.1', 'port'=>6379, 'database'=>15, 'alias'=>'first')	    
 		);
 
-		$args = wp_parse_args($args, $args_default);
+		$args = FOX_sUtil::parseArgs($args, $args_default);
 		
 		foreach($args as $key => $var){
 		    

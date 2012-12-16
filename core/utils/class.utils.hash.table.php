@@ -38,7 +38,7 @@ class FOX_hashTable {
 			'prefix' => 'K'
 		);
 		
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		$this->prefix = $ctrl['prefix'];
 		

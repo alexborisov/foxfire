@@ -65,7 +65,7 @@ class FOX_queryBuilder {
 					'mode'=>'matrix'
 		);
 		
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);		
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);		
 		
 		try {
 			$cls = new FOX_queryBuilder_whereMatrix($struct, $key_col, $args, $ctrl);
@@ -122,7 +122,7 @@ class FOX_queryBuilder {
 					'hash_token_vals' => false	    
 		);
 		
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		try {
 			$cls = new FOX_queryBuilder_whereMatrix($struct, $key_col, $args, $ctrl);
@@ -456,7 +456,7 @@ class FOX_queryBuilder {
 			'alias_prefix' => 'alias_'
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 		// Make sure control parameters are properly typecast to help avoid time-consuming debugging problems
 		$ctrl['page'] = (int)$ctrl['page'];
@@ -1037,7 +1037,7 @@ class FOX_queryBuilder {
 			'group' => false
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 		// Make sure control parameters are properly typecast to help avoid time-consuming debugging problems
 		$ctrl['page'] = (int)$ctrl['page'];
@@ -1678,7 +1678,7 @@ class FOX_queryBuilder {
 			'args_format' => 'default'
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 		// Make sure control parameters are properly typecast to help avoid time-consuming debugging problems
 		$ctrl['page'] = (int)$ctrl['page'];
@@ -2656,7 +2656,7 @@ class FOX_queryBuilder {
 			'args_format' => 'default'
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		// Switch between unit test mode (pass as array) and

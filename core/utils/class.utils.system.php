@@ -31,6 +31,7 @@ class FOX_sUtil {
 	 *
 	 * @version 1.0
 	 * @since 1.0
+	 * 
 	 * @param array $nodes | Flat array of nodes
 	 * @return array $result | Hierarchical array of nodes
 	 */
@@ -70,6 +71,7 @@ class FOX_sUtil {
 	 *
 	 * @version 1.0
 	 * @since 1.0
+	 * 
 	 * @param array $walk | Walk array
 	 * @param array $tree | Tree array
 	 * @return array $result | Walk key and matching node id
@@ -169,6 +171,7 @@ class FOX_sUtil {
 	 *
 	 * @version 1.0
 	 * @since 1.0
+	 * 
 	 * @param array $walk | Walk array
 	 * @param array $tree | Tree array
 	 * @return array $result | Walk offset and matching node id
@@ -255,6 +258,9 @@ class FOX_sUtil {
 	 * It's approximately 40 times faster to intersect arrays based on keys instead of values,
 	 * because of the way PHP stores arrays and because keys guarantee cardinality.
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param array $master | Master array
 	 * @param array $slave | Slave array
 	 */
@@ -281,6 +287,9 @@ class FOX_sUtil {
 	/**
 	 * Removes all empty walks to $depth from an associative array
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param array $data | Source array
 	 * @param int $depth | Depth to search walks to
 	 * @return array | Pruned array
@@ -322,6 +331,9 @@ class FOX_sUtil {
 	 * will not crash if the variable or the parent array is null, and it returns a boolean
 	 * response, not an int offset, so a === test statement is not required.
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $val | Value to search for
 	 * @param array $array | Array to search
 	 * @return bool | True if val exists. False if not.
@@ -350,6 +362,9 @@ class FOX_sUtil {
 	 * Determines if a key exists in an array. Unlike array_key_exists(), this function
 	 * will not crash if the variable or the parent array is null.
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $key | Name of the key
 	 * @param array $array | Array to search for key
 	 * @return bool | True if key exists. False if not.
@@ -372,6 +387,9 @@ class FOX_sUtil {
 	 * this function will not crash if the variable or the parent array is null, and
 	 * won't trigger a PHP warning when testing against nonexistent keys.
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $key | Name of the key
 	 * @param array $array | Array to search for key
 	 * @return bool | True if key exists. False if not.
@@ -406,6 +424,9 @@ class FOX_sUtil {
 	 * array_key_exists(), this function will not crash if the variable or the parent array
 	 * is null, and won't trigger a PHP warning when fetching nonexistent keys.
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $key | Name of the key
 	 * @param array $array | Array to search for key
 	 * @return bool | If key exists, value of key. Otherwise null.
@@ -432,6 +453,9 @@ class FOX_sUtil {
 	/**
 	 * Converts a size stored in an ini var in bytes
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param $varname ini var name
 	 * @return int size in bytes
 	 */
@@ -449,6 +473,9 @@ class FOX_sUtil {
 	 * Truncates a string to specific length, automatically handling strings that are formatted
 	 * with unicode (two byte) encoding
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $string | text string to trim
 	 * @param int $length | number of characters to truncate string to
 	 * @param bool $unicode | true: process as two-byte characters, false: process as single-byte characters, null: auto-detect
@@ -486,6 +513,9 @@ class FOX_sUtil {
 	 * Truncates a string to specific length, automatically handling strings that are formatted
 	 * with unicode (two byte) encoding
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $string | text string to trim
 	 * @param int $length | number of characters to truncate string to
 	 * @param bool $unicode | true: process as two-byte characters, false: process as single-byte characters, null: auto-detect
@@ -538,6 +568,9 @@ class FOX_sUtil {
 	 * Example: "C:\foo\*", "C:\bar\*.JPG". Paths and extensions are case sensitive on
 	 * both Windows and Linux systems.
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $pattern | @see http://ca.php.net/manual/en/function.glob.php
 	 * @param string $flags | @see http://ca.php.net/manual/en/function.glob.php
 	 * @return array $files | Array of paths to all files in the tree.
@@ -559,6 +592,9 @@ class FOX_sUtil {
 	/**
 	 * Get a random file path
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $dir
 	 * @param string $extension
 	 * @return string random and unique file path
@@ -581,6 +617,9 @@ class FOX_sUtil {
 	/**
 	 * Random string
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param int $length string length
 	 * @return random string
 	 */
@@ -600,6 +639,9 @@ class FOX_sUtil {
 	/**
 	 * Write data to file
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $data data to write
 	 * @param string $file_path
 	 * @return string|WP_Error file path or error
@@ -624,6 +666,9 @@ class FOX_sUtil {
 	/**
 	 * Open a new file handle
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $file_path
 	 * @return resource|WP_Error handle or error
 	 */
@@ -648,6 +693,9 @@ class FOX_sUtil {
 	 * Takes a POST value as received from PHP and applies whatever processing is necessary to 
 	 * turn it back into what the user actually entered into the form.
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string $raw | Raw value as received from PHP
 	 * @return string $result | Processed string
 	 */
@@ -688,6 +736,9 @@ class FOX_sUtil {
 	 * Converts one or more filepaths based in the FOX plugin folder to a URL that
 	 * can be accessed via a web server URL
 	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 	 
 	 * @param string/array $paths | Single path as string. Multiple paths as array of strings.
 	 * @return string/array $URL | Single URL as string. Multiple URL's as array of strings.
 	 */
@@ -710,6 +761,62 @@ class FOX_sUtil {
 		
 	}
 
+	/**
+	 * Merge user defined arguments into a default array
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string|array $args Value to merge with $defaults
+	 * @param array $defaults Array that serves as the defaults.
+	 * @return array Merged user defined values with defaults.
+	 */
+	
+	function parseArgs( $args, $defaults = '' ) {
+	    
+		if( is_object($args) ){
+		    
+			$r = get_object_vars($args);
+		}
+		elseif( is_array($args) ){
+		    
+			$r =& $args;
+		}
+		else {
+			self::parseStr($args, $r);
+		}
+
+		if( is_array($defaults) ){
+		    
+			return array_merge($defaults, $r);
+		}
+		else {
+			return $r;
+		}
+		
+	}
+
+	
+	/**
+	 * Parses a string into variables to be stored in an array.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $string | The string to be parsed.
+	 * @param array $array | Variables will be stored in this array.
+	 */
+	
+	function parseStr($string, &$array){
+	    
+		parse_str( $string, $array );
+		
+		if( get_magic_quotes_gpc() ){
+		    
+			$array = stripslashes_deep($array);
+		}
+
+	}
 
 	
 } // End of class FOX_sUtil

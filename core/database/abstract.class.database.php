@@ -687,7 +687,7 @@ abstract class FOX_db_base {
                         'mode'=>'fetch'		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		$ctrl['process_id'] = $this->process_id;		
 		$ctrl['engine'] = $struct["cache_engine"];
@@ -775,7 +775,7 @@ abstract class FOX_db_base {
                         'mode'=>'fetch'		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);			
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);			
 		
 		try {
 			$cache_image = $this->mCache->lockCachePage( array( 
@@ -865,7 +865,7 @@ abstract class FOX_db_base {
 			'seconds'=>5,	    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);			
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);			
 		
 		try {
 			$result = $this->mCache->lockNamespace( array( 

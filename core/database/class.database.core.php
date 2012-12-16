@@ -394,7 +394,7 @@ class FOX_db {
 			"format"=>"array_object"
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		// Trap Common Errors
@@ -531,7 +531,7 @@ class FOX_db {
 			"format"=>"array_object"
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		// Trap Common Errors
@@ -656,7 +656,7 @@ class FOX_db {
 			"args_format"=>"default",			
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		// Trap Common Errors
@@ -823,7 +823,7 @@ class FOX_db {
 			"format"=>"array_object"
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		// Build query string
@@ -1272,7 +1272,7 @@ class FOX_db {
 			"args_format"=>"default"
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		// Build query string

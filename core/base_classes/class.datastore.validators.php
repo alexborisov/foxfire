@@ -97,7 +97,7 @@ class FOX_dataStore_validator {
 					)		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	    
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	    
 	    
 		
 		// Invert 'allowed_keys', 'required_keys', and 'ignored_keys' 
@@ -498,7 +498,7 @@ class FOX_dataStore_validator {
 			'clip_order'=>false		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		
 	    	if( ($ctrl['order'] > $this->order) || ($ctrl['order'] < 0) ){

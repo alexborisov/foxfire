@@ -57,7 +57,7 @@ class FOX_db_driver_mysql {
 					'charset'=>'utf8'	
 		);
 		
-		$args = wp_parse_args($args, $args_default);	
+		$args = FOX_sUtil::parseArgs($args, $args_default);	
 		
 		
 		if(!FOX_sUtil::keyExists('db_host', $args)){

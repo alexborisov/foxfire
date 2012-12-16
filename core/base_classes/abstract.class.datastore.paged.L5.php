@@ -221,7 +221,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'r_mode'=>'trie'		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 				 
 		if($ctrl['validate'] != false){		   
@@ -485,7 +485,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'r_mode'=>'trie'		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 				
 		
 		// Validate
@@ -743,7 +743,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'r_mode'=>'trie'		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		
 		// Validate
@@ -993,7 +993,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'r_mode'=>'trie'		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		
 		// Validate
@@ -1235,7 +1235,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'r_mode'=>'trie'		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		
 		// Validate
@@ -1470,7 +1470,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'trap_*'=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);		
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);		
 					
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -2605,7 +2605,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		$ctrl['mode'] = 'matrix';
 		
@@ -2779,7 +2779,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -3092,7 +3092,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -3400,7 +3400,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -3710,7 +3710,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -3961,7 +3961,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'mode'=>'trie'
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);		
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);		
 			
 		
 		if( !is_array($data) || (count($data) < 1) ){
@@ -4524,7 +4524,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		$ctrl['mode'] = 'matrix';
 				
@@ -4693,7 +4693,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -5000,7 +5000,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -5305,7 +5305,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -5613,7 +5613,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -5858,7 +5858,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'mode'=>'trie'
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);		
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);		
 		
 		
 		if( !is_array($data) || (count($data) < 1) ){
@@ -6474,7 +6474,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'validate'=>true		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 				
 				 
 		// Validate
@@ -6686,7 +6686,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'validate'=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -7201,7 +7201,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'validate'=>true		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 				
 				 
 		// Validate
@@ -7424,7 +7424,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'validate'=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -7935,7 +7935,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'validate'=>true		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 				
 				 
 		// Validate
@@ -8152,7 +8152,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'validate'=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -8656,7 +8656,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'validate'=>true		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 				
 				 
 		// Validate
@@ -8857,7 +8857,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'validate'=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -9386,7 +9386,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		
 		// Validate
@@ -9622,7 +9622,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		
 		$struct = $this->_struct();
 		                			  
@@ -9877,7 +9877,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		
 		// Validate
@@ -10107,7 +10107,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		                
 		
 		$struct = $this->_struct();
@@ -10353,7 +10353,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 				
 
 		// Validate
@@ -10577,7 +10577,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		                
 		
 		$struct = $this->_struct();
@@ -10818,7 +10818,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 		
 		
 		// Validate
@@ -11033,7 +11033,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		               		
 		$struct = $this->_struct();
 		                			  
@@ -11266,7 +11266,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 					    
 		
 		// Validate
@@ -11465,7 +11465,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 		                
 		$struct = $this->_struct();
 		                			  
@@ -11714,7 +11714,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			'trap_*'=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);		
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);		
 					
 		if( !is_array($data) || (count($data) < 1) ){
 
@@ -12360,7 +12360,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			"validate"=>true
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);	
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
 					    
 		
 		// Validate

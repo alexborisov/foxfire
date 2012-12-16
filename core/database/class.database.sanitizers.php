@@ -58,7 +58,7 @@ class FOX_sanitize {
 	public function bool($input, $ctrl=null, &$valid=null, &$error=null){
 
 		$ctrl_default = array( "null_input"=>"null" );
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 		if($input === null){
 
@@ -107,7 +107,7 @@ class FOX_sanitize {
 					"max_val"=>2147483647		    
 		);
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 		if($input === null){
 
@@ -170,7 +170,7 @@ class FOX_sanitize {
 
 		$ctrl_default = array(	"null_input"=>"null" );
 		
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		if($input === null){
@@ -245,7 +245,7 @@ class FOX_sanitize {
 		);					    // crash on very large strings. For example, preg_replace() crashes
 							    // at about 94,000 characters.
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 		
 		if($input === null){
@@ -344,7 +344,7 @@ class FOX_sanitize {
 		);					// crash on very large strings. For example, preg_replace() crashes
 							// at about 94,000 characters.
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		if($input === null){
@@ -432,7 +432,7 @@ class FOX_sanitize {
 		);					// crash on very large strings. For example, preg_replace() crashes
 							// at about 94,000 characters.
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		if($input === null){
@@ -525,7 +525,7 @@ class FOX_sanitize {
 		);					// crash on very large strings. For example, preg_replace() crashes
 							// at about 94,000 characters.
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		if($input === null){
@@ -617,7 +617,7 @@ class FOX_sanitize {
 		);					// crash on very large strings. For example, preg_replace() crashes
 							// at about 94,000 characters.
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		if($input === null){
@@ -718,7 +718,7 @@ class FOX_sanitize {
 		);					    // crash on very large strings. For example, preg_replace() crashes
 							    // at about 94,000 characters.
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		if($input === null){
@@ -825,7 +825,7 @@ class FOX_sanitize {
 		);					    // crash on very large strings. For example, preg_replace() crashes
 							    // at about 94,000 characters.
 
-		$ctrl = wp_parse_args($ctrl, $ctrl_default);
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
 
 
 		if($input === null){
