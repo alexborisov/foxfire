@@ -202,6 +202,7 @@ else {
 	//require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.datastore.monolithic.L3.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/class.datastore.validators.php' );
+	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.datastore.paged.L1.php' );	
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.datastore.paged.L2.php' );		
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.datastore.paged.L3.php' );	
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.datastore.paged.L4.php' );
