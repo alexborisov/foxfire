@@ -157,7 +157,14 @@ class FOX_testPlan extends RAZ_testPlan_base {
 				array( "enable"=>true,	 "name"=>"L3 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_get.php" ),
 				array( "enable"=>true,	 "name"=>"L3 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_replace.php" ),
 				array( "enable"=>true,	 "name"=>"L3 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_drop.php" ),
-				array( "enable"=>true,	 "name"=>"L3 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_global.php" ),			    
+				array( "enable"=>true,	 "name"=>"L3 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_global.php" ),
+			    
+				array( "enable"=>true,	 "name"=>"L2 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_add.php" ),
+				array( "enable"=>true,	 "name"=>"L2 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_set.php" ),
+				array( "enable"=>true,	 "name"=>"L2 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_get.php" ),
+				array( "enable"=>true,	 "name"=>"L2 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_replace.php" ),
+				array( "enable"=>true,	 "name"=>"L2 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_drop.php" ),
+				array( "enable"=>true,	 "name"=>"L2 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_global.php" ),			    
 			    
 				array( "enable"=>false,	 "name"=>"L3 Monolithic", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.store.monolithic.L3.php" ),			    
 				array( "enable"=>false,  "name"=>"Module Manager", "mock"=>array(), "file"=>"/tests/base_classes/test_base.module.manager.php" ),
