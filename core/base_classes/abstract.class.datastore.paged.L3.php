@@ -1,8 +1,8 @@
 <?php
 
 /**
- * FOXFIRE L4 PAGED ABSTRACT DATASTORE CLASS
- * Implements a highly efficient 4th order paged datastore
+ * FOXFIRE L3 PAGED ABSTRACT DATASTORE CLASS
+ * Implements a highly efficient 3rd order paged datastore
  * 
  * FEATURES
  * --------------------------------------
@@ -31,7 +31,7 @@
  * ========================================================================================================
  */
 
-abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
+abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 
     
     	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache 
@@ -12758,7 +12758,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	
 
     
-} // End of class FOX_dataStore_paged_L4_base
+} // End of class FOX_dataStore_paged_L3_base
 
 
 ?>
