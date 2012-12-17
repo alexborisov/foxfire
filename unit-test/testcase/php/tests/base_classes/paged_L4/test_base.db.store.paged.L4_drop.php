@@ -149,7 +149,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>true),
+				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>5, "L0"=>true),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
 
 				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
@@ -163,7 +163,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		    
 				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
 				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
-				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>true),
+				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>5, "L0"=>true),
 				array( "L4"=>3, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
 
 				array( "L4"=>3, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
