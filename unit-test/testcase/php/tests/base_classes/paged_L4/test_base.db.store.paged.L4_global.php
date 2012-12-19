@@ -147,29 +147,29 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1, "L0"=>null),
-				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>2, "L0"=>false),
-				array( "L5"=>1, "L4"=>"X", "L3"=>"K", "L2"=>"T", "L1"=>1, "L0"=>true),
-				array( "L5"=>1, "L4"=>"X", "L3"=>"Z", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
+				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
+				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
+				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>true),
+				array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
 
-				array( "L5"=>1, "L4"=>"Y", "L3"=>"K", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
-				array( "L5"=>1, "L4"=>"Y", "L3"=>"K", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L5"=>1, "L4"=>"Y", "L3"=>"K", "L2"=>"T", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L5"=>1, "L4"=>"Y", "L3"=>"Z", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),
+				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
+				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),
 		    
-		    		array( "L5"=>2, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
-		    		array( "L5"=>2, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L5"=>2, "L4"=>"X", "L3"=>"Z", "L2"=>"Z", "L1"=>3, "L0"=>$test_obj),
+		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
+		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L4"=>2, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>$test_obj),
 		    
-				array( "L5"=>3, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>1, "L0"=>null),
-				array( "L5"=>3, "L4"=>"X", "L3"=>"K", "L2"=>"K", "L1"=>2, "L0"=>false),
-				array( "L5"=>3, "L4"=>"X", "L3"=>"K", "L2"=>"T", "L1"=>1, "L0"=>true),
-				array( "L5"=>3, "L4"=>"X", "L3"=>"Z", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
+				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
+				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
+				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>true),
+				array( "L4"=>3, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
 
-				array( "L5"=>3, "L4"=>"Y", "L3"=>"K", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
-				array( "L5"=>3, "L4"=>"Y", "L3"=>"K", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L5"=>3, "L4"=>"Y", "L3"=>"K", "L2"=>"T", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L5"=>3, "L4"=>"Y", "L3"=>"Z", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),		    
+				array( "L4"=>3, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
+				array( "L4"=>3, "L3"=>"Y", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L4"=>3, "L3"=>"Y", "L2"=>"K", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L4"=>3, "L3"=>"Y", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),		    
 		    
 		);		
 		
@@ -195,48 +195,43 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>null,
-												2=>false
-										    ),
-										    'T'=>array(	1=>true )							    
+				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>null,
+										    2=>false,
+										    5=>true 							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+									'Z'=>array( 3=>(int)0 ) 						
 							    ),	
-							    'Y'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1
-										    ),
-										    'T'=>array(	3=>(float)1.7 )							    
+							    'Y'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>(float)1.7 						    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>(string)"foo",
-												2=>array(null, true, false, 1, 1.0, "foo")
-										    )							    
+				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+									'Z'=>array( 3=>$test_obj ) 						
 							    )	
 					    )						
 				),
-				3=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>null,
-												2=>false
-										    ),
-										    'T'=>array(	1=>true )							    
+				3=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>null,
+										    2=>false,
+										    5=>true 							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+									'Z'=>array( 3=>(int)0 ) 						
 							    ),	
-							    'Y'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1
-										    ),
-										    'T'=>array(	3=>(float)1.7 )							    
+							    'Y'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,	
+										    3=>(float)1.7 						    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    )
 					    )
 				)		    
@@ -249,46 +244,41 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		// ####################################################################		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>null,
-										2=>false
-								    ),
-								    'T'=>array(	1=>true )							    
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>null,
+								    2=>false,
+								    5=>true 							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+							'Z'=>array( 3=>(int)0 ) 						
 					    ),	
-					    'Y'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1
-								    ),
-								    'T'=>array(	3=>(float)1.7 )							    
+					    'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 							    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>(string)"foo",
-										2=>array(null, true, false, 1, 1.0, "foo")
-								    )							    
+				2=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							'Z'=>array( 3=>$test_obj ) 						
 					    )					    
 				),
-				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>null,
-										2=>false
-								    ),
-								    'T'=>array(	1=>true )							    
+				3=>array(   'X'=>array(	'K'=>array( 	
+								    1=>null,
+								    2=>false,
+								    1=>true 							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+							'Z'=>array( 3=>(int)0 ) 						
 					    ),	
-					    'Y'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1
-								    ),
-								    'T'=>array(	3=>(float)1.7 )							    
+					    'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 							    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				)		    
 		);		
@@ -300,7 +290,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		$ctrl = array(
 				'format'=>'array_key_array',
-				'key_col'=>array('L5','L4','L3','L2','L1')
+				'key_col'=>array('L4','L3','L2','L1')
 		);
 		
 		try {			
@@ -359,7 +349,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		$ctrl = array(
 				'format'=>'array_key_array',
-				'key_col'=>array('L5','L4','L3','L2','L1')
+				'key_col'=>array('L4','L3','L2','L1')
 		);
 		
 		try {			
@@ -377,39 +367,34 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										2=>false
-								    )							    
+				1=>array(   'X'=>array(	'K'=>array( 
+								    2=>false								    							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+							'Z'=>array( 3=>(int)0 ) 						
 					    ),	
-					    'Y'=>array(	'K'=>array( 'K'=>array(	
-										2=>(int)-1
-								    ),
-								    'T'=>array(	3=>(float)1.7 )							    
+					    'Y'=>array(	'K'=>array( 
+								    2=>(int)-1,
+								    3=>(float)1.7 							    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										2=>array(null, true, false, 1, 1.0, "foo")
-								    )							    
+				2=>array(   'X'=>array(	'K'=>array( 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							'Z'=>array( 3=>$test_obj ) 						
 					    )					    
 				),
-				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										2=>false
-								    )							    
+				3=>array(   'X'=>array(	'K'=>array( 	
+								    2=>false								    							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+							'Z'=>array( 3=>(int)0 )						
 					    ),	
-					    'Y'=>array(	'K'=>array( 'K'=>array(	
-										2=>(int)-1
-								    ),
-								    'T'=>array(	3=>(float)1.7 )							    
+					    'Y'=>array(	'K'=>array( 
+								    2=>(int)-1,
+								    3=>(float)1.7 						    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				)		    
 		);	
@@ -496,7 +481,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		$ctrl = array(
 				'format'=>'array_key_array',
-				'key_col'=>array('L5','L4','L3','L2','L1')
+				'key_col'=>array('L4','L3','L2','L1')
 		);
 		
 		try {			
@@ -514,21 +499,19 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+				1=>array(   'X'=>array(	'Z'=>array( 3=>(int)0 ) 						
 					    ),	
-					    'Y'=>array(	'K'=>array( 'T'=>array(	3=>(float)1.7 )							    
-							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    'Y'=>array(	'K'=>array( 3=>(float)1.7 ),
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+				2=>array(   'X'=>array(	'Z'=>array( 3=>$test_obj ) 						
 					    )					    
 				),
-				3=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+				3=>array(   'X'=>array(	'Z'=>array( 3=>(int)0 ) 						
 					    ),	
-					    'Y'=>array(	'K'=>array( 'T'=>array(	3=>(float)1.7 )							    
-							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    'Y'=>array(	'K'=>array( 3=>(float)1.7 ),
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				)		    
 		);	
@@ -571,6 +554,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		
 	}
 	
+
 
        /**
 	* Test fixture for dropGlobal() method, L2, single item
@@ -601,129 +585,6 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 		
-		// Should report 10 rows were dropped
-		$this->assertEquals(10, $rows_changed);
-		
-		
-		// Verify db state
-		// ####################################################################
-		
-		$db = new FOX_db();	
-		
-		$columns = null;
-		$args = null;
-		
-		$ctrl = array(
-				'format'=>'array_key_array',
-				'key_col'=>array('L5','L4','L3','L2','L1')
-		);
-		
-		try {			
-			$result = $db->runSelectQuery($this->cls->_struct(), $args, $columns, $ctrl);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));	
-		}		
-		
-		// NOTE: the datastore will automatically clip empty branches
-		
-		$test_obj = new stdClass();
-		$test_obj->foo = "11";
-		$test_obj->bar = "test_Bar";
-		
-		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 'T'=>array(	1=>true )							    
-							),
-							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-					    ),	
-					    'Y'=>array(	'K'=>array( 'T'=>array(	3=>(float)1.7 )							    
-							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					    )					    
-				),			
-				2=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-					    )					    
-				),
-				3=>array(   'X'=>array(	'K'=>array( 'T'=>array(	1=>true )							    
-							),
-							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-					    ),	
-					    'Y'=>array(	'K'=>array( 'T'=>array(	3=>(float)1.7 )							    
-							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					    )					    
-				)		    
-		);	
-		
-                $this->assertEquals($check, $result);
-		
-		
-		// Check class cache state
-		// ####################################################################					
-		
-		$check_cache = array();		
-                $this->assertEquals($check_cache, $this->cls->cache);		
-
-		
-		// Verify persistent cache state by reading-back all items
-		// ####################################################################		
-		
-		
-		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
-		);
-		
-		$valid = false;
-		
-		try {			
-			$result = $this->cls->getMulti($request, $ctrl, $valid);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));	
-		}
-		
-		$this->assertEquals(true, $valid);  // Should report valid because all
-						    // requested L5's exist
-		
-		$this->assertEquals($check, $result);
-		
-		
-	}
-	
-	
-       /**
-	* Test fixture for dropGlobal() method, L2, multiple items
-	*
-	* @version 1.0
-	* @since 1.0
-	* 
-        * =======================================================================================
-	*/	
-	public function test_dropGlobal_L2_multi() {
-	    
-
-		self::loadData();			
-	    
-		
-		// Drop objects
-		// ####################################################################
-
-		$drop_ctrl = array(
-			"validate"=>true
-		);
-		
-		try {			
-			$rows_changed = $this->cls->dropGlobal(2, array('K','T'), $drop_ctrl);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));	
-		}
-		
 		// Should report 14 rows were dropped
 		$this->assertEquals(14, $rows_changed);
 		
@@ -738,7 +599,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		$ctrl = array(
 				'format'=>'array_key_array',
-				'key_col'=>array('L5','L4','L3','L2','L1')
+				'key_col'=>array('L4','L3','L2','L1')
 		);
 		
 		try {			
@@ -756,133 +617,14 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-					    ),	
-					    'Y'=>array(	'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					    )					    
+				1=>array(   'X'=>array(	'Z'=>array( 3=>(int)0 ) ),	
+					    'Y'=>array(	'Z'=>array( 4=>(float)-1.6 )) 											    					    
 				),			
-				2=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-					    )					    
+				2=>array(   'X'=>array(	'Z'=>array( 3=>$test_obj )) 						
+					    					    
 				),
-				3=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-					    ),	
-					    'Y'=>array(	'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					    )					    
-				)		    
-		);	
-		
-                $this->assertEquals($check, $result);
-		
-		
-		// Check class cache state
-		// ####################################################################					
-		
-		$check_cache = array();		
-                $this->assertEquals($check_cache, $this->cls->cache);		
-
-		
-		// Verify persistent cache state by reading-back all items
-		// ####################################################################		
-		
-		
-		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
-		);
-		
-		$valid = false;
-		
-		try {			
-			$result = $this->cls->getMulti($request, $ctrl, $valid);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));	
-		}
-		
-		$this->assertEquals(true, $valid);  // Should report valid because all
-						    // requested L5's exist
-		
-		$this->assertEquals($check, $result);
-		
-		
-	}
-	
-	
-       /**
-	* Test fixture for dropGlobal() method, L3, single item
-	*
-	* @version 1.0
-	* @since 1.0
-	* 
-        * =======================================================================================
-	*/	
-	public function test_dropGlobal_L3_single() {
-	    
-
-		self::loadData();			
-	    
-		
-		// Drop objects
-		// ####################################################################
-
-		$drop_ctrl = array(
-			"validate"=>true
-		);
-		
-		try {			
-			$rows_changed = $this->cls->dropGlobal(3, 'K', $drop_ctrl);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));	
-		}
-		
-		// Should report 14 rows were dropped
-		$this->assertEquals(14, $rows_changed);
-		
-		
-		// Verify db state
-		// ####################################################################
-		
-		$db = new FOX_db();	
-		
-		$columns = null;
-		$args = null;
-		
-		$ctrl = array(
-				'format'=>'array_key_array',
-				'key_col'=>array('L5','L4','L3','L2','L1')
-		);
-		
-		try {			
-			$result = $db->runSelectQuery($this->cls->_struct(), $args, $columns, $ctrl);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));	
-		}		
-		
-		// NOTE: the datastore will automatically clip empty branches
-		
-		$test_obj = new stdClass();
-		$test_obj->foo = "11";
-		$test_obj->bar = "test_Bar";
-		
-		$check = array(
-				1=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-					    ),	
-					    'Y'=>array(	'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					    )					    
-				),			
-				2=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-					    )					    
-				),
-				3=>array(   'X'=>array(	'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-					    ),	
-					    'Y'=>array(	'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					    )					    
+				3=>array(   'X'=>array(	'Z'=>array( 3=>(int)0 ) ),											   	
+					    'Y'=>array(	'Z'=>array( 4=>(float)-1.6 )) 											    					    
 				)		    
 		);
 		
@@ -933,7 +675,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropGlobal_L3_multi() {
+	public function test_dropGlobal_L2_multi() {
 	    
 
 		self::loadData();			
@@ -947,7 +689,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		);
 		
 		try {			
-			$rows_changed = $this->cls->dropGlobal(3, array('K','Z'), $drop_ctrl);
+			$rows_changed = $this->cls->dropGlobal(2, array('K','Z'), $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -968,7 +710,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		$ctrl = array(
 				'format'=>'array_key_array',
-				'key_col'=>array('L5','L4','L3','L2','L1')
+				'key_col'=>array('L4','L3','L2','L1')
 		);
 		
 		try {			
@@ -1021,14 +763,14 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 	
 	
        /**
-	* Test fixture for dropGlobal() method, L4, single item
+	* Test fixture for dropGlobal() method, L3, single item
 	*
 	* @version 1.0
 	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropGlobal_L4_single() {
+	public function test_dropGlobal_L3_single() {
   
 
 		self::loadData();			
@@ -1042,7 +784,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		);
 		
 		try {			
-			$rows_changed = $this->cls->dropGlobal(4, 'X', $drop_ctrl);
+			$rows_changed = $this->cls->dropGlobal(3, 'X', $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1063,7 +805,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		$ctrl = array(
 				'format'=>'array_key_array',
-				'key_col'=>array('L5','L4','L3','L2','L1')
+				'key_col'=>array('L4','L3','L2','L1')
 		);
 		
 		try {			
@@ -1077,22 +819,20 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		// NOTE: the datastore will automatically clip empty branches
 		
 		$check = array(
-				1=>array(   'Y'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1
-								    ),
-								    'T'=>array(	3=>(float)1.7 )							    
+				1=>array(   'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 						    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				3=>array(   'Y'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1
-								    ),
-								    'T'=>array(	3=>(float)1.7 )							    
+				3=>array(   'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 							    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				)		    
 		);
@@ -1144,7 +884,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropGlobal_L4_multi() {
+	public function test_dropGlobal_L3_multi() {
   
 
 		self::loadData();			
@@ -1158,7 +898,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		);
 		
 		try {			
-			$rows_changed = $this->cls->dropGlobal(4, array('X','Y'), $drop_ctrl);
+			$rows_changed = $this->cls->dropGlobal(3, array('X','Y'), $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1179,7 +919,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		$ctrl = array(
 				'format'=>'array_key_array',
-				'key_col'=>array('L5','L4','L3','L2','L1')
+				'key_col'=>array('L4','L3','L2','L1')
 		);
 		
 		try {			
