@@ -1,0 +1,39 @@
+# Automated Unit Testing Configuration
+
+# Structure of the Tests
+# ====================== #
+# Switch language runtime (for example, to Ruby 1.9.3 or PHP 5.4)
+# Clone project repository from GitHub
+# Run before_install scripts (if any)
+# cd to the clone directory, run dependencies installation command (default specific to project language)
+# Run before_script scripts (if any)
+# Run test script command (default is specific to project language). It must use exit code 0 on success and any code on failure.
+# Run after_script scripts (if any)
+
+
+language: php
+
+# PHP versions to test against
+php:
+  # aliased to 5.2.17
+  - "5.2"
+  # aliased to a recent 5.3.x version
+  - "5.3"
+  # aliased to a recent 5.4.x version
+  - "5.4"
+
+# Database is MYSQL
+env:
+  - DB=mysql
+
+
+#services:
+ #  - memcache
+ #  - redis-server
+
+  # execute any number of scripts before the test run, custom env's are available as variables
+before_script:
+    #- pecl install memcache
+    - mysql -e 'create database bpm_test;'
+
+script: test.php --plugin=bp-media
