@@ -361,7 +361,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		);
 				
 		try {			
-			$this->cls->replaceL3_multi($data, $ctrl);
+			$this->cls->replaceL2_multi($data, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -604,8 +604,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -639,10 +639,10 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// WARM CACHE - Items in cache from previous ADD operation
 		// ===================================================================				
 		
-		// NOTE: a L3 must have at least one L2->L1 walk within it in order to have an entry within the  
-		// db. Without a L2->L1 walk inside it, there's nothing to write to the L1 and L2 columns in the
-		// db (which would violate the table index). In addition to this, storing empty L3's would waste 
-		// space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
+		// NOTE: a L2 must have at least one L1 key within it in order to have an entry within the  
+		// db. Without a L1 key inside it, there's nothing to write to the L1 column in the
+		// db (which would violate the table index). In addition to this, storing empty L2's would waste 
+		// space in the table and cache. Therefore, overwriting a L2 node with an empty array drops
 		// that node from the datastore
 		
 		$test_obj = new stdClass();
@@ -650,7 +650,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";		
 		
 		$data = array(
-				1=>array(   'X'=>array(	'K'=>array(), // Drop this L2 node
+				1=>array(   'X'=>array(	'K'=>array(), // Drop the L2 'K' node
 							'R'=>array( 
 								    9=>'foo',
 								    3=>'bar'								    					    
@@ -684,12 +684,11 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 				// 2=>array( ... ),
 
 				// Add a new L4 '3' node
-				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>(string)"foo",
-										2=>array(null, true, false, 1, 1.0, "foo")
-								    )							    
+				3=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							'Z'=>array( 3=>$test_obj ) 						
 					    )					    
 				)		    
 		);
@@ -703,7 +702,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		);
 				
 		try {			
-			$this->cls->replaceL3_multi($data, $ctrl);
+			$this->cls->replaceL2_multi($data, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -714,14 +713,14 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// The LUT's will be set for all L3 nodes that we modified, since, by overwriting an
-		// entire L3 node, we've given it authority. The other LUT arrays won't exist in the cache
+		// The LUT's will be set for all L2 nodes that we modified, since, by overwriting an
+		// entire L2 node, we've given it authority. The other LUT arrays won't exist in the cache
 		// yet because we haven't done a read.
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'L3'=>array(    'X'=>array( 
+		$check_cache_1 = array(	    'L2'=>array(    'X'=>array( 
 									'R'=>true,
 									'V'=>true
 							    ),
@@ -730,63 +729,57 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 									'Z'=>true
 							    ),					    						
 					    ),
-					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-												9=>'foo',
-												3=>'bar'
-										    )					    
+					    'keys'=>array(  'X'=>array(	'R'=>array( 
+										    9=>'foo',
+										    3=>'bar'				    
 									),				    
-									'V'=>array( 'K'=>array(	
-												1=>'foo',
-												7=>'bar'
-										    ),
-										    'W'=>array( 1=>'baz' )					    
+									'V'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    1=>'baz' 				    
 									),
-									'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+									'Z'=>array( 3=>(int)0 ) 					    
 							    ),
-							    'Y'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1
-										    ),
-										    'T'=>array(	3=>(float)1.7 )							    
+							    'Y'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>(float)1.7 							    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    ),					    
-							    'E'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1,
-												3=>true,
-												5=>false
-										    ),
-										    'T'=>array(	4=>null)							    
+							    'E'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    )							
 					    )
 		);
 		
 		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
 		
-		$check_cache_2 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>(string)"foo",
-												2=>array(null, true, false, 1, 1.0, "foo")
-										    )							    
+		$check_cache_2 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										  						    
 									),
-									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+									'Z'=>array( 3=>$test_obj ) 						
 							    )					    
 					    )						
 		);
 		
 		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
 		
-		$check_cache_3 = array(	    'L3'=>array(    'X'=>array( 'K'=>true,
-										    'Z'=>true
+		$check_cache_3 = array(	    'L2'=>array(    'X'=>array( 'K'=>true,
+									'Z'=>true
 					    )),				    
-					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>(string)"foo",
-												2=>array(null, true, false, 1, 1.0, "foo")
-										    )							    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+									'Z'=>array( 3=>$test_obj ) 						
 							    )					    
 					    )						
 		);
@@ -794,8 +787,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -831,62 +824,56 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals(true, $valid);						
 		
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_data_1 = array(	    'X'=>array(	'R'=>array( 'X'=>array(	
-										9=>'foo',
-										3=>'bar'
-								    )					    
+		$check_data_1 = array(	    'X'=>array(	'R'=>array( 
+								    9=>'foo',
+								    3=>'bar'								    					    
 							),				    
-							'V'=>array( 'K'=>array(	
-										1=>'foo',
-										7=>'bar'
-								    ),
-								    'W'=>array( 1=>'baz' )					    
+							'V'=>array( 
+								    1=>'foo',
+								    7=>'bar',
+								    5=>'baz'				    
 							),
-							'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+							'Z'=>array( 3=>(int)0 ) 					    
 					    ),
-					    'Y'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1
-								    ),
-								    'T'=>array(	3=>(float)1.7 )							    
+					    'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 							    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    ),					    
-					    'E'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1,
-										3=>true,
-										5=>false
-								    ),
-								    'T'=>array(	4=>null)							    
+					    'E'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>true,
+								    5=>false,
+								    4=>null							    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )							
 		);
 		
-		$check_data_2 = array(	    'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>(string)"foo",
-										2=>array(null, true, false, 1, 1.0, "foo")
-								    )							    
+		$check_data_2 = array(	    'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    						    
 							),
-							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							'Z'=>array( 3=>$test_obj ) 						
 					    )					    
 		);
 		
-		$check_data_3 = array(	    'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>(string)"foo",
-										2=>array(null, true, false, 1, 1.0, "foo")
-								    )							    
+		$check_data_3 = array(	    'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							'Z'=>array( 3=>$test_obj ) 						
 					    )					    
 		);
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -903,43 +890,38 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
 		$check_cache_1 = array(	    'all_cached'=>true,
-					    'L4'=>null,
 					    'L3'=>null,
 					    'L2'=>null,
-					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-												9=>'foo',
-												3=>'bar'
-										    )					    
+					    'keys'=>array(  'X'=>array(	'R'=>array( 
+										    9=>'foo',
+										    3=>'bar'										    					    
 									),				    
-									'V'=>array( 'K'=>array(	
-												1=>'foo',
-												7=>'bar'
-										    ),
-										    'W'=>array( 1=>'baz' )					    
+									'V'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    5=>'baz' 					    
 									),
-									'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+									'Z'=>array( 3=>(int)0 ) 					    
 							    ),
-							    'Y'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1
-										    ),
-										    'T'=>array(	3=>(float)1.7 )							    
+							    'Y'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>(float)1.7 						    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    ),					    
-							    'E'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1,
-												3=>true,
-												5=>false
-										    ),
-										    'T'=>array(	4=>null)							    
+							    'E'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    )							
 					    )
 		);
@@ -947,15 +929,13 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
 		
 		$check_cache_2 = array(	    'all_cached'=>true,
-					    'L4'=>null,
 					    'L3'=>null,
 					    'L2'=>null,				    
-					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>(string)"foo",
-												2=>array(null, true, false, 1, 1.0, "foo")
-										    )							    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+									'Z'=>array( 3=>$test_obj ) 						
 							    )					    
 					    )						
 		);
@@ -963,15 +943,13 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
 		
 		$check_cache_3 = array(	    'all_cached'=>true,
-					    'L4'=>null,
 					    'L3'=>null,
 					    'L2'=>null,				    
-					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>(string)"foo",
-												2=>array(null, true, false, 1, 1.0, "foo")
-										    )							    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 	
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+									'Z'=>array( 3=>$test_obj ) 						
 							    )					    
 					    )						
 		);
@@ -1028,10 +1006,10 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// HOT CACHE - All items in cache have authority from previous GET operation
 		// ===================================================================				
 		
-		// NOTE: a L3 must have at least one L2->L1 walk within it in order to have an entry within the  
-		// db. Without a L2->L1 walk inside it, there's nothing to write to the L1 and L2 columns in the
-		// db (which would violate the table index). In addition to this, storing empty L3's would waste 
-		// space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
+		// NOTE: a L2 must have at least one L1 key within it in order to have an entry within the  
+		// db. Without a L1 key inside it, there's nothing to write to the L1 column in the
+		// db (which would violate the table index). In addition to this, storing empty L2's would waste 
+		// space in the table and cache. Therefore, overwriting a L2 node with an empty array drops
 		// that node from the datastore
 		
 		$test_obj = new stdClass();
@@ -1039,49 +1017,46 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";		
 		
 		$data = array(
-				1=>array(   'X'=>array(	'K'=>array(), // Drop this L3
-							'R'=>array( 'X'=>array(	
-										9=>'foo',
-										3=>'bar'
-								    )					    
+				1=>array(   'X'=>array(	'K'=>array(), // Drop this L2 'K'
+							'R'=>array( 
+								    9=>'foo',
+								    3=>'bar'								    					    
 							),				    
-							'V'=>array( 'K'=>array(	
-										1=>'foo',
-										7=>'bar'
-								    ),
-								    'W'=>array(	1=>'baz' )					    
+							'V'=>array( 
+								    1=>'foo',
+								    7=>'bar',
+								    5=>'baz' 					    
 							)
 				    
-							// Ignore the entire L3 'Z' node
+							// Ignore the entire L2 'Z' node
 							// 'Z'=>array( ... )
 					    ),
 
-					    // Ignore the entire L4 'Y' node
+					    // Ignore the entire L3 'Y' node
 					    // 'Y'=>array( ... ),
 
-					    // Add a new L4 'E' node
-					    'E'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1,
-										3=>true,
-										5=>false
-								    ),
-								    'T'=>array(	4=>null)							    
+					    // Add a new L3 'E' node
+					    'E'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>true,
+								    5=>false,
+								    4=>null							    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )	
 				),
 
-				// Ignore the entire L5 '2' node
+				// Ignore the entire L4 '2' node
 				// 2=>array( ... ),
 
-				// Add a new L5 '3' node
-				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>(string)"foo",
-										2=>array(null, true, false, 1, 1.0, "foo")
-								    )							    
+				// Add a new L4 '3' node
+				3=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")
+								    							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							'Z'=>array( 3=>$test_obj ) 						
 					    )					    
 				)		    
 		);
@@ -1095,7 +1070,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		);
 				
 		try {			
-			$this->cls->replaceL3_multi($data, $ctrl);
+			$this->cls->replaceL2_multi($data, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1107,50 +1082,45 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################			
 				
 		// Since we're working with a hot cache, the all_cached flag will be set for all
-		// nodes that already exist in the database. The L2, L3, and L4 LUT's for these
+		// nodes that already exist in the database. The L2 and L3 LUT's for these
 		// nodes will be missing, because the all_cached flag takes priority. However, for
-		// L5 nodes that were created in the cache as a result of us adding new L2's to the
-		// datastore, entries in the parent L5 object's L3 LUT will be set. This is because
-		// the parent L5 was created, not read from the db; so its all_cached flag won't be 
+		// L4 nodes that were created in the cache as a result of us adding new L2's to the
+		// datastore, entries in the parent L4 object's L3 LUT will be set. This is because
+		// the parent L4 was created, not read from the db; so its all_cached flag won't be 
 		// set because it doesn't have authority.
 				
 		// PASS 1: Check the L5 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L5 had
-					    'L4'=>null,		    // authority from the previous GET operation
-					    'L3'=>null,
+		$check_cache_1 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L4 had		    
+					    'L3'=>null,		    // authority from the previous GET operation
 					    'L2'=>null,
-					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-												9=>'foo',
-												3=>'bar'
-										    )					    
+					    'keys'=>array(  'X'=>array(	'R'=>array( 	
+										    9=>'foo',
+										    3=>'bar'										    					    
 									),				    
-									'V'=>array( 'K'=>array(	
-												1=>'foo',
-												7=>'bar'
-										    ),
-										    'W'=>array( 1=>'baz' )					    
+									'V'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    5=>'baz' 					    
 									),
-									'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+									'Z'=>array( 3=>(int)0 ) 					    
 							    ),
-							    'Y'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1
-										    ),
-										    'T'=>array(	3=>(float)1.7 )							    
+							    'Y'=>array(	'K'=>array( 	
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>(float)1.7 							    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    ),					    
-							    'E'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1,
-												3=>true,
-												5=>false
-										    ),
-										    'T'=>array(	4=>null)							    
+							    'E'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    )							
 					    )
 		);
@@ -1158,14 +1128,12 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
 		
 		
-		$check_cache_2 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L5 had
-					    'L4'=>null,		    // authority from the previous GET operation
-					    'L3'=>null,
+		$check_cache_2 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L4 had					     
+					    'L3'=>null,		    // authority from the previous GET operation
 					    'L2'=>null,				    
-					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>(string)"foo",
-												2=>array(null, true, false, 1, 1.0, "foo")
-										    )							    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
 									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
 							    )					    
@@ -1175,15 +1143,14 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
 		
 
-		$check_cache_3 = array(	    'L3'=>array(    'X'=>array( 'K'=>true,	// This L5 didn't exist when the GET operation ran. It
-									'Z'=>true	// only has authority in the L3 LUT, because the L5 was
-					    )),						// created during a L3 replace operation.			    
-					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>(string)"foo",
-												2=>array(null, true, false, 1, 1.0, "foo")
-										    )							    
+		$check_cache_3 = array(	    'L2'=>array(    'X'=>array( 'K'=>true,	// This L4 didn't exist when the GET operation ran. It
+									'Z'=>true	// only has authority in the L2 LUT, because the L4 was
+					    )),						// created during a L2 replace operation.			    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+									'Z'=>array(  3=>$test_obj ) 						
 							    )					    
 					    )						
 		);
@@ -1191,8 +1158,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -1226,68 +1193,62 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals(true, $valid);						
 		
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_data_1 = array(	    'X'=>array(	'R'=>array( 'X'=>array(	
-										9=>'foo',
-										3=>'bar'
-								    )					    
+		$check_data_1 = array(	    'X'=>array(	'R'=>array( 
+								    9=>'foo',
+								    3=>'bar'								 				    
 							),				    
-							'V'=>array( 'K'=>array(	
-										1=>'foo',
-										7=>'bar'
-								    ),
-								    'W'=>array( 1=>'baz' )					    
+							'V'=>array( 
+								    1=>'foo',
+								    7=>'bar',
+								    5=>'baz' 					    
 							),
-							'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+							'Z'=>array( 3=>(int)0 ) 					    
 					    ),
-					    'Y'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1
-								    ),
-								    'T'=>array(	3=>(float)1.7 )							    
+					    'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 						    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    ),					    
-					    'E'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1,
-										3=>true,
-										5=>false
-								    ),
-								    'T'=>array(	4=>null)							    
+					    'E'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>true,
+								    5=>false,
+								    4=>null							    
 							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 		);
 		
 		$this->assertEquals($check_data_1, $result[1]);
 		
-		$check_data_2 = array(	    'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>(string)"foo",
-										2=>array(null, true, false, 1, 1.0, "foo")
-								    )							    
+		$check_data_2 = array(	    'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							'Z'=>array( 3=>$test_obj ) 						
 					    )							    
 		);
 		
 		$this->assertEquals($check_data_2, $result[2]);
 		
-		$check_data_3 = array(	    'X'=>array(	'K'=>array( 'K'=>array(	
-										1=>(string)"foo",
-										2=>array(null, true, false, 1, 1.0, "foo")
-								    )							    
+		$check_data_3 = array(	    'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
-							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							'Z'=>array( 3=>$test_obj ) 						
 					    )						    
 		);
 		
 		$this->assertEquals($check_data_3, $result[3]);
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -1305,43 +1266,38 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################			
 		
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L5 had
-					    'L4'=>null,		    // authority from the previous GET operation
-					    'L3'=>null,
+		$check_cache_1 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L4 had		    
+					    'L3'=>null,		    // authority from the previous GET operation
 					    'L2'=>null,
-					    'keys'=>array(  'X'=>array(	'R'=>array( 'X'=>array(	
-												9=>'foo',
-												3=>'bar'
-										    )					    
+					    'keys'=>array(  'X'=>array(	'R'=>array( 
+										    9=>'foo',
+										    3=>'bar'										    					    
 									),				    
-									'V'=>array( 'K'=>array(	
-												1=>'foo',
-												7=>'bar'
-										    ),
-										    'W'=>array( 1=>'baz' )					    
+									'V'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    1=>'baz' 				    
 									),
-									'Z'=>array( 'Z'=>array( 3=>(int)0)) 					    
+									'Z'=>array( 3=>(int)0 ) 					    
 							    ),
-							    'Y'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1
-										    ),
-										    'T'=>array(	3=>(float)1.7 )							    
+							    'Y'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>(float)1.7 							    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    ),					    
-							    'E'=>array(	'K'=>array( 'K'=>array(	
-												1=>(int)1,
-												2=>(int)-1,
-												3=>true,
-												5=>false
-										    ),
-										    'T'=>array(	4=>null)							    
+							    'E'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
 									),
-									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+									'Z'=>array( 4=>(float)-1.6 ) 						
 							    )							
 					    )
 		);
@@ -1349,15 +1305,14 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_1, $this->cls->cache[1]);		
 		
 		$check_cache_2 = array(	    'all_cached'=>true,
-					    'L4'=>null,
 					    'L3'=>null,
 					    'L2'=>null,				    
-					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>(string)"foo",
-												2=>array(null, true, false, 1, 1.0, "foo")
-										    )							    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 	
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")
+										    							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+									'Z'=>array( 3=>$test_obj ) 						
 							    )					    
 					    )						
 		);
@@ -1365,15 +1320,14 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
 		
 		$check_cache_3 = array(	    'all_cached'=>true,
-					    'L4'=>null,
 					    'L3'=>null,
 					    'L2'=>null,				    
-					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-												1=>(string)"foo",
-												2=>array(null, true, false, 1, 1.0, "foo")
-										    )							    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")
+										    							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+									'Z'=>array( 3=>$test_obj ) 						
 							    )					    
 					    )						
 		);
@@ -1381,8 +1335,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -1397,1374 +1351,1246 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 					
 	}
 	
-//	
-//       /**
-//	* Test fixture for replaceL3_multi() method, data integrity
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/	
-//	public function test_replaceL3_multi_dataIntegrity() {
-//	    
-//	    
-//		$ctrl = array(		    
-//				'validate'=>true		    
-//		);
-//		
-//	    
-//		// Valid data trie
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' )),
-//							'R'=>array() // Drop this node
-//					    )					    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//
-//		
-//		// Invalid data type for node at clip_order
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' )),
-//							'R'=>(string)'fail' // Invalid clip node
-//					    )					    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-//			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//	
-//		}		
-//	
-//		// Walk terminates below clip_order (L2)
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),
-//								    'R'=>array() // Invalid clip node				    
-//							),
-//							'Z'=>array() 						
-//					    )					    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-//			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//
-//		
-//		// Walk terminates above clip_order (L4)
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )								    				    
-//							),
-//							'Z'=>array()
-//					    ),
-//					    'R'=>array()  // Invalid node			    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-//			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		// Walk terminates above clip_order (L5)
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )								    				    
-//							),
-//							'R'=>array() 
-//					    )				    
-//				),
-//				2=>array() // Invalid node
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-//			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		
-//		// Invalid L1 key data type
-//		// ####################################################################
-//	    
-//		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
-//		// automatically converts (string)'1' to (int)1 before sending it in to the function
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										'K'=>(string)"foo", // Invalid L1 key
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			   
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' )),
-//				    			'R'=>array() // Drop this L3 node	
-//					    )					    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-//			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L1 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}				
-//		
-//		// Invalid L2 key data type
-//		// ####################################################################
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", // Invalid key
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),
-//								    // Invalid L2 key
-//								    1=>array(	
-//										1=>(string)"foo", // Invalid key
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),			    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' )),
-//				    			'R'=>array() // Drop this L3 node				    
-//					    )					    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-//			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L2 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}	
-//		
-//		// Invalid L3 key data type
-//		// ####################################################################
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),			    
-//							),
-//				    			'R'=>array(), // Drop this L3 node				    
-//							// Invalid L3 key
-//							99=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)				
-//					    )					    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-//			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L3 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}	
-//		
-//		// Invalid L4 key data type
-//		// ####################################################################
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							),
-//				    			'R'=>array() // Drop this L3 node				    
-//					
-//					    ),
-//					    // Invalid L4 key
-//					    99=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)					
-//					    )				    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-//			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L4 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		// Invalid L5 key data type
-//		// ####################################################################
-//		
-//		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
-//		// automatically converts (string)'1' to (int)1 before sending it in to the function
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)					
-//					    )			    
-//				),
-//				// Invalid L5 key
-//				'Z'=>array( 'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)					
-//					    )			    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL3_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-//			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L5 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}		
-//		
-//	    
-//	}
-//	
-//	
-//       /**
-//	* Test fixture for replaceL4_multi() method, cold cache
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/	
-//	public function test_replaceL4_multi_COLD() {
-//    
-//
-//		self::loadData();
-//		
-//		
-//		// Flush the cache
-//		// ####################################################################	
-//		
-//		try {
-//			$flush_ok = $this->cls->flushCache();
-//		}
-//		catch (FOX_exception $child) {
-//		    
-//			$this->fail($child->dumpString(1));		    
-//		}
-//				
-//		$this->assertEquals(true, $flush_ok);		
-//				
-//		
-//		// COLD CACHE - Flushed after previous ADD operation
-//		// ===================================================================				
-//		
-//		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
-//		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
-//		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
-//		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
-//		// that node from the datastore
-//		
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";
-//		
-//		$data = array(
-//				1=>array(   // Overwrite this L4
-//					    'X'=>array(	'W'=>array( 'X'=>array(	
-//										9=>'foo',
-//										3=>'bar'
-//								    )					    
-//							),				    
-//							'P'=>array( 'K'=>array(	
-//										1=>'foo',
-//										7=>'bar'
-//								    ),
-//								    'W'=>array(	1=>'baz' )					    
-//							)				    
-//					    ),
-//					    'Y'=>array(),   // Drop this L4
-//
-//					    // Add a new L4 'E' node
-//					    'E'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(int)1,
-//										2=>(int)-1,
-//										3=>true,
-//										5=>false
-//								    ),
-//								    'T'=>array(	4=>null)							    
-//							),
-//							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					    )	
-//				),
-//
-//				// Ignore the entire L5 '2' node
-//				// 2=>array( ... ),
-//
-//				// Add a new L5 '3' node
-//				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				)		    
-//		);
-//		
-//		
-//		// Replace items
-//		// ####################################################################
-//		
-//		$ctrl = array(		    
-//				'validate'=>true		    
-//		);
-//				
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		
-//		// Check cache state
-//		// ####################################################################			
-//		
-//		// The LUT's will be set for all L4 nodes that we modified, since, by overwriting an
-//		// entire L4 node, we've given it authority. The other LUT arrays won't exist in the cache
-//		// yet because we haven't done a read.
-//		
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_1 = array(	    'L4'=>array(    'X'=>true,
-//							    'E'=>true,					    						
-//					    ),
-//					    'keys'=>array(  'X'=>array(	'W'=>array( 'X'=>array(	
-//												9=>'foo',
-//												3=>'bar'
-//										    )					    
-//									),				    
-//									'P'=>array( 'K'=>array(	
-//												1=>'foo',
-//												7=>'bar'
-//										    ),
-//										    'W'=>array(	1=>'baz' )					    
-//									)				    
-//							    ),
-//							    'E'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1,
-//												3=>true,
-//												5=>false
-//										    ),
-//										    'T'=>array(	4=>null)							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )							
-//					    )				
-//		);
-//		
-//		$this->assertEquals($check_cache_1, $this->cls->cache[1]);		
-//		
-//		$check_cache_3 = array(	    'L4'=>array(    'X'=>true	),			    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(	
-//					1=>$check_cache_1,
-//					3=>$check_cache_3		    
-//		);		
-//	
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_1, $check_cache_3, $check_cache);
-//
-//		
-//		// Load updated items
-//		// ####################################################################
-//		
-//		$request = array(
-//				    1=>array(),
-//				    2=>array(),
-//				    3=>array()		    
-//		);
-//		
-//		$valid = false;
-//		
-//		try {			
-//			$result = $this->cls->getMulti($request, $ctrl, $valid);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		$this->assertEquals(true, $valid);						
-//		
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_data_1 = array(	'X'=>array( 'W'=>array( 'X'=>array(	
-//									    9=>'foo',
-//									    3=>'bar'
-//								)					    
-//						    ),				    
-//						    'P'=>array( 'K'=>array(	
-//									    1=>'foo',
-//									    7=>'bar'
-//								),
-//								'W'=>array( 1=>'baz' )					    
-//						    )				    
-//					),
-//					'E'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(int)1,
-//									    2=>(int)-1,
-//									    3=>true,
-//									    5=>false
-//								),
-//								'T'=>array( 4=>null)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					)							
-//		);
-//		
-//		$this->assertEquals($check_data_1, $result[1]);	
-//		
-//		$check_data_2 = array(	'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_2, $result[2]);
-//		
-//		$check_data_3 = array(  'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_3, $result[3]);		
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_data = array(
-//					1=>$check_data_1,
-//					2=>$check_data_2,
-//					3=>$check_data_3,		    
-//		);
-//			
-//		$this->assertEquals($check_data, $result);	
-//		
-//		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
-//
-//		
-//		// Check cache state
-//		// ####################################################################			
-//				
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_1 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,
-//					    'keys'=>array(  'X'=>array( 'W'=>array( 'X'=>array(	
-//												9=>'foo',
-//												3=>'bar'
-//										    )					    
-//									),				    
-//									'P'=>array( 'K'=>array(	
-//												1=>'foo',
-//												7=>'bar'
-//										    ),
-//										    'W'=>array( 1=>'baz' )					    
-//									)				    
-//							    ),
-//							    'E'=>array( 'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1,
-//												3=>true,
-//												5=>false
-//										    ),
-//										    'T'=>array( 4=>null)							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )							
-//					    )
-//		);
-//		
-//		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
-//		
-//		$check_cache_2 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
-//		
-//		$check_cache_3 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(		    
-//					1=>$check_cache_1,
-//					2=>$check_cache_2,		    
-//					3=>$check_cache_3,		    
-//		);
-//		
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
-//			
-//		
-//	}
-//	
-//	
-//       /**
-//	* Test fixture for replaceL4_multi() method, warm cache
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/	
-//	public function test_replaceL4_multi_WARM() {
-//
-//
-//		self::loadData();		
-//				
-//		
-//		// WARM CACHE - Items in cache from previous ADD operation
-//		// ===================================================================				
-//		
-//		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
-//		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
-//		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
-//		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
-//		// that node from the datastore
-//		
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";		
-//		
-//		$data = array(
-//				1=>array(   // Overwrite this L4
-//					    'X'=>array(	'W'=>array( 'X'=>array(	
-//										9=>'foo',
-//										3=>'bar'
-//								    )					    
-//							),				    
-//							'P'=>array( 'K'=>array(	
-//										1=>'foo',
-//										7=>'bar'
-//								    ),
-//								    'W'=>array(	1=>'baz' )					    
-//							)				    
-//					    ),
-//					    'Y'=>array(),   // Drop this L4
-//
-//					    // Add a new L4 'E' node
-//					    'E'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(int)1,
-//										2=>(int)-1,
-//										3=>true,
-//										5=>false
-//								    ),
-//								    'T'=>array(	4=>null)							    
-//							),
-//							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					    )	
-//				),
-//
-//				// Ignore the entire L5 '2' node
-//				// 2=>array( ... ),
-//
-//				// Add a new L5 '3' node
-//				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				)		    
-//		);
-//		
-//		
-//		// Replace items
-//		// ####################################################################
-//		
-//		$ctrl = array(		    
-//				'validate'=>true		    
-//		);
-//				
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		
-//		// Check cache state
-//		// ####################################################################			
-//		
-//		// The LUT's will be set for all L4 nodes that we modified, since, by overwriting an
-//		// entire L4 node, we've given it authority. The other LUT arrays won't exist in the cache
-//		// yet because we haven't done a read.
-//		
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_1 = array(	    'L4'=>array(    'X'=>true,
-//							    'E'=>true,					    						
-//					    ),
-//					    'keys'=>array(  'X'=>array(	'W'=>array( 'X'=>array(	
-//												9=>'foo',
-//												3=>'bar'
-//										    )					    
-//									),				    
-//									'P'=>array( 'K'=>array(	
-//												1=>'foo',
-//												7=>'bar'
-//										    ),
-//										    'W'=>array(	1=>'baz' )					    
-//									)				    
-//							    ),
-//							    'E'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1,
-//												3=>true,
-//												5=>false
-//										    ),
-//										    'T'=>array(	4=>null)							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )							
-//					    )				
-//		);
-//		
-//		$this->assertEquals($check_cache_1, $this->cls->cache[1]);	
-//		
-//		$check_cache_2 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);		
-//		
-//		$check_cache_3 = array(	    'L4'=>array(    'X'=>true	),			    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(	
-//					1=>$check_cache_1,
-//					2=>$check_cache_2,
-//					3=>$check_cache_3		    
-//		);		
-//	
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_1, $check_cache_3, $check_cache);
-//
-//		
-//		// Load updated items
-//		// ####################################################################
-//		
-//		$request = array(
-//				    1=>array(),
-//				    2=>array(),
-//				    3=>array()		    
-//		);
-//		
-//		$valid = false;
-//		
-//		try {			
-//			$result = $this->cls->getMulti($request, $ctrl, $valid);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		$this->assertEquals(true, $valid);						
-//		
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_data_1 = array(	'X'=>array( 'W'=>array( 'X'=>array(	
-//									    9=>'foo',
-//									    3=>'bar'
-//								)					    
-//						    ),				    
-//						    'P'=>array( 'K'=>array(	
-//									    1=>'foo',
-//									    7=>'bar'
-//								),
-//								'W'=>array( 1=>'baz' )					    
-//						    )				    
-//					),
-//					'E'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(int)1,
-//									    2=>(int)-1,
-//									    3=>true,
-//									    5=>false
-//								),
-//								'T'=>array( 4=>null)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					)							
-//		);
-//		
-//		$this->assertEquals($check_data_1, $result[1]);	
-//		
-//		$check_data_2 = array(	'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_2, $result[2]);
-//		
-//		$check_data_3 = array(  'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_3, $result[3]);		
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_data = array(
-//					1=>$check_data_1,
-//					2=>$check_data_2,
-//					3=>$check_data_3,		    
-//		);
-//			
-//		$this->assertEquals($check_data, $result);	
-//		
-//		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
-//
-//	
-//		// Check cache state
-//		// ####################################################################		
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_1 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,
-//					    'keys'=>array(  'X'=>array( 'W'=>array( 'X'=>array(	
-//												9=>'foo',
-//												3=>'bar'
-//										    )					    
-//									),				    
-//									'P'=>array( 'K'=>array(	
-//												1=>'foo',
-//												7=>'bar'
-//										    ),
-//										    'W'=>array( 1=>'baz' )					    
-//									)				    
-//							    ),
-//							    'E'=>array( 'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1,
-//												3=>true,
-//												5=>false
-//										    ),
-//										    'T'=>array( 4=>null)							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )							
-//					    )
-//		);
-//		
-//		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
-//		
-//		$check_cache_2 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
-//		
-//		$check_cache_3 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(		    
-//					1=>$check_cache_1,
-//					2=>$check_cache_2,		    
-//					3=>$check_cache_3,		    
-//		);
-//		
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
-//			
-//		
-//	}
-//	
-//	
-//       /**
-//	* Test fixture for replaceL4_multi() method, hot cache
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/	
-//	public function test_replaceL4_multi_HOT() {
-//
-//
-//		self::loadData();
-//		
-//		
-//		// Load the cache
-//		// ####################################################################
-//		
-//		$request = array(
-//				    1=>array(),
-//				    2=>array()	    
-//		);
-//		
-//		$valid = false;
-//		
-//		try {			
-//			$result = $this->cls->getMulti($request, $ctrl, $valid);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}		
-//				
-//		
-//		// HOT CACHE - All items in cache have authority from previous GET operation
-//		// ===================================================================				
-//		
-//		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
-//		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
-//		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
-//		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
-//		// that node from the datastore
-//		
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";		
-//		
-//		$data = array(
-//				1=>array(   // Overwrite this L4
-//					    'X'=>array(	'W'=>array( 'X'=>array(	
-//										9=>'foo',
-//										3=>'bar'
-//								    )					    
-//							),				    
-//							'P'=>array( 'K'=>array(	
-//										1=>'foo',
-//										7=>'bar'
-//								    ),
-//								    'W'=>array(	1=>'baz' )					    
-//							)				    
-//					    ),
-//					    'Y'=>array(),   // Drop this L4
-//
-//					    // Add a new L4 'E' node
-//					    'E'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(int)1,
-//										2=>(int)-1,
-//										3=>true,
-//										5=>false
-//								    ),
-//								    'T'=>array(	4=>null)							    
-//							),
-//							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					    )	
-//				),
-//
-//				// Ignore the entire L5 '2' node
-//				// 2=>array( ... ),
-//
-//				// Add a new L5 '3' node
-//				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				)		    
-//		);
-//		
-//		
-//		// Replace items
-//		// ####################################################################
-//		
-//		$ctrl = array(		    
-//				'validate'=>true		    
-//		);
-//				
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		
-//		// Check cache state
-//		// ####################################################################
-//		
-//		// Since we're working with a hot cache, the all_cached flag will be set for all
-//		// nodes that already exist in the database. The L2, L3, and L4 LUT's for these
-//		// nodes will be missing, because the all_cached flag takes priority. However, for
-//		// L5 nodes that were created in the cache as a result of us adding new L2's to the
-//		// datastore, entries in the parent L5 object's L4 LUT will be set. This is because
-//		// the parent L5 was created, not read from the db; so its all_cached flag won't be 
-//		// set because it doesn't have authority.
-//						
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_1 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,
-//					    'keys'=>array(  'X'=>array( 'W'=>array( 'X'=>array(	
-//												9=>'foo',
-//												3=>'bar'
-//										    )					    
-//									),				    
-//									'P'=>array( 'K'=>array(	
-//												1=>'foo',
-//												7=>'bar'
-//										    ),
-//										    'W'=>array( 1=>'baz' )					    
-//									)				    
-//							    ),
-//							    'E'=>array( 'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1,
-//												3=>true,
-//												5=>false
-//										    ),
-//										    'T'=>array( 4=>null)							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )							
-//					    )
-//		);
-//		
-//		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
-//		
-//		$check_cache_2 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
-//		
-//		$check_cache_3 = array(	    'L4'=>array(    'X'=>true	),	// Only has L4 authority, since it wasn't
-//										// fetched in the L5 GET operation
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(		
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(		    
-//					1=>$check_cache_1,
-//					2=>$check_cache_2,		    
-//					3=>$check_cache_3,		    
-//		);
-//		
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
-//	
-//		
-//		// Load updated items
-//		// ####################################################################
-//		
-//		$request = array(
-//				    1=>array(),
-//				    2=>array(),
-//				    3=>array()		    
-//		);
-//		
-//		$valid = false;
-//		
-//		try {			
-//			$result = $this->cls->getMulti($request, $ctrl, $valid);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		$this->assertEquals(true, $valid);						
-//		
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_data_1 = array(	'X'=>array( 'W'=>array( 'X'=>array(	
-//									    9=>'foo',
-//									    3=>'bar'
-//								)					    
-//						    ),				    
-//						    'P'=>array( 'K'=>array(	
-//									    1=>'foo',
-//									    7=>'bar'
-//								),
-//								'W'=>array( 1=>'baz' )					    
-//						    )				    
-//					),
-//					'E'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(int)1,
-//									    2=>(int)-1,
-//									    3=>true,
-//									    5=>false
-//								),
-//								'T'=>array( 4=>null)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					)							
-//		);
-//		
-//		$this->assertEquals($check_data_1, $result[1]);	
-//		
-//		$check_data_2 = array(	'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_2, $result[2]);
-//		
-//		$check_data_3 = array(  'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_3, $result[3]);		
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_data = array(
-//					1=>$check_data_1,
-//					2=>$check_data_2,
-//					3=>$check_data_3,		    
-//		);
-//			
-//		$this->assertEquals($check_data, $result);	
-//		
-//		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
-//		
-//
-//		// Check cache state
-//		// ####################################################################			
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_1 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,
-//					    'keys'=>array(  'X'=>array( 'W'=>array( 'X'=>array(	
-//												9=>'foo',
-//												3=>'bar'
-//										    )					    
-//									),				    
-//									'P'=>array( 'K'=>array(	
-//												1=>'foo',
-//												7=>'bar'
-//										    ),
-//										    'W'=>array( 1=>'baz' )					    
-//									)				    
-//							    ),
-//							    'E'=>array( 'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1,
-//												3=>true,
-//												5=>false
-//										    ),
-//										    'T'=>array( 4=>null)							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )							
-//					    )
-//		);
-//		
-//		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
-//		
-//		$check_cache_2 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
-//		
-//		$check_cache_3 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(		    
-//					1=>$check_cache_1,
-//					2=>$check_cache_2,		    
-//					3=>$check_cache_3,		    
-//		);
-//		
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
-//			
-//		
-//	}
-//	
-//	
+	
+       /**
+	* Test fixture for replaceL2_multi() method, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL2_multi_dataIntegrity() {
+	    
+	    
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+		
+	    
+		// Valid data trie
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")		    
+							),
+							'Z'=>array( 3=>'bar' ),
+							'R'=>array() // Drop this node
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+
+		
+		// Invalid data type for node at clip_order
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							),
+							'Z'=>array( 3=>'bar' ),
+							'R'=>(string)'fail' // Invalid clip node
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+	
+		
+		// Walk terminates above clip_order (L3)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    				    
+							),
+							'Z'=>array()
+					    ),
+					    'R'=>array()  // Invalid node			    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Walk terminates above clip_order (L4)
+		// ####################################################################
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array(
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    								    				    
+							),
+							'R'=>array() // Valid clip node
+					    )				    
+				),
+				2=>array() // Invalid node
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		
+		// Invalid L1 key data type
+		// ####################################################################
+	    
+		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
+		// automatically converts (string)'1' to (int)1 before sending it in to the function
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    'K'=>(string)"foo", // Invalid L1 key
+								     2=>array(null, true, false, 1, 1.0, "foo")								    			   
+							),
+							'Z'=>array( 3=>'bar'),
+				    			'R'=>array() // Drop this L3 node	
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid L1 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}				
+		
+		// Invalid L2 key data type
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							),				    
+				    			'R'=>array(), 				    							
+							99=>array(  // Invalid L2 key
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							)				
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid L3 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}	
+		
+		// Invalid L3 key data type
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							),
+				    			'R'=>array() 			    					
+					    ),
+					    // Invalid L3 key
+					    99=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								   		    
+							)					
+					    )				    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid L4 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Invalid L4 key data type
+		// ####################################################################
+		
+		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
+		// automatically converts (string)'1' to (int)1 before sending it in to the function
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							)					
+					    )			    
+				),
+				// Invalid L4 key
+				'Z'=>array( 'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							)					
+					    )			    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL2_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL2_multi() throws an exception
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid L5 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+	    
+	}
+	
+	
+       /**
+	* Test fixture for replaceL3_multi() method, cold cache
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL3_multi_COLD() {
+    
+
+		self::loadData();
+		
+		
+		// Flush the cache
+		// ####################################################################	
+		
+		try {
+			$flush_ok = $this->cls->flushCache();
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+				
+		$this->assertEquals(true, $flush_ok);		
+				
+		
+		// COLD CACHE - Flushed after previous ADD operation
+		// ===================================================================				
+		
+		// NOTE: a L3 must have at least one L2->L1 walk within it in order to have an entry within the  
+		// db. Without a L2->L1 walk inside it, there's nothing to write to the L1 and L2 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L3's would 
+		// waste space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
+		// that node from the datastore
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$data = array(
+				1=>array(   // Overwrite this L3
+					    'X'=>array(	'W'=>array( 
+								    9=>'foo',
+								    3=>'bar'								    					    
+							),				    
+							'P'=>array( 
+								    1=>'foo',
+								    7=>'bar',
+								    5=>'baz' 					    
+							)				    
+					    ),
+					    'Y'=>array(),   // Drop this L3
+
+					    // Add a new L3 'E' node
+					    'E'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>true,
+								    5=>false,
+								    4=>null							    
+							),
+							'Z'=>array( 4=>(float)-1.6 ) 						
+					    )	
+				),
+
+				// Ignore the entire L4 '2' node
+				// 2=>array( ... ),
+
+				// Add a new L4 '3' node
+				3=>array(   'X'=>array(	'K'=>array( 	
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")
+								    							    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				)		    
+		);
+		
+		
+		// Replace items
+		// ####################################################################
+		
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+				
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
+		// Check cache state
+		// ####################################################################			
+		
+		// The LUT's will be set for all L3 nodes that we modified, since, by overwriting an
+		// entire L3 node, we've given it authority. The other LUT arrays won't exist in the cache
+		// yet because we haven't done a read.
+		
+		
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'L3'=>array(    'X'=>true,
+							    'E'=>true,					    						
+					    ),
+					    'keys'=>array(  'X'=>array(	'W'=>array(
+										    9=>'foo',
+										    3=>'bar'										    					    
+									),				    
+									'P'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    1=>'baz' 					    
+									)				    
+							    ),
+							    'E'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
+									),
+									'Z'=>array( 4=>(float)-1.6 ) 						
+							    )							
+					    )				
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);		
+		
+		$check_cache_3 = array(	    'L3'=>array(    'X'=>true	),			    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		
+		
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(	
+					1=>$check_cache_1,
+					3=>$check_cache_3		    
+		);		
+	
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_3, $check_cache);
+
+		
+		// Load updated items
+		// ####################################################################
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(true, $valid);						
+		
+		
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_data_1 = array(	'X'=>array( 'W'=>array( 	
+								9=>'foo',
+								3=>'bar'													    
+						    ),				    
+						    'P'=>array( 	
+								1=>'foo',
+								7=>'bar',
+								5=>'baz' 					    
+						    )				    
+					),
+					'E'=>array( 'K'=>array( 	
+								1=>(int)1,
+								2=>(int)-1,
+								3=>true,
+								5=>false,
+								4=>null							    
+						    ),
+						    'Z'=>array( 4=>(float)-1.6 ) 						
+					)							
+		);
+		
+		$this->assertEquals($check_data_1, $result[1]);	
+		
+		$check_data_2 = array(	'X'=>array( 'K'=>array( 	
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")															   
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_2, $result[2]);
+		
+		$check_data_3 = array(  'X'=>array( 'K'=>array( 	
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_3, $result[3]);		
+		
+		
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_data = array(
+					1=>$check_data_1,
+					2=>$check_data_2,
+					3=>$check_data_3,		    
+		);
+			
+		$this->assertEquals($check_data, $result);	
+		
+		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
+
+		
+		// Check cache state
+		// ####################################################################			
+				
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,
+					    'keys'=>array(  'X'=>array( 'W'=>array( 
+										    9=>'foo',
+										    3=>'bar'										    					    
+									),				    
+									'P'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    5=>'baz' 					    
+									)				    
+							    ),
+							    'E'=>array( 'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
+									),
+									'Z'=>array( 4=>(float)-1.6 ) 						
+							    )							
+					    )
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(		    
+					1=>$check_cache_1,
+					2=>$check_cache_2,		    
+					3=>$check_cache_3,		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+			
+		
+	}
+	
+	
+       /**
+	* Test fixture for replaceL3_multi() method, warm cache
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL3_multi_WARM() {
+
+
+		self::loadData();		
+				
+		
+		// WARM CACHE - Items in cache from previous ADD operation
+		// ===================================================================				
+		
+		// NOTE: a L3 must have at least one L2->L1 walk within it in order to have an entry within the  
+		// db. Without a L2->L1 walk inside it, there's nothing to write to the L1 and L2 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L3's would 
+		// waste space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
+		// that node from the datastore
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";		
+		
+		$data = array(
+				1=>array(   // Overwrite this L3
+					    'X'=>array(	'W'=>array( 
+								    9=>'foo',
+								    3=>'bar'
+								    					    
+							),				    
+							'P'=>array( 
+								    1=>'foo',
+								    7=>'bar',
+								    5=>'baz' 					    
+							)				    
+					    ),
+					    'Y'=>array(),   // Drop this L3
+
+					    // Add a new L3 'E' node
+					    'E'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>true,
+								    5=>false,
+								    4=>null							    
+							),
+							'Z'=>array( 4=>(float)-1.6 ) 						
+					    )	
+				),
+
+				// Ignore the entire L4 '2' node
+				// 2=>array( ... ),
+
+				// Add a new L4 '3' node
+				3=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")
+								    							    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				)		    
+		);
+		
+		
+		// Replace items
+		// ####################################################################
+		
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+				
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
+		// Check cache state
+		// ####################################################################			
+		
+		// The LUT's will be set for all L3 nodes that we modified, since, by overwriting an
+		// entire L3 node, we've given it authority. The other LUT arrays won't exist in the cache
+		// yet because we haven't done a read.
+		
+		
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'L3'=>array(    'X'=>true,
+							    'E'=>true,					    						
+					    ),
+					    'keys'=>array(  'X'=>array(	'W'=>array( 
+										    9=>'foo',
+										    3=>'bar'										    					    
+									),				    
+									'P'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    5=>'baz' 					    
+									)				    
+							    ),
+							    'E'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
+									),
+									'Z'=>array( 4=>(float)-1.6 ) 						
+							    )							
+					    )				
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);	
+		
+		$check_cache_2 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 	
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);		
+		
+		$check_cache_3 = array(	    'L3'=>array(    'X'=>true	),			    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")																    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(	
+					1=>$check_cache_1,
+					2=>$check_cache_2,
+					3=>$check_cache_3		    
+		);		
+	
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_3, $check_cache);
+
+		
+		// Load updated items
+		// ####################################################################
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(true, $valid);						
+		
+		
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_data_1 = array(	'X'=>array( 'W'=>array( 	
+								9=>'foo',
+								3=>'bar'													    
+						    ),				    
+						    'P'=>array( 	
+								1=>'foo',
+								7=>'bar',
+								5=>'baz' 				    
+						    )				    
+					),
+					'E'=>array( 'K'=>array( 	
+								1=>(int)1,
+								2=>(int)-1,
+								3=>true,
+								5=>false,
+								4=>null							    
+						    ),
+						    'Z'=>array( 4=>(float)-1.6 ) 						
+					)							
+		);
+		
+		$this->assertEquals($check_data_1, $result[1]);	
+		
+		$check_data_2 = array(	'X'=>array( 'K'=>array( 	
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_2, $result[2]);
+		
+		$check_data_3 = array(  'X'=>array( 'K'=>array( 	
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_3, $result[3]);		
+		
+		
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_data = array(
+					1=>$check_data_1,
+					2=>$check_data_2,
+					3=>$check_data_3,		    
+		);
+			
+		$this->assertEquals($check_data, $result);	
+		
+		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
+
+	
+		// Check cache state
+		// ####################################################################		
+		
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,
+					    'keys'=>array(  'X'=>array( 'W'=>array(
+										    9=>'foo',
+										    3=>'bar'										 				    
+									),				    
+									'P'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    5=>'baz' 					    
+									)				    
+							    ),
+							    'E'=>array( 'K'=>array( 	
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
+									),
+									'Z'=>array( 4=>(float)-1.6 ) 						
+							    )							
+					    )
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    						    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(		    
+					1=>$check_cache_1,
+					2=>$check_cache_2,		    
+					3=>$check_cache_3,		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+			
+		
+	}
+	
+	
+       /**
+	* Test fixture for replaceL3_multi() method, hot cache
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL3_multi_HOT() {
+
+
+		self::loadData();
+		
+		
+		// Load the cache
+		// ####################################################################
+		
+		$request = array(
+				    1=>array(),
+				    2=>array()	    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+				
+		
+		// HOT CACHE - All items in cache have authority from previous GET operation
+		// ===================================================================				
+		
+		// NOTE: a L3 must have at least one L2->L1 walk within it in order to have an entry within the  
+		// db. Without a L2->L1 walk inside it, there's nothing to write to the L1 and L2 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L3's would 
+		// waste space in the table and cache. Therefore, overwriting a L3 node with an empty array drops
+		// that node from the datastore
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";		
+		
+		$data = array(
+				1=>array(   // Overwrite this L3
+					    'X'=>array(	'W'=>array( 
+								    9=>'foo',
+								    3=>'bar'								    					    
+							),				    
+							'P'=>array( 
+								    1=>'foo',
+								    7=>'bar',
+								    5=>'baz' 					    
+							)				    
+					    ),
+					    'Y'=>array(),   // Drop this L3
+
+					    // Add a new L3 'E' node
+					    'E'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>true,
+								    5=>false,
+								    4=>null							    
+							),
+							'Z'=>array( 4=>(float)-1.6 ) 						
+					    )	
+				),
+
+				// Ignore the entire L4 '2' node
+				// 2=>array( ... ),
+
+				// Add a new L4 '3' node
+				3=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				)		    
+		);
+		
+		
+		// Replace items
+		// ####################################################################
+		
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+				
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
+		// Check cache state
+		// ####################################################################
+		
+		// Since we're working with a hot cache, the all_cached flag will be set for all
+		// nodes that already exist in the database. The L2 and L3 LUT's for these
+		// nodes will be missing, because the all_cached flag takes priority. 
+		// 
+		// However, for L4 nodes that were created in the cache as a result of us adding new 
+		// L2's to the datastore, entries in the parent L4 object's L3 LUT will be set. This 
+		// is because the parent L4 was created, not read from the db; so its all_cached flag 
+		// won't be set because it doesn't have authority.
+						
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,
+					    'keys'=>array(  'X'=>array( 'W'=>array( 
+										    9=>'foo',
+										    3=>'bar'										   				    
+									),				    
+									'P'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    5=>'baz' 					    
+									)				    
+							    ),
+							    'E'=>array( 'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
+									),
+									'Z'=>array( 4=>(float)-1.6 ) 						
+							    )							
+					    )
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'L3'=>array(    'X'=>true	),		// Only has L3 authority, since it wasn't
+											// fetched in the L4 GET operation
+					    'keys'=>array(  'X'=>array(	'K'=>array( 	
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    						    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(		    
+					1=>$check_cache_1,
+					2=>$check_cache_2,		    
+					3=>$check_cache_3,		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+	
+		
+		// Load updated items
+		// ####################################################################
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(true, $valid);						
+		
+		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_data_1 = array(	'X'=>array( 'W'=>array( 	
+								9=>'foo',
+								3=>'bar'
+					    
+						    ),				    
+						    'P'=>array( 	
+								1=>'foo',
+								7=>'bar',
+								5=>'baz' 				    
+						    )				    
+					),
+					'E'=>array( 'K'=>array( 	
+								1=>(int)1,
+								2=>(int)-1,
+								3=>true,
+								5=>false,
+								4=>null							    
+						    ),
+						    'Z'=>array( 4=>(float)-1.6 ) 						
+					)							
+		);
+		
+		$this->assertEquals($check_data_1, $result[1]);	
+		
+		$check_data_2 = array(	'X'=>array( 'K'=>array( 	
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")
+															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_2, $result[2]);
+		
+		$check_data_3 = array(  'X'=>array( 'K'=>array( 
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")
+															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_3, $result[3]);		
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_data = array(
+					1=>$check_data_1,
+					2=>$check_data_2,
+					3=>$check_data_3,		    
+		);
+			
+		$this->assertEquals($check_data, $result);	
+		
+		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
+		
+
+		// Check cache state
+		// ####################################################################			
+		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_1 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,
+					    'keys'=>array(  'X'=>array( 'W'=>array( 
+										    9=>'foo',
+										    3=>'bar'										  				    
+									),				    
+									'P'=>array( 
+										    1=>'foo',
+										    7=>'bar',
+										    5=>'baz' 					    
+									)				    
+							    ),
+							    'E'=>array( 'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>true,
+										    5=>false,
+										    4=>null							    
+									),
+									'Z'=>array( 4=>(float)-1.6 ) 						
+							    )							
+					    )
+		);
+		
+		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    						    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(		    
+					1=>$check_cache_1,
+					2=>$check_cache_2,		    
+					3=>$check_cache_3,		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+			
+		
+	}
+	
+	
 //       /**
 //	* Test fixture for replaceL4_multi() method, data integrity
 //	*
