@@ -28,3 +28,5 @@ FoxFire is provided on an “as is” basis without any warranty. We are not lia
 
 = 1.0 =
 * First alpha version
+
+Updated 2012-12-21
