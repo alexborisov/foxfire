@@ -1089,7 +1089,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// the parent L4 was created, not read from the db; so its all_cached flag won't be 
 		// set because it doesn't have authority.
 				
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
 		$check_cache_1 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L4 had		    
@@ -1580,7 +1580,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 			$this->cls->replaceL2_multi($data, $ctrl);
 			
 			// Execution will halt on the previous line if replaceL2_multi() throws an exception
-			$this->fail("Method replaceL2_multi failed to throw an exception on invalid L5 key");			
+			$this->fail("Method replaceL2_multi failed to throw an exception on invalid L4 key");			
 		}
 		catch (FOX_exception $child) {
 
@@ -1899,8 +1899,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -2064,8 +2064,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(	
@@ -2225,8 +2225,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -2415,8 +2415,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -2452,7 +2452,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals(true, $valid);						
 		
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
 		$check_data_1 = array(	'X'=>array( 'W'=>array( 	
@@ -2502,8 +2502,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_data_3, $result[3]);		
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -2520,7 +2520,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################			
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
 		$check_cache_1 = array(	    'all_cached'=>true,
@@ -2579,8 +2579,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -2826,7 +2826,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 			$this->cls->replaceL3_multi($data, $ctrl);
 			
 			// Execution will halt on the previous line if replaceL3_multi() throws an exception
-			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L5 key");			
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L4 key");			
 		}
 		catch (FOX_exception $child) {
 
@@ -2934,8 +2934,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(	
@@ -2967,9 +2967,9 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		}
 		
 		$this->assertEquals(false, $valid);	// Should set invalid flag, because we're 
-							// requesting a L5 that doesn't exist
+							// requesting a L4 that doesn't exist
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
 		$check_data_2 = array(	'X'=>array( 'K'=>array(
@@ -2995,8 +2995,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_data_3, $result[3]);		
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -3049,8 +3049,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -3067,7 +3067,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 	
        /**
-	* Test fixture for replaceL5_multi() method, warm cache
+	* Test fixture for replaceL4_multi() method, warm cache
 	*
 	* @version 1.0
 	* @since 1.0
@@ -3193,7 +3193,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 							// requesting a L4 that doesn't exist
 				
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
 		$check_data_2 = array(	'X'=>array( 'K'=>array( 
@@ -3217,8 +3217,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_data_3, $result[3]);		
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
@@ -3234,7 +3234,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Check cache state
 		// ####################################################################
 		
-		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
 		
@@ -3403,8 +3403,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
 		
 		
-		// PASS 2: Combine the L5 nodes into a single array and check it
-		// again. This finds L5 keys that aren't supposed to be there.
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_cache = array(		    
@@ -3664,7 +3664,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 							'Z'=>array( 'Z'=>array( 3=>'bar' ))
 					    )		
 				),	
-		    		2=>array() // Drop this L5 node
+		    		2=>array() // Drop this L4 node
 		);
 		
 		try {			
@@ -3693,7 +3693,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 							)				
 					    )
 				),
-		    		2=>array() // Drop this L5 node		    
+		    		2=>array() // Drop this L4 node		    
 		);
 		
 		try {			
@@ -3764,7 +3764,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 			$this->cls->replaceL4_multi($data, $ctrl);
 			
 			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L5 key");			
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L4 key");			
 		}
 		catch (FOX_exception $child) {
 
