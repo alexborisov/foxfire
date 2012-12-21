@@ -1394,6 +1394,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Invalid data type for node at clip_order
 		// ####################################################################
 	    
+		// NOTE: Since this is replaceL2_multi(), clip_order is at the L2 key
+		
 		$data = array(
 				1=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
@@ -1419,6 +1421,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Walk terminates above clip_order (L3)
 		// ####################################################################
 	    
+		// NOTE: Since this is replaceL2_multi(), clip_order is at the L2 key
+		
 		$data = array(
 				1=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
@@ -1426,7 +1430,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 							),
 							'Z'=>array()
 					    ),
-					    'R'=>array()  // Invalid node			    
+					    'R'=>array()  // Invalid clip node (at L3)			    
 				)		    
 		);
 		
@@ -1443,6 +1447,8 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 		// Walk terminates above clip_order (L4)
 		// ####################################################################
 	    
+		// NOTE: Since this is replaceL2_multi(), clip_order is at the L2 key
+		
 		$data = array(
 				1=>array(   'X'=>array(	'K'=>array(
 								    1=>(string)"foo",
@@ -1451,7 +1457,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 							'R'=>array() // Valid clip node
 					    )				    
 				),
-				2=>array() // Invalid node
+				2=>array() // Invalid clip node (at L4)
 		);
 		
 		try {			
@@ -2591,1318 +2597,1180 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 	}
 	
 	
-//       /**
-//	* Test fixture for replaceL4_multi() method, data integrity
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/	
-//	public function test_replaceL4_multi_dataIntegrity() {
-//	    
-//	    
-//		$ctrl = array(		    
-//				'validate'=>true		    
-//		);
-//		
-//	    
-//		// Valid data trie
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' ))
-//
-//					    ),
-//					    'R'=>array() // Drop this node				    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		// Invalid data type for node at clip_order
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' )),							
-//					    ),
-//					    'R'=>(string)'fail' // Invalid clip node				    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-//			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//	
-//		}		
-//	
-//		// Walk terminates below clip_order (L2)
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),
-//								    'R'=>array() // Invalid node				    
-//							),
-//							'Z'=>array() 						
-//					    )					    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-//			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		// Walk terminates below clip_order (L3)
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )								    				    
-//							),
-//							'Z'=>array() // Invalid node
-//					    )				    			    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-//			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		// Walk terminates above clip_order (L5)
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )								    				    
-//							),
-//							'R'=>array() 
-//					    )				    
-//				),
-//				2=>array() // Invalid node
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-//			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		// Invalid L1 key data type
-//		// ####################################################################
-//	    
-//		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
-//		// automatically converts (string)'1' to (int)1 before sending it in to the function
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										'K'=>(string)"foo", // Invalid L1 key
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			   
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' ))
-//					    ),		
-//					    'R'=>array() // Drop this L4 node
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-//			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L1 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}				
-//		
-//		// Invalid L2 key data type
-//		// ####################################################################
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", // Invalid key
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),
-//								    // Invalid L2 key
-//								    1=>array(	
-//										1=>(string)"foo", // Invalid key
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),			    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' )),				    
-//					    ),
-//					    'R'=>array() // Drop this L4 node
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-//			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L2 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}	
-//		
-//		// Invalid L3 key data type
-//		// ####################################################################
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),			    
-//							),
-//				    			'R'=>array(), // Drop this L3 node				    
-//							// Invalid L3 key
-//							99=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)				
-//					    ),
-//					    'R'=>array() // Drop this L4 node
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-//			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L3 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}	
-//		
-//		// Invalid L4 key data type
-//		// ####################################################################
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							),
-//				    			'R'=>array() // Drop this L3 node				    
-//					
-//					    ),
-//					    // Invalid L4 key
-//					    99=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)					
-//					    )				    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-//			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L4 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		// Invalid L5 key data type
-//		// ####################################################################
-//		
-//		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
-//		// automatically converts (string)'1' to (int)1 before sending it in to the function
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)					
-//					    )			    
-//				),
-//				// Invalid L5 key
-//				'Z'=>array( 'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)					
-//					    )			    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL4_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL4_multi() throws an exception
-//			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L5 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}		
-//		
-//	    
-//	}
-//	
-//		
-//       /**
-//	* Test fixture for replaceL5_multi() method, cold cache
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/	
-//	public function test_replaceL5_multi_COLD() {
-//
-//
-//		self::loadData();
-//		
-//		
-//		// Flush the cache
-//		// ####################################################################	
-//		
-//		try {
-//			$flush_ok = $this->cls->flushCache();
-//		}
-//		catch (FOX_exception $child) {
-//		    
-//			$this->fail($child->dumpString(1));		    
-//		}
-//				
-//		$this->assertEquals(true, $flush_ok);		
-//				
-//		
-//		// COLD CACHE - Flushed after previous ADD operation
-//		// ===================================================================				
-//		
-//		// NOTE: a L5 must have at least one L4->L1 walk within it in order to have an entry within the  
-//		// db. Without a L4->L1 walk inside it, there's nothing to write to the L1, L2, L3, and L4 columns 
-//		// in the db (which would violate the table index). In addition to this, storing empty L5's would 
-//		// waste space in the table and cache. Therefore, overwriting a L5 node with an empty array drops
-//		// that node from the datastore
-//		
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";
-//		
-//		$data = array(
-//				1=>array(), // Drop this L5
-//
-//				// Ignore the entire L5 '2' node
-//				// 2=>array( ... ),
-//
-//				// Add a new L5 '3' node
-//				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				)		    
-//		);
-//		
-//		
-//		// Replace items
-//		// ####################################################################
-//		
-//		$ctrl = array(		    
-//				'validate'=>true		    
-//		);
-//				
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		
-//		// Check cache state
-//		// ####################################################################			
-//		
-//		// The all_cached flag will be set for all L5 nodes that we modified, since, 
-//		// by overwriting an entire L5 item, we've given it authority. 
-//				
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================		
-//		
-//		$check_cache_3 = array(	    'all_cached'=>true,			    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(	
-//					3=>$check_cache_3		    
-//		);		
-//	
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_3, $check_cache);
-//
-//		
-//		// Load updated items
-//		// ####################################################################
-//		
-//		$request = array(
-//				    1=>array(),
-//				    2=>array(),
-//				    3=>array()		    
-//		);
-//		
-//		$valid = false;
-//		
-//		try {			
-//			$result = $this->cls->getMulti($request, $ctrl, $valid);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		$this->assertEquals(false, $valid);	// Should set invalid flag, because we're 
-//							// requesting a L5 that doesn't exist
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_data_2 = array(	'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_2, $result[2]);
-//		
-//		$check_data_3 = array(  'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_3, $result[3]);		
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_data = array(
-//					2=>$check_data_2,
-//					3=>$check_data_3		    
-//		);
-//			
-//		$this->assertEquals($check_data, $result);	
-//		
-//		unset($check_data_2, $check_data_3, $check_data);
-//
-//		
-//		// Check cache state
-//		// ####################################################################			
-//				
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_2 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
-//		
-//		$check_cache_3 = array(	    'all_cached'=>true,
-//		    
-//					    // There will be no L2, L3, or L4 LUT's in the cache for this L5. The GET operation 
-//					    // never does a database read because the L5 already has authority in the cache from 
-//					    // our previous REPLACE operation. FoxFire's cache system is working as designed.
-//		    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(		    
-//					2=>$check_cache_2,		    
-//					3=>$check_cache_3		    
-//		);
-//		
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_2, $check_cache_3, $check_cache);
-//			
-//		
-//	}
-//	
-//	
-//       /**
-//	* Test fixture for replaceL5_multi() method, warm cache
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/	
-//	public function test_replaceL5_multi_WARM() {
-//
-//
-//		self::loadData();		
-//				
-//		
-//		// WARM CACHE - Items in cache from previous ADD operation
-//		// ===================================================================				
-//		
-//		// NOTE: a L5 must have at least one L4->L1 walk within it in order to have an entry within the  
-//		// db. Without a L4->L1 walk inside it, there's nothing to write to the L1, L2, L3, and L4 columns 
-//		// in the db (which would violate the table index). In addition to this, storing empty L5's would 
-//		// waste space in the table and cache. Therefore, overwriting a L5 node with an empty array drops
-//		// that node from the datastore
-//		
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";		
-//		
-//		$data = array(
-//				1=>array(), // Drop this L5
-//
-//				// Ignore the entire L5 '2' node
-//				// 2=>array( ... ),
-//
-//				// Add a new L5 '3' node
-//				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				)		    
-//		);
-//		
-//		
-//		// Replace items
-//		// ####################################################################
-//		
-//		$ctrl = array(		    
-//				'validate'=>true		    
-//		);
-//				
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		
-//		// Check cache state
-//		// ####################################################################			
-//				
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_2 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
-//		
-//		$check_cache_3 = array(	    'all_cached'=>true,
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(		    
-//					2=>$check_cache_2,		    
-//					3=>$check_cache_3		    
-//		);
-//		
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_2, $check_cache_3, $check_cache);
-//
-//		
-//		// Load updated items
-//		// ####################################################################
-//		
-//		$request = array(
-//				    1=>array(),
-//				    2=>array(),
-//				    3=>array()		    
-//		);
-//		
-//		$valid = false;
-//		
-//		try {			
-//			$result = $this->cls->getMulti($request, $ctrl, $valid);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		$this->assertEquals(false, $valid);	// Should set invalid flag, because we're 
-//							// requesting a L5 that doesn't exist
-//				
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_data_2 = array(	'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_2, $result[2]);
-//		
-//		$check_data_3 = array(  'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_3, $result[3]);		
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_data = array(
-//					2=>$check_data_2,
-//					3=>$check_data_3		    
-//		);
-//			
-//		$this->assertEquals($check_data, $result);	
-//		
-//		unset($check_data_2, $check_data_3, $check_data);
-//
-//
-//		// Check cache state
-//		// ####################################################################
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		
-//		$check_cache_2 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
-//		
-//		$check_cache_3 = array(	    'all_cached'=>true,
-//		    
-//					    // There will be no L2, L3, or L4 LUT's in the cache for this L5. The GET operation 
-//					    // never does a database read because the L5 already has authority in the cache from 
-//					    // our previous REPLACE operation. FoxFire's cache system is working as designed.	
-//		    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(		    
-//					2=>$check_cache_2,		    
-//					3=>$check_cache_3,		    
-//		);
-//		
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_2, $check_cache_3, $check_cache);
-//			
-//		
-//	}
-//	
-//	
-//       /**
-//	* Test fixture for replaceL5_multi() method, hot cache
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/	
-//	public function test_replaceL5_multi_HOT() {
-//
-//
-//		self::loadData();
-//		
-//		
-//		// Load the cache
-//		// ####################################################################
-//		
-//		$request = array(
-//				    1=>array(),
-//				    2=>array()	    
-//		);
-//		
-//		$valid = false;
-//		
-//		try {			
-//			$result = $this->cls->getMulti($request, $ctrl, $valid);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}		
-//				
-//		
-//		// HOT CACHE - All items in cache have authority from previous GET operation
-//		// ===================================================================				
-//		
-//		// NOTE: a L5 must have at least one L4->L1 walk within it in order to have an entry within the  
-//		// db. Without a L4->L1 walk inside it, there's nothing to write to the L1, L2, L3, and L4 columns 
-//		// in the db (which would violate the table index). In addition to this, storing empty L5's would 
-//		// waste space in the table and cache. Therefore, overwriting a L5 node with an empty array drops
-//		// that node from the datastore
-//		
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";		
-//		
-//		$data = array(
-//				1=>array(), // Drop this L5
-//
-//				// Ignore the entire L5 '2' node
-//				// 2=>array( ... ),
-//
-//				// Add a new L5 '3' node
-//				3=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				)		    
-//		);
-//		
-//		
-//		// Replace items
-//		// ####################################################################
-//		
-//		$ctrl = array(		    
-//				'validate'=>true		    
-//		);
-//				
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		
-//		// Check cache state
-//		// ####################################################################			
-//		
-//		// Since we're working with a hot cache, the all_cached flag will be set for all
-//		// nodes that already exist in the database. 		
-//		
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_2 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
-//		
-//		$check_cache_3 = array(	    'all_cached'=>true,
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(		    
-//					2=>$check_cache_2,		    
-//					3=>$check_cache_3		    
-//		);
-//		
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_2, $check_cache_3, $check_cache);
-//	
-//		
-//		// Load updated items
-//		// ####################################################################
-//		
-//		$request = array(
-//				    1=>array(),
-//				    2=>array(),
-//				    3=>array()		    
-//		);
-//		
-//		$valid = false;
-//		
-//		try {			
-//			$result = $this->cls->getMulti($request, $ctrl, $valid);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		$this->assertEquals(false, $valid);	// Should set invalid flag, because we're 
-//							// requesting a L5 that doesn't exist
-//		
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_data_2 = array(	'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_2, $result[2]);
-//		
-//		$check_data_3 = array(  'X'=>array( 'K'=>array( 'K'=>array(	
-//									    1=>(string)"foo",
-//									    2=>array(null, true, false, 1, 1.0, "foo")
-//								)							    
-//						    ),
-//						    'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					)					    
-//		);
-//		
-//		$this->assertEquals($check_data_3, $result[3]);		
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_data = array(
-//					2=>$check_data_2,
-//					3=>$check_data_3		    
-//		);
-//			
-//		$this->assertEquals($check_data, $result);	
-//		
-//		unset($check_data_2, $check_data_3, $check_data);
-//		
-//		
-//		// Check cache state
-//		// ####################################################################
-//				
-//		// PASS 1: Check the L5 nodes individually to simplify debugging
-//		// ====================================================================
-//		
-//		$check_cache_2 = array(	    'all_cached'=>true,
-//					    'L4'=>null,
-//					    'L3'=>null,
-//					    'L2'=>null,				    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
-//		
-//		$check_cache_3 = array(	    'all_cached'=>true,
-//		    
-//					    // There will be no L2, L3, or L4 LUT's in the cache for this L5. The GET operation 
-//					    // never does a database read because the L5 already has authority in the cache from 
-//					    // our previous REPLACE operation. FoxFire's cache system is working as designed.
-//		    
-//					    'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )					    
-//					    )						
-//		);
-//		
-//		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
-//		
-//		
-//		// PASS 2: Combine the L5 nodes into a single array and check it
-//		// again. This finds L5 keys that aren't supposed to be there.
-//		// ====================================================================
-//		
-//		$check_cache = array(		    
-//					2=>$check_cache_2,		    
-//					3=>$check_cache_3		    
-//		);
-//		
-//		$this->assertEquals($check_cache, $this->cls->cache);	
-//		
-//		unset($check_cache_2, $check_cache_3, $check_cache);
-//			
-//		
-//	}
-//	
-//	
-//       /**
-//	* Test fixture for replaceL5_multi() method, data integrity
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/	
-//	public function test_replaceL5_multi_dataIntegrity() {
-//	    
-//	    
-//		$ctrl = array(		    
-//				'validate'=>true		    
-//		);
-//		
-//	    
-//		// Valid data trie
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' ))
-//
-//					    )					    				    
-//				),
-//				2=>array()  // Drop this node
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}
-//		
-//		// Invalid data type for node at clip_order
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' )),							
-//					    ),
-//					    'R'=>(string)'fail' // Invalid clip node				    
-//				),
-//				2=>false  // Drop this node		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL5_multi() throws an exception
-//			$this->fail("Method replaceL5_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//	
-//		}		
-//	
-//		// Walk terminates below clip_order (L2)
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),
-//								    'R'=>array() // Invalid node				    
-//							),
-//							'Z'=>array() 						
-//					    )					    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL5_multi() throws an exception
-//			$this->fail("Method replaceL5_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		// Walk terminates below clip_order (L3)
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )								    				    
-//							),
-//							'Z'=>array() // Invalid node
-//					    )				    			    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL5_multi() throws an exception
-//			$this->fail("Method replaceL5_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		// Walk terminates below clip_order (L4)
-//		// ####################################################################
-//	    
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )								    				    
-//							),
-//							
-//					    ),
-//					    'R'=>array()  // Invalid node				    
-//				)
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL5_multi() throws an exception
-//			$this->fail("Method replaceL5_multi failed to throw an exception on invalid data trie");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}	
-//		
-//		// Invalid L1 key data type
-//		// ####################################################################
-//	    
-//		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
-//		// automatically converts (string)'1' to (int)1 before sending it in to the function
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										'K'=>(string)"foo", // Invalid L1 key
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			   
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' ))
-//					    )		
-//				),	
-//		    		2=>array() // Drop this L5 node
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL5_multi() throws an exception
-//			$this->fail("Method replaceL5_multi failed to throw an exception on invalid L1 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}				
-//		
-//		// Invalid L2 key data type
-//		// ####################################################################
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", // Invalid key
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),
-//								    // Invalid L2 key
-//								    1=>array(	
-//										1=>(string)"foo", // Invalid key
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),			    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>'bar' )),				    
-//					    )
-//				),
-//		    		2=>array() // Drop this L5 node		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL5_multi() throws an exception
-//			$this->fail("Method replaceL5_multi failed to throw an exception on invalid L2 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}	
-//		
-//		// Invalid L3 key data type
-//		// ####################################################################
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    ),			    
-//							),
-//				    			'R'=>array(), // Drop this L3 node				    
-//							// Invalid L3 key
-//							99=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)				
-//					    )
-//				),
-//		    		2=>array() // Drop this L5 node		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL5_multi() throws an exception
-//			$this->fail("Method replaceL5_multi failed to throw an exception on invalid L3 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}	
-//		
-//		// Invalid L4 key data type
-//		// ####################################################################
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							),
-//				    			'R'=>array() // Drop this L3 node				    
-//					
-//					    ),
-//					    // Invalid L4 key
-//					    99=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)					
-//					    )				    
-//				),
-//		    		2=>array() // Drop this L5 node		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL5_multi() throws an exception
-//			$this->fail("Method replaceL5_multi failed to throw an exception on invalid L4 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}
-//		
-//		// Invalid L5 key data type
-//		// ####################################################################
-//		
-//		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
-//		// automatically converts (string)'1' to (int)1 before sending it in to the function
-//		
-//		$data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)					
-//					    )			    
-//				),
-//		    		2=>array(), // Drop this L5 node
-//				//		    
-//				// Invalid L5 key
-//				'Z'=>array( 'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo", 
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )			    
-//							)					
-//					    )			    
-//				)		    
-//		);
-//		
-//		try {			
-//			$this->cls->replaceL5_multi($data, $ctrl);
-//			
-//			// Execution will halt on the previous line if replaceL5_multi() throws an exception
-//			$this->fail("Method replaceL5_multi failed to throw an exception on invalid L5 key");			
-//		}
-//		catch (FOX_exception $child) {
-//
-//		}		
-//			    
-//	}
+       /**
+	* Test fixture for replaceL3_multi() method, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL3_multi_dataIntegrity() {
+	    
+	    
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+		
+	    
+		// Valid data trie
+		// ####################################################################
+	    
+		// NOTE: Since this is replaceL3_multi(), clip_order is at the L3 key
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 	
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")
+											    
+							),
+							'Z'=>array( 3=>'bar' )
+
+					    ),
+					    'R'=>array() // Drop this node				    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		// Invalid data type for node at clip_order
+		// ####################################################################
+	    
+		// NOTE: Since this is replaceL3_multi(), clip_order is at the L3 key
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")
+											    
+							),
+							'Z'=>array( 3=>'bar' ),							
+					    ),
+					    'R'=>(string)'fail' // Invalid clip node				    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}		
+	
+		// Walk terminates below clip_order (L2)
+		// ####################################################################
+	    
+		// NOTE: Since this is replaceL3_multi(), clip_order is at the L3 key
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 	
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")				    
+							),
+							'Z'=>array() 	// Invalid node	(at L2)				
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Walk terminates above clip_order (L4)
+		// ####################################################################
+	    
+		// NOTE: Since this is replaceL3_multi(), clip_order is at the L3 key
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    								    				    
+							)
+					    )				    
+				),
+				2=>array() // Invalid node (at L4)
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Invalid L1 key data type
+		// ####################################################################
+	    
+		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
+		// automatically converts (string)'1' to (int)1 before sending it in to the function
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    'K'=>(string)"foo", // Invalid L1 key
+								     2=>array(null, true, false, 1, 1.0, "foo")								    			   
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' ))
+					    ),		
+					    'R'=>array() // Drop this L3 node
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L1 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}				
+		
+		// Invalid L2 key data type
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")											    
+							),				
+							99=>array(  // Invalid L2 key	
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								   			    
+							)				
+					    ),
+					    'R'=>array() // Drop this L3 node
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L3 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}	
+		
+		// Invalid L3 key data type
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							),
+				    			'R'=>array() // Drop this L3 node				    					
+					    ),
+					    // Invalid L4 key
+					    99=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")
+								    			    
+							)					
+					    )				    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L4 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Invalid L4 key data type
+		// ####################################################################
+		
+		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
+		// automatically converts (string)'1' to (int)1 before sending it in to the function
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							)					
+					    )			    
+				),
+				// Invalid L4 key
+				'Z'=>array( 'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							)					
+					    )			    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL3_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL3_multi() throws an exception
+			$this->fail("Method replaceL3_multi failed to throw an exception on invalid L5 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+		
+	    
+	}
+	
+		
+       /**
+	* Test fixture for replaceL4_multi() method, cold cache
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL4_multi_COLD() {
+
+
+		self::loadData();
+		
+		
+		// Flush the cache
+		// ####################################################################	
+		
+		try {
+			$flush_ok = $this->cls->flushCache();
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+				
+		$this->assertEquals(true, $flush_ok);		
+				
+		
+		// COLD CACHE - Flushed after previous ADD operation
+		// ===================================================================				
+		
+		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
+		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
+		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
+		// that node from the datastore
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$data = array(
+				1=>array(), // Drop this L4
+
+				// Ignore the entire L4 '2' node
+				// 2=>array( ... ),
+
+				// Add a new L4 '3' node
+				3=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")						    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				)		    
+		);
+		
+		
+		// Replace items
+		// ####################################################################
+		
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+				
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
+		// Check cache state
+		// ####################################################################			
+		
+		// The all_cached flag will be set for all L4 nodes that we modified, since, 
+		// by overwriting an entire L4 item, we've given it authority. 
+				
+		
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================		
+		
+		$check_cache_3 = array(	    'all_cached'=>true,			    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")
+										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(	
+					3=>$check_cache_3		    
+		);		
+	
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_3, $check_cache);
+
+		
+		// Load updated items
+		// ####################################################################
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid);	// Should set invalid flag, because we're 
+							// requesting a L5 that doesn't exist
+		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_data_2 = array(	'X'=>array( 'K'=>array(
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")
+															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_2, $result[2]);
+		
+		$check_data_3 = array(  'X'=>array( 'K'=>array( 	
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")
+															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_3, $result[3]);		
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_data = array(
+					2=>$check_data_2,
+					3=>$check_data_3		    
+		);
+			
+		$this->assertEquals($check_data, $result);	
+		
+		unset($check_data_2, $check_data_3, $check_data);
+
+		
+		// Check cache state
+		// ####################################################################			
+				
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")
+										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+		    
+					    // There will be no L2 or L3 LUT's in the cache for this L4. The GET operation 
+					    // never does a database read because the L4 already has authority in the cache from 
+					    // our previous REPLACE operation. FoxFire's cache system is working as designed.
+		    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")
+										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(		    
+					2=>$check_cache_2,		    
+					3=>$check_cache_3		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_2, $check_cache_3, $check_cache);
+			
+		
+	}
+	
+	
+       /**
+	* Test fixture for replaceL5_multi() method, warm cache
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL4_multi_WARM() {
+
+
+		self::loadData();		
+				
+		
+		// WARM CACHE - Items in cache from previous ADD operation
+		// ===================================================================				
+		
+		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
+		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
+		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
+		// that node from the datastore
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";		
+		
+		$data = array(
+				1=>array(), // Drop this L4
+
+				// Ignore the entire L4 '2' node
+				// 2=>array( ... ),
+
+				// Add a new L4 '3' node
+				3=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				)		    
+		);
+		
+		
+		// Replace items
+		// ####################################################################
+		
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+				
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
+		// Check cache state
+		// ####################################################################			
+				
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_2 = array(	    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    						    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(		    
+					2=>$check_cache_2,		    
+					3=>$check_cache_3		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_2, $check_cache_3, $check_cache);
+
+		
+		// Load updated items
+		// ####################################################################
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid);	// Should set invalid flag, because we're 
+							// requesting a L4 that doesn't exist
+				
+		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_data_2 = array(	'X'=>array( 'K'=>array( 
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_2, $result[2]);
+		
+		$check_data_3 = array(  'X'=>array( 'K'=>array( 
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_3, $result[3]);		
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_data = array(
+					2=>$check_data_2,
+					3=>$check_data_3		    
+		);
+			
+		$this->assertEquals($check_data, $result);	
+		
+		unset($check_data_2, $check_data_3, $check_data);
+
+
+		// Check cache state
+		// ####################################################################
+		
+		// PASS 1: Check the L5 nodes individually to simplify debugging
+		// ====================================================================
+		
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+		    
+					    // There will be no L2 or L3 LUT's in the cache for this L4. The GET operation 
+					    // never does a database read because the L4 already has authority in the cache from 
+					    // our previous REPLACE operation. FoxFire's cache system is working as designed.	
+		    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    						    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(		    
+					2=>$check_cache_2,		    
+					3=>$check_cache_3,		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_2, $check_cache_3, $check_cache);
+			
+		
+	}
+	
+	
+       /**
+	* Test fixture for replaceL4_multi() method, hot cache
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL4_multi_HOT() {
+
+
+		self::loadData();
+		
+		
+		// Load the cache
+		// ####################################################################
+		
+		$request = array(
+				    1=>array(),
+				    2=>array()	    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+				
+		
+		// HOT CACHE - All items in cache have authority from previous GET operation
+		// ===================================================================				
+		
+		// NOTE: a L4 must have at least one L3->L1 walk within it in order to have an entry within the  
+		// db. Without a L3->L1 walk inside it, there's nothing to write to the L1, L2, and L3 columns 
+		// in the db (which would violate the table index). In addition to this, storing empty L4's would 
+		// waste space in the table and cache. Therefore, overwriting a L4 node with an empty array drops
+		// that node from the datastore
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";		
+		
+		$data = array(
+				1=>array(), // Drop this L4
+
+				// Ignore the entire L4 '2' node
+				// 2=>array( ... ),
+
+				// Add a new L4 '3' node
+				3=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				)		    
+		);
+		
+		
+		// Replace items
+		// ####################################################################
+		
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+				
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		
+		// Check cache state
+		// ####################################################################			
+		
+		// Since we're working with a hot cache, the all_cached flag will be set for all
+		// nodes that already exist in the database. 		
+		
+		
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L5 nodes into a single array and check it
+		// again. This finds L5 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(		    
+					2=>$check_cache_2,		    
+					3=>$check_cache_3		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_2, $check_cache_3, $check_cache);
+	
+		
+		// Load updated items
+		// ####################################################################
+		
+		$request = array(
+				    1=>array(),
+				    2=>array(),
+				    3=>array()		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getMulti($request, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(false, $valid);	// Should set invalid flag, because we're 
+							// requesting a L4 that doesn't exist
+		
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_data_2 = array(	'X'=>array( 'K'=>array( 	
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_2, $result[2]);
+		
+		$check_data_3 = array(  'X'=>array( 'K'=>array( 	
+								1=>(string)"foo",
+								2=>array(null, true, false, 1, 1.0, "foo")															    
+						    ),
+						    'Z'=>array( 3=>$test_obj ) 						
+					)					    
+		);
+		
+		$this->assertEquals($check_data_3, $result[3]);		
+		
+		
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_data = array(
+					2=>$check_data_2,
+					3=>$check_data_3		    
+		);
+			
+		$this->assertEquals($check_data, $result);	
+		
+		unset($check_data_2, $check_data_3, $check_data);
+		
+		
+		// Check cache state
+		// ####################################################################
+				
+		// PASS 1: Check the L4 nodes individually to simplify debugging
+		// ====================================================================
+		
+		$check_cache_2 = array(	    'all_cached'=>true,
+					    'L3'=>null,
+					    'L2'=>null,				    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		
+		$check_cache_3 = array(	    'all_cached'=>true,
+		    
+					    // There will be no L2 or L3 LUT's in the cache for this L4. The GET operation 
+					    // never does a database read because the L4 already has authority in the cache from 
+					    // our previous REPLACE operation. FoxFire's cache system is working as designed.
+		    
+					    'keys'=>array(  'X'=>array(	'K'=>array( 	
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )					    
+					    )						
+		);
+		
+		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		
+		
+		// PASS 2: Combine the L4 nodes into a single array and check it
+		// again. This finds L4 keys that aren't supposed to be there.
+		// ====================================================================
+		
+		$check_cache = array(		    
+					2=>$check_cache_2,		    
+					3=>$check_cache_3		    
+		);
+		
+		$this->assertEquals($check_cache, $this->cls->cache);	
+		
+		unset($check_cache_2, $check_cache_3, $check_cache);
+			
+		
+	}
+	
+	
+       /**
+	* Test fixture for replaceL4_multi() method, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_replaceL4_multi_dataIntegrity() {
+	    
+	    
+		$ctrl = array(		    
+				'validate'=>true		    
+		);
+			
+		// Valid data trie
+		// ####################################################################
+	    
+		// NOTE: Since this is replaceL4_multi(), clip_order is at the L4 key
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")
+								    			    
+							),
+							'Z'=>array( 3=>'bar') // Valid data node
+					    )					    				    
+				),
+				2=>array()  // Valid clip node (at L4)
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+			
+	
+		// Walk terminates below clip_order (at L2)
+		// ####################################################################
+			    
+		// NOTE: Since this is replaceL4_multi(), clip_order is at the L4 key
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")		    
+							),
+							'Z'=>array() // Invalid clip node						
+					    )					    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+	
+		// Walk terminates below clip_order (at L3)
+		// ####################################################################
+	    
+		// NOTE: Since this is replaceL4_multi(), clip_order is at the L4 key
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    								    				    
+							)
+					    ),
+					    'Z'=>array()  // Invalid clip node				    			    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Invalid data type for node at clip_order (at L4)
+		// ####################################################################
+		
+		// NOTE: Since this is replaceL4_multi(), clip_order is at the L4 key		
+	    
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								   		    
+							),
+							'Z'=>array( 3=>'bar' ),							
+					    )				    
+				),
+				2=>(string)'fail'  // Invalid clip node	(wrong data type)	    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid data trie");			
+		}
+		catch (FOX_exception $child) {
+	
+		}	
+		
+		
+		// Invalid L1 key data type
+		// ####################################################################
+	    
+		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
+		// automatically converts (string)'1' to (int)1 before sending it in to the function
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    'K'=>(string)"foo", // Invalid L1 key
+								     2=>array(null, true, false, 1, 1.0, "foo")								    			   
+							),
+							'Z'=>array( 'Z'=>array( 3=>'bar' ))
+					    )		
+				),	
+		    		2=>array() // Drop this L5 node
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L1 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}				
+		
+		// Invalid L2 key data type
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")			  
+							),			    
+							// Invalid L2 key
+							99=>array( 'K'=>array(	
+										1=>(string)"foo", 
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )			    
+							)				
+					    )
+				),
+		    		2=>array() // Drop this L5 node		    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L3 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}	
+		
+		// Invalid L3 key data type
+		// ####################################################################
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")
+								   		    
+							)				    					
+					    ),
+					    // Invalid L3 key
+					    99=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							)					
+					    )				    
+				),
+		    		2=>array() // Drop this L4 node		    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L4 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}
+		
+		// Invalid L4 key data type
+		// ####################################################################
+		
+		// NOTE: we can't do the '1'=> "fails on string" key data type test here because PHP
+		// automatically converts (string)'1' to (int)1 before sending it in to the function
+		
+		$data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							)					
+					    )			    
+				),
+		    		2=>array(), // Drop this L4 node
+					    
+				// Invalid L4 key
+				'Z'=>array( 'X'=>array(	'K'=>array( 
+								    1=>(string)"foo", 
+								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
+							)					
+					    )			    
+				)		    
+		);
+		
+		try {			
+			$this->cls->replaceL4_multi($data, $ctrl);
+			
+			// Execution will halt on the previous line if replaceL4_multi() throws an exception
+			$this->fail("Method replaceL4_multi failed to throw an exception on invalid L5 key");			
+		}
+		catch (FOX_exception $child) {
+
+		}		
+			    
+	}
 	
 	
 	function tearDown() {

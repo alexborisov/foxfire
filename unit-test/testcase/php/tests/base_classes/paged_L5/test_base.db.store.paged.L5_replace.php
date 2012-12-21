@@ -5266,10 +5266,9 @@ class core_L5_paged_abstract_replaceMethods extends RAZ_testCase {
 								    )			    
 							),
 							'Z'=>array( 'Z'=>array( 3=>'bar' )),							
-					    ),
-					    'R'=>(string)'fail' // Invalid clip node				    
+					    )				    
 				),
-				2=>false  // Drop this node		    
+				2=>(string)'fail'  // Invalid clip node		    
 		);
 		
 		try {			
