@@ -1250,848 +1250,786 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		
 	}
 	
-//	
-//       /**
-//	* Test fixture for setL5() method
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/
-//	
-//	function test_setL5() {
-//
-//    
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";	
-//				
-//		$test_data = array(
-//
-//				array( "count"=>8, "L5"=>1, "L4s"=>array(   "X"=>array(	"K"=>array( "K"=>array(
-//														1=>null,
-//														2=>false
-//												    ),
-//												    "T"=>array(
-//														1=>true
-//											)),
-//											"Z"=>array( "Z"=>array(
-//														3=>(int)0
-//											))
-//									    ),
-//									    "Y"=>array(	"K"=>array( "K"=>array(
-//														1=>(int)1,												
-//														2=>(int)-1
-//												    ),
-//												    "T"=>array(
-//														3=>(float)1.7
-//											)),
-//											"Z"=>array( "Z"=>array(
-//														4=>(float)-1.6
-//											))
-//									    )),				    				   				    
-//				),
-//		    
-//		    		array( "count"=>3, "L5"=>2, "L4s"=>array(   "X"=>array(	"K"=>array( "K"=>array(
-//														1=>(string)"foo",
-//														2=>array(null, true, false, 1, 1.0, "foo")
-//											)),
-//											"Z"=>array( "Z"=>array(
-//														3=>$test_obj
-//											))
-//									    ))
-//				)				    
-//		);	
-//		
-//		
-//		// Load class with data
-//		// ===============================================================
-//		
-//		foreach( $test_data as $item ){
-//		    						
-//			try {
-//				$rows_changed = $this->cls->setL5($item['L5'], $item['L4s'],  $ctrl=null);
-//			}
-//			catch (FOX_exception $child) {
-//							    
-//				$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
-//			}			
-//			
-//			// Should return number of L1's added
-//			$this->assertEquals( $item['count'], $rows_changed, ("ITEM: " . $item['L5']) ); 
-//			
-//			
-//		}
-//		unset($item);
-//			
-//		
-//		// Test adding a single duplicate item
-//		// ===============================================================
-//		
-//		try {			
-//			
-//			$rows_changed = $this->cls->setL5(2, array( "X"=>array(	"K"=>array( "K"=>array(
-//											1=>(string)"foo",
-//											2=>array(null, true, false, 1, 1.0, "foo")
-//										)),
-//								"Z"=>array( "Z"=>array(
-//											3=>$test_obj
-//					)))), $ctrl=null);			
-//			
-//			// Should return (int)0 to indicate no rows were changed
-//			$this->assertEquals(0, $rows_changed);
-//			
-//		}
-//		catch (FOX_exception $child) {
-//		    
-//			// Shouldn't throw an exception because the set() method allows
-//			// existing rows to be overwritten 	
-//		    
-//			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    		    
-//		}
-//				
-//
-//		// Check cache state
-//		// ===============================================================	
-//		
-//		// NOTE: the LUT's won't be set at this point, because we haven't done any 
-//		// database reads that give objects authority
-//		
-//		$check = array(
-//				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>null,
-//												2=>false
-//										    ),
-//										    'T'=>array(	1=>true )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-//							    ),	
-//							    'Y'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1
-//										    ),
-//										    'T'=>array(	3=>(float)1.7 )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )
-//					    )
-//				),			
-//				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )	
-//					    )						
-//				 )		    		    
-//		);
-//		
-//		$this->assertEquals($check, $this->cls->cache);	
-//		
-//		
-//		// Check db state
-//		// ===============================================================		
-//		
-//		$check = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>null,
-//										2=>false
-//								    ),
-//								    'T'=>array(	1=>true )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-//					    ),	
-//					    'Y'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(int)1,
-//										2=>(int)-1
-//								    ),
-//								    'T'=>array(	3=>(float)1.7 )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					    )					    
-//				),			
-//				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				 )		    		    
-//		);		
-//		
-//		
-//		$db = new FOX_db();	
-//		
-//		$columns = null;
-//		
-//		$ctrl = array(
-//				'format'=>'array_key_array',
-//				'key_col'=>array('L5','L4','L3','L2','L1')
-//		);
-//		
-//		try {
-//			$struct = $this->cls->_struct();			
-//			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}		
-//		
-//                $this->assertEquals($check, $result);		
-//		
-//		
-//	}	
-//
-//
-//       /**
-//	* Test fixture for setL5_multi() method
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/
-//	
-//	function test_setL5_multi() {
-//
-//   
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";	
-//				
-//		$test_data = array(
-//
-//				array( "L5"=>1, "L4"=>array(   "X"=>array( "K"=>array( "K"=>array(
-//												    1=>null,
-//												    2=>false
-//											),
-//											"T"=>array(
-//												    1=>true
-//									    )),
-//									    "Z"=>array( "Z"=>array(
-//												    3=>(int)0
-//									    ))
-//								),
-//								"Y"=>array( "K"=>array( "K"=>array(
-//												    1=>(int)1,												
-//												    2=>(int)-1
-//											),
-//											"T"=>array(
-//												    3=>(float)1.7
-//									    )),
-//									    "Z"=>array( "Z"=>array(
-//												    4=>(float)-1.6
-//									    ))
-//								)),				    				   				    
-//				),
-//		    
-//		    		array( "L5"=>2, "L4"=>array(   "X"=>array( "K"=>array( "K"=>array(
-//												    1=>(string)"foo",
-//												    2=>array(null, true, false, 1, 1.0, "foo")
-//									    )),
-//									    "Z"=>array( "Z"=>array(
-//												    3=>$test_obj
-//									    ))
-//								))
-//				)				    
-//		);		
-//		
-//		
-//		// Load class with data
-//		// ===============================================================
-//				    					
-//		try {
-//			$set_ok = $this->cls->setL5_multi($test_data, $ctrl=null);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
-//		}			
-//
-//		// Should return number of L1's added
-//		$this->assertEquals(11, $set_ok); 			
-//			
-//		
-//			
-//		// Test adding a single duplicate item
-//		// ===============================================================
-//		
-//		try {			
-//			
-//			$dupe_data = array(
-//			    
-//				array( "L5"=>1, "L4"=>array(   "X"=>array( "K"=>array( "K"=>array(
-//												    1=>null,
-//												    2=>false
-//											),
-//											"T"=>array(
-//												    1=>true
-//									    )),
-//									    "Z"=>array( "Z"=>array(
-//												    3=>(int)0
-//									    ))
-//								),
-//								"Y"=>array( "K"=>array( "K"=>array(
-//												    1=>(int)1,												
-//												    2=>(int)-1
-//											),
-//											"T"=>array(
-//												    3=>(float)1.7
-//									    )),
-//									    "Z"=>array( "Z"=>array(
-//												    4=>(float)-1.6
-//									    ))
-//								)),				    				   				    
-//				),
-//			);
-//		    
-//			$rows_changed = $this->cls->setL5_multi($dupe_data, $ctrl=null);			
-//			
-//			// Should return (int)0 to indicate no rows were changed
-//			$this->assertEquals(0, $rows_changed);
-//			
-//		}
-//		catch (FOX_exception $child) {
-//		    
-//			// Shouldn't throw an exception because the set() method allows
-//			// existing rows to be overwritten 	
-//		    
-//			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    		    		    
-//		}
-//		
-//		
-//		// Test adding multiple duplicate items
-//		// ===============================================================
-//		
-//		try {			
-//			
-//			$dupe_data = array(
-//			    
-//				array( "L5"=>1, "L4"=>array(   "X"=>array( "K"=>array( "K"=>array(
-//												    1=>null,
-//												    2=>false
-//											),
-//											"T"=>array(
-//												    1=>true
-//									    )),
-//									    "Z"=>array( "Z"=>array(
-//												    3=>(int)0
-//									    ))
-//								),
-//								"Y"=>array( "K"=>array( "K"=>array(
-//												    1=>(int)1,												
-//												    2=>(int)-1
-//											),
-//											"T"=>array(
-//												    3=>(float)1.7
-//									    )),
-//									    "Z"=>array( "Z"=>array(
-//												    4=>(float)-1.6
-//									    ))
-//								)),				    				   				    
-//				),
-//		    
-//		    		array( "L5"=>2, "L4"=>array(   "X"=>array( "K"=>array( "K"=>array(
-//												    1=>(string)"foo",
-//												    2=>array(null, true, false, 1, 1.0, "foo")
-//									    )),
-//									    "Z"=>array( "Z"=>array(
-//												    3=>$test_obj
-//									    ))
-//								))
-//				)
-//			);
-//		    
-//			$rows_changed = $this->cls->setL5_multi($dupe_data, $ctrl=null);			
-//			
-//			// Should return (int)0 to indicate no rows were changed
-//			$this->assertEquals(0, $rows_changed);	
-//			
-//		}
-//		catch (FOX_exception $child) {		    
-//		    
-//			// Shouldn't throw an exception because the set() method allows
-//			// existing rows to be overwritten 	
-//		    
-//			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    
-//		}
-//		
-//		
-//		
-//		// Check cache state
-//		// ===============================================================	
-//		
-//		// NOTE: the LUT's won't be set at this point, because we haven't done any 
-//		// database reads that give objects authority
-//		
-//		$check = array(
-//				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>null,
-//												2=>false
-//										    ),
-//										    'T'=>array(	1=>true )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-//							    ),	
-//							    'Y'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1
-//										    ),
-//										    'T'=>array(	3=>(float)1.7 )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )
-//					    )
-//				),			
-//				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )	
-//					    )						
-//				 )		    		    
-//		);
-//		
-//		$this->assertEquals($check, $this->cls->cache);	
-//		
-//		
-//		// Check db state
-//		// ===============================================================		
-//		
-//		$check = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>null,
-//										2=>false
-//								    ),
-//								    'T'=>array(	1=>true )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-//					    ),	
-//					    'Y'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(int)1,
-//										2=>(int)-1
-//								    ),
-//								    'T'=>array(	3=>(float)1.7 )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					    )					    
-//				),			
-//				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				 )		    		    
-//		);		
-//		
-//		
-//		$db = new FOX_db();	
-//		
-//		$columns = null;
-//		
-//		$ctrl = array(
-//				'format'=>'array_key_array',
-//				'key_col'=>array('L5','L4','L3','L2','L1')
-//		);
-//		
-//		try {
-//			$struct = $this->cls->_struct();			
-//			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}		
-//		
-//                $this->assertEquals($check, $result);		
-//		
-//		
-//	}
-//	
-//	
-//       /**
-//	* Test fixture for setMulti() method (trie mode)
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/
-//	
-//	function test_setMulti_trie() {
-//
-//   
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";	
-//				
-//		$test_data = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>null,
-//										2=>false
-//								    ),
-//								    'T'=>array(	1=>true )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-//					    ),	
-//					    'Y'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(int)1,
-//										2=>(int)-1
-//								    ),
-//								    'T'=>array(	3=>(float)1.7 )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					    )					    
-//				),			
-//				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				 )		    		    
-//		);		
-//		
-//		
-//		// Load class with data
-//		// ===============================================================
-//				    					
-//		try {
-//			$ctrl = array('mode'=>'trie');
-//			$rows_changed = $this->cls->setMulti($test_data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
-//		}			
-//
-//		// Should return number of L1's added
-//		$this->assertEquals(11, $rows_changed); 			
-//					
-//		
-//		
-//		// Test adding some duplicate itemes
-//		// ===============================================================
-//		
-//		try {			
-//		    
-//			$dupe_data = array(
-//					1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//											1=>null,
-//											2=>false
-//									    ),
-//									    'T'=>array(	1=>true )							    
-//								)						
-//						    ),	
-//						    'Y'=>array(	'K'=>array( 'K'=>array(	
-//											1=>(int)1,
-//											2=>(int)-1
-//									    ),
-//									    'T'=>array(	3=>(float)1.7 )							    
-//								),
-//								'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//						    )					    
-//					)		    		    
-//			);
-//		    
-//			$ctrl = array('mode'=>'trie');
-//			$rows_changed = $this->cls->setMulti($dupe_data, $ctrl);			
-//			
-//			// Should return (int)0 to indicate no rows were changed
-//			$this->assertEquals(0, $rows_changed);
-//			
-//			
-//		}
-//		catch (FOX_exception $child) {
-//		    
-//			// Shouldn't throw an exception because the set() method allows
-//			// existing rows to be overwritten 	
-//		    
-//			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    
-//		    		    		    
-//		}		
-//		
-//		
-//		
-//		// Check cache state
-//		// ===============================================================	
-//		
-//		// NOTE: the LUT's won't be set at this point, because we haven't done any 
-//		// database reads that give objects authority
-//		
-//		$check = array(
-//				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>null,
-//												2=>false
-//										    ),
-//										    'T'=>array(	1=>true )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-//							    ),	
-//							    'Y'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1
-//										    ),
-//										    'T'=>array(	3=>(float)1.7 )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )
-//					    )
-//				),			
-//				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )	
-//					    )						
-//				 )		    		    
-//		);
-//		
-//		$this->assertEquals($check, $this->cls->cache);	
-//		
-//		
-//		// Check db state
-//		// ===============================================================		
-//		
-//		$check = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>null,
-//										2=>false
-//								    ),
-//								    'T'=>array(	1=>true )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-//					    ),	
-//					    'Y'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(int)1,
-//										2=>(int)-1
-//								    ),
-//								    'T'=>array(	3=>(float)1.7 )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					    )					    
-//				),			
-//				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				 )		    		    
-//		);		
-//		
-//		
-//		$db = new FOX_db();	
-//		
-//		$columns = null;
-//		
-//		$ctrl = array(
-//				'format'=>'array_key_array',
-//				'key_col'=>array('L5','L4','L3','L2','L1')
-//		);
-//		
-//		try {
-//			$struct = $this->cls->_struct();			
-//			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}		
-//		
-//                $this->assertEquals($check, $result);		
-//		
-//		
-//	}
-//	
-//	
-//       /**
-//	* Test fixture for setMulti() method (matrix mode)
-//	*
-//	* @version 1.0
-//	* @since 1.0
-//	* 
-//        * =======================================================================================
-//	*/
-//	
-//	function test_setMulti_matrix() {
-//
-//   
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";					
-//		
-//		$test_data = array(
-//				    array('L5'=>1, 'L4'=>'X', 'L3'=>'K', 'L2'=>'K', 'L1'=>1, 'L0'=>null),
-//				    array('L5'=>1, 'L4'=>'X', 'L3'=>'K', 'L2'=>'K', 'L1'=>2, 'L0'=>false),
-//				    array('L5'=>1, 'L4'=>'X', 'L3'=>'K', 'L2'=>'T', 'L1'=>1, 'L0'=>true),
-//				    array('L5'=>1, 'L4'=>'X', 'L3'=>'Z', 'L2'=>'Z', 'L1'=>3, 'L0'=>(int)0),
-//				    array('L5'=>1, 'L4'=>'Y', 'L3'=>'K', 'L2'=>'K', 'L1'=>1, 'L0'=>(int)1),
-//				    array('L5'=>1, 'L4'=>'Y', 'L3'=>'K', 'L2'=>'K', 'L1'=>2, 'L0'=>(int)-1),
-//				    array('L5'=>1, 'L4'=>'Y', 'L3'=>'K', 'L2'=>'T', 'L1'=>3, 'L0'=>(float)1.7),
-//				    array('L5'=>1, 'L4'=>'Y', 'L3'=>'Z', 'L2'=>'Z', 'L1'=>4, 'L0'=>(float)-1.6),
-//				    array('L5'=>2, 'L4'=>'X', 'L3'=>'K', 'L2'=>'K', 'L1'=>1, 'L0'=>(string)"foo"),
-//				    array('L5'=>2, 'L4'=>'X', 'L3'=>'K', 'L2'=>'K', 'L1'=>2, 'L0'=>array(null, true, false, 1, 1.0, "foo")),	
-//				    array('L5'=>2, 'L4'=>'X', 'L3'=>'Z', 'L2'=>'Z', 'L1'=>3, 'L0'=>$test_obj)		    
-//		    		    
-//		);
-//		
-//		
-//		// Load class with data
-//		// ===============================================================
-//				    					
-//		try {
-//			$ctrl = array('mode'=>'matrix');
-//			$set_ok = $this->cls->setMulti($test_data, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
-//		}			
-//
-//		// Should return number of L1's added
-//		$this->assertEquals(11, $set_ok); 			
-//			
-//		
-//		
-//		// Test adding some  duplicate itemes
-//		// ===============================================================
-//		
-//		try {			
-//		    
-//			$dupe_data = array(
-//					    array('L5'=>1, 'L4'=>'X', 'L3'=>'K', 'L2'=>'K', 'L1'=>1, 'L0'=>null),
-//					    array('L5'=>1, 'L4'=>'X', 'L3'=>'K', 'L2'=>'K', 'L1'=>2, 'L0'=>false),
-//					    array('L5'=>1, 'L4'=>'X', 'L3'=>'K', 'L2'=>'T', 'L1'=>1, 'L0'=>true),
-//					    array('L5'=>1, 'L4'=>'X', 'L3'=>'Z', 'L2'=>'Z', 'L1'=>3, 'L0'=>(int)0),
-//					    array('L5'=>1, 'L4'=>'Y', 'L3'=>'K', 'L2'=>'K', 'L1'=>1, 'L0'=>(int)1),
-//					    array('L5'=>1, 'L4'=>'Y', 'L3'=>'K', 'L2'=>'K', 'L1'=>2, 'L0'=>(int)-1),
-//					    array('L5'=>1, 'L4'=>'Y', 'L3'=>'K', 'L2'=>'T', 'L1'=>3, 'L0'=>(float)1.7),
-//					    array('L5'=>1, 'L4'=>'Y', 'L3'=>'Z', 'L2'=>'Z', 'L1'=>4, 'L0'=>(float)-1.6),	    
-//			);
-//		    
-//			$ctrl = array('mode'=>'matrix');			
-//			$rows_changed = $this->cls->setMulti($dupe_data, $ctrl);			
-//			
-//			// Should return (int)0 to indicate no rows were changed
-//			$this->assertEquals(0, $rows_changed);	
-//			
-//		}
-//		catch (FOX_exception $child) {
-//		    
-//			// Shouldn't throw an exception because the set() method allows
-//			// existing rows to be overwritten 	
-//		    
-//			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    		    
-//		}		
-//		
-//		
-//		
-//		// Check cache state
-//		// ===============================================================	
-//		
-//		// NOTE: the LUT's won't be set at this point, because we haven't done any 
-//		// database reads that give objects authority
-//		
-//		$check = array(
-//				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>null,
-//												2=>false
-//										    ),
-//										    'T'=>array(	1=>true )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-//							    ),	
-//							    'Y'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(int)1,
-//												2=>(int)-1
-//										    ),
-//										    'T'=>array(	3=>(float)1.7 )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//							    )
-//					    )
-//				),			
-//				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
-//												1=>(string)"foo",
-//												2=>array(null, true, false, 1, 1.0, "foo")
-//										    )							    
-//									),
-//									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//							    )	
-//					    )						
-//				 )		    		    
-//		);
-//		
-//		$this->assertEquals($check, $this->cls->cache);	
-//		
-//		
-//		// Check db state
-//		// ===============================================================		
-//		
-//		$check = array(
-//				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>null,
-//										2=>false
-//								    ),
-//								    'T'=>array(	1=>true )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
-//					    ),	
-//					    'Y'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(int)1,
-//										2=>(int)-1
-//								    ),
-//								    'T'=>array(	3=>(float)1.7 )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-//					    )					    
-//				),			
-//				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
-//										1=>(string)"foo",
-//										2=>array(null, true, false, 1, 1.0, "foo")
-//								    )							    
-//							),
-//							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
-//					    )					    
-//				 )		    		    
-//		);		
-//		
-//		
-//		$db = new FOX_db();	
-//		
-//		$columns = null;
-//		
-//		$ctrl = array(
-//				'format'=>'array_key_array',
-//				'key_col'=>array('L5','L4','L3','L2','L1')
-//		);
-//		
-//		try {
-//			$struct = $this->cls->_struct();			
-//			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}		
-//		
-//                $this->assertEquals($check, $result);		
-//		
-//		
-//	}		
+	
+       /**
+	* Test fixture for setL4() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/
+	
+	function test_setL4() {
+
+    
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";	
+				
+		$test_data = array(
+
+				array( "count"=>8, "L4"=>1, "L3s"=>array(   "X"=>array(	"K"=>array(
+												    1=>null,
+												    2=>false,
+												    5=>true
+											),
+											"Z"=>array( 3=>(int)0 )
+									    ),
+									    "Y"=>array(	"K"=>array( 
+												    1=>(int)1,												
+												    2=>(int)-1,											    
+												    3=>(float)1.7
+											),
+											"Z"=>array( 4=>(float)-1.6 )
+									    )),				    				   				    
+				),
+		    
+		    		array( "count"=>3, "L4"=>2, "L3s"=>array(   "X"=>array(	"K"=>array( 
+												    1=>(string)"foo",
+												    2=>array(null, true, false, 1, 1.0, "foo")
+											),
+											"Z"=>array( 3=>$test_obj )
+									    ))
+				)				    
+		);	
+		
+		
+		// Load class with data
+		// ===============================================================
+		
+		foreach( $test_data as $item ){
+		    						
+			try {
+				$rows_changed = $this->cls->setL4($item['L4'], $item['L3s'],  $ctrl=null);
+			}
+			catch (FOX_exception $child) {
+							    
+				$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
+			}			
+			
+			// Should return number of L1's added
+			$this->assertEquals( $item['count'], $rows_changed, ("ITEM: " . $item['L4']) ); 
+			
+			
+		}
+		unset($item);
+			
+		
+		// Test adding a single duplicate item
+		// ===============================================================
+		
+		try {			
+			
+			$rows_changed = $this->cls->setL4(2, array( "X"=>array(	"K"=>array( 
+											    1=>(string)"foo",
+											    2=>array(null, true, false, 1, 1.0, "foo")
+										),
+										"Z"=>array( 3=>$test_obj )
+					)), $ctrl=null);			
+			
+			// Should return (int)0 to indicate no rows were changed
+			$this->assertEquals(0, $rows_changed);
+			
+		}
+		catch (FOX_exception $child) {
+		    
+			// Shouldn't throw an exception because the set() method allows
+			// existing rows to be overwritten 	
+		    
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    		    
+		}
+				
+
+		// Check cache state
+		// ===============================================================	
+		
+		// NOTE: the LUT's won't be set at this point, because we haven't done any 
+		// database reads that give objects authority
+		
+		$check = array(
+				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
+										    1=>null,
+										    2=>false,
+										    5=>true 							    
+									),
+									'Z'=>array( 3=>(int)0 ) 						
+							    ),	
+							    'Y'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>(float)1.7 						    
+									),
+									'Z'=>array( 4=>(float)-1.6 ) 						
+							    )
+					    )
+				),			
+				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )	
+					    )						
+				 )		    		    
+		);
+		
+		$this->assertEquals($check, $this->cls->cache);	
+		
+		
+		// Check db state
+		// ===============================================================		
+		
+		$check = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>null,
+								    2=>false,
+								    5=>true 							    
+							),
+							'Z'=>array( 3=>(int)0 ) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 						    
+							),
+							'Z'=>array( 4=>(float)-1.6 ) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				 )		    		    
+		);		
+		
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('L4','L3','L2','L1')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);		
+		
+		
+	}	
+
+
+       /**
+	* Test fixture for setL4_multi() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/
+	
+	function test_setL4_multi() {
+
+   
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";	
+				
+		$test_data = array(
+
+				array( "L4"=>1, "L3"=>array(   "X"=>array( "K"=>array( 
+											1=>null,
+											2=>false,
+											5=>true
+									    ),
+									    "Z"=>array( 3=>(int)0 )
+								),
+								"Y"=>array( "K"=>array( 
+											1=>(int)1,												
+											2=>(int)-1,
+											3=>(float)1.7
+									    ),
+									    "Z"=>array( 4=>(float)-1.6 )
+								)),				    				   				    
+				),
+		    
+		    		array( "L4"=>2, "L3"=>array(   "X"=>array( "K"=>array( 
+											1=>(string)"foo",
+											2=>array(null, true, false, 1, 1.0, "foo")
+									    ),
+									    "Z"=>array( 3=>$test_obj )
+								))
+				)				    
+		);		
+		
+		
+		// Load class with data
+		// ===============================================================
+				    					
+		try {
+			$set_ok = $this->cls->setL4_multi($test_data, $ctrl=null);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
+		}			
+
+		// Should return number of L1's added
+		$this->assertEquals(11, $set_ok); 			
+			
+		
+			
+		// Test adding a single duplicate item
+		// ===============================================================
+		
+		try {			
+			
+			$dupe_data = array(
+			    
+				array( "L4"=>1, "L3"=>array(   "X"=>array( "K"=>array( 
+											1=>null,
+											2=>false,
+											5=>true
+									    ),
+									    "Z"=>array( 3=>(int)0 )
+								),
+								"Y"=>array( "K"=>array( 
+											1=>(int)1,												
+											2=>(int)-1,
+											3=>(float)1.7
+									    ),
+									    "Z"=>array( 4=>(float)-1.6 )
+								)),				    				   				    
+				),
+			);
+		    
+			$rows_changed = $this->cls->setL4_multi($dupe_data, $ctrl=null);			
+			
+			// Should return (int)0 to indicate no rows were changed
+			$this->assertEquals(0, $rows_changed);
+			
+		}
+		catch (FOX_exception $child) {
+		    
+			// Shouldn't throw an exception because the set() method allows
+			// existing rows to be overwritten 	
+		    
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    		    		    
+		}
+		
+		
+		// Test adding multiple duplicate items
+		// ===============================================================
+		
+		try {			
+			
+			$dupe_data = array(
+			    
+				array( "L4"=>1, "L3"=>array(   "X"=>array( "K"=>array( 
+											1=>null,
+											2=>false,
+											5=>true
+									    ),
+									    "Z"=>array( 3=>(int)0 )
+								),
+								"Y"=>array( "K"=>array( 
+											1=>(int)1,												
+											2=>(int)-1,
+											3=>(float)1.7
+									    ),
+									    "Z"=>array( 4=>(float)-1.6 )
+								)),				    				   				    
+				),
+		    
+		    		array( "L4"=>2, "L3"=>array(   "X"=>array( "K"=>array( 
+											1=>(string)"foo",
+											2=>array(null, true, false, 1, 1.0, "foo")
+									    ),
+									    "Z"=>array( 3=>$test_obj )
+								))
+				)
+			);
+		    
+			$rows_changed = $this->cls->setL4_multi($dupe_data, $ctrl=null);			
+			
+			// Should return (int)0 to indicate no rows were changed
+			$this->assertEquals(0, $rows_changed);	
+			
+		}
+		catch (FOX_exception $child) {		    
+		    
+			// Shouldn't throw an exception because the set() method allows
+			// existing rows to be overwritten 	
+		    
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    
+		}
+		
+		
+		
+		// Check cache state
+		// ===============================================================	
+		
+		// NOTE: the LUT's won't be set at this point, because we haven't done any 
+		// database reads that give objects authority
+		
+		$check = array(
+				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>null,
+										    2=>false,
+										    5=>true 							    
+									),
+									'Z'=>array( 3=>(int)0 ) 						
+							    ),	
+							    'Y'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>(float)1.7 						    
+									),
+									'Z'=>array( 4=>(float)-1.6 ) 						
+							    )
+					    )
+				),			
+				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )	
+					    )						
+				 )		    		    
+		);
+		
+		$this->assertEquals($check, $this->cls->cache);	
+		
+		
+		// Check db state
+		// ===============================================================		
+		
+		$check = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>null,
+								    2=>false,
+								    5=>true 							    
+							),
+							'Z'=>array( 3=>(int)0 ) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 						    
+							),
+							'Z'=>array( 4=>(float)-1.6 )						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				 )		    		    
+		);		
+		
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('L4','L3','L2','L1')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);		
+		
+		
+	}
+	
+	
+       /**
+	* Test fixture for setMulti() method (trie mode)
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/
+	
+	function test_setMulti_trie() {
+
+   
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";	
+				
+		$test_data = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>null,
+								    2=>false,
+								    5=>true 							    
+							),
+							'Z'=>array( 3=>(int)0 ) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 							    
+							),
+							'Z'=>array( 4=>(float)-1.6 ) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")						    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				 )		    		    
+		);		
+		
+		
+		// Load class with data
+		// ===============================================================
+				    					
+		try {
+			$ctrl = array('mode'=>'trie');
+			$rows_changed = $this->cls->setMulti($test_data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
+		}			
+
+		// Should return number of L1's added
+		$this->assertEquals(11, $rows_changed); 			
+					
+		
+		
+		// Test adding some duplicate itemes
+		// ===============================================================
+		
+		try {			
+		    
+			$dupe_data = array(
+					1=>array(   'X'=>array(	'K'=>array( 
+									    1=>null,
+									    2=>false,
+									    5=>true 							    
+								)						
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    1=>(int)1,
+									    2=>(int)-1,
+									    3=>(float)1.7 							    
+								),
+								'Z'=>array( 4=>(float)-1.6 ) 						
+						    )					    
+					)		    		    
+			);
+		    
+			$ctrl = array('mode'=>'trie');
+			$rows_changed = $this->cls->setMulti($dupe_data, $ctrl);			
+			
+			// Should return (int)0 to indicate no rows were changed
+			$this->assertEquals(0, $rows_changed);
+			
+			
+		}
+		catch (FOX_exception $child) {
+		    
+			// Shouldn't throw an exception because the set() method allows
+			// existing rows to be overwritten 	
+		    
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    
+		    		    		    
+		}		
+		
+		
+		
+		// Check cache state
+		// ===============================================================	
+		
+		// NOTE: the LUT's won't be set at this point, because we haven't done any 
+		// database reads that give objects authority
+		
+		$check = array(
+				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>null,
+										    2=>false,
+										    5=>true 							    
+									),
+									'Z'=>array( 3=>(int)0 ) 						
+							    ),	
+							    'Y'=>array(	'K'=>array( 
+										    1=>(int)1,
+										    2=>(int)-1,
+										    3=>(float)1.7 							    
+									),
+									'Z'=>array( 4=>(float)-1.6 ) 						
+							    )
+					    )
+				),			
+				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+										    1=>(string)"foo",
+										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
+									),
+									'Z'=>array( 3=>$test_obj ) 						
+							    )	
+					    )						
+				 )		    		    
+		);
+		
+		$this->assertEquals($check, $this->cls->cache);	
+		
+		
+		// Check db state
+		// ===============================================================		
+		
+		$check = array(
+				1=>array(   'X'=>array(	'K'=>array( 
+								    1=>null,
+								    2=>false,
+								    5=>true 							    
+							),
+							'Z'=>array( 3=>(int)0 ) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 
+								    1=>(int)1,
+								    2=>(int)-1,
+								    3=>(float)1.7 						    
+							),
+							'Z'=>array( 4=>(float)-1.6 ) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'K'=>array( 
+								    1=>(string)"foo",
+								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
+							),
+							'Z'=>array( 3=>$test_obj ) 						
+					    )					    
+				 )		    		    
+		);		
+		
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('L4','L3','L2','L1')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);		
+		
+		
+	}
+	
+	
+       /**
+	* Test fixture for setMulti() method (matrix mode)
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/
+	
+	function test_setMulti_matrix() {
+
+   
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";					
+		
+		$test_data = array(
+				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>null),
+				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>2, 'L0'=>false),
+				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>true),
+				    array('L4'=>1, 'L3'=>'X', 'L2'=>'Z', 'L1'=>3, 'L0'=>(int)0),
+				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>1, 'L0'=>(int)1),
+				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>2, 'L0'=>(int)-1),
+				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>3, 'L0'=>(float)1.7),
+				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'Z', 'L1'=>4, 'L0'=>(float)-1.6),
+				    array('L4'=>2, 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>(string)"foo"),
+				    array('L4'=>2, 'L3'=>'X', 'L2'=>'K', 'L1'=>2, 'L0'=>array(null, true, false, 1, 1.0, "foo")),	
+				    array('L4'=>2, 'L3'=>'X', 'L2'=>'Z', 'L1'=>3, 'L0'=>$test_obj)		    
+		    		    
+		);
+		
+		
+		// Load class with data
+		// ===============================================================
+				    					
+		try {
+			$ctrl = array('mode'=>'matrix');
+			$set_ok = $this->cls->setMulti($test_data, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
+		}			
+
+		// Should return number of L1's added
+		$this->assertEquals(11, $set_ok); 			
+			
+		
+		
+		// Test adding some  duplicate itemes
+		// ===============================================================
+		
+		try {			
+		    
+			$dupe_data = array(
+					    array('L5'=>1, 'L4'=>'X', 'L3'=>'K', 'L2'=>'K', 'L1'=>1, 'L0'=>null),
+					    array('L5'=>1, 'L4'=>'X', 'L3'=>'K', 'L2'=>'K', 'L1'=>2, 'L0'=>false),
+					    array('L5'=>1, 'L4'=>'X', 'L3'=>'K', 'L2'=>'T', 'L1'=>1, 'L0'=>true),
+					    array('L5'=>1, 'L4'=>'X', 'L3'=>'Z', 'L2'=>'Z', 'L1'=>3, 'L0'=>(int)0),
+					    array('L5'=>1, 'L4'=>'Y', 'L3'=>'K', 'L2'=>'K', 'L1'=>1, 'L0'=>(int)1),
+					    array('L5'=>1, 'L4'=>'Y', 'L3'=>'K', 'L2'=>'K', 'L1'=>2, 'L0'=>(int)-1),
+					    array('L5'=>1, 'L4'=>'Y', 'L3'=>'K', 'L2'=>'T', 'L1'=>3, 'L0'=>(float)1.7),
+					    array('L5'=>1, 'L4'=>'Y', 'L3'=>'Z', 'L2'=>'Z', 'L1'=>4, 'L0'=>(float)-1.6),	    
+			);
+		    
+			$ctrl = array('mode'=>'matrix');			
+			$rows_changed = $this->cls->setMulti($dupe_data, $ctrl);			
+			
+			// Should return (int)0 to indicate no rows were changed
+			$this->assertEquals(0, $rows_changed);	
+			
+		}
+		catch (FOX_exception $child) {
+		    
+			// Shouldn't throw an exception because the set() method allows
+			// existing rows to be overwritten 	
+		    
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    		    
+		}		
+		
+		
+		
+		// Check cache state
+		// ===============================================================	
+		
+		// NOTE: the LUT's won't be set at this point, because we haven't done any 
+		// database reads that give objects authority
+		
+		$check = array(
+				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>null,
+												2=>false
+										    ),
+										    'T'=>array(	1=>true )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+							    ),	
+							    'Y'=>array(	'K'=>array( 'K'=>array(	
+												1=>(int)1,
+												2=>(int)-1
+										    ),
+										    'T'=>array(	3=>(float)1.7 )							    
+									),
+									'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+							    )
+					    )
+				),			
+				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 'K'=>array(	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+										    )							    
+									),
+									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+							    )	
+					    )						
+				 )		    		    
+		);
+		
+		$this->assertEquals($check, $this->cls->cache);	
+		
+		
+		// Check db state
+		// ===============================================================		
+		
+		$check = array(
+				1=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>null,
+										2=>false
+								    ),
+								    'T'=>array(	1=>true )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>(int)0)) 						
+					    ),	
+					    'Y'=>array(	'K'=>array( 'K'=>array(	
+										1=>(int)1,
+										2=>(int)-1
+								    ),
+								    'T'=>array(	3=>(float)1.7 )							    
+							),
+							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
+					    )					    
+				),			
+				2=>array(   'X'=>array(	'K'=>array( 'K'=>array(	
+										1=>(string)"foo",
+										2=>array(null, true, false, 1, 1.0, "foo")
+								    )							    
+							),
+							'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+					    )					    
+				 )		    		    
+		);		
+		
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('L5','L4','L3','L2','L1')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);		
+		
+		
+	}		
 	
 	
 	function tearDown() {
