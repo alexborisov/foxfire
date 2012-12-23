@@ -21,8 +21,14 @@ class FOX_db {
 	var $dbh;				    // MySQL connection handle for this instance
 
 	var $base_prefix;			    // Base prefix for database tables
-	var $charset;				    // Database table columns charset
-	var $collate;				    // Database table columns collate
+	
+	var $charset;				    // Database character set - symbols and encodings allowed to be stored to the db
+						    // @see http://dev.mysql.com/doc/refman/5.0/en/charset-general.html
+						    // @see http://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
+	
+	var $collate;				    // Database collation - rules used for ordering a character set
+						    // @see http://dev.mysql.com/doc/refman/5.0/en/charset-collation-effect.html//
+						    // @see http://dev.mysql.com/doc/refman/5.0/en/charset-collation-effect.html	
 
 	var $in_transaction = false;		    // True if this instance is engaged in a transaction
 
@@ -67,88 +73,124 @@ class FOX_db {
 	// ============================================================================================================ //
 
 
-	function FOX_db(&$arg_db=null) {
+	function __construct($args=null){
 
-		$this->__construct($arg_db);
-	}
-
-
-	function __construct(&$arg_db=null){
-
+	    
 		// Hybrid dependency injection. If no dependencies are injected as args, the constructor
-		// uses the wp global variables / singletons.
+		// uses the wp global variables and singletons.
+	    	
+		global $table_prefix;
+	    
+		$args_default = array(
+					'dbh_mode'=>'bind',
+					'db_host'=> DB_HOST,
+					'db_name'=> DB_NAME,
+					'db_user'=> DB_USER,
+					'db_pass'=> DB_PASSWORD,
+					'charset'=> (defined( 'DB_CHARSET' ) ? DB_CHARSET : 'utf8'),
+					'collate'=> (defined( 'DB_COLLATE' ) ? DB_COLLATE : 'utf8_general_ci'),
+					'base_prefix'=>$table_prefix		    
+		);
 
-		if($arg_db){
-
-			$this->db =& $arg_db;
-			$this->dbh =& $arg_db->dbh;
-			$this->base_prefix =& $arg_db->base_prefix;
-			$this->charset =& $arg_db->charset;
-			$this->collate =& $arg_db->collate;
-			$this->builder = new FOX_queryBuilder($this);
-			$this->runner = new FOX_queryRunner($this);
-		}
-		else {	
-		    
-			global $table_prefix;
-			
-			$this->base_prefix =& $table_prefix;
-			
-			if ( defined( 'DB_CHARSET' ) ){
-			    
-				$this->charset = DB_CHARSET;
-			}
-			else {
-				$this->charset = 'utf8';
-			}
-			
-			if( defined('DB_COLLATE') && DB_COLLATE ){
-			    
-				$this->collate = DB_COLLATE;
-			}
-			else {
-				$this->collate = 'utf8_general_ci';
-			}
-
-			try {
-				$this->db = new FOX_db_driver_mysql( array(
-									    'db_host'=>DB_HOST,
-									    'db_name'=>DB_NAME,
-									    'db_user'=>DB_USER,
-									    'db_pass'=>DB_PASSWORD,
-									    'charset'=>$this->charset,
-									    'collate'=>$this->collate				    
-				));
-			}
-			catch (BPM_exception $child) {
-
-				throw new BPM_exception( array(
-					'numeric'=>1,
-					'text'=>"Error loading driver",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));		    
-			}
+		$args = FOX_sUtil::parseArgs($args, $args_default);
 		
-			$this->dbh =& $this->db->dbh;
+		$this->dbh_mode = $args['dbh_mode'];
+		$this->db_host = $args['db_host'];
+		$this->db_name = $args['db_name'];
+		$this->db_user = $args['db_user'];
+		$this->db_pass = $args['db_pass'];
+		$this->charset = $args['charset'];
+		$this->collate = $args['collate'];
+		$this->base_prefix = $args['base_prefix'];
+		
 
-			$this->builder = new FOX_queryBuilder($this);
-			$this->runner = new FOX_queryRunner($this);			
-			
-			$this->builder = new FOX_queryBuilder($this);
-			$this->runner = new FOX_queryRunner($this);
+		// If we've been passed a db driver instance, use it
+		// ======================================================
+		
+		if(FOX_sUtil::keyExists('db', $args)){
+
+			$this->db =& $args['db'];
+			$this->dbh =& $this->db->dbh;
 		}
+		else {
+		    
+			// If we're in 'bind' mode, use the wp database singleton's dbh
+			// ==============================================================
+		    
+			if($args['dbh_mode'] == 'bind'){
+
+				global $wpdb;
+				$this->dbh =& $wpdb->dbh;
+
+				try {
+					$this->db = new FOX_db_driver_mysql( array( 'dbh'=>$this->dbh,				    
+										    'charset'=>$this->charset			    
+					));
+				}
+				catch (BPM_exception $child) {
+
+					throw new BPM_exception( array(
+						'numeric'=>1,
+						'text'=>"Error binding database driver to foreign dbh",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));		    
+				}							    
+			}
+			
+			// Otherwise, generate a new dbh
+			// ==============================================================
+			
+			else {
+			    
+				try {
+					$this->db = new FOX_db_driver_mysql( array( 'db_host'=>$this->db_host,
+										    'db_name'=>$this->db_name,
+										    'db_user'=>$this->db_user,
+										    'db_pass'=>$this->db_pass,
+										    'charset'=>$this->charset,
+										    'collate'=>$this->collate				    
+					));
+				}
+				catch (BPM_exception $child) {
+
+					throw new BPM_exception( array(
+						'numeric'=>2,
+						'text'=>"Error in database driver while generating new dbh",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));		    
+				}			    			    
+			}
+			
+		    
+		}
+
+		// Allow the query builder and query runner to be injected
+		// if needed for testing
+		
+		if(FOX_sUtil::keyExists('builder', $args)){
+
+			$this->builder =& $args['builder'];
+		}
+		else {
+			$this->builder = new FOX_queryBuilder($this);		    
+		}
+		
+		if(FOX_sUtil::keyExists('runner', $args)){
+
+			$this->runner =& $args['runner'];
+		}
+		else {
+			$this->runner = new FOX_queryRunner($this);		    
+		}												
 
 		// Because our local stats variables are bound by reference to the host
 		// db instance, they automatically update
 
-		$this->num_queries =& $this->db->num_queries;
-		$this->num_rows =& $this->db->num_rows;
 		$this->rows_affected =& $this->db->rows_affected;
 		$this->insert_id =& $this->db->insert_id;
-		$this->last_error =& $this->db->last_error;
-		$this->last_query =& $this->db->last_query;
-		$this->last_result =& $this->db->last_result;
+
 	}
 
 
@@ -186,7 +228,7 @@ class FOX_db {
 
 		$this->in_transaction = true;
 
-		$db_result = mysql_query("START TRANSACTION", $this->dbh);
+		$db_result = $this->db->query("START TRANSACTION");
 
 		if($db_result){
 
@@ -249,7 +291,7 @@ class FOX_db {
 		// Otherwise, commit the transaction
 		// ===============================================================
 
-		$db_result = mysql_query("COMMIT", $this->dbh);
+		$db_result = $this->db->query("COMMIT");
 
 		if($db_result){
 
@@ -314,7 +356,7 @@ class FOX_db {
 		// Otherwise, rollback the transaction
 		// ===============================================================
 
-		$db_result = mysql_query("ROLLBACK", $this->dbh);
+		$db_result = $this->db->query("ROLLBACK");
 
 		if($db_result){
 

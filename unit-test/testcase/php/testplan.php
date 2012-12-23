@@ -123,59 +123,59 @@ class FOX_testPlan extends RAZ_testPlan_base {
 				array( "enable"=>true,	"name"=>"Op Left Join", "mock"=>array(), "file"=>"/tests/database/test_db.op.join.left.php" ),			    			    
 				array( "enable"=>true,	"name"=>"Op Tables", "mock"=>array(), "file"=>"/tests/database/test_db.op.table.php" ),
 				array( "enable"=>true,	"name"=>"Op Transactions", "mock"=>array(), "file"=>"/tests/database/test_db.op.transaction.php" ),
-//				array( "enable"=>true,	"name"=>"Op Update", "mock"=>array(), "file"=>"/tests/database/test_db.op.update.php" ),			    			    			    
+				array( "enable"=>true,	"name"=>"Op Update", "mock"=>array(), "file"=>"/tests/database/test_db.op.update.php" ),			    			    			    
 			),
 
-//			"memory_cache" => array(
-//				array( "enable"=>true,  "name"=>"Loopback", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.loopback.php" ),
-//				array( "enable"=>true,  "name"=>"Thread", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.thread.php" ),				    
-//				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php" ),	
-//			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php" ),
-//			    	array( "enable"=>false,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
-//			),
+			"memory_cache" => array(
+				array( "enable"=>true,  "name"=>"Loopback", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.loopback.php" ),
+				array( "enable"=>true,  "name"=>"Thread", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.thread.php" ),				    
+				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php" ),	
+			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php" ),
+			    	array( "enable"=>false,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
+			),
 		    
 			"base" => array(
-//				array( "enable"=>true,	 "name"=>"Validators",	"mock"=>array(), "file"=>"/tests/base_classes/test_base.datastore.validators.php" ),
-//			    
-//				array( "enable"=>true,	 "name"=>"L5 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_add.php" ),
-//				array( "enable"=>true,	 "name"=>"L5 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_set.php" ),
-//				array( "enable"=>true,	 "name"=>"L5 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_get.php" ),
-//				array( "enable"=>true,	 "name"=>"L5 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_replace.php" ),
-//				array( "enable"=>true,	 "name"=>"L5 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_drop.php" ),
-//				array( "enable"=>true,	 "name"=>"L5 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_global.php" ),			    
-//			    	array( "enable"=>false,	 "name"=>"L5 Paged (ACID)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_ACID.php" ),	
-//			    
-//				array( "enable"=>true,	 "name"=>"L4 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_add.php" ),
-//				array( "enable"=>true,	 "name"=>"L4 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_set.php" ),
-//				array( "enable"=>true,	 "name"=>"L4 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_get.php" ),
-//				array( "enable"=>true,	 "name"=>"L4 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_replace.php" ),
-//				array( "enable"=>true,	 "name"=>"L4 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_drop.php" ),
-//				array( "enable"=>true,	 "name"=>"L4 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_global.php" ),
-//			    
-//				array( "enable"=>true,	 "name"=>"L3 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_add.php" ),
-//				array( "enable"=>true,	 "name"=>"L3 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_set.php" ),
-//				array( "enable"=>true,	 "name"=>"L3 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_get.php" ),
-//				array( "enable"=>true,	 "name"=>"L3 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_replace.php" ),
-//				array( "enable"=>true,	 "name"=>"L3 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_drop.php" ),
-//				array( "enable"=>true,	 "name"=>"L3 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_global.php" ),
-//			    
-//				array( "enable"=>true,	 "name"=>"L2 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_add.php" ),
-//				array( "enable"=>true,	 "name"=>"L2 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_set.php" ),
-//				array( "enable"=>true,	 "name"=>"L2 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_get.php" ),
-//				array( "enable"=>true,	 "name"=>"L2 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_replace.php" ),
-//				array( "enable"=>true,	 "name"=>"L2 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_drop.php" ),
-//				array( "enable"=>true,	 "name"=>"L2 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_global.php" ),
-//			    
-//				array( "enable"=>true,	 "name"=>"L1 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_add.php" ),
-//				array( "enable"=>true,	 "name"=>"L1 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_set.php" ),
-//				array( "enable"=>true,	 "name"=>"L1 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_get.php" ),
-//				array( "enable"=>true,	 "name"=>"L1 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_replace.php" ),
-//				array( "enable"=>true,	 "name"=>"L1 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_drop.php" ),
-//				array( "enable"=>true,	 "name"=>"L1 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_global.php" ),			    
-//			    
-//				array( "enable"=>false,	 "name"=>"L3 Monolithic", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.store.monolithic.L3.php" ),			    
-//				array( "enable"=>false,  "name"=>"Module Manager", "mock"=>array(), "file"=>"/tests/base_classes/test_base.module.manager.php" ),
-//				array( "enable"=>false,  "name"=>"Dictionary Base", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.dictionary.php" )
+				array( "enable"=>true,	 "name"=>"Validators",	"mock"=>array(), "file"=>"/tests/base_classes/test_base.datastore.validators.php" ),
+			    
+				array( "enable"=>true,	 "name"=>"L5 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_add.php" ),
+				array( "enable"=>true,	 "name"=>"L5 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_set.php" ),
+				array( "enable"=>true,	 "name"=>"L5 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_get.php" ),
+				array( "enable"=>true,	 "name"=>"L5 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_replace.php" ),
+				array( "enable"=>true,	 "name"=>"L5 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_drop.php" ),
+				array( "enable"=>true,	 "name"=>"L5 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_global.php" ),			    
+			    	array( "enable"=>false,	 "name"=>"L5 Paged (ACID)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_ACID.php" ),	
+			    
+				array( "enable"=>false,	 "name"=>"L4 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_add.php" ),
+				array( "enable"=>false,	 "name"=>"L4 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_set.php" ),
+				array( "enable"=>false,	 "name"=>"L4 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_get.php" ),
+				array( "enable"=>false,	 "name"=>"L4 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_replace.php" ),
+				array( "enable"=>false,	 "name"=>"L4 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_drop.php" ),
+				array( "enable"=>false,	 "name"=>"L4 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_global.php" ),
+			    
+				array( "enable"=>false,	 "name"=>"L3 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_add.php" ),
+				array( "enable"=>false,	 "name"=>"L3 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_set.php" ),
+				array( "enable"=>false,	 "name"=>"L3 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_get.php" ),
+				array( "enable"=>false,	 "name"=>"L3 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_replace.php" ),
+				array( "enable"=>false,	 "name"=>"L3 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_drop.php" ),
+				array( "enable"=>false,	 "name"=>"L3 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L3/test_base.db.store.paged.L3_global.php" ),
+			    
+				array( "enable"=>false,	 "name"=>"L2 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_add.php" ),
+				array( "enable"=>false,	 "name"=>"L2 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_set.php" ),
+				array( "enable"=>false,	 "name"=>"L2 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_get.php" ),
+				array( "enable"=>false,	 "name"=>"L2 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_replace.php" ),
+				array( "enable"=>false,	 "name"=>"L2 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_drop.php" ),
+				array( "enable"=>false,	 "name"=>"L2 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L2/test_base.db.store.paged.L2_global.php" ),
+			    
+				array( "enable"=>false,	 "name"=>"L1 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_add.php" ),
+				array( "enable"=>false,	 "name"=>"L1 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_set.php" ),
+				array( "enable"=>false,	 "name"=>"L1 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_get.php" ),
+				array( "enable"=>false,	 "name"=>"L1 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_replace.php" ),
+				array( "enable"=>false,	 "name"=>"L1 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_drop.php" ),
+				array( "enable"=>false,	 "name"=>"L1 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L1/test_base.db.store.paged.L1_global.php" ),			    
+			    
+				array( "enable"=>false,	 "name"=>"L3 Monolithic", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.store.monolithic.L3.php" ),			    
+				array( "enable"=>false,  "name"=>"Module Manager", "mock"=>array(), "file"=>"/tests/base_classes/test_base.module.manager.php" ),
+				array( "enable"=>false,  "name"=>"Dictionary Base", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.dictionary.php" )
 			),
 
 			"store" => array(

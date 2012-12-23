@@ -17,24 +17,22 @@
 class FOX_db_driver_mysql {
 
 
-	var $rows_affected = 0;		// int		| Count of affected rows by previous query
-	var $insert_id = 0;		// int		| The ID generated for an AUTO_INCREMENT column by the previous query (usually INSERT).
-	var $last_result;		// array/null	| Results of the last query made
+	var $rows_affected = 0;		// Count of affected rows by previous query
+	var $insert_id = 0;		// The ID generated for an AUTO_INCREMENT column by the previous query (usually INSERT).
+	var $last_result;		// Results of the last query made
 
-	var $db_host;			// string	| Database Host
-	var $db_name;			// string	| Database Name
-	var $db_user;			// string	| Database User	Name
-	var $db_pass;			// string	| Database Password
+	var $db_host;			// Database Host
+	var $db_name;			// Database Name
+	var $db_user;			// Database User Name
+	var $db_pass;			// Database Password
 	
-	var $charset;			// string	| Database character set - symbols and encodings allowed to be stored to the db
-					//		| @see http://dev.mysql.com/doc/refman/5.0/en/charset-general.html
-					//		| @see http://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
+	var $charset;			// Database character set - symbols and encodings allowed to be stored to the db
+					// @see http://dev.mysql.com/doc/refman/5.0/en/charset-general.html
+					// @see http://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
 	
-	var $collation;			// string	| Database collation - rules used for ordering a character set
-					//		| @see http://dev.mysql.com/doc/refman/5.0/en/charset-collation-effect.html//
-					//		| @see http://dev.mysql.com/doc/refman/5.0/en/charset-collation-effect.html	
+	var $dbh;			// Database handle as used by PHP's mysql class
 	
-	var $dbh;			// int		| Database handle as returned by PHP's MySQL class
+	var $foreign_dbh;		// True if this instance is bound to a foreign dbh. False if not.
 
 
 	// #################################################################################################### //
@@ -57,6 +55,45 @@ class FOX_db_driver_mysql {
 	 */
 	
 	function __construct($args){	   
+		
+		
+		// CASE 1: Attach to a supplied database handle (typically $wpdb's $dbh)
+		// =======================================================================
+		if( !empty($args['dbh']) ){
+		    		
+			$this->dbh = $args['dbh'];
+			
+			// Set the foreign dbh flag to prevent the class destroying the SQL 
+			// server connection when self::__Destruct() is called
+			
+			$this->foreign_dbh = true;
+			
+			return true;
+			
+		}
+		
+		// CASE 2: Generate a new database handle
+		// =======================================================================
+		
+		// WARNING: PHP doesn't release a db connection handle until either the script finishes
+		// running, times-out, or the handle is explicitly released using mysql_close(). This
+		// isn't a problem for most WordPress plugins, because the WP core bootstraps $wpdb
+		// generating a db handle for the current PID, then everything connects through $wpdb, 
+		// sharing that handle.
+		// 
+		// It can be a MAJOR problem for advanced database work and/or unit testing:
+		// 
+		//  1) If a class instance is destroyed without closing its $dbh, the dbh might
+		//     be re-used, at random, by the next thread requesting a database handle
+		//     
+		//  2) Even if mysql_close($dbh) is placed inside the class' __destruct() method,
+		//     there's no guarantee that it will be reliably called in the event of an
+		//     unset($class_instance); or $class_instance = null;
+		// 
+		//  3) So if it's necessary to create a class instance using a unique database handle,
+		//     its crucial that $class_instance->__destruct() be called manually before
+		//     disposing of the class instance.
+		//
 		
 		
 		if(!FOX_sUtil::keyExists('db_host', $args)){
@@ -129,10 +166,11 @@ class FOX_db_driver_mysql {
 		$this->db_name = $args['db_name'];		
 		$this->db_user = $args['db_user'];
 		$this->db_pass = $args['db_pass'];
-		$this->charset = $args['charset'];
-		$this->collate = $args['collate'];		
+		$this->charset = $args['charset'];		
 		
-		$this->dbh = @mysql_connect($this->db_host, $this->db_user, $this->db_pass, true);
+		$this->dbh = mysql_connect($this->db_host, $this->db_user, $this->db_pass, true);		
+
+		//echo "\nSUCCESSFULLY OPENED PID: $this->dbh \n";
 
 		if(!$this->dbh){
 
@@ -150,8 +188,7 @@ class FOX_db_driver_mysql {
 		// of the old 'SET NAMES %s' + 'COLLATE %s' method
 		
 		mysql_set_charset($this->charset, $this->dbh);
-		
-		
+				
 		try {
 			$this->select($this->db_name, $this->dbh);
 		}
@@ -169,8 +206,8 @@ class FOX_db_driver_mysql {
 		return true;
 		
 	}
-
-
+	
+	
 	/**
 	 * Selects a database using the current database connection.
 	 *
@@ -257,7 +294,7 @@ class FOX_db_driver_mysql {
 			$result = $this->rows_affected;
 			
 		} 
-		else {
+		elseif( is_resource($sql_result) ){
 		    
 			$num_rows = 0;
 			$result = array();
@@ -266,13 +303,19 @@ class FOX_db_driver_mysql {
 			    
 				$result[$num_rows] = $row;
 				$num_rows++;
-			}
-			
-			// Prevent memory leakage
-			mysql_free_result($sql_result);	
-			
+			}				
 		}
-				
+		else {
+			return  $sql_result;
+		}
+		
+		// Prevent memory leakage
+		
+		if ( is_resource($sql_result) ){
+		    
+			mysql_free_result($sql_result);
+		}
+		
 		return $result;		
 		
 	}
@@ -497,6 +540,7 @@ class FOX_db_driver_mysql {
 		return $result;
 
 	}
+
 
 
 }
