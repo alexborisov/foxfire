@@ -2,7 +2,7 @@
 
 /**
  * FOXFIRE DB - MYSQL DRIVER
- * Exchanges data with a MySQL database via PHP's *deprecated* 'mysql' library 
+ * Exchanges data with a MySQL database via PHP's DEPRECATED 'mysql' library 
  * 
  * @version 1.0
  * @since 1.0
@@ -26,7 +26,13 @@ class FOX_db_driver_mysql {
 	var $db_user;			// string	| Database User	Name
 	var $db_pass;			// string	| Database Password
 	
-	var $charset;			// string	| Database table columns charset
+	var $charset;			// string	| Database character set - symbols and encodings allowed to be stored to the db
+					//		| @see http://dev.mysql.com/doc/refman/5.0/en/charset-general.html
+					//		| @see http://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
+	
+	var $collation;			// string	| Database collation - rules used for ordering a character set
+					//		| @see http://dev.mysql.com/doc/refman/5.0/en/charset-collation-effect.html//
+					//		| @see http://dev.mysql.com/doc/refman/5.0/en/charset-collation-effect.html	
 	
 	var $dbh;			// int		| Database handle as returned by PHP's MySQL class
 
@@ -50,14 +56,7 @@ class FOX_db_driver_mysql {
 	 * @return bool | Exception on failure. True on success.
 	 */
 	
-	function __construct($args){
-
-	    
-		$args_default = array(
-					'charset'=>'utf8'	
-		);
-		
-		$args = FOX_sUtil::parseArgs($args, $args_default);	
+	function __construct($args){	   
 		
 		
 		if(!FOX_sUtil::keyExists('db_host', $args)){
@@ -103,20 +102,42 @@ class FOX_db_driver_mysql {
 				'child'=>null
 			));			    
 		}
-		
-//		register_shutdown_function( array( &$this, '__destruct' ) );
 
+		if(!FOX_sUtil::keyExists('charset', $args)){
+
+			throw new FOX_exception( array(
+				'numeric'=>5,
+				'text'=>"Missing 'charset' parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			    
+		}
+		
+		if(!FOX_sUtil::keyExists('collate', $args)){
+
+			throw new FOX_exception( array(
+				'numeric'=>6,
+				'text'=>"Missing 'collate' parameter",
+				'data'=>$args,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			    
+		}		
+				
 		$this->db_host = $args['db_host'];
 		$this->db_name = $args['db_name'];		
 		$this->db_user = $args['db_user'];
 		$this->db_pass = $args['db_pass'];
+		$this->charset = $args['charset'];
+		$this->collate = $args['collate'];		
 		
 		$this->dbh = @mysql_connect($this->db_host, $this->db_user, $this->db_pass, true);
 
 		if(!$this->dbh){
 
 			throw new FOX_exception( array(
-				'numeric'=>5,
+				'numeric'=>7,
 				'text'=>"Failed to connect to SQL server",
 				'data'=>array('args'=>$args, 'dbh'=>$this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -134,10 +155,10 @@ class FOX_db_driver_mysql {
 		try {
 			$this->select($this->db_name, $this->dbh);
 		}
-		catch (BPM_exception $child) {
+		catch (FOX_exception $child) {
 
-			throw new BPM_exception( array(
-				'numeric'=>6,
+			throw new FOX_exception( array(
+				'numeric'=>8,
 				'text'=>"Error in self::select()",
 				'data'=>$args,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -191,11 +212,19 @@ class FOX_db_driver_mysql {
 	
 	function query($query){
 
+	    
+		if( empty($query) ){
 
-		$return_val = 0;
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Empty query",
+				'data'=>$query,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    
+		}
 
-		$this->result = @mysql_query( $query, $this->dbh );
-
+		$sql_result = mysql_query($query, $this->dbh);
 		$sql_error = mysql_error($this->dbh);
 		
 		if($sql_error){
@@ -203,43 +232,48 @@ class FOX_db_driver_mysql {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error while running query",
-				'data'=>array('query'=>$query, 'result'=>$this->result, 'error'=>$sql_error),
+				'data'=>array('query'=>$query, 'result'=>$sql_result, 'error'=>$sql_error),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));			    
 		}		
 
-		if( preg_match("/^\\s*(insert|delete|update|replace|alter) /i", $query) ){
+		if( preg_match( '/^\s*(create|alter|truncate|drop)\s/i', $query ) ){
+		    
+			$result = $sql_result;
+			
+		} 
+		elseif( preg_match( '/^\s*(insert|delete|update|replace)\s/i', $query ) ){
 		    
 			$this->rows_affected = mysql_affected_rows($this->dbh);
 			
 			// Take note of the insert_id
-			if( preg_match("/^\\s*(insert|replace) /i", $query) ){
+			if( preg_match( '/^\s*(insert|replace)\s/i', $query) ){
 			    
 				$this->insert_id = mysql_insert_id($this->dbh);
 			}
 			
 			// Return number of rows affected
-			$return_val = $this->rows_affected;
+			$result = $this->rows_affected;
 			
 		} 
 		else {
-
+		    
 			$num_rows = 0;
+			$result = array();
 			
-			while( $row = @mysql_fetch_object($this->result) ){
+			while( $row = mysql_fetch_object($sql_result) ){
 			    
-				$this->last_result[$num_rows] = $row;
+				$result[$num_rows] = $row;
 				$num_rows++;
 			}
-
-			@mysql_free_result($this->result);
-
-			$return_val = $num_rows;
+			
+			// Prevent memory leakage
+			mysql_free_result($sql_result);	
 			
 		}
-
-		return $return_val;
+				
+		return $result;		
 		
 	}
 
@@ -260,14 +294,25 @@ class FOX_db_driver_mysql {
 	
 	function get_var($query, $x=0, $y=0){
 	    
+	    
+		if( empty($query) ){
 
-		try {
-			$this->query($query);
-		}
-		catch (BPM_exception $child) {
-
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
+				'text'=>"Empty query",
+				'data'=>$query,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    
+		}
+		
+		try {
+			$query_result = $this->query($query);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
 				'text'=>"Error in self::query()",
 				'data'=>$query,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -277,9 +322,9 @@ class FOX_db_driver_mysql {
 
 		// Extract var out of cached query results 
 		
-		if( !empty($this->last_result[$y]) ){
+		if( !empty($query_result[$y]) ){
 		    
-			$values = array_values( get_object_vars($this->last_result[$y]) );
+			$values = array_values( get_object_vars($query_result[$y]) );
 		}
 
 		
@@ -308,13 +353,24 @@ class FOX_db_driver_mysql {
 	function get_row($query, $y=0 ){
 
 	    
-		try {
-			$this->query($query);
-		}
-		catch (BPM_exception $child) {
+		if( empty($query) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
+				'text'=>"Empty query",
+				'data'=>$query,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    
+		}
+		
+		try {
+			$query_result = $this->query($query);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
 				'text'=>"Error in self::query()",
 				'data'=>$query,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -324,9 +380,9 @@ class FOX_db_driver_mysql {
 
 		// Extract var out of cached query results 
 		
-		if( !empty($this->last_result[$y]) ){
+		if( !empty($query_result[$y]) ){
 		    
-			return $this->last_result[$y];
+			return $query_result[$y];
 		}
 		else {
 			return null;
@@ -350,13 +406,24 @@ class FOX_db_driver_mysql {
 	function get_col($query, $x=0 ){
 
 	    
-		try {
-			$this->query($query);
-		}
-		catch (BPM_exception $child) {
+		if( empty($query) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
+				'text'=>"Empty query",
+				'data'=>$query,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    
+		}
+		
+		try {
+			$query_result = $this->query($query);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
 				'text'=>"Error in self::query()",
 				'data'=>$query,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -368,10 +435,21 @@ class FOX_db_driver_mysql {
 		
 		// Extract the column values
 		
-		for( $i = 0, $j = count($this->last_result); $i < $j; $i++ ) {
-		    
-			$result[$i] = $this->get_var(null, $x, $i);
-		}
+		for( $y = 0, $j = count($query_result); $y < $j; $y++ ) {		    
+			
+			if( !empty($query_result[$y]) ){
+
+				$values = array_values( get_object_vars($query_result[$y]) );
+				
+				if( isset( $values[$x] ) && $values[$x] !== '' ){
+
+					$result[$y] = $values[$x];
+				}
+				else {
+					$result[$y] = null;
+				}				
+			}			
+		}		
 		
 		return $result;
 		
@@ -390,13 +468,24 @@ class FOX_db_driver_mysql {
 	function get_results($query){
 
 	    
-		try {
-			$this->query($query);
-		}
-		catch (BPM_exception $child) {
+		if( empty($query) ){
 
-			throw new BPM_exception( array(
+			throw new FOX_exception( array(
 				'numeric'=>1,
+				'text'=>"Empty query",
+				'data'=>$query,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    
+		}
+		
+		try {
+			$result = $this->query($query);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
 				'text'=>"Error in self::query()",
 				'data'=>$query,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -405,7 +494,7 @@ class FOX_db_driver_mysql {
 		}
 
 		
-		return $this->last_result;
+		return $result;
 
 	}
 

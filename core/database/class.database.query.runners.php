@@ -182,7 +182,19 @@ class FOX_queryRunner {
 
 		    case "var" : {
 
-			    $result = $this->parent->db->get_var($sql);
+			    try {
+				    $result = $this->parent->db->get_var($sql);
+			    }    
+			    catch (FOX_exception $child) {
+
+				    throw new FOX_exception( array(
+					    'numeric'=>2,
+					    'text'=>"Error in database driver",
+					    'data'=>array('query'=>$query, 'sql'=>$sql),
+					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					    'child'=>$child
+				    ));		    
+			    }
 
 			    if($this->parent->print_result_raw == true){
 				    ob_start();
@@ -216,8 +228,20 @@ class FOX_queryRunner {
 		    // RESULT: array("red", "green", "blue", "black")
 
 		    case "col" : {
+			    			    
+			    try {
+				    $result = $this->parent->db->get_col($sql);
+			    }    
+			    catch (FOX_exception $child) {
 
-			    $result = $this->parent->db->get_col($sql);
+				    throw new FOX_exception( array(
+					    'numeric'=>3,
+					    'text'=>"Error in database driver",
+					    'data'=>array('query'=>$query, 'sql'=>$sql),
+					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					    'child'=>$child
+				    ));		    
+			    }			    
 
 			    if($this->parent->print_result_raw == true){
 				    ob_start();
@@ -544,7 +568,7 @@ class FOX_queryRunner {
 		    case "array_key_array" : {
 
 			    $data = $this->parent->db->get_results($sql);
-//var_dump($data); die;
+
 			    if($this->parent->print_result_raw == true){
 				    ob_start();
 				    echo "RAW, format = array_key_array\n";

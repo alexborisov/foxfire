@@ -90,25 +90,48 @@ class FOX_db {
 		}
 		else {	
 		    
-			global $wpdb;			
+			global $table_prefix;
 			
-//			$this->db = new FOX_db_driver_mysql( array(
-//								    'db_host'=>$wpdb->dbhost,
-//								    'db_name'=>$wpdb->dbname,
-//								    'db_user'=>$wpdb->dbuser,
-//								    'db_pass'=>$wpdb->dbpassword,
-//								    'charset'=>$wpdb->charset,			    			    
-//			));
-//
-//			$this->dbh =& $this->db->dbh;
-//			$this->base_prefix =& $wpdb->base_prefix;
-//			$this->charset =& $this->db->charset;
+			$this->base_prefix =& $table_prefix;
 			
-			$this->db =& $wpdb;
-			$this->dbh =& $wpdb->dbh;
-			$this->base_prefix =& $wpdb->base_prefix;
-			$this->charset =& $wpdb->charset;
-			$this->collate =& $wpdb->collate;
+			if ( defined( 'DB_CHARSET' ) ){
+			    
+				$this->charset = DB_CHARSET;
+			}
+			else {
+				$this->charset = 'utf8';
+			}
+			
+			if( defined('DB_COLLATE') && DB_COLLATE ){
+			    
+				$this->collate = DB_COLLATE;
+			}
+			else {
+				$this->collate = 'utf8_general_ci';
+			}
+
+			try {
+				$this->db = new FOX_db_driver_mysql( array(
+									    'db_host'=>DB_HOST,
+									    'db_name'=>DB_NAME,
+									    'db_user'=>DB_USER,
+									    'db_pass'=>DB_PASSWORD,
+									    'charset'=>$this->charset,
+									    'collate'=>$this->collate				    
+				));
+			}
+			catch (BPM_exception $child) {
+
+				throw new BPM_exception( array(
+					'numeric'=>1,
+					'text'=>"Error loading driver",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}
+		
+			$this->dbh =& $this->db->dbh;
+
 			$this->builder = new FOX_queryBuilder($this);
 			$this->runner = new FOX_queryRunner($this);			
 			
@@ -855,7 +878,7 @@ class FOX_db {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error executing query on SQL server",
-				'data'=>array("struct"=>$struct, "col"=>$col, "op"=>$op, "val"=>$val,
+				'data'=>array("query"=>$query, "col"=>$col, "op"=>$op, "val"=>$val,
 					      "columns"=>$columns, "ctrl"=>$ctrl),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child

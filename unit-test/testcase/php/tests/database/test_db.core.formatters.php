@@ -166,7 +166,7 @@ class database_resultFormatters extends RAZ_testCase {
 		}
 		catch (FOX_exception $child) {
 		    
-			$this->fail($child->dumpString(1));		    
+			$this->fail($child->dumpString(array('depth'=>5, 'data'=>true)));		    
 		}
 		
 		$this->assertEquals($data_check, $result);
