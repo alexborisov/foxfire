@@ -185,6 +185,7 @@ else {
 	// ===============================================================
 	
 	require ( dirname( __FILE__ ) . '/database/class.database.driver.mysql.php' );	
+	require ( dirname( __FILE__ ) . '/database/class.database.driver.mysql_i.php' );	
 	require ( dirname( __FILE__ ) . '/database/class.database.core.php' );
 	require ( dirname( __FILE__ ) . '/database/class.database.query.builders.php' );
 	require ( dirname( __FILE__ ) . '/database/class.where.matrix.php' );

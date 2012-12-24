@@ -1,20 +1,20 @@
 <?php
 
 /**
- * FOXFIRE DB - MYSQL DRIVER
- * Exchanges data with a MySQL database via PHP's DEPRECATED 'mysql' library 
+ * FOXFIRE DB - MYSQLI DRIVER
+ * Exchanges data with a MySQL database via PHP's 'mysqli' library 
  * 
  * @version 1.0
  * @since 1.0
  * @package FoxFire
- * @subpackage Database Driver mysql
+ * @subpackage Database Driver mysqli
  * @license GPL v2.0
  * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class FOX_db_driver_mysql {
+class FOX_db_driver_mysql_i {
 
 
 	var $rows_affected = 0;		// Count of affected rows by previous query
@@ -29,7 +29,7 @@ class FOX_db_driver_mysql {
 					// @see http://dev.mysql.com/doc/refman/5.0/en/charset-general.html
 					// @see http://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
 	
-	var $dbh;			// Database handle as used by PHP's mysql class
+	var $dbh;			// Database handle as used by PHP's mysqli class
 	
 	var $foreign_dbh;		// True if this instance is bound to a foreign dbh. False if not.
 
@@ -93,7 +93,7 @@ class FOX_db_driver_mysql {
 		//     its crucial that $class_instance->__destruct() be called manually before
 		//     disposing of the class instance.
 		//
-		
+	
 		
 		if(!FOX_sUtil::keyExists('db_host', $args)){
 
@@ -167,9 +167,8 @@ class FOX_db_driver_mysql {
 		$this->db_pass = $args['db_pass'];
 		$this->charset = $args['charset'];		
 		
-		$this->dbh = mysql_connect($this->db_host, $this->db_user, $this->db_pass, true);		
-
-		//echo "\nSUCCESSFULLY OPENED PID: $this->dbh \n";
+		$this->dbh = new mysqli($this->db_host, $this->db_user, $this->db_pass, $this->db_name);
+		
 
 		if(!$this->dbh){
 
@@ -665,50 +664,6 @@ class FOX_db_driver_mysql {
 		}
 
 
-	}
-	
-	
-	/**
-	 * Escapes content by reference for insertion into the database, for security
-	 *
-         * @version 1.0
-         * @since 1.0
-	 * @param string $string to escape
-	 * @return void
-	 */
-	function escape_by_ref(&$string){
-	    
-		$string = mysql_real_escape_string($string, $this->dbh);
-	}
-		
-	
-	/**
-	 * Prepares a SQL query for safe execution. Uses sprintf()-like syntax.
-	 * 
-         * @version 1.0
-         * @since 1.0
-         *
-         * @param array $args | Query args array
-	 *	=> VAL @param string [0] | First key in array is query string in vsprintf() format
-	 *	=> VAL @param mixed  [N] | Each successive key is a var referred to in the query string
-	 *
-         * @return string | Prepared query string	 
-	 */
-	
-	function prepare($args){
-
-		$query = array_shift($args);
-		
-		// Force floats to be locale unaware
-		$query = preg_replace( '|(?<!%)%f|' , '%F', $query ); // Force floats to be locale unaware
-		
-		// Quote the strings, avoiding escaped strings like %%s
-		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); 
-
-		array_walk($args, array(&$this, 'escape_by_ref'));
-
-		return @vsprintf($query, $args);
-		
 	}
 	
 

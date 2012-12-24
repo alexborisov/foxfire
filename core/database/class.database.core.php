@@ -102,7 +102,7 @@ class FOX_db {
 		$this->charset = $args['charset'];
 		$this->collate = $args['collate'];
 		$this->base_prefix = $args['base_prefix'];
-		
+					
 
 		// If we've been passed a db driver instance, use it
 		// ======================================================

@@ -39,50 +39,6 @@ class FOX_queryRunner {
 
 	
 	/**
-	 * Escapes content by reference for insertion into the database, for security
-	 *
-         * @version 1.0
-         * @since 1.0
-	 * @param string $string to escape
-	 * @return void
-	 */
-	function escape_by_ref(&$string){
-	    
-		$string = mysql_real_escape_string($string, $this->parent->dbh);
-	}
-		
-	
-	/**
-	 * Prepares a SQL query for safe execution. Uses sprintf()-like syntax.
-	 * 
-         * @version 1.0
-         * @since 1.0
-         *
-         * @param array $args | Query args array
-	 *	=> VAL @param string [0] | First key in array is query string in vsprintf() format
-	 *	=> VAL @param mixed  [N] | Each successive key is a var referred to in the query string
-	 *
-         * @return string | Prepared query string	 
-	 */
-	
-	function prepare($args){
-
-		$query = array_shift($args);
-		
-		// Force floats to be locale unaware
-		$query = preg_replace( '|(?<!%)%f|' , '%F', $query ); // Force floats to be locale unaware
-		
-		// Quote the strings, avoiding escaped strings like %%s
-		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); 
-
-		array_walk($args, array(&$this, 'escape_by_ref'));
-
-		return @vsprintf($query, $args);
-		
-	}
-	
-	
-	/**
          * Runs a query on the database. Returns results in a specific format.
          *
          * @version 1.0
@@ -145,7 +101,7 @@ class FOX_queryRunner {
 
 		if( is_array($query) ){
 
-			$sql = self::prepare($query["query"]);			
+			$sql = $this->parent->db->prepare($query["query"]);			
 		}
 		else {
 			$sql = $query;
