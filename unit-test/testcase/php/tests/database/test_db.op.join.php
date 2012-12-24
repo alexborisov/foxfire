@@ -265,6 +265,8 @@ class database_runSelectQueryJoin extends RAZ_testCase {
 
                 $check_array = array($data_check);
 
+		var_dump($result);
+		var_dump($check_array); die;
                 $this->assertEquals($check_array, $result);				
 		
 	}

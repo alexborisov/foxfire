@@ -700,7 +700,7 @@ class FOX_db_driver_mysql {
 		$query = array_shift($args);
 		
 		// Force floats to be locale unaware
-		$query = preg_replace( '|(?<!%)%f|' , '%F', $query ); // Force floats to be locale unaware
+		$query = preg_replace( '|(?<!%)%f|' , '%F', $query );
 		
 		// Quote the strings, avoiding escaped strings like %%s
 		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); 

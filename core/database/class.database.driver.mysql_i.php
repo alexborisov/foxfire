@@ -666,6 +666,50 @@ class FOX_db_driver_mysql_i {
 
 	}
 	
+	
+	/**
+	 * Escapes content by reference for insertion into the database, for security
+	 *
+         * @version 1.0
+         * @since 1.0
+	 * @param string $string to escape
+	 * @return void
+	 */
+	function escape_by_ref(&$string){
+	    
+		// NOTE: parameters are in reverse order from mysql_real_escape_string()	    
+		$string = mysqli_real_escape_string($this->dbh, $string);
+	}
+		
+	
+	/**
+	 * Prepares a SQL query for safe execution. Uses sprintf()-like syntax.
+	 * 
+         * @version 1.0
+         * @since 1.0
+         *
+         * @param array $args | Query args array
+	 *	=> VAL @param string [0] | First key in array is query string in vsprintf() format
+	 *	=> VAL @param mixed  [N] | Each successive key is a var referred to in the query string
+	 *
+         * @return string | Prepared query string	 
+	 */
+	
+	function prepare($args){
+
+		$query = array_shift($args);
+		
+		// Force floats to be locale unaware
+		$query = preg_replace( '|(?<!%)%f|' , '%F', $query );
+		
+		// Quote the strings, avoiding escaped strings like %%s
+		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); 
+
+		array_walk($args, array(&$this, 'escape_by_ref'));
+
+		return @vsprintf($query, $args);
+		
+	}	
 
 }
 
