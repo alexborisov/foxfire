@@ -215,7 +215,7 @@ class FOX_db {
 			
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Database is already in a transaction. \n",
+				'text'=>"Database is already in a transaction",
 				'data'=> array("handle" => $this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
@@ -227,19 +227,18 @@ class FOX_db {
 		// ===============================================================
 
 		$this->in_transaction = true;
-
-		$db_result = $this->db->query("START TRANSACTION");
-
-		if($db_result){
-
+		
+		try {
+			$this->db->beginTransaction();
+			
 			if($this->print_query_sql == true){
 				FOX_debug::addToFile("START TRANSACTION (SUCCESS)");
 			}
 
-			return (bool)$db_result;
-
+			return true;	
+			
 		}
-		else {
+		catch (FOX_exception $child) {
 
 			if($this->print_query_sql == true){
 				FOX_debug::addToFile("START TRANSACTION FAILED (DATABASE ERROR)");
@@ -247,13 +246,12 @@ class FOX_db {
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Database failed to start a transaction, \n",
-				'data'=> array("handle"=>$this->dbh, "result"=>$db_result),
+				'text'=>"Database failed to start a transaction",
+				'data'=> array("handle"=>$this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-
+				'child'=>$child
+			));	    
+		}		
 
 	}
 
@@ -280,7 +278,7 @@ class FOX_db {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Database not currently in a transaction. \n",
+				'text'=>"Database not currently in a transaction",
 				'data'=> array("handle" => $this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
@@ -291,20 +289,19 @@ class FOX_db {
 		// Otherwise, commit the transaction
 		// ===============================================================
 
-		$db_result = $this->db->query("COMMIT");
-
-		if($db_result){
-
+		try {
+			$this->db->commitTransaction();
+			
 			$this->in_transaction = false;
 
 			if($this->print_query_sql == true){
 				FOX_debug::addToFile("COMMIT TRANSACTION (SUCCESS)");
 			}
 
-			return (bool)$db_result;
-
+			return true;	
+			
 		}
-		else {
+		catch (FOX_exception $child) {
 
 			if($this->print_query_sql == true){
 				FOX_debug::addToFile("COMMIT TRANSACTION FAILED (DATABASE ERROR)");
@@ -312,13 +309,13 @@ class FOX_db {
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Database failed to commit the transaction, \n",
-				'data'=> array("handle"=>$this->dbh, "result"=>$db_result),
+				'text'=>"Database failed to commit the transaction",
+				'data'=> array("handle"=>$this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
+				'child'=>$child
+			));	    
 		}
-
+		
 
 	}
 
@@ -345,7 +342,7 @@ class FOX_db {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Database not currently in a transaction. \n",
+				'text'=>"Database not currently in a transaction",
 				'data'=> array("handle" => $this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
@@ -356,20 +353,19 @@ class FOX_db {
 		// Otherwise, rollback the transaction
 		// ===============================================================
 
-		$db_result = $this->db->query("ROLLBACK");
-
-		if($db_result){
-
+		try {
+			$this->db->rollbackTransaction();
+			
 			$this->in_transaction = false;
 
 			if($this->print_query_sql == true){
 				FOX_debug::addToFile("ROLLBACK TRANSACTION (SUCCESS)");
 			}
 
-			return (bool)$db_result;
-
+			return true;	
+			
 		}
-		else {
+		catch (FOX_exception $child) {
 
 			if($this->print_query_sql == true){
 				FOX_debug::addToFile("ROLLBACK TRANSACTION FAILED (DATABASE ERROR)");
@@ -377,11 +373,11 @@ class FOX_db {
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Database failed to rollback transaction. \n",
-				'data'=> array("handle"=>$this->dbh, "result"=>$db_result),
+				'text'=>"Database failed to rollback transaction",
+				'data'=> array("handle"=>$this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
+				'child'=>$child
+			));	    
 		}
 
 

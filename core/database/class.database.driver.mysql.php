@@ -542,6 +542,132 @@ class FOX_db_driver_mysql {
 	}
 
 
+	/**
+         * Starts an SQL transaction. Note that only InnoDB tables currently support transactions.
+         *
+         * @version 1.0
+         * @since 1.0
+         * @return bool | Exception on failure. True on success.
+         */
+
+	public function beginTransaction(){
+
+		
+		try {
+			$db_result = self::query("START TRANSACTION");
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error in self::query()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+		
+		if($db_result){
+
+			return true;
+		}
+		else {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Database failed to start a transaction, \n",
+				'data'=> array("result"=>$db_result),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+	}
+
+
+	/**
+         * Commits an SQL transaction. Note that only InnoDB tables currently support transactions.
+         *
+         * @version 1.0
+         * @since 1.0
+         * @return bool | Exception on failure. True on success.
+         */
+
+	public function commitTransaction(){
+
+
+		try {
+			$db_result = self::query("COMMIT");
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error in self::query()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+		
+		if($db_result){
+
+			return true;
+		}
+		else {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Database failed to commit the transaction, \n",
+				'data'=> array("result"=>$db_result),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+	}
+
+
+	/**
+         * Rolls back a SQL transaction. Note that only InnoDB tables currently support transactions.
+         *
+         * @version 1.0
+         * @since 1.0
+         * @return bool | Exception on failure. True on success.
+         */
+
+	public function rollbackTransaction(){
+
+
+		try {
+			$db_result = self::query("ROLLBACK");
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error in self::query()",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+		
+		if($db_result){
+
+			return true;
+		}
+		else {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Database failed to rollback transaction. \n",
+				'data'=> array("result"=>$db_result),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+
+	}
+	
 
 }
 
