@@ -264,9 +264,6 @@ class database_runSelectQueryJoin extends RAZ_testCase {
                 $data_check->space = "4444";
 
                 $check_array = array($data_check);
-
-		var_dump($result);
-		var_dump($check_array); die;
                 $this->assertEquals($check_array, $result);				
 		
 	}

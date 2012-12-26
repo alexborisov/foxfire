@@ -22,12 +22,6 @@ class FOX_queryBuilder {
 	// ============================================================================================================ //
 
 
-	function FOX_queryBuilder(&$parent_class) {
-
-		$this->__construct($parent_class);
-	}
-
-
 	function __construct(&$parent_class){
 
 		// We link the $parent var inside this class to the instance of the parent class passed in
@@ -481,7 +475,11 @@ class FOX_queryBuilder {
 			// Add all primary table columns to the typecast array
 			foreach( $primary_struct["columns"] as $name => $params){
 
-				$type_cast[$this->parent->base_prefix . $primary_struct["table"] . "." . $name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+				// NOTE: MySQL automatically strips the table prefix off the key names in the returned
+				// result, so if we request primaryTableName.colName_1, the result back from the SQL
+				// server will be colName_1 => value
+			    
+				$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
 			}
 
 		}
@@ -507,7 +505,12 @@ class FOX_queryBuilder {
 					if( array_search($name, $columns["col"] ) !== false) {
 
 						$select_columns[] = $this->parent->base_prefix . $primary_struct["table"] . "." . $name;
-						$type_cast[$this->parent->base_prefix . $primary_struct["table"] . "." . $name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+						
+						// NOTE: MySQL automatically strips the table prefix off the key names in the returned
+						// result, so if we request primaryTableName.colName_1, the result back from the SQL
+						// server will be colName_1 => value
+						
+						$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
 					}
 				}
 				elseif ($columns["mode"] == "exclude"){
@@ -515,7 +518,7 @@ class FOX_queryBuilder {
 					if( array_search($name, $columns["col"] ) === false) {
 
 						$select_columns[] = $this->parent->base_prefix . $primary_struct["table"] . "." . $name;
-						$type_cast[$this->parent->base_prefix . $primary_struct["table"] . "." . $name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+						$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
 					}
 				}
 
