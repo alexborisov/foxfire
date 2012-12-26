@@ -60,6 +60,13 @@ class FOX_queryRunner {
 	public function runQuery($query, $ctrl=null){
 
 
+		$ctrl_default = array(
+					'format'=>'raw',		    
+		);
+
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);
+		
+		
 		if($this->parent->print_query_args == true){
 
 			ob_start();
@@ -67,32 +74,6 @@ class FOX_queryRunner {
 			print_r($ctrl);
 			$out = ob_get_clean();
 			FOX_debug::addToFile($out);
-		}
-
-		// Trap invalid return formats
-		// ==============================
-
-		$valid_formats = array(
-					"1" =>	"col",
-					"2" =>	"row",
-					"3" =>	"var",
-					"4" =>	"array_key_object",
-					"5" =>	"array_key_array",
-					"6" =>	"array_key_single",
-					"7" =>	"array_object",
-					"8" =>	"array_array",
-					"10" =>	"raw",
-					"11" =>	null,
-		);
-
-		if( array_search( $ctrl["format"], $valid_formats) === null) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'data'=>array('faulting_format'=>$ctrl["format"],"query"=>$query, "ctrl"=>$ctrl),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
 		}
 
 		// Handle single parameter as string/int, or multiple
@@ -105,7 +86,7 @@ class FOX_queryRunner {
 		}
 		else {
 			$sql = $query;
-			$ctrl = array("format"=>null);
+			$ctrl = array("format"=>"raw");
 		}
 
 
@@ -1259,12 +1240,12 @@ class FOX_queryRunner {
 
 		    } break;
 
-
-		    // (NULL)
+		    
+		    // RAW
 		    // =============================================================================
 		    // Runs a default SQL query. Returned result format depends on the query.
 
-		    default : {			    			   			   
+		    case "raw" : {			    			   			   
 
 			    try {
 				    $result = $this->parent->db->query($sql);
@@ -1290,6 +1271,17 @@ class FOX_queryRunner {
 			    }
 
 		    } break;
+		    
+		    default : {
+			
+			    throw new FOX_exception( array(
+				    'numeric'=>1,
+				    'data'=>array('faulting_format'=>$ctrl["format"],"query"=>$query, "ctrl"=>$ctrl),
+				    'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				    'child'=>null
+			    ));
+			
+		    }
 
 
 		} // END switch($ctrl["format"])
