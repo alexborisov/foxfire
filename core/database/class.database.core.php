@@ -31,8 +31,6 @@ class FOX_db {
 
 	var $in_transaction = false;		    // True if this instance is engaged in a transaction
 
-	var $num_queries = 0;			    // Number of queries made since this instance was created
-	var $num_rows = 0;			    // Count of rows returned by the last query (SELECT)
 	var $rows_affected = 0;			    // Count of rows affected by the last query (INSERT, UPDATE, DELETE)
 
 	var $insert_id = 0;			    // The ID generated for an AUTO_INCREMENT column by the last INSERT or 
@@ -43,10 +41,6 @@ class FOX_db {
 	var $auto_increment_increment = 1;	    // The auto-increment increment value used by the SQL server. Value should
 						    // always be (int)1 unless a massive replication setup is being used
 						    // @link http://dev.mysql.com/doc/refman/5.5/en/replication-options-master.html#sysvar_auto_increment_increment
-
-	var $last_error = '';			    // The last error returned by SQL server
-	var $last_query;			    // Full SQL string of the last query made
-	var $last_result;			    // Results of the last query made
 
 	var $builder;				    // Query generator object
 	var $runner;				    // Query runner object
@@ -77,6 +71,14 @@ class FOX_db {
 	    
 		// Hybrid dependency injection. If no dependencies are injected as args, the constructor
 		// uses the wp global variables and singletons.
+	    
+		if( class_exists('mysqli') ){
+		    
+			$default_api = 'mysqli';
+		}
+		else {
+			$default_api = 'mysql';		    
+		}
 	    	
 		global $table_prefix;
 	    
@@ -88,7 +90,8 @@ class FOX_db {
 					'db_pass'=> DB_PASSWORD,
 					'charset'=> (defined( 'DB_CHARSET' ) ? DB_CHARSET : 'utf8'),
 					'collate'=> (defined( 'DB_COLLATE' ) ? DB_COLLATE : 'utf8_general_ci'),
-					'base_prefix'=>$table_prefix		    
+					'base_prefix'=>$table_prefix,
+					'api'=>$default_api
 		);
 
 		$args = FOX_sUtil::parseArgs($args, $args_default);
@@ -112,7 +115,9 @@ class FOX_db {
 		}
 		else {
 		    
-			// If we're in 'bind' mode, use the wp database singleton's dbh
+			// If we're in 'bind' mode, use the wp database singleton's dbh. Note
+			// that we can only use the deprecated 'mysql' API in this case, because
+			// the WordPress db singleton uses that API.
 			// ==============================================================
 		    
 			if($args['dbh_mode'] == 'bind'){
@@ -140,24 +145,80 @@ class FOX_db {
 			
 			else {
 			    
-				try {
-					$this->db = new FOX_db_driver_mysql( array( 'db_host'=>$this->db_host,
-										    'db_name'=>$this->db_name,
-										    'db_user'=>$this->db_user,
-										    'db_pass'=>$this->db_pass,
-										    'charset'=>$this->charset,
-										    'collate'=>$this->collate				    
-					));
-				}
-				catch (BPM_exception $child) {
+				switch($args["api"]){
 
-					throw new BPM_exception( array(
-						'numeric'=>2,
-						'text'=>"Error in database driver while generating new dbh",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));		    
-				}			    			    
+				    // MYSQL
+				    // =============================================================================
+				    // PHP's deprecaded 'mysql' API
+
+				    case "mysql" : {
+
+					    try {
+						    $this->db = new FOX_db_driver_mysql( array( 'db_host'=>$this->db_host,
+												'db_name'=>$this->db_name,
+												'db_user'=>$this->db_user,
+												'db_pass'=>$this->db_pass,
+												'charset'=>$this->charset,
+												'collate'=>$this->collate				    
+						    ));
+					    }
+					    catch (BPM_exception $child) {
+
+						    throw new BPM_exception( array(
+							    'numeric'=>2,
+							    'text'=>"Error connecting to 'mysql' database api",
+							    'data'=>$args,
+							    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							    'child'=>$child
+						    ));		    
+					    }
+
+				    } break;
+				
+				    // MYSQL_I
+				    // =============================================================================
+				    // PHP's current 'mysqli' API
+
+				    case "mysqli" : {
+
+					    try {
+						    $this->db = new FOX_db_driver_mysqli( array('db_host'=>$this->db_host,
+												'db_name'=>$this->db_name,
+												'db_user'=>$this->db_user,
+												'db_pass'=>$this->db_pass,
+												'charset'=>$this->charset,
+												'collate'=>$this->collate				    
+						    ));
+					    }
+					    catch (BPM_exception $child) {
+
+						    throw new BPM_exception( array(
+							    'numeric'=>3,
+							    'text'=>"Error connecting to 'mysqli' database api",
+							    'data'=>$args,
+							    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							    'child'=>$child
+						    ));		    
+					    }
+
+				    } break;
+				
+				    default : {
+
+					    throw new FOX_exception( array(
+						    'numeric'=>4,
+						    'text'=>"Invalid database API paramater",
+						    'data'=>$args,
+						    'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						    'child'=>null
+					    ));
+
+				    }
+		    				
+				}		    
+				    
+
+								
 			}
 			
 		    

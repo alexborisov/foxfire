@@ -125,7 +125,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>2,
+					    'numeric'=>1,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -172,7 +172,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>3,
+					    'numeric'=>2,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -226,7 +226,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>4,
+					    'numeric'=>3,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -281,7 +281,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>5,
+					    'numeric'=>4,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -391,7 +391,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>6,
+					    'numeric'=>5,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -546,7 +546,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>7,
+					    'numeric'=>6,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -713,7 +713,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>8,
+					    'numeric'=>7,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -838,7 +838,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>9,
+					    'numeric'=>8,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -955,7 +955,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>10,
+					    'numeric'=>9,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1045,7 +1045,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>11,
+					    'numeric'=>10,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1118,7 +1118,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>12,
+					    'numeric'=>11,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1180,7 +1180,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>13,
+					    'numeric'=>12,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1253,7 +1253,7 @@ class FOX_queryRunner {
 			    catch (FOX_exception $child) {
 
 				    throw new FOX_exception( array(
-					    'numeric'=>14,
+					    'numeric'=>13,
 					    'text'=>"Error in database driver",
 					    'data'=>array('query'=>$query, 'sql'=>$sql),
 					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1275,7 +1275,8 @@ class FOX_queryRunner {
 		    default : {
 			
 			    throw new FOX_exception( array(
-				    'numeric'=>1,
+				    'numeric'=>14,
+				    'text'=>"Invalid query runner format",				
 				    'data'=>array('faulting_format'=>$ctrl["format"],"query"=>$query, "ctrl"=>$ctrl),
 				    'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				    'child'=>null
