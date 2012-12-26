@@ -18,7 +18,6 @@ class FOX_db {
 
 
 	var $db;				    // Local copy of database singleton
-	var $dbh;				    // MySQL connection handle for this instance
 
 	var $base_prefix;			    // Base prefix for database tables
 	
@@ -110,7 +109,6 @@ class FOX_db {
 		if(FOX_sUtil::keyExists('db', $args)){
 
 			$this->db =& $args['db'];
-			$this->dbh =& $this->db->dbh;
 		}
 		else {
 		    
@@ -120,10 +118,9 @@ class FOX_db {
 			if($args['dbh_mode'] == 'bind'){
 
 				global $wpdb;
-				$this->dbh =& $wpdb->dbh;
 
 				try {
-					$this->db = new FOX_db_driver_mysql( array( 'dbh'=>$this->dbh,				    
+					$this->db = new FOX_db_driver_mysql( array( 'dbh'=>$wpdb->dbh,				    
 										    'charset'=>$this->charset			    
 					));
 				}
@@ -216,7 +213,6 @@ class FOX_db {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Database is already in a transaction",
-				'data'=> array("handle" => $this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));			
@@ -247,7 +243,6 @@ class FOX_db {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Database failed to start a transaction",
-				'data'=> array("handle"=>$this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));	    
@@ -279,7 +274,6 @@ class FOX_db {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Database not currently in a transaction",
-				'data'=> array("handle" => $this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
@@ -310,7 +304,6 @@ class FOX_db {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Database failed to commit the transaction",
-				'data'=> array("handle"=>$this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));	    
@@ -343,7 +336,6 @@ class FOX_db {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Database not currently in a transaction",
-				'data'=> array("handle" => $this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
@@ -374,7 +366,6 @@ class FOX_db {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Database failed to rollback transaction",
-				'data'=> array("handle"=>$this->dbh),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));	    
