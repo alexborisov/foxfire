@@ -534,29 +534,20 @@ class FOX_db_driver_mysqli {
 	public function beginTransaction(){
 
 		
-		try {
-			$db_result = self::query("START TRANSACTION");
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error in self::query()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}
+		$command_ok = mysqli_autocommit($this->dbh, FALSE);
 		
-		if($db_result){
+		if($command_ok){
 
 			return true;
 		}
 		else {
 
+			$sql_error = mysqli_error($this->dbh);
+			
 			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Database failed to start a transaction, \n",
-				'data'=> array("result"=>$db_result),
+				'numeric'=>1,
+				'text'=>"Database failed to start a transaction",
+				'data'=> array("result"=>$sql_error),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
@@ -574,35 +565,43 @@ class FOX_db_driver_mysqli {
          */
 
 	public function commitTransaction(){
-
-
-		try {
-			$db_result = self::query("COMMIT");
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error in self::query()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}
+	
 		
-		if($db_result){
+		$commit_ok = mysqli_commit ($this->dbh);
+		
+		if($commit_ok){
 
-			return true;
+			$command_ok = mysqli_autocommit($this->dbh, true);
+
+			if($command_ok){
+			    
+				return true;
+			}
+			else {
+				$sql_error = mysqli_error($this->dbh);
+
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Database failed to toggle auto-commit mode after committing transaction",
+					'data'=> array("result"=>$sql_error),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    			    			    
+			}
 		}
 		else {
 
+			$sql_error = mysqli_error($this->dbh);
+			
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Database failed to commit the transaction, \n",
-				'data'=> array("result"=>$db_result),
+				'text'=>"Database failed to commit the transaction",
+				'data'=> array("result"=>$sql_error),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
+		
 
 	}
 
@@ -617,35 +616,42 @@ class FOX_db_driver_mysqli {
 
 	public function rollbackTransaction(){
 
-
-		try {
-			$db_result = self::query("ROLLBACK");
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error in self::query()",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));		    
-		}
+				
+		$rollback_ok = mysqli_rollback($this->dbh);
 		
-		if($db_result){
+		if($rollback_ok){
 
-			return true;
+			$command_ok = mysqli_autocommit($this->dbh, true);
+
+			if($command_ok){
+			    
+				return true;
+			}
+			else {
+				$sql_error = mysqli_error($this->dbh);
+
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Database failed to toggle auto-commit mode after rolling-back transaction",
+					'data'=> array("result"=>$sql_error),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    			    			    
+			}
 		}
 		else {
 
+			$sql_error = mysqli_error($this->dbh);
+			
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Database failed to rollback transaction. \n",
-				'data'=> array("result"=>$db_result),
+				'text'=>"Database failed to rollback transaction",
+				'data'=> array("result"=>$sql_error),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
 		}
-
+		
 
 	}
 	
