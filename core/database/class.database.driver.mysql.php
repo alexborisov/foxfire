@@ -30,8 +30,6 @@ class FOX_db_driver_mysql {
 					// @see http://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
 	
 	var $dbh;			// Database handle as used by PHP's mysql class
-	
-	var $foreign_dbh;		// True if this instance is bound to a foreign dbh. False if not.
 
 
 	// #################################################################################################### //
@@ -61,11 +59,6 @@ class FOX_db_driver_mysql {
 		if( !empty($args['dbh']) ){
 		    		
 			$this->dbh = $args['dbh'];
-			
-			// Set the foreign dbh flag to prevent the class destroying the SQL 
-			// server connection when self::__destruct() is called
-			
-			$this->foreign_dbh = true;
 			
 			return true;
 			
@@ -169,8 +162,6 @@ class FOX_db_driver_mysql {
 		
 		$this->dbh = mysql_connect($this->db_host, $this->db_user, $this->db_pass, true);		
 
-		//echo "\nSUCCESSFULLY OPENED PID: $this->dbh \n";
-
 		if(!$this->dbh){
 
 			throw new FOX_exception( array(
@@ -186,20 +177,58 @@ class FOX_db_driver_mysql {
 		// versions of MySQL past 5.0.7 use it to set the charset instead
 		// of the old 'SET NAMES %s' + 'COLLATE %s' method
 		
-		mysql_set_charset($this->charset, $this->dbh);
+		$charset_ok = mysql_set_charset($this->charset, $this->dbh);
 				
+		if(!$charset_ok) {
+
+			throw new FOX_exception( array(
+				'numeric'=>8,
+				'text'=>"Error setting charset",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    
+		}
+		
 		try {
 			$this->select($this->db_name, $this->dbh);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>8,
+				'numeric'=>9,
 				'text'=>"Error in self::select()",
 				'data'=>$args,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));		    
+		}
+		
+		return true;
+		
+	}
+	
+	
+	/**
+	 * Releases the driver's dbh handle
+	 *
+         * @version 1.0
+         * @since 1.0
+	 * @return bool | Exception on failure. True on success.
+	 */
+	
+	function release(){
+	    
+		$close_ok = mysql_close($this->dbh);
+		
+		if(!$close_ok){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error closing SQL connection",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			
 		}
 		
 		return true;

@@ -94,7 +94,7 @@ class FOX_db {
 		global $table_prefix;	// WordPress global
 	    
 		$args_default = array(
-					'dbh_mode'=>'bind_wp',
+					'dbh_mode'=>'bind_fox',
 					'db_host'=> DB_HOST,
 					'db_name'=> DB_NAME,
 					'db_user'=> DB_USER,
@@ -102,7 +102,7 @@ class FOX_db {
 					'charset'=> (defined( 'DB_CHARSET' ) ? DB_CHARSET : 'utf8'),
 					'collate'=> (defined( 'DB_COLLATE' ) ? DB_COLLATE : 'utf8_general_ci'),
 					'base_prefix'=>$table_prefix,
-					'sql_api'=>(class_exists('mysqli') ? 'mysqli' : 'mysql')
+					'sql_api'=>(function_exists('mysqli_connect') ? 'mysqli' : 'mysql')
 		);
 
 		$args = FOX_sUtil::parseArgs($args, $args_default);
@@ -122,7 +122,9 @@ class FOX_db {
 		$this->charset = $args['charset'];
 		$this->collate = $args['collate'];
 		$this->base_prefix = $args['base_prefix'];
-			
+		
+		//var_dump($args); die;
+		
 		// Trap invalid or inactive SQL API drivers
 		// ====================================================================================
 		
@@ -140,7 +142,6 @@ class FOX_db {
 		if( (($args['sql_api'] == 'mysql') && !function_exists('mysql_connect')) ||
 		    (($args['sql_api'] == 'mysqli') && !function_exists('mysqli_connect'))
 		){
-
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Requested SQL API isn't installed on this server",
@@ -248,8 +249,8 @@ class FOX_db {
 				    case "mysqli" : {
 
 					    try {
-						    $this->driver = new FOX_db_driver_mysql( array( 'dbh'=>$dbh,				    
-												    'charset'=>$this->charset			    
+						    $this->driver = new FOX_db_driver_mysqli( array( 'dbh'=>$dbh,				    
+												     'charset'=>$this->charset			    
 						    ));
 					    }
 					    catch (FOX_exception $child) {
@@ -1639,9 +1640,9 @@ class FOX_db {
 		// the SQL server, we have to specify it to prevent getting hits on other
 		// databases that contain the same table name
 		
-                $sql .= "WHERE TABLE_SCHEMA = '" . $this->driver->dbname . "' ";		
+                $sql .= "WHERE TABLE_SCHEMA = '" . $this->driver->db_name . "' ";		
                 $sql .= "AND TABLE_NAME = '" . $struct['table']. "'";
-
+		
 		try {
 			$matches = $this->runner->runQuery($sql, array("format"=>"raw"));
 		}
@@ -1657,7 +1658,7 @@ class FOX_db {
 		}
 		
 		if($matches){		    
-		    
+
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Target table already exists in the database",
@@ -1719,6 +1720,8 @@ class FOX_db {
 				'child'=>null
 			));		    
 		}
+		
+		//return $sql_response;
 
 	}
 

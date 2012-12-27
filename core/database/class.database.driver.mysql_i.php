@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class FOX_db_driver_mysql_i {
+class FOX_db_driver_mysqli {
 
 
 	var $rows_affected = 0;		// Count of affected rows by previous query
@@ -30,8 +30,6 @@ class FOX_db_driver_mysql_i {
 					// @see http://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
 	
 	var $dbh;			// Database handle as used by PHP's mysqli class
-	
-	var $foreign_dbh;		// True if this instance is bound to a foreign dbh. False if not.
 
 
 	// #################################################################################################### //
@@ -60,12 +58,7 @@ class FOX_db_driver_mysql_i {
 		// =======================================================================
 		if( !empty($args['dbh']) ){
 		    		
-			$this->dbh = $args['dbh'];
-			
-			// Set the foreign dbh flag to prevent the class destroying the SQL 
-			// server connection when self::__destruct() is called
-			
-			$this->foreign_dbh = true;
+			$this->dbh = $args['dbh'];			
 			
 			return true;
 			
@@ -170,7 +163,7 @@ class FOX_db_driver_mysql_i {
 		$this->dbh = new mysqli($this->db_host, $this->db_user, $this->db_pass, $this->db_name);
 		
 
-		if(!$this->dbh){
+		if( mysqli_connect_error() ){	// $mysqli->connect_error is broken in PHP < 5.2.9
 
 			throw new FOX_exception( array(
 				'numeric'=>7,
@@ -181,23 +174,16 @@ class FOX_db_driver_mysql_i {
 			));		    		    
 		}
 
-		// All versions of PHP past 5.2.3 have mysql_set_charset(), and all
-		// versions of MySQL past 5.0.7 use it to set the charset instead
-		// of the old 'SET NAMES %s' + 'COLLATE %s' method
-		
-		mysql_set_charset($this->charset, $this->dbh);
+		$charset_ok = mysqli_set_charset($this->dbh, $this->charset);
 				
-		try {
-			$this->select($this->db_name, $this->dbh);
-		}
-		catch (FOX_exception $child) {
+		if(!$charset_ok) {
 
 			throw new FOX_exception( array(
 				'numeric'=>8,
-				'text'=>"Error in self::select()",
+				'text'=>"Error setting charset",
 				'data'=>$args,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
+				'child'=>null
 			));		    
 		}
 		
@@ -207,33 +193,30 @@ class FOX_db_driver_mysql_i {
 	
 	
 	/**
-	 * Selects a database using the current database connection.
+	 * Releases the driver's dbh handle
 	 *
          * @version 1.0
          * @since 1.0
-	 * @param string $db MySQL database name
 	 * @return bool | Exception on failure. True on success.
 	 */
 	
-	function select($db){
-
+	function release(){
 	    
-		$select_ok = @mysql_select_db($db, $this->dbh);
+		$close_ok = mysqli_close($this->dbh);
 		
-		if(!$select_ok){
-
+		if(!$close_ok){
+		    
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Error selecting database",
-				'data'=>array('db'=>$db, 'error'=>$select_ok),
+				'text'=>"Error closing SQL connection",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
-			));		    		    
+			));			
 		}
 		
 		return true;
-
-	}
+		
+	}	
 
 
 	/**
@@ -259,8 +242,8 @@ class FOX_db_driver_mysql_i {
 			));		    
 		}
 
-		$sql_result = mysql_query($query, $this->dbh);
-		$sql_error = mysql_error($this->dbh);
+		$sql_result = mysqli_query($this->dbh, $query, MYSQLI_USE_RESULT);
+		$sql_error = mysqli_error($this->dbh);
 		
 		if($sql_error){
 
@@ -280,24 +263,24 @@ class FOX_db_driver_mysql_i {
 		} 
 		elseif( preg_match( '/^\s*(insert|delete|update|replace)\s/i', $query ) ){
 		    
-			$this->rows_affected = mysql_affected_rows($this->dbh);
+			$this->rows_affected = mysqli_affected_rows($this->dbh);
 			
 			// Take note of the insert_id
 			if( preg_match( '/^\s*(insert|replace)\s/i', $query) ){
 			    
-				$this->insert_id = mysql_insert_id($this->dbh);
+				$this->insert_id = mysqli_insert_id($this->dbh);
 			}
 			
 			// Return number of rows affected
 			$result = $this->rows_affected;
 			
 		} 
-		elseif( is_resource($sql_result) ){
+		elseif( !is_bool($sql_result) ){
 		    
 			$num_rows = 0;
 			$result = array();
 			
-			while( $row = mysql_fetch_object($sql_result) ){
+			while( $row = mysqli_fetch_object($sql_result) ){
 			    
 				$result[$num_rows] = $row;
 				$num_rows++;
@@ -309,9 +292,9 @@ class FOX_db_driver_mysql_i {
 		
 		// Prevent memory leakage
 		
-		if ( is_resource($sql_result) ){
+		if ( !is_bool($sql_result) ){
 		    
-			mysql_free_result($sql_result);
+			mysqli_free_result($sql_result);
 		}
 		
 		return $result;		

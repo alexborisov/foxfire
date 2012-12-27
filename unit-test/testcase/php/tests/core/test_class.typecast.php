@@ -46,7 +46,7 @@ class database_typeCasters extends RAZ_testCase {
 		$this->tdb = new FOX_db();
 
 		try {
-			$this->tdb->runAddTable(self::$struct);
+			$this->tdb->runAddTable(self::$struct);			
 		}
 		catch (FOX_exception $fail) {
 		    
@@ -61,7 +61,7 @@ class database_typeCasters extends RAZ_testCase {
 				}
 				catch (FOX_exception $child) {
 
-					$this->fail("Table already existed. Failure while clearing table. Error code: " . $child->data['numeric']);
+					$this->fail($child->dumpString( array('depth'=>10, 'data'=>true)) );	
 				}
 			    
 			}
@@ -69,7 +69,7 @@ class database_typeCasters extends RAZ_testCase {
 			// CASE 2: something is seriously wrong with the database. Abort.
 			// ===============================================================================			
 			else {
-				$this->fail("Failure while adding table to database. Error code: " . $fail->data['numeric']);				
+				$this->fail($child->dumpString(10));				
 			}
 			
 		}
@@ -176,8 +176,7 @@ class database_typeCasters extends RAZ_testCase {
 	}
 
 
-	function test_dataIn(){
-		
+	function test_dataIn(){		
 	    
 		try {
 			$this->tdb->runTruncateTable(self::$struct);
