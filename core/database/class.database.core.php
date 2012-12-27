@@ -17,7 +17,7 @@
 class FOX_db {
 
 
-	var $db;				    // Local copy of database singleton
+	var $driver;				    // Local copy of database singleton
 
 	var $base_prefix;			    // Base prefix for database tables
 	
@@ -69,21 +69,32 @@ class FOX_db {
 	function __construct($args=null){
 
 	    
-		// Hybrid dependency injection. If no dependencies are injected as args, the constructor
-		// uses the wp global variables and singletons.
+		// Trap manually setting sql_api to anything other than 'mysql' when using 
+		// the 'bind_wp' database handle mode, as a safety measure.
+		// ======================================================================================
 	    
-		if( class_exists('mysqli') ){
+		if( FOX_sUtil::keyExists('sql_api', $args) && ($args['sql_api'] != 'mysql') ){			// 'sql_api' is not 'mysql'
 		    
-			$default_api = 'mysqli';
+			if( !FOX_sUtil::keyExists('dbh_mode', $args) ||						// default 'dbh_mode' is 'bind_wp'
+			    (FOX_sUtil::keyExists('dbh_mode', $args) && ($args['dbh_mode'] == 'bind_wp')) ){	// manually set to 'bind_wp'
+			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Attempting to use a sql_api other than 'mysql' when using the 'bind_wp' dbh_mode",
+					'data'=>$args,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));			
+			}			    
 		}
-		else {
-			$default_api = 'mysql';		    
-		}
-	    	
-		global $table_prefix;
+			
+		// Set default args
+		// ====================================================================================
+		
+		global $table_prefix;	// WordPress global
 	    
 		$args_default = array(
-					'dbh_mode'=>'bind',
+					'dbh_mode'=>'bind_wp',
 					'db_host'=> DB_HOST,
 					'db_name'=> DB_NAME,
 					'db_user'=> DB_USER,
@@ -91,11 +102,18 @@ class FOX_db {
 					'charset'=> (defined( 'DB_CHARSET' ) ? DB_CHARSET : 'utf8'),
 					'collate'=> (defined( 'DB_COLLATE' ) ? DB_COLLATE : 'utf8_general_ci'),
 					'base_prefix'=>$table_prefix,
-					'api'=>$default_api
+					'sql_api'=>(class_exists('mysqli') ? 'mysqli' : 'mysql')
 		);
 
 		$args = FOX_sUtil::parseArgs($args, $args_default);
 		
+		// Force sql_api to be 'mysql' when using the 'bind_wp' dbh mode
+		
+		if( $args['dbh_mode'] == 'bind_wp' ){
+		    
+			$args['sql_api'] = 'mysql';		    
+		}
+				
 		$this->dbh_mode = $args['dbh_mode'];
 		$this->db_host = $args['db_host'];
 		$this->db_name = $args['db_name'];
@@ -104,125 +122,222 @@ class FOX_db {
 		$this->charset = $args['charset'];
 		$this->collate = $args['collate'];
 		$this->base_prefix = $args['base_prefix'];
-					
-
-		// If we've been passed a db driver instance, use it
-		// ======================================================
+			
+		// Trap invalid or inactive SQL API drivers
+		// ====================================================================================
 		
-		if(FOX_sUtil::keyExists('db', $args)){
+		if( ($args['sql_api'] != 'mysql') && ($args['sql_api'] != 'mysqli') ){
 
-			$this->db =& $args['db'];
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Invalid SQL API driver name",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			    
 		}
-		else {
-		    
-			// If we're in 'bind' mode, use the wp database singleton's dbh. Note
-			// that we can only use the deprecated 'mysql' API in this case, because
-			// the WordPress db singleton uses that API.
-			// ==============================================================
-		    
-			if($args['dbh_mode'] == 'bind'){
+		
+		if( (($args['sql_api'] == 'mysql') && !function_exists('mysql_connect')) ||
+		    (($args['sql_api'] == 'mysqli') && !function_exists('mysqli_connect'))
+		){
 
-				global $wpdb;
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Requested SQL API isn't installed on this server",
+				'data'=>$args,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));			    
+		}
+		
+		$dbh = false;
+		
+		
+		// CASE 1: Bind to an existing database handle
+		// ==========================================================================================
+		
+		if( ($args['dbh_mode'] == 'bind_wp') || ($args['dbh_mode'] == 'bind_fox') ){	
+		    
+		    
+			// CASE 1A: 'bind_wp' mode
+			// ---------------------------------------------------------------
+		    
+			if($args['dbh_mode'] == 'bind_wp'){
 
-				try {
-					$this->db = new FOX_db_driver_mysql( array( 'dbh'=>$wpdb->dbh,				    
-										    'charset'=>$this->charset			    
-					));
+				if(FOX_sUtil::keyExists('dbh', $args)){
+
+					$dbh =& $args['dbh'];
 				}
-				catch (BPM_exception $child) {
+				else {
+					global $wpdb;				
+					$dbh =& $wpdb->dbh;			    
+				}
 
-					throw new BPM_exception( array(
-						'numeric'=>1,
-						'text'=>"Error binding database driver to foreign dbh",
+				if(!$dbh){
+
+					throw new FOX_exception( array(
+						'numeric'=>4,
+						'text'=>"Attempting to bind to invalid wpdb database handle",
+						'data'=>array('args'=>$args, 'dbh'=>$dbh),
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));		    
-				}							    
+						'child'=>null
+					));			    
+				}				
+			}
+
+			// CASE 1B: 'bind_fox' mode
+			// ---------------------------------------------------------------
+
+			else {
+
+				if( FOX_sUtil::keyExists('dbh', $args) ){
+
+					$dbh =& $args['dbh'];
+					
+					if(!$dbh){
+
+						throw new FOX_exception( array(
+							'numeric'=>5,
+							'text'=>"Attempting to bind to invalid fox database handle",
+							'data'=>array('args'=>$args, 'dbh'=>$dbh),
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+							'child'=>null
+						));			    
+					}					
+				}
+				else {			    
+					global $fox;
+
+					// Note that if this is the first db call, the $fox->dbh global
+					// might not be initialized
+					
+					if($fox->dbh){
+					    
+						$dbh =& $fox->dbh;
+					}
+				}		
+
 			}
 			
-			// Otherwise, generate a new dbh
-			// ==============================================================
-			
-			else {
-			    
-				switch($args["api"]){
+			// Bind to the database handle (if valid)
+			// ---------------------------------------------------------------
 
-				    // MYSQL
-				    // =============================================================================
-				    // PHP's deprecaded 'mysql' API
+			if($dbh){
+
+				switch($args["sql_api"]){
 
 				    case "mysql" : {
 
 					    try {
-						    $this->db = new FOX_db_driver_mysql( array( 'db_host'=>$this->db_host,
-												'db_name'=>$this->db_name,
-												'db_user'=>$this->db_user,
-												'db_pass'=>$this->db_pass,
-												'charset'=>$this->charset,
-												'collate'=>$this->collate				    
+						    $this->driver = new FOX_db_driver_mysql( array( 'dbh'=>$dbh,				    
+												    'charset'=>$this->charset			    
 						    ));
 					    }
-					    catch (BPM_exception $child) {
+					    catch (FOX_exception $child) {
 
-						    throw new BPM_exception( array(
-							    'numeric'=>2,
-							    'text'=>"Error connecting to 'mysql' database api",
-							    'data'=>$args,
+						    throw new FOX_exception( array(
+							    'numeric'=>6,
+							    'text'=>"Error binding 'mysql' SQL driver to database handle",
 							    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 							    'child'=>$child
 						    ));		    
 					    }
 
 				    } break;
-				
-				    // MYSQL_I
-				    // =============================================================================
-				    // PHP's current 'mysqli' API
 
 				    case "mysqli" : {
 
 					    try {
-						    $this->db = new FOX_db_driver_mysqli( array('db_host'=>$this->db_host,
-												'db_name'=>$this->db_name,
-												'db_user'=>$this->db_user,
-												'db_pass'=>$this->db_pass,
-												'charset'=>$this->charset,
-												'collate'=>$this->collate				    
+						    $this->driver = new FOX_db_driver_mysql( array( 'dbh'=>$dbh,				    
+												    'charset'=>$this->charset			    
 						    ));
 					    }
-					    catch (BPM_exception $child) {
+					    catch (FOX_exception $child) {
 
-						    throw new BPM_exception( array(
-							    'numeric'=>3,
-							    'text'=>"Error connecting to 'mysqli' database api",
-							    'data'=>$args,
+						    throw new FOX_exception( array(
+							    'numeric'=>7,
+							    'text'=>"Error binding 'mysqli' SQL driver to database handle",
 							    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 							    'child'=>$child
 						    ));		    
 					    }
 
 				    } break;
-				
-				    default : {
+
+				}	
+
+			}			
+		
+		}
+		
+		// CASE 2: Generate a new database handle
+		// ==========================================================================================
+		
+		if(!$dbh){
+
+			switch($args["sql_api"]){
+
+			    case "mysql" : {
+
+				    try {
+					    $this->driver = new FOX_db_driver_mysql( array( 'db_host'=>$this->db_host,
+											    'db_name'=>$this->db_name,
+											    'db_user'=>$this->db_user,
+											    'db_pass'=>$this->db_pass,
+											    'charset'=>$this->charset,
+											    'collate'=>$this->collate				    
+					    ));
+				    }
+				    catch (FOX_exception $child) {
 
 					    throw new FOX_exception( array(
-						    'numeric'=>4,
-						    'text'=>"Invalid database API paramater",
+						    'numeric'=>8,
+						    'text'=>"Error in 'mysql' SQL driver",
 						    'data'=>$args,
-						    'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-						    'child'=>null
-					    ));
-
+						    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						    'child'=>$child
+					    ));		    
 				    }
-		    				
-				}		    
-				    
 
-								
+			    } break;
+
+			    case "mysqli" : {
+
+				    try {
+					    $this->driver = new FOX_db_driver_mysqli( array('db_host'=>$this->db_host,
+											    'db_name'=>$this->db_name,
+											    'db_user'=>$this->db_user,
+											    'db_pass'=>$this->db_pass,
+											    'charset'=>$this->charset,
+											    'collate'=>$this->collate				    
+					    ));
+				    }
+				    catch (FOX_exception $child) {
+
+					    throw new FOX_exception( array(
+						    'numeric'=>9,
+						    'text'=>"Error in 'mysqli' SQL driver",
+						    'data'=>$args,
+						    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						    'child'=>$child
+					    ));		    
+				    }
+
+			    } break;
+
 			}
+
+			// If we're generating a new dbh and we're in 'bind_fox' mode, initialize
+			// the global $fox->dbh singleton with the handle
 			
-		    
+			if($args['dbh_mode'] == 'bind_fox'){	
+			    
+				global $fox;
+				$fox->dbh = $this->driver->dbh;				
+			}			
+
 		}
+			
 
 		// Allow the query builder and query runner to be injected
 		// if needed for testing
@@ -246,8 +361,8 @@ class FOX_db {
 		// Because our local stats variables are bound by reference to the host
 		// db instance, they automatically update
 
-		$this->rows_affected =& $this->db->rows_affected;
-		$this->insert_id =& $this->db->insert_id;
+		$this->rows_affected =& $this->driver->rows_affected;
+		$this->insert_id =& $this->driver->insert_id;
 
 	}
 
@@ -286,7 +401,7 @@ class FOX_db {
 		$this->in_transaction = true;
 		
 		try {
-			$this->db->beginTransaction();
+			$this->driver->beginTransaction();
 			
 			if($this->print_query_sql == true){
 				FOX_debug::addToFile("START TRANSACTION (SUCCESS)");
@@ -345,7 +460,7 @@ class FOX_db {
 		// ===============================================================
 
 		try {
-			$this->db->commitTransaction();
+			$this->driver->commitTransaction();
 			
 			$this->in_transaction = false;
 
@@ -407,7 +522,7 @@ class FOX_db {
 		// ===============================================================
 
 		try {
-			$this->db->rollbackTransaction();
+			$this->driver->rollbackTransaction();
 			
 			$this->in_transaction = false;
 
@@ -1524,7 +1639,7 @@ class FOX_db {
 		// the SQL server, we have to specify it to prevent getting hits on other
 		// databases that contain the same table name
 		
-                $sql .= "WHERE TABLE_SCHEMA = '" . $this->db->dbname . "' ";		
+                $sql .= "WHERE TABLE_SCHEMA = '" . $this->driver->dbname . "' ";		
                 $sql .= "AND TABLE_NAME = '" . $struct['table']. "'";
 
 		try {

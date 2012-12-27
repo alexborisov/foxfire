@@ -82,7 +82,7 @@ class FOX_queryRunner {
 
 		if( is_array($query) ){
 
-			$sql = $this->parent->db->prepare($query["query"]);			
+			$sql = $this->parent->driver->prepare($query["query"]);			
 		}
 		else {
 			$sql = $query;
@@ -120,7 +120,7 @@ class FOX_queryRunner {
 		    case "var" : {
 
 			    try {
-				    $result = $this->parent->db->get_var($sql);
+				    $result = $this->parent->driver->get_var($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -167,7 +167,7 @@ class FOX_queryRunner {
 		    case "col" : {
 			    			    
 			    try {
-				    $result = $this->parent->db->get_col($sql);
+				    $result = $this->parent->driver->get_col($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -221,7 +221,7 @@ class FOX_queryRunner {
 		    case "row_object" : {
 
 			    try {
-				    $result = $this->parent->db->get_row($sql);
+				    $result = $this->parent->driver->get_row($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -276,7 +276,7 @@ class FOX_queryRunner {
 
 			    
 			    try {
-				    $data = $this->parent->db->get_row($sql);
+				    $data = $this->parent->driver->get_row($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -386,7 +386,7 @@ class FOX_queryRunner {
 		    case "array_key_object" : {			    
 
 			    try {
-				    $data = $this->parent->db->get_results($sql);
+				    $data = $this->parent->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -541,7 +541,7 @@ class FOX_queryRunner {
 		    case "array_key_array" : {
 
 			    try {
-				    $data = $this->parent->db->get_results($sql);
+				    $data = $this->parent->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -708,7 +708,7 @@ class FOX_queryRunner {
 		    case "array_key_array_grouped" : {
 
 			    try {
-				    $data = $this->parent->db->get_results($sql);
+				    $data = $this->parent->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -833,7 +833,7 @@ class FOX_queryRunner {
 		    case "array_key_array_true" : {
 
 			    try {
-				    $data = $this->parent->db->get_results($sql);
+				    $data = $this->parent->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -950,7 +950,7 @@ class FOX_queryRunner {
 		    case "array_key_array_false" : {
 
 			    try {
-				    $data = $this->parent->db->get_results($sql);
+				    $data = $this->parent->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -1040,7 +1040,7 @@ class FOX_queryRunner {
 		    case "array_key_single" : {
 
 			    try {
-				    $data = $this->parent->db->get_results($sql);
+				    $data = $this->parent->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -1113,7 +1113,7 @@ class FOX_queryRunner {
 		    case "array_object" : {
 
 			    try {
-				    $result = $this->parent->db->get_results($sql);
+				    $result = $this->parent->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -1175,7 +1175,7 @@ class FOX_queryRunner {
 		    case "array_array" : {
 
 			    try {
-				    $data = $this->parent->db->get_results($sql);
+				    $data = $this->parent->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -1248,7 +1248,7 @@ class FOX_queryRunner {
 		    case "raw" : {			    			   			   
 
 			    try {
-				    $result = $this->parent->db->query($sql);
+				    $result = $this->parent->driver->query($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
