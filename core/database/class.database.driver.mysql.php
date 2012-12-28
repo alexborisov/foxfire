@@ -602,7 +602,7 @@ class FOX_db_driver_mysql {
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Database failed to start a transaction, \n",
+				'text'=>"Database failed to start transaction",
 				'data'=> array("result"=>$db_result),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
@@ -644,7 +644,7 @@ class FOX_db_driver_mysql {
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Database failed to commit the transaction, \n",
+				'text'=>"Database failed to commit transaction",
 				'data'=> array("result"=>$db_result),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
@@ -686,7 +686,7 @@ class FOX_db_driver_mysql {
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Database failed to rollback transaction. \n",
+				'text'=>"Database failed to rollback transaction",
 				'data'=> array("result"=>$db_result),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null

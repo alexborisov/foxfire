@@ -546,7 +546,7 @@ class FOX_db_driver_mysqli {
 			
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Database failed to start a transaction",
+				'text'=>"Database failed to start transaction",
 				'data'=> array("result"=>$sql_error),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
@@ -571,6 +571,9 @@ class FOX_db_driver_mysqli {
 		
 		if($commit_ok){
 
+			// Setting mysqli_autocommit true appears to trigger a commit, but
+			// isn't documented on php.net
+		    
 			$command_ok = mysqli_autocommit($this->dbh, true);
 
 			if($command_ok){
@@ -595,7 +598,7 @@ class FOX_db_driver_mysqli {
 			
 			throw new FOX_exception( array(
 				'numeric'=>2,
-				'text'=>"Database failed to commit the transaction",
+				'text'=>"Database failed to commit transaction",
 				'data'=> array("result"=>$sql_error),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
@@ -621,6 +624,9 @@ class FOX_db_driver_mysqli {
 		
 		if($rollback_ok){
 
+			// Setting mysqli_autocommit true appears to trigger a commit, but
+			// isn't documented on php.net
+		    
 			$command_ok = mysqli_autocommit($this->dbh, true);
 
 			if($command_ok){
