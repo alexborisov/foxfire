@@ -52,6 +52,9 @@ class FOX_db {
 	 * ============================================================================================================ //
 	 */
 
+		var $debug_on;				    // Send debugging info to the debug handler	
+		var $debug_handler;			    // Local copy of debug singleton			
+	
 		var $print_query_args = false;		    // Log args passed to the query generators
 		var $print_query_sql = false;		    // Log SQL strings produced by the query generators
 		var $print_result_raw = false;		    // Log raw data returned from SQL server
@@ -69,6 +72,26 @@ class FOX_db {
 	function __construct($args=null){
 
 	    
+		// Debug events
+		// ====================================================================================
+		
+		if(FOX_sUtil::keyExists('debug_on', $args) && ($args['debug_on'] == true) ){
+		    
+			$this->debug_on = true;
+		    
+			if(FOX_sUtil::keyExists('debug_handler', $args)){
+
+				$this->debug_handler =& $args['debug_handler'];		    
+			}
+			else {
+				global $fox;
+				$this->debug_handler =& $fox->debug_handler;		    		    
+			}	    
+		}
+		else {
+			$this->debug_on = false;		    		    
+		}
+		
 		// Trap manually setting sql_api to anything other than 'mysql' when using 
 		// the 'bind_wp' database handle mode, as a safety measure.
 		// ======================================================================================
@@ -378,6 +401,18 @@ class FOX_db {
 
 	public function beginTransaction(){
 
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// If our database handle already has a transaction open, quit
 		// ===============================================================
 
@@ -408,8 +443,6 @@ class FOX_db {
 				FOX_debug::addToFile("START TRANSACTION (SUCCESS)");
 			}
 
-			return true;	
-			
 		}
 		catch (FOX_exception $child) {
 
@@ -423,7 +456,20 @@ class FOX_db {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));	    
-		}		
+		}	
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}	
+		
+		return true;		
 
 	}
 
@@ -438,7 +484,18 @@ class FOX_db {
 
 	public function commitTransaction(){
 
-
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// If our database handle doesn't have a transaction open, quit
 		// ===============================================================
 
@@ -456,7 +513,6 @@ class FOX_db {
 			));
 		}
 
-
 		// Otherwise, commit the transaction
 		// ===============================================================
 
@@ -469,8 +525,6 @@ class FOX_db {
 				FOX_debug::addToFile("COMMIT TRANSACTION (SUCCESS)");
 			}
 
-			return true;	
-			
 		}
 		catch (FOX_exception $child) {
 
@@ -486,7 +540,19 @@ class FOX_db {
 			));	    
 		}
 		
-
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		return true;			
+		
 	}
 
 
@@ -500,7 +566,18 @@ class FOX_db {
 
 	public function rollbackTransaction(){
 
-
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// If our database handle doesn't have a transaction open, quit
 		// ===============================================================
 
@@ -530,9 +607,6 @@ class FOX_db {
 			if($this->print_query_sql == true){
 				FOX_debug::addToFile("ROLLBACK TRANSACTION (SUCCESS)");
 			}
-
-			return true;	
-			
 		}
 		catch (FOX_exception $child) {
 
@@ -548,7 +622,19 @@ class FOX_db {
 			));	    
 		}
 
-
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		return true;			
+		
 	}
 
 
@@ -616,6 +702,17 @@ class FOX_db {
 	public function runSelectQueryJoin($primary, $join, $columns=null, $ctrl=null){
 
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -655,6 +752,17 @@ class FOX_db {
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);			
 		}
@@ -668,7 +776,18 @@ class FOX_db {
 				'child'=>$child
 			));		    
 		}
-
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));			
+		}		
+		
 		// Run on SQL server
 		// =======================
 
@@ -686,6 +805,17 @@ class FOX_db {
 			));		    
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -753,6 +883,17 @@ class FOX_db {
 	public function runSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl=null){	   
 		
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -791,6 +932,17 @@ class FOX_db {
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);			
 		}
@@ -808,6 +960,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$result = $this->runner->runQuery($query, $ctrl);
 		}
@@ -822,6 +985,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 	}
 
@@ -869,6 +1043,17 @@ class FOX_db {
 	public function runSelectQuery($struct, $args=null, $columns=null, $ctrl=null){
 	        
 	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Handle SELECT *
 		// ==========================
 	    
@@ -967,6 +1152,17 @@ class FOX_db {
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildSelectQuery($struct, $args, $columns, $ctrl);
 		}
@@ -985,6 +1181,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$result = $this->runner->runQuery($query, $ctrl);
 		}
@@ -999,6 +1206,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -1044,7 +1262,18 @@ class FOX_db {
 
 	public function runSelectQueryCol($struct, $col, $op, $val, $columns=null, $ctrl=null){
 
-
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -1058,6 +1287,17 @@ class FOX_db {
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildSelectQueryCol($struct, $col, $op, $val, $columns, $ctrl);
 		}
@@ -1076,6 +1316,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$result = $this->runner->runQuery($query, $ctrl);
 		}
@@ -1091,6 +1342,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -1124,7 +1386,18 @@ class FOX_db {
 
 	public function runUpdateQuery($struct, $data, $args, $columns=null, $ctrl=null){
 
-
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Handle *
 		// ==========================
 	    
@@ -1156,6 +1429,17 @@ class FOX_db {
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildUpdateQuery($struct, $data, $args, $columns);
 		}
@@ -1174,6 +1458,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$this->runner->runQuery($query, array('format'=>'var'));
 		}
@@ -1188,6 +1483,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $this->rows_affected;
 
 	}
@@ -1221,9 +1527,31 @@ class FOX_db {
 	public function runUpdateQueryCol($struct, $data, $col, $op, $val, $columns=null, $ctrl=null){
 
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try { 
 			$query = $this->builder->buildUpdateQueryCol($struct, $data, $col, $op, $val, $columns);
 		}
@@ -1242,6 +1570,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$this->runner->runQuery($query, array('format'=>'var'));
 		}
@@ -1256,6 +1595,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $this->rows_affected;
 
 	}
@@ -1291,6 +1641,17 @@ class FOX_db {
 	public function runInsertQuery($struct, $data, $columns=null, $ctrl=null){
 
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Wrap data array inside another array to handle buildInsertQuery's
 		// multi-insert data format
 		$data = array($data);
@@ -1298,6 +1659,17 @@ class FOX_db {
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildInsertQuery($struct, $data, $columns);
 		}
@@ -1315,6 +1687,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$this->runner->runQuery($query, array('format'=>'var'));
 		}
@@ -1329,6 +1712,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $this->rows_affected;
 
 	}
@@ -1364,10 +1758,32 @@ class FOX_db {
 
 	public function runInsertQueryMulti($struct, $data, $columns=null, $ctrl=null){
 
-
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildInsertQuery($struct, $data, $columns);
 		}
@@ -1385,6 +1801,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$this->runner->runQuery($query, array('format'=>'var'));
 		}
@@ -1399,6 +1826,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $this->rows_affected;
 
 	}
@@ -1433,9 +1871,31 @@ class FOX_db {
 	public function runIndateQuery($struct, $data, $columns=null, $ctrl=null){
 
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildIndateQuery($struct, $data, $columns);
 		}
@@ -1453,6 +1913,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$this->runner->runQuery($query, array('format'=>'var') );
 		}
@@ -1467,6 +1938,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $this->rows_affected;
 
 	}
@@ -1494,6 +1976,17 @@ class FOX_db {
 	public function runDeleteQuery($struct, $args, $ctrl=null){
 
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Add default control params
 		// ==========================
 
@@ -1507,6 +2000,17 @@ class FOX_db {
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildDeleteQuery($struct, $args, $ctrl);		
 		}
@@ -1524,6 +2028,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$this->runner->runQuery($query, array('format'=>'var') );
 		}
@@ -1538,6 +2053,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $this->rows_affected;
 
 	}
@@ -1561,9 +2087,31 @@ class FOX_db {
 	public function runDeleteQueryCol($struct, $col, $op, $val, $ctrl=null){
 
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildDeleteQueryCol($struct, $col, $op, $val);
 		}
@@ -1581,6 +2129,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$this->runner->runQuery($query, array('format'=>'var') );
 		}
@@ -1595,6 +2154,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $this->rows_affected;
 
 	}
@@ -1622,6 +2192,17 @@ class FOX_db {
 	public function runAddTable($struct, $ctrl=null){
 
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		if($this->print_query_args == true){
 
 			ob_start();
@@ -1642,6 +2223,17 @@ class FOX_db {
 		
                 $sql .= "WHERE TABLE_SCHEMA = '" . $this->driver->db_name . "' ";		
                 $sql .= "AND TABLE_NAME = '" . $struct['table']. "'";
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_duplicate_table_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {
 			$matches = $this->runner->runQuery($sql, array("format"=>"raw"));
@@ -1672,6 +2264,17 @@ class FOX_db {
 		// Build the query
 		// ===========================================================
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_add_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {		    
 			$sql = $this->builder->buildAddTable($struct);		
 		}
@@ -1688,6 +2291,17 @@ class FOX_db {
 	     
 		// Run it on the SQL server
 		// ===========================================================
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_add_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		try {		    
 			$sql_response = $this->runner->runQuery($sql, array("format"=>"raw"));	
@@ -1706,11 +2320,7 @@ class FOX_db {
 		// Check the table was successfully added
 		// ===========================================================	
 		
-		if($sql_response == true){
-		
-			return true;
-		}
-		else {
+		if($sql_response != true){
 		    
 			throw new FOX_exception( array(
 				'numeric'=>5,
@@ -1721,7 +2331,18 @@ class FOX_db {
 			));		    
 		}
 		
-		//return $sql_response;
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		return (bool)$sql_response;
 
 	}
 
@@ -1747,6 +2368,17 @@ class FOX_db {
 	public function runDropTable($struct, $ctrl=null){
 
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Check table array exists, because if its sent in with
 		// an empty name variable, it could damage the database
 		// =======================================================
@@ -1774,6 +2406,17 @@ class FOX_db {
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildDropTable($struct);
 						
@@ -1793,6 +2436,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$result = $this->runner->runQuery($query, array("format"=>"raw"));
 		}
@@ -1807,6 +2461,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
@@ -1832,7 +2497,18 @@ class FOX_db {
 
 	public function runTruncateTable($struct, $ctrl=null){
 
-
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		// Check table array exists, because if its sent in with
 		// an empty name variable, it could damage the database
 		// =======================================================
@@ -1859,6 +2535,17 @@ class FOX_db {
 		// Build query string
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$query = $this->builder->buildTruncateTable($struct);						
 		}
@@ -1876,6 +2563,17 @@ class FOX_db {
 		// Run on SQL server
 		// =======================
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		try {
 			$result = $this->runner->runQuery($query, array("format"=>"raw") );
 		}
@@ -1890,6 +2588,17 @@ class FOX_db {
 			));
 		}
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}
