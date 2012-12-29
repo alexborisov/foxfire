@@ -161,7 +161,7 @@ else {
 	require ( dirname( __FILE__ ) . '/utils/class.utils.exception.handler.php' );
 
 	// Get this thread's process ID
-	$fox->process_id = "foo"; //getmypid();
+	$fox->process_id = 0001; //getmypid();
 
 	// Setup our exception handler
 	$fox->error = new FOX_exceptionHandler();

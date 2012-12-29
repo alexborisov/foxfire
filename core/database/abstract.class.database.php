@@ -27,7 +27,19 @@ abstract class FOX_db_base {
 
 	public function install(){
 	    
-		$db = new FOX_db();
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		$db = new FOX_db( array('pid'=>$this->process_id) );
 		
 		try {
 			$db->runAddTable($this->_struct());
@@ -41,6 +53,18 @@ abstract class FOX_db_base {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
+		}
+		
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
 		}
 		
 		return true;
@@ -58,7 +82,19 @@ abstract class FOX_db_base {
 
 	public function uninstall(){
 
-		$db = new FOX_db();
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		$db = new FOX_db( array('pid'=>$this->process_id) );
 		
 		try {
 			$db->runDropTable($this->_struct());
@@ -72,6 +108,17 @@ abstract class FOX_db_base {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
+		}
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
 		}
 		
 		return true;
@@ -89,7 +136,19 @@ abstract class FOX_db_base {
 
 	public function truncate(){
 
-		$db = new FOX_db();
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		$db = new FOX_db( array('pid'=>$this->process_id) );
 		
 		try {
 			$db->runTruncateTable($this->_struct());
@@ -103,6 +162,17 @@ abstract class FOX_db_base {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
+		}
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
 		}
 		
 		return true;
@@ -121,7 +191,18 @@ abstract class FOX_db_base {
 
 	public function flushCache() {
 
-	
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();
 
 		try {
@@ -145,6 +226,17 @@ abstract class FOX_db_base {
 
 		do_action( 'fox_flushCache_' . $struct["cache_namespace"] );
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return true;
 
 	}
@@ -161,7 +253,18 @@ abstract class FOX_db_base {
 
 	public function flushCachePage($pages) {
 
-
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();	
 		
 		if($struct['cache_strategy'] != 'paged'){
@@ -201,6 +304,17 @@ abstract class FOX_db_base {
 
 		
 		do_action( 'fox_flushCachePage_' . $struct["cache_namespace"], $pages );
+				
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		return true;
 
@@ -219,6 +333,17 @@ abstract class FOX_db_base {
         public function loadCache(){
 
 	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
                 $struct = $this->_struct();
 		
 		if($struct['cache_strategy'] == 'paged'){
@@ -238,7 +363,6 @@ abstract class FOX_db_base {
 			}
 			catch (FOX_exception $child) {
 
-			    $child->dump();
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error calling self::readCache()",
@@ -271,6 +395,17 @@ abstract class FOX_db_base {
 		
                 do_action( 'fox_loadCache_' . $struct["cache_namespace"], $this->cache );
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
                 return true;
 
         }
@@ -289,6 +424,17 @@ abstract class FOX_db_base {
 	public function loadCachePage($pages){	    
 	    
 	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();
 		
 		if($struct['cache_strategy'] != 'paged'){
@@ -324,6 +470,17 @@ abstract class FOX_db_base {
 		
 		do_action( 'fox_loadCachePage_' . $struct["cache_namespace"], $this->cache );
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return true;
 
 	}	
@@ -340,6 +497,16 @@ abstract class FOX_db_base {
 
         public function readCache(&$valid=null){
 	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
                 $struct = $this->_struct();
 		
@@ -376,6 +543,17 @@ abstract class FOX_db_base {
 
                 do_action( 'fox_readCache_' . $struct["cache_namespace"], $cache_image, $valid);
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
                 return $cache_image;
 
         }
@@ -393,6 +571,17 @@ abstract class FOX_db_base {
 
 	public function readCachePage($pages){	    
 	    	    
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$struct = $this->_struct();
 		
@@ -427,6 +616,17 @@ abstract class FOX_db_base {
 
 		do_action( 'fox_readCachePage_' . $struct["cache_namespace"], $result);
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 
 	}		
@@ -443,7 +643,17 @@ abstract class FOX_db_base {
 
 	public function saveCache(){
 	    
-	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();	
 		
 		if($struct['cache_strategy'] != 'monolithic'){
@@ -473,6 +683,17 @@ abstract class FOX_db_base {
 
 		do_action( 'fox_saveCache_' . $struct["cache_namespace"], $this->cache );
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return true;
 		
 	}
@@ -491,6 +712,17 @@ abstract class FOX_db_base {
 	public function saveCachePage($pages){
 
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();
 		
 		if($struct['cache_strategy'] != 'paged'){
@@ -543,6 +775,17 @@ abstract class FOX_db_base {
 
 		do_action( 'fox_saveCachePage_' . $struct["cache_namespace"], $processed_pages );
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return true;
 		
 	}
@@ -559,6 +802,17 @@ abstract class FOX_db_base {
 
 	public function writeCache($image){
 
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
 		$struct = $this->_struct();
 		
@@ -593,6 +847,17 @@ abstract class FOX_db_base {
 
 		do_action( 'fox_writeCache_' . $struct["cache_namespace"], $image);
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return true;
 		
 	}
@@ -610,7 +875,17 @@ abstract class FOX_db_base {
 
 	public function writeCachePage($pages){
 
-	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();
 		
 		if($struct['cache_strategy'] != 'paged'){
@@ -644,6 +919,17 @@ abstract class FOX_db_base {
 
 		do_action( 'fox_writeCachePage_' . $struct["cache_namespace"], $pages );
 		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return true;
 		
 	}		
@@ -667,8 +953,19 @@ abstract class FOX_db_base {
 	 */
 
 	public function lockCache($ctrl=null){
-	    	    
-	
+	    	   
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();
 		
 		if($struct['cache_strategy'] != 'monolithic'){
@@ -713,13 +1010,13 @@ abstract class FOX_db_base {
 			$this->cache = $cache_image;			
 			do_action( 'fox_lockCache_' . $struct["cache_namespace"], $cache_image);
 
-			return true;						
+			$result = true;						
 		}
 		elseif($ctrl['mode'] == 'fetch'){
 		    
 			do_action( 'fox_lockCache_' . $struct["cache_namespace"], $cache_image);
 			
-			return $cache_image;					    
+			$result = $cache_image;					    
 		}
 		else {
 		    
@@ -730,7 +1027,20 @@ abstract class FOX_db_base {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));		    		    		    
+		}
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
 		}	
+		
+		return $result;
 		
 	}	
 	
@@ -756,7 +1066,17 @@ abstract class FOX_db_base {
 
 	public function lockCachePage($keys, $ctrl=null){
 	    	    
-
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();
 		
 		if($struct['cache_strategy'] != 'paged'){
@@ -807,14 +1127,14 @@ abstract class FOX_db_base {
 			
 			do_action( 'fox_lockCachePage_' . $struct["cache_namespace"], $cache_image);
 
-			return true;			
+			$result = true;			
 			
 		}
 		elseif($ctrl['mode'] == 'fetch'){
 		    
 			do_action( 'fox_lockCachePage_' . $struct["cache_namespace"], $cache_image);
 			
-			return $cache_image;					    
+			$result = $cache_image;					    
 		}
 		else {
 		    
@@ -827,8 +1147,19 @@ abstract class FOX_db_base {
 			));		    		    
 		    
 		}										
+				
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
 		
-		return $cache_image;								
+		return $result;								
 		
 	}		
 
@@ -847,7 +1178,18 @@ abstract class FOX_db_base {
 
 	public function lockNamespace($ctrl=null){
 	    	    
-
+	    
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();
 		
 		if($struct['cache_strategy'] != 'paged'){
@@ -885,7 +1227,18 @@ abstract class FOX_db_base {
 				'child'=>$child
 			));
 		}
-									
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 		
 	}
@@ -905,6 +1258,17 @@ abstract class FOX_db_base {
 	public function unlockNamespace(){
 	    	    
 
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		$struct = $this->_struct();
 		
 		if($struct['cache_strategy'] != 'paged'){
@@ -935,7 +1299,18 @@ abstract class FOX_db_base {
 				'child'=>$child
 			));
 		}
-									
+			
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
 		return $result;
 		
 	}

@@ -15,8 +15,10 @@
  */
 
 class FOX_db {
-
-
+    
+    
+    	var $process_id;			    // Unique process id for this thread. Used by debug handler to tell threads apart.
+	
 	var $driver;				    // Local copy of database singleton
 
 	var $base_prefix;			    // Base prefix for database tables
@@ -71,6 +73,18 @@ class FOX_db {
 
 	function __construct($args=null){
 
+	    
+		// Process ID
+		// ====================================================================================
+		
+		if(FOX_sUtil::keyExists('pid', $args) ){
+		    
+			$this->process_id = $args['pid'];		    	    
+		}
+		else {
+			global $fox;
+			$this->process_id = $fox->process_id;			    		    
+		}	    
 	    
 		// Debug events
 		// ====================================================================================

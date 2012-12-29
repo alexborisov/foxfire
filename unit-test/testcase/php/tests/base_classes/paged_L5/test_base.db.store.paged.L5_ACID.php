@@ -396,7 +396,7 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
 	public function test_getMulti_database_readFailure() {
 		    
 
-		// Set up victim class and load it with data
+		// Set up a database instance on a unique PID
 		// ===========================================================
 	    
 		$debug_handler = new FOX_debugHandler();
