@@ -1577,48 +1577,44 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 			if($db_fetch){
 
+	
 				// Lock affected cache pages for all requested items, to prevent
 				// corrupted keys in case another thread attempts to do a write
 				// operation while we're reading from the database
 				// ===========================================================
 
 				if($this->debug_on){
-
 					extract( $this->debug_handler->event( array(
-						'pid'=>$this->process_id,			    
+						'pid'=>$this->process_id,          
 						'text'=>"persistent_cache_lock_start",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
-					)));		    
+					)));     
 				}
-
 				try {
-					self::lockCachePage( array_keys($db_fetch) );
 
+				self::lockCachePage( array_keys($db_fetch) );
 				}
 				catch (FOX_exception $child) {
-
 					throw new FOX_exception( array(
 						'numeric'=>10,
 						'text'=>"Error locking cache",
 						'data'=>$db_fetch,
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>$child
-					));		    
+					));        
 				}
-
 				if($this->debug_on){
-
 					extract( $this->debug_handler->event( array(
-						'pid'=>$this->process_id,			    
+						'pid'=>$this->process_id,          
 						'text'=>"persistent_cache_lock_end",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
-					)));		    
-				}	
-				
+					)));        
+				}  
+        			    
 				$columns = null;
 
 				$args = array(
@@ -1692,8 +1688,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 						)));		    
 					}
 					
-					// Copy L5 pages in $this->cache to $update_cache as needed, then merge the db
-					// results into the L5 $update_cache pages. This saves memory over duplicating
+					// Copy L4 pages in $this->cache to $update_cache as needed, then merge the db
+					// results into the L4 $update_cache pages. This saves memory over duplicating
 					// the entire $this->cache variable.
 					// ============================================================================				
 
@@ -1876,9 +1872,9 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 				if( count($L2s) == 0 ){
 
-					if( FOX_sUtil::keyExists($L3, $cache_image[$L5]['keys'][$L4]) ){
+					if( FOX_sUtil::keyExists($L3, $cache_image[$L4]['keys']) ){
 
-						$result[$L5][$L4][$L3] = $cache_image[$L5]['keys'][$L4][$L3];				
+						$result[$L4][$L3] = $cache_image[$L4]['keys'][$L3];				
 					}
 					else {
 						$valid = false;
@@ -1894,9 +1890,9 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 					if( count($L1s) == 0 ){	    
 
-						if( FOX_sUtil::keyExists($L2, $cache_image[$L5]['keys'][$L4][$L3]) ){
+						if( FOX_sUtil::keyExists($L2, $cache_image[$L4]['keys'][$L3]) ){
 
-							$result[$L5][$L4][$L3][$L2] = $cache_image[$L5]['keys'][$L4][$L3][$L2];				
+							$result[$L4][$L3][$L2] = $cache_image[$L4]['keys'][$L3][$L2];				
 						}
 						else {
 							$valid = false;
@@ -1905,9 +1901,9 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 					foreach( $L1s as $L1 => $fake_var){						    
 
-						if( FOX_sUtil::keyExists($L1, $cache_image[$L5]['keys'][$L4][$L3][$L2]) ){
+						if( FOX_sUtil::keyExists($L1, $cache_image[$L4]['keys'][$L3][$L2]) ){
 
-							$result[$L5][$L4][$L3][$L2][$L1] = $cache_image[$L5]['keys'][$L4][$L3][$L2][$L1];				
+							$result[$L4][$L3][$L2][$L1] = $cache_image[$L4]['keys'][$L3][$L2][$L1];				
 						}
 						else {
 							$valid = false;
@@ -1990,8 +1986,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));		    		    
-		}
-		
+		}		
 		
 		// Write updated page images to persistent cache
 		// ===========================================================
@@ -2035,24 +2030,24 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			}			
 		}
 		
-		// Flush any locked persistent cache pages that were created
+ 		// Flush any locked persistent cache pages that were created
 		// for keys which didn't exist in the database
 		// ===========================================================
-		
+
 		if($db_fetch){
-		    
+
 			$updated_pages = array();
-		    
+
 			if($update_cache){
-			
+
 				$updated_pages = array_keys($update_cache);
 			}
-			
+
 			$flush_pages = array_diff( array_keys($db_fetch), $updated_pages);		
 		}
 
 		if($flush_pages){ 
-		    
+
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
@@ -2063,7 +2058,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
 			}
-			
+
 			try {
 				self::flushCachePage($flush_pages);
 			}
@@ -2077,7 +2072,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'child'=>$child
 				));		    
 			}
-			
+
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
@@ -2089,7 +2084,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				)));		    
 			}			
 		}
-				
+		
 		// Overwrite the class cache with the new cache image
 		// ===========================================================
 		
@@ -2176,7 +2171,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 				foreach( $L3s as $L3 => $L2s ){
 
-					$L3_has_auth = FOX_sUtil::keyTrue($L3, $cache_image[$L5][$this->L3_col][$L4]);
+					$L3_has_auth = FOX_sUtil::keyTrue($L3, $cache_image[$L4][$this->L3_col]);
 
 					if(!$L3_has_auth){ 			
 
@@ -2187,12 +2182,12 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 						if( count($L2s) == 0 ){	    
 
-							$result[$L5][$L4][$L3] = array();				
+							$result[$L4][$L3] = array();				
 						}				    
 
 						foreach( $L2s as $L2 => $L1s ){
 
-							$L2_has_auth = FOX_sUtil::keyTrue($L2, $cache_image[$L5][$this->L2_col][$L4][$L3]);
+							$L2_has_auth = FOX_sUtil::keyTrue($L2, $cache_image[$L4][$this->L2_col][$L3]);
 
 							if(!$L2_has_auth){
 
@@ -2203,14 +2198,14 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 								if( count($L1s) == 0 ) {
 
-									$result[$L5][$L4][$L3][$L2] = array();				
+									$result[$L4][$L3][$L2] = array();				
 								}
 
 								foreach( $L1s as $L1 => $val){
 
-									if( !FOX_sUtil::keyExists($L1, $cache_image[$L5]["keys"][$L4][$L3][$L2]) ){
+									if( !FOX_sUtil::keyExists($L1, $cache_image[$L4]["keys"][$L3][$L2]) ){
 
-										$result[$L5][$L4][$L3][$L2][$L1] = true;											
+										$result[$L4][$L3][$L2][$L1] = true;											
 									}
 								}
 								unset($L1, $val);
@@ -5249,7 +5244,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 						);								
 
 						// Overwrite the temp class cache array with the data we set in the db query
-						$update_cache[$L5]["keys"][$L4][$L3][$L2][$L1] = $val;
+						$update_cache[$L4]["keys"][$L3][$L2][$L1] = $val;
 
 					}
 					unset($L1, $val);
@@ -5867,7 +5862,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		}
 						
 
-		// Lock all L5 cache pages in the $data array
+		// Lock all L4 cache pages in the $data array
 		// ===========================================================
 		
 		$L4_ids = array_keys($data);
@@ -5884,14 +5879,14 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		}		
 		
 		try {
-			$page_images = self::lockCachePage($L5_ids);
+			$page_images = self::lockCachePage($L4_ids);
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error locking cache pages",
-				'data'=>array("pages"=>$L5_ids),
+				'data'=>array("pages"=>$L4_ids),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
@@ -7228,13 +7223,13 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		}				
 		
                 $struct = $this->_struct();
-							
-
+		
+		
 		// Validate data array
 		// ===========================================================
 
 		if($ctrl['validate'] == true){
-		    		    
+		    
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
@@ -7247,8 +7242,8 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			}
 		
 			try {			    			    
-				$validator = new FOX_dataStore_validator($struct);
-			
+				$validator = new FOX_dataStore_validator($struct);;
+		    
 				$val_ctrl = array(
 					'order'=>$this->order,
 					'mode'=>'data',
@@ -7288,15 +7283,14 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 					'parent'=>$this,
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
-			}	
-			
-		}
-						
-
+			}
+		
+		} 
+		
 		// Lock all L4 cache pages in the $data array
 		// ===========================================================
 		
-		$L5_ids = array_keys($data);
+		$L4_ids = array_keys($data);
 		
 		if($this->debug_on){
 
@@ -7307,17 +7301,17 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
-		}		
+		}
 		
 		try {
-			$page_images = self::lockCachePage($L5_ids);
+			self::lockCachePage($L4_ids);
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error locking cache pages",
-				'data'=>array("pages"=>$L5_ids),
+				'data'=>array("pages"=>$L4_ids),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
@@ -7332,16 +7326,15 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
-		}		
+		}
 		
 		// 1) Build $insert_data array
-		// 2) Calculate $del_args
-		// 3) Rebuild cache page images
+		// 2) Rebuild cache page images
 		// ================================================================
 
-		$insert_data = array();	
-		$del_args = array();		
-		$page_images = $this->cache;
+		$update_cache = $this->cache;
+		$dead_cache_pages = array();
+		$insert_data = array(); 
 
 		if($this->debug_on){
 
@@ -7354,43 +7347,52 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			)));		    
 		}
 		
-		foreach( $data as $L4 => $L3s ){	
-					    
-			// Avoid creating redundant LUT entries
+		foreach( $data as $L4 => $L3s ){
 		    
-			if( FOX_sUtil::keyExists('all_cached', $page_images[$L4]) ){
-			
-				$parent_has_auth = true;			    
+			if( empty($L3s) ){	
+
+				$dead_cache_pages[] = $L4;
+				unset($update_cache[$L4]);
 			}
-			else {			    
-				$parent_has_auth = false;			    
-			}
-			
+			else {
+				
+				$update_cache[$L4]['all_cached'] = true;
 
-			foreach( $L3s as $L3 => $L2s ){
+				// Clear all objects currently inside the L4
+				
+				unset($update_cache[$L4]["keys"]);
+				
+				// Clear the LUT entries for all the L2's, L3's 
+				// and L4's that were inside the L4	
+				
+				unset($update_cache[$L4][$this->L4_col]);
+				unset($update_cache[$L4][$this->L3_col]);
+				unset($update_cache[$L4][$this->L2_col]);
+				
+				foreach( $L3s as $L3 => $L2s ){
 
-				foreach( $L2s as $L2 => $L1s ){
+					foreach( $L2s as $L2 => $L1s ){
 
-					foreach( $L1s as $L1 => $val){
+						foreach( $L1s as $L1 => $val){
 
-						$page_images[$L4]["keys"][$L3][$L2][$L1] = $val;
+							$update_cache[$L4]["keys"][$L3][$L2][$L1] = $val;
 
-						$insert_data[] = array(
-									$this->L4_col=>$L4,
-									$this->L3_col=>$L3,
-									$this->L2_col=>$L2,
-									$this->L1_col=>$L1,
-									$this->L0_col=>$val
-						);
+							$insert_data[] = array(
+										$this->L4_col=>$L4,
+										$this->L3_col=>$L3,
+										$this->L2_col=>$L2,
+										$this->L1_col=>$L1,
+										$this->L0_col=>$val
+							);
+						}
+						unset($L1, $val);
 					}
-					unset($L1, $val);
+					unset($L2, $L1s);
 				}
-				unset($L2, $L1s);
+				unset($L3, $L2s);
 			}
-			unset($L3, $L2s);
 		}
-		unset($L4, $L3s);		
-
+		unset($L4, $L3s);
 		
 		if($this->debug_on){
 
@@ -7401,7 +7403,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
-		}
+		}		
 		
 		// Update the database
 		// ===========================================================
@@ -7416,6 +7418,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
 		}
+		
 		
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -7434,17 +7437,14 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			));		    
 		}		
 
-		// Clear all L4 intersects from the db
+		// Clear all entries for the L4s from the db
 		// ===========================================================
 
 		$args = array(
-				'key_col'=>array(
-						    $this->L4_col
-				),
-				'args'=>$del_args
+				array("col"=>$this->L4_col, "op"=>"=", "val"=>$L4_ids)
 		);
 		
-		$del_ctrl = array('args_format'=>'matrix');
+		$del_ctrl = null;
 		
 		if($this->debug_on){
 
@@ -7455,7 +7455,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
-		}		
+		}
 		
 		try {
 			$this->db->runDeleteQuery($struct, $args, $del_ctrl);
@@ -7470,7 +7470,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
-					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
+					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));		    
@@ -7494,12 +7494,12 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
-		}		
-
+		}
+		
 		// Insert updated walks
 		// ===========================================================
 
-		$insert_cols = null;
+		$insert_col = null;
 		$insert_ctrl = null;
 		
 		if($this->debug_on){
@@ -7514,7 +7514,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		}
 		
 		try {
-			$rows_set = $this->db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
+			$rows_set = $this->db->runInsertQueryMulti($struct, $insert_data, $insert_col, $insert_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
@@ -7551,7 +7551,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
 		}
-		
+
 		try {
 			$this->db->commitTransaction();
 		}
@@ -7595,14 +7595,14 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		}
 		
 		try {
-			self::writeCachePage($page_images);
+			self::writeCachePage($update_cache);
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
 				'numeric'=>11,
 				'text'=>"Cache set error",
-				'data'=>$page_images,
+				'data'=>$update_cache,
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
@@ -7619,8 +7619,51 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			)));		    
 		}
 		
-		$this->cache = $page_images;
+		// Flush any dead L4 cache pages, releasing our lock
+		// ===========================================================
+		
+		if($dead_cache_pages){
+		    
+			if($this->debug_on){
 
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
+			try {
+				self::flushCachePage($dead_cache_pages);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception( array(
+					'numeric'=>12,
+					'text'=>"Error flushing cache pages",
+					'data'=>$dead_cache_pages,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>$child
+				));		    
+			}
+		
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
+		}
+		
+		$this->cache = $update_cache;
+		
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
@@ -7631,8 +7674,10 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
 		}
+			
 		
 		return (int)$rows_set;
+		
 		
 	}
 	
@@ -9112,12 +9157,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 				// a validator throws an exception, it will contain all info needed for debugging
 			    
 				$validator = new FOX_dataStore_validator($struct);	
-			
-				$validator_result['L5'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L5
-				));			
+		
 
 				// If a single L4 is sent in, we validate it *before* spinning it into an array,
 				// so we can trap strings that PHP automatically converts to ints ("17")

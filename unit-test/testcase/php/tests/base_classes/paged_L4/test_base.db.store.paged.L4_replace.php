@@ -149,7 +149,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>true),
+				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>5, "L0"=>true),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
 
 				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
@@ -327,16 +327,17 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 					    // 'Y'=>array( ... ),
 
 					    // Add a new L3 'E' node
-					    'E'=>array(	'K'=>array( 'K'=>array(	
-										1=>(int)1,
-										2=>(int)-1,
-										3=>true,
-										5=>false
+					    'E'=>array(	'K'=>array(
+									1=>(int)1,
+									2=>(int)-1,
+									3=>true,
+									5=>false
 								    ),
-								    'T'=>array(	4=>null)							    
-							),
-							'Z'=>array( 'Z'=>array( 4=>(float)-1.6 )) 						
-					    )	
+							'T'=>array(	4=>null),
+							
+							'Z'=>array(	4=>(float)-1.6 )
+					    ) 						
+					    	
 				),
 
 				// Ignore the entire L4 '2' node
@@ -351,7 +352,6 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )					    
 				)		    
 		);
-		
 		
 		// Replace items
 		// ####################################################################
@@ -385,6 +385,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 							    ),
 							    'E'=>array( 
 									'K'=>true,
+									'T'=>true,
 									'Z'=>true
 							    ),					    						
 					    ),
@@ -402,9 +403,9 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 										    1=>(int)1,
 										    2=>(int)-1,
 										    3=>true,
-										    5=>false,
-										    4=>null							    
+										    5=>false
 									),
+									'T'=>array( 4=>null ),
 									'Z'=>array( 4=>(float)-1.6 ) 						
 							    )							
 					    )				
@@ -487,9 +488,9 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 								1=>(int)1,
 								2=>(int)-1,
 								3=>true,
-								5=>false,
-								4=>null							    
+								5=>false
 						    ),
+						    'T'=>array( 4=>null ),
 						    'Z'=>array( 4=>(float)-1.6 ) 						
 					)							
 		);
@@ -564,10 +565,10 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 										    1=>(int)1,
 										    2=>(int)-1,
 										    3=>true,
-										    5=>false,
-										    4=>null							    
+										    5=>false
 									),
-									'Z'=>array( 4=>(float)-1.6 ) 						
+									'T'=>array( 4=>null ),
+									'Z'=>array( 4=>(float)-1.6 )
 							    )							
 					    )
 		);
@@ -658,7 +659,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 							'V'=>array(
 								    1=>'foo',
 								    7=>'bar',
-								    1=>'baz' 					    
+								    5=>'baz' 					    
 							)
 				    
 							// Ignore the entire L2 'Z' node
@@ -736,7 +737,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 									'V'=>array( 
 										    1=>'foo',
 										    7=>'bar',
-										    1=>'baz' 				    
+										    5=>'baz' 				    
 									),
 									'Z'=>array( 3=>(int)0 ) 					    
 							    ),
@@ -1135,7 +1136,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
-									'Z'=>array( 'Z'=>array( 3=>$test_obj )) 						
+									'Z'=>array( 3=>$test_obj ) 						
 							    )					    
 					    )						
 		);
@@ -1279,7 +1280,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 									'V'=>array( 
 										    1=>'foo',
 										    7=>'bar',
-										    1=>'baz' 				    
+										    5=>'baz' 				    
 									),
 									'Z'=>array( 3=>(int)0 ) 					    
 							    ),
@@ -1709,7 +1710,7 @@ class core_L4_paged_abstract_replaceMethods extends RAZ_testCase {
 									'P'=>array( 
 										    1=>'foo',
 										    7=>'bar',
-										    1=>'baz' 					    
+										    5=>'baz' 					    
 									)				    
 							    ),
 							    'E'=>array(	'K'=>array( 
