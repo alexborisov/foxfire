@@ -2,7 +2,10 @@
 
 /**
  * FOXFIRE DEBUG HANDLER
- * Global singleton that accepts and processes debug events
+ * FoxFire's debug handler is a flexible class that allows highly detailed logging, on-the-fly variable
+ * tampering, and the ability to simulate multi-threaded operations within a single thread. This class
+ * is built for simplicity of debugging instead of speed, and is NOT INTENDED to be used during the normal 
+ * operation of the FoxFire core. Use the FoxFire event system instead.
  *
  * @version 1.0
  * @since 1.0
@@ -66,7 +69,7 @@ class FOX_debugHandler {
 		foreach( $this->events as $event ){
 		
 			// This is probably one of the few situations in all of modern computer science where
-			// a huge "elseif" chain is the optimal solution. 
+			// a massive "elseif" chain is the optimal solution. 
 		    
 			// Ordered by frequency of use, for best performance
 		    

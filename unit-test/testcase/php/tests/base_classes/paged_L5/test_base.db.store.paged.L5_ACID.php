@@ -46,11 +46,13 @@ class FOX_dataStore_paged_L5_tester_ACID extends FOX_dataStore_paged_L5_base {
 	    
 		$this->process_id = 1337;
 		
-		// Generate our own cache singleton, and only enable the 'thread'
-		// engine to eliminate potential problems with APC, Memcached, etc
+		// Generate our own cache singleton. We *have* to use a real persistent
+		// caching engine so that the cache threads share a common cache.
 		
 		$this->mCache = new FOX_mCache();
-		$this->mCache->setActiveEngines(array('thread'));		
+		$this->mCache->setActiveEngines(array('apc'));	
+		
+		$this->init();		
 		
 	}
 	
@@ -288,45 +290,176 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
 	
 	
        /**
-	* Test fixture for setL1() method
+	* Test getMulti() with locked persistent cache pages
 	*
 	* @version 1.0
 	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
-	public function test_setL1() {
+	public function test_getMulti_persistentCache_lockedPages() {
 		    
-	  return;  
+
+		// Set up victim class and load it with data
+		// ===========================================================
+	    
 		$debug_handler = new FOX_debugHandler();
 	    
 		$this->cls->init(array('debug_on'=>true, 'debug_handler'=>$debug_handler));
 		
-		self::loadData();
+		$this->cls->process_id = 6900;
+		
+		self::loadData();	
 		
 		
-		$stage_1 = function($parent, $vars) use ($tag){
+		// Set an action on the victim class 'persistent_cache_lock_end'
+		// event that attempts to read from the pages it locked using
+		// a class instance owned by a different PID
+		// ===========================================================
+		
+		try {	
+			$test_fixture =& $this;
 		    
-			echo "\nHIT!\n";
-			return array();		    		    		    
-		};
-
-		try {			
 			$debug_handler->addEvent( array(
-							'type'=>'trap',
-							'function'=>'getL1', 
-							'text'=>'method_start',	
-							'modifier'=>$stage_1
+			    
+				'type'=>'trap',
+				'pid'=>6900,
+				'function'=>'getMulti', 
+				'text'=>'persistent_cache_lock_end',	
+			    
+				'modifier'=> function($parent, $vars) use (&$test_fixture) {		   
+
+					$attacker = new FOX_dataStore_paged_L5_tester_ACID();
+					$attacker->process_id = 2600;
+
+					$ctrl = array(		    
+							'validate'=>true,
+							'r_mode'=>'matrix'		    
+					);
+
+					$valid = false;
+
+					try {			
+						$result = $attacker->getL1(1, 'Y', 'K', 'K', 2, $ctrl, $valid);
+						$test_fixture->fail("getMulti() failed to throw exception on persistent cache page lock collision");
+					}
+					catch (FOX_exception $child) { }
+
+					unset($attacker);
+					
+					return array();		    		    		    
+				}
+		
 			));
 		}
 		catch (FOX_exception $child) {
 
 			$this->fail($child->dumpString(1));	
 		}
+	
 		
+		// Run the victim class getL1 method, which uses the getMulti() method, 
+		// causing the action to fire and the modifier function to run. The 
+		// attacker PID should throw an exception. The victim PID should operate
+		// as normal.
+		// ===========================================================
+		
+		$ctrl = array(		    
+				'validate'=>true,
+				'r_mode'=>'matrix'		    
+		);
+		
+		$valid = false;
+		
+		try {			
+			$result = $this->cls->getL1(1, 'Y', 'K', 'K', 2, $ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
 
-				
-							
+			$this->fail($child->dumpString(1));	
+		}
+		
+		$this->assertEquals(true, $valid);	
+		$this->assertEquals(-1, $result);	
+		
+	}
+	
+	
+       /**
+	* Test getMulti() with a database read failure
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_getMulti_database_readFailure() {
+		    
+
+		// Set up victim class and load it with data
+		// ===========================================================
+	    
+		$debug_handler = new FOX_debugHandler();
+	    
+		$this->cls->init(array('debug_on'=>true, 'debug_handler'=>$debug_handler));
+		
+		$this->cls->process_id = 6900;
+		
+		self::loadData();	
+		
+		
+		// Set an action on the victim class 'persistent_cache_lock_end'
+		// event that attempts to read from the pages it locked using
+		// a class instance owned by a different PID
+		// ===========================================================
+		
+		try {	
+			$test_fixture =& $this;
+		    
+			$debug_handler->addEvent( array(
+			    
+				'type'=>'trap',
+				'pid'=>6900,
+				'function'=>'getMulti', 
+				'text'=>'persistent_cache_lock_end',	
+			    
+				'modifier'=> function($parent, $vars) use (&$test_fixture) {		   
+
+					$attacker = new FOX_dataStore_paged_L5_tester_ACID();
+					$attacker->process_id = 2600;
+
+					$ctrl = array(		    
+							'validate'=>true,
+							'r_mode'=>'matrix'		    
+					);
+
+					$valid = false;
+
+					try {			
+						$result = $attacker->getL1(1, 'Y', 'K', 'K', 2, $ctrl, $valid);
+						$test_fixture->fail("getMulti() failed to throw exception on persistent cache page lock collision");
+					}
+					catch (FOX_exception $child) { }
+
+					unset($attacker);
+					
+					return array();		    		    		    
+				}
+		
+			));
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+	
+		
+		// Run the victim class getL1 method, which uses the getMulti() method, 
+		// causing the action to fire and the modifier function to run. The 
+		// attacker PID should throw an exception. The victim PID should operate
+		// as normal.
+		// ===========================================================
+		
 		$ctrl = array(		    
 				'validate'=>true,
 				'r_mode'=>'matrix'		    
@@ -346,7 +479,7 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
 		$this->assertEquals(-1, $result);	
 
 		
-	}
+	}	
 	
 	
 	// Scenario #1 
