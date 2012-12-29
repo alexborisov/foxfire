@@ -56,8 +56,7 @@ class FOX_dataStore_paged_L5_tester_ACID extends FOX_dataStore_paged_L5_base {
 	
 		
 }  // ENDOF: class FOX_dataStore_paged_L5_tester_ACID
-  
-                                      
+                                       
 
 /**
  * FOXFIRE UNIT TEST SCRIPT - L5 PAGED ABSTRACT DATASTORE CLASS - ACID (Atomicity, Consistency, Isolation, Durability)
@@ -298,12 +297,35 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
 	*/	
 	public function test_setL1() {
 		    
-	    
+	  return;  
 		$debug_handler = new FOX_debugHandler();
 	    
 		$this->cls->init(array('debug_on'=>true, 'debug_handler'=>$debug_handler));
 		
 		self::loadData();
+		
+		
+		$stage_1 = function($parent, $vars) use ($tag){
+		    
+			echo "\nHIT!\n";
+			return array();		    		    		    
+		};
+
+		try {			
+			$debug_handler->addEvent( array(
+							'type'=>'trap',
+							'function'=>'getL1', 
+							'text'=>'method_start',	
+							'modifier'=>$stage_1
+			));
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}
+		
+
+				
 							
 		$ctrl = array(		    
 				'validate'=>true,
@@ -320,46 +342,36 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 		
-		$this->assertEquals(true, $valid);
-	
+		$this->assertEquals(true, $valid);	
 		$this->assertEquals(-1, $result);	
-		
-			
-		$debug_handler->dump();
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		// Scenario #1 
-		// =====================================================
-		// PID 1 locks three cache pages
-		// PID 2 locks the namespace
-		// PID 1 tries to overwrite the pages it locked
-		
-		// Scenario #2 
-		// =====================================================
-		// PID 1 locks three cache pages
-		// PID 2 flushes the namespace
-		// PID 1 tries to save the pages it locked		
-		
-		// Scenario #3
-		// =====================================================
-		// PID 1 locks three cache pages
-		// PID 2 tries to delete two of those pages
-		// PID 1 tries to save the pages it locked
 		
 	}
 	
 	
+	// Scenario #1 
+	// =====================================================
+	// PID 1 locks three cache pages
+	// PID 2 locks the namespace
+	// PID 1 tries to overwrite the pages it locked
+
+	// Scenario #2 
+	// =====================================================
+	// PID 1 locks three cache pages
+	// PID 2 flushes the namespace
+	// PID 1 tries to save the pages it locked		
+
+	// Scenario #3
+	// =====================================================
+	// PID 1 locks three cache pages
+	// PID 2 tries to delete two of those pages
+	// PID 1 tries to save the pages it locked	
 	
+	// Scenario #4
+	// =====================================================
+	// PID 1 reads a key, finds it isn't in the cache, and reads it from the DB
+	// PID 2 writes to the same key after PID 1 has read from the database, then writes the updated value to the cache
+	// PID 1 tries to overwrite the key with the old value	
 	
 	function tearDown() {
 	   

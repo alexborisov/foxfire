@@ -38,7 +38,7 @@ class FOX_debugHandler {
 	public function addEvent($data){
 
 	    
-		if(!FOX_sUtil::keyExists('type', $data) || (($data['type'] != 'log') || ($data['type'] != 'trap')) ){
+		if(!FOX_sUtil::keyExists('type', $data) || (($data['type'] != 'log') && ($data['type'] != 'trap')) ){
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
@@ -113,14 +113,11 @@ class FOX_debugHandler {
 				    
 					// Events are emitted by class instances. Pass the class instance that emitted the event, and all
 					// currently defined variables within the *function inside the class instance* that emitted the
-					// event, to the supplied function inside the class instance that was registered as the event handler;
-					// then take the results (if any) returned by the event handler function and use them to overwrite 
-					// the variables within the function inside the class instance that emitted the event.
+					// event, to the function sent in as the event handler; then take the results (if any) returned 
+					// by the event handler function and use them to overwrite the variables within the function 
+					// inside the class instance that emitted the event.
 				    
-					// We use a class instance for the handler instead of class_name->function so that the handler
-					// class instance can be set to a specific state before being used.
-				    
-					return $event['command']['instance']->{$data['command']['function']}($data['parent'], $data['vars']);	
+					return $event['modifier']($data['parent'], $data['vars']);	
 					
 				}							    			    
 			}
