@@ -143,7 +143,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			$this->db =& $args['db'];		    
 		}
 		else {
-			$this->db = new FOX_db();		    		    
+			$this->db = new FOX_db( array('pid'=>$this->process_id) );		    		    
 		}			
 			    
 		
