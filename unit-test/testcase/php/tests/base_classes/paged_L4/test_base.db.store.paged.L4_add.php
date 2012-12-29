@@ -1073,7 +1073,7 @@ class core_L4_paged_abstract_addMethods extends RAZ_testCase {
 								))
 			);
 		    
-			$this->cls->addL4_multi($dupe_data, $ctrl=null);			
+			$this->cls->addL3_multi($dupe_data, $ctrl=null);			
 			
 			// Execution will halt on the previous line if addL3_multi() throws an exception
 			$this->fail("Method addL3_multi() failed to throw an exception on duplicate entry");	
@@ -1828,7 +1828,7 @@ class core_L4_paged_abstract_addMethods extends RAZ_testCase {
 		$test_data = array(
 				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>null),
 				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>2, 'L0'=>false),
-				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>true),
+				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>5, 'L0'=>true),
 				    array('L4'=>1, 'L3'=>'X', 'L2'=>'Z', 'L1'=>3, 'L0'=>(int)0),
 				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>1, 'L0'=>(int)1),
 				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>2, 'L0'=>(int)-1),

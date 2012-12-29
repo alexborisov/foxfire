@@ -657,7 +657,7 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 		$check_cache_warm = array(		    
 					    1=>array(   'L3'=>array( 'Y'=>true ),	// The L3 'Y' trie will have authority because
 							'L2'=>null,			// we loaded it
-						
+
 							'keys'=>array(  
 									// The L3 'X' trie will still be in the cache from the
 									// add operation
@@ -823,7 +823,13 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 								'Z'=>array( 4=>(float)-1.6 ) 						
 						    )					    
 					),			
-					2=>array(   'X'=>array(	'Z'=>array( 3=>$test_obj )))		    		    
+					2=>array(   'X'=>array(	'K'=>array(
+									    1=>(string)"foo",
+									    2=>array(null, true, false, 1, 1.0, "foo")
+								),
+								'Z'=>array( 3=>$test_obj )
+						    )
+					 ) 
 		);
 				
 				
@@ -910,7 +916,14 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 					    2=>array(   'L3'=>array('X'=>true),		
 							'L2'=>null,
 						
-							'keys'=>array(  'X'=>array( 'Z'=>array( 3=>$test_obj )))						
+							'keys'=>array(  'X'=>array( 'K'=>array( 	
+												1=>(string)"foo",
+												2=>array(null, true, false, 1, 1.0, "foo")
+																			    
+										    ),
+										    'Z'=>array( 3=>$test_obj ) 						
+									)	
+							)						
 					    )		    		    
 		);
 		
@@ -1535,8 +1548,8 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 		
 		$check_data = array(
 					1=>array(   'X'=>array(	'K'=>array( 
-									    2=>false,
-									    5=>true 							    
+									    1=>null,
+									    2=>false 							    
 								),
 								'Z'=>array( 3=>(int)0 ) 						
 						    ),	
@@ -1619,8 +1632,8 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 							'L2'=>null,
 						
 							'keys'=>array(  'X'=>array( 'K'=>array( 	
-												2=>false,
-												5=>true 							    
+												1=>null,
+												2=>false 							    
 										    ),
 										    'Z'=>array( 3=>(int)0 ) 						
 									),	
@@ -1717,8 +1730,7 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 		
 		$check_data = array(
 					1=>array(   'X'=>array(	'K'=>array( 
-									    2=>false,
-									    5=>true 							    
+									    2=>false							    
 								),
 								'Z'=>array( 3=>(int)0 ) 						
 						    ),	
@@ -1807,8 +1819,7 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 						    'L2'=>array('X'=>array('Z'=>true)),
 					    
 						    'keys'=>array(  'X'=>array(	'K'=>array( 
-											    2=>false,
-											    5=>true 							    
+											    2=>false
 										),
 										'Z'=>array( 3=>(int)0 ) 						
 								    ),	
@@ -1880,7 +1891,6 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 
 		$request = array(		    
 				    array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>2   ),
-				    array( "L4"=>1, "L3"=>"X", "L2"=>"K",	    ),
 				    array( "L4"=>1, "L3"=>"X", "L2"=>"Z"	    ),	
 				    array( "L4"=>1, "L3"=>"Y"			    ),		    
 				    array( "L4"=>2				    )	    		    
@@ -1911,8 +1921,7 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 		
 		$check_data = array(
 					1=>array(   'X'=>array(	'K'=>array( 
-									    2=>false,
-									    5=>true 							    
+									    2=>false							    
 								),
 								'Z'=>array( 3=>(int)0 ) 						
 						    ),	
@@ -2001,8 +2010,7 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 						    'L2'=>array('X'=>array('Z'=>true )),
 					    
 						    'keys'=>array(  'X'=>array(	'K'=>array( 
-											    2=>false,
-											    5=>true 							    
+											    2=>false
 										),
 										'Z'=>array( 3=>(int)0 ) 						
 								    ),	
@@ -2248,7 +2256,8 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 	
 		$check = array(
 				'1'=>(int)1,
-				'2'=>(int)-1
+				'2'=>(int)-1,
+				'3'=>(float)1.7
 		);
 		
 		$this->assertEquals($check, $result);	
@@ -2290,6 +2299,7 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 		$check = array(		    
 				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
 				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),		    
+				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>3, "L0"=>(float)1.7),
 		);
 		
 		$this->assertEquals($check, $result);	
@@ -2761,7 +2771,7 @@ class core_L4_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL4(array('1','2'), $ctrl, $valid);
+			$result = $this->cls->getL4(array(1,2), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 

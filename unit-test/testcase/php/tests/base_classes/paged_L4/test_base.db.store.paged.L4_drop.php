@@ -371,7 +371,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		}
 		
 		// Should return (int)1 to indicate 18 rows were dropped
-		$this->assertEquals(18, $rows_changed);
+		$this->assertEquals(17, $rows_changed);
 		
 		
 		// Verify db state
@@ -399,12 +399,13 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		$check = array(
 				1=>array(   'X'=>array(	'K'=>array( 
-								    2=>false								    						    
+								    2=>false,
+								    5=>true
 							)						
 					    )				    
 				)	    
 		);
-		
+
                 $this->assertEquals($check, $result);
 		
 		
@@ -497,7 +498,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		}
 		
 		// Should return (int)1 to indicate 18 rows were dropped
-		$this->assertEquals(18, $rows_changed);
+		$this->assertEquals(17, $rows_changed);
 		
 		
 		// Verify db state
@@ -525,7 +526,8 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		$check = array(
 				1=>array(   'X'=>array(	'K'=>array( 
-								    2=>false								    						    
+								    2=>false,								    						    
+								    5=>true
 							)						
 					    )				    
 				)	    
@@ -545,7 +547,8 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		$check_cache_1 = array(	    'L3'=>null,
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(	'K'=>array( 
-										    2=>false										   							    
+										    2=>false,
+										    5=>true
 									)					
 							    )				    
 					    )
@@ -663,7 +666,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		}
 		
 		// Should return (int)1 to indicate 18 rows were dropped
-		$this->assertEquals(18, $rows_changed);
+		$this->assertEquals(17, $rows_changed);
 		
 		
 		// Verify db state
@@ -691,7 +694,8 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		$check = array(
 				1=>array(   'X'=>array(	'K'=>array( 	
-								    2=>false								    					    
+								    2=>false,	
+								    5=>true
 							)						
 					    )				    
 				)	    
@@ -714,7 +718,8 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 					    'L3'=>null,
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(	'K'=>array( 
-										    2=>false										    							    
+										    2=>false,
+										    5=>true
 									)					
 							    )				    
 					    )
@@ -1022,7 +1027,6 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		$data = array(
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1	),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K",		),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"Z"		),	
 				array( "L4"=>1, "L3"=>"Y"			),		    
 		    		array( "L4"=>2					),
@@ -1044,7 +1048,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		}
 		
 		// Should return (int)1 to indicate 18 rows were dropped
-		$this->assertEquals(18, $rows_changed);
+		$this->assertEquals(17, $rows_changed);
 		
 		
 		// Verify db state
@@ -1072,7 +1076,8 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		$check = array(
 				1=>array(   'X'=>array(	'K'=>array( 
-								    2=>false								    						    
+								    2=>false,	
+								    5=>true
 							)						
 					    )				    
 				)	    
@@ -1142,7 +1147,6 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		$data = array(
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1	),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K",		),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"Z"		),	
 				array( "L4"=>1, "L3"=>"Y"			),		    
 		    		array( "L4"=>2					),
@@ -1164,7 +1168,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		}
 		
 		// Should return (int)1 to indicate 18 rows were dropped
-		$this->assertEquals(18, $rows_changed);
+		$this->assertEquals(17, $rows_changed);
 		
 		
 		// Verify db state
@@ -1192,7 +1196,8 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		$check = array(		    		    
 				1=>array(   'X'=>array(	'K'=>array( 
-								    2=>false					    
+								    2=>false,
+								    5=>true
 							)						
 					    )				    
 				)	    
@@ -1213,7 +1218,8 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 					    'L3'=>null,
 					    'L2'=>null,		    
 					    'keys'=>array(  'X'=>array(	'K'=>array( 
-										    2=>false						    
+										    2=>false,
+										    5=>true
 									)					
 							    )				    
 					    )
@@ -1303,7 +1309,6 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		$data = array(
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1	),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K",		),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"Z"		),	
 				array( "L4"=>1, "L3"=>"Y"			),		    
 		    		array( "L4"=>2					),
@@ -1325,7 +1330,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		}
 		
 		// Should return (int)1 to indicate 18 rows were dropped
-		$this->assertEquals(18, $rows_changed);
+		$this->assertEquals(17, $rows_changed);
 		
 		
 		// Verify db state
@@ -1353,7 +1358,8 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		$check = array(
 				1=>array(   'X'=>array(	'K'=>array( 	
-								    2=>false								    						    
+								    2=>false,
+								    5=>true
 							)						
 					    )				    
 				)	    
@@ -1376,7 +1382,8 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 					    'L3'=>null,
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(	'K'=>array(
-										    2=>false						    
+										    2=>false,
+										    5=>true
 									)					
 							    )				    
 					    )
@@ -1450,7 +1457,6 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 		$data = array(
 
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1	),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K"		),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"Z"		),	
 				array( "L4"=>1, "L3"=>"Y", "L2"=>"K"		),
 		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"Z"		)
@@ -1743,7 +1749,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 			$drop_nodes = array(
 					array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1),
 					array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>2),
-					array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1),
+					array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>5),
 					array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1"=>3),	
 					array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>1)	    
 			);	
@@ -3503,7 +3509,7 @@ class core_L4_paged_abstract_dropMethods extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 		
-		$this->assertEquals(1, $rows_changed); // 2 rows already deleted in previous tests
+		$this->assertEquals(2, $rows_changed); // 1 row already deleted in previous tests
 		
 		unset($rows_changed);		
 		

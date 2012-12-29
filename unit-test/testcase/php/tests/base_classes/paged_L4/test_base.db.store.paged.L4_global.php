@@ -149,7 +149,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>true),
+				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>5, "L0"=>true),
 				array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
 
 				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
@@ -163,7 +163,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		    
 				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
 				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
-				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>true),
+				array( "L4"=>3, "L3"=>"X", "L2"=>"K", "L1"=>5, "L0"=>true),
 				array( "L4"=>3, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
 
 				array( "L4"=>3, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
@@ -269,7 +269,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 				3=>array(   'X'=>array(	'K'=>array( 	
 								    1=>null,
 								    2=>false,
-								    1=>true 							    
+								    5=>true 							    
 							),
 							'Z'=>array( 3=>(int)0 ) 						
 					    ),	
@@ -335,8 +335,8 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 		
-		// Should report 7 rows were dropped
-		$this->assertEquals(7, $rows_changed);
+		// Should report 5 rows were dropped
+		$this->assertEquals(5, $rows_changed);
 		
 		
 		// Verify db state
@@ -368,7 +368,8 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		$check = array(
 				1=>array(   'X'=>array(	'K'=>array( 
-								    2=>false								    							    
+								    2=>false,
+								    5=>true 							    
 							),
 							'Z'=>array( 3=>(int)0 ) 						
 					    ),	
@@ -386,13 +387,14 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 					    )					    
 				),
 				3=>array(   'X'=>array(	'K'=>array( 	
-								    2=>false								    							    
+								    2=>false,
+								    5=>true 							    
 							),
-							'Z'=>array( 3=>(int)0 )						
+							'Z'=>array( 3=>(int)0 ) 						
 					    ),	
 					    'Y'=>array(	'K'=>array( 
 								    2=>(int)-1,
-								    3=>(float)1.7 						    
+								    3=>(float)1.7 							    
 							),
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
@@ -468,7 +470,7 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		}
 		
 		// Should report 12 rows were dropped
-		$this->assertEquals(12, $rows_changed);
+		$this->assertEquals(10, $rows_changed);
 		
 		
 		// Verify db state
@@ -499,18 +501,26 @@ class core_L4_paged_abstract_globalMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(   'X'=>array(	'Z'=>array( 3=>(int)0 ) 						
+				1=>array(   'X'=>array(	'K'=>array( 
+								    5=>true 							    
+							),
+							'Z'=>array( 3=>(int)0 ) 						
 					    ),	
-					    'Y'=>array(	'K'=>array( 3=>(float)1.7 ),
+					    'Y'=>array(	'K'=>array( 
+								    3=>(float)1.7 							    
+							),
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'Z'=>array( 3=>$test_obj ) 						
-					    )					    
-				),
-				3=>array(   'X'=>array(	'Z'=>array( 3=>(int)0 ) 						
+				2=>array(   'X'=>array(	'Z'=>array( 3=>$test_obj ) ) ),
+				3=>array(   'X'=>array(	'K'=>array( 	
+								    5=>true 							    
+							),
+							'Z'=>array( 3=>(int)0 ) 						
 					    ),	
-					    'Y'=>array(	'K'=>array( 3=>(float)1.7 ),
+					    'Y'=>array(	'K'=>array( 
+								    3=>(float)1.7 							    
+							),
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				)		    
