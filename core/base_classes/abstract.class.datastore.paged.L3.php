@@ -1839,6 +1839,48 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 
 			if($db_fetch){
 
+				// Lock affected cache pages for all requested items, to prevent
+				// corrupted keys in case another thread attempts to do a write
+				// operation while we're reading from the database
+				// ===========================================================
+
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"persistent_cache_lock_start",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}
+
+				try {
+					self::lockCachePage( array_keys($db_fetch) );
+
+				}
+				catch (FOX_exception $child) {
+
+					throw new FOX_exception( array(
+						'numeric'=>10,
+						'text'=>"Error locking cache",
+						'data'=>$db_fetch,
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'child'=>$child
+					));		    
+				}
+
+				if($this->debug_on){
+
+					extract( $this->debug_handler->event( array(
+						'pid'=>$this->process_id,			    
+						'text'=>"persistent_cache_lock_end",
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'parent'=>$this,
+						'vars'=>compact(array_keys(get_defined_vars()))
+					)));		    
+				}	
+				
 				$columns = null;
 
 				$args = array(
@@ -1882,7 +1924,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				catch (FOX_exception $child) {
 
 					throw new FOX_exception( array(
-						'numeric'=>10,
+						'numeric'=>11,
 						'text'=>"Error while reading from database",
 						'data'=>array('args'=>$args, 'columns'=>$columns, 'db_ctrl'=>$db_ctrl),
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -2221,7 +2263,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>11,
+					'numeric'=>12,
 					'text'=>"Error converting result to 'matrix' format",
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
@@ -2243,7 +2285,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		elseif($ctrl['r_mode'] != 'trie'){
 		    
 			throw new FOX_exception( array(
-				'numeric'=>12,
+				'numeric'=>13,
 				'text'=>"Invalid ctrl['r_mode'] parameter",
 				'data'=>$ctrl,
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -2274,7 +2316,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>13,
+					'numeric'=>14,
 					'text'=>"Error writing to persistent cache",
 					'data'=>array('update_cache'=>$update_cache, 'result'=>$result),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -2294,6 +2336,60 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 			}			
 		}
 		
+		// Flush any locked persistent cache pages that were created
+		// for keys which didn't exist in the database
+		// ===========================================================
+		
+		if($db_fetch){
+		    
+			$updated_pages = array();
+		    
+			if($update_cache){
+			
+				$updated_pages = array_keys($update_cache);
+			}
+			
+			$flush_pages = array_diff( array_keys($db_fetch), $updated_pages);		
+		}
+
+		if($flush_pages){ 
+		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
+					'text'=>"persistent_cache_flush_pages_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
+			try {
+				self::flushCachePage($flush_pages);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception( array(
+					'numeric'=>15,
+					'text'=>"Error flushing pages from persistent cache",
+					'data'=>array('flush_pages'=>$flush_pages),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>$child
+				));		    
+			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,				    
+					'text'=>"persistent_cache_flush_pages_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}			
+		}
 		
 		// Overwrite the class cache with the new cache image
 		// ===========================================================

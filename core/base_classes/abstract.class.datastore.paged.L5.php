@@ -1840,7 +1840,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			if($db_fetch){
 
 			    
-				// Lock affected cache pages (even if they don't exist) to prevent
+				// Lock affected cache pages for all requested items, to prevent
 				// corrupted keys in case another thread attempts to do a write
 				// operation while we're reading from the database
 				// ===========================================================
@@ -2335,8 +2335,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
 			}			
-		}
-		
+		}		
 
 		// Flush any locked persistent cache pages that were created
 		// for keys which didn't exist in the database
@@ -2392,8 +2391,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 				)));		    
 			}			
 		}
-		
-		
+				
 		// Overwrite the class cache with the new cache image
 		// ===========================================================
 		
