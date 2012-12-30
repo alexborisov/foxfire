@@ -10,30 +10,32 @@
 # Run test script command (default is specific to project language). It must use exit code 0 on success and any code on failure.
 # Run after_script scripts (if any)
 
+# Tests are run whenever a commit is made to the FoxFire repo #
 
 language: php
 
 # PHP versions to test against
 php:
-  # aliased to 5.2.17
+  # Aliased to 5.2.17
   - "5.2"
-  # aliased to a recent 5.3.x version
+  # Aliased to a recent 5.3.x version
   - "5.3"
-  # aliased to a recent 5.4.x version
+  # Aliased to a recent 5.4.x version
   - "5.4"
 
 # Database is MYSQL
 env:
-  - DB=mysql
+    - DB=mysql
 
-
-#services:
- #  - memcache
- #  - redis-server
-
-  # execute any number of scripts before the test run, custom env's are available as variables
+# Execute any number of scripts before the test run, custom env's are available as variables
 before_script:
     #- pecl install memcache
-    - mysql -e 'create database bpm_test;'
+    - wget https://raw.github.com/FoxFire/unit-testing/master/setup.sh
+    - source setup.sh
 
-script: test.php --plugin=bp-media
+# Call Razor
+script: php test.php --plugin=foxfire --expertmode --dblogin=root --dbhost=127.0.0.1
+
+notifications:
+  email:
+    #- If you want notifications, add your email here.
