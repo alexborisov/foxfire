@@ -17,7 +17,7 @@ language: php
 # PHP versions to test against
 php:
   # Aliased to 5.2.17
-  - "5.2"
+  #- "5.2"
   # Aliased to a recent 5.3.x version
   - "5.3"
   # Aliased to a recent 5.4.x version
