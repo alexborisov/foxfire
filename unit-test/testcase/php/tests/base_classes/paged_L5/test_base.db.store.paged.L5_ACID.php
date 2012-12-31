@@ -327,7 +327,7 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
 				'function'=>'getMulti', 
 				'text'=>'persistent_cache_lock_end',	
 			    
-				'modifier'=> function($parent, $vars) use (&$test_fixture) {		   
+				'modifier'=> function() use (&$test_fixture) {		   
 
 					$attacker = new FOX_dataStore_paged_L5_tester_ACID();
 					$attacker->process_id = 2600;
@@ -439,7 +439,7 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
 					throw new FOX_exception( array(
 						'numeric'=>5,
 						'text'=>"Error executing query on SQL server",
-						'data'=>array("query"=>$vars['query'], "ctrl"=>$vars['ctrl']),
+						'data'=>array("process_id"=>$parent['process_id'], "query"=>$vars['query'], "ctrl"=>$vars['ctrl']),
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>null
 					));
@@ -454,10 +454,8 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}
 	
-		// Run the victim class getL1 method, which uses the getMulti() method, 
-		// causing the action to fire and the modifier function to run. The 
-		// attacker PID should throw an exception. The victim PID should operate
-		// as normal.
+		// Run the test class getL1 method, which uses the getMulti() method, 
+		// causing the action to fire and the modifier function to run.
 		// ===========================================================
 		
 		$ctrl = array(		    
@@ -468,16 +466,11 @@ class core_L5_paged_abstract_ACID extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $test_cls->getL1(1, 'Y', 'K', 'K', 2, $ctrl, $valid);
+			$test_cls->getL1(1, 'Y', 'K', 'K', 2, $ctrl, $valid);
+			$test_fixture->fail("getMulti() failed to throw exception on database read failure");			
 		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(3));	
-		}
-		
-		$this->assertEquals(true, $valid);	
-		$this->assertEquals(-1, $result);	
-
+		catch (FOX_exception $child) { }
+			
 		
 	}	
 	
