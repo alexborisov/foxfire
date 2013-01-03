@@ -143,7 +143,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			$this->db =& $args['db'];		    
 		}
 		else {
-			$this->db = new FOX_db( array('pid'=>$this->process_id) );		    		    
+			$this->db = new FOX_db( array('pid'=>$this->process_id) ); 		    		    
 		}			
 			    
 		
@@ -1454,7 +1454,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			}
 		}		    		    				
 		
-		// Find all requested objects that don't have authority in the class cache (L5 to L2),
+		// Find all requested objects that don't have authority in the class cache (L4 to L2),
 		// or which don't exist in the class cache (L1) and try to load them from the persistent cache
 		// ==============================================================================================
 		
@@ -1547,7 +1547,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			unset($page_id, $page_image);
 
 
-			// Find all requested objects that didn't have authority in the class cache (L5 to L2),
+			// Find all requested objects that didn't have authority in the class cache (L4 to L2),
 			// or which didn't exist in the class cache (L1) and try to load them from the database
 			// =====================================================================================		
 
@@ -1697,7 +1697,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 					foreach( $db_fetch as $L4 => $L3s ){		
 
-						// If we're loading an entire L5 page from the db, we don't need to
+						// If we're loading an entire L4 page from the db, we don't need to
 						// merge into the class cache page (if it exists) because the result
 						// from the database has authority
 								
@@ -1707,7 +1707,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 
 							if( FOX_sUtil::keyExists($L4, $db_result) ){
 
-								// The L5 object now has authority
+								// The L4 object now has authority
 								$update_cache[$L4]['all_cached'] = true;
 
 								// Update descendent LUT's
@@ -1718,9 +1718,9 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 							}
 						}
 						else {
-							// However, for L4 or lower order objects, we have to merge into
-							// the L5 class cache page (if it exists) because the database
-							// result doesn't have L5 authority
+							// However, for L3 or lower order objects, we have to merge into
+							// the L4 class cache page (if it exists) because the database
+							// result doesn't have L4 authority
 
 							if( FOX_sUtil::keyExists($L4, $this->cache) ){
 
@@ -6583,7 +6583,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		// Lock all L4 cache pages in the $data array
 		// ===========================================================
 		
-		$L5_ids = array_keys($data);
+		$L4_ids = array_keys($data);
 		
 		if($this->debug_on){
 
@@ -6597,7 +6597,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		}
 		
 		try {
-			$page_images = self::lockCachePage($L5_ids);
+			$page_images = self::lockCachePage($L4_ids);
 		}
 		catch (FOX_exception $child) {
 		    
