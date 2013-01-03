@@ -4957,10 +4957,9 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 			foreach( $L2s as $L2 => $L1s ){
 
 				// Clear all objects currently inside the L2
-				unset($page_images[$L4]["keys"][$L3][$L2]);
+				unset($page_images[$L3]["keys"][$L2]);
 
 				$del_args[] = array(
-						    $this->L4_col=>$L4, 
 						    $this->L3_col=>$L3, 
 						    $this->L2_col=>$L2
 				);					    
@@ -4970,15 +4969,14 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 
 				if(!$parent_has_auth && !empty($L1s) ){	
 
-					$page_images[$L4][$this->L2_col][$L3][$L2] = true;
+					$page_images[$L3][$this->L2_col][$L2] = true;
 				}
 
 				foreach( $L1s as $L1 => $val){
 
-					$page_images[$L4]["keys"][$L3][$L2][$L1] = $val;
+					$page_images[$L3]["keys"][$L2][$L1] = $val;
 
 					$insert_data[] = array(
-								$this->L4_col=>$L4,
 								$this->L3_col=>$L3,
 								$this->L2_col=>$L2,
 								$this->L1_col=>$L1,
@@ -5452,8 +5450,8 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 	
 	/**
 	 * Replaces multiple L3 trie structures which MAY OR MAY NOT ALREADY EXIST in the datastore,  
-	 * deleting all L3->L1 walks for each L5->L3 intersect structure passed in the $data array,  
-	 * then adding the new L3->L1 walks contained in the intersect structure. 
+	 * deleting all L3->L1 walks for each L3 structure passed in the $data array,  
+	 * then adding the new L3->L1 walks contained in the structure. 
 	 *
 	 * @version 1.0
 	 * @since 1.0
@@ -5514,14 +5512,14 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 			));
 		}				
 		
-                $struct = $this->_struct();		
+                $struct = $this->_struct();
 		
-
+		
 		// Validate data array
 		// ===========================================================
 
 		if($ctrl['validate'] == true){
-		    		    
+		    
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
@@ -5534,8 +5532,8 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 			}
 		
 			try {			    			    
-				$validator = new FOX_dataStore_validator($struct);
-			
+				$validator = new FOX_dataStore_validator($struct);;
+		    
 				$val_ctrl = array(
 					'order'=>$this->order,
 					'mode'=>'data',
@@ -5543,7 +5541,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				);
 
 				$tree_valid = $validator->validateTrie($data, $val_ctrl);
-				
+			
 			}
 			catch( FOX_exception $child ){
 			    			    
@@ -5565,7 +5563,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 					'child'=>null
 				));			    
 			}
-				
+			
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
@@ -5577,9 +5575,8 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				)));		    
 			}
 		
-		}
-						
-
+		} 
+		
 		// Lock all L3 cache pages in the $data array
 		// ===========================================================
 		
@@ -5597,7 +5594,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		}
 		
 		try {
-			$page_images = self::lockCachePage($L3_ids);
+			self::lockCachePage($L3_ids);
 		}
 		catch (FOX_exception $child) {
 		    
@@ -5622,13 +5619,12 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		}
 		
 		// 1) Build $insert_data array
-		// 2) Calculate $del_args
-		// 3) Rebuild cache page images
+		// 2) Rebuild cache page images
 		// ================================================================
 
-		$insert_data = array();	
-		$del_args = array();		
-		$page_images = $this->cache;
+		$update_cache = $this->cache;
+		$dead_cache_pages = array();
+		$insert_data = array(); 
 
 		if($this->debug_on){
 
@@ -5641,23 +5637,33 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 			)));		    
 		}
 		
-		foreach( $data as $L3 => $L2s ){	
-			
-			// Avoid creating redundant LUT entries
+		foreach( $data as $L3 => $L2s ){
 		    
-			if( FOX_sUtil::keyExists('all_cached', $page_images[$L3]) ){
-			
-				$parent_has_auth = true;			    
+			if( empty($L2s) ){	
+
+				$dead_cache_pages[] = $L3;
+				unset($update_cache[$L3]);
 			}
-			else {			    
-				$parent_has_auth = false;			    
-			}			
+			else {
+				
+				$update_cache[$L3]['all_cached'] = true;
+
+				// Clear all objects currently inside the L3
+				
+				unset($update_cache[$L3]["keys"]);
+				
+				// Clear the LUT entries for all the L2's 
+				// that were inside the L3	
+				
+				unset($update_cache[$L3][$this->L2_col]);
+				
+
 
 			foreach( $L2s as $L2 => $L1s ){
 
 				foreach( $L1s as $L1 => $val){
 
-					$page_images[$L3]["keys"][$L2][$L1] = $val;
+					$update_cache[$L3]["keys"][$L2][$L1] = $val;
 
 					$insert_data[] = array(
 								$this->L3_col=>$L3,
@@ -5669,9 +5675,10 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				unset($L1, $val);
 			}
 			unset($L2, $L1s);
+
+			}
 		}
 		unset($L3, $L2s);
-
 		
 		if($this->debug_on){
 
@@ -5682,11 +5689,11 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
-		}
+		}		
 		
 		// Update the database
-		// ===========================================================		
-			
+		// ===========================================================
+
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
@@ -5697,6 +5704,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
 		}
+		
 		
 		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -5715,17 +5723,14 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 			));		    
 		}		
 
-		// Clear all L3->L2 intersects from the db
+		// Clear all entries for the L3s from the db
 		// ===========================================================
 
 		$args = array(
-				'key_col'=>array(
-						    $this->L3_col
-				),
-				'args'=>$del_args
+				array("col"=>$this->L3_col, "op"=>"=", "val"=>$L3_ids)
 		);
 		
-		$del_ctrl = array('args_format'=>'matrix');
+		$del_ctrl = null;
 		
 		if($this->debug_on){
 
@@ -5739,7 +5744,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		}
 		
 		try {
-			$this->db->runDeleteQuery($struct, $args, $del_ctrl);
+			$this->db->runDeleteQuery($struct, $args, $del_ctrl);			
 		}
 		catch (FOX_exception $child) {
 		    
@@ -5751,7 +5756,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				throw new FOX_exception( array(
 					'numeric'=>6,
 					'text'=>"Error while deleting from the database. Error rolling back.",
-					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args, 'del_ctrl'=>$del_ctrl),
+					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));		    
@@ -5775,12 +5780,12 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
-		}		
-
+		}
+		
 		// Insert updated walks
 		// ===========================================================
 
-		$insert_cols = null;
+		$insert_col = null;
 		$insert_ctrl = null;
 		
 		if($this->debug_on){
@@ -5795,7 +5800,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		}
 		
 		try {
-			$rows_set = $this->db->runInsertQueryMulti($struct, $insert_data, $insert_cols, $insert_ctrl);
+			$rows_set = $this->db->runInsertQueryMulti($struct, $insert_data, $insert_col, $insert_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
@@ -5832,7 +5837,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
 		}
-		
+
 		try {
 			$this->db->commitTransaction();
 		}
@@ -5846,7 +5851,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				'child'=>$child
 			));		    
 		}		
-
+		
 		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 		
@@ -5860,7 +5865,6 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
 		}
-		
 		
 		// Overwrite the locked L3 cache pages, releasing our lock
 		// ===========================================================
@@ -5877,19 +5881,19 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		}
 		
 		try {
-			self::writeCachePage($page_images);
+			self::writeCachePage($update_cache);
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
 				'numeric'=>11,
 				'text'=>"Cache set error",
-				'data'=>$page_images,
+				'data'=>$update_cache,
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
-		}		
-
+		}
+		
 		if($this->debug_on){
 
 			extract( $this->debug_handler->event( array(
@@ -5901,7 +5905,50 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 			)));		    
 		}
 		
-		$this->cache = $page_images;
+		// Flush any dead L3 cache pages, releasing our lock
+		// ===========================================================
+		
+		if($dead_cache_pages){
+		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
+			try {
+				self::flushCachePage($dead_cache_pages);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception( array(
+					'numeric'=>12,
+					'text'=>"Error flushing cache pages",
+					'data'=>$dead_cache_pages,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>$child
+				));		    
+			}
+		
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
+		}
+		
+		$this->cache = $update_cache;
 		
 		if($this->debug_on){
 
@@ -5913,8 +5960,10 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
 		}
+			
 		
 		return (int)$rows_set;
+		
 		
 	}
 
