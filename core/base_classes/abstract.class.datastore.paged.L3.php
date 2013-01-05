@@ -7840,7 +7840,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 
 			$this->cache[$L3] = $page_image;
 		}
-		unset($L4, $page_image);
+		unset($L3, $page_image);
 		
 				
 		// Flush dead pages from the class cache

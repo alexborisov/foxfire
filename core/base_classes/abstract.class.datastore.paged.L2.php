@@ -148,21 +148,18 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			$this->db =& $args['db'];		    
 		}
 		else {
-			$this->db = new FOX_db( array('pid'=>$this->process_id) );		    		    
+			$this->db = new FOX_db( array('pid'=>$this->process_id) ); 		    		    
 		}			
 			    
 		
                 $struct = $this->_struct();		
 		$columns = array_keys($struct['columns']);
+			
+		$this->L2_col = $columns[0];
+		$this->L1_col = $columns[1];	
+		$this->L0_col = $columns[2];		
 		
-		$this->L5_col = $columns[0];		
-		$this->L4_col = $columns[1];
-		$this->L3_col = $columns[2];
-		$this->L2_col = $columns[3];
-		$this->L1_col = $columns[4];	
-		$this->L0_col = $columns[5];		
-		
-		$this->order = 5;
+		$this->order = 2;
 								
 		$this->init = true;
 	    
@@ -175,9 +172,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string $L5 | Single L5
-	 * @param int/string $L4 | Single L4
-	 * @param int/string $L3 | Single L3
 	 * @param int/string $L2 | Single L2
 	 * @param int/string $L1s | Single L1 as int/string, multiple as array of int/string.
 	 * 
@@ -189,7 +183,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @return mixed | Exception on failure. Data object on success.
 	 */
 
-	public function getL1($L5, $L4, $L3, $L2, $L1s, $ctrl=null, &$valid=null){
+	public function getL1( $L2, $L1s, $ctrl=null, &$valid=null){
 
 	    
 		if(!$this->init){
@@ -251,24 +245,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				// a validator throws an exception, it will contain all info needed for debugging
 			    
 				$validator = new FOX_dataStore_validator($struct);	
-
-				$validator_result['L5'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L5
-				));							
-
-				$validator_result['L4'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L4
-				));	
-
-				$validator_result['L3'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L3_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L3
-				));	
 
 				$validator_result['L2'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L2_col]['php'],
@@ -361,11 +337,11 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			$single = false;
 		}		
 		
-		$get_data = array( $L5=>array( $L4=>array( $L3=>array( $L2=>array() ))));
+		$get_data = array( $L2=>array() );
 
 		foreach( $L1s as $L1 ){
 		    
-			$get_data[$L5][$L4][$L3][$L2][$L1] = true;			
+			$get_data[$L2][$L1] = true;			
 		}
 		unset($L1);
 				
@@ -403,7 +379,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			}
 			else {	
 				$L1 = array_pop($L1s);			    
-				$result = $result[$L5][$L4][$L3][$L2][$L1];
+				$result = $result[$L2][$L1];
 			}
 		}
 		else {
@@ -413,7 +389,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		    
 			if( $get_ctrl['r_mode'] == 'trie' ){
 			    
-				$result = $result[$L5][$L4][$L3][$L2];
+				$result = $result[$L2];
 			}		    
 		    
 		}
@@ -440,9 +416,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string $L5 | Single L5
-	 * @param int/string $L4 | Single L4
-	 * @param int/string $L3 | Single L3
 	 * @param int/string $L2s | Single L2 as int/string, multiple as array of int/string.
 	 * 
          * @param array $ctrl | Control parameters
@@ -453,7 +426,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @return mixed | Exception on failure. Data object on success.
 	 */
 
-	public function getL2($L5, $L4, $L3, $L2s, $ctrl=null, &$valid=null){
+	public function getL2($L2s, $ctrl=null, &$valid=null){
 	    
 		
 		if(!$this->init){
@@ -518,24 +491,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				// a validator throws an exception, it will contain all info needed for debugging
 			    
 				$validator = new FOX_dataStore_validator($struct);	
-			
-				$validator_result['L5'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L5
-				));	
-
-				$validator_result['L4'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L4
-				));	
-
-				$validator_result['L3'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L3_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L3
-				));	
 
 
 				// If a single L2 is sent in, we validate it *before* spinning it into an array,
@@ -624,11 +579,11 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			$single = false;
 		}
 		
-		$get_data = array( $L5=>array( $L4=>array( $L3=>array() )));
+		$get_data = array( );
 
 		foreach( $L2s as $L2 ){
 		    
-			$get_data[$L5][$L4][$L3][$L2] = true;			
+			$get_data[$L2] = true;			
 		}
 		unset($L2);
 		
@@ -662,20 +617,10 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			if( $get_ctrl['r_mode'] == 'trie' ){
 			    
 				$L2 = array_pop($L2s);			    
-				$result = $result[$L5][$L4][$L3][$L2];
+				$result = $result[$L2];
 			}
 		}
-		else {
-		    
-			// If using the 'trie' response format with multiple L2 end  
-			// nodes, 'lift' the parent L3 object out of the results array
-		    
-			if( $get_ctrl['r_mode'] == 'trie' ){
-			    
-				$result = $result[$L5][$L4][$L3];
-			}		    
-		    
-		}
+
 		
 		if($this->debug_on){
 		    
@@ -690,11 +635,10 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		
 		return $result;
 
-	}		
-	
-	
+	}
+		
 	/**
-	 * Fetches multiple L5->L1 walks from the datastore
+	 * Fetches multiple L2->L1 walks from the datastore
 	 *
 	 * @version 1.0
 	 * @since 1.0
@@ -702,20 +646,14 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * [MATRIX MODE] 
          * @param array $data | Array of row arrays 
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
-	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
 	 *	    => VAL @param int/string $L1 | Single L1 id as int/string
 	 * 
 	 * [TRIE MODE]
-         * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
-	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
-	 *	    => ARR @param array $L3s | array of L3's in the form "L3_id"=>"L2s"
-	 *		=> ARR @param array $L2s | array of L2's in the form "L2_id"=>"L1s"
-	 *		    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
-	 *			=> KEY @param int/string | L1 id
-	 *			    => VAL @param NULL	 
+         * @param array $data | array of L2's in the form "L2_id"=>"L1s"	 
+	 *		=> ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
+	 *		    => KEY @param int/string | L1 id
+	 *			=> VAL @param NULL	 
 	 * 
          * @param array $ctrl | Control parameters
 	 *	=> VAL @param bool $validate | Validate keys
@@ -868,9 +806,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			}
 				
 			$columns = array(
-					$this->L5_col, 
-					$this->L4_col, 
-					$this->L3_col, 
 					$this->L2_col, 
 					$this->L1_col
 			);
@@ -1006,7 +941,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			}
 		}		    		    				
 		
-		// Find all requested objects that don't have authority in the class cache (L5 to L2),
+		// Find all requested objects that don't have authority in the class cache (L3 to L2),
 		// or which don't exist in the class cache (L1) and try to load them from the persistent cache
 		// ==============================================================================================
 		
@@ -1023,6 +958,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			
 		try {
 			$cache_fetch = self::notInClassCache($get_data, $this->cache);	
+
 		}
 		catch (FOX_exception $child) {
 
@@ -1060,7 +996,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			}
 				
 			try {			    
-				$cache_pages = self::readCachePage( array_keys($cache_fetch) );
+				$cache_pages = self::readCachePage( array_keys($cache_fetch) );				
 			}
 			catch (FOX_exception $child) {
 
@@ -1099,7 +1035,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			unset($page_id, $page_image);
 
 
-			// Find all requested objects that didn't have authority in the class cache (L5 to L2),
+			// Find all requested objects that didn't have authority in the class cache (L3 to L2),
 			// or which didn't exist in the class cache (L1) and try to load them from the database
 			// =====================================================================================		
 
@@ -1129,55 +1065,48 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 
 			if($db_fetch){
 
+	
 				// Lock affected cache pages for all requested items, to prevent
 				// corrupted keys in case another thread attempts to do a write
 				// operation while we're reading from the database
 				// ===========================================================
 
 				if($this->debug_on){
-
 					extract( $this->debug_handler->event( array(
-						'pid'=>$this->process_id,			    
+						'pid'=>$this->process_id,          
 						'text'=>"persistent_cache_lock_start",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
-					)));		    
+					)));     
 				}
-
 				try {
-					self::lockCachePage( array_keys($db_fetch) );
 
+				self::lockCachePage( array_keys($db_fetch) );
 				}
 				catch (FOX_exception $child) {
-
 					throw new FOX_exception( array(
 						'numeric'=>10,
 						'text'=>"Error locking cache",
 						'data'=>$db_fetch,
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>$child
-					));		    
+					));        
 				}
-
 				if($this->debug_on){
-
 					extract( $this->debug_handler->event( array(
-						'pid'=>$this->process_id,			    
+						'pid'=>$this->process_id,          
 						'text'=>"persistent_cache_lock_end",
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'parent'=>$this,
 						'vars'=>compact(array_keys(get_defined_vars()))
-					)));		    
-				}	
-				
+					)));        
+				}  
+        			    
 				$columns = null;
 
 				$args = array(
 						'key_col'=>array(
-								    $this->L5_col, 
-								    $this->L4_col, 
-								    $this->L3_col, 
 								    $this->L2_col,
 								    $this->L1_col				    
 						),
@@ -1188,9 +1117,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 						    'args_format'=>'trie',
 						    'format'=>'array_key_array',
 						    'key_col'=>array(
-									$this->L5_col,
-									$this->L4_col,
-									$this->L3_col,
 									$this->L2_col,
 									$this->L1_col
 						    ),		    
@@ -1209,7 +1135,8 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				}
 					
 				try {
-					$db_result = $this->db->runSelectQuery($struct, $args, $columns, $db_ctrl);	
+					$db_result = $this->db->runSelectQuery($struct, $args, $columns, $db_ctrl);
+					
 				}
 				catch (FOX_exception $child) {
 
@@ -1246,121 +1173,67 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 						)));		    
 					}
 					
-					// Copy L5 pages in $this->cache to $update_cache as needed, then merge the db
-					// results into the L5 $update_cache pages. This saves memory over duplicating
+					// Copy L2 pages in $this->cache to $update_cache as needed, then merge the db
+					// results into the L3 $update_cache pages. This saves memory over duplicating
 					// the entire $this->cache variable.
 					// ============================================================================				
 
 					$update_cache = array();
 
-					foreach( $db_fetch as $L5 => $L4s ){		
+					foreach( $db_fetch as $L2 => $L1s ){		
 
-						// If we're loading an entire L5 page from the db, we don't need to
+						// If we're loading an entire L2 page from the db, we don't need to
 						// merge into the class cache page (if it exists) because the result
 						// from the database has authority
 								
-						if( count($L4s) == 0 ){	    
+						if( count($L1s) == 0 ){	    
 
 							// Overwrite keys
 
-							if( FOX_sUtil::keyExists($L5, $db_result) ){
+							if( FOX_sUtil::keyExists($L2, $db_result) ){
 
-								// The L5 object now has authority
-								$update_cache[$L5]['all_cached'] = true;
+								// The L2 object now has authority
+								$update_cache[$L2]['all_cached'] = true;
 
 								// Update descendent LUT's
-								unset($update_cache[$L5][$this->L4_col][$L4]);
-								unset($update_cache[$L5][$this->L3_col][$L4]);
-								unset($update_cache[$L5][$this->L2_col][$L4]);
+//								unset($update_cache[$L3][$this->L2_col][$L2]);
 
-								$update_cache[$L5]["keys"] = $db_result[$L5];				
+								$update_cache[$L2]["keys"] = $db_result[$L2];				
 							}
 						}
 						else {
-							// However, for L4 or lower order objects, we have to merge into
-							// the L5 class cache page (if it exists) because the database
-							// result doesn't have L5 authority
+							// However, for L2 or lower order objects, we have to merge into
+							// the L2 class cache page (if it exists) because the database
+							// result doesn't have L2 authority
 
-							if( FOX_sUtil::keyExists($L5, $this->cache) ){
+							if( FOX_sUtil::keyExists($L2, $this->cache) ){
 
-								$update_cache[$L5] = $this->cache[$L5];				
+								$update_cache[$L2] = $this->cache[$L2];				
+							}
+						}			    			    
+
+
+						foreach( $L1s as $L1 => $fake_var){
+
+							if( FOX_sUtil::keyExists($L1, $db_result[$L2]) ){
+
+								$update_cache[$L2]["keys"][$L1] = $db_result[$L2][$L1];				
 							}
 						}
+						unset($L1, $fake_var);
 
-						foreach( $L4s as $L4 => $L3s ){
-
-							if( count($L3s) == 0 ){	
-
-								if( FOX_sUtil::keyExists($L4, $db_result[$L5]) ){
-
-									// The L4 object now has authority
-									$update_cache[$L5][$this->L4_col][$L4] = true;
-
-									// Update descendent LUT's
-									unset($update_cache[$L5][$this->L3_col][$L4]);
-									unset($update_cache[$L5][$this->L2_col][$L4]);	
-									
-									$update_cache[$L5]["keys"][$L4] = $db_result[$L5][$L4];				
-								}
-							}			    
-
-							foreach( $L3s as $L3 => $L2s ){
-
-								if( count($L2s) == 0 ){
-
-									if( FOX_sUtil::keyExists($L3, $db_result[$L5][$L4]) ){
-
-										// The L3 object now has authority
-										$update_cache[$L5][$this->L3_col][$L4][$L3] = true;
-
-										// Update descendent LUT's
-										unset($update_cache[$L5][$this->L2_col][$L4][$L3]);	
-										
-										$update_cache[$L5]["keys"][$L4][$L3] = $db_result[$L5][$L4][$L3];				
-									}
-								}				    
-
-								foreach( $L2s as $L2 => $L1s ){
-
-									if( count($L1s) == 0 ){	    
-
-										if( FOX_sUtil::keyExists($L2, $db_result[$L5][$L4][$L3]) ){
-
-											// The L2 object now has authority
-											$update_cache[$L5][$this->L2_col][$L4][$L3][$L2] = true;
-											
-											$update_cache[$L5]["keys"][$L4][$L3][$L2] = $db_result[$L5][$L4][$L3][$L2];				
-										}
-									}
-
-									foreach( $L1s as $L1 => $fake_var){
-
-										if( FOX_sUtil::keyExists($L1, $db_result[$L5][$L4][$L3][$L2]) ){
-
-											$update_cache[$L5]["keys"][$L4][$L3][$L2][$L1] = $db_result[$L5][$L4][$L3][$L2][$L1];				
-										}
-									}
-									unset($L1, $fake_var);
-								}
-								unset($L2, $L1s);
-							}
-							unset($L3, $L2s);
-						}
-						unset($L4, $L3s);
 
 
 						// Clear empty walks from the LUT's
 						// ==========================================================================		
 
-						if( FOX_sUtil::keyExists($L5, $db_result) ){
+						if( FOX_sUtil::keyExists($L2, $db_result) ){
 						    
-							$update_cache[$L5][$this->L2_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L2_col], 3);
-							$update_cache[$L5][$this->L3_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L3_col], 2);	
-							$update_cache[$L5][$this->L4_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L4_col], 1);
+							$update_cache[$L2][$this->L2_col] = FOX_sUtil::arrayPrune($update_cache[$L2][$this->L2_col], 2);								
 						}
 
 					}
-					unset($L5, $L4s);
+					unset($L2, $L1);
 					
 					if($this->debug_on){
 
@@ -1415,102 +1288,43 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			)));		    
 		}
 		
-		foreach( $get_data as $L5 => $L4s ){		
+		foreach( $get_data as $L2 => $L1s ){		
 					    
 			// Handle "true", "null" etc end nodes. The algorithm is implemented this
 			// way to avoid excessive if-else nesting indentation. We know that any
 			// non-array keys are valid end nodes because the trie passed validation
 			// at the beginning of the class method
-		    
-			if( !is_array($L4s) ){	 
+
+			if( !is_array($L1s) ){	 
 			    
-				$L4s = array();	
+				$L1s = array();	
 			}
 				
-			if( count($L4s) == 0 ){	    
+			if( count($L1s) == 0 ){	    
 			    				
-				if( FOX_sUtil::keyExists($L5, $cache_image) ){
+				if( FOX_sUtil::keyExists($L2, $cache_image) ){
 				    
-					$result[$L5] = $cache_image[$L5]['keys'];				
+					$result[$L2] = $cache_image[$L2]['keys'];				
 				}
 				else {
 					$valid = false;
 				}
 			}
-			
-			foreach( $L4s as $L4 => $L3s ){
-			    
-				if( !is_array($L3s) ){	    
-							    
-					$L3s = array();	
+
+			foreach( $L1s as $L1 => $fake_var){						    
+
+				if( FOX_sUtil::keyExists($L1, $cache_image[$L2]['keys'] ) ){
+
+					$result[$L2][$L1] = $cache_image[$L2]['keys'][$L1];				
 				}
-			
-				if( count($L3s) == 0 ){	
-
-					if( FOX_sUtil::keyExists($L4, $cache_image[$L5]['keys']) ){
-
-						$result[$L5][$L4] = $cache_image[$L5]['keys'][$L4];				
-					}
-					else {
-						$valid = false;
-					}					
-				}			    
-
-				foreach( $L3s as $L3 => $L2s ){
-				    
-					if( !is_array($L2s) ){	    
-
-						$L2s = array();	
-					}
-					
-					if( count($L2s) == 0 ){
-
-						if( FOX_sUtil::keyExists($L3, $cache_image[$L5]['keys'][$L4]) ){
-
-							$result[$L5][$L4][$L3] = $cache_image[$L5]['keys'][$L4][$L3];				
-						}
-						else {
-							$valid = false;
-						}						
-					}				    
-
-					foreach( $L2s as $L2 => $L1s ){
-
-						if( !is_array($L1s) ){	    
-
-							$L1s = array();	
-						}
-				
-						if( count($L1s) == 0 ){	    
-						    
-							if( FOX_sUtil::keyExists($L2, $cache_image[$L5]['keys'][$L4][$L3]) ){
-
-								$result[$L5][$L4][$L3][$L2] = $cache_image[$L5]['keys'][$L4][$L3][$L2];				
-							}
-							else {
-								$valid = false;
-							}							
-						}
-					
-						foreach( $L1s as $L1 => $fake_var){						    
-							
-							if( FOX_sUtil::keyExists($L1, $cache_image[$L5]['keys'][$L4][$L3][$L2]) ){
-							    
-								$result[$L5][$L4][$L3][$L2][$L1] = $cache_image[$L5]['keys'][$L4][$L3][$L2][$L1];				
-							}
-							else {
-								$valid = false;
-							}							
-						}
-						unset($L1, $fake_var);
-					}
-					unset($L2, $L1s);
-				}
-				unset($L3, $L2s);
+				else {
+					$valid = false;
+				}							
 			}
-			unset($L4, $L3s);
+			unset($L1, $fake_var);
 		}
-		unset($L5, $L4s);
+		unset($L2, $L1s);
+		
 		
 		if($this->debug_on){
 
@@ -1539,9 +1353,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			$flatten_ctrl = array('mode'=>'data');	    // Set to 'data' mode so flattenAssocTrie() 
 								    // returns the values inside the trie's end nodes			
 			$flatten_cols = array(
-						$this->L5_col,
-						$this->L4_col,
-						$this->L3_col,
 						$this->L2_col,
 						$this->L1_col,
 						$this->L0_col	    // Include the L0 column so flattenAssocTrie()								    
@@ -1581,8 +1392,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));		    		    
-		}
-		
+		}		
 		
 		// Write updated page images to persistent cache
 		// ===========================================================
@@ -1626,24 +1436,24 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			}			
 		}
 		
-		// Flush any locked persistent cache pages that were created
+ 		// Flush any locked persistent cache pages that were created
 		// for keys which didn't exist in the database
 		// ===========================================================
-		
+
 		if($db_fetch){
-		    
+
 			$updated_pages = array();
-		    
+
 			if($update_cache){
-			
+
 				$updated_pages = array_keys($update_cache);
 			}
-			
+
 			$flush_pages = array_diff( array_keys($db_fetch), $updated_pages);		
 		}
 
 		if($flush_pages){ 
-		    
+
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
@@ -1654,7 +1464,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 					'vars'=>compact(array_keys(get_defined_vars()))
 				)));		    
 			}
-			
+
 			try {
 				self::flushCachePage($flush_pages);
 			}
@@ -1668,7 +1478,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 					'child'=>$child
 				));		    
 			}
-			
+
 			if($this->debug_on){
 
 				extract( $this->debug_handler->event( array(
@@ -1701,7 +1511,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		
 	}	
 	
-	
 	/**
 	 * Given a *minimum spanning trie* of objects to check, returns a minimum spanning trie
 	 * of objects in the original trie which don't have authority in the class cache.
@@ -1711,13 +1520,10 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 * 
-         * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
-	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
-	 *	    => ARR @param array $L3s | array of L3's in the form "L3_id"=>"L2s"
-	 *		=> ARR @param array $L2s | array of L2's in the form "L2_id"=>"L1s"
-	 *		    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
-	 *			=> KEY @param int/string | L1 id
-	 *			    => VAL @param NULL	 
+         * @param array $data | array of L2's in the form "L2_id"=>"L1s"	 
+	 *		=> ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
+	 *		    => KEY @param int/string | L1 id
+	 *			=> VAL @param NULL	 
 	 * 
 	 * @param array $cache_image | cache image to check against
 	 * 
@@ -1744,95 +1550,38 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	    
 		$result = array();
 	    	    
-		foreach( $data as $L5 => $L4s ){				    
+		foreach( $data as $L2 => $L1s ){				    
 		    
-			$L5_has_auth = FOX_sUtil::keyTrue('all_cached', $cache_image[$L5]);
+			$L2_has_auth = FOX_sUtil::keyTrue('all_cached', $cache_image[$L2]);
 		    
-			if(!$L5_has_auth){  					
+			if(!$L2_has_auth){  					
 			    		
 			    	// Handle "true", "null" etc end nodes. The algorithm is implemented this
 				// way to avoid excessive if-else nesting indentation. We know that any
 				// non-array keys are valid end nodes because the trie passed validation
 				// in the caller method
 			    
-				if( !is_array($L4s) ){	   
+				if( !is_array($L1s) ){	   
 				    
-					$L4s = array();	
+					$L1s = array();	
 				}
 				
-				if( count($L4s) == 0 ){	 
+				if( count($L1s) == 0 ){	 
 				    
-					$result[$L5] = array();					
+					$result[$L2] = array();					
 				}
-				
-				foreach( $L4s as $L4 => $L3s ){ 
 
-					$L4_has_auth = FOX_sUtil::keyTrue($L4, $cache_image[$L5][$this->L4_col]);
-					
-					if(!$L4_has_auth){  
+				foreach( $L1s as $L1 => $val){
 
-						if( !is_array($L3s) ){	    // Handle "true", "null" etc end nodes	
+					if( !FOX_sUtil::keyExists($L1, $cache_image[$L2]["keys"][$L1]) ){
 
-							$L3s = array();
-						}	
-						
-						if( count($L3s) == 0 ){	    
-
-							$result[$L5][$L4] = array();				
-						}				
-
-						foreach( $L3s as $L3 => $L2s ){
-
-							$L3_has_auth = FOX_sUtil::keyTrue($L3, $cache_image[$L5][$this->L3_col][$L4]);
-							
-							if(!$L3_has_auth){ 			
-
-								if( !is_array($L2s) ){	    // Handle "true", "null" etc end nodes	
-
-									$L2s = array();
-								}
-						
-								if( count($L2s) == 0 ){	    
-
-									$result[$L5][$L4][$L3] = array();				
-								}				    
-
-								foreach( $L2s as $L2 => $L1s ){
-								    
-									$L2_has_auth = FOX_sUtil::keyTrue($L2, $cache_image[$L5][$this->L2_col][$L4][$L3]);
-								    
-									if(!$L2_has_auth){
-
-										if( !is_array($L1s) ){	    // Handle "true", "null" etc end nodes	
-
-											$L1s = array();
-										}
-						
-										if( count($L1s) == 0 ) {
-
-											$result[$L5][$L4][$L3][$L2] = array();				
-										}
-
-										foreach( $L1s as $L1 => $val){
-
-											if( !FOX_sUtil::keyExists($L1, $cache_image[$L5]["keys"][$L4][$L3][$L2]) ){
-
-												$result[$L5][$L4][$L3][$L2][$L1] = true;											
-											}
-										}
-										unset($L1, $val);
-									}
-								}
-								unset($L2, $L1s);
-							}
-						}
-						unset($L3, $L2s);
+						$result[$L2][$L1] = true;											
 					}
 				}
-				unset($L4, $L3s);
+				unset($L1, $val);
 			}
 		}
-		unset($L5, $L4s);
+		unset($L2, $L1s);
 		
 		
 		if($this->debug_on){
@@ -1864,8 +1613,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string $L5 | Single L5
-	 * @param int/string $L4 | Single L4
 	 * @param int/string $L3 | Single L3
 	 * @param int/string $L2 | Single L2
 	 * @param int/string $L1 | Single L1
@@ -1877,7 +1624,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function addL1($L5, $L4, $L3, $L2, $L1, $val, $ctrl=null){
+	public function addL1( $L2, $L1, $val, $ctrl=null){
 
 	    
 		if(!$this->init){
@@ -1902,14 +1649,11 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		}		
 		
 		$data = array( array( 
-				$this->L5_col=>$L5, 
-				$this->L4_col=>$L4, 
-				$this->L3_col=>$L3, 
 				$this->L2_col=>$L2, 
 				$this->L1_col=>$L1, 
 				$this->L0_col=>$val
 		));
-		
+
 		try {
 			$result = self::addL1_multi($data, $ctrl);
 		}
@@ -1950,8 +1694,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
 	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
 	 *	    => VAL @param int/string $L1 | Single L1 id as int/string
@@ -2033,8 +1775,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string $L5 | Single L5
-	 * @param int/string $L4 | Single L4
 	 * @param int/string $L3 | Single L3
 	 * @param int/string $L2 | Single L2
 	 * @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
@@ -2047,7 +1787,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function addL2($L5, $L4, $L3, $L2, $L1s, $ctrl=null){
+	public function addL2($L2, $L1s, $ctrl=null){
 	    
 		
 		if(!$this->init){
@@ -2073,9 +1813,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		}
 		
 		$data = array( array(
-				$this->L5_col=>$L5, 
-				$this->L4_col=>$L4, 
-				$this->L3_col=>$L3, 
 				$this->L2_col=>$L2, 
 				$this->L1_col=>$L1s
 		));		
@@ -2119,8 +1856,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
 	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
 	 *	    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
@@ -2285,7 +2020,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			
 			foreach( $row[$this->L1_col] as $L1 => $L1_val ){
 
-				$set_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$L1] = $L1_val;
+				$set_data[$row[$this->L2_col]][$L1] = $L1_val;
 			}
 			unset($L1, $L1_val);
 			
@@ -2341,10 +2076,9 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		return $rows_changed;
 
 	}
-	
-	
+			
 	/**
-	 * Creates multiple L5->L1 walks. This method is used when adding walks that DO NOT ALREADY EXIST
+	 * Creates multiple L3->L1 walks. This method is used when adding walks that DO NOT ALREADY EXIST
 	 * in the store. This is an atomic operation. In the event of a collision with one or more walks
 	 * already present in the store, no data will be written, and the method will throw an error.
 	 *
@@ -2354,21 +2088,15 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * [MATRIX MODE] 
          * @param array $data | Array of row arrays 
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
-	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
 	 *	    => VAL @param int/string $L1 | Single L1 id as int/string
 	 *	    => VAL @param bool/int/float/string/array/obj $val | key value
 	 * 
 	 * [TRIE MODE]
-         * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
-	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
-	 *	    => ARR @param array $L3s | array of L3's in the form "L3_id"=>"L2s"
-	 *		=> ARR @param array $L2s | array of L2's in the form "L2_id"=>"L1s"
-	 *		    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
-	 *			=> KEY @param int/string | L1 id
-	 *			    => VAL @param bool/int/float/string/array/obj $val | key value	 
+         * @param array $data | array of L2's in the form "L2_id"=>"L1s"	 
+	 *		=> ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
+	 *		    => KEY @param int/string | L1 id
+	 *			=> VAL @param bool/int/float/string/array/obj $val | key value	 
 	 * 
          * @param array $ctrl | Control parameters
 	 *	=> VAL @param bool $validate | Validate keys
@@ -2463,7 +2191,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 							break;					    					    
 						}
 
-						$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
+						$update_data[$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
 
 					} 
 					unset($id, $row);
@@ -2517,7 +2245,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				
 				foreach( $data as $row ){   
 					
-					$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
+					$update_data[$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
 				} 
 				unset($row);	
 
@@ -2668,37 +2396,27 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			)));		    
 		}		
 
-		foreach( $update_data as $L5 => $L4s ){
 
-			foreach( $L4s as $L4 => $L3s ){
 
-				foreach( $L3s as $L3 => $L2s ){
 
-					foreach( $L2s as $L2 => $L1s ){
+		foreach( $update_data as $L2 => $L1s ){
 
-						foreach( $L1s as $L1 => $val){
+			foreach( $L1s as $L1 => $val){
 
-							$insert_data[] = array(
-										$this->L5_col=>$L5,
-										$this->L4_col=>$L4,
-										$this->L3_col=>$L3,
-										$this->L2_col=>$L2,
-										$this->L1_col=>$L1,
-										$this->L0_col=>$val
-							);
-								
-							$update_cache[$L5]["keys"][$L4][$L3][$L2][$L1] = $val;
+				$insert_data[] = array(
+							$this->L2_col=>$L2,
+							$this->L1_col=>$L1,
+							$this->L0_col=>$val
+				);
 
-						}
-						unset($L1, $val);
-					}
-					unset($L2, $L1s);
-				}
-				unset($L3, $L2s);
+				$update_cache[$L2]["keys"][$L1] = $val;
+
 			}
-			unset($L4, $L3s);
+			unset($L1, $val);
 		}
-		unset($L5, $L4s);
+		unset($L2, $L1s);
+
+
 			
 		if($this->debug_on){
 
@@ -2811,11 +2529,11 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		// Write updated cache page images to class cache
 		// ===========================================================
 		
-		foreach($update_cache as $L5 => $page_image){
+		foreach($update_cache as $L2 => $page_image){
 
-			$this->cache[$L5] = $page_image;
+			$this->cache[$L2] = $page_image;
 		}
-		unset($L5, $page_image);		
+		unset($L2, $page_image);		
 
 
 		if($this->debug_on){
@@ -2845,9 +2563,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string $L5 | Single L5
-	 * @param int/string $L4 | Single L4
-	 * @param int/string $L3 | Single L3
 	 * @param int/string $L2 | Single L2
 	 * @param int/string $L1 | Single L1
 	 * @param bool/int/float/string/array/obj $val | key value
@@ -2858,7 +2573,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function setL1($L5, $L4, $L3, $L2, $L1, $val, $ctrl=null){
+	public function setL1($L2, $L1, $val, $ctrl=null){
 	    
 		
 		if(!$this->init){
@@ -2883,9 +2598,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		}
 		
 		$data = array( array(
-				$this->L5_col=>$L5, 
-				$this->L4_col=>$L4, 
-				$this->L3_col=>$L3, 
 				$this->L2_col=>$L2, 
 				$this->L1_col=>$L1, 
 				$this->L0_col=>$val
@@ -2931,9 +2643,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
-	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
 	 *	    => VAL @param int/string $L1 | Single L1 id as int/string
 	 *	    => VAL @param vs $val | key value
@@ -3012,9 +2721,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string $L5 | Single L5
-	 * @param int/string $L4 | Single L4
-	 * @param int/string $L3 | Single L3
 	 * @param int/string $L2 | Single L2
 	 * @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
 	 *	=> KEY @param int/string | L1 id
@@ -3026,7 +2732,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function setL2($L5, $L4, $L3, $L2, $L1s, $ctrl=null){
+	public function setL2($L2, $L1s, $ctrl=null){
 
 	    
 		if(!$this->init){
@@ -3051,9 +2757,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		}
 		
 		$data = array( array(
-				$this->L5_col=>$L5, 
-				$this->L4_col=>$L4, 
-				$this->L3_col=>$L3, 
 				$this->L2_col=>$L2, 
 				$this->L1_col=>$L1s
 		));
@@ -3096,9 +2799,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
-	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
 	 *	    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
 	 *		=> KEY @param int/string | L1 id
@@ -3259,7 +2959,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			
 			foreach( $row[$this->L1_col] as $L1 => $L1_val ){
 
-				$set_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$L1] = $L1_val;
+				$set_data[$row[$this->L2_col]][$L1] = $L1_val;
 			}
 			unset($L1, $L1_val);
 		}
@@ -3314,8 +3014,9 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	}
 	
 
+	
 	/**
-	 * Creates or updates multiple L5->L1 walks which MAY OR MAY NOT ALREADY EXIST in the datastore
+	 * Creates or updates multiple L2->L1 walks which MAY OR MAY NOT ALREADY EXIST in the datastore
 	 *
 	 * @version 1.0
 	 * @since 1.0
@@ -3323,21 +3024,15 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * [MATRIX MODE] 
          * @param array $data | Array of row arrays 
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
-	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
 	 *	    => VAL @param int/string $L1 | Single L1 id as int/string
 	 *	    => VAL @param bool/int/float/string/array/obj $val | key value
 	 * 
 	 * [TRIE MODE]
-         * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
-	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
-	 *	    => ARR @param array $L3s | array of L3's in the form "L3_id"=>"L2s"
-	 *		=> ARR @param array $L2s | array of L2's in the form "L2_id"=>"L1s"
-	 *		    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
-	 *			=> KEY @param int/string | L1 id
-	 *			    => VAL @param bool/int/float/string/array/obj $val | key value	 
+         * @param array $data | array of L2's in the form "L2_id"=>"L1s"	 
+	 *		=> ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
+	 *		    => KEY @param int/string | L1 id
+	 *			=> VAL @param bool/int/float/string/array/obj $val | key value	 
 	 * 
          * @param array $ctrl | Control parameters
 	 *	=> VAL @param bool $validate | Validate keys
@@ -3433,7 +3128,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 							break;				    					    
 						}
 
-						$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
+						$update_data[$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
 
 					} 
 					unset($row);
@@ -3487,7 +3182,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				
 				foreach( $data as $row ){   
 					
-					$update_data[$row[$this->L5_col]][$row[$this->L4_col]][$row[$this->L3_col]][$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
+					$update_data[$row[$this->L2_col]][$row[$this->L1_col]] = $row[$this->L0_col];
 				} 
 				unset($row);	
 
@@ -3635,40 +3330,27 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
 			)));		    
-		}		
-		
-		foreach( $update_data as $L5 => $L4s ){
+		}				
 
-			foreach( $L4s as $L4 => $L3s ){
 
-				foreach( $L3s as $L3 => $L2s ){
 
-					foreach( $L2s as $L2 => $L1s ){
+		foreach( $update_data as $L2 => $L1s ){
 
-						foreach( $L1s as $L1 => $val){
+			foreach( $L1s as $L1 => $val){
 
-							$indate_data[] = array(
-										$this->L5_col=>$L5,
-										$this->L4_col=>$L4,
-										$this->L3_col=>$L3,
-										$this->L2_col=>$L2,
-										$this->L1_col=>$L1,
-										$this->L0_col=>$val
-							);								
+				$indate_data[] = array(
+							$this->L2_col=>$L2,
+							$this->L1_col=>$L1,
+							$this->L0_col=>$val
+				);								
 
-							// Overwrite the temp class cache array with the data we set in the db query
-							$update_cache[$L5]["keys"][$L4][$L3][$L2][$L1] = $val;
+				// Overwrite the temp class cache array with the data we set in the db query
+				$update_cache[$L2]["keys"][$L1] = $val;
 
-						}
-						unset($L1, $val);
-					}
-					unset($L2, $L1s);
-				}
-				unset($L3, $L2s);
 			}
-			unset($L4, $L3s);
+			unset($L1, $val);
 		}
-		unset($L5, $L4s);
+		unset($L2, $L1s);
 			
 		if($this->debug_on){
 
@@ -3878,11 +3560,11 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		// Write updated cache page images to class cache
 		// ===========================================================
 		
-		foreach($update_cache as $L5 => $page_image){
+		foreach($update_cache as $L2 => $page_image){
 
-			$this->cache[$L5] = $page_image;
+			$this->cache[$L2] = $page_image;
 		}
-		unset($L5, $page_image);
+		unset($L2, $page_image);
 		
 		
 		// Write updated cache page images to persistent cache
@@ -3942,14 +3624,12 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	
 	/**
 	 * Replaces a SINGLE L2 trie structure which MAY OR MAY NOT ALREADY EXIST in the datastore,
-	 * deleting all L2->L1 walks for the L5->L2 intersect, then adding the new L2->L1 walks 
+	 * deleting all L2->L1 walks for the L4->L2 intersect, then adding the new L2->L1 walks 
 	 * contained in the $data structure. 
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string $L5 | Single L5
-	 * @param int/string $L4 | Single L4
 	 * @param int/string $L3 | Single L3
 	 * @param int/string $L2 | Single L2 
 	 * 	 
@@ -3963,7 +3643,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @return int | Exception on failure. Int number of rows SET on success.
 	 */
 
-	public function replaceL2($L5, $L4, $L3, $L2, $data, $ctrl=null){
+	public function replaceL2( $L2, $data, $ctrl=null){
 
 	    
 		if(!$this->init){
@@ -4027,24 +3707,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				// a validator throws an exception, it will contain all info needed for debugging
 			    
 				$validator = new FOX_dataStore_validator($struct);	
-			
-				$validator_result['L5'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L5
-				));	
-
-				$validator_result['L4'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L4
-				));	
-
-				$validator_result['L3'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L3_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L3
-				));	
 
 				$validator_result['L2'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L2_col]['php'],
@@ -4116,7 +3778,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		// Replace items
 		// ==========================
 		
-		$replace_data = array( $L5=>array( $L4=>array( $L3=>array( $L2=>$data ))));
+		$replace_data = array( $L2=>$data );
 				
 		
 		$replace_ctrl = array(
@@ -4153,19 +3815,532 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	}
 		
 	
+	/**
+	 * Replaces multiple L2 trie structures which MAY OR MAY NOT ALREADY EXIST in the datastore,
+	 * deleting all L2->L1 walks for each L3->L2 intersect structure passed in the $data array, 
+	 * then adding the new L2->L1 walks contained in the intersect structure. 
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+         * @param array $data | array of L2's in the form "L2_id"=>"L1s"	 
+	 *		=> ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
+	 *		    => KEY @param int/string | L1 id
+	 *			=> VAL @param bool/int/float/string/array/obj $val | key value
+	 * 
+         * @param array $ctrl | Control parameters
+	 *	=> VAL @param bool $validate | Validate keys	 
+	 *
+	 * @return int | Exception on failure. Int number of rows SET on success.
+	 */
+
+	public function replaceL2_multi($data, $ctrl=null){
+
+
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		// Add default control params
+		// ==========================
+
+		$ctrl_default = array(
+			'validate'=>true
+		);
+
+		$ctrl = FOX_sUtil::parseArgs($ctrl, $ctrl_default);	
+		
+		if( !is_array($data) || (count($data) < 1) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Invalid data array",
+				'data'=>$data,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}				
+		
+                $struct = $this->_struct();
+		
+		
+		// Validate data array
+		// ===========================================================
+
+		if($ctrl['validate'] == true){
+		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
+			try {			    			    
+				$validator = new FOX_dataStore_validator($struct);;
+		    
+				$val_ctrl = array(
+					'order'=>$this->order,
+					'mode'=>'data',
+					'clip_order'=>3
+				);
+
+				$tree_valid = $validator->validateTrie($data, $val_ctrl);
+			
+			}
+			catch( FOX_exception $child ){
+			    			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error in validator",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>$child
+				));			    			    
+			}			
+			
+			if($tree_valid !== true){
+			    
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Invalid key in data array",
+					'data'=>$tree_valid,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}
+			
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"validate_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
+		} 
+		
+		// Lock all L2 cache pages in the $data array
+		// ===========================================================
+		
+		$L2_ids = array_keys($data);
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		try {
+			self::lockCachePage($L2_ids);
+		}
+		catch (FOX_exception $child) {
+		    
+			throw new FOX_exception( array(
+				'numeric'=>4,
+				'text'=>"Error locking cache pages",
+				'data'=>array("pages"=>$L3_ids),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_lock_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		// 1) Build $insert_data array
+		// 2) Rebuild cache page images
+		// ================================================================
+
+		$update_cache = $this->cache;
+		$dead_cache_pages = array();
+		$insert_data = array(); 
+
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		foreach( $data as $L2 => $L1s ){
+		    
+			if( empty($L1s) ){	
+
+				$dead_cache_pages[] = $L2;
+				unset($update_cache[$L2]);
+			}
+			else {
+				
+				$update_cache[$L2]['all_cached'] = true;
+
+				// Clear all objects currently inside the L3
+				
+				unset($update_cache[$L2]["keys"]);
+				
+				// Clear the LUT entries for all the L2's 
+				// that were inside the L3	
+				
+//				unset($update_cache[$L2][$this->L2_col]);
+				
+
+
+
+
+			    foreach( $L1s as $L1 => $val){
+
+				    $update_cache[$L2]["keys"][$L1] = $val;
+
+				    $insert_data[] = array(
+							    $this->L2_col=>$L2,
+							    $this->L1_col=>$L1,
+							    $this->L0_col=>$val
+				    );
+			    }
+			    unset($L1, $val);
+
+
+			}
+		}
+		unset($L2, $L1s);
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"build_data_array_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}		
+		
+		// Update the database
+		// ===========================================================
+
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		
+		// @@@@@@ BEGIN TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+		
+		try {
+			$this->db->beginTransaction();
+		}
+		catch (FOX_exception $child) {
+		    
+			throw new FOX_exception( array(
+				'numeric'=>5,
+				'text'=>"Couldn't initiate transaction",
+				'data'=>$data,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}		
+
+		// Clear all entries for the L2s from the db
+		// ===========================================================
+
+		$args = array(
+				array("col"=>$this->L2_col, "op"=>"=", "val"=>$L2_ids)
+		);
+		
+		$del_ctrl = null;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		try {
+			$this->db->runDeleteQuery($struct, $args, $del_ctrl);			
+		}
+		catch (FOX_exception $child) {
+		    
+			try {
+				$this->db->rollbackTransaction();
+			}
+			catch (FOX_exception $child_2) {
+
+				throw new FOX_exception( array(
+					'numeric'=>6,
+					'text'=>"Error while deleting from the database. Error rolling back.",
+					'data'=>array('rollback_exception'=>$child_2, 'args'=>$args),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>$child
+				));		    
+			}									
+
+			throw new FOX_exception( array(
+				'numeric'=>7,
+				'text'=>"Error while deleting from the database. Successful rollback.",
+				'data'=>array('args'=>$args),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}		
+
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_delete_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		// Insert updated walks
+		// ===========================================================
+
+		$insert_col = null;
+		$insert_ctrl = null;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		try {
+			$rows_set = $this->db->runInsertQueryMulti($struct, $insert_data, $insert_col, $insert_ctrl);
+		}
+		catch (FOX_exception $child) {
+		    
+			try {
+				$this->db->rollbackTransaction();
+			}
+			catch (FOX_exception $child_2) {
+
+				throw new FOX_exception( array(
+					'numeric'=>8,
+					'text'=>"Error while writing to the database. Error rolling back.",
+					'data'=>array('insert_data'=>$insert_data, 'rollback_exception'=>$child_2),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>$child
+				));		    
+			}									
+
+			throw new FOX_exception( array(
+				'numeric'=>9,
+				'text'=>"Error while writing to the database. Successful rollback.",
+				'data'=>$insert_data,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}				
+
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_insert_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+
+		try {
+			$this->db->commitTransaction();
+		}
+		catch (FOX_exception $child) {
+		    
+			throw new FOX_exception( array(
+				'numeric'=>10,
+				'text'=>"Error commiting transaction to database",
+				'data'=>$insert_data,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}		
+		
+		// @@@@@@ END TRANSACTION @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"db_transaction_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		// Overwrite the locked L2 cache pages, releasing our lock
+		// ===========================================================
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_start",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		try {
+			self::writeCachePage($update_cache);
+		}
+		catch (FOX_exception $child) {
+		    
+			throw new FOX_exception( array(
+				'numeric'=>11,
+				'text'=>"Cache set error",
+				'data'=>$update_cache,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"persistent_cache_write_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		// Flush any dead L2 cache pages, releasing our lock
+		// ===========================================================
+		
+		if($dead_cache_pages){
+		    
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_start",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+		
+			try {
+				self::flushCachePage($dead_cache_pages);
+			}
+			catch (FOX_exception $child) {
+
+				throw new FOX_exception( array(
+					'numeric'=>12,
+					'text'=>"Error flushing cache pages",
+					'data'=>$dead_cache_pages,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>$child
+				));		    
+			}
+		
+			if($this->debug_on){
+
+				extract( $this->debug_handler->event( array(
+					'pid'=>$this->process_id,			    
+					'text'=>"persistent_cache_flush_end",
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'parent'=>$this,
+					'vars'=>compact(array_keys(get_defined_vars()))
+				)));		    
+			}
+			
+		}
+		
+		$this->cache = $update_cache;
+		
+		if($this->debug_on){
+
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"method_end",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+			
+		
+		return (int)$rows_set;
+		
+		
+	}
+	
 	// #####################################################################################################################
 	// #####################################################################################################################
 	
 		
 	/**
-	 * Drops one or more L1 branches within a single L5->L2 walk from the datastore and cache
+	 * Drops one or more L1 branches within a single L4->L2 walk from the datastore and cache
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string $L5 | Single L5 id as int/string
-	 * @param int/string $L4 | Single L4 id as int/string
-	 * @param int/string $L3 | Single L3 id as int/string
 	 * @param int/string $L2 | Single L2 id as int/string
 	 * @param int/string/array $L1s | Single L1 id as int/string, multiple as array of int/string.
 	 * 
@@ -4175,7 +4350,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function dropL1($L5, $L4, $L3, $L2, $L1s, $ctrl=null) {
+	public function dropL1($L2, $L1s, $ctrl=null) {
 
 		
 		if(!$this->init){
@@ -4236,24 +4411,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				// a validator throws an exception, it will contain all info needed for debugging
 			    
 				$validator = new FOX_dataStore_validator($struct);	
-
-				$validator_result['L5'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L5
-				));
-
-				$validator_result['L4'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L4
-				));
-
-				$validator_result['L3'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L3_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L3
-				));
 
 				$validator_result['L2'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L2_col]['php'],
@@ -4348,7 +4505,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		
 		foreach($L1s as $key => $val){
 		    
-			$data[$L5][$L4][$L3][$L2][$val] = true;		    
+			$data[$L2][$val] = true;		    
 		}
 		unset($key, $val);
 		
@@ -4392,16 +4549,13 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	
 	
 	/**
-	 * Drops multiple [L5->L2 walk + L1 branch] arrays from the datastore and cache
+	 * Drops multiple [L2 + L1 branch] arrays from the datastore and cache
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
-	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
 	 *	    => VAL @param int/string/array $L1 | Single L1 id as int/string, multiple as array of int/string.
 	 *
@@ -4489,16 +4643,10 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 					if( is_array($row[$this->L1_col]) ){
 
 						$row_ctrl = array(  'required_keys'=>array(
-											    $this->L5_col,
-											    $this->L4_col,
-											    $this->L3_col,
 											    $this->L2_col,
 											    $this->L1_col
 								    ),
 								    'allowed_keys'=>array(
-											    $this->L5_col,
-											    $this->L4_col,
-											    $this->L3_col,
 											    $this->L2_col,
 											    $this->L1_col
 								    ),
@@ -4511,16 +4659,10 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 					else {
 						$row_ctrl = array(
 								    'required_keys'=>array(
-											    $this->L5_col,
-											    $this->L4_col,
-											    $this->L3_col,
 											    $this->L2_col,
 											    $this->L1_col
 								    ),
 								    'allowed_keys'=>array(
-											    $this->L5_col,
-											    $this->L4_col,
-											    $this->L3_col,
 											    $this->L2_col,
 											    $this->L1_col
 								    ),
@@ -4560,9 +4702,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				foreach( $row[$this->L1_col] as $L1 ){
 
 					$processed[] = array(
-								$this->L5_col => $row[$this->L5_col],
-								$this->L4_col => $row[$this->L4_col],
-								$this->L3_col => $row[$this->L3_col],
 								$this->L2_col => $row[$this->L2_col],
 								$this->L1_col => $L1					    
 					);
@@ -4650,14 +4789,11 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	    
 	
 	/**
-	 * Drops one or more L2 branches within a single L5->L3 walk from the datastore and cache
+	 * Drops one or more L2 branches within a single L3 from the datastore and cache
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param int/string $L5 | Single L5 id as int/string
-	 * @param int/string $L4 | Single L4 id as int/string
-	 * @param int/string $L3 | Single L3 id as int/string
 	 * @param int/string/array $L2s | Single L2 id as int/string, multiple as array of int/string.
 	 * 
          * @param array $ctrl | Control parameters
@@ -4666,7 +4802,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function dropL2($L5, $L4, $L3, $L2s, $ctrl=null) {
+	public function dropL2($L2s, $ctrl=null) {
 
 		
 		if(!$this->init){
@@ -4727,25 +4863,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				// a validator throws an exception, it will contain all info needed for debugging
 			    
 				$validator = new FOX_dataStore_validator($struct);	
-			
-				$validator_result['L5'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L5_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L5
-				));	
-
-				$validator_result['L4'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L4_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L4
-				));	
-
-				$validator_result['L3'] = $validator->validateKey( array(
-									'type'=>$struct['columns'][$this->L3_col]['php'],
-									'format'=>'scalar',
-									'var'=>$L3
-				));	
-
 
 				// If a single L2 is sent in, we validate it *before* spinning it into an array,
 				// so we can trap strings that PHP automatically converts to ints ("17")
@@ -4834,7 +4951,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		
 		foreach($L2s as $key => $val){
 		    
-			$data[$L5][$L4][$L3][$val] = true;		    
+			$data[$val] = true;		    
 		}
 		unset($key, $val);		
 		
@@ -4878,16 +4995,13 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	
 	
 	/**
-	 * Drops multiple [L5->L3 walk + L2 branch] arrays from the datastore and cache
+	 * Drops multiple [ L2 branch] arrays from the datastore and cache
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
          * @param array $data | Array of data arrays
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
-	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string/array $L2 | Single L2 id as int/string, multiple as array of int/string.
 	 *
          * @param array $ctrl | Control parameters
@@ -4975,15 +5089,9 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 					if( is_array($row[$this->L2_col]) ){
 
 						$row_ctrl = array(  'required_keys'=>array(
-											    $this->L5_col,
-											    $this->L4_col,
-											    $this->L3_col,
 											    $this->L2_col
 								    ),
 								    'allowed_keys'=>array(
-											    $this->L5_col,
-											    $this->L4_col,
-											    $this->L3_col,
 											    $this->L2_col
 								    ),
 								    'end_node_format'=>'array',
@@ -4994,15 +5102,9 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 					}
 					else {
 						$row_ctrl = array(  'required_keys'=>array(
-											    $this->L5_col,
-											    $this->L4_col,
-											    $this->L3_col,
 											    $this->L2_col
 								    ),
 								    'allowed_keys'=>array(
-											    $this->L5_col,
-											    $this->L4_col,
-											    $this->L3_col,
 											    $this->L2_col
 								    ),
 								    'end_node_format'=>'scalar'
@@ -5041,9 +5143,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				foreach( $row[$this->L2_col] as $L2 ){
 
 					$processed[] = array(
-								$this->L5_col => $row[$this->L5_col],
-								$this->L4_col => $row[$this->L4_col],
-								$this->L3_col => $row[$this->L3_col],
 								$this->L2_col => $L2				    
 					);
 				}
@@ -5125,9 +5224,9 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		
 	}
 	
-	
+		
 	/**
-	 * Drops multiple L5->L1 walks from the datastore
+	 * Drops multiple L2->L1 walks from the datastore
 	 *
 	 * @version 1.0
 	 * @since 1.0
@@ -5135,20 +5234,14 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 	 * [MATRIX MODE] 
          * @param array $data | Array of row arrays 
 	 *	=> ARR @param int '' | Individual row array
-	 *	    => VAL @param int/string $L5 | Single L5 id as int/string
-	 *	    => VAL @param int/string $L4 | Single L4 id as int/string
-	 *	    => VAL @param int/string $L3 | Single L3 id as int/string
 	 *	    => VAL @param int/string $L2 | Single L2 id as int/string
 	 *	    => VAL @param int/string $L1 | Single L1 id as int/string
 	 * 
 	 * [TRIE MODE]
-         * @param array $data | array of L5's in the form "L5_id"=>"L4s"	
-	 *	=> ARR @param array $L4s | array of L4's in the form "L4_id"=>"L3s"	 
-	 *	    => ARR @param array $L3s | array of L3's in the form "L3_id"=>"L2s"
-	 *		=> ARR @param array $L2s | array of L2's in the form "L2_id"=>"L1s"
-	 *		    => ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
-	 *			=> KEY @param int/string | L1 id
-	 *			    => VAL @param NULL	 
+         * @param array $data | array of L2's in the form "L2_id"=>"L1s"	 
+	 *		=> ARR @param array $L1s | array of L1's in the form "L1_id"=>"L1_value"
+	 *		    => KEY @param int/string | L1 id
+	 *			=> VAL @param NULL	 
 	 * 
          * @param array $ctrl | Control parameters
 	 *	=> VAL @param bool $validate | Validate keys
@@ -5285,9 +5378,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			// the tree to get the highest order cache LUT's affected by the delete
 						
 			$columns = array(
-					$this->L5_col, 
-					$this->L4_col, 
-					$this->L3_col, 
 					$this->L2_col, 
 					$this->L1_col
 			);
@@ -5339,7 +5429,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 					$validator = new FOX_dataStore_validator($struct);
 				
 					$val_ctrl = array(
-						'order'=>5,
+						'order'=>$this->order,
 						'mode'=>'control',
 						'allow_wildcard'=>false		    
 					);		
@@ -5479,97 +5569,48 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			)));		    
 		}
 		
-		foreach( $del_data as $L5 => $L4s ){		
+		foreach( $del_data as $L2 => $L1s ){		
 		    
 			// Handle "true", "null" etc end nodes. The algorithm is implemented this
 			// way to avoid excessive if-else nesting indentation. We know that any
 			// non-array keys are valid end nodes because the trie passed validation
 			// at the beginning of the class method
 		    
-			if( !is_array($L4s) ){	 
+			if( !is_array($L1s) ){	 
 			    
-				$L4s = array();	
+				$L1s = array();	
 			}			
 			
-			if( count($L4s) == 0 ){			// If the trie has no L4 structures, delete the
+			if( count($L1s) == 0 ){			// If the trie has no L4 structures, delete the
 								// entire cache page from the class cache, and flag
-				$dead_pages[] = $L5;		// the page to be flushed from the persistent cache			    
-				unset($update_cache[$L5]);
+				$dead_pages[] = $L2;		// the page to be flushed from the persistent cache			    
+				unset($update_cache[$L2]);
 				
 				continue;				
+			}		    
+
+
+
+			foreach( $L1s as $L1 => $val){
+
+				unset($update_cache[$L2]["keys"][$L1]);
 			}
+			unset($L1, $val);
 			
-			foreach( $L4s as $L4 => $L3s ){
-			    
-				if( !is_array($L3s) ){	 
-
-					$L3s = array();	
-				}
-			
-				if( count($L3s) == 0 ){	    // If the L4 structure has no L3 structures, 
-							    // delete its descendents' cache entries
-
-					unset($update_cache[$L5][$this->L4_col][$L4]);
-					unset($update_cache[$L5][$this->L3_col][$L4]);
-					unset($update_cache[$L5][$this->L2_col][$L4]);
-					unset($update_cache[$L5]["keys"][$L4]);
-				}			    
-
-				foreach( $L3s as $L3 => $L2s ){
-				    
-					if( !is_array($L2s) ){	 
-
-						$L2s = array();	
-					}
-				
-					if( count($L2s) == 0 ){	    // If the L3 structure has no L2 structures, 
-								    // delete its descendents' cache entries
-
-						unset($update_cache[$L5][$this->L3_col][$L4][$L3]);
-						unset($update_cache[$L5][$this->L2_col][$L4][$L3]);
-						unset($update_cache[$L5]["keys"][$L4][$L3]);
-					}				    
-
-					foreach( $L2s as $L2 => $L1s ){
-
-						if( !is_array($L1s) ){	 
-
-							$L1s = array();	
-						}
-					
-						if( count($L1s) == 0 ){	    // If the L2 structure has no L1 structures, 
-									    // delete its descendents' cache entries
-
-							unset($update_cache[$L5][$this->L2_col][$L4][$L3][$L2]);
-							unset($update_cache[$L5]["keys"][$L4][$L3][$L2]);
-						}
-					
-						foreach( $L1s as $L1 => $val){
-
-							unset($update_cache[$L5]["keys"][$L4][$L3][$L2][$L1]);
-						}
-						unset($L1, $val);
-					}
-					unset($L2, $L1s);
-				}
-				unset($L3, $L2s);
-			}
-			unset($L4, $L3s);
 			
 			
 			// Clear empty walks from the keystore and LUT's
 			// ==========================================================================		
 
-			$update_cache[$L5]['keys']	  = FOX_sUtil::arrayPrune($update_cache[$L5]['keys'], 4);			
-			$update_cache[$L5][$this->L2_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L2_col], 3);
-			$update_cache[$L5][$this->L3_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L3_col], 2);	
-			$update_cache[$L5][$this->L4_col] = FOX_sUtil::arrayPrune($update_cache[$L5][$this->L4_col], 1);
+			$update_cache[$L2]['keys']	  = FOX_sUtil::arrayPrune($update_cache[$L2]['keys'], 2);			
+
+
 			
 			
-			if( count($update_cache[$L5]['keys']) == 0 ){	    // If a cache page is empty after being pruned, delete 
+			if( count($update_cache[$L2]['keys']) == 0 ){	    // If a cache page is empty after being pruned, delete 
 									    // the entire cache page from the class cache, and flag
-				$dead_pages[] = $L5;			    // the page to be flushed from the persistent cache
-				unset($update_cache[$L5]);
+				$dead_pages[] = $L2;			    // the page to be flushed from the persistent cache
+				unset($update_cache[$L2]);
 			}			
 			
 			if($this->debug_on){
@@ -5584,7 +5625,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			}
 		
 		}
-		unset($L5, $L4s);
+		unset($L2, $L1s);
 			
 		
 		// Clear the specified structures from the DB
@@ -5603,9 +5644,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		
 		$args = array(
 				'key_col'=>array(
-						    $this->L5_col, 
-						    $this->L4_col, 
-						    $this->L3_col, 
 						    $this->L2_col,
 						    $this->L1_col				    
 				),
@@ -5672,21 +5710,21 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		// Write updated cache page images to class cache
 		// ===========================================================
 		
-		foreach($update_cache as $L5 => $page_image){
+		foreach($update_cache as $L2 => $page_image){
 
-			$this->cache[$L5] = $page_image;
+			$this->cache[$L2] = $page_image;
 		}
-		unset($L5, $page_image);
+		unset($L2, $page_image);
 		
 				
 		// Flush dead pages from the class cache
 		// ===========================================================		
 
-		foreach($dead_pages as $L5){
+		foreach($dead_pages as $L2){
 
-			unset($this->cache[$L5]);
+			unset($this->cache[$L2]);
 		}
-		unset($L5);
+		unset($L2);
 		
 
 		// Write updated cache page images to persistent cache
@@ -6015,7 +6053,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			)));		    
 		}
 		
-		// Since this operation affects ALL L5 pages, we have to flush the 
+		// Since this operation affects ALL L3 pages, we have to flush the 
 		// entire cache namespace
 		
 		if($this->debug_on){
@@ -6178,7 +6216,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			)));		    
 		}
 		
-		// Since this operation affects ALL L5 pages, we have to flush the 
+		// Since this operation affects ALL L3 pages, we have to flush the 
 		// entire cache namespace
 		
 		if($this->debug_on){
@@ -6230,7 +6268,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		return true;
 
 	}
-
 	
 
     
