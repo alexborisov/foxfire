@@ -1802,7 +1802,7 @@ class core_L2_paged_abstract_dropMethods extends RAZ_testCase {
 	* 
         * =======================================================================================
 	*/	
-	public function test_dropL2_multi_in_single_mode() {
+	public function test_dropL2_multi_mode() {
 
 	    
 		self::loadData();
@@ -1878,90 +1878,7 @@ class core_L2_paged_abstract_dropMethods extends RAZ_testCase {
 		$this->assertEquals($check, $result);
 		
 	}
-	
-       /**
-	* Test fixture for dropL2_multi() method
-	*
-	* @version 1.0
-	* @since 1.0
-	* 
-        * =======================================================================================
-	*/	
-	public function test_dropL2_multi_in_multi_mode() {
-
-	    
-		self::loadData();
 		
-		
-		$ctrl = array(
-			"validate"=>true
-		);	    
-		
-
-		// Drop multiple L2's in multi mode
-		// ==============================================
-		
-		try {		    
-			$drop_nodes = array(
-					array( "L2"=>array(1,3))	    
-			);	
-			
-			$rows_changed = $this->cls->dropL2_multi($drop_nodes, $ctrl);
-			
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));			
-		}
-		
-		// Should return (int)8 to indicate 8 rows were dropped from the db
-		$this->assertEquals(7, $rows_changed); 		
-
-		
-		// Verify datastore is in correct state
-		// ==============================================
-		
-		$test_obj = new stdClass();
-		$test_obj->foo = "11";
-		$test_obj->bar = "test_Bar";
-		
-		$check = array(			
-				2=>array(
-						    1=>(int)1,
-						    2=>(int)-1,
-						    3=>(float)1.7, 							    
-						    4=>(float)-1.6 			    
-				)		    
-		);	
-		
-		$request = array(
-				    1=>array(),	    // Request all L4 tries in datastore
-				    2=>array(),
-				    3=>array()		    
-		);
-		
-		$ctrl = array(
-			'validate'=>true,
-			'q_mode'=>'trie',
-			'r_mode'=>'trie',		    
-			'trap_*'=>true
-		);
-		
-		$valid = false;
-		
-		try {			
-			$result = $this->cls->getMulti($request, $ctrl, $valid);
-		}
-		catch (FOX_exception $child) {
-
-			$this->fail($child->dumpString(1));	
-		}
-		
-		$this->assertEquals(false, $valid);	// L3 node '1' and '3' shouldn't exist	
-		$this->assertEquals($check, $result);
-		
-	}
-	
        /**
 	* Test fixture for dropL2_multi() method, data integrity
 	*
