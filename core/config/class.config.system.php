@@ -168,7 +168,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid " . $key . " name",
-					'data'=>$val,
+					'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'msg'=>$val),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    
@@ -290,7 +290,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid " . $key . " name",
-					'data'=>$val,
+					'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'msg'=>$val),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    
@@ -421,7 +421,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid " . $key . " name",
-					'data'=>$val,
+					'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'msg'=>$val),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    
@@ -531,7 +531,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid " . $key . " name",
-					'data'=>$val,
+					'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'msg'=>$val),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    
@@ -549,8 +549,8 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 			throw new FOX_exception( array(
 				'numeric'=>3,
 				'text'=>"Filter method doesn't exist",
-				'data'=> array( 'plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch, 
-						'node'=>$node, 'filter'=>$filter),
+				'data'=> array( 'plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'val'=>$val,
+						'filter'=>$filter),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
@@ -569,8 +569,8 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error in filter function",
-				'data'=>array(  'plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch,
-						'filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
+				'data'=>array(  'plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'val'=>$val,
+						'filter'=>$filter, 'ctrl'=>$ctrl,
 						'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -582,7 +582,8 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 			throw new FOX_exception( array(
 				'numeric'=>5,
 				'text'=>"Filter function reports value data isn't valid",
-				'data'=>array('filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
+				'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'val'=>$val,
+					      'filter'=>$filter, 'ctrl'=>$ctrl,
 					      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
@@ -600,7 +601,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 		);
 
 		$set_ctrl = array(
-			'validate'=>true		    
+			'validate'=>false		    
 		);
 		
 		try {
@@ -611,8 +612,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 			throw new FOX_exception( array(
 				'numeric'=>6,
 				'text'=>"Error in self::setL1()",
-				'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch,
-					      'node'=>$node, 'val'=>$val),
+				'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'val'=>$val),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
@@ -711,15 +711,20 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 
 		$valid = false;
 
+		$get_ctrl = array(
+			'validate'=>false,
+			'r_mode'=>'trie'		    
+		);
+		
 		try {
-			$node_data = self::getNode($tree, $branch, $node, $valid);
+			$node_data = self::getL1($plugin, $tree, $branch, $node, $get_ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error in self::getNode()",
-				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
+				'numeric'=>3,
+				'text'=>"Error calling self::getL1()",
+				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
@@ -728,34 +733,95 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 		if(!$valid){
 
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Attempted to set data for nonexistent node",
-				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
+				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
+				'child'=>null
 			));
 		}
 
-		$filter = $node_data["filter"];
-		$ctrl = $node_data["ctrl"];
+		// Trap attempting to use a nonexistent filter (typically due to manual editing of the database)
+		// =====================================================
+		
+		$cls = new FOX_sanitize();
+
+		if( !method_exists($cls, $node_data["filter"]) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>5,
+				'text'=>"Filter method doesn't exist",
+				'data'=> array( 'plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch, 'node'=>$node,
+						'filter'=>$node_data["filter"]),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+		// Run node value through the specified filter
+		// =====================================================
+
+		$filter_valid = null; $filter_error = null; // Passed by reference
 
 		try {
-			$rows_changed = self::writeNode($tree, $branch, $node, $val, $filter, $ctrl);
+			$processed_val = $cls->{$node_data["filter"]}($val, $node_data["filter_ctrl"], $filter_valid, $filter_error);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>4,
-				'text'=>"Error in self::writeNode()",
-				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node,
-					       'val'=>$val, 'filter'=>$filter, 'ctrl'=>$ctrl),
+				'numeric'=>6,
+				'text'=>"Error in filter function",
+				'data'=>array(  'plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'val'=>$val,
+						'filter'=>$node_data["filter"], 'filter_ctrl'=>$node_data["filter_ctrl"],
+						'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
 
+		if(!$filter_valid){
 
-		return $rows_changed;
+			throw new FOX_exception( array(
+				'numeric'=>5,
+				'text'=>"Filter function reports value data isn't valid",
+				'data'=>array( 'plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'val'=>$val,
+					       'filter'=>$node_data["filter"], 'filter_ctrl'=>$node_data["filter_ctrl"],
+					       'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+		
+		// Update the database
+		// ===========================================================
+
+		$val = array(
+			    'filter'=>$node_data["filter"],
+			    'filter_ctrl'=>$node_data["filter_ctrl"],
+			    'val'=>$processed_val		    
+		);
+
+		$set_ctrl = array(
+			'validate'=>false		    
+		);
+		
+		try {
+			$rows_changed = self::setL1($plugin, $tree, $branch, $node, $val, $set_ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>6,
+				'text'=>"Error in self::setL1()",
+				'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'val'=>$val),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}				
+
+
+		return (int)$rows_changed;
 
 
 	}
