@@ -99,9 +99,86 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 
 	public function getTree($plugin, $tree, &$valid=null){
 
-	    
+
+		$struct = $this->_struct();
+		$validator_result = array();
+
+		try {
+
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);	
+
+
+			$validator_result['plugin'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L4_col]['php'],
+								'format'=>'scalar',
+								'var'=>$plugin
+			));	
+	
+			// If a single tree name is sent in, we validate it individually instead of automatically 
+			// spinning it into an array and validating the array. This lets us trap strings that PHP 
+			// automatically converts to ints ("17")
+
+			if( !is_array($tree) ){
+
+				$validator_result['tree'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L3_col]['php'],
+									'format'=>'scalar',
+									'var'=>$tree
+				));					
+			}
+			else {
+
+				foreach( $tree as $key => $val ){
+
+					$validator_result['tree'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L3_col]['php'],
+										'format'=>'scalar',
+										'var'=>$val
+					));	
+
+					if( $validator_result['tree'] !== true ){
+
+						break;
+					}
+				}
+				unset($key, $val);
+			}
+
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error in validator class",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}
+
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
+
+		foreach( $validator_result as $key => $val ){
+
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>$val,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
+		}
+		unset($key, $val);			
+		
 		$get_ctrl = array(
-			'validate'=>true,
+			'validate'=>false,
 			'r_mode'=>'trie'		    
 		);
 		
@@ -111,7 +188,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>3,
 				'text'=>"Error calling self::getL3()",
 				'data'=> array('plugin'=>$plugin,'tree'=>$tree),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -139,8 +216,91 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 	public function getBranch($plugin, $tree, $branch, &$valid=null){
 
 	    
+		$struct = $this->_struct();
+		$validator_result = array();
+
+		try {
+
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);	
+
+
+			$validator_result['plugin'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L4_col]['php'],
+								'format'=>'scalar',
+								'var'=>$plugin
+			));	
+	
+			$validator_result['tree'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L3_col]['php'],
+								'format'=>'scalar',
+								'var'=>$tree
+			));	
+			
+			// If a single branch name is sent in, we validate it individually instead of automatically 
+			// spinning it into an array and validating the array. This lets us trap strings that PHP 
+			// automatically converts to ints ("17")
+
+			if( !is_array($tree) ){
+
+				$validator_result['branch'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L2_col]['php'],
+									'format'=>'scalar',
+									'var'=>$branch
+				));					
+			}
+			else {
+
+				foreach( $branch as $key => $val ){
+
+					$validator_result['branch'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L2_col]['php'],
+										'format'=>'scalar',
+										'var'=>$val
+					));	
+
+					if( $validator_result['branch'] !== true ){
+
+						break;
+					}
+				}
+				unset($key, $val);
+			}
+
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error in validator class",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}
+
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
+
+		foreach( $validator_result as $key => $val ){
+
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>$val,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
+		}
+		unset($key, $val);			
+		
 		$get_ctrl = array(
-			'validate'=>true,
+			'validate'=>false,
 			'r_mode'=>'trie'		    
 		);
 		
@@ -150,7 +310,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>3,
 				'text'=>"Error calling self::getL2()",
 				'data'=> array('plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -180,8 +340,99 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 	public function getNode($plugin, $tree, $branch, $node, &$valid=null){
 
 	    
+		$struct = $this->_struct();
+		$validator_result = array();
+
+		try {
+
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);	
+
+
+			$validator_result['plugin'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L4_col]['php'],
+								'format'=>'scalar',
+								'var'=>$plugin
+			));	
+	
+			$validator_result['tree'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L3_col]['php'],
+								'format'=>'scalar',
+								'var'=>$tree
+			));	
+			
+			$validator_result['branch'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L2_col]['php'],
+								'format'=>'scalar',
+								'var'=>$branch
+			));	
+			
+			
+			// If a single branch name is sent in, we validate it individually instead of automatically 
+			// spinning it into an array and validating the array. This lets us trap strings that PHP 
+			// automatically converts to ints ("17")
+
+			if( !is_array($tree) ){
+
+				$validator_result['node'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L1_col]['php'],
+									'format'=>'scalar',
+									'var'=>$node
+				));					
+			}
+			else {
+
+				foreach( $node as $key => $val ){
+
+					$validator_result['node'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L1_col]['php'],
+										'format'=>'scalar',
+										'var'=>$val
+					));	
+
+					if( $validator_result['node'] !== true ){
+
+						break;
+					}
+				}
+				unset($key, $val);
+			}
+
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error in validator class",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}
+
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
+
+		foreach( $validator_result as $key => $val ){
+
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>$val,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
+		}
+		unset($key, $val);
+
+		
 		$get_ctrl = array(
-			'validate'=>true,
+			'validate'=>false,
 			'r_mode'=>'trie'		    
 		);
 		
@@ -191,7 +442,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>3,
 				'text'=>"Error calling self::getL1()",
 				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -224,13 +475,79 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 	public function writeNode($plugin, $tree, $branch, $node, $val, $filter, $ctrl=null){
 
 
+		$struct = $this->_struct();
+		$validator_result = array();
+
+		try {
+
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);	
+
+
+			$validator_result['plugin'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L4_col]['php'],
+								'format'=>'scalar',
+								'var'=>$plugin
+			));	
+	
+			$validator_result['tree'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L3_col]['php'],
+								'format'=>'scalar',
+								'var'=>$tree
+			));	
+			
+			$validator_result['branch'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L2_col]['php'],
+								'format'=>'scalar',
+								'var'=>$branch
+			));	
+			
+			$validator_result['node'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L1_col]['php'],
+								'format'=>'scalar',
+								'var'=>$node
+			));			
+
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error in validator class",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}
+
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
+
+		foreach( $validator_result as $key => $val ){
+
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>$val,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
+		}
+		unset($key, $val);
+
+		
 		// Trap attempting to use a nonexistent filter
 		$cls = new FOX_sanitize();
 
 		if( !method_exists($cls, $filter) ){
 
 			throw new FOX_exception( array(
-				'numeric'=>1,
+				'numeric'=>3,
 				'text'=>"Filter method doesn't exist",
 				'data'=> array( 'plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch, 
 						'node'=>$node, 'filter'=>$filter),
@@ -250,7 +567,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>4,
 				'text'=>"Error in filter function",
 				'data'=>array(  'plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch,
 						'filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
@@ -263,7 +580,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 		if(!$filter_valid){
 
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>5,
 				'text'=>"Filter function reports value data isn't valid",
 				'data'=>array('filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
 					      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
@@ -292,7 +609,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>4,
+				'numeric'=>6,
 				'text'=>"Error in self::setL1()",
 				'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch,
 					      'node'=>$node, 'val'=>$val),
@@ -323,16 +640,71 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 	public function setNode($plugin, $tree, $branch, $node, $val){
 
 
-		if( empty($tree) || empty($branch) || empty($node) ){
+		$struct = $this->_struct();
+		$validator_result = array();
+
+		try {
+
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);	
+
+
+			$validator_result['plugin'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L4_col]['php'],
+								'format'=>'scalar',
+								'var'=>$plugin
+			));	
+	
+			$validator_result['tree'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L3_col]['php'],
+								'format'=>'scalar',
+								'var'=>$tree
+			));	
+			
+			$validator_result['branch'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L2_col]['php'],
+								'format'=>'scalar',
+								'var'=>$branch
+			));	
+			
+			$validator_result['node'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L1_col]['php'],
+								'format'=>'scalar',
+								'var'=>$node
+			));
+				
+		}
+		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Invalid tree, branch, or node",
-				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
+				'text'=>"Error in validator class",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
+				'child'=>$child
+			));		    
 		}
+
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
+
+		foreach( $validator_result as $key => $val ){
+
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>$val,
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
+		}
+		unset($key, $val);
+		
 
 		// Grab the node's info so we know it's $filter and $ctrl args
 		// ============================================================
