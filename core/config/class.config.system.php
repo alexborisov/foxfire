@@ -1,20 +1,20 @@
 <?php
 
 /**
- * BP-MEDIA CONFIGURATION CLASS
+ * FOXFIRE CONFIGURATION CLASS
  * Handles all configuration settings for the plugin
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package BP-Media
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Config
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class BPM_config extends FOX_dataStore_paged_L4_base {
+class FOX_config extends FOX_dataStore_paged_L4_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache
@@ -32,9 +32,9 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 
 	public static $struct = array(
 
-		"table" => "BPM_config",
+		"table" => "FOX_config",
 		"engine" => "InnoDB",
-		"cache_namespace" => "BPM_config",
+		"cache_namespace" => "FOX_config",
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
@@ -65,24 +65,11 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 			$this->mCache = &$args['mCache'];
 		}
 		else {
-			global $bpm;
-			$this->process_id = &$bpm->process_id;
+			global $fox;
+			$this->process_id = &$fox->process_id;
 		}
 		
 		$this->init();		
-
-		try{
-			self::loadCache();
-		}
-		catch(FOX_exception $child){
-
-			throw new FOX_exception(array(
-				'numeric'=>1,
-				'text'=>"Error loading cache",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
 
 	}
 	
@@ -1456,14 +1443,14 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 
 					foreach($nodes as $node => $fake_var){
 
-						if( !FOX_sUtil::keyExists($query_keys[$plugin][$tree][$branch], $node) ){
+						if( !FOX_sUtil::keyExists($current_keys[$plugin][$tree][$branch], $node) ){
 						    
 							$invalid_keys[] = "Plugin: $plugin Tree: $tree Branch: $branch Key: $key";
 							continue;
 						}
 							
-						$filter = $query_keys[$plugin][$tree][$branch][$node]["filter"];
-						$filter_ctrl = $query_keys[$plugin][$tree][$branch][$node]["filter_ctrl"];
+						$filter = $current_keys[$plugin][$tree][$branch][$node]["filter"];
+						$filter_ctrl = $current_keys[$plugin][$tree][$branch][$node]["filter_ctrl"];
 
 						// Remove any escaping PHP has added to the posted form value						
 						$post_key =  $plugin . $this->key_delimiter . $tree . $this->key_delimiter;
@@ -1506,7 +1493,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 						// If the new value doesn't match the stored value, update the key
 						// ====================================================================
 
-						if( $new_val != $query_keys[$plugin][$tree][$branch][$node]["val"]){
+						if( $new_val != $current_keys[$plugin][$tree][$branch][$node]["val"]){
 
 							$update_keys[$plugin][$tree][$branch][$node] = array(
 								'filter'=>$filter,
@@ -1537,8 +1524,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 				'data'=>$invalid_keys,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
-			));		    
-		    
+			));		    		    
 		}
 		
 		if($update_keys){
@@ -1600,16 +1586,16 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
          * @return ECHO | ECHO composited key name on success.
          */
 
-	public function printKeyName($tree, $branch, $key){
+	public function printKeyName($plugin, $tree, $branch, $key){
 
 
-		echo 'name="' . self::getKeyName($tree, $branch, $key) . '"';
+		echo 'name="' . self::getKeyName($plugin, $tree, $branch, $key) . '"';
 
 	}
 
-	public function getKeyName($tree, $branch, $key){
+	public function getKeyName($plugin, $tree, $branch, $key){
 
-		$key_name = ($tree . $this->key_delimiter . $branch . $this->key_delimiter . $key);
+		$key_name = ($plugin . $this->key_delimiter . $tree . $this->key_delimiter . $branch . $this->key_delimiter . $key);
 
 		// Add formatted key name to the $keys array
 		$this->print_keys[$key_name] = true;
@@ -1633,7 +1619,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
          * @return ECHO | ECHO exception on failure. ECHO composited key name on success.
          */
 
-	public function printKeyVal($tree, $branch, $key, $validate=false){
+	public function printKeyVal($plugin, $tree, $branch, $key, $validate=false){
 
 
 		$result = 'value="';
@@ -1641,7 +1627,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 
 
 		try {
-			$result .= self::getNodeVal($tree, $branch, $key, $is_valid);
+			$result .= self::getNode($plugin, $tree, $branch, $key, $is_valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1658,7 +1644,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Key doesn't exist",
-				'data'=>array('tree'=>$tree, 'branch'=>$branch, 'key'=>$key),
+				'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'key'=>$key),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));
@@ -1698,7 +1684,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 
 		$keys_left = count( $this->print_keys) - 1;
 
-		foreach( $this->print_keys as $key_name => $value) {
+		foreach( $this->print_keys as $key_name => $fake_var) {
 
 			$result .= $key_name;
 
@@ -1707,6 +1693,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 				$keys_left--;
 			}
 		}
+		unset($fake_var);
 
                 $result .= '" />';
 
