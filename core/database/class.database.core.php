@@ -160,7 +160,6 @@ class FOX_db {
 		$this->collate = $args['collate'];
 		$this->base_prefix = $args['base_prefix'];
 		
-		//var_dump($args); die;
 		
 		// Trap invalid or inactive SQL API drivers
 		// ====================================================================================

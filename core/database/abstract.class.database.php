@@ -522,6 +522,7 @@ abstract class FOX_db_base {
 		}		
 
 		try {
+
 			$cache_image = $this->mCache->readCache( 
 								array( 
 									'engine'=>$struct["cache_engine"], 
@@ -531,6 +532,7 @@ abstract class FOX_db_base {
 			);		    
 		}
 		catch (FOX_exception $child) {
+
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
