@@ -1,20 +1,20 @@
 <?php
 
 /**
- * FOXFIRE CONFIGURATION CLASS
+ * BP-MEDIA CONFIGURATION CLASS
  * Handles all configuration settings for the plugin
  *
- * @version 1.0
- * @since 1.0
- * @package FoxFire
+ * @version 0.1.9
+ * @since 0.1.9
+ * @package BP-Media
  * @subpackage Config
  * @license GPL v2.0
- * @link https://github.com/FoxFire/foxfire
+ * @link http://code.google.com/p/buddypress-media/
  *
  * ========================================================================================================
  */
 
-class FOX_config extends FOX_dataStore_monolithic_L3_base {
+class BPM_config extends FOX_dataStore_paged_L4_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache
@@ -32,32 +32,27 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 
 	public static $struct = array(
 
-	    "table" => "fox_sys_config_data",
-	    "engine" => "InnoDB",
-	    "cache_namespace" => "FOX_config",
-	    "cache_strategy" => "monolithic",
-	    "cache_engine" => array("memcached", "redis", "apc"),
-	    "columns" => array(
-
-		"tree"=>    array(  "php"=>"string",    "sql"=>"varchar",   "format"=>"%s", "width"=>32,	"index"=>array("name"=>
-				    "tree_branch_node", "col"=>array("tree", "branch", "node"), "index"=>"PRIMARY"), "this_row"=>true),
-
-		"branch"=>  array(	"php"=>"string",    "sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",    "auto_inc"=>false,  "default"=>null,    "index"=>true),
-		"node"=>    array(	"php"=>"string",    "sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",    "auto_inc"=>false,  "default"=>null,    "index"=>true),
-		"filter"=>  array(	"php"=>"string",    "sql"=>"varchar",   "format"=>"%s", "width"=>64,   "flags"=>"NOT NULL",    "auto_inc"=>false,  "default"=>null,    "index"=>true),
-		"val"=>	    array(	"php"=>"serialize", "sql"=>"longtext",  "format"=>"%s", "width"=>null,  "flags"=>"",		"auto_inc"=>false,  "default"=>null,    "index"=>false),
-		"ctrl"=>    array(	"php"=>"serialize", "sql"=>"longtext",  "format"=>"%s", "width"=>null,  "flags"=>"",		"auto_inc"=>false,  "default"=>null,    "index"=>false)
-	     )
-	);
-
-
-	// PHP allows this: $foo = new $class_name; $result = $foo::$struct; but does not allow this: $result = $class_name::$struct;
-	// or this: $result = $class_name::get_struct(); ...so we have to do this: $result = call_user_func( array($class_name,'_struct') );
+		"table" => "BPM_config",
+		"engine" => "InnoDB",
+		"cache_namespace" => "BPM_config",
+		"cache_strategy" => "paged",
+		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
+		"columns" => array(
+		    "plugin" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,
+			// This forces every combination to be unique
+			"index"=>array("name"=>"top_level_index",	"col"=>array("plugin", "tree", "branch", "node"), "index"=>"PRIMARY"), "this_row"=>true),
+		    "tree" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+		    "branch" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+		    "node" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
+		    "data" =>	array(	"php"=>"serialize", "sql"=>"longtext",	"format"=>"%s", "width"=>null,	"flags"=>"",		"auto_inc"=>false,  "default"=>null,	"index"=>false),
+		 )
+	);	
 
 	public static function _struct() {
 
 		return self::$struct;
 	}
+	
 
 	// ================================================================================================================
 
@@ -70,10 +65,11 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 			$this->mCache = &$args['mCache'];
 		}
 		else {
-			global $fox;
-			$this->process_id = &$fox->process_id;
-			$this->mCache = &$fox->mCache;
+			global $bpm;
+			$this->process_id = &$bpm->process_id;
 		}
+		
+		$this->init();		
 
 		try{
 			self::loadCache();
@@ -83,19 +79,846 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Error loading cache",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));
 		}
 
 	}
+	
+	/**
+	 * Fetches an entire tree
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string/array $tree | single tree as string. Multiple trees as array of string.
+	 * @param bool $valid | true if all requested trees exist.
+	 * @return array | Exception on failure. Data array on success.
+	 */
+
+	public function getTree($plugin, $tree, &$valid=null){
+
+	    
+		$get_ctrl = array(
+			'validate'=>true,
+			'r_mode'=>'trie'		    
+		);
+		
+		try {
+			$result = self::getL3($plugin, $tree, $get_ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error calling self::getL3()",
+				'data'=> array('plugin'=>$plugin,'tree'=>$tree),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		return $result;
+
+	}
+
+
+	/**
+	 * Fetches an entire branch. If the branch is not in the cache yet, it
+	 * will be retrieved from the database and added to the cache.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * @param string $tree | tree name
+	 * @param string/array $branch | single branch as string. Multiple branches as array of string.
+	 * @param bool $valid | true if all requested branches exist.
+	 * @return array | Exception on failure. Data array on success.
+	 */
+
+	public function getBranch($plugin, $tree, $branch, &$valid=null){
+
+	    
+		$get_ctrl = array(
+			'validate'=>true,
+			'r_mode'=>'trie'		    
+		);
+		
+		try {
+			$result = self::getL2($plugin, $tree, $branch, $get_ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error calling self::getL2()",
+				'data'=> array('plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		return $result;
+
+	}
+
+
+	/**
+	 * Fetches a key's value, filter function, and filter function config data as an array. If the key's
+	 * data is not in the cache yet, it will be retrieved from the database and added to the cache.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $tree | tree name
+	 * @param string $branch | branch name
+	 * @param string/array $node | single node as string. Multiple nodes as array of string.
+	 * @param bool $valid | true if all requested nodes exist
+	 * @return array | Exception on failure. Data array on success.
+	 */
+
+	public function getNode($plugin, $tree, $branch, $node, &$valid=null){
+
+	    
+		$get_ctrl = array(
+			'validate'=>true,
+			'r_mode'=>'trie'		    
+		);
+		
+		try {
+			$result = self::getL1($plugin, $tree, $branch, $node, $get_ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error calling self::getL1()",
+				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		return $result;
+
+	}
+
+
+	/**
+	 * Updates an existing node if the $tree-$branch-$node tuple already exists
+	 * in the db, or creates a new node if it doesn't.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $tree | Tree name
+	 * @param string $branch | Branch name
+	 * @param string $node | Node name.
+	 * @param mixed  $val | Value to store to node
+	 * @param string $filter | The filter function to validate data stored to node
+	 * @param array $ctrl | Filter function's control args
+	 *
+	 * @return int | Exception on failure. Number of db rows changed on success.
+	 */
+
+	public function writeNode($plugin, $tree, $branch, $node, $val, $filter, $ctrl=null){
+
+
+		// Trap attempting to use a nonexistent filter
+		$cls = new FOX_sanitize();
+
+		if( !method_exists($cls, $filter) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Filter method doesn't exist",
+				'data'=> array( 'plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch, 
+						'node'=>$node, 'filter'=>$filter),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+		// Run node value through the specified filter
+		// =====================================================
+
+		$filter_valid = null; $filter_error = null; // Passed by reference
+
+		try {
+			$processed_val = $cls->{$filter}($val, $ctrl, $filter_valid, $filter_error);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error in filter function",
+				'data'=>array(  'plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch,
+						'filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
+						'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		if(!$filter_valid){
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Filter function reports value data isn't valid",
+				'data'=>array('filter'=>$filter, 'val'=>$val, 'ctrl'=>$ctrl,
+					      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+		
+		// Update the database
+		// ===========================================================
+
+		$val = array(
+			    'filter'=>$filter,
+			    'filter_ctrl'=>$ctrl,
+			    'val'=>$processed_val		    
+		);
+
+		$set_ctrl = array(
+			'validate'=>true		    
+		);
+		
+		try {
+			$rows_changed = self::setL1($plugin, $tree, $branch, $node, $val, $set_ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>4,
+				'text'=>"Error in self::setL1()",
+				'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch,
+					      'node'=>$node, 'val'=>$val),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}				
+
+		return (int)$rows_changed;
+
+	}
+
+
+	/**
+	 * Updates an existing key
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $tree | Tree name
+	 * @param string $branch | Branch name
+	 * @param string $node | Node name
+	 * @param mixed  $val | Value to store to node
+	 *
+	 * @return int | Exception on failure. Number of db rows changed on success.
+	 */
+
+	public function setNode($plugin, $tree, $branch, $node, $val){
+
+
+		if( empty($tree) || empty($branch) || empty($node) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Invalid tree, branch, or node",
+				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+		// Grab the node's info so we know it's $filter and $ctrl args
+		// ============================================================
+
+		$valid = false;
+
+		try {
+			$node_data = self::getNode($tree, $branch, $node, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error in self::getNode()",
+				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		if(!$valid){
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Attempted to set data for nonexistent node",
+				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		$filter = $node_data["filter"];
+		$ctrl = $node_data["ctrl"];
+
+		try {
+			$rows_changed = self::writeNode($tree, $branch, $node, $val, $filter, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>4,
+				'text'=>"Error in self::writeNode()",
+				'data'=> array('tree'=>$tree, 'branch'=>$branch, 'node'=>$node,
+					       'val'=>$val, 'filter'=>$filter, 'ctrl'=>$ctrl),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+
+		return $rows_changed;
+
+
+	}
+
+
+	/**
+	 * Deletes one or more nodes from the datastore
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $tree | Tree name
+	 * @param string $branch | Branch name
+	 * @param string/array $nodes | Single node as string. Multiple nodes as array of string.
+	 *
+	 * @return int | Exception on failure. Number of db rows changed on success.
+	 */
+
+	public function dropNode($tree, $branch, $nodes) {
+
+
+		$db = new FOX_db();
+		$struct = $this->_struct();
+
+
+		// Lock the cache
+		// ===========================================================
+
+		try {
+			$cache_image = self::lockCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error locking cache",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Update the database
+		// ===========================================================
+
+		$args = array(
+				array("col"=>"tree", "op"=>"=", "val"=>$tree),
+				array("col"=>"branch", "op"=>"=", "val"=>$branch),
+				array("col"=>"node", "op"=>"=", "val"=>$nodes)
+		);
+
+		try {
+			$rows_changed = $db->runDeleteQuery($struct, $args);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error deleting from database",
+				'data'=>array('args'=>$args),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Rebuild the cache image
+		// ===========================================================
+
+		if(!is_array($nodes)){
+			$nodes = array($nodes);
+		}
+
+		foreach( $nodes as $node){
+
+			unset($cache_image["keys"][$tree][$branch][$node]);
+		}
+		unset($node);
+
+		$cache_image["keys"] = FOX_sUtil::arrayPrune($cache_image["keys"], 2);
+
+
+		// Write the image back to the persistent cache, releasing our lock
+		// ===========================================================
+
+		try {
+			self::writeCache($cache_image);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Cache write error",
+				'data'=>array('cache_image'=>$cache_image),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Update the class cache
+		$this->cache = $cache_image;
+
+
+		return (int)$rows_changed;
+
+	}
+
+
+	/**
+	 * Deletes one or more branches from the datastore
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $tree | Tree name
+	 * @param string/array $branches | Single branch as string. Multiple branches as array of string.
+	 *
+	 * @return int | Exception on failure. Number of db rows changed on success.
+	 */
+
+	public function dropBranch($tree, $branches) {
+
+
+		$db = new FOX_db();
+		$struct = $this->_struct();
+
+
+		// Lock the cache
+		// ===========================================================
+
+		try {
+			$cache_image = self::lockCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error locking cache",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Update the database
+		// ===========================================================
+
+		$args = array(
+				array("col"=>"tree", "op"=>"=", "val"=>$tree),
+				array("col"=>"branch", "op"=>"=", "val"=>$branches)
+		);
+
+		try {
+			$rows_changed = $db->runDeleteQuery($struct, $args);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error deleting from database",
+				'data'=>array('args'=>$args),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Rebuild the cache image
+		// ===========================================================
+
+		if(!is_array($branches)){
+			$branches = array($branches);
+		}
+
+		foreach($branches as $branch){
+
+			unset($cache_image["keys"][$tree][$branch]);
+			unset($cache_image["branches"][$tree][$branch]);
+		}
+		unset($branch);
+
+		$cache_image["branches"] = FOX_sUtil::arrayPrune($cache_image["branches"], 1);
+		$cache_image["keys"] = FOX_sUtil::arrayPrune($cache_image["keys"], 2);
+
+
+		// Write the image back to the persistent cache, releasing our lock
+		// ===========================================================
+
+		try {
+			self::writeCache($cache_image);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Cache write error",
+				'data'=>array('cache_image'=>$cache_image),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Update the class cache
+		$this->cache = $cache_image;
+
+		return (int)$rows_changed;
+
+	}
+
+
+	/**
+	 * Deletes one or more trees from the datastore
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string/array $trees | Single tree as string. Multiple trees as array of string.
+	 * @return int | Exception on failure. Number of db rows changed on success.
+	 */
+
+	public function dropTree($trees) {
+
+
+		$db = new FOX_db();
+		$struct = $this->_struct();
+
+
+		// Lock the cache
+		// ===========================================================
+
+		try {
+			$cache_image = self::lockCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error locking cache",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Update the database
+		// ===========================================================
+
+
+		$args = array(
+				array("col"=>"tree", "op"=>"=", "val"=>$trees)
+		);
+
+		try {
+			$rows_changed = $db->runDeleteQuery($struct, $args);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error deleting from database",
+				'data'=>array('args'=>$args),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		if(!is_array($trees)){
+			$trees = array($trees);
+		}
+
+		// Rebuild the cache image
+		// ===========================================================
+
+		foreach($trees as $tree){
+
+			unset($cache_image["keys"][$tree]);
+			unset($cache_image["branches"][$tree]);
+			unset($cache_image["trees"][$tree]);
+		}
+		unset($tree);
+
+		// Clear empty walks
+		$cache_image["branches"] = FOX_sUtil::arrayPrune($cache_image["branches"], 1);
+		$cache_image["keys"] = FOX_sUtil::arrayPrune($cache_image["keys"], 2);
+
+
+		// Write the image back to the persistent cache, releasing our lock
+		// ===========================================================
+
+		try {
+			self::writeCache($cache_image);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Cache write error",
+				'data'=>array('cache_image'=>$cache_image),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Update the class cache
+		$this->cache = $cache_image;
+
+		return (int)$rows_changed;
+
+	}
+
+
+	/**
+	 * Deletes the entire datastore
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * @return int | Exception on failure. Number of db rows changed on success.
+	 */
+
+	public function dropAll() {
+
+
+		$db = new FOX_db();
+		$struct = $this->_struct();
+
+
+		// Lock the cache
+		// ===========================================================
+
+		try {
+			self::lockCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error locking cache",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Clear the database
+		// ===========================================================
+
+		try {
+			$db->runTruncateTable($struct);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error truncating database table",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Flush the cache
+		// ===========================================================
+
+		try {
+			self::flushCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Error flushing cache",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+
+		return true;
+
+	}
+
+
+
+	/**
+	 * Drops one or more nodes within a single branch for ALL TREES in the datastore
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $branch | name of branch
+	 * @param string/array $node | single node as string. Multiple nodes as array of string.
+	 * @return int | Exception on failure. Number of db rows changed on success.
+	 */
+
+	public function dropSiteKey($branch, $nodes) {
+
+
+		$db = new FOX_db();
+                $struct = $this->_struct();
+
+		// Lock the cache
+		// ===========================================================
+
+		try {
+			self::lockCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error locking cache",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Update the database
+		// ===========================================================
+
+		$args = array(
+				array("col"=>"branch", "op"=>"=", "val"=>$branch),
+				array("col"=>"node", "op"=>"=", "val"=>$nodes)
+		);
+
+		try {
+			$rows_changed = $db->runDeleteQuery($struct, $args);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error deleting from database",
+				'data'=>array('args'=>$args),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Flush the cache
+		// ===========================================================
+
+		try {
+			self::flushCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Error flushing cache",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+
+		return (int)$rows_changed;
+
+	}
+
+
+	/**
+	 * Drops one or more branches for ALL TREES in the datastore
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string/array $branches | single branch as string. Multiple branches as array of string.
+	 * @return int | Exception on failure. Number of db rows changed on success.
+	 */
+
+	public function dropSiteBranch($branches) {
+
+
+		$db = new FOX_db();
+		$struct = $this->_struct();
+
+
+		// Lock the cache
+		// ===========================================================
+
+		try {
+			self::lockCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error locking cache",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		// Update the database
+		// ===========================================================
+
+		$args = array(
+				array("col"=>"branch", "op"=>"=", "val"=>$branches)
+		);
+
+		try {
+			$rows_changed = $db->runDeleteQuery($struct, $args);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error deleting from database",
+				'data'=>array('args'=>$args),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+
+		// Flush the cache
+		// ===========================================================
+
+		try {
+			self::flushCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Error flushing cache",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+
+		return (int)$rows_changed;
+
+	}	
 
 
 	/**
          * Processes config variables passed via an HTML form
          *
-         * @version 1.0
-         * @since 1.0
+         * @version 0.1.9
+         * @since 0.1.9
 	 *
 	 * @param array $post | HTML form array
          * @return int | Exception on failure. Number of rows changed on success.
@@ -110,12 +933,12 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 				'numeric'=>1,
 				'text'=>"No key names posted with form",
 				'data'=> $post,
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));
 		}
 
-		$san = new FOX_sanitize();
+		$san = new BPM_sanitize();
 
 		// Explode fields array into individual key names
 		$options = explode(',', stripslashes($post['key_names']));
@@ -149,7 +972,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Error in sanitizer function",
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
 				));
 			}
@@ -160,7 +983,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 					'numeric'=>3,
 					'text'=>"Called with invalid tree name",
 					'data'=>array('raw_tree'=>$raw_tree, 'san_error'=>$tree_error),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
 			}
@@ -170,7 +993,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 					'numeric'=>4,
 					'text'=>"Called with invalid branch name",
 					'data'=>array('raw_branch'=>$raw_branch, 'san_error'=>$branch_error),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
 			}
@@ -180,7 +1003,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 					'numeric'=>5,
 					'text'=>"Called with invalid key name",
 					'data'=>array('raw_key'=>$raw_key, 'san_error'=>$key_error),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
 			}
@@ -215,7 +1038,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 					throw new FOX_exception( array(
 						'numeric'=>6,
 						'text'=>"Error in self::get()",
-						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>$child
 					));
 				}
@@ -246,7 +1069,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 							'text'=>"Trying to set nonexistent key. Tree: $tree | Branch: $branch | Key: $key",
 							'data'=>array('current_keys_array'=>$current_keys_array,
 								      'tree'=>$tree, 'branch'=>$branch, 'key'=>$key),
-							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 							'child'=>null
 						));
 					}
@@ -271,7 +1094,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 							'text'=>"Error in filter function",
 							'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
 								      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
-							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 							'child'=>$child
 						));
 					}
@@ -283,7 +1106,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 							'text'=>"Filter function reports value data isn't valid",
 							'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
 								      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
-							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 							'child'=>null
 						));
 					}
@@ -303,7 +1126,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 								'text'=>"Error setting key. Tree: $tree | Branch: $branch | Key: $key",
 								'data'=>array('tree'=>$tree, 'branch'=>$branch,
 									      'key'=>$key, 'new_val'=>$new_val),
-								'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 								'child'=>$child
 							));
 						}
@@ -333,8 +1156,8 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
          * Resets the class's print_keys array, making it ready to accept a new batch of keys. This method
 	 * MUST be called at the beginning of each admin form to clear old keys from the singleton.
          *
-         * @version 1.0
-         * @since 1.0
+         * @version 0.1.9
+         * @since 0.1.9
          */
 
 	public function initKeysArray(){
@@ -347,8 +1170,8 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
          * Creates a composite keyname given the keys's tree, branch, and name. Adds the
 	 * composited key name to the $print_keys array for printing the form's keys array.
          *
-         * @version 1.0
-         * @since 1.0
+         * @version 0.1.9
+         * @since 0.1.9
 	 *
 	 * @param string $tree | Tree name
 	 * @param string $branch | Branch name
@@ -379,8 +1202,8 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 	/**
          * Prints a key's value
          *
-         * @version 1.0
-         * @since 1.0
+         * @version 0.1.9
+         * @since 0.1.9
 	 *
 	 * @param string $tree | Tree name
 	 * @param string $branch | Branch name
@@ -405,7 +1228,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error in self::getNodeVal()",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));
 		}
@@ -416,7 +1239,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 				'numeric'=>2,
 				'text'=>"Key doesn't exist",
 				'data'=>array('tree'=>$tree, 'branch'=>$branch, 'key'=>$key),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));
 		}
@@ -431,8 +1254,8 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
          * Creates a composited string used to print a hidden field containing all of the key names enqueued
 	 * using keyName() or getKeyName()
          *
-         * @version 1.0
-         * @since 1.0
+         * @version 0.1.9
+         * @since 0.1.9
 	 *
 	 * @param string $field_name | (optional) name to use for the form field
          * @return ECHO | composited hidden form field string
@@ -476,8 +1299,8 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
          * Places the system in "install mode" by loading all the base install classes
 	 * from the /core/config/install_base folder
          *
-         * @version 1.0
-         * @since 1.0
+         * @version 0.1.9
+         * @since 0.1.9
          */
 
 	public function installMode(){
@@ -485,7 +1308,7 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 
 		if(!$this->install_classes_loaded){
 
-			$base_install_classes = glob( FOX_PATH_BASE .'/core/config/install_base/*.php');
+			$base_install_classes = glob( BPM_PATH_BASE .'/core/config/install_base/*.php');
 
 			foreach ( $base_install_classes as $path ){
 
@@ -505,15 +1328,15 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
          * Places the system in "uninstall mode" by loading all the base uninstall classes
 	 * from the /core/config/uninstall_base folder
          *
-         * @version 1.0
-         * @since 1.0
+         * @version 0.1.9
+         * @since 0.1.9
          */
 
 	public function uninstallMode(){
 
 		if(!$this->uninstall_classes_loaded){
 
-			$base_uninstall_classes = glob( FOX_PATH_BASE .'/core/config/uninstall_base/*.php');
+			$base_uninstall_classes = glob( BPM_PATH_BASE .'/core/config/uninstall_base/*.php');
 
 			foreach ( $base_uninstall_classes as $path ){
 
@@ -530,39 +1353,39 @@ class FOX_config extends FOX_dataStore_monolithic_L3_base {
 
 
 
-} // End of class FOX_config
+} // End of class BPM_config
 
 
 /**
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 1.0
- * @since 1.0
+ * @version 0.1.9
+ * @since 0.1.9
  */
 
-function install_FOX_config(){
+function install_BPM_config(){
 
-	$cls = new FOX_config();
+	$cls = new BPM_config();
 	$cls->install();
 }
-add_action( 'fox_install', 'install_FOX_config', 2 );
+add_action( 'bpm_install', 'install_BPM_config', 2 );
 
 
 /**
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 1.0
- * @since 1.0
+ * @version 0.1.9
+ * @since 0.1.9
  */
 
-function uninstall_FOX_config(){
+function uninstall_BPM_config(){
 
-	$cls = new FOX_config();
+	$cls = new BPM_config();
 	$cls->uninstall();
 }
-add_action( 'fox_uninstall', 'uninstall_FOX_config', 2 );
+add_action( 'bpm_uninstall', 'uninstall_BPM_config', 2 );
 
 
 ?>
