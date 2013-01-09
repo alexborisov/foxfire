@@ -472,7 +472,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 	 * @return int | Exception on failure. Number of db rows changed on success.
 	 */
 
-	public function writeNode($plugin, $tree, $branch, $node, $val, $filter, $ctrl=null){
+	public function addNode($plugin, $tree, $branch, $node, $val, $filter, $ctrl=null){
 
 
 		$struct = $this->_struct();
@@ -840,88 +840,117 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 	 * @return int | Exception on failure. Number of db rows changed on success.
 	 */
 
-	public function dropNode($tree, $branch, $nodes) {
+	public function dropNode($plugin, $tree, $branch, $node) {
 
 
-		$db = new FOX_db();
 		$struct = $this->_struct();
-
-
-		// Lock the cache
-		// ===========================================================
+		$validator_result = array();
 
 		try {
-			$cache_image = self::lockCache();
+
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);	
+
+
+			$validator_result['plugin'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L4_col]['php'],
+								'format'=>'scalar',
+								'var'=>$plugin
+			));	
+	
+			$validator_result['tree'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L3_col]['php'],
+								'format'=>'scalar',
+								'var'=>$tree
+			));	
+			
+			$validator_result['branch'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L2_col]['php'],
+								'format'=>'scalar',
+								'var'=>$branch
+			));	
+			
+			
+			// If a single branch name is sent in, we validate it individually instead of automatically 
+			// spinning it into an array and validating the array. This lets us trap strings that PHP 
+			// automatically converts to ints ("17")
+
+			if( !is_array($tree) ){
+
+				$validator_result['node'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L1_col]['php'],
+									'format'=>'scalar',
+									'var'=>$node
+				));					
+			}
+			else {
+
+				foreach( $node as $key => $val ){
+
+					$validator_result['node'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L1_col]['php'],
+										'format'=>'scalar',
+										'var'=>$val
+					));	
+
+					if( $validator_result['node'] !== true ){
+
+						break;
+					}
+				}
+				unset($key, $val);
+			}
+
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Error locking cache",
+				'text'=>"Error in validator class",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
-			));
+			));		    
 		}
 
-		// Update the database
-		// ===========================================================
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
 
-		$args = array(
-				array("col"=>"tree", "op"=>"=", "val"=>$tree),
-				array("col"=>"branch", "op"=>"=", "val"=>$branch),
-				array("col"=>"node", "op"=>"=", "val"=>$nodes)
+		foreach( $validator_result as $key => $val ){
+
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'msg'=>$val),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
+		}
+		unset($key, $val);
+
+		
+		$drop_ctrl = array(
+			'validate'=>false		    
 		);
-
+		
 		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error deleting from database",
-				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-		// Rebuild the cache image
-		// ===========================================================
-
-		if(!is_array($nodes)){
-			$nodes = array($nodes);
-		}
-
-		foreach( $nodes as $node){
-
-			unset($cache_image["keys"][$tree][$branch][$node]);
-		}
-		unset($node);
-
-		$cache_image["keys"] = FOX_sUtil::arrayPrune($cache_image["keys"], 2);
-
-
-		// Write the image back to the persistent cache, releasing our lock
-		// ===========================================================
-
-		try {
-			self::writeCache($cache_image);
+			$rows_changed = self::dropL1($plugin, $tree, $branch, $node, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Cache write error",
-				'data'=>array('cache_image'=>$cache_image),
+				'text'=>"Error calling self::dropL1()",
+				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
-
-		// Update the class cache
-		$this->cache = $cache_image;
-
 
 		return (int)$rows_changed;
 
@@ -940,88 +969,109 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 	 * @return int | Exception on failure. Number of db rows changed on success.
 	 */
 
-	public function dropBranch($tree, $branches) {
+	public function dropBranch($plugin, $tree, $branch) {
 
 
-		$db = new FOX_db();
 		$struct = $this->_struct();
-
-
-		// Lock the cache
-		// ===========================================================
+		$validator_result = array();
 
 		try {
-			$cache_image = self::lockCache();
+
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);	
+
+
+			$validator_result['plugin'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L4_col]['php'],
+								'format'=>'scalar',
+								'var'=>$plugin
+			));	
+	
+			$validator_result['tree'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L3_col]['php'],
+								'format'=>'scalar',
+								'var'=>$tree
+			));	
+			
+			// If a single branch name is sent in, we validate it individually instead of automatically 
+			// spinning it into an array and validating the array. This lets us trap strings that PHP 
+			// automatically converts to ints ("17")
+
+			if( !is_array($tree) ){
+
+				$validator_result['branch'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L2_col]['php'],
+									'format'=>'scalar',
+									'var'=>$branch
+				));					
+			}
+			else {
+
+				foreach( $branch as $key => $val ){
+
+					$validator_result['branch'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L2_col]['php'],
+										'format'=>'scalar',
+										'var'=>$val
+					));	
+
+					if( $validator_result['branch'] !== true ){
+
+						break;
+					}
+				}
+				unset($key, $val);
+			}
+
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Error locking cache",
+				'text'=>"Error in validator class",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
-			));
+			));		    
 		}
 
-		// Update the database
-		// ===========================================================
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
 
-		$args = array(
-				array("col"=>"tree", "op"=>"=", "val"=>$tree),
-				array("col"=>"branch", "op"=>"=", "val"=>$branches)
+		foreach( $validator_result as $key => $val ){
+
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'msg'=>$val),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
+		}
+		unset($key, $val);			
+		
+		$drop_ctrl = array(
+			'validate'=>false	    
 		);
-
+		
 		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error deleting from database",
-				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-		// Rebuild the cache image
-		// ===========================================================
-
-		if(!is_array($branches)){
-			$branches = array($branches);
-		}
-
-		foreach($branches as $branch){
-
-			unset($cache_image["keys"][$tree][$branch]);
-			unset($cache_image["branches"][$tree][$branch]);
-		}
-		unset($branch);
-
-		$cache_image["branches"] = FOX_sUtil::arrayPrune($cache_image["branches"], 1);
-		$cache_image["keys"] = FOX_sUtil::arrayPrune($cache_image["keys"], 2);
-
-
-		// Write the image back to the persistent cache, releasing our lock
-		// ===========================================================
-
-		try {
-			self::writeCache($cache_image);
+			$rows_changed = self::dropL2($plugin, $tree, $branch, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Cache write error",
-				'data'=>array('cache_image'=>$cache_image),
+				'text'=>"Error calling self::dropL2()",
+				'data'=> array('plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
-
-		// Update the class cache
-		$this->cache = $cache_image;
 
 		return (int)$rows_changed;
 
@@ -1038,90 +1088,103 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 	 * @return int | Exception on failure. Number of db rows changed on success.
 	 */
 
-	public function dropTree($trees) {
+	public function dropTree($plugin, $tree) {
 
 
-		$db = new FOX_db();
 		$struct = $this->_struct();
-
-
-		// Lock the cache
-		// ===========================================================
+		$validator_result = array();
 
 		try {
-			$cache_image = self::lockCache();
+
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);	
+
+
+			$validator_result['plugin'] = $validator->validateKey( array(
+								'type'=>$struct['columns'][$this->L4_col]['php'],
+								'format'=>'scalar',
+								'var'=>$plugin
+			));	
+	
+			// If a single tree name is sent in, we validate it individually instead of automatically 
+			// spinning it into an array and validating the array. This lets us trap strings that PHP 
+			// automatically converts to ints ("17")
+
+			if( !is_array($tree) ){
+
+				$validator_result['tree'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L3_col]['php'],
+									'format'=>'scalar',
+									'var'=>$tree
+				));					
+			}
+			else {
+
+				foreach( $tree as $key => $val ){
+
+					$validator_result['tree'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L3_col]['php'],
+										'format'=>'scalar',
+										'var'=>$val
+					));	
+
+					if( $validator_result['tree'] !== true ){
+
+						break;
+					}
+				}
+				unset($key, $val);
+			}
+
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Error locking cache",
+				'text'=>"Error in validator class",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
-			));
+			));		    
 		}
 
-		// Update the database
-		// ===========================================================
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
 
+		foreach( $validator_result as $key => $val ){
 
-		$args = array(
-				array("col"=>"tree", "op"=>"=", "val"=>$trees)
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'msg'=>$val),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
+		}
+		unset($key, $val);			
+		
+		$drop_ctrl = array(
+			'validate'=>false		    
 		);
-
+		
 		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error deleting from database",
-				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-		if(!is_array($trees)){
-			$trees = array($trees);
-		}
-
-		// Rebuild the cache image
-		// ===========================================================
-
-		foreach($trees as $tree){
-
-			unset($cache_image["keys"][$tree]);
-			unset($cache_image["branches"][$tree]);
-			unset($cache_image["trees"][$tree]);
-		}
-		unset($tree);
-
-		// Clear empty walks
-		$cache_image["branches"] = FOX_sUtil::arrayPrune($cache_image["branches"], 1);
-		$cache_image["keys"] = FOX_sUtil::arrayPrune($cache_image["keys"], 2);
-
-
-		// Write the image back to the persistent cache, releasing our lock
-		// ===========================================================
-
-		try {
-			self::writeCache($cache_image);
+			$rows_changed = self::dropL3($plugin, $tree, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Cache write error",
-				'data'=>array('cache_image'=>$cache_image),
+				'text'=>"Error calling self::dropL3()",
+				'data'=> array('plugin'=>$plugin,'tree'=>$tree),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
-
-		// Update the class cache
-		$this->cache = $cache_image;
 
 		return (int)$rows_changed;
 
@@ -1129,228 +1192,104 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 
 
 	/**
-	 * Deletes the entire datastore
+	 * Deletes one or more plugins from the datastore
 	 *
 	 * @version 1.0
 	 * @since 1.0
+	 *
+	 * @param string/array $plugin | Single plugin as string. Multiple plugins as array of string.
 	 * @return int | Exception on failure. Number of db rows changed on success.
 	 */
 
-	public function dropAll() {
+	public function dropPlugin($plugin) {
 
 
-		$db = new FOX_db();
 		$struct = $this->_struct();
+		$validator_result = array();
 
+		try {	
+	
+			// If a single tree name is sent in, we validate it individually instead of automatically 
+			// spinning it into an array and validating the array. This lets us trap strings that PHP 
+			// automatically converts to ints ("17")
 
-		// Lock the cache
-		// ===========================================================
+			if( !is_array($plugin) ){
 
-		try {
-			self::lockCache();
+				$validator_result['plugin'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L4_col]['php'],
+									'format'=>'scalar',
+									'var'=>$plugin
+				));					
+			}
+			else {
+
+				foreach( $plugin as $key => $val ){
+
+					$validator_result['plugin'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L4_col]['php'],
+										'format'=>'scalar',
+										'var'=>$val
+					));	
+
+					if( $validator_result['plugin'] !== true ){
+
+						break;
+					}
+				}
+				unset($key, $val);
+			}
+
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Error locking cache",
+				'text'=>"Error in validator class",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
-			));
+			));		    
 		}
 
-		// Clear the database
-		// ===========================================================
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
 
-		try {
-			$db->runTruncateTable($struct);
+		foreach( $validator_result as $key => $val ){
+
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>array('plugin'=>$plugin, 'msg'=>$val),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
 		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error truncating database table",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-		// Flush the cache
-		// ===========================================================
-
-		try {
-			self::flushCache();
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>3,
-				'text'=>"Error flushing cache",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-
-		return true;
-
-	}
-
-
-
-	/**
-	 * Drops one or more nodes within a single branch for ALL TREES in the datastore
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param string $branch | name of branch
-	 * @param string/array $node | single node as string. Multiple nodes as array of string.
-	 * @return int | Exception on failure. Number of db rows changed on success.
-	 */
-
-	public function dropSiteKey($branch, $nodes) {
-
-
-		$db = new FOX_db();
-                $struct = $this->_struct();
-
-		// Lock the cache
-		// ===========================================================
-
-		try {
-			self::lockCache();
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-		// Update the database
-		// ===========================================================
-
-		$args = array(
-				array("col"=>"branch", "op"=>"=", "val"=>$branch),
-				array("col"=>"node", "op"=>"=", "val"=>$nodes)
+		unset($key, $val);			
+		
+		$drop_ctrl = array(
+			'validate'=>false		    
 		);
-
+		
 		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error deleting from database",
-				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-		// Flush the cache
-		// ===========================================================
-
-		try {
-			self::flushCache();
+			$rows_changed = self::dropL4($plugin, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Error flushing cache",
+				'text'=>"Error calling self::dropL4()",
+				'data'=> array('plugin'=>$plugin),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));
 		}
-
 
 		return (int)$rows_changed;
 
 	}
-
-
-	/**
-	 * Drops one or more branches for ALL TREES in the datastore
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param string/array $branches | single branch as string. Multiple branches as array of string.
-	 * @return int | Exception on failure. Number of db rows changed on success.
-	 */
-
-	public function dropSiteBranch($branches) {
-
-
-		$db = new FOX_db();
-		$struct = $this->_struct();
-
-
-		// Lock the cache
-		// ===========================================================
-
-		try {
-			self::lockCache();
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error locking cache",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-		// Update the database
-		// ===========================================================
-
-		$args = array(
-				array("col"=>"branch", "op"=>"=", "val"=>$branches)
-		);
-
-		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error deleting from database",
-				'data'=>array('args'=>$args),
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-
-		// Flush the cache
-		// ===========================================================
-
-		try {
-			self::flushCache();
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>3,
-				'text'=>"Error flushing cache",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));
-		}
-
-
-		return (int)$rows_changed;
-
-	}	
-
 
 	/**
          * Processes config variables passed via an HTML form
@@ -1392,15 +1331,17 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 			$full_name = explode($this->key_delimiter, $option);
 
 			// Process the raw form strings into proper key names
-			$raw_tree = trim( $full_name[0] );
-			$raw_branch = trim( $full_name[1] );
-			$raw_key = trim( $full_name[2] );
+			$raw_plugin = trim( $full_name[0] );			
+			$raw_tree = trim( $full_name[1] );
+			$raw_branch = trim( $full_name[2] );
+			$raw_key = trim( $full_name[3] );
 
 			// Passed by reference
-			$tree_valid = null; $branch_valid = null; $key_valid = null;
-			$tree_error = null; $branch_error = null; $key_error = null;
+			$plugin_valid = null; $tree_valid = null; $branch_valid = null; $key_valid = null;
+			$plugin_error = null; $tree_error = null; $branch_error = null; $key_error = null;
 
 			try {
+				$plugin = $san->keyName($raw_plugin, null, $plugin_valid, $plugin_error);			    
 				$tree = $san->keyName($raw_tree, null, $tree_valid, $tree_error);
 				$branch = $san->keyName($raw_branch, null, $branch_valid, $branch_error);
 				$key = $san->keyName($raw_key, null, $key_valid, $key_error);
@@ -1415,10 +1356,20 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 				));
 			}
 
-			if(!$tree_valid){
+			if(!$plugin_valid){
 
 				throw new FOX_exception( array(
 					'numeric'=>3,
+					'text'=>"Called with invalid plugin name",
+					'data'=>array('raw_tree'=>$raw_plugin, 'san_error'=>$plugin_error),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+			}			
+			elseif(!$tree_valid){
+
+				throw new FOX_exception( array(
+					'numeric'=>4,
 					'text'=>"Called with invalid tree name",
 					'data'=>array('raw_tree'=>$raw_tree, 'san_error'=>$tree_error),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1428,7 +1379,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 			elseif(!$branch_valid){
 
 				throw new FOX_exception( array(
-					'numeric'=>4,
+					'numeric'=>5,
 					'text'=>"Called with invalid branch name",
 					'data'=>array('raw_branch'=>$raw_branch, 'san_error'=>$branch_error),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1438,7 +1389,7 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 			elseif(!$key_valid){
 
 				throw new FOX_exception( array(
-					'numeric'=>5,
+					'numeric'=>6,
 					'text'=>"Called with invalid key name",
 					'data'=>array('raw_key'=>$raw_key, 'san_error'=>$key_error),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -1446,43 +1397,47 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 				));
 			}
 
-			$query_keys[$tree][$branch][$key] = true;
+			$query_keys[$plugin][$tree][$branch][$key] = true;
 
+			unset($option, $plugin, $raw_plugin, $tree, $raw_tree, $branch, $raw_branch, $key, $raw_key);
+			unset($plugin_error, $tree_error, $branch_error, $key_error, $plugin_valid, $tree_valid, $branch_valid, $key_valid);
+		
 		}
-		unset($option, $tree, $raw_tree, $branch, $raw_branch, $key, $raw_key);
-		unset($tree_error, $branch_error, $key_error, $tree_valid, $branch_valid, $key_valid);
 
+		if( count( array_keys($query_keys) ) > 1){
 
-		// Fold all requested keys into the minimum number of queries possible,
-		// then fetch the data for those keys
-		// ====================================================================
-
-		foreach($query_keys as $tree => $query_branch_array){
-
-			foreach($query_branch_array as $branch => $query_keys_array){
-
-				$keys = array_keys($query_keys_array);
-
-				// Note: we don't validate if the requested keys exist at this
-				// stage because get() only tells us that "one or more" keys
-				// weren't valid. Its much more useful to list the actual missing
-				// keys, which we do in the next stage of the algorithm.
-
-				try {
-					self::get($tree, $branch, $keys);
-				}
-				catch (FOX_exception $child) {
-
-					throw new FOX_exception( array(
-						'numeric'=>6,
-						'text'=>"Error in self::get()",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));
-				}
-			}
+			throw new FOX_exception( array(
+				'numeric'=>7,
+				'text'=>"Attempting to set keys for multiple plugins",
+				'data'=>array_keys($query_keys),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
 		}
-		unset($tree, $query_branch_array, $branch, $query_keys_array, $keys);
+		
+		$get_ctrl = array(
+			'validate'=>false,
+			'q_mode'=>'trie',
+			'r_mode'=>'trie',		    
+			'trap_*'=>true
+		);
+		
+		try {
+			// We do not use getMulti's $valid flag to trap nonexistent keys
+			// because we want to throw an error listing the key names
+		    
+			$current_keys = self::getMulti($query_keys, $get_ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>8,
+				'text'=>"Error calling self::getMulti()",
+				'data'=>$query_keys,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
 
 
 		// Iterate through all of the requested keys, cast the submitted form
@@ -1490,100 +1445,127 @@ class BPM_config extends FOX_dataStore_paged_L4_base {
 		// ====================================================================
 
 		$rows_changed = 0;
+		$invalid_keys = array();
+		$update_keys = array();
 
-		foreach($query_keys as $tree => $current_branch_array){
+		foreach($query_keys as $plugin => $trees){
+		    
+			foreach($trees as $tree => $branches){
 
-			foreach($current_branch_array as $branch => $current_keys_array){
+				foreach($branches as $branch => $nodes){
 
-				foreach($current_keys_array as $key => $fake_var){
+					foreach($nodes as $node => $fake_var){
 
-					$filter = $this->cache["keys"][$tree][$branch][$key]["filter"];
-					$ctrl = $this->cache["keys"][$tree][$branch][$key]["ctrl"];
+						if( !FOX_sUtil::keyExists($query_keys[$plugin][$tree][$branch], $node) ){
+						    
+							$invalid_keys[] = "Plugin: $plugin Tree: $tree Branch: $branch Key: $key";
+							continue;
+						}
+							
+						$filter = $query_keys[$plugin][$tree][$branch][$node]["filter"];
+						$filter_ctrl = $query_keys[$plugin][$tree][$branch][$node]["filter_ctrl"];
 
-					if(!is_string($filter) ){
-
-						throw new FOX_exception( array(
-							'numeric'=>7,
-							'text'=>"Trying to set nonexistent key. Tree: $tree | Branch: $branch | Key: $key",
-							'data'=>array('current_keys_array'=>$current_keys_array,
-								      'tree'=>$tree, 'branch'=>$branch, 'key'=>$key),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>null
-						));
-					}
-
-					// Remove any escaping PHP has added to the posted form value
-					$post_key = $tree . $this->key_delimiter . $branch . $this->key_delimiter . $key;
-					$post[$post_key] = FOX_sUtil::formVal($post[$post_key]);
+						// Remove any escaping PHP has added to the posted form value						
+						$post_key =  $plugin . $this->key_delimiter . $tree . $this->key_delimiter;
+						$post_key .= $branch . $this->key_delimiter . $key;
+						$post[$post_key] = FOX_sUtil::formVal($post[$post_key]);
 
 
-					// Run key value through the specified filter
-					// =====================================================
+						// Run key value through the specified filter
+						// =====================================================
 
-					$filter_valid = null; $filter_error = null; // Passed by reference
-
-					try {
-						$new_val = $san->{$filter}($post[$post_key], $ctrl, $filter_valid, $filter_error);
-					}
-					catch (FOX_exception $child) {
-
-						throw new FOX_exception( array(
-							'numeric'=>8,
-							'text'=>"Error in filter function",
-							'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
-								      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>$child
-						));
-					}
-
-					if(!$filter_valid){
-
-						throw new FOX_exception( array(
-							'numeric'=>9,
-							'text'=>"Filter function reports value data isn't valid",
-							'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
-								      'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
-							'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-							'child'=>null
-						));
-					}
-
-					// If the new value doesn't match the stored value, update the key
-					// ====================================================================
-
-					if( $new_val != $this->cache["keys"][$tree][$branch][$key]["val"] ){
+						$filter_valid = null; $filter_error = null; // Passed by reference
 
 						try {
-							$rows_changed += self::setNode($tree, $branch, $key, $new_val);
+							$new_val = $san->{$filter}($post[$post_key], $filter_ctrl, $filter_valid, $filter_error);
 						}
 						catch (FOX_exception $child) {
 
 							throw new FOX_exception( array(
-								'numeric'=>10,
-								'text'=>"Error setting key. Tree: $tree | Branch: $branch | Key: $key",
-								'data'=>array('tree'=>$tree, 'branch'=>$branch,
-									      'key'=>$key, 'new_val'=>$new_val),
+								'numeric'=>9,
+								'text'=>"Error in filter function",
+								'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
+									    'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
 								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 								'child'=>$child
 							));
 						}
-					}
+
+						if(!$filter_valid){
+
+							throw new FOX_exception( array(
+								'numeric'=>10,
+								'text'=>"Filter function reports value data isn't valid",
+								'data'=>array('filter'=>$filter, 'val'=>$post[$post_key], 'ctrl'=>$ctrl,
+									    'filter_valid'=>$filter_valid, 'filter_error'=>$filter_error),
+								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+								'child'=>null
+							));
+						}
+
+						// If the new value doesn't match the stored value, update the key
+						// ====================================================================
+
+						if( $new_val != $query_keys[$plugin][$tree][$branch][$node]["val"]){
+
+							$update_keys[$plugin][$tree][$branch][$node] = array(
+								'filter'=>$filter,
+								'filter_ctrl'=>$filter_ctrl,
+								'val'=>$new_val							    
+							);
+						}
 
 
-				}   // ENDOF: foreach($current_keys_array as $key => $fake_var)
-				unset($key, $fake_var);
+					}   // ENDOF: foreach($nodes as $node => $fake_var)
+					unset($node, $fake_var);
 
+				} // ENDOF: foreach($branches as $branch => $nodes)
+				unset($branch, $nodes);
 
-			} // ENDOF: foreach($current_branch_array as $branch => $current_keys_array)
-			unset($branch, $current_keys_array);
+			} // ENDOF: foreach($trees as $tree => $branches)
+			unset($tree, $branches);
+		
+		} // ENDOF: foreach($query_keys as $plugin => $trees)
+		unset($plugin, $trees);
 
+		
+		if($invalid_keys){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>11,
+				'text'=>"Attempted to set one or more nonexistent keys",
+				'data'=>$invalid_keys,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));		    
+		    
+		}
+		
+		if($update_keys){
+		    
+			$set_ctrl = array(
+				'validate'=>false,
+				'mode'=>'trie'
+			);
+		
+			try {
+				$rows_changed = self::setMulti($update_keys, $set_ctrl);
+			}
+			catch (FOX_exception $child) {
 
-		} // ENDOF: foreach($query_keys as $tree => $current_branch_array)
-		unset($tree, $current_branch_array);
+				throw new FOX_exception( array(
+					'numeric'=>12,
+					'text'=>"Error in self::setMulti()",
+					'data'=>array('update_keys'=>$update_keys, 'set_ctrl'=>$set_ctrl),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));
+			}		    
+		    
+		}		
 
-
-		return $rows_changed;
+		
+		return (int)$rows_changed;
 
 
 
