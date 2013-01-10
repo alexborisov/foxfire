@@ -456,7 +456,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 	 * @param string $filter | The filter function to validate data stored to node
 	 * @param array $ctrl | Filter function's control args
 	 *
-	 * @return int | Exception on failure. Number of db rows changed on success.
+	 * @return int | Exception on failure. (int)0 existing node unchaged, (int)1 new node inserted, (int)2 existing node updated
 	 */
 
 	public function addNode($plugin, $tree, $branch, $node, $node_val, $filter, $ctrl=null){

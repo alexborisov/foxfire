@@ -282,8 +282,8 @@ class system_config extends RAZ_testCase {
 			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
 		}			
 
-		// Should return (int)1 to indicate a node was added
-		$this->assertEquals(1, $rows_changed);		
+		// Should return (int)2 to indicate a node was updated
+		$this->assertEquals(2, $rows_changed);		
 		
 		
 		// Check db state
