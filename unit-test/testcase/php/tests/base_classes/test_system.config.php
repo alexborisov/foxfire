@@ -1837,35 +1837,7 @@ class system_config extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_getBranch() {
-
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";
-//		
-//		$check = array(
-//				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
-//									    'N1'=>null,
-//									    'N2'=>false,
-//									    'N5'=>true,										
-//								),
-//								'Z'=>array( 'N3'=>(int)0 )
-//						    ),	
-//						    'Y'=>array(	'K'=>array( 
-//									    'N1'=>(int)1,
-//									    'N2'=>(int)-1,
-//									    'N3'=>(float)1.7							    
-//								),
-//								'Z'=>array( 'N4'=>(float)-1.6 )
-//						    )					    
-//				),			
-//				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
-//									    'N1'=>(string)"foo",
-//									    'N2'=>array(null, true, false, 1, 1.0, "foo")								   						    
-//								),
-//								'Z'=>array( 'N3'=>$test_obj ) 						
-//						    )					    
-//				)		    		    
-//		);
+	    
 	    
 		self::loadData();
 		
@@ -2139,6 +2111,334 @@ class system_config extends RAZ_testCase {
 		catch (FOX_exception $child) {}	
 		
 	}	
+	
+	
+       /**
+	* Test fixture for getTree() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_getTree() {
+
+//		$test_obj = new stdClass();
+//		$test_obj->foo = "11";
+//		$test_obj->bar = "test_Bar";
+//		
+//		$check = array(
+//				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+//									    'N1'=>null,
+//									    'N2'=>false,
+//									    'N5'=>true,										
+//								),
+//								'Z'=>array( 'N3'=>(int)0 )
+//						    ),	
+//						    'Y'=>array(	'K'=>array( 
+//									    'N1'=>(int)1,
+//									    'N2'=>(int)-1,
+//									    'N3'=>(float)1.7							    
+//								),
+//								'Z'=>array( 'N4'=>(float)-1.6 )
+//						    )					    
+//				),			
+//				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+//									    'N1'=>(string)"foo",
+//									    'N2'=>array(null, true, false, 1, 1.0, "foo")								   						    
+//								),
+//								'Z'=>array( 'N3'=>$test_obj ) 						
+//						    )					    
+//				)		    		    
+//		);
+	    
+		self::loadData();
+		
+		
+		// Existing branch, "single" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getTree(	"plugin_1", 
+							"X", 
+							$valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(true, $valid);	
+		
+		$check = array(
+				'K'=>array( 
+					    'N1'=>null,
+					    'N2'=>false,
+					    'N5'=>true,										
+				),
+				'Z'=>array( 'N3'=>(int)0 )						    	    		    
+		);
+		
+		$this->assertEquals($check, $result);
+				
+		
+		// Existing nodes, "multi" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getTree(	"plugin_1", 
+							array("X", "Y"),
+							$valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(true, $valid);
+		
+		$check = array(
+				'X'=>array( 'K'=>array( 
+							'N1'=>null,
+							'N2'=>false,
+							'N5'=>true,										
+					    ),
+					    'Z'=>array( 'N3'=>(int)0 )
+				),	
+				'Y'=>array(	'K'=>array( 
+							'N1'=>(int)1,
+							'N2'=>(int)-1,
+							'N3'=>(float)1.7							    
+					    ),
+					    'Z'=>array( 'N4'=>(float)-1.6 )
+				)						    		    		    
+		);
+		
+		$this->assertEquals($check, $result);		
+	
+		
+		// Nonexistent node, "single" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getTree(	"plugin_3", 
+							"fail", 
+							$valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(false, $valid);		
+		$this->assertEquals(null, $result);
+		
+			
+		// Existing nodes, "multi" mode, with nonexistent node
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getTree(	"plugin_1", 
+							array("X", "Y", "fail"),
+							$valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(false, $valid);
+		
+		$check = array(
+				'X'=>array( 'K'=>array( 
+							'N1'=>null,
+							'N2'=>false,
+							'N5'=>true,										
+					    ),
+					    'Z'=>array( 'N3'=>(int)0 )
+				),	
+				'Y'=>array(	'K'=>array( 
+							'N1'=>(int)1,
+							'N2'=>(int)-1,
+							'N3'=>(float)1.7							    
+					    ),
+					    'Z'=>array( 'N4'=>(float)-1.6 )
+				)						    		    		    
+		);
+
+		$this->assertEquals($check, $result);			
+		
+	}
+	
+	
+       /**
+	* Test fixture for getTree(), data integrity checks
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_getTree_dataIntegrity() {
+
+   return;
+		self::loadData();
+
+		
+		// Null plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getTree(	null, 
+								"X", 
+								"K"
+			);
+			
+			// Execution will halt on the previous line if getTree() throws an exception
+			$this->fail("Method getTree() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getTree(	1, 
+								"X", 
+								"K"
+			);
+			
+			// Execution will halt on the previous line if getTree() throws an exception
+			$this->fail("Method getTree() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getTree(	"1", 
+								"X", 
+								"K"
+			);
+			
+			// Execution will halt on the previous line if getTree() throws an exception
+			$this->fail("Method getTree() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Null tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getTree(	"plugin_3", 
+								null, 
+								"K"
+			);
+			
+			// Execution will halt on the previous line if getTree() throws an exception
+			$this->fail("Method getTree() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getTree(	"plugin_3", 
+								1, 
+								"K"
+			);
+			
+			// Execution will halt on the previous line if getTree() throws an exception
+			$this->fail("Method getTree() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getTree(	"plugin_3", 
+								"1", 
+								"K"
+			);
+			
+			// Execution will halt on the previous line if getTree() throws an exception
+			$this->fail("Method getTree() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		
+		// Null branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getTree(	"plugin_3", 
+								"V", 
+								null
+			);
+			
+			// Execution will halt on the previous line if getTree() throws an exception
+			$this->fail("Method getTree() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getTree(	"plugin_3", 
+								"V", 
+								1
+			);
+			
+			// Execution will halt on the previous line if getTree() throws an exception
+			$this->fail("Method getTree() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getTree(	"plugin_3", 
+								"V", 
+								"1"
+			);
+			
+			// Execution will halt on the previous line if getTree() throws an exception
+			$this->fail("Method getTree() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+	}
 	
 	
 	function tearDown() {
