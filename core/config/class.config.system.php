@@ -1562,7 +1562,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			));
 		}
 
-		$san = new BPM_sanitize();
+		$san = new FOX_sanitize();
 
 		// Explode fields array into individual key names
 		$options = explode(',', stripslashes($post['key_names']));
@@ -1692,9 +1692,10 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		// ====================================================================
 
 		$rows_changed = 0;
-		$invalid_keys = array();
+		$invalid_nodes = array();
 		$update_keys = array();
 
+		//var_dump($current_keys); die;
 		foreach($query_keys as $plugin => $trees){
 		    
 			foreach($trees as $tree => $branches){
@@ -1702,10 +1703,10 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 				foreach($branches as $branch => $nodes){
 
 					foreach($nodes as $node => $fake_var){
-
-						if( !FOX_sUtil::keyExists($current_keys[$plugin][$tree][$branch], $node) ){
-						    
-							$invalid_keys[] = "Plugin: $plugin Tree: $tree Branch: $branch Key: $key";
+				    
+						if( !FOX_sUtil::keyExists($node, $current_keys[$plugin][$tree][$branch]) ){
+						    					    
+							$invalid_nodes[] = "Plugin: $plugin Tree: $tree Branch: $branch Node: $node";
 							continue;
 						}
 							
@@ -1776,12 +1777,12 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		unset($plugin, $trees);
 
 		
-		if($invalid_keys){
+		if($invalid_nodes){
 		    
 			throw new FOX_exception( array(
 				'numeric'=>11,
-				'text'=>"Attempted to set one or more nonexistent keys",
-				'data'=>$invalid_keys,
+				'text'=>"Trying to set one or more nonexistent nodes",
+				'data'=>$invalid_nodes,
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));		    		    

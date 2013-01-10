@@ -4019,8 +4019,7 @@ class system_config extends RAZ_testCase {
 		
 		try {
 			$rows_changed = $this->cls->dropTree(	1, 
-								"X", 
-								"K"
+								"X"
 			);
 			
 			// Execution will halt on the previous line if dropTree() throws an exception
@@ -4309,7 +4308,7 @@ class system_config extends RAZ_testCase {
         * =======================================================================================
 	*/	
 	public function test_dropPlugin_dataIntegrity() {
-return;
+
 	    
 		self::loadData();
 
@@ -4318,9 +4317,7 @@ return;
 		// ===============================================================
 		
 		try {
-			$rows_changed = $this->cls->dropPlugin(	null, 
-								"X"
-			);
+			$rows_changed = $this->cls->dropPlugin(null);
 			
 			// Execution will halt on the previous line if dropPlugin() throws an exception
 			$this->fail("Method dropPlugin() failed to throw an exception on invalid plugin name");			
@@ -4332,10 +4329,7 @@ return;
 		// ===============================================================
 		
 		try {
-			$rows_changed = $this->cls->dropPlugin(	1, 
-								"X", 
-								"K"
-			);
+			$rows_changed = $this->cls->dropPlugin(1);
 			
 			// Execution will halt on the previous line if dropPlugin() throws an exception
 			$this->fail("Method dropPlugin() failed to throw an exception on invalid plugin name");			
@@ -4347,59 +4341,52 @@ return;
 		// ===============================================================
 		
 		try {
-			$rows_changed = $this->cls->dropPlugin(	"1", 
-								"X"
-			);
+			$rows_changed = $this->cls->dropPlugin("1");
 			
 			// Execution will halt on the previous line if dropPlugin() throws an exception
 			$this->fail("Method dropPlugin() failed to throw an exception on invalid tree name");			
 						
 		}
 		catch (FOX_exception $child) {}			
+
+	}
+	
+	
+	/**
+	* Test fixture for processHTMLForm() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_processHTMLForm() {
+
+	    
+		self::loadData();
 		
+		$check = array(
+				'key_names'=>'plugin_1^X^K^N1,plugin_1^X^K^N2,plugin_1^X^Z^N3,plugin_1^Y^Z^N4',
+				'plugin_1^X^K^N1'=>'foo',
+				'plugin_1^X^K^N2'=>'bar',
+				'plugin_1^X^Z^N3'=>'baz',
+				'plugin_1^Y^Z^N4'=>'tag',		    
+		);
 		
-		// Null tree name
+		// Valid form
 		// ===============================================================
 		
 		try {
-			$rows_changed = $this->cls->dropPlugin(	"plugin_3", 
-								null
-			);
-			
-			// Execution will halt on the previous line if dropPlugin() throws an exception
-			$this->fail("Method dropPlugin() failed to throw an exception on invalid tree name");			
+			$result = $this->cls->processHTMLForm($check);					
 						
 		}
-		catch (FOX_exception $child) {}	
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
 		
-		// Integer tree name
-		// ===============================================================
-		
-		try {
-			$rows_changed = $this->cls->dropPlugin(	"plugin_3", 
-								1
-			);
-			
-			// Execution will halt on the previous line if dropPlugin() throws an exception
-			$this->fail("Method dropPlugin() failed to throw an exception on invalid tree name");			
-						
-		}
-		catch (FOX_exception $child) {}	
-		
-		// Integer-mapped tree name
-		// ===============================================================
-		
-		try {
-			$rows_changed = $this->cls->dropPlugin(	"plugin_3", 
-								"1"
-			);
-			
-			// Execution will halt on the previous line if dropPlugin() throws an exception
-			$this->fail("Method dropPlugin() failed to throw an exception on invalid tree name");			
-						
-		}
-		catch (FOX_exception $child) {}			
-		
+				
 	}
 	
 	
