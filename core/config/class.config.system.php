@@ -170,13 +170,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$result = self::getL3($plugin, $tree, $get_ctrl, $valid);
+			$result = parent::getL3($plugin, $tree, $get_ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Error calling self::getL3()",
+				'text'=>"Error calling parent::getL3()",
 				'data'=> array('plugin'=>$plugin,'tree'=>$tree),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -292,13 +292,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$result = self::getL2($plugin, $tree, $branch, $get_ctrl, $valid);
+			$result = parent::getL2($plugin, $tree, $branch, $get_ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Error calling self::getL2()",
+				'text'=>"Error calling parent::getL2()",
 				'data'=> array('plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -424,13 +424,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$result = self::getL1($plugin, $tree, $branch, $node, $get_ctrl, $valid);
+			$result = parent::getL1($plugin, $tree, $branch, $node, $get_ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Error calling self::getL1()",
+				'text'=>"Error calling parent::getL1()",
 				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -592,13 +592,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$rows_changed = self::setL1($plugin, $tree, $branch, $node, $val, $set_ctrl);
+			$rows_changed = parent::setL1($plugin, $tree, $branch, $node, $val, $set_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>6,
-				'text'=>"Error in self::setL1()",
+				'text'=>"Error in parent::setL1()",
 				'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'val'=>$val),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -704,13 +704,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$node_data = self::getL1($plugin, $tree, $branch, $node, $get_ctrl, $valid);
+			$node_data = parent::getL1($plugin, $tree, $branch, $node, $get_ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Error calling self::getL1()",
+				'text'=>"Error calling parent::getL1()",
 				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -794,13 +794,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$rows_changed = self::setL1($plugin, $tree, $branch, $node, $val, $set_ctrl);
+			$rows_changed = parent::setL1($plugin, $tree, $branch, $node, $val, $set_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>6,
-				'text'=>"Error in self::setL1()",
+				'text'=>"Error in parent::setL1()",
 				'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'val'=>$val),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -926,13 +926,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$rows_changed = self::dropL1($plugin, $tree, $branch, $node, $drop_ctrl);
+			$rows_changed = parent::dropL1($plugin, $tree, $branch, $node, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Error calling self::dropL1()",
+				'text'=>"Error calling parent::dropL1()",
 				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -1047,13 +1047,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$rows_changed = self::dropL2($plugin, $tree, $branch, $drop_ctrl);
+			$rows_changed = parent::dropL2($plugin, $tree, $branch, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Error calling self::dropL2()",
+				'text'=>"Error calling parent::dropL2()",
 				'data'=> array('plugin'=>$plugin,'tree'=>$tree, 'branch'=>$branch),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -1160,13 +1160,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$rows_changed = self::dropL3($plugin, $tree, $drop_ctrl);
+			$rows_changed = parent::dropL3($plugin, $tree, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Error calling self::dropL3()",
+				'text'=>"Error calling parent::dropL3()",
 				'data'=> array('plugin'=>$plugin,'tree'=>$tree),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -1261,13 +1261,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$rows_changed = self::dropL4($plugin, $drop_ctrl);
+			$rows_changed = parent::dropL4($plugin, $drop_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>3,
-				'text'=>"Error calling self::dropL4()",
+				'text'=>"Error calling parent::dropL4()",
 				'data'=> array('plugin'=>$plugin),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -1413,13 +1413,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			// We do not use getMulti's $valid flag to trap nonexistent keys
 			// because we want to throw an error listing the key names
 		    
-			$current_keys = self::getMulti($query_keys, $get_ctrl);
+			$current_keys = parent::getMulti($query_keys, $get_ctrl);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>8,
-				'text'=>"Error calling self::getMulti()",
+				'text'=>"Error calling parent::getMulti()",
 				'data'=>$query_keys,
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
@@ -1535,13 +1535,13 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			);
 		
 			try {
-				$rows_changed = self::setMulti($update_keys, $set_ctrl);
+				$rows_changed = parent::setMulti($update_keys, $set_ctrl);
 			}
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
 					'numeric'=>12,
-					'text'=>"Error in self::setMulti()",
+					'text'=>"Error in parent::setMulti()",
 					'data'=>array('update_keys'=>$update_keys, 'set_ctrl'=>$set_ctrl),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
