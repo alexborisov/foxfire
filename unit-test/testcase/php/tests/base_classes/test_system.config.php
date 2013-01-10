@@ -1555,9 +1555,64 @@ class system_config extends RAZ_testCase {
 
 		$this->assertEquals(true, $valid);
 		
-		var_dump($result);
+		$check = array( 
+				'N1'=>null,
+				'N2'=>false
+		);
 
+		$this->assertEquals($check, $result);		
 		
+		
+		// Nonexistent node, "single" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getNode(	"plugin_3", 
+							"X", 
+							"K", 
+							"N1",
+							$valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(false, $valid);		
+		$this->assertEquals(null, $result);
+		
+		
+		// Existing nodes, "multi" mode, with nonexistent node
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getNode(	"plugin_1", 
+							"X", 
+							"K", 
+							array("N1", "N2", "fail_node"),
+							$valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(false, $valid);
+		
+		$check = array( 
+				'N1'=>null,
+				'N2'=>false
+		);
+
+		$this->assertEquals($check, $result);			
 		
 	}
 	
