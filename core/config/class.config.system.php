@@ -1241,7 +1241,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			// spinning it into an array and validating the array. This lets us trap strings that PHP 
 			// automatically converts to ints ("17")
 
-			if( !is_array($tree) ){
+			if( !is_array($branch) ){
 
 				$validator_result['branch'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L2_col]['php'],
