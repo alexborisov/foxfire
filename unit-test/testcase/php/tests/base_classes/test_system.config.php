@@ -107,7 +107,7 @@ class system_config extends RAZ_testCase {
 		
 		foreach( $test_data as $item ){
 		    						
-			try {
+			try { 
 				$rows_changed = $this->cls->addNode(	$item['plugin'], 
 									$item['tree'], 
 									$item['branch'], 
@@ -140,13 +140,22 @@ class system_config extends RAZ_testCase {
 								"updated_value", 
 								"debug",
 								false
-			);		
+			);
+			
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"X", 
+								"K", 
+								"N_1", 
+								"updated_value", 
+								"debug",
+								false
+			);			
 		}
 		catch (FOX_exception $child) {
 					
 			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    
 		}			
-			
+
 		// Should return (int)1 to indicate a node was added
 		$this->assertEquals(1, $rows_changed);	
 		

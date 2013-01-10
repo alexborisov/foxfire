@@ -459,7 +459,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 	 * @return int | Exception on failure. Number of db rows changed on success.
 	 */
 
-	public function addNode($plugin, $tree, $branch, $node, $val, $filter, $ctrl=null){
+	public function addNode($plugin, $tree, $branch, $node, $node_val, $filter, $ctrl=null){
 
 
 		$struct = $this->_struct();
@@ -549,7 +549,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		$filter_valid = null; $filter_error = null; // Passed by reference
 
 		try {
-			$processed_val = $cls->{$filter}($val, $ctrl, $filter_valid, $filter_error);
+			$processed_val = $cls->{$filter}($node_val, $ctrl, $filter_valid, $filter_error);
 		}
 		catch (FOX_exception $child) {
 
@@ -581,7 +581,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		// Update the database
 		// ===========================================================
 
-		$val = array(
+		$set_val = array(
 			    'filter'=>$filter,
 			    'filter_ctrl'=>$ctrl,
 			    'val'=>$processed_val		    
@@ -592,7 +592,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$rows_changed = parent::setL1($plugin, $tree, $branch, $node, $val, $set_ctrl);
+			$rows_changed = parent::setL1($plugin, $tree, $branch, $node, $set_val, $set_ctrl);
 		}
 		catch (FOX_exception $child) {
 
