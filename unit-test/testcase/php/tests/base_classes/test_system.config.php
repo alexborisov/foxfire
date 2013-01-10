@@ -2297,7 +2297,7 @@ class system_config extends RAZ_testCase {
 	*/	
 	public function test_getTree_dataIntegrity() {
 
-   return;
+
 		self::loadData();
 
 		
@@ -2306,8 +2306,7 @@ class system_config extends RAZ_testCase {
 		
 		try {
 			$rows_changed = $this->cls->getTree(	null, 
-								"X", 
-								"K"
+								"X"
 			);
 			
 			// Execution will halt on the previous line if getTree() throws an exception
@@ -2321,8 +2320,7 @@ class system_config extends RAZ_testCase {
 		
 		try {
 			$rows_changed = $this->cls->getTree(	1, 
-								"X", 
-								"K"
+								"X"
 			);
 			
 			// Execution will halt on the previous line if getTree() throws an exception
@@ -2336,8 +2334,7 @@ class system_config extends RAZ_testCase {
 		
 		try {
 			$rows_changed = $this->cls->getTree(	"1", 
-								"X", 
-								"K"
+								"X"
 			);
 			
 			// Execution will halt on the previous line if getTree() throws an exception
@@ -2352,8 +2349,7 @@ class system_config extends RAZ_testCase {
 		
 		try {
 			$rows_changed = $this->cls->getTree(	"plugin_3", 
-								null, 
-								"K"
+								null
 			);
 			
 			// Execution will halt on the previous line if getTree() throws an exception
@@ -2367,8 +2363,7 @@ class system_config extends RAZ_testCase {
 		
 		try {
 			$rows_changed = $this->cls->getTree(	"plugin_3", 
-								1, 
-								"K"
+								1
 			);
 			
 			// Execution will halt on the previous line if getTree() throws an exception
@@ -2382,8 +2377,7 @@ class system_config extends RAZ_testCase {
 		
 		try {
 			$rows_changed = $this->cls->getTree(	"plugin_3", 
-								"1", 
-								"K"
+								"1"
 			);
 			
 			// Execution will halt on the previous line if getTree() throws an exception
@@ -2391,52 +2385,7 @@ class system_config extends RAZ_testCase {
 						
 		}
 		catch (FOX_exception $child) {}	
-		
-		
-		// Null branch name
-		// ===============================================================
-		
-		try {
-			$rows_changed = $this->cls->getTree(	"plugin_3", 
-								"V", 
-								null
-			);
-			
-			// Execution will halt on the previous line if getTree() throws an exception
-			$this->fail("Method getTree() failed to throw an exception on invalid branch name");			
-						
-		}
-		catch (FOX_exception $child) {}	
-		
-		// Integer branch name
-		// ===============================================================
-		
-		try {
-			$rows_changed = $this->cls->getTree(	"plugin_3", 
-								"V", 
-								1
-			);
-			
-			// Execution will halt on the previous line if getTree() throws an exception
-			$this->fail("Method getTree() failed to throw an exception on invalid branch name");			
-						
-		}
-		catch (FOX_exception $child) {}	
-		
-		// Integer-mapped branch name
-		// ===============================================================
-		
-		try {
-			$rows_changed = $this->cls->getTree(	"plugin_3", 
-								"V", 
-								"1"
-			);
-			
-			// Execution will halt on the previous line if getTree() throws an exception
-			$this->fail("Method getTree() failed to throw an exception on invalid branch name");			
-						
-		}
-		catch (FOX_exception $child) {}	
+
 		
 	}
 	
