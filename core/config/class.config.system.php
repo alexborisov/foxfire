@@ -621,7 +621,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 	 * @param string $node | Node name
 	 * @param mixed  $val | Value to store to node
 	 *
-	 * @return int | Exception on failure. Number of db rows changed on success.
+	 * @return int | Exception on failure. (int)0 node unchaged, (int)1 node updated
 	 */
 
 	public function setNode($plugin, $tree, $branch, $node, $val){

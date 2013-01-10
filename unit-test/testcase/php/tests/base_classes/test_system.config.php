@@ -70,14 +70,14 @@ class system_config extends RAZ_testCase {
 
 
        /**
-	* Test fixture for addNode() method
+	* Loads the storage class with data
 	*
 	* @version 1.0
 	* @since 1.0
 	* 
         * =======================================================================================
 	*/	
-	public function test_addNode() {
+	public function loadData() {
 
 	    
 		$test_obj = new stdClass();
@@ -225,6 +225,24 @@ class system_config extends RAZ_testCase {
                 $this->assertEquals($check, $result);	
 		
 		
+	}
+	
+	
+	
+       /**
+	* Test fixture for addNode() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_addNode() {
+
+	    
+		self::loadData();
+		
+		
 		// Test overwriting an existing node with same data
 		// ===============================================================
 		
@@ -250,6 +268,91 @@ class system_config extends RAZ_testCase {
 		
 		// Check db state
 		// ===============================================================
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>null
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>false
+									    ),
+									    'N5'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),										
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)0
+									    )
+								)
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)1
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)-1
+									    ),
+									    'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)1.7
+									    )							    
+								),
+								'Z'=>array( 'N4'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)-1.6
+									    )
+								)
+						    )					    
+				),			
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(string)"foo"
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>array(null, true, false, 1, 1.0, "foo")
+									    )								   						    
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>$test_obj
+									    )
+								) 						
+						    )					    
+				)		    		    
+		);	
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
 		
 		try {
 			$struct = $this->cls->_struct();			
@@ -387,53 +490,7 @@ class system_config extends RAZ_testCase {
 	public function test_addNode_dataIntegrity() {
 
 	    
-		$test_obj = new stdClass();
-		$test_obj->foo = "11";
-		$test_obj->bar = "test_Bar";	
-				
-		$test_data = array(
-
-		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"debug", "ctrl"=>false, "val"=>null),
-		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>false),
-		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N5", "filter"=>"debug", "ctrl"=>false, "val"=>true),
-		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>(int)0),	
-
-		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N1", "filter"=>"debug", "ctrl"=>false, "val"=>(int)1),
-		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>(int)-1),
-		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>(float)1.7),
-		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"Z", "node"=>"N4", "filter"=>"debug", "ctrl"=>false, "val"=>(float)-1.6),
-
-		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"debug", "ctrl"=>false, "val"=>(string)"foo"),
-		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>array(null, true, false, 1, 1.0, "foo")),
-		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>$test_obj)	
-		    
-		);		
-		
-		// Load class with data
-		// ===============================================================
-		
-		foreach( $test_data as $item ){
-		    						
-			try { 
-				$rows_changed = $this->cls->addNode(	$item['plugin'], 
-									$item['tree'], 
-									$item['branch'], 
-									$item['node'], 
-									$item['val'], 
-									$item['filter'],
-									$item['ctrl']
-				);			    
-			}
-			catch (FOX_exception $child) {
-							    
-				$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));			
-			}			
-			
-			// Should return (int)1 to indicate a node was added
-			$this->assertEquals(1, $rows_changed); 			
-			
-		}
-		unset($item);
+		self::loadData();
 
 		
 		// Null plugin name
@@ -733,6 +790,10 @@ class system_config extends RAZ_testCase {
 		// Check db state
 		// ===============================================================		
 		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
 		$check = array(
 				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
 									    'N1'=>array(
@@ -824,9 +885,6 @@ class system_config extends RAZ_testCase {
 		}		
 		
                 $this->assertEquals($check, $result);	
-		
-
-		
 		
 	}	
 
