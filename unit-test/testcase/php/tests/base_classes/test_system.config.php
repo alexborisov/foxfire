@@ -1617,6 +1617,217 @@ class system_config extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Test fixture for getNode(), data integrity checks
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_getNode_dataIntegrity() {
+
+	    
+		self::loadData();
+
+		
+		// Null plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	null, 
+								"X", 
+								"K", 
+								"N1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	1, 
+								"X", 
+								"K", 
+								"N1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"1", 
+								"X", 
+								"K", 
+								"N1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Null tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"plugin_3", 
+								null, 
+								"K", 
+								"N1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"plugin_3", 
+								1, 
+								"K", 
+								"N1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"plugin_3", 
+								"1", 
+								"K", 
+								"N1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		
+		// Null branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"plugin_3", 
+								"V", 
+								null, 
+								"N1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"plugin_3", 
+								"V", 
+								1, 
+								"N1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"plugin_3", 
+								"V", 
+								"1", 
+								"N1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Null node name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"plugin_3", 
+								"V", 
+								"X", 
+								null
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid node name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer node name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid node name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped node name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"1"
+			);
+			
+			// Execution will halt on the previous line if getNode() throws an exception
+			$this->fail("Method getNode() failed to throw an exception on invalid node name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+	}	
+	
+	
 	function tearDown() {
 	   
 		$this->cls = new FOX_config();
