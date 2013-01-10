@@ -179,13 +179,35 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			));
 		}
 
-		
+		$result = array();
+			
 		if($mode == 'single'){
 		    
-			$result = $db_result[0];
+			// When operating in 'single' mode, getL4() will return NULL 
+			// on no result
+		    
+			if($db_result){
+			    
+				foreach($db_result as $tree_name => $branches){
+
+					foreach($branches as $branch_name => $nodes){
+
+						foreach($nodes as $node_name => $node_data){
+
+							$result[$tree_name][$branch_name][$node_name] = $node_data['val']; 
+						}
+						unset($node_name, $node_data);				
+					}
+					unset($branch_name, $nodes);
+				}
+				unset($tree_name, $branches);				
+			}
+			else {
+				$result = null;
+			}
+			
 		}
 		else {
-			$result = array();
 			
 			foreach($db_result as $plugin_name => $trees){
 			    
@@ -195,7 +217,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 						foreach($nodes as $node_name => $node_data){
 
-							$result[$branch_name][$node_name] = $node_data['val']; 
+							$result[$plugin_name][$tree_name][$branch_name][$node_name] = $node_data['val']; 
 						}
 						unset($node_name, $node_data);				
 					}
@@ -323,13 +345,31 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			));
 		}
 
+		$result = array();
 		
 		if($mode == 'single'){
 		    
-			$result = $db_result[0];
+			// When operating in 'single' mode, getL3() will return NULL 
+			// on no result
+		    
+			if($db_result){
+			    
+				foreach($db_result as $branch_name => $nodes){
+
+					foreach($nodes as $node_name => $node_data){
+
+						$result[$branch_name][$node_name] = $node_data['val']; 
+					}
+					unset($node_name, $node_data);				
+				}
+				unset($branch_name, $nodes);
+			}
+			else {
+				$result = null;
+			}
+			
 		}
 		else {
-			$result = array();
 			
 			foreach($db_result as $tree_name => $branches){
 			    
@@ -337,7 +377,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 					foreach($nodes as $node_name => $node_data){
 
-						$result[$branch_name][$node_name] = $node_data['val']; 
+						$result[$tree_name][$branch_name][$node_name] = $node_data['val']; 
 					}
 					unset($node_name, $node_data);				
 				}
@@ -471,13 +511,26 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			));
 		}
 
+		$result = array();
+			
 		if($mode == 'single'){
 		    
-			$result = $db_result[0];
+			// When operating in 'single' mode, getL2() will return NULL 
+			// on no result
+		    
+			if($db_result){
+			    
+				foreach($db_result as $node_name => $node_data){
+
+					$result[$node_name] = $node_data['val']; 
+				}
+				unset($node_name, $node_data);				
+			}
+			else {
+				$result = null;
+			}
 		}
-		else {
-			$result = array();
-			
+		else {			
 			foreach($db_result as $branch_name => $nodes){
 			    
 				foreach($nodes as $node_name => $node_data){
