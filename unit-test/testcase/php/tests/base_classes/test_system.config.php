@@ -1135,7 +1135,368 @@ class system_config extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Test fixture for setNode(), data integrity checks
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_setNode_dataIntegrity() {
 
+	    
+		self::loadData();
+
+		
+		// Null plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	null, 
+								"X", 
+								"K", 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	1, 
+								"X", 
+								"K", 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"1", 
+								"X", 
+								"K", 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Null tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								null, 
+								"K", 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								1, 
+								"K", 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								"1", 
+								"K", 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		
+		// Null branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								"V", 
+								null, 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								"V", 
+								1, 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								"V", 
+								"1", 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Null node name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								"V", 
+								"X", 
+								null, 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid node name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer node name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid node name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped node name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on invalid node name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Data fails filter
+		// ===============================================================
+				
+		try { 
+			// Modify an existing node so it fails on null input
+		    
+			$this->cls->addNode(	"plugin_1", 
+						"X", 
+						"K", 
+						"N1", 
+						false, 
+						"bool",
+						array(
+						    'null_input'=>'trap'
+						)
+			);			    
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));			
+		}			
+			
+		try {
+		    	// Write a value to the node that fails validation
+		    
+			$rows_changed = $this->cls->setNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"N1", 
+								null
+			);
+			
+			// Execution will halt on the previous line if setNode() throws an exception
+			$this->fail("Method setNode() failed to throw an exception on input data failing filter");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Check db state
+		// ===============================================================		
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'bool', 
+											    'filter_ctrl'=>array('null_input'=>'trap'), 
+											    'val'=>false
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>false
+									    ),
+									    'N5'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),										
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)0
+									    )
+								)
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)1
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)-1
+									    ),
+									    'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)1.7
+									    )							    
+								),
+								'Z'=>array( 'N4'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)-1.6
+									    )
+								)
+						    )					    
+				),			
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(string)"foo"
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>array(null, true, false, 1, 1.0, "foo")
+									    )								   						    
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>$test_obj
+									    )
+								) 						
+						    )					    
+				)		    		    
+		);	
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);	
+		
+	}
+	
+	
 	function tearDown() {
 	   
 		$this->cls = new FOX_config();
