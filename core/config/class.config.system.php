@@ -1637,7 +1637,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 				throw new FOX_exception( array(
 					'numeric'=>6,
-					'text'=>"Called with invalid key name",
+					'text'=>"Called with invalid node name",
 					'data'=>array('raw_key'=>$raw_key, 'san_error'=>$key_error),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
@@ -1655,7 +1655,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 			throw new FOX_exception( array(
 				'numeric'=>7,
-				'text'=>"Attempting to set keys for multiple plugins",
+				'text'=>"Attempting to set nodes for multiple plugins",
 				'data'=>array_keys($query_keys),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null

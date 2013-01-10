@@ -4715,6 +4715,240 @@ class system_config extends RAZ_testCase {
 				
 	}
 	
+	/**
+	* Test fixture for processHTMLForm() method, data integrity
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_processHTMLForm_dataIntegrity() {
+
+	    
+		self::loadData();
+		
+		// Missing key names string
+		// ===============================================================
+		
+		$check = array(
+				'plugin_1^X^K^N'=>true,
+				'plugin_1^X^K^N2'=>false,
+				'plugin_1^X^Z^N3'=>2,
+				'plugin_1^Y^Z^N4'=>-1.6		    
+		);
+			
+		try {
+			$result = $this->cls->processHTMLForm($check);	
+			
+			// Execution will halt on the previous line if processHTMLForm() throws an exception
+			$this->fail("Method processHTMLForm() failed to throw an exception on missing key names parameter");				
+						
+		}
+		catch (FOX_exception $child) {}		
+		
+		// Invalid plugin name
+		// ===============================================================
+		
+		$check = array(
+				'key_names'=>'1^X^K^N1,plugin_1^X^K^N2,plugin_1^X^Z^N3,plugin_1^Y^Z^N4',
+				'plugin_1^X^K^N'=>true,
+				'plugin_1^X^K^N2'=>false,
+				'plugin_1^X^Z^N3'=>2,
+				'plugin_1^Y^Z^N4'=>-1.6		    
+		);
+			
+		try {
+			$result = $this->cls->processHTMLForm($check);	
+			
+			// Execution will halt on the previous line if processHTMLForm() throws an exception
+			$this->fail("Method processHTMLForm() failed to throw an exception on invalid plugin name");				
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Invalid tree name
+		// ===============================================================
+		
+		$check = array(
+				'key_names'=>'plugin_1^1^K^N1,plugin_1^X^K^N2,plugin_1^X^Z^N3,plugin_1^Y^Z^N4',
+				'plugin_1^X^K^N'=>true,
+				'plugin_1^X^K^N2'=>false,
+				'plugin_1^X^Z^N3'=>2,
+				'plugin_1^Y^Z^N4'=>-1.6		    
+		);
+			
+		try {
+			$result = $this->cls->processHTMLForm($check);	
+			
+			// Execution will halt on the previous line if processHTMLForm() throws an exception
+			$this->fail("Method processHTMLForm() failed to throw an exception on invalid tree name");				
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		// Invalid branch name
+		// ===============================================================
+		
+		$check = array(
+				'key_names'=>'plugin_1^X^1^N1,plugin_1^X^K^N2,plugin_1^X^Z^N3,plugin_1^Y^Z^N4',
+				'plugin_1^X^K^N'=>true,
+				'plugin_1^X^K^N2'=>false,
+				'plugin_1^X^Z^N3'=>2,
+				'plugin_1^Y^Z^N4'=>-1.6		    
+		);
+			
+		try {
+			$result = $this->cls->processHTMLForm($check);	
+			
+			// Execution will halt on the previous line if processHTMLForm() throws an exception
+			$this->fail("Method processHTMLForm() failed to throw an exception on invalid branch name");				
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Invalid node name
+		// ===============================================================
+		
+		$check = array(
+				'key_names'=>'plugin_1^X^K^1,plugin_1^X^K^N2,plugin_1^X^Z^N3,plugin_1^Y^Z^N4',
+				'plugin_1^X^K^N'=>true,
+				'plugin_1^X^K^N2'=>false,
+				'plugin_1^X^Z^N3'=>2,
+				'plugin_1^Y^Z^N4'=>-1.6		    
+		);
+			
+		try {
+			$result = $this->cls->processHTMLForm($check);	
+			
+			// Execution will halt on the previous line if processHTMLForm() throws an exception
+			$this->fail("Method processHTMLForm() failed to throw an exception on invalid node name");				
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Nonexistent node
+		// ===============================================================
+		
+		$check = array(
+				'key_names'=>'plugin_1^X^K^N6,plugin_1^X^K^N2,plugin_1^X^Z^N3,plugin_1^Y^Z^N4',
+				'plugin_1^X^K^N'=>true,
+				'plugin_1^X^K^N2'=>false,
+				'plugin_1^X^Z^N3'=>2,
+				'plugin_1^Y^Z^N4'=>-1.6		    
+		);
+			
+		try {
+			$result = $this->cls->processHTMLForm($check);	
+			
+			// Execution will halt on the previous line if processHTMLForm() throws an exception
+			$this->fail("Method processHTMLForm() failed to throw an exception on nonexistent node");				
+						
+		}
+		catch (FOX_exception $child) {}			
+
+		
+		// Check db state
+		// ===============================================================		
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>null
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>false
+									    ),
+									    'N5'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),										
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)0
+									    )
+								)
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)1
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)-1
+									    ),
+									    'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)1.7
+									    )							    
+								),
+								'Z'=>array( 'N4'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)-1.6
+									    )
+								)
+						    )					    
+				),			
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(string)"foo"
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>array(null, true, false, 1, 1.0, "foo")
+									    )								   						    
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>$test_obj
+									    )
+								) 						
+						    )					    
+				)		    		    
+		);	
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);	
+				
+	}
+	
 	
 	function tearDown() {
 	   
