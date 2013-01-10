@@ -86,19 +86,19 @@ class system_config extends RAZ_testCase {
 				
 		$test_data = array(
 
-		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N_1", "filter"=>"debug", "ctrl"=>false, "val"=>null),
-		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N_2", "filter"=>"debug", "ctrl"=>false, "val"=>false),
-		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N_5", "filter"=>"debug", "ctrl"=>false, "val"=>true),
-		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"Z", "node"=>"N_3", "filter"=>"debug", "ctrl"=>false, "val"=>(int)0),	
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"debug", "ctrl"=>false, "val"=>null),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>false),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N5", "filter"=>"debug", "ctrl"=>false, "val"=>true),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>(int)0),	
 
-		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N_1", "filter"=>"debug", "ctrl"=>false, "val"=>(int)1),
-		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N_2", "filter"=>"debug", "ctrl"=>false, "val"=>(int)-1),
-		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N_3", "filter"=>"debug", "ctrl"=>false, "val"=>(float)1.7),
-		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"Z", "node"=>"N_4", "filter"=>"debug", "ctrl"=>false, "val"=>(float)-1.6),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N1", "filter"=>"debug", "ctrl"=>false, "val"=>(int)1),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>(int)-1),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>(float)1.7),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"Z", "node"=>"N4", "filter"=>"debug", "ctrl"=>false, "val"=>(float)-1.6),
 
-		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N_1", "filter"=>"debug", "ctrl"=>false, "val"=>(string)"foo"),
-		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N_2", "filter"=>"debug", "ctrl"=>false, "val"=>array(null, true, false, 1, 1.0, "foo")),
-		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"Z", "node"=>"N_3", "filter"=>"debug", "ctrl"=>false, "val"=>$test_obj)	
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"debug", "ctrl"=>false, "val"=>(string)"foo"),
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>array(null, true, false, 1, 1.0, "foo")),
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>$test_obj)	
 		    
 		);		
 		
@@ -119,7 +119,7 @@ class system_config extends RAZ_testCase {
 			}
 			catch (FOX_exception $child) {
 							    
-				$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));			
+				$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));			
 			}			
 			
 			// Should return (int)1 to indicate a node was added
@@ -127,123 +127,250 @@ class system_config extends RAZ_testCase {
 			
 		}
 		unset($item);
+
+		
+		// Check db state
+		// ===============================================================		
+		
+		$check = array(
+				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>null
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>false
+									    ),
+									    'N5'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),										
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)0
+									    )
+								)
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)1
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)-1
+									    ),
+									    'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)1.7
+									    )							    
+								),
+								'Z'=>array( 'N4'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)-1.6
+									    )
+								)
+						    )					    
+				),			
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(string)"foo"
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>array(null, true, false, 1, 1.0, "foo")
+									    )								   						    
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>$test_obj
+									    )
+								) 						
+						    )					    
+				)		    		    
+		);	
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);	
 		
 		
-		// Test adding duplicate node
+		// Test overwriting an existing node with same data
 		// ===============================================================
 		
 		try {
 			$rows_changed = $this->cls->addNode(	"plugin_1", 
 								"X", 
 								"K", 
-								"N_1", 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		// Should return (int)0 to indicate no rows were changed
+		$this->assertEquals(0, $rows_changed);	
+		
+		
+		// Check db state
+		// ===============================================================
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);		
+		
+		
+		// Test overwriting an existing node with different data
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_1", 
+								"X", 
+								"K", 
+								"N1", 
 								"updated_value", 
 								"debug",
 								false
 			);
-			
-			$rows_changed = $this->cls->addNode(	"plugin_3", 
-								"X", 
-								"K", 
-								"N_1", 
-								"updated_value", 
-								"debug",
-								false
-			);			
+						
 		}
 		catch (FOX_exception $child) {
 					
-			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
 		}			
 
 		// Should return (int)1 to indicate a node was added
-		$this->assertEquals(1, $rows_changed);	
+		$this->assertEquals(1, $rows_changed);		
 		
 		
-//		// Check cache state
-//		// ===============================================================	
-//		
-//		// NOTE: the LUT's won't be set at this point, because we haven't done any 
-//		// database reads that give objects authority
-//		
-//		$check = array(
-//				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array(
-//										    1=>null,
-//										    2=>false,
-//										    5=>true 							    
-//									),
-//									'Z'=>array( 3=>(int)0 ) 						
-//							    ),	
-//							    'Y'=>array(	'K'=>array( 
-//										    1=>(int)1,
-//										    2=>(int)-1,
-//										    3=>(float)1.7 							    
-//									),
-//									'Z'=>array( 4=>(float)-1.6 ) 						
-//							    )
-//					    )
-//				),			
-//				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
-//										    1=>(string)"foo",
-//										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
-//									),
-//									'Z'=>array( 3=>$test_obj ) 						
-//							    )	
-//					    )						
-//				 )		    		    
-//		);
-//		
-//		$this->assertEquals($check, $this->cls->cache);	
-//		
-//		
-//		// Check db state
-//		// ===============================================================		
-//		
-//		$check = array(
-//				1=>array(   'X'=>array(	'K'=>array( 
-//								    1=>null,
-//								    2=>false,
-//								    5=>true							    
-//							),
-//							'Z'=>array( 3=>(int)0 ) 						
-//					    ),	
-//					    'Y'=>array(	'K'=>array( 
-//								    1=>(int)1,
-//								    2=>(int)-1,
-//								    3=>(float)1.7 							    
-//							),
-//							'Z'=>array( 4=>(float)-1.6 ) 						
-//					    )					    
-//				),			
-//				2=>array(   'X'=>array(	'K'=>array( 
-//								    1=>(string)"foo",
-//								    2=>array(null, true, false, 1, 1.0, "foo")								   						    
-//							),
-//							'Z'=>array( 3=>$test_obj ) 						
-//					    )					    
-//				 )		    		    
-//		);		
-//		
-//		
-//		$db = new FOX_db();	
-//		
-//		$columns = null;
-//		
-//		$ctrl = array(
-//				'format'=>'array_key_array',
-//				'key_col'=>array('L4','L3','L2','L1')
-//		);
-//		
-//		try {
-//			$struct = $this->cls->_struct();			
-//			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
-//		}
-//		catch (FOX_exception $child) {
-//
-//			$this->fail($child->dumpString(1));	
-//		}		
-//		
-//                $this->assertEquals($check, $result);		
+		// Check db state
+		// ===============================================================		
+		
+		$check = array(
+				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>'updated_value'
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>false
+									    ),
+									    'N5'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),										
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)0
+									    )
+								)
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)1
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)-1
+									    ),
+									    'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)1.7
+									    )							    
+								),
+								'Z'=>array( 'N4'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)-1.6
+									    )
+								)
+						    )					    
+				),			
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(string)"foo"
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>array(null, true, false, 1, 1.0, "foo")
+									    )								   						    
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>$test_obj
+									    )
+								) 						
+						    )					    
+				)		    		    
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);			
 		
 		
 	}
