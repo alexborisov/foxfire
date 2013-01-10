@@ -2123,34 +2123,6 @@ class system_config extends RAZ_testCase {
 	*/	
 	public function test_getTree() {
 
-//		$test_obj = new stdClass();
-//		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";
-//		
-//		$check = array(
-//				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
-//									    'N1'=>null,
-//									    'N2'=>false,
-//									    'N5'=>true,										
-//								),
-//								'Z'=>array( 'N3'=>(int)0 )
-//						    ),	
-//						    'Y'=>array(	'K'=>array( 
-//									    'N1'=>(int)1,
-//									    'N2'=>(int)-1,
-//									    'N3'=>(float)1.7							    
-//								),
-//								'Z'=>array( 'N4'=>(float)-1.6 )
-//						    )					    
-//				),			
-//				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
-//									    'N1'=>(string)"foo",
-//									    'N2'=>array(null, true, false, 1, 1.0, "foo")								   						    
-//								),
-//								'Z'=>array( 'N3'=>$test_obj ) 						
-//						    )					    
-//				)		    		    
-//		);
 	    
 		self::loadData();
 		
@@ -2382,6 +2354,251 @@ class system_config extends RAZ_testCase {
 			
 			// Execution will halt on the previous line if getTree() throws an exception
 			$this->fail("Method getTree() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+
+		
+	}
+	
+       /**
+	* Test fixture for getPlugin() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_getPlugin() {
+
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";		
+	    
+		self::loadData();
+		
+		
+		// Existing plugin, "single" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getPlugin(    "plugin_1", 
+							    $valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(true, $valid);	
+		
+		$check = array(
+				'X'=>array( 'K'=>array( 
+							'N1'=>null,
+							'N2'=>false,
+							'N5'=>true,										
+					    ),
+					    'Z'=>array( 'N3'=>(int)0 )
+				),	
+				'Y'=>array(	'K'=>array( 
+							'N1'=>(int)1,
+							'N2'=>(int)-1,
+							'N3'=>(float)1.7							    
+					    ),
+					    'Z'=>array( 'N4'=>(float)-1.6 )
+				)		    		    
+		);
+		
+		$this->assertEquals($check, $result);
+				
+		
+		// Existing plugins, "multi" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getPlugin(    array("plugin_1", "plugin_2"),
+							    $valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(true, $valid);
+		
+		$check = array(
+				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+									    'N1'=>null,
+									    'N2'=>false,
+									    'N5'=>true,										
+								),
+								'Z'=>array( 'N3'=>(int)0 )
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    'N1'=>(int)1,
+									    'N2'=>(int)-1,
+									    'N3'=>(float)1.7							    
+								),
+								'Z'=>array( 'N4'=>(float)-1.6 )
+						    )					    
+				),			
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>(string)"foo",
+									    'N2'=>array(null, true, false, 1, 1.0, "foo")								   						    
+								),
+								'Z'=>array( 'N3'=>$test_obj ) 						
+						    )					    
+				)		    		    
+		);
+		
+		$this->assertEquals($check, $result);		
+	
+		
+		// Nonexistent plugin, "single" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getPlugin(    "fail", 
+							    $valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(false, $valid);		
+		$this->assertEquals(null, $result);
+		
+			
+		// Existing plugins, "multi" mode, with nonexistent node
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getPlugin(    array("plugin_1", "plugin_2", "fail"),
+							    $valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(false, $valid);	
+		$this->assertEquals($check, $result);			
+		
+	}
+	
+	
+       /**
+	* Test fixture for getPlugin(), data integrity checks
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_getPlugin_dataIntegrity() {
+
+return;
+		self::loadData();
+
+		
+		// Null plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getPlugin(	null, 
+								"X"
+			);
+			
+			// Execution will halt on the previous line if getPlugin() throws an exception
+			$this->fail("Method getPlugin() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getPlugin(	1, 
+								"X"
+			);
+			
+			// Execution will halt on the previous line if getPlugin() throws an exception
+			$this->fail("Method getPlugin() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getPlugin(	"1", 
+								"X"
+			);
+			
+			// Execution will halt on the previous line if getPlugin() throws an exception
+			$this->fail("Method getPlugin() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Null tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getPlugin(	"plugin_3", 
+								null
+			);
+			
+			// Execution will halt on the previous line if getPlugin() throws an exception
+			$this->fail("Method getPlugin() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getPlugin(	"plugin_3", 
+								1
+			);
+			
+			// Execution will halt on the previous line if getPlugin() throws an exception
+			$this->fail("Method getPlugin() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->getPlugin(	"plugin_3", 
+								"1"
+			);
+			
+			// Execution will halt on the previous line if getPlugin() throws an exception
+			$this->fail("Method getPlugin() failed to throw an exception on invalid tree name");			
 						
 		}
 		catch (FOX_exception $child) {}	
