@@ -74,6 +74,143 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 	}
 	
 	/**
+	 * Fetches an entire plugin
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string/array $tree | single tree as string. Multiple trees as array of string.
+	 * @param bool $valid | true if all requested trees exist.
+	 * @return array | Exception on failure. Data array on success.
+	 */
+
+	public function getPlugin($plugin, &$valid=null){
+
+
+		$struct = $this->_struct();
+		$validator_result = array();
+
+		try {
+
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);				
+	
+			// If a single plugin name is sent in, we validate it individually instead of automatically 
+			// spinning it into an array and validating the array. This lets us trap strings that PHP 
+			// automatically converts to ints ("17")
+
+			if( !is_array($plugin) ){
+
+				$mode = 'single';
+				
+				$validator_result['tree'] = $validator->validateKey( array(
+									'type'=>$struct['columns'][$this->L4_col]['php'],
+									'format'=>'scalar',
+									'var'=>$plugin
+				));					
+			}
+			else {
+				$mode = 'multi';
+				
+				foreach( $plugin as $key => $val ){
+
+					$validator_result['tree'] = $validator->validateKey( array(
+										'type'=>$struct['columns'][$this->L4_col]['php'],
+										'format'=>'scalar',
+										'var'=>$val
+					));	
+
+					if( $validator_result['tree'] !== true ){
+
+						break;
+					}
+				}
+				unset($key, $val);
+			}
+
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error in validator class",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}
+
+		// This structure has to be outside the validator try-catch block to prevent it from   
+		// catching the exceptions we throw (which would cause confusing exception chains)
+
+		foreach( $validator_result as $key => $val ){
+
+			if($val !== true){
+
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Invalid " . $key . " name",
+					'data'=>array('plugin'=>$plugin, 'msg'=>$val),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));			    
+			}			    
+
+		}
+		unset($key, $val);			
+		
+		$get_ctrl = array(
+			'validate'=>false,
+			'r_mode'=>'trie'		    
+		);
+		
+		try {
+			$db_result = parent::getL4($plugin, $get_ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Error calling parent::getL3()",
+				'data'=> array('plugin'=>$plugin),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		
+		if($mode == 'single'){
+		    
+			$result = $db_result[0];
+		}
+		else {
+			$result = array();
+			
+			foreach($db_result as $plugin_name => $trees){
+			    
+				foreach($trees as $tree_name => $branches){
+
+					foreach($branches as $branch_name => $nodes){
+
+						foreach($nodes as $node_name => $node_data){
+
+							$result[$branch_name][$node_name] = $node_data['val']; 
+						}
+						unset($node_name, $node_data);				
+					}
+					unset($branch_name, $nodes);
+				}
+				unset($tree_name, $branches);	
+			}
+			unset($plugin_name, $trees);			
+		}
+		
+		return $result;
+
+	}
+	
+	/**
 	 * Fetches an entire tree
 	 *
 	 * @version 1.0
@@ -110,6 +247,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 			if( !is_array($tree) ){
 
+				$mode = 'single';
+				
 				$validator_result['tree'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L3_col]['php'],
 									'format'=>'scalar',
@@ -117,7 +256,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 				));					
 			}
 			else {
-
+				$mode = 'multi';
+				
 				foreach( $tree as $key => $val ){
 
 					$validator_result['tree'] = $validator->validateKey( array(
@@ -170,7 +310,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$result = parent::getL3($plugin, $tree, $get_ctrl, $valid);
+			$db_result = parent::getL3($plugin, $tree, $get_ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -183,6 +323,29 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			));
 		}
 
+		
+		if($mode == 'single'){
+		    
+			$result = $db_result[0];
+		}
+		else {
+			$result = array();
+			
+			foreach($db_result as $tree_name => $branches){
+			    
+				foreach($branches as $branch_name => $nodes){
+
+					foreach($nodes as $node_name => $node_data){
+
+						$result[$branch_name][$node_name] = $node_data['val']; 
+					}
+					unset($node_name, $node_data);				
+				}
+				unset($branch_name, $nodes);
+			}
+			unset($tree_name, $branches);			
+		}
+		
 		return $result;
 
 	}
@@ -230,8 +393,10 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			// spinning it into an array and validating the array. This lets us trap strings that PHP 
 			// automatically converts to ints ("17")
 
-			if( !is_array($tree) ){
+			if( !is_array($branch) ){
 
+				$mode = 'single';
+				
 				$validator_result['branch'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L2_col]['php'],
 									'format'=>'scalar',
@@ -239,7 +404,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 				));					
 			}
 			else {
-
+				$mode = 'multi';
+				
 				foreach( $branch as $key => $val ){
 
 					$validator_result['branch'] = $validator->validateKey( array(
@@ -292,7 +458,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$result = parent::getL2($plugin, $tree, $branch, $get_ctrl, $valid);
+			$db_result = parent::getL2($plugin, $tree, $branch, $get_ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -305,6 +471,24 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			));
 		}
 
+		if($mode == 'single'){
+		    
+			$result = $db_result[0];
+		}
+		else {
+			$result = array();
+			
+			foreach($db_result as $branch_name => $nodes){
+			    
+				foreach($nodes as $node_name => $node_data){
+
+					$result[$branch_name][$node_name] = $node_data['val']; 
+				}
+				unset($node_name, $node_data);				
+			}
+			unset($branch_name, $nodes);
+		}
+		
 		return $result;
 
 	}
@@ -361,8 +545,10 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			// spinning it into an array and validating the array. This lets us trap strings that PHP 
 			// automatically converts to ints ("17")
 
-			if( !is_array($tree) ){
+			if( !is_array($node) ){
 
+				$mode = 'single';
+				
 				$validator_result['node'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L1_col]['php'],
 									'format'=>'scalar',
@@ -370,7 +556,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 				));					
 			}
 			else {
-
+				$mode = 'multi';
+				
 				foreach( $node as $key => $val ){
 
 					$validator_result['node'] = $validator->validateKey( array(
@@ -424,7 +611,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		);
 		
 		try {
-			$result = parent::getL1($plugin, $tree, $branch, $node, $get_ctrl, $valid);
+			$db_result = parent::getL1($plugin, $tree, $branch, $node, $get_ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -437,6 +624,21 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			));
 		}
 
+		
+		if($mode == 'single'){
+		    
+			$result = $db_result['val'];
+		}
+		else {
+			$result = array();
+			
+			foreach($db_result as $node_name => $node_data){
+
+				$result[$node_name] = $node_data['val']; 
+			}
+			unset($node_name, $node_data);
+		}
+		
 		return $result;
 
 	}

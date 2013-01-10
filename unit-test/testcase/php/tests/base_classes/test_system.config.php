@@ -1497,6 +1497,71 @@ class system_config extends RAZ_testCase {
 	}
 	
 	
+       /**
+	* Test fixture for getNode() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_getNode() {
+
+	    
+		self::loadData();
+		
+		
+		// Existing node, "single" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getNode(	"plugin_1", 
+							"X", 
+							"K", 
+							"N1",
+							$valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(true, $valid);		
+		$this->assertEquals(null, $result);
+				
+		
+		// Existing nodes, "multi" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->getNode(	"plugin_1", 
+							"X", 
+							"K", 
+							array("N1", "N2"),
+							$valid
+			);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(true, $valid);
+		
+		var_dump($result);
+
+		
+		
+	}
+	
+	
 	function tearDown() {
 	   
 		$this->cls = new FOX_config();
