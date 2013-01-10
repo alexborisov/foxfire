@@ -1119,7 +1119,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			// spinning it into an array and validating the array. This lets us trap strings that PHP 
 			// automatically converts to ints ("17")
 
-			if( !is_array($tree) ){
+			if( !is_array($node) ){
 
 				$validator_result['node'] = $validator->validateKey( array(
 									'type'=>$struct['columns'][$this->L1_col]['php'],
@@ -1166,7 +1166,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 				throw new FOX_exception( array(
 					'numeric'=>2,
 					'text'=>"Invalid " . $key . " name",
-					'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node, 'msg'=>$val),
+					'data'=>array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$key, 'msg'=>$val),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));			    
