@@ -4360,17 +4360,66 @@ class system_config extends RAZ_testCase {
 	* 
         * =======================================================================================
 	*/	
-	public function test_processHTMLForm() {
+	public function test_processHTMLForm_updateAll() {
 
 	    
-		self::loadData();
+		// This test fixture requires custom test data
+	    
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";	
+				
+		$test_data = array(
+
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"bool", "ctrl"=>false, "val"=>null),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"bool", "ctrl"=>false, "val"=>false),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N5", "filter"=>"bool", "ctrl"=>false, "val"=>true),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"int", "ctrl"=>false, "val"=>(int)0),	
+
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N1", "filter"=>"int", "ctrl"=>false, "val"=>(int)1),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N2", "filter"=>"int", "ctrl"=>false, "val"=>(int)-1),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N3", "filter"=>"float", "ctrl"=>false, "val"=>(float)1.7),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"Z", "node"=>"N4", "filter"=>"float", "ctrl"=>false, "val"=>(float)-1.6),
+
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"textAndNumbers", "ctrl"=>false, "val"=>(string)"foo"),
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>array(null, true, false, 1, 1.0, "foo")),
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>$test_obj)	
+		    
+		);		
+		
+		// Load class with data
+		// ===============================================================
+		
+		foreach( $test_data as $item ){
+		    						
+			try { 
+				$rows_changed = $this->cls->addNode(	$item['plugin'], 
+									$item['tree'], 
+									$item['branch'], 
+									$item['node'], 
+									$item['val'], 
+									$item['filter'],
+									$item['ctrl']
+				);			    
+			}
+			catch (FOX_exception $child) {
+							    
+				$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));			
+			}			
+			
+			// Should return (int)1 to indicate a node was added
+			$this->assertEquals(1, $rows_changed); 			
+			
+		}
+		unset($item);
+		
 		
 		$check = array(
 				'key_names'=>'plugin_1^X^K^N1,plugin_1^X^K^N2,plugin_1^X^Z^N3,plugin_1^Y^Z^N4',
-				'plugin_1^X^K^N1'=>'foo',
-				'plugin_1^X^K^N2'=>'bar',
-				'plugin_1^X^Z^N3'=>'baz',
-				'plugin_1^Y^Z^N4'=>'tag',		    
+				'plugin_1^X^K^N1'=>true,
+				'plugin_1^X^K^N2'=>true,
+				'plugin_1^X^Z^N3'=>2,
+				'plugin_1^Y^Z^N4'=>2.4		    
 		);
 		
 		// Valid form
@@ -4385,7 +4434,284 @@ class system_config extends RAZ_testCase {
 			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
 		}			
 
+                $this->assertEquals(8, $result);    // 4 existing keys changed, so INDATE returns (int)8	
 		
+		
+		// Check db state
+		// ===============================================================		
+		
+		$check = array(
+				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'bool', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),
+									    'N2'=>array(
+											    'filter'=>'bool', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),
+									    'N5'=>array(
+											    'filter'=>'bool', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),										
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'int', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)2
+									    )
+								)
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'int', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)1
+									    ),
+									    'N2'=>array(
+											    'filter'=>'int', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)-1
+									    ),
+									    'N3'=>array(
+											    'filter'=>'float', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)1.7
+									    )							    
+								),
+								'Z'=>array( 'N4'=>array(
+											    'filter'=>'float', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)2.4
+									    )
+								)
+						    )					    
+				),			
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'textAndNumbers', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(string)"foo"
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>array(null, true, false, 1, 1.0, "foo")
+									    )								   						    
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>$test_obj
+									    )
+								) 						
+						    )					    
+				)		    		    
+		);	
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);			
+				
+	}
+	
+	/**
+	* Test fixture for processHTMLForm() method
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_processHTMLForm_updatePartial() {
+
+	    
+		// This test fixture requires custom test data
+	    
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";	
+				
+		$test_data = array(
+
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"bool", "ctrl"=>false, "val"=>false),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"bool", "ctrl"=>false, "val"=>false),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N5", "filter"=>"bool", "ctrl"=>false, "val"=>true),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"int", "ctrl"=>false, "val"=>(int)0),	
+
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N1", "filter"=>"int", "ctrl"=>false, "val"=>(int)1),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N2", "filter"=>"int", "ctrl"=>false, "val"=>(int)-1),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N3", "filter"=>"float", "ctrl"=>false, "val"=>(float)1.7),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"Z", "node"=>"N4", "filter"=>"float", "ctrl"=>false, "val"=>(float)-1.6),
+
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"textAndNumbers", "ctrl"=>false, "val"=>(string)"foo"),
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>array(null, true, false, 1, 1.0, "foo")),
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>$test_obj)	
+		    
+		);		
+		
+		// Load class with data
+		// ===============================================================
+		
+		foreach( $test_data as $item ){
+		    						
+			try { 
+				$rows_changed = $this->cls->addNode(	$item['plugin'], 
+									$item['tree'], 
+									$item['branch'], 
+									$item['node'], 
+									$item['val'], 
+									$item['filter'],
+									$item['ctrl']
+				);			    
+			}
+			catch (FOX_exception $child) {
+							    
+				$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));			
+			}			
+			
+			// Should return (int)1 to indicate a node was added
+			$this->assertEquals(1, $rows_changed); 			
+			
+		}
+		unset($item);
+		
+		
+		$check = array(
+				'key_names'=>'plugin_1^X^K^N1,plugin_1^X^K^N2,plugin_1^X^Z^N3,plugin_1^Y^Z^N4',
+				'plugin_1^X^K^N1'=>true,
+				'plugin_1^X^K^N2'=>false,
+				'plugin_1^X^Z^N3'=>2,
+				'plugin_1^Y^Z^N4'=>-1.6		    
+		);
+		
+		// Valid form
+		// ===============================================================
+		
+		try {
+			$result = $this->cls->processHTMLForm($check);					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+                $this->assertEquals(4, $result);    // 2 existing keys changed, so INDATE returns (int)4	
+		
+		// Check db state
+		// ===============================================================		
+		
+		$check = array(
+				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'bool', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),
+									    'N2'=>array(
+											    'filter'=>'bool', 
+											    'filter_ctrl'=>false, 
+											    'val'=>false
+									    ),
+									    'N5'=>array(
+											    'filter'=>'bool', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),										
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'int', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)2
+									    )
+								)
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'int', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)1
+									    ),
+									    'N2'=>array(
+											    'filter'=>'int', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)-1
+									    ),
+									    'N3'=>array(
+											    'filter'=>'float', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)1.7
+									    )							    
+								),
+								'Z'=>array( 'N4'=>array(
+											    'filter'=>'float', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)-1.6
+									    )
+								)
+						    )					    
+				),			
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'textAndNumbers', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(string)"foo"
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>array(null, true, false, 1, 1.0, "foo")
+									    )								   						    
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>$test_obj
+									    )
+								) 						
+						    )					    
+				)		    		    
+		);	
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);			
 				
 	}
 	

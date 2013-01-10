@@ -1715,7 +1715,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 						// Remove any escaping PHP has added to the posted form value						
 						$post_key =  $plugin . $this->key_delimiter . $tree . $this->key_delimiter;
-						$post_key .= $branch . $this->key_delimiter . $key;
+						$post_key .= $branch . $this->key_delimiter . $node;
 						$post[$post_key] = FOX_sUtil::formVal($post[$post_key]);
 
 
@@ -1752,9 +1752,10 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 						}
 
 						// If the new value doesn't match the stored value, update the key
+						// (using === because null == int )
 						// ====================================================================
 
-						if( $new_val != $current_keys[$plugin][$tree][$branch][$node]["val"]){
+						if( $new_val !== $current_keys[$plugin][$tree][$branch][$node]["val"]){
 
 							$update_keys[$plugin][$tree][$branch][$node] = array(
 								'filter'=>$filter,
