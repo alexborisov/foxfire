@@ -4088,6 +4088,320 @@ class system_config extends RAZ_testCase {
 		
 	}
 	
+	/**
+	* Test fixture for dropPlugin() method, 'single' mode
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropPlugin_single() {
+
+	    
+		self::loadData();
+		
+		
+		// Existing node, "single" mode
+		// ===============================================================
+		
+		try {
+			$result = $this->cls->dropPlugin("plugin_1");					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		
+		$this->assertEquals(8, $result);
+			
+		
+		// Check db state
+		// ===============================================================		
+		
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";
+		
+		$check = array(
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(string)"foo"
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>array(null, true, false, 1, 1.0, "foo")
+									    )								   						    
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>$test_obj
+									    )
+								) 						
+						    )					    
+				)		    		    
+		);	
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);	
+				
+	}
+	
+	
+	/**
+	* Test fixture for dropPlugin() method, 'multi' mode
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropPlugin_multi() {
+
+  
+		self::loadData();
+		
+		
+		// Existing nodes, "multi" mode
+		// ===============================================================
+		
+		try {
+			$result = $this->cls->dropPlugin(array("plugin_1", "plugin_2"));					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(11, $result);		
+		
+		// Check db state
+		// ===============================================================			
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals(null, $result);	
+		
+		
+	}
+	
+	
+	/**
+	* Test fixture for dropPlugin() method, nonexistent nodes
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropPlugin_nonexistent() {
+
+
+		self::loadData();
+		
+		
+		// Nonexistent node, "single" mode
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->dropPlugin("plugin_3");					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+		
+		$this->assertEquals(0, $result);
+		
+		
+		// Existing nodes, "multi" mode, with nonexistent node
+		// ===============================================================
+		
+		$valid = false;
+		
+		try {
+			$result = $this->cls->dropPlugin(array("plugin_1", "plugin_2", "fail_node"));					
+						
+		}
+		catch (FOX_exception $child) {
+					
+			$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));		    
+		}			
+
+		$this->assertEquals(11, $result);	
+		
+		// Check db state
+		// ===============================================================					
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals(null, $result);	
+		
+		
+	}
+	
+		
+       /**
+	* Test fixture for dropPlugin(), data integrity checks
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_dropPlugin_dataIntegrity() {
+return;
+	    
+		self::loadData();
+
+		
+		// Null plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->dropPlugin(	null, 
+								"X"
+			);
+			
+			// Execution will halt on the previous line if dropPlugin() throws an exception
+			$this->fail("Method dropPlugin() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->dropPlugin(	1, 
+								"X", 
+								"K"
+			);
+			
+			// Execution will halt on the previous line if dropPlugin() throws an exception
+			$this->fail("Method dropPlugin() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->dropPlugin(	"1", 
+								"X"
+			);
+			
+			// Execution will halt on the previous line if dropPlugin() throws an exception
+			$this->fail("Method dropPlugin() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Null tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->dropPlugin(	"plugin_3", 
+								null
+			);
+			
+			// Execution will halt on the previous line if dropPlugin() throws an exception
+			$this->fail("Method dropPlugin() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->dropPlugin(	"plugin_3", 
+								1
+			);
+			
+			// Execution will halt on the previous line if dropPlugin() throws an exception
+			$this->fail("Method dropPlugin() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->dropPlugin(	"plugin_3", 
+								"1"
+			);
+			
+			// Execution will halt on the previous line if dropPlugin() throws an exception
+			$this->fail("Method dropPlugin() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+	}
+	
 	
 	function tearDown() {
 	   

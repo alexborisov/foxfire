@@ -1451,6 +1451,11 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 		try {	
 	
+			// All of the validator calls are wrapped in a single try{} block to reduce code size. If 
+			// a validator throws an exception, it will contain all info needed for debugging
+
+			$validator = new FOX_dataStore_validator($struct);
+			
 			// If a single tree name is sent in, we validate it individually instead of automatically 
 			// spinning it into an array and validating the array. This lets us trap strings that PHP 
 			// automatically converts to ints ("17")
