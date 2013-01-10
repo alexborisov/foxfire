@@ -376,6 +376,459 @@ class system_config extends RAZ_testCase {
 	}
 
 
+       /**
+	* Test fixture for addNode(), data integrity checks
+	*
+	* @version 1.0
+	* @since 1.0
+	* 
+        * =======================================================================================
+	*/	
+	public function test_addNode_dataIntegrity() {
+
+	    
+		$test_obj = new stdClass();
+		$test_obj->foo = "11";
+		$test_obj->bar = "test_Bar";	
+				
+		$test_data = array(
+
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"debug", "ctrl"=>false, "val"=>null),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>false),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"K", "node"=>"N5", "filter"=>"debug", "ctrl"=>false, "val"=>true),
+		    array( "plugin"=>'plugin_1', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>(int)0),	
+
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N1", "filter"=>"debug", "ctrl"=>false, "val"=>(int)1),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>(int)-1),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"K", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>(float)1.7),
+		    array( "plugin"=>'plugin_1', "tree"=>"Y", "branch"=>"Z", "node"=>"N4", "filter"=>"debug", "ctrl"=>false, "val"=>(float)-1.6),
+
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N1", "filter"=>"debug", "ctrl"=>false, "val"=>(string)"foo"),
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"K", "node"=>"N2", "filter"=>"debug", "ctrl"=>false, "val"=>array(null, true, false, 1, 1.0, "foo")),
+		    array( "plugin"=>'plugin_2', "tree"=>"X", "branch"=>"Z", "node"=>"N3", "filter"=>"debug", "ctrl"=>false, "val"=>$test_obj)	
+		    
+		);		
+		
+		// Load class with data
+		// ===============================================================
+		
+		foreach( $test_data as $item ){
+		    						
+			try { 
+				$rows_changed = $this->cls->addNode(	$item['plugin'], 
+									$item['tree'], 
+									$item['branch'], 
+									$item['node'], 
+									$item['val'], 
+									$item['filter'],
+									$item['ctrl']
+				);			    
+			}
+			catch (FOX_exception $child) {
+							    
+				$this->fail($child->dumpString(array('depth'=>10, 'data'=>true)));			
+			}			
+			
+			// Should return (int)1 to indicate a node was added
+			$this->assertEquals(1, $rows_changed); 			
+			
+		}
+		unset($item);
+
+		
+		// Null plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	null, 
+								"X", 
+								"K", 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	1, 
+								"X", 
+								"K", 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid plugin name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped plugin name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"1", 
+								"X", 
+								"K", 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Null tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								null, 
+								"K", 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								1, 
+								"K", 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped tree name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"1", 
+								"K", 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid tree name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		
+		// Null branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"V", 
+								null, 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"V", 
+								1, 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped branch name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"V", 
+								"1", 
+								"N1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid branch name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Null node name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"V", 
+								"X", 
+								null, 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid node name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer node name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid node name");			
+						
+		}
+		catch (FOX_exception $child) {}	
+		
+		// Integer-mapped node name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"1", 
+								null, 
+								"debug",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid node name");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Null filter name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"N1", 
+								null, 
+								null,
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid filter name");			
+						
+		}
+		catch (FOX_exception $child) {}		
+		
+		// Nonexistent filter name
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"N1", 
+								null, 
+								"fail_filter",
+								false
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on invalid filter name");			
+						
+		}
+		catch (FOX_exception $child) {}
+		
+		
+		// Data fails filter
+		// ===============================================================
+		
+		try {
+			$rows_changed = $this->cls->addNode(	"plugin_3", 
+								"V", 
+								"X", 
+								"N1", 
+								null, 
+								"debug",
+								array(
+								    'valid'=>false,
+								    'error'=>'test',
+								    'input'=>null
+								)
+			);
+			
+			// Execution will halt on the previous line if addNode() throws an exception
+			$this->fail("Method addNode() failed to throw an exception on input data failing filter");			
+						
+		}
+		catch (FOX_exception $child) {}			
+		
+		
+		// Check db state
+		// ===============================================================		
+		
+		$check = array(
+				"plugin_1"=>array(  'X'=>array( 'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>null
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>false
+									    ),
+									    'N5'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>true
+									    ),										
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)0
+									    )
+								)
+						    ),	
+						    'Y'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)1
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(int)-1
+									    ),
+									    'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)1.7
+									    )							    
+								),
+								'Z'=>array( 'N4'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(float)-1.6
+									    )
+								)
+						    )					    
+				),			
+				"plugin_2"=>array(  'X'=>array(	'K'=>array( 
+									    'N1'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>(string)"foo"
+									    ),
+									    'N2'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>array(null, true, false, 1, 1.0, "foo")
+									    )								   						    
+								),
+								'Z'=>array( 'N3'=>array(
+											    'filter'=>'debug', 
+											    'filter_ctrl'=>false, 
+											    'val'=>$test_obj
+									    )
+								) 						
+						    )					    
+				)		    		    
+		);	
+		
+		$db = new FOX_db();	
+		
+		$columns = null;
+		
+		$ctrl = array(
+				'format'=>'array_key_array',
+				'key_col'=>array('plugin','tree','branch','node')
+		);
+		
+		try {
+			$struct = $this->cls->_struct();			
+			$result = $db->runSelectQuery($struct, $args=null, $columns, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			$this->fail($child->dumpString(1));	
+		}		
+		
+                $this->assertEquals($check, $result);	
+		
+
+		
+		
+	}	
 
 
 
