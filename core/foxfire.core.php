@@ -276,7 +276,34 @@ else {
 	add_action( 'network_admin_menu', 'fox_add_network_menu', 2 );
 	
 	
+	/**
+	 * Checks that the plugins database tables are installed. Runs the install routine if they are
+	 * not. This corrects a bug whereby the install routine is not triggered when BP-Media is
+	 * installed in the plugins directory on a WPMU system.
+	 *
+	 * @global $bpm The BP-Media global variable
+	 * @version 0.1.9
+	 * @since 0.1.9
+	 */
 
+	function fox_core_check_installed() {
+
+		global $fox, $razor;
+
+		if( current_user_can('install_plugins') ) {
+
+			$installed = $fox->config->getNodeVal('foxfire', "system", "core", "installed");
+
+			if(!$installed && !$razor){
+
+				do_action( 'fox_install' );
+				do_action( 'fox_setDefaults' );
+			}
+		}
+	}
+	add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'fox_core_check_installed' );	
+	
+	
 }
 
 ?>

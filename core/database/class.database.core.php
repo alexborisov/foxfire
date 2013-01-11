@@ -2235,7 +2235,7 @@ class FOX_db {
 		// databases that contain the same table name
 		
                 $sql .= "WHERE TABLE_SCHEMA = '" . $this->driver->db_name . "' ";		
-                $sql .= "AND TABLE_NAME = '" . $struct['table']. "'";
+                $sql .= "AND TABLE_NAME = '" . $this->base_prefix . $struct['table']. "'";
 		
 		if($this->debug_on){
 		    
@@ -2250,6 +2250,10 @@ class FOX_db {
 		
 		try {
 			$matches = $this->runner->runQuery($sql, array("format"=>"raw"));
+			$check = DB_NAME;
+			FOX_Debug::dump($this);
+			FOX_Debug::dump($this->driver);
+			FOX_Debug::dump($matches);
 		}
 		catch (FOX_exception $child) {
 		    

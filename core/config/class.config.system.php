@@ -2058,7 +2058,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 
 
-} // End of class BPM_config
+} // End of class FOX_config
 
 
 /**
@@ -2069,12 +2069,12 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
  * @since 0.1.9
  */
 
-function install_BPM_config(){
+function install_FOX_config(){
 
-	$cls = new BPM_config();
+	$cls = new FOX_config();
 	$cls->install();
 }
-add_action( 'bpm_install', 'install_BPM_config', 2 );
+add_action( 'fox_install', 'install_FOX_config', 2 );
 
 
 /**
@@ -2085,12 +2085,12 @@ add_action( 'bpm_install', 'install_BPM_config', 2 );
  * @since 0.1.9
  */
 
-function uninstall_BPM_config(){
+function uninstall_FOX_config(){
 
-	$cls = new BPM_config();
+	$cls = new FOX_config();
 	$cls->uninstall();
 }
-add_action( 'bpm_uninstall', 'uninstall_BPM_config', 2 );
+add_action( 'fox_uninstall', 'uninstall_FOX_config', 2 );
 
 
 ?>
