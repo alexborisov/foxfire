@@ -149,7 +149,20 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		}
 		else {
 			$this->db = new FOX_db( array('pid'=>$this->process_id) );		    		    
-		}			
+		}
+		
+		
+		// Memory cache singleton
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('mCache', $args) ){
+		    
+			$this->mCache =& $args['mCache'];		    
+		}
+		else {
+			global $fox;
+			$this->mCache = $fox->mCache;		    		    
+		}		
 			    
 		
                 $struct = $this->_struct();		

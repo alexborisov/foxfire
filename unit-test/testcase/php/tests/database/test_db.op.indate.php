@@ -160,10 +160,8 @@ class database_runIndateQuerySingle extends RAZ_testCase {
 			$this->fail($child->dumpString(1));	
 		}		
 		
-		// The database will return int(2), because the cache will have reset by now due to the insert
-		// creating a collission with id=1. The db will return int(2) because this is the first available
-		// auto-insert id, but nothing is actually inserted because the update clause fires due to the
-		// row collission.
+		// The database will return int(2), because mySQL returns int(2) when it UPDATES a row as
+		// part of an INSERT-UPDATE clause
 		
 		$this->assertEquals(2, $result);
 		
