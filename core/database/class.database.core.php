@@ -21,6 +21,13 @@ class FOX_db {
 	
 	var $driver;				    // Local copy of database singleton
 
+	var $dbh_mode;				    // Database handle mode: 'bind_fox', 'bind_wp', 'create_new'
+	
+	var $db_host;				    // Database host 
+	var $db_name;				    // Database name
+	var $db_user;				    // Database user
+	var $db_pass;				    // Database password
+		
 	var $base_prefix;			    // Base prefix for database tables
 	
 	var $charset;				    // Database character set - symbols and encodings allowed to be stored to the db
@@ -2234,7 +2241,7 @@ class FOX_db {
 		// the SQL server, we have to specify it to prevent getting hits on other
 		// databases that contain the same table name
 		
-                $sql .= "WHERE TABLE_SCHEMA = '" . $this->driver->db_name . "' ";		
+                $sql .= "WHERE TABLE_SCHEMA = '" . $this->db_name . "' ";		
                 $sql .= "AND TABLE_NAME = '" . $this->base_prefix . $struct['table']. "'";
 		
 		if($this->debug_on){
@@ -2250,10 +2257,6 @@ class FOX_db {
 		
 		try {
 			$matches = $this->runner->runQuery($sql, array("format"=>"raw"));
-			$check = DB_NAME;
-			FOX_Debug::dump($this);
-			FOX_Debug::dump($this->driver);
-			FOX_Debug::dump($matches);
 		}
 		catch (FOX_exception $child) {
 		    
