@@ -2422,7 +2422,56 @@ class FOX_db {
 			));
 		}
 
+		// Check that the table exists in the db
+		// ===========================================================
+		 
+		$sql =  "SELECT * FROM INFORMATION_SCHEMA.TABLES ";
+		
+		// The "table schema" column in MySQL's information_schema is actually
+		// the database name. Since the schema is shared across all databases on
+		// the SQL server, we have to specify it to prevent getting hits on other
+		// databases that contain the same table name
+		
+                $sql .= "WHERE TABLE_SCHEMA = '" . $this->db_name . "' ";		
+                $sql .= "AND TABLE_NAME = '" . $this->base_prefix . $struct['table']. "'";
+		
+		if($this->debug_on){
+		    
+			extract( $this->debug_handler->event( array(
+				'pid'=>$this->process_id,			    
+				'text'=>"run_table_exists_query",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'parent'=>$this,
+				'vars'=>compact(array_keys(get_defined_vars()))
+			)));		    
+		}
+		
+		try {
+			$matches = $this->runner->runQuery($sql, array("format"=>"raw"));
+		}
+		catch (FOX_exception $child) {
+		    
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Failure during check if table exists query",
+				'data'=>array('struct'=>$struct, 'sql'=>$sql),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));		    
+		}
+		
+		if(!$matches){		    
 
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Target table doesn't exist in the database",
+				'data'=>array('struct'=>$struct, 'sql'=>$sql),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));		    
+		}
+		
+		
 		// Build query string
 		// =======================
 
@@ -2444,7 +2493,7 @@ class FOX_db {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>4,
 				'text'=>"Error in query generator",
 				'data'=>array("struct"=>$struct, 'ctrl'=>$ctrl),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -2460,7 +2509,7 @@ class FOX_db {
 		    
 			extract( $this->debug_handler->event( array(
 				'pid'=>$this->process_id,			    
-				'text'=>"run_query",
+				'text'=>"run_drop_query",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'parent'=>$this,
 				'vars'=>compact(array_keys(get_defined_vars()))
@@ -2473,7 +2522,7 @@ class FOX_db {
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>5,
 				'text'=>"Error executing query on SQL server",
 				'data'=>array("query"=>$query, "ctrl"=>$ctrl),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  

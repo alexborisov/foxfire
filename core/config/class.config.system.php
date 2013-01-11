@@ -1925,7 +1925,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 
 		try {
-			$result .= self::getNode($plugin, $tree, $branch, $key, $is_valid);
+			$result .= self::getNodeVal($plugin, $tree, $branch, $key, $is_valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1956,7 +1956,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 	/**
          * Creates a composited string used to print a hidden field containing all of the key names enqueued
-	 * using keyName() or getKeyName()
+	 * using keyName() or getNodeName()
          *
          * @version 0.1.9
          * @since 0.1.9
@@ -2072,7 +2072,26 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 function install_FOX_config(){
 
 	$cls = new FOX_config();
-	$cls->install();
+	
+	try {
+		$cls->install();
+	}
+	catch (FOX_exception $child) {
+
+		// If the error is being thrown because the table already exists, 
+		// just discard it
+	    
+		if( $child->data['child']->data['numeric'] != 2 ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error creating db table",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+	}	
+	
 }
 add_action( 'fox_install', 'install_FOX_config', 2 );
 
@@ -2088,7 +2107,26 @@ add_action( 'fox_install', 'install_FOX_config', 2 );
 function uninstall_FOX_config(){
 
 	$cls = new FOX_config();
-	$cls->uninstall();
+	
+	try {
+		$cls->uninstall();
+	}
+	catch (FOX_exception $child) {
+
+		// If the error is being thrown because the table doesn't exist, 
+		// just discard it
+	    
+		if( $child->data['child']->data['numeric'] != 3 ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error dropping db table",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+	}
+	
 }
 add_action( 'fox_uninstall', 'uninstall_FOX_config', 2 );
 

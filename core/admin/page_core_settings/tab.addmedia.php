@@ -47,7 +47,7 @@ class FOX_tab_addmedia {
 
 		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $fox->config->initKeysArray(); ?>
+		    <?php $fox->config->initNodesArray(); ?>
 
 		    <div class="panel_section">
 
@@ -63,12 +63,12 @@ class FOX_tab_addmedia {
 				<th scope="row"><?php _e( 'Enable HTTP uploader', "foxfire" ) ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $fox->config->printKeyName("file", "uploader", "enableHTTP"); ?>
-					<?php checked(true, $fox->config->getKeyVal("file", "uploader", "enableHTTP") ); ?> />
+					<?php $fox->config->printNodeName("file", "uploader", "enableHTTP"); ?>
+					<?php checked(true, $fox->config->getNodeVal("file", "uploader", "enableHTTP") ); ?> />
 					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $fox->config->printKeyName("file", "uploader", "enableHTTP"); ?>
-					<?php checked('', $fox->config->getKeyVal("file", "uploader", "enableHTTP") ); ?> />
+					<?php $fox->config->printNodeName("file", "uploader", "enableHTTP"); ?>
+					<?php checked('', $fox->config->getNodeVal("file", "uploader", "enableHTTP") ); ?> />
 					<?php _e( 'No', "foxfire" ) ?>
 				</td>
 			    </tr>
@@ -77,8 +77,8 @@ class FOX_tab_addmedia {
 				<th align="left"><?php _e('Max upload size',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="16" maxlength="16"
-					<?php $fox->config->printKeyName("file", "uploader", "singleMaxSize"); ?>
-					<?php $fox->config->printKeyVal("file", "uploader", "singleMaxSize"); ?> />
+					<?php $fox->config->printNodeName("file", "uploader", "singleMaxSize"); ?>
+					<?php $fox->config->printNodeVal("file", "uploader", "singleMaxSize"); ?> />
 					<?php _e('bytes',"foxfire"); ?>
 				</td>
 			    </tr>
@@ -87,8 +87,8 @@ class FOX_tab_addmedia {
 				<th align="left"><?php _e('Max threads per user',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="6" maxlength="6"
-					<?php $fox->config->printKeyName("file", "uploader", "singleMaxStreams"); ?>
-					<?php $fox->config->printKeyVal("file", "uploader", "singleMaxStreams"); ?> />
+					<?php $fox->config->printNodeName("file", "uploader", "singleMaxStreams"); ?>
+					<?php $fox->config->printNodeVal("file", "uploader", "singleMaxStreams"); ?> />
 				</td>
 			    </tr>
 
@@ -110,12 +110,12 @@ class FOX_tab_addmedia {
 				<th scope="row"><?php _e( 'Enable flash uploader', "foxfire" ) ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $fox->config->printKeyName("file", "uploader", "enableMulti"); ?>
-					<?php checked(true, $fox->config->getKeyVal("file", "uploader", "enableMulti") ); ?> />
+					<?php $fox->config->printNodeName("file", "uploader", "enableMulti"); ?>
+					<?php checked(true, $fox->config->getNodeVal("file", "uploader", "enableMulti") ); ?> />
 					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $fox->config->printKeyName("file", "uploader", "enableMulti"); ?>
-					<?php checked('', $fox->config->getKeyVal("file", "uploader", "enableMulti") ); ?> />
+					<?php $fox->config->printNodeName("file", "uploader", "enableMulti"); ?>
+					<?php checked('', $fox->config->getNodeVal("file", "uploader", "enableMulti") ); ?> />
 					<?php _e( 'No', "foxfire" ) ?>
 				</td>
 			    </tr>
@@ -124,8 +124,8 @@ class FOX_tab_addmedia {
 				<th align="left"><?php _e('Max upload size',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="16" maxlength="16"
-					<?php $fox->config->printKeyName("file", "uploader", "multiMaxSize"); ?>
-					<?php $fox->config->printKeyVal("file", "uploader", "multiMaxSize"); ?> />
+					<?php $fox->config->printNodeName("file", "uploader", "multiMaxSize"); ?>
+					<?php $fox->config->printNodeVal("file", "uploader", "multiMaxSize"); ?> />
 					<?php _e('bytes',"foxfire"); ?>
 				</td>
 			    </tr>
@@ -134,8 +134,8 @@ class FOX_tab_addmedia {
 				<th align="left"><?php _e('Max threads per user',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="6" maxlength="6"
-					<?php $fox->config->printKeyName("file", "uploader", "multiMaxStreams"); ?>
-					<?php $fox->config->printKeyVal("file", "uploader", "multiMaxStreams"); ?> />
+					<?php $fox->config->printNodeName("file", "uploader", "multiMaxStreams"); ?>
+					<?php $fox->config->printNodeVal("file", "uploader", "multiMaxStreams"); ?> />
 				</td>
 			    </tr>
 
@@ -156,8 +156,8 @@ class FOX_tab_addmedia {
 				<th align="left"><?php _e('Max remote file size',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="16" maxlength="16"
-					<?php $fox->config->printKeyName("file", "downloader", "maxSize"); ?>
-					<?php $fox->config->printKeyVal("file", "downloader", "maxSize"); ?> />
+					<?php $fox->config->printNodeName("file", "downloader", "maxSize"); ?>
+					<?php $fox->config->printNodeVal("file", "downloader", "maxSize"); ?> />
 					<?php _e('bytes',"foxfire"); ?>
 				</td>
 			    </tr>
@@ -166,8 +166,8 @@ class FOX_tab_addmedia {
 				<th align="left"><?php _e('Max remote file download timeout',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="6" maxlength="6"
-					<?php $fox->config->printKeyName("file", "downloader", "maxTime"); ?>
-					<?php $fox->config->printKeyVal("file", "downloader", "maxTime"); ?> />
+					<?php $fox->config->printNodeName("file", "downloader", "maxTime"); ?>
+					<?php $fox->config->printNodeVal("file", "downloader", "maxTime"); ?> />
 					<?php _e('seconds',"foxfire"); ?>
 				</td>
 			    </tr>
@@ -176,12 +176,12 @@ class FOX_tab_addmedia {
 				<th align="left"><?php _e('Mandatory content-length header',"foxfire"); ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $fox->config->printKeyName("file", "downloader", "requireLengthHeader"); ?>
-					<?php checked(true, $fox->config->getKeyVal("file", "downloader", "requireLengthHeader") ); ?> />
+					<?php $fox->config->printNodeName("file", "downloader", "requireLengthHeader"); ?>
+					<?php checked(true, $fox->config->getNodeVal("file", "downloader", "requireLengthHeader") ); ?> />
 					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $fox->config->printKeyName("file", "downloader", "requireLengthHeader"); ?>
-					<?php checked('', $fox->config->getKeyVal("file", "downloader", "requireLengthHeader") ); ?> />
+					<?php $fox->config->printNodeName("file", "downloader", "requireLengthHeader"); ?>
+					<?php checked('', $fox->config->getNodeVal("file", "downloader", "requireLengthHeader") ); ?> />
 					<?php _e( 'No', "foxfire" ) ?>
 					<br/><?php _e('Download a file only if the hosting server declares the file size (could reject valid media if remote server is not well configured)',"foxfire"); ?>
 				</td>
@@ -191,12 +191,12 @@ class FOX_tab_addmedia {
 				<th align="left"><?php _e('Strict validation before download',"foxfire"); ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $fox->config->printKeyName("file", "downloader", "requireStrictValidation"); ?>
-					<?php checked(true, $fox->config->getKeyVal("file", "downloader", "requireStrictValidation") ); ?> />
+					<?php $fox->config->printNodeName("file", "downloader", "requireStrictValidation"); ?>
+					<?php checked(true, $fox->config->getNodeVal("file", "downloader", "requireStrictValidation") ); ?> />
 					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $fox->config->printKeyName("file", "downloader", "requireStrictValidation"); ?>
-					<?php checked('', $fox->config->getKeyVal("file", "downloader", "requireStrictValidation") ); ?> />
+					<?php $fox->config->printNodeName("file", "downloader", "requireStrictValidation"); ?>
+					<?php checked('', $fox->config->getNodeVal("file", "downloader", "requireStrictValidation") ); ?> />
 					<?php _e( 'No', "foxfire" ) ?>
 					<br/><?php _e('Be sure to not download unsupported media (could reject valid media if remote server is not well configured)',"foxfire"); ?>
 				</td>
@@ -264,12 +264,12 @@ class FOX_tab_addmedia {
 				<th align="left"><?php _e('Validate content type',"foxfire"); ?></th>
 				<td>
 				    <input type="radio" value="1"
-					<?php $fox->config->printKeyName("file", "downloader", "validateContentType"); ?>
-					<?php checked(true, $fox->config->getKeyVal("file", "downloader", "validateContentType") ); ?> />
+					<?php $fox->config->printNodeName("file", "downloader", "validateContentType"); ?>
+					<?php checked(true, $fox->config->getNodeVal("file", "downloader", "validateContentType") ); ?> />
 					<?php _e( 'Yes', "foxfire" ) ?> &nbsp;
 				    <input type="radio" value="0"
-					<?php $fox->config->printKeyName("file", "downloader", "validateContentType"); ?>
-					<?php checked('', $fox->config->getKeyVal("file", "downloader", "validateContentType") ); ?> />
+					<?php $fox->config->printNodeName("file", "downloader", "validateContentType"); ?>
+					<?php checked('', $fox->config->getNodeVal("file", "downloader", "validateContentType") ); ?> />
 					<?php _e( 'No', "foxfire" ) ?>
 					<br/><?php _e('Should always be active as a security measure, deactivate only if you have problems with content type detection and you understand the risks of not strictly checking file type',"foxfire"); ?>
 				</td>
@@ -278,7 +278,7 @@ class FOX_tab_addmedia {
 			</table>
 		    </div>
 
-		    <?php $fox->config->printKeysArray(); ?>
+		    <?php $fox->config->printNodesArray(); ?>
 
 		    <div class="fox_submit_h_panel_wrap">
 			<div class="submit"><input class="fox-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
