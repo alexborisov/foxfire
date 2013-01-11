@@ -523,6 +523,10 @@ abstract class FOX_db_base {
 
 		try {
 
+		    if(!$this->mCache){
+			    $check = debug_backtrace();
+			    FOX_debug::dump($check); die;
+		    }
 			$cache_image = $this->mCache->readCache( 
 								array( 
 									'engine'=>$struct["cache_engine"], 

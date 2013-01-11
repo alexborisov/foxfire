@@ -677,8 +677,44 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			));
 		}
 
+		return $db_result;
+
+	}
+
+	
+	/**
+	 * Fetches a key's value, filter function, and filter function config data as an array. If the key's
+	 * data is not in the cache yet, it will be retrieved from the database and added to the cache.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $tree | tree name
+	 * @param string $branch | branch name
+	 * @param string/array $node | single node as string. Multiple nodes as array of string.
+	 * @param bool $valid | true if all requested nodes exist
+	 * @return array | Exception on failure. Data array on success.
+	 */
+
+	public function getNodeVal($plugin, $tree, $branch, $node, &$valid=null){
+
 		
-		if($mode == 'single'){
+		try {
+			$db_result = self::getNode($plugin, $tree, $branch, $node, $get_ctrl, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error calling self::getNode()",
+				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		
+		if(!is_array($node)){
 		    
 			$result = $db_result['val'];
 		}
@@ -695,8 +731,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		return $result;
 
 	}
-
-
+	
+	
 	/**
 	 * Updates an existing node if the $tree-$branch-$node tuple already exists
 	 * in the db, or creates a new node if it doesn't.
@@ -1821,22 +1857,22 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 
 	/**
-         * Resets the class's print_keys array, making it ready to accept a new batch of keys. This method
+         * Resets the class's print_nodes array, making it ready to accept a new batch of keys. This method
 	 * MUST be called at the beginning of each admin form to clear old keys from the singleton.
          *
          * @version 0.1.9
          * @since 0.1.9
          */
 
-	public function initKeysArray(){
+	public function initNodesArray(){
 
-		$this->print_keys = array();
+		$this->print_nodes = array();
 	}
 
 
 	/**
          * Creates a composite keyname given the keys's tree, branch, and name. Adds the
-	 * composited key name to the $print_keys array for printing the form's keys array.
+	 * composited key name to the $print_nodes array for printing the form's keys array.
          *
          * @version 0.1.9
          * @since 0.1.9
@@ -1848,19 +1884,19 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @return ECHO | ECHO composited key name on success.
          */
 
-	public function printKeyName($plugin, $tree, $branch, $key){
+	public function printNodeName($plugin, $tree, $branch, $key){
 
 
-		echo 'name="' . self::getKeyName($plugin, $tree, $branch, $key) . '"';
+		echo 'name="' . self::getNodeName($plugin, $tree, $branch, $key) . '"';
 
 	}
 
-	public function getKeyName($plugin, $tree, $branch, $key){
+	public function getNodeName($plugin, $tree, $branch, $key){
 
 		$key_name = ($plugin . $this->key_delimiter . $tree . $this->key_delimiter . $branch . $this->key_delimiter . $key);
 
 		// Add formatted key name to the $keys array
-		$this->print_keys[$key_name] = true;
+		$this->print_nodes[$key_name] = true;
 
 		return $key_name;
 
@@ -1881,7 +1917,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @return ECHO | ECHO exception on failure. ECHO composited key name on success.
          */
 
-	public function printKeyVal($plugin, $tree, $branch, $key, $validate=false){
+	public function printNodeVal($plugin, $tree, $branch, $key, $validate=false){
 
 
 		$result = 'value="';
@@ -1929,12 +1965,12 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @return ECHO | composited hidden form field string
          */
 
-	public function printKeysArray($field_name=null){
+	public function printNodesArray($field_name=null){
 
-		echo self::getKeysArray($field_name);
+		echo self::getNodesArray($field_name);
 	}
 
-	public function getKeysArray($field_name=null){
+	public function getNodesArray($field_name=null){
 
 		// Handle no $field_name being passed
 
@@ -1944,9 +1980,9 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
                 $result = '<input type="hidden" name="' . $field_name . '" value="';
 
-		$keys_left = count( $this->print_keys) - 1;
+		$keys_left = count( $this->print_nodes) - 1;
 
-		foreach( $this->print_keys as $key_name => $fake_var) {
+		foreach( $this->print_nodes as $key_name => $fake_var) {
 
 			$result .= $key_name;
 
