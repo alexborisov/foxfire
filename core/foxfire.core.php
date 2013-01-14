@@ -25,7 +25,7 @@ define ( 'FOX_VERSION', '2618' );
 define ( 'FOX_DISPLAY_VERSION', "1.0" );
 
 // Build date of FoxFire shown on admin screen
-define ( 'FOX_DISPLAY_DATE', "2012.11.20" );
+define ( 'FOX_DISPLAY_DATE', "2013.01.13" );
 
 
 // Define expert mode constants, if they do not already exist
