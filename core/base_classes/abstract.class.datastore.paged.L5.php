@@ -6714,7 +6714,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 				
 		try {
-			$rows_changed = self::replaceL2_multi($data, $ctrl=null);
+			$rows_changed = self::replaceL2_multi($replace_data, $replace_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
@@ -7452,7 +7452,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 				
 		try {
-			$rows_changed = self::replaceL3_multi($data, $ctrl=null);
+			$rows_changed = self::replaceL3_multi($replace_data, $replace_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
@@ -8180,7 +8180,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		);
 				
 		try {
-			$rows_changed = self::replaceL4_multi($data, $ctrl=null);
+			$rows_changed = self::replaceL4_multi($replace_data, $replace_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
@@ -8878,14 +8878,14 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// ==========================
 		
 		$replace_data = array( $L5=>$data );
-				
+				//FOX_debug::dump($replace_data); die;
 		
 		$replace_ctrl = array(
 				    'validate'=>false
 		);
 				
 		try {
-			$rows_changed = self::replaceL5_multi($data, $ctrl=null);
+			$rows_changed = self::replaceL5_multi($replace_data, $replace_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
@@ -9022,6 +9022,9 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}			
 			
 			if($tree_valid !== true){
+			    
+			    FOX_debug::dump($data);FOX_debug::dump($data);
+			    FOX_debug::dump($tree_valid); die;
 			    
 				throw new FOX_exception( array(
 					'numeric'=>3,

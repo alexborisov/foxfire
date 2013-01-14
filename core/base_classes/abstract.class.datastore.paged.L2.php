@@ -3797,7 +3797,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		);
 				
 		try {
-			$rows_changed = self::replaceL2_multi($data, $ctrl=null);
+			$rows_changed = self::replaceL2_multi($replace_data, $replace_ctrl);
 		}
 		catch (FOX_exception $child) {
 		    
