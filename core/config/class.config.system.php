@@ -1742,7 +1742,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 				    
 						if( !FOX_sUtil::keyExists($node, $current_keys[$plugin][$tree][$branch]) ){
 						    					    
-							$invalid_nodes[] = "Plugin: $plugin Tree: $tree Branch: $branch Node: $node";
+							$invalid_nodes[] = "P: $plugin T: $tree B: $branch N: $node";
 							continue;
 						}
 							
