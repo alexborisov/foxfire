@@ -700,7 +700,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 		
 		try {
-			$db_result = self::getNode($plugin, $tree, $branch, $node, $get_ctrl, $valid);
+			$db_result = self::getNode($plugin, $tree, $branch, $node, $valid);
 		}
 		catch (FOX_exception $child) {
 
