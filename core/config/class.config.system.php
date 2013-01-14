@@ -2008,12 +2008,12 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @since 0.1.9
          */
 
-	public function installMode(){
+	public function installMode($basepath){
 
 
 		if(!$this->install_classes_loaded){
 
-			$base_install_classes = glob( BPM_PATH_BASE .'/core/config/install_base/*.php');
+			$base_install_classes = glob( $basepath .'/core/config/install_base/*.php');
 
 			foreach ( $base_install_classes as $path ){
 
@@ -2037,11 +2037,11 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @since 0.1.9
          */
 
-	public function uninstallMode(){
+	public function uninstallMode($basepath){
 
 		if(!$this->uninstall_classes_loaded){
 
-			$base_uninstall_classes = glob( BPM_PATH_BASE .'/core/config/uninstall_base/*.php');
+			$base_uninstall_classes = glob( $basepath .'/core/config/uninstall_base/*.php');
 
 			foreach ( $base_uninstall_classes as $path ){
 
