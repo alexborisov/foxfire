@@ -45,7 +45,7 @@ class FOX_tab_server {
 
 		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $fox->config->initKeysArray(); ?>
+		    <?php $fox->config->initNodesArray(); ?>
 
 
 		    <?php if (FOX_EXPERT_MODE == 1) {
@@ -118,7 +118,7 @@ class FOX_tab_server {
 			</table>
 		    </div>
 
-		    <?php $fox->config->printKeysArray(); ?>
+		    <?php $fox->config->printNodesArray(); ?>
 
 	    </form>
 

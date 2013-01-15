@@ -45,7 +45,7 @@ class FOX_tab_slugs {
 
 		<?php wp_nonce_field('fox_admin_settings') ?>
 
-		<?php $fox->config->initKeysArray(); ?>
+		<?php $fox->config->initNodesArray(); ?>
 
 		<div class="fox_tip">
 		    <div class="fox_warning_large"></div>
@@ -67,8 +67,8 @@ class FOX_tab_slugs {
 				<th align="left"><?php _e('Base Slug',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="20" maxlength="30"
-					   <?php $fox->config->printKeyName("slugs", "base", "base"); ?>
-					   <?php $fox->config->printKeyVal("slugs", "base", "base"); ?> />
+					   <?php $fox->config->printNodeName("slugs", "base", "base"); ?>
+					   <?php $fox->config->printNodeVal("slugs", "base", "base"); ?> />
 				</td>
 			    </tr>
 
@@ -76,8 +76,8 @@ class FOX_tab_slugs {
 				<th align="left"><?php _e('Base Slug -> Home',"foxfire"); ?></th>
 				<td>
 				    <input type="text" size="20" maxlength="30"
-					   <?php $fox->config->printKeyName("slugs", "base", "home"); ?>
-					   <?php $fox->config->printKeyVal("slugs", "base", "home"); ?> />
+					   <?php $fox->config->printNodeName("slugs", "base", "home"); ?>
+					   <?php $fox->config->printNodeVal("slugs", "base", "home"); ?> />
 				</td>
 			    </tr>
 
@@ -94,8 +94,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Album -> Home',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "albums", "home"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "albums", "home"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "albums", "home"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "albums", "home"); ?> />
 			    </td>
 			</tr>
 
@@ -103,8 +103,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Album -> Create',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "albums", "create"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "albums", "create"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "albums", "create"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "albums", "create"); ?> />
 			    </td>
 			</tr>
 
@@ -112,8 +112,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Album -> Edit',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "albums", "edit"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "albums", "edit"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "albums", "edit"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "albums", "edit"); ?> />
 			    </td>
 			</tr>
 
@@ -121,8 +121,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Album -> Items',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "albums", "items"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "albums", "items"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "albums", "items"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "albums", "items"); ?> />
 			    </td>
 			</tr>
 
@@ -130,8 +130,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Album -> Sort',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "albums", "sort"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "albums", "sort"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "albums", "sort"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "albums", "sort"); ?> />
 			    </td>
 			</tr>
 
@@ -139,8 +139,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Album -> Delete',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "albums", "delete"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "albums", "delete"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "albums", "delete"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "albums", "delete"); ?> />
 			    </td>
 			</tr>
 
@@ -148,8 +148,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Album -> Me',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "albums", "me"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "albums", "me"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "albums", "me"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "albums", "me"); ?> />
 			    </td>
 			</tr>
 
@@ -167,8 +167,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Media -> Home',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "media", "home"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "media", "home"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "media", "home"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "media", "home"); ?> />
 			    </td>
 			</tr>
 
@@ -176,8 +176,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Media -> Single',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "media", "single"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "media", "single"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "media", "single"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "media", "single"); ?> />
 			    </td>
 			</tr>
 
@@ -185,8 +185,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Media -> Create',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "media", "create"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "media", "create"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "media", "create"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "media", "create"); ?> />
 			    </td>
 			</tr>
 
@@ -194,8 +194,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Media -> Edit',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "media", "edit"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "media", "edit"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "media", "edit"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "media", "edit"); ?> />
 			    </td>
 			</tr>
 
@@ -203,8 +203,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Media -> Delete',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "media", "delete"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "media", "delete"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "media", "delete"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "media", "delete"); ?> />
 			    </td>
 			</tr>
 
@@ -212,8 +212,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Media -> Tag',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "media", "tag"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "media", "tag"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "media", "tag"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "media", "tag"); ?> />
 			    </td>
 			</tr>
 
@@ -221,8 +221,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Album -> Me',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("slugs", "media", "me"); ?>
-				       <?php $fox->config->printKeyVal("slugs", "media", "me"); ?> />
+				       <?php $fox->config->printNodeName("slugs", "media", "me"); ?>
+				       <?php $fox->config->printNodeVal("slugs", "media", "me"); ?> />
 			    </td>
 			</tr>
 		    </table>
@@ -239,8 +239,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Member Tags -> Tag Self',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("member", "tags", "tagSelf"); ?>
-				       <?php $fox->config->printKeyVal("member", "tags", "tagSelf"); ?> />
+				       <?php $fox->config->printNodeName("member", "tags", "tagSelf"); ?>
+				       <?php $fox->config->printNodeVal("member", "tags", "tagSelf"); ?> />
 			    </td>
 			</tr>
 
@@ -248,8 +248,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Member Tags -> Untag Self',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("member", "tags", "unTagSelf"); ?>
-				       <?php $fox->config->printKeyVal("member", "tags", "unTagSelf"); ?> />
+				       <?php $fox->config->printNodeName("member", "tags", "unTagSelf"); ?>
+				       <?php $fox->config->printNodeVal("member", "tags", "unTagSelf"); ?> />
 			    </td>
 			</tr>
 
@@ -257,8 +257,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Member Tags -> Tag Member',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("member", "tags", "tagMember"); ?>
-				       <?php $fox->config->printKeyVal("member", "tags", "tagMember"); ?> />
+				       <?php $fox->config->printNodeName("member", "tags", "tagMember"); ?>
+				       <?php $fox->config->printNodeVal("member", "tags", "tagMember"); ?> />
 			    </td>
 			</tr>
 
@@ -266,8 +266,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Member Tags -> Untag Member',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("member", "tags", "unTagMember"); ?>
-				       <?php $fox->config->printKeyVal("member", "tags", "unTagMember"); ?> />
+				       <?php $fox->config->printNodeName("member", "tags", "unTagMember"); ?>
+				       <?php $fox->config->printNodeVal("member", "tags", "unTagMember"); ?> />
 			    </td>
 			</tr>
 
@@ -275,8 +275,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Member Tags -> Media Of Me',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("member", "tags", "mediaOfMe"); ?>
-				       <?php $fox->config->printKeyVal("member", "tags", "mediaOfMe"); ?> />
+				       <?php $fox->config->printNodeName("member", "tags", "mediaOfMe"); ?>
+				       <?php $fox->config->printNodeVal("member", "tags", "mediaOfMe"); ?> />
 			    </td>
 			</tr>
 
@@ -284,8 +284,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Member Tags -> Remove Favorite',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("member", "tags", "removeFavorite"); ?>
-				       <?php $fox->config->printKeyVal("member", "tags", "removeFavorite"); ?> />
+				       <?php $fox->config->printNodeName("member", "tags", "removeFavorite"); ?>
+				       <?php $fox->config->printNodeVal("member", "tags", "removeFavorite"); ?> />
 			    </td>
 			</tr>
 
@@ -302,8 +302,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Keyword Tags -> All Items',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("keyword", "tags", "showTag"); ?>
-				       <?php $fox->config->printKeyVal("keyword", "tags", "showTag"); ?> />
+				       <?php $fox->config->printNodeName("keyword", "tags", "showTag"); ?>
+				       <?php $fox->config->printNodeVal("keyword", "tags", "showTag"); ?> />
 			    </td>
 			</tr>
 
@@ -311,8 +311,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Keyword Tags -> Member Items',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("keyword", "tags", "tagsByMember"); ?>
-				       <?php $fox->config->printKeyVal("keyword", "tags", "tagsByMember"); ?> />
+				       <?php $fox->config->printNodeName("keyword", "tags", "tagsByMember"); ?>
+				       <?php $fox->config->printNodeVal("keyword", "tags", "tagsByMember"); ?> />
 			    </td>
 			</tr>
 
@@ -320,8 +320,8 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Keyword Tags -> Add Tag',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("keyword", "tags", "addTag"); ?>
-				       <?php $fox->config->printKeyVal("keyword", "tags", "addTag"); ?> />
+				       <?php $fox->config->printNodeName("keyword", "tags", "addTag"); ?>
+				       <?php $fox->config->printNodeVal("keyword", "tags", "addTag"); ?> />
 			    </td>
 			</tr>
 
@@ -329,15 +329,15 @@ class FOX_tab_slugs {
 			    <th align="left"><?php _e('Keyword Tags -> Remove Tag',"foxfire"); ?></th>
 			    <td>
 				<input type="text" size="20" maxlength="30"
-				       <?php $fox->config->printKeyName("keyword", "tags", "removeTag"); ?>
-				       <?php $fox->config->printKeyVal("keyword", "tags", "removeTag"); ?> />
+				       <?php $fox->config->printNodeName("keyword", "tags", "removeTag"); ?>
+				       <?php $fox->config->printNodeVal("keyword", "tags", "removeTag"); ?> />
 			    </td>
 			</tr>
 
 		    </table>
 		</div>
 
-		<?php $fox->config->printKeysArray(); ?>
+		<?php $fox->config->printNodesArray(); ?>
 
 		<div class="fox_submit_h_panel_wrap">
 		    <div class="submit"><input class="fox-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>

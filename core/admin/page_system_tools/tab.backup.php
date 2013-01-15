@@ -45,7 +45,7 @@ class FOX_tab_backup {
 
 		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $fox->config->initKeysArray(); ?>
+		    <?php $fox->config->initNodesArray(); ?>
 
 		    <div class="fox_tip">
 			<div class="fox_bricks_large"></div>
@@ -117,7 +117,7 @@ class FOX_tab_backup {
 			</table>
 		    </div>
 
-		<?php $fox->config->printKeysArray(); ?>
+		<?php $fox->config->printNodesArray(); ?>
 
 	       <div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
 

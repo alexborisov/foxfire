@@ -45,7 +45,7 @@ class FOX_tab_templates {
 
 		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $fox->config->initKeysArray(); ?>
+		    <?php $fox->config->initNodesArray(); ?>
 
 		    <?php // This block of duplicate code allows the section to be moved around without breaking "locking" functionality ?>
 		    <?php ////////////////////////////////////////////////////////////////////////////////////////////////////////////// ?>
@@ -80,16 +80,16 @@ class FOX_tab_templates {
 					<label class="bpa-lockable-field">
 					    <input type="radio" value="global"
 						<?php echo $locked; ?>
-						<?php $fox->config->printKeyName("cache", "L1", "mode"); ?>
-						<?php checked('global', $fox->config->getKeyVal("cache", "L1", "mode") ); ?> />
+						<?php $fox->config->printNodeName("cache", "L1", "mode"); ?>
+						<?php checked('global', $fox->config->getNodeVal("cache", "L1", "mode") ); ?> />
 						<?php _e('Site wide', "foxfire" ) ?> &nbsp;
 					</label>
 
 					<label class="bpa-lockable-field">
 					    <input type="radio" value="single"
 						<?php echo $locked; ?>
-						<?php $fox->config->printKeyName("cache", "L1", "mode"); ?>
-						<?php checked('single', $fox->config->getKeyVal("cache", "L1", "mode") ); ?> />
+						<?php $fox->config->printNodeName("cache", "L1", "mode"); ?>
+						<?php checked('single', $fox->config->getNodeVal("cache", "L1", "mode") ); ?> />
 						<?php _e('Individual blogs', "foxfire" ) ?> &nbsp;
 					</label> <?php echo $lock_status; ?> <br />
 				    </td>
@@ -100,8 +100,8 @@ class FOX_tab_templates {
 				    <td>
 					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
 					       <?php echo $locked; ?>
-					       <?php $fox->config->printKeyName("cache", "L1", "siteFolder"); ?>
-					       <?php $fox->config->printKeyVal("cache", "L1", "siteFolder"); ?> />
+					       <?php $fox->config->printNodeName("cache", "L1", "siteFolder"); ?>
+					       <?php $fox->config->printNodeVal("cache", "L1", "siteFolder"); ?> />
 					       <?php echo $lock_status; ?>
 				    </td>
 				</tr>
@@ -111,8 +111,8 @@ class FOX_tab_templates {
 				    <td>
 					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
 					       <?php echo $locked; ?>
-					       <?php $fox->config->printKeyName("cache", "L1", "siteURI"); ?>
-					       <?php $fox->config->printKeyVal("cache", "L1", "siteURI"); ?> />
+					       <?php $fox->config->printNodeName("cache", "L1", "siteURI"); ?>
+					       <?php $fox->config->printNodeVal("cache", "L1", "siteURI"); ?> />
 					       <?php echo $lock_status; ?>
 				    </td>
 				</tr>
@@ -122,8 +122,8 @@ class FOX_tab_templates {
 				    <td>
 					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
 					       <?php echo $locked; ?>
-					       <?php $fox->config->printKeyName("cache", "L1", "blogFolderOffset"); ?>
-					       <?php $fox->config->printKeyVal("cache", "L1", "blogFolderOffset"); ?> />
+					       <?php $fox->config->printNodeName("cache", "L1", "blogFolderOffset"); ?>
+					       <?php $fox->config->printNodeVal("cache", "L1", "blogFolderOffset"); ?> />
 					       <?php echo $lock_status; ?>
 				    </td>
 				</tr>
@@ -133,8 +133,8 @@ class FOX_tab_templates {
 				    <td>
 					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
 					       <?php echo $locked; ?>
-					       <?php $fox->config->printKeyName("cache", "L1", "blogURIOffset"); ?>
-					       <?php $fox->config->printKeyVal("cache", "L1", "blogURIOffset"); ?> />
+					       <?php $fox->config->printNodeName("cache", "L1", "blogURIOffset"); ?>
+					       <?php $fox->config->printNodeVal("cache", "L1", "blogURIOffset"); ?> />
 					       <?php echo $lock_status; ?>
 				    </td>
 				</tr>
@@ -143,7 +143,7 @@ class FOX_tab_templates {
 		    </div>
 
 
-		    <?php $fox->config->printKeysArray(); ?>
+		    <?php $fox->config->printNodesArray(); ?>
 
 		    <div class="fox_submit_h_panel_wrap">
 			<div class="submit"><input class="fox-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>

@@ -25,7 +25,7 @@ define ( 'FOX_VERSION', '2618' );
 define ( 'FOX_DISPLAY_VERSION', "1.0" );
 
 // Build date of FoxFire shown on admin screen
-define ( 'FOX_DISPLAY_DATE', "2012.11.20" );
+define ( 'FOX_DISPLAY_DATE', "2013.01.13" );
 
 
 // Define expert mode constants, if they do not already exist
@@ -168,14 +168,14 @@ else {
 
 	function fox_exceptionHandler($error){
 
-	    global $fox;
-	    $fox->error->add($error);
+		global $fox;
+		$fox->error->add($error);
 
-	    $error = FOX_debug::formatError_print($error->data);
-	    var_dump($error);
+		//$error = FOX_debug::formatError_print($error->data);
+		FOX_debug::dump($error);
 
 	}
-	//set_exception_handler('fox_exceptionHandler');
+	set_exception_handler('fox_exceptionHandler');
 
 	// WP and BP abstraction
 	require ( dirname( __FILE__ ) . '/abstraction/class.bp.abstraction.php' );
@@ -226,13 +226,13 @@ else {
 	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.redis.php' );
 	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.thread.php' );
 
-	require ( dirname( __FILE__ ) . '/config/class.config.system.php' );
-	
+	require ( dirname( __FILE__ ) . '/config/class.config.system.php' );	
 	require ( dirname( __FILE__ ) . '/admin/sub.admin.core.php' );
 	
 
 	$fox->mCache = new FOX_mCache();    // Memory cache singleton
 	//$fox->disk = new FOX_dCache();	    // Disk singleton
+	$fox->config = new FOX_config();    // Config singleton
 
 
 	/**
@@ -276,7 +276,34 @@ else {
 	add_action( 'network_admin_menu', 'fox_add_network_menu', 2 );
 	
 	
+	/**
+	 * Checks that the plugins database tables are installed. Runs the install routine if they are
+	 * not. This corrects a bug whereby the install routine is not triggered when BP-Media is
+	 * installed in the plugins directory on a WPMU system.
+	 *
+	 * @global $bpm The BP-Media global variable
+	 * @version 0.1.9
+	 * @since 0.1.9
+	 */
 
+	function fox_core_check_installed() {
+
+		global $fox, $razor;
+
+		if( current_user_can('install_plugins') ) {
+
+			$installed = $fox->config->getNodeVal('foxfire', "system", "core", "installed");
+
+			if(!$installed && !$razor){
+
+				do_action( 'fox_install' );
+				do_action( 'fox_setDefaults' );
+			}
+		}
+	}
+	add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', 'fox_core_check_installed' );	
+	
+	
 }
 
 ?>

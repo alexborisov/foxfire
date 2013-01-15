@@ -74,7 +74,7 @@ class FOX_tab_import {
 		    </table>
 		</div>
 
-		<?php //$fox->config->printKeysArray(); ?>
+		<?php //$fox->config->printNodesArray(); ?>
 
 		<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
 

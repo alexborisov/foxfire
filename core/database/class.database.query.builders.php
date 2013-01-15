@@ -17,18 +17,20 @@
 class FOX_queryBuilder {
 
 
-	var $parent;				    // Reference to parent class
+	var $base_prefix;	
+	var $charset;
+	var $collate;
 
 	// ============================================================================================================ //
 
 
 	function __construct(&$parent_class){
 
-		// We link the $parent var inside this class to the instance of the parent class passed in
-		// the constructor. This means we can access any variable or function inside the parent class
-		// as "$this->parent->varName"
 
-		$this->parent =& $parent_class;
+		$this->base_prefix = $parent_class->base_prefix;
+		$this->charset = $parent_class->charset;
+		$this->collate = $parent_class->collate;
+		
 	}
 
 
@@ -469,8 +471,8 @@ class FOX_queryBuilder {
 
 		if($columns === null){
 
-			$select_columns[] = $this->parent->base_prefix . $primary_struct["table"] . ".*";
-			$from_tables[] = $this->parent->base_prefix . $primary_struct["table"];
+			$select_columns[] = $this->base_prefix . $primary_struct["table"] . ".*";
+			$from_tables[] = $this->base_prefix . $primary_struct["table"];
 
 			// Add all primary table columns to the typecast array
 			foreach( $primary_struct["columns"] as $name => $params){
@@ -504,7 +506,7 @@ class FOX_queryBuilder {
 
 					if( array_search($name, $columns["col"] ) !== false) {
 
-						$select_columns[] = $this->parent->base_prefix . $primary_struct["table"] . "." . $name;
+						$select_columns[] = $this->base_prefix . $primary_struct["table"] . "." . $name;
 						
 						// NOTE: MySQL automatically strips the table prefix off the key names in the returned
 						// result, so if we request primaryTableName.colName_1, the result back from the SQL
@@ -517,14 +519,14 @@ class FOX_queryBuilder {
 
 					if( array_search($name, $columns["col"] ) === false) {
 
-						$select_columns[] = $this->parent->base_prefix . $primary_struct["table"] . "." . $name;
+						$select_columns[] = $this->base_prefix . $primary_struct["table"] . "." . $name;
 						$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
 					}
 				}
 
 			} unset($name); unset($params);
 
-			$from_tables[] = $this->parent->base_prefix . $primary_struct["table"];
+			$from_tables[] = $this->base_prefix . $primary_struct["table"];
 		}
 
 
@@ -539,7 +541,7 @@ class FOX_queryBuilder {
 
 		if($primary["args"]){
 
-			$prefix = $this->parent->base_prefix . $primary_struct["table"] . ".";
+			$prefix = $this->base_prefix . $primary_struct["table"] . ".";
 
 			try {
 				$result = self::buildWhere( $primary_struct, $primary["args"], $function_name, $prefix);
@@ -584,8 +586,8 @@ class FOX_queryBuilder {
 			// ====================================================
 
 
-			$join_string .= " INNER JOIN " . $this->parent->base_prefix  . $join_struct["table"] . " AS " . $ctrl['alias_prefix'] . $join_struct["table"] . " ON (" .
-					$this->parent->base_prefix . $primary_struct["table"] . "." . $join_obj["on"]["pri"] .
+			$join_string .= " INNER JOIN " . $this->base_prefix  . $join_struct["table"] . " AS " . $ctrl['alias_prefix'] . $join_struct["table"] . " ON (" .
+					$this->base_prefix . $primary_struct["table"] . "." . $join_obj["on"]["pri"] .
 					" " . $join_obj["on"]["op"] . " " .
 					$ctrl['alias_prefix'] . $join_struct["table"] . "." . $join_obj["on"]["sec"] . ")";
 
@@ -702,8 +704,8 @@ class FOX_queryBuilder {
 
 			// Simple counts can bypass the rest of the query builder
 
-			$query = "SELECT COUNT(DISTINCT " . $this->parent->base_prefix . $primary_struct["table"] . ".*)" .
-				  " FROM " . $this->parent->base_prefix . $primary_struct["table"] . $join_string . " WHERE " . $where_string;
+			$query = "SELECT COUNT(DISTINCT " . $this->base_prefix . $primary_struct["table"] . ".*)" .
+				  " FROM " . $this->base_prefix . $primary_struct["table"] . $join_string . " WHERE " . $where_string;
 
 		}
 		else {
@@ -732,7 +734,7 @@ class FOX_queryBuilder {
 
 						// ====================================================
 
-						$count_string .= "COUNT(DISTINCT " . $this->parent->base_prefix . $key_struct["table"] . "." . $key["col"] . ")";
+						$count_string .= "COUNT(DISTINCT " . $this->base_prefix . $key_struct["table"] . "." . $key["col"] . ")";
 
 						if($columns_left != 0){
 							$count_string .= ", ";
@@ -778,7 +780,7 @@ class FOX_queryBuilder {
 
 						// ====================================================
 
-						$sum_string .= "SUM(DISTINCT " . $this->parent->base_prefix . $key_struct["table"] . "." . $key["col"] . ")";
+						$sum_string .= "SUM(DISTINCT " . $this->base_prefix . $key_struct["table"] . "." . $key["col"] . ")";
 
 						if($columns_left != 0){
 							$count_string .= ", ";
@@ -834,12 +836,12 @@ class FOX_queryBuilder {
 					if( is_array($key["sort"]) ){
 
 						// Handle arbitrary ordering using MySQL's FIND_IN_SET() function
-						$order_string .= "FIND_IN_SET(" . $this->parent->base_prefix . $key_struct["table"] . ".";
+						$order_string .= "FIND_IN_SET(" . $this->base_prefix . $key_struct["table"] . ".";
 						$order_string .= $key["col"] . ", '" . implode(",", $key["sort"]) . "')";
 
 					}
 					else {
-						$order_string .= $this->parent->base_prefix . $key_struct["table"] . "." . $key["col"] . " " . $key["sort"];
+						$order_string .= $this->base_prefix . $key_struct["table"] . "." . $key["col"] . " " . $key["sort"];
 					}
 
 
@@ -881,7 +883,7 @@ class FOX_queryBuilder {
 
 					// ====================================================
 
-					$group_string .= $this->parent->base_prefix . $key_struct["table"] . "." . $key["col"] . " " . $key["sort"];
+					$group_string .= $this->base_prefix . $key_struct["table"] . "." . $key["col"] . " " . $key["sort"];
 
 					if($keys_left != 0){
 						$group_string .= ", ";
@@ -1074,7 +1076,7 @@ class FOX_queryBuilder {
 		$avail_columns[$alias["tables"][$primary_struct["table"]]] = $primary_struct["columns"];
 
 		// Build from string
-		$from_string = $this->parent->base_prefix . $primary_struct["table"]." AS ".$alias["tables"][$primary_struct["table"]];
+		$from_string = $this->base_prefix . $primary_struct["table"]." AS ".$alias["tables"][$primary_struct["table"]];
 
 		// Add primary args to WHERE statement
 		// ######################################################
@@ -1148,7 +1150,7 @@ class FOX_queryBuilder {
 
 			
 
-			$join_string .= " LEFT JOIN " . $this->parent->base_prefix  . $join_struct["table"] ." AS ".$alias["tables"][$join_struct["table"]].  " ON (" .
+			$join_string .= " LEFT JOIN " . $this->base_prefix  . $join_struct["table"] ." AS ".$alias["tables"][$join_struct["table"]].  " ON (" .
 					$alias["tables"][$primary_struct["table"]]."." . $join_obj["on"]["pri"] .
 					" " . $join_obj["on"]["op"] . " " .
 					$alias["tables"][$join_struct["table"]]. "." . $join_obj["on"]["sec"] . ")";
@@ -1818,7 +1820,7 @@ class FOX_queryBuilder {
 		if( $ctrl['count'] === true ){
 
 				// Simple counts can bypass the rest of the query builder
-				$query = "SELECT COUNT(*) FROM " . $this->parent->base_prefix . $struct["table"] . " WHERE " . $where;
+				$query = "SELECT COUNT(*) FROM " . $this->base_prefix . $struct["table"] . " WHERE " . $where;
 		}
 		else {
 
@@ -1973,7 +1975,7 @@ class FOX_queryBuilder {
 			// Build the query
 			// ######################################################
 
-			$query = "SELECT " . $count_string . $sum_string . $select_string . " FROM " . $this->parent->base_prefix . $struct["table"] . " WHERE " . $where . $group_string . $order_string . $limits;
+			$query = "SELECT " . $count_string . $sum_string . $select_string . " FROM " . $this->base_prefix . $struct["table"] . " WHERE " . $where . $group_string . $order_string . $limits;
 
 		}
 
@@ -2210,7 +2212,7 @@ class FOX_queryBuilder {
 		// Build the query
 		// ######################################################
 
-		$query = "UPDATE " . $this->parent->base_prefix . $struct["table"] . " SET " . $columns_string . " WHERE " . $where;
+		$query = "UPDATE " . $this->base_prefix . $struct["table"] . " SET " . $columns_string . " WHERE " . $where;
 
 		// Merge all return data into an array
 		// ###############################################################
@@ -2423,7 +2425,7 @@ class FOX_queryBuilder {
 
 		}
 
-		$query = "INSERT INTO " . $this->parent->base_prefix . $struct["table"] . " (" . $columns_string . ") VALUES " . $query_formats;
+		$query = "INSERT INTO " . $this->base_prefix . $struct["table"] . " (" . $columns_string . ") VALUES " . $query_formats;
 
 		
 		// Merge all return data into an array
@@ -2614,7 +2616,7 @@ class FOX_queryBuilder {
 
 		}
 
-		$query = "INSERT INTO " . $this->parent->base_prefix . $struct["table"] . " (" . $insert_columns_string . ") VALUES " . $query_formats .
+		$query = "INSERT INTO " . $this->base_prefix . $struct["table"] . " (" . $insert_columns_string . ") VALUES " . $query_formats .
 			 " ON DUPLICATE KEY UPDATE " . $update_columns_string;
 
 
@@ -2765,7 +2767,7 @@ class FOX_queryBuilder {
 			));
 		}
 
-		$query = "DELETE FROM " . $this->parent->base_prefix . $struct["table"] . " WHERE " . $where;
+		$query = "DELETE FROM " . $this->base_prefix . $struct["table"] . " WHERE " . $where;
 
 
 		// Merge all return data into an array
@@ -2879,12 +2881,12 @@ class FOX_queryBuilder {
 
 		$charset_collate = '';
 
-		if ( !empty($this->parent->charset) ){
-		    $charset_collate = "DEFAULT CHARACTER SET {$this->parent->charset}";
+		if ( !empty($this->charset) ){
+		    $charset_collate = "DEFAULT CHARACTER SET {$this->charset}";
 		}
 
-		if ( !empty($this->parent->collate) ){
-			$charset_collate .= " COLLATE {$this->parent->collate}";
+		if ( !empty($this->collate) ){
+			$charset_collate .= " COLLATE {$this->collate}";
 		}
 
 
@@ -3121,7 +3123,7 @@ class FOX_queryBuilder {
 		unset($name, $params);
 
 
-		$result = "CREATE TABLE " . $this->parent->base_prefix . $struct["table"] . " ( " . $query_columns . $keys_string . " ) ENGINE=" . $struct["engine"] . " " . $charset_collate . ";";
+		$result = "CREATE TABLE " . $this->base_prefix . $struct["table"] . " ( " . $query_columns . $keys_string . " ) ENGINE=" . $struct["engine"] . " " . $charset_collate . ";";
 
 		return $result;
 		
@@ -3158,7 +3160,7 @@ class FOX_queryBuilder {
 		}
 		// ====================================================
 
-		$result = "DROP TABLE " . $this->parent->base_prefix . $struct["table"];
+		$result = "DROP TABLE " . $this->base_prefix . $struct["table"];
 
 		return $result;
 		
@@ -3195,7 +3197,7 @@ class FOX_queryBuilder {
 		}
 		// ====================================================
 
-		$result = "TRUNCATE TABLE " . $this->parent->base_prefix . $struct["table"];
+		$result = "TRUNCATE TABLE " . $this->base_prefix . $struct["table"];
 
 		return $result;
 		

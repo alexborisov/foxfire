@@ -45,7 +45,7 @@ class FOX_tab_server_selftest {
 
 		    <?php wp_nonce_field('fox_admin_settings') ?>
 
-		    <?php $fox->config->initKeysArray(); ?>
+		    <?php $fox->config->initNodesArray(); ?>
 
 
 			<script type="text/javascript">
@@ -72,14 +72,14 @@ class FOX_tab_server_selftest {
 				    <td>
 					<label>
 					 <input type="radio" value="unix"
-						<?php $fox->config->printKeyName("system", "phpUnitTest", "platformFamily"); ?>
-						<?php checked('unix', $fox->config->getKeyVal("system", "phpUnitTest", "platformFamily") ); ?> />
+						<?php $fox->config->printNodeName("system", "phpUnitTest", "platformFamily"); ?>
+						<?php checked('unix', $fox->config->getNodeVal("system", "phpUnitTest", "platformFamily") ); ?> />
 						<?php _e('Unix', "foxfire" ) ?> &nbsp;
 					</label>
 					<label>
 					    <input type="radio" value="windows"
-						<?php $fox->config->printKeyName("system", "phpUnitTest", "platformFamily"); ?>
-						<?php checked('windows', $fox->config->getKeyVal("system", "phpUnitTest", "platformFamily") ); ?> />
+						<?php $fox->config->printNodeName("system", "phpUnitTest", "platformFamily"); ?>
+						<?php checked('windows', $fox->config->getNodeVal("system", "phpUnitTest", "platformFamily") ); ?> />
 						<?php _e('Windows', "foxfire" ) ?> &nbsp;
 					</label>
 				    </td>
@@ -89,14 +89,14 @@ class FOX_tab_server_selftest {
 				    <th><?php _e('SQL Server',"foxfire") ?></th>
 				    <td>
 					Database <input type="text" size="15" maxlength="32"
-					    <?php $fox->config->printKeyName("system", "phpUnitTest", "dbServerName"); ?>
-					    <?php $fox->config->printKeyVal("system", "phpUnitTest", "dbServerName"); ?> /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					    <?php $fox->config->printNodeName("system", "phpUnitTest", "dbServerName"); ?>
+					    <?php $fox->config->printNodeVal("system", "phpUnitTest", "dbServerName"); ?> /> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 					Login <input type="text" size="6" maxlength="32"
-					    <?php $fox->config->printKeyName("system", "phpUnitTest", "dbServerLogin"); ?>
-					    <?php $fox->config->printKeyVal("system", "phpUnitTest", "dbServerLogin"); ?> /> &nbsp;
+					    <?php $fox->config->printNodeName("system", "phpUnitTest", "dbServerLogin"); ?>
+					    <?php $fox->config->printNodeVal("system", "phpUnitTest", "dbServerLogin"); ?> /> &nbsp;
 					Pass <input type="password" size="6" maxlength="32"
-					    <?php $fox->config->printKeyName("system", "phpUnitTest", "dbServerPass"); ?>
-					    <?php $fox->config->printKeyVal("system", "phpUnitTest", "dbServerPass"); ?> /> &nbsp;
+					    <?php $fox->config->printNodeName("system", "phpUnitTest", "dbServerPass"); ?>
+					    <?php $fox->config->printNodeVal("system", "phpUnitTest", "dbServerPass"); ?> /> &nbsp;
 
 				    </td>
 				</tr>
@@ -105,8 +105,8 @@ class FOX_tab_server_selftest {
 				    <th align="left"><?php _e('Table prefix',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="5" maxlength="200"
-					   <?php $fox->config->printKeyName("system", "phpUnitTest", "tablePrefix"); ?>
-					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "tablePrefix"); ?> />
+					   <?php $fox->config->printNodeName("system", "phpUnitTest", "tablePrefix"); ?>
+					   <?php $fox->config->printNodeVal("system", "phpUnitTest", "tablePrefix"); ?> />
 				    </td>
 				</tr>
 
@@ -114,8 +114,8 @@ class FOX_tab_server_selftest {
 				    <th align="left"><?php _e('PHP path',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="60" maxlength="200"
-					   <?php $fox->config->printKeyName("system", "phpUnitTest", "PHPPath"); ?>
-					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "PHPPath"); ?> />
+					   <?php $fox->config->printNodeName("system", "phpUnitTest", "PHPPath"); ?>
+					   <?php $fox->config->printNodeVal("system", "phpUnitTest", "PHPPath"); ?> />
 				    </td>
 				</tr>
 
@@ -123,8 +123,8 @@ class FOX_tab_server_selftest {
 				    <th align="left"><?php _e('WordPress path',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="60" maxlength="200"
-					   <?php $fox->config->printKeyName("system", "phpUnitTest", "wordpressPath"); ?>
-					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "wordpressPath"); ?> />
+					   <?php $fox->config->printNodeName("system", "phpUnitTest", "wordpressPath"); ?>
+					   <?php $fox->config->printNodeVal("system", "phpUnitTest", "wordpressPath"); ?> />
 				    </td>
 				</tr>
 
@@ -132,8 +132,8 @@ class FOX_tab_server_selftest {
 				    <th align="left"><?php _e('Test suite path',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="60" maxlength="200"
-					   <?php $fox->config->printKeyName("system", "phpUnitTest", "testsuitePath"); ?>
-					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "testsuitePath"); ?> />
+					   <?php $fox->config->printNodeName("system", "phpUnitTest", "testsuitePath"); ?>
+					   <?php $fox->config->printNodeVal("system", "phpUnitTest", "testsuitePath"); ?> />
 				    </td>
 				</tr>
 
@@ -141,8 +141,8 @@ class FOX_tab_server_selftest {
 				    <th align="left"><?php _e('Options',"foxfire"); ?></th>
 				    <td>
 				    <input type="text" size="60" maxlength="1024"
-					   <?php $fox->config->printKeyName("system", "phpUnitTest", "options"); ?>
-					   <?php $fox->config->printKeyVal("system", "phpUnitTest", "options"); ?> />
+					   <?php $fox->config->printNodeName("system", "phpUnitTest", "options"); ?>
+					   <?php $fox->config->printNodeVal("system", "phpUnitTest", "options"); ?> />
 				    </td>
 				</tr>
 
@@ -150,7 +150,7 @@ class FOX_tab_server_selftest {
 
 			</div>
 
-			<?php $fox->config->printKeysArray(); ?>
+			<?php $fox->config->printNodesArray(); ?>
 
 			<div class="fox_submit_h_panel_wrap">
 			    <div class="submit"><input class="fox-button" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>

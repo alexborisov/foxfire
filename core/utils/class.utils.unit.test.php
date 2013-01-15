@@ -32,9 +32,9 @@ class FOX_uTest {
 
 		global $fox;
 
-		$php_path = $fox->config->getKeyVal($tree="system", $branch="unitTest", $key="PHPPath", $valid);
-		$test_core_path = $fox->config->getKeyVal($tree="system", $branch="unitTest", $key="testsuitePath", $valid);
-		$options = $fox->config->getKeyVal($tree="system", $branch="unitTest", $key="options", $valid);
+		$php_path = $fox->config->getNodeVal('foxfire', $tree="system", $branch="unitTest", $key="PHPPath", $valid);
+		$test_core_path = $fox->config->getNodeVal('foxfire', $tree="system", $branch="unitTest", $key="testsuitePath", $valid);
+		$options = $fox->config->getNodeVal('foxfire', $tree="system", $branch="unitTest", $key="options", $valid);
 
 		$fail = ini_get ('apc.enable_cli');
 

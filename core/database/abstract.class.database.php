@@ -522,7 +522,6 @@ abstract class FOX_db_base {
 		}		
 
 		try {
-
 			$cache_image = $this->mCache->readCache( 
 								array( 
 									'engine'=>$struct["cache_engine"], 

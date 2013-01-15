@@ -1505,7 +1505,7 @@ class system_config extends RAZ_testCase {
 	* 
         * =======================================================================================
 	*/	
-	public function test_getNode() {
+	public function test_getNodeVal() {
 
 	    
 		self::loadData();
@@ -1517,11 +1517,11 @@ class system_config extends RAZ_testCase {
 		$valid = false;
 		
 		try {
-			$result = $this->cls->getNode(	"plugin_1", 
-							"X", 
-							"K", 
-							"N1",
-							$valid
+			$result = $this->cls->getNodeVal(   "plugin_1", 
+							    "X", 
+							    "K", 
+							    "N1",
+							    $valid
 			);					
 						
 		}
@@ -1540,11 +1540,11 @@ class system_config extends RAZ_testCase {
 		$valid = false;
 		
 		try {
-			$result = $this->cls->getNode(	"plugin_1", 
-							"X", 
-							"K", 
-							array("N1", "N2"),
-							$valid
+			$result = $this->cls->getNodeVal(   "plugin_1", 
+							    "X", 
+							    "K", 
+							    array("N1", "N2"),
+							    $valid
 			);					
 						
 		}
@@ -1569,11 +1569,11 @@ class system_config extends RAZ_testCase {
 		$valid = false;
 		
 		try {
-			$result = $this->cls->getNode(	"plugin_3", 
-							"X", 
-							"K", 
-							"N1",
-							$valid
+			$result = $this->cls->getNodeVal(   "plugin_3", 
+							    "X", 
+							    "K", 
+							    "N1",
+							    $valid
 			);					
 						
 		}
@@ -1592,11 +1592,11 @@ class system_config extends RAZ_testCase {
 		$valid = false;
 		
 		try {
-			$result = $this->cls->getNode(	"plugin_1", 
-							"X", 
-							"K", 
-							array("N1", "N2", "fail_node"),
-							$valid
+			$result = $this->cls->getNodeVal(   "plugin_1", 
+							    "X", 
+							    "K", 
+							    array("N1", "N2", "fail_node"),
+							    $valid
 			);					
 						
 		}

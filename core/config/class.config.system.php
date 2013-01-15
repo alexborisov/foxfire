@@ -677,8 +677,44 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 			));
 		}
 
+		return $db_result;
+
+	}
+
+	
+	/**
+	 * Fetches a key's value, filter function, and filter function config data as an array. If the key's
+	 * data is not in the cache yet, it will be retrieved from the database and added to the cache.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $tree | tree name
+	 * @param string $branch | branch name
+	 * @param string/array $node | single node as string. Multiple nodes as array of string.
+	 * @param bool $valid | true if all requested nodes exist
+	 * @return array | Exception on failure. Data array on success.
+	 */
+
+	public function getNodeVal($plugin, $tree, $branch, $node, &$valid=null){
+
 		
-		if($mode == 'single'){
+		try {
+			$db_result = self::getNode($plugin, $tree, $branch, $node, $valid);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error calling self::getNode()",
+				'data'=> array('plugin'=>$plugin, 'tree'=>$tree, 'branch'=>$branch, 'node'=>$node),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>$child
+			));
+		}
+
+		
+		if(!is_array($node)){
 		    
 			$result = $db_result['val'];
 		}
@@ -695,8 +731,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		return $result;
 
 	}
-
-
+	
+	
 	/**
 	 * Updates an existing node if the $tree-$branch-$node tuple already exists
 	 * in the db, or creates a new node if it doesn't.
@@ -1706,7 +1742,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 				    
 						if( !FOX_sUtil::keyExists($node, $current_keys[$plugin][$tree][$branch]) ){
 						    					    
-							$invalid_nodes[] = "Plugin: $plugin Tree: $tree Branch: $branch Node: $node";
+							$invalid_nodes[] = "P: $plugin T: $tree B: $branch N: $node";
 							continue;
 						}
 							
@@ -1821,22 +1857,22 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 
 	/**
-         * Resets the class's print_keys array, making it ready to accept a new batch of keys. This method
+         * Resets the class's print_nodes array, making it ready to accept a new batch of keys. This method
 	 * MUST be called at the beginning of each admin form to clear old keys from the singleton.
          *
          * @version 0.1.9
          * @since 0.1.9
          */
 
-	public function initKeysArray(){
+	public function initNodesArray(){
 
-		$this->print_keys = array();
+		$this->print_nodes = array();
 	}
 
 
 	/**
          * Creates a composite keyname given the keys's tree, branch, and name. Adds the
-	 * composited key name to the $print_keys array for printing the form's keys array.
+	 * composited key name to the $print_nodes array for printing the form's keys array.
          *
          * @version 0.1.9
          * @since 0.1.9
@@ -1848,19 +1884,19 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @return ECHO | ECHO composited key name on success.
          */
 
-	public function printKeyName($plugin, $tree, $branch, $key){
+	public function printNodeName($plugin, $tree, $branch, $key){
 
 
-		echo 'name="' . self::getKeyName($plugin, $tree, $branch, $key) . '"';
+		echo 'name="' . self::getNodeName($plugin, $tree, $branch, $key) . '"';
 
 	}
 
-	public function getKeyName($plugin, $tree, $branch, $key){
+	public function getNodeName($plugin, $tree, $branch, $key){
 
 		$key_name = ($plugin . $this->key_delimiter . $tree . $this->key_delimiter . $branch . $this->key_delimiter . $key);
 
 		// Add formatted key name to the $keys array
-		$this->print_keys[$key_name] = true;
+		$this->print_nodes[$key_name] = true;
 
 		return $key_name;
 
@@ -1881,7 +1917,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @return ECHO | ECHO exception on failure. ECHO composited key name on success.
          */
 
-	public function printKeyVal($plugin, $tree, $branch, $key, $validate=false){
+	public function printNodeVal($plugin, $tree, $branch, $key, $validate=false){
 
 
 		$result = 'value="';
@@ -1889,7 +1925,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 
 		try {
-			$result .= self::getNode($plugin, $tree, $branch, $key, $is_valid);
+			$result .= self::getNodeVal($plugin, $tree, $branch, $key, $is_valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1920,7 +1956,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 	/**
          * Creates a composited string used to print a hidden field containing all of the key names enqueued
-	 * using keyName() or getKeyName()
+	 * using keyName() or getNodeName()
          *
          * @version 0.1.9
          * @since 0.1.9
@@ -1929,12 +1965,12 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @return ECHO | composited hidden form field string
          */
 
-	public function printKeysArray($field_name=null){
+	public function printNodesArray($field_name=null){
 
-		echo self::getKeysArray($field_name);
+		echo self::getNodesArray($field_name);
 	}
 
-	public function getKeysArray($field_name=null){
+	public function getNodesArray($field_name=null){
 
 		// Handle no $field_name being passed
 
@@ -1944,9 +1980,9 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
                 $result = '<input type="hidden" name="' . $field_name . '" value="';
 
-		$keys_left = count( $this->print_keys) - 1;
+		$keys_left = count( $this->print_nodes) - 1;
 
-		foreach( $this->print_keys as $key_name => $fake_var) {
+		foreach( $this->print_nodes as $key_name => $fake_var) {
 
 			$result .= $key_name;
 
@@ -1972,12 +2008,12 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @since 0.1.9
          */
 
-	public function installMode(){
+	public function installMode($basepath){
 
 
 		if(!$this->install_classes_loaded){
 
-			$base_install_classes = glob( BPM_PATH_BASE .'/core/config/install_base/*.php');
+			$base_install_classes = glob( $basepath .'/core/config/install_base/*.php');
 
 			foreach ( $base_install_classes as $path ){
 
@@ -2001,11 +2037,11 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * @since 0.1.9
          */
 
-	public function uninstallMode(){
+	public function uninstallMode($basepath){
 
 		if(!$this->uninstall_classes_loaded){
 
-			$base_uninstall_classes = glob( BPM_PATH_BASE .'/core/config/uninstall_base/*.php');
+			$base_uninstall_classes = glob( $basepath .'/core/config/uninstall_base/*.php');
 
 			foreach ( $base_uninstall_classes as $path ){
 
@@ -2022,7 +2058,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 
 
 
-} // End of class BPM_config
+} // End of class FOX_config
 
 
 /**
@@ -2033,12 +2069,31 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
  * @since 0.1.9
  */
 
-function install_BPM_config(){
+function install_FOX_config(){
 
-	$cls = new BPM_config();
-	$cls->install();
+	$cls = new FOX_config();
+	
+	try {
+		$cls->install();
+	}
+	catch (FOX_exception $child) {
+
+		// If the error is being thrown because the table already exists, 
+		// just discard it
+	    
+		if( $child->data['child']->data['numeric'] != 2 ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error creating db table",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+	}	
+	
 }
-add_action( 'bpm_install', 'install_BPM_config', 2 );
+add_action( 'fox_install', 'install_FOX_config', 2 );
 
 
 /**
@@ -2049,12 +2104,31 @@ add_action( 'bpm_install', 'install_BPM_config', 2 );
  * @since 0.1.9
  */
 
-function uninstall_BPM_config(){
+function uninstall_FOX_config(){
 
-	$cls = new BPM_config();
-	$cls->uninstall();
+	$cls = new FOX_config();
+	
+	try {
+		$cls->uninstall();
+	}
+	catch (FOX_exception $child) {
+
+		// If the error is being thrown because the table doesn't exist, 
+		// just discard it
+	    
+		if( $child->data['child']->data['numeric'] != 3 ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error dropping db table",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));		    
+		}
+	}
+	
 }
-add_action( 'bpm_uninstall', 'uninstall_BPM_config', 2 );
+add_action( 'fox_uninstall', 'uninstall_FOX_config', 2 );
 
 
 ?>
