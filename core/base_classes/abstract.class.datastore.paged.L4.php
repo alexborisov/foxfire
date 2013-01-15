@@ -2650,7 +2650,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5->L2 walk.
+		// where two rows in the data array contain the same L4->L2 walk.
 		
 		$set_data = array();
 		
@@ -2961,7 +2961,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5->L3 walk.
+		// where two rows in the data array contain the same L4->L3 walk.
 		
 		$set_data = array();
 		
@@ -3266,7 +3266,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5 key.
+		// where two rows in the data array contain the same L4 key.
 		
 		$set_data = array();
 		
@@ -4229,7 +4229,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5->L2 walk.
+		// where two rows in the data array contain the same L4->L2 walk.
 		
 		$set_data = array();
 		
@@ -4533,7 +4533,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5->L3 walk.
+		// where two rows in the data array contain the same L4->L3 walk.
 		
 		$set_data = array();
 		
@@ -4835,7 +4835,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5 key.
+		// where two rows in the data array contain the same L4 key.
 		
 		$set_data = array();
 		
@@ -6462,7 +6462,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 	
 	/**
 	 * Replaces multiple L3 trie structures which MAY OR MAY NOT ALREADY EXIST in the datastore,  
-	 * deleting all L3->L1 walks for each L5->L3 intersect structure passed in the $data array,  
+	 * deleting all L3->L1 walks for each L4->L3 intersect structure passed in the $data array,  
 	 * then adding the new L3->L1 walks contained in the intersect structure. 
 	 *
 	 * @version 1.0
@@ -6615,7 +6615,7 @@ abstract class FOX_dataStore_paged_L4_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>4,
 				'text'=>"Error locking cache pages",
-				'data'=>array("pages"=>$L5_ids),
+				'data'=>array("pages"=>$L4_ids),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
 			));		    
