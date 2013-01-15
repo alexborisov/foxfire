@@ -25,7 +25,7 @@ class FOX_dataStore_paged_L2_tester_globalMethods extends FOX_dataStore_paged_L2
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
-		    "L2" =>	array(	"php"=>"int",    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",	"auto_inc"=>false,  "default"=>null,
+		    "L2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,
 			// This forces every zone + rule + key_type + key_id combination to be unique
 			"index"=>array("name"=>"top_level_index",	"col"=>array("L2", "L1"), "index"=>"PRIMARY"), "this_row"=>true),
 		    "L1" =>	array(	"php"=>"int",	    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
@@ -145,29 +145,29 @@ class core_L2_paged_abstract_globalMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L2"=>1, "L1"=>1, "L0"=>null),
-				array( "L2"=>1, "L1"=>2, "L0"=>false),
-				array( "L2"=>1, "L1"=>5, "L0"=>true),
-				array( "L2"=>1, "L1"=>3, "L0"=>(int)0),	
+				array( "L2"=>'X', "L1"=>1, "L0"=>null),
+				array( "L2"=>'X', "L1"=>2, "L0"=>false),
+				array( "L2"=>'X', "L1"=>5, "L0"=>true),
+				array( "L2"=>'X', "L1"=>3, "L0"=>(int)0),	
 
-				array( "L2"=>2, "L1"=>1, "L0"=>(int)1),
-				array( "L2"=>2, "L1"=>2, "L0"=>(int)-1),
-		    		array( "L2"=>2, "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L2"=>2, "L1"=>4, "L0"=>(float)-1.6),
+				array( "L2"=>'Y', "L1"=>1, "L0"=>(int)1),
+				array( "L2"=>'Y', "L1"=>2, "L0"=>(int)-1),
+		    		array( "L2"=>'Y', "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L2"=>'Y', "L1"=>4, "L0"=>(float)-1.6),
 		    
-		    		array( "L2"=>3, "L1"=>1, "L0"=>(string)"foo"),
-		    		array( "L2"=>3, "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L2"=>3, "L1"=>3, "L0"=>$test_obj),
+		    		array( "L2"=>'Z', "L1"=>1, "L0"=>(string)"foo"),
+		    		array( "L2"=>'Z', "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L2"=>'Z', "L1"=>3, "L0"=>$test_obj),
 		    
-				array( "L2"=>4, "L1"=>1, "L0"=>null),
-				array( "L2"=>4, "L1"=>2, "L0"=>false),
-				array( "L2"=>4, "L1"=>5, "L0"=>true),
-				array( "L2"=>4, "L1"=>3, "L0"=>(int)0),	
+				array( "L2"=>'A', "L1"=>1, "L0"=>null),
+				array( "L2"=>'A', "L1"=>2, "L0"=>false),
+				array( "L2"=>'A', "L1"=>5, "L0"=>true),
+				array( "L2"=>'A', "L1"=>3, "L0"=>(int)0),	
 
-				array( "L2"=>5, "L1"=>1, "L0"=>(int)1),
-				array( "L2"=>5, "L1"=>2, "L0"=>(int)-1),
-		    		array( "L2"=>5, "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L2"=>5, "L1"=>4, "L0"=>(float)-1.6),		    
+				array( "L2"=>'B', "L1"=>1, "L0"=>(int)1),
+				array( "L2"=>'B', "L1"=>2, "L0"=>(int)-1),
+		    		array( "L2"=>'B', "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L2"=>'B', "L1"=>4, "L0"=>(float)-1.6),		    
 		    
 		);		
 		
@@ -193,34 +193,34 @@ class core_L2_paged_abstract_globalMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  
+				'X'=>array(   'keys'=>array(  
 										    1=>null,
 										    2=>false,
 										    5=>true, 							    
 										    3=>(int)0 						
 							    )
 				),
-				2=>array(   'keys'=>array(  
+				'Y'=>array(   'keys'=>array(  
 										    1=>(int)1,
 										    2=>(int)-1,
 										    3=>(float)1.7, 						    
 										    4=>(float)-1.6 						
 							    )
 				),			
-				3=>array(   'keys'=>array( 
+				'Z'=>array(   'keys'=>array( 
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),										    							    
 										    3=>$test_obj 						
 							    )	
 				),
-				4=>array(   'keys'=>array( 
+				'A'=>array(   'keys'=>array( 
 										    1=>null,
 										    2=>false,
 										    5=>true, 							    
 										    3=>(int)0  						
 							    ),	
 				),
-				5=>array(   'keys'=>array(  
+				'B'=>array(   'keys'=>array(  
 										    1=>(int)1,
 										    2=>(int)-1,	
 										    3=>(float)1.7, 						    
@@ -236,30 +236,30 @@ class core_L2_paged_abstract_globalMethods extends RAZ_testCase {
 		// ####################################################################		
 		
 		$check = array(
-				1=>array(
+				'X'=>array(
 								    1=>null,
 								    2=>false,
 								    5=>true, 							    
 								    3=>(int)0  						
 				),	
-				2=>array(
+				'Y'=>array(
 								    1=>(int)1,
 								    2=>(int)-1,
 								    3=>(float)1.7, 							    
 								    4=>(float)-1.6 						
 				),			
-				3=>array(
+				'Z'=>array(
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj 						
 				),
-				4=>array(
+				'A'=>array(
 								    1=>null,
 								    2=>false,
 								    5=>true, 							    
 								    3=>(int)0  						
 				),	
-				5=>array(
+				'B'=>array(
 								    1=>(int)1,
 								    2=>(int)-1,
 								    3=>(float)1.7, 							    
@@ -351,26 +351,26 @@ class core_L2_paged_abstract_globalMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(
+				'X'=>array(
 								    2=>false,
 								    5=>true, 							    
 								    3=>(int)0  						
 				),	
-				2=>array(
+				'Y'=>array(
 								    2=>(int)-1,
 								    3=>(float)1.7, 							    
 								    4=>(float)-1.6 						
 				),			
-				3=>array(
+				'Z'=>array(
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj 						
 				),
-				4=>array(
+				'A'=>array(
 								    2=>false,
 								    5=>true, 							    
 								    3=>(int)0  						
 				),	
-				5=>array(
+				'B'=>array(
 								    2=>(int)-1,
 								    3=>(float)1.7, 							    
 								    4=>(float)-1.6 						
@@ -392,11 +392,11 @@ class core_L2_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array(),
-				    4=>array(),
-				    5=>array()
+				    'X'=>array(),
+				    'Y'=>array(),
+				    'Z'=>array(),
+				    'A'=>array(),
+				    'B'=>array()
 		);
 		
 		$valid = false;
@@ -410,7 +410,7 @@ class core_L2_paged_abstract_globalMethods extends RAZ_testCase {
 		}
 		
 		$this->assertEquals(true, $valid);  // Should report valid because all
-						    // requested L5's exist
+						    // requested L2's exist
 		
 		$this->assertEquals($check, $result);
 		
@@ -479,22 +479,22 @@ class core_L2_paged_abstract_globalMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(
+				'X'=>array(
 								    5=>true, 							    
 								    3=>(int)0  						
 				),	
-				2=>array(
+				'Y'=>array(
 								    3=>(float)1.7, 							    
 								    4=>(float)-1.6 						
 				),			
-				3=>array(
+				'Z'=>array(
 								    3=>$test_obj 						
 				),
-				4=>array(
+				'A'=>array(
 								    5=>true, 							    
 								    3=>(int)0  						
 				),	
-				5=>array(
+				'B'=>array(
 								    3=>(float)1.7, 							    
 								    4=>(float)-1.6 						
 				)		    
@@ -515,11 +515,11 @@ class core_L2_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array(),
-				    4=>array(),
-				    5=>array()
+				    'X'=>array(),
+				    'Y'=>array(),
+				    'Z'=>array(),
+				    'A'=>array(),
+				    'B'=>array()
 		);
 		
 		$valid = false;
@@ -533,7 +533,7 @@ class core_L2_paged_abstract_globalMethods extends RAZ_testCase {
 		}
 		
 		$this->assertEquals(true, $valid);  // Should report valid because all
-						    // requested L5's exist
+						    // requested L2's exist
 		
 		$this->assertEquals($check, $result);
 		
