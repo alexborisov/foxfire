@@ -1,20 +1,20 @@
 <?php
 
 /**
- * RADIENT MODULE SLUG DATA
+ * FOXFIRE MODULE SLUG DATA
  * Handles registration and configuration for album, media, and network module slugs
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Navigation
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-class RAD_module_slug extends FOX_db_base {
+class FOX_module_slug extends FOX_db_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by ancestor class 
@@ -33,9 +33,9 @@ class RAD_module_slug extends FOX_db_base {
 
 	public static $struct = array(
 
-		"table" => "rad_sys_module_slug",
+		"table" => "fox_sys_module_slug",
 		"engine" => "InnoDB",
-		"cache_namespace" => "RAD_module_slug",
+		"cache_namespace" => "FOX_module_slug",
 		"cache_strategy" => "monolithic",
 		"cache_engine" => array("memcached", "redis", "apc"),	    
 		"columns" => array(
@@ -1200,7 +1200,7 @@ class RAD_module_slug extends FOX_db_base {
 	
 	
 
-} // End of class RAD_module_slug
+} // End of class FOX_module_slug
 
 
 
@@ -1212,9 +1212,9 @@ class RAD_module_slug extends FOX_db_base {
  * @since 0.1.9
  */
 
-function install_RAD_module_slug(){
+function install_FOX_module_slug(){
 
-	$cls = new RAD_module_slug();
+	$cls = new FOX_module_slug();
 	
 	try {
 		$cls->install();
@@ -1236,7 +1236,7 @@ function install_RAD_module_slug(){
 	}
 	
 }
-add_action( 'rad_install', 'install_RAD_module_slug', 2 );
+add_action( 'fox_install', 'install_FOX_module_slug', 2 );
 
 
 /**
@@ -1247,9 +1247,9 @@ add_action( 'rad_install', 'install_RAD_module_slug', 2 );
  * @since 0.1.9
  */
 
-function uninstall_RAD_module_slug(){
+function uninstall_FOX_module_slug(){
 
-	$cls = new RAD_module_slug();
+	$cls = new FOX_module_slug();
 	
 	try {
 		$cls->uninstall();
@@ -1271,6 +1271,6 @@ function uninstall_RAD_module_slug(){
 	}
 	
 }
-add_action( 'rad_uninstall', 'uninstall_RAD_module_slug', 2 );
+add_action( 'fox_uninstall', 'uninstall_FOX_module_slug', 2 );
 
 ?>

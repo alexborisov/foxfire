@@ -1,27 +1,29 @@
 <?php
 
 /**
- * FOXFIRE NAVIGATION LOCATION POLICY
- * Manages the access module for page modules displayed at locations on the site
+ * RADIENT ACCESS MANAGER CLASS
+ * Controls which screens which users have access to
  *
- * @version 1.0
- * @since 1.0
- * @package FoxFire
- * @subpackage Navigation
+ * @version 0.1.9
+ * @since 0.1.9
+ * @package Radient
+ * @subpackage Access Control
  * @license GPL v2.0
- * @link https://github.com/FoxFire
+ * @link http://code.google.com/p/buddypress-media/
  *
  * ========================================================================================================
  */
 
-class FOX_loc_policy extends FOX_dataStore_paged_L5_base {
+class RAD_accessManager extends FOX_db_base {
 
 
-    	var $process_id;		    // Unique process id for this thread. Used by ancestor class 
-					    // FOX_db_base for cache locking. 	
-	
-	var $mCache;			    // Local copy of memory cache singleton. Used by ancestor 
-					    // class FOX_db_base for cache operations. 
+    	var $process_id;		    // Unique process id for this thread. Used by ancestor class
+					    // FOX_db_base for cache locking.
+
+	var $mCache;			    // Local copy of memory cache singleton. Used by ancestor
+					    // class FOX_db_base for cache operations.
+
+	var $cache;			    // Main cache array for this class
 
 
 	// ============================================================================================================ //
@@ -31,23 +33,19 @@ class FOX_loc_policy extends FOX_dataStore_paged_L5_base {
 
 	public static $struct = array(
 
-		"table" => "fox_nav_location_policy",
-		"engine" => "InnoDB",
-		"cache_namespace" => "FOX_loc_policy",
-		"cache_strategy" => "paged",
-		"cache_engine" => array("memcached", "redis", "apc"),	    
-		"columns" => array(
-		    "module_id" =>  array(	"php"=>"int",    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",		"auto_inc"=>false,  "default"=>null,
-			// This forces every zone + rule + key_type + key_id combination to be unique
-			"index"=>array("name"=>"module_id_zone_rule_key_type_key_id",	"col"=>array("module_id", "zone", "rule", "key_type", "key_id"), "index"=>"PRIMARY"), "this_row"=>true),
-		    "zone" =>	    array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-		    "rule" =>	    array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-		    "key_type" =>   array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-		    "key_id" =>	    array(	"php"=>"int",	    "sql"=>"smallint",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
-		    "ctrl_val" =>   array(	"php"=>"serialize", "sql"=>"longtext",	"format"=>"%s", "width"=>null,	"flags"=>"",		"auto_inc"=>false,  "default"=>null,	"index"=>false),
-		 )
+	    "table" => "rad_sys_config_data",
+	    "engine" => "InnoDB",
+	    "cache_namespace" => "RAD_accessManager",
+	    "cache_strategy" => "monolithic",
+	    "cache_engine" => array("memcached", "redis", "apc"),
+	    "columns" => array(
+		"tree"=>    array(	"php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,	"index"=>array("name"=>
+				    "tree_branch_node", "col"=>array("tree", "branch", "node"), "index"=>"PRIMARY"), "this_row"=>true),
+		"branch"=>  array(	"php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",    "auto_inc"=>false,  "default"=>null,    "index"=>true),
+		"node"=>    array(	"php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",    "auto_inc"=>false,  "default"=>null,    "index"=>true),
+		"val"=>	    array(	"php"=>"serialize",	"sql"=>"longtext",  "format"=>"%s", "width"=>null,  "flags"=>"",	    "auto_inc"=>false,  "default"=>null,    "index"=>false)
+	     )
 	);
-
 
 	// PHP allows this: $foo = new $class_name; $result = $foo::$struct; but does not allow this: $result = $class_name::$struct;
 	// or this: $result = $class_name::get_struct(); ...so we have to do this: $result = call_user_func( array($class_name,'_struct') );
@@ -57,6 +55,7 @@ class FOX_loc_policy extends FOX_dataStore_paged_L5_base {
 		return self::$struct;
 	}
 
+
 	// ================================================================================================================
 
 
@@ -64,12 +63,12 @@ class FOX_loc_policy extends FOX_dataStore_paged_L5_base {
 
 		if($args){
 			$this->process_id = &$args['process_id'];
-			$this->mCache = &$args['mCache'];				
+			$this->mCache = &$args['mCache'];
 		}
 		else {
 			global $fox;
 			$this->process_id = &$fox->process_id;
-			$this->mCache = &$fox->mCache;				
+			$this->mCache = &$fox->mCache;
 		}
 
 		try{
@@ -84,13 +83,11 @@ class FOX_loc_policy extends FOX_dataStore_paged_L5_base {
 				'child'=>$child
 			));
 		}
-		
-		parent::init();
-		
 	}
 
 
-} // End of class FOX_loc_policy
+
+} // End of class RAD_accessManager
 
 
 
@@ -102,9 +99,9 @@ class FOX_loc_policy extends FOX_dataStore_paged_L5_base {
  * @since 0.1.9
  */
 
-function install_FOX_loc_policy(){
+function install_RAD_accessManager(){
 
-	$cls = new FOX_loc_policy();
+	$cls = new RAD_accessManager();
 	
 	try {
 		$cls->install();
@@ -124,9 +121,8 @@ function install_FOX_loc_policy(){
 			));		    
 		}
 	}
-	
 }
-add_action( 'fox_install', 'install_FOX_loc_policy', 2 );
+add_action( 'rad_install', 'install_RAD_accessManager', 2 );
 
 
 /**
@@ -137,9 +133,9 @@ add_action( 'fox_install', 'install_FOX_loc_policy', 2 );
  * @since 0.1.9
  */
 
-function uninstall_FOX_loc_policy(){
+function uninstall_RAD_accessManager(){
 
-	$cls = new FOX_loc_policy();
+	$cls = new RAD_accessManager();
 	
 	try {
 		$cls->uninstall();
@@ -159,8 +155,7 @@ function uninstall_FOX_loc_policy(){
 			));		    
 		}
 	}
-	
 }
-add_action( 'fox_uninstall', 'uninstall_FOX_loc_policy', 2 );
+add_action( 'rad_uninstall', 'uninstall_RAD_accessManager', 2 );
 
 ?>

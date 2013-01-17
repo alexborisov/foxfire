@@ -211,6 +211,22 @@ else {
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.object.type.data.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.object.type.level.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.dictionary.php' );
+	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.php' );
+	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );		
+	
+	// Load the Navigation system
+	// ===============================================================
+	
+	require ( dirname( __FILE__ ) . '/navigation/class.location.module.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.location.policy.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.module.slug.php' );
+	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
+	
+	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
+	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
+	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	
+	
 
 	// Load the cache and config classes, as all the core classes need them,
 	// and create the global singletons for these two classes.

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RADIENT ROUTER
+ * FOXFIRE ROUTER
  * Analyzes a URI passed from the web server and determines the correct page module to send the request to.
  *
  * @version 0.1.9
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class RAD_router {
+class FOX_router {
 
 
 	var $http_referer;		    // $_SERVER['HTTP_REFERER'] sent in from the web server
@@ -40,7 +40,7 @@ class RAD_router {
 	// ================================================================================================================
 
 
-	function RAD_router($args=null) {
+	function FOX_router($args=null) {
 
 		$this->__construct($args);
 	}
@@ -1413,7 +1413,7 @@ class RAD_router {
 
 
 
-} // End of class RAD_router
+} // End of class FOX_router
 
 
 
@@ -1425,7 +1425,7 @@ class RAD_router {
 function bp_core_set_uri_globals(){
 
 	global $bp;
-	$bp->router = new RAD_router();
+	$bp->router = new FOX_router();
 
 	$result = $bp->router->route($status, $error);
 	return $result;

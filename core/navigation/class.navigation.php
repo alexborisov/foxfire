@@ -1,20 +1,20 @@
 <?php
 
 /**
- * RADIENT NAVIGATION
+ * FOXFIRE NAVIGATION
  * Maps URLs to screen functions, producing the plugin's navigation tree
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Navigation
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-final class RAD_nav {
+final class FOX_nav {
 
 	var $config_class;		    // System config class
 
@@ -52,15 +52,15 @@ final class RAD_nav {
 			$this->user_class = &$args['user_class'];
 		}
 		else {
-			global $fox, $rad;
+			global $fox, $fox;
 			$this->config_class = &$fox->config;
-			$this->page_modules_class = &$rad->pageModules;
-			$this->target_class = new RAD_loc_module();
-			$this->policy_class = new RAD_loc_policy();
-			$this->token_keys_class = new RAD_uKeyType();
-			$this->group_keys_class = new RAD_uGroupType();
-			$this->system_keys_class = new RAD_sysKey();
-			$this->user_class = &$rad->user;
+			$this->page_modules_class = &$fox->pageModules;
+			$this->target_class = new FOX_loc_module();
+			$this->policy_class = new FOX_loc_policy();
+			$this->token_keys_class = new FOX_uKeyType();
+			$this->group_keys_class = new FOX_uGroupType();
+			$this->system_keys_class = new FOX_sysKey();
+			$this->user_class = &$fox->user;
 		}
 		
 
@@ -79,7 +79,7 @@ final class RAD_nav {
 
 	public function getPageOwner($post_id){
 
-		global $rad;
+		global $fox;
 
 		$result = array(
 			"module_id"=>3,
@@ -189,7 +189,7 @@ final class RAD_nav {
 		// routing table, causing the router to throw an exception on every front-end page, 
 		// including the login page (preventing the admin from logging in and fixing it)
 	    
-		if( RAD_wp::isAdminScreen() || RAD_wp::isLoginScreen() ){
+		if( FOX_wp::isAdminScreen() || FOX_wp::isLoginScreen() ){
 
 			return $pages;
 		}
@@ -197,7 +197,7 @@ final class RAD_nav {
 		$locations = "page";
 
 		try {
-			$rad_pages = $this->target_class->getLocation($locations);
+			$fox_pages = $this->target_class->getLocation($locations);
 		}
 		catch (FOX_exception $child) {
 
@@ -210,14 +210,14 @@ final class RAD_nav {
 			));
 		}
 
-		if($rad_pages){
+		if($fox_pages){
 
 			// Combine the module classes into an array so we can fetch
 			// all of them with a single operation
 
 			$module_classes = array();
 
-			foreach($rad_pages as $page_data){
+			foreach($fox_pages as $page_data){
 
 				$module_classes[] = $page_data["php_class"];
 			}
@@ -238,7 +238,7 @@ final class RAD_nav {
 			}
 
 
-			foreach($rad_pages as $page_id => $data){
+			foreach($fox_pages as $page_id => $data){
 
 				// Add the page module to the BP pages array
 				$pages[$data["php_class"]] = $page_id;
@@ -300,7 +300,7 @@ final class RAD_nav {
 		// installers. If the code in this method gets run on the "system tools"
 		// screen, it will interfere with the "reset system to default" button.
 
-		if( RAD_wp::isAdminScreen() ){
+		if( FOX_wp::isAdminScreen() ){
 
 			return true;
 		}
@@ -542,7 +542,7 @@ final class RAD_nav {
 
 		else {
 
-			$path = RAD_PATH_BASE . '/modules/' . $type . '/' . $slug . '/templates/' . $template;
+			$path = FOX_PATH_BASE . '/modules/' . $type . '/' . $slug . '/templates/' . $template;
 		}
 
 		if(!$path){
@@ -824,7 +824,7 @@ final class RAD_nav {
 			}
 
 			// Manually generate the $post array keyname to avoid escaping added by PHP
-			$post_key = "radient" . $this->key_delimiter . $tree . $this->key_delimiter . $branch . $this->key_delimiter . $key;
+			$post_key = "foxient" . $this->key_delimiter . $tree . $this->key_delimiter . $branch . $this->key_delimiter . $key;
 			$processed_keys[$tree][$branch][$key] = FOX_sUtil::formVal($post[$post_key]);
 
 			unset($full_name, $tree, $raw_tree, $branch, $raw_branch, $key, $raw_key);
@@ -1131,7 +1131,7 @@ final class RAD_nav {
 
 	public function getTargetNodeName($key){
 
-		$key_name = ("radient" . $this->key_delimiter . "target" . $this->key_delimiter . "key" . $this->key_delimiter . $key);
+		$key_name = ("foxient" . $this->key_delimiter . "target" . $this->key_delimiter . "key" . $this->key_delimiter . $key);
 
 		// Add formatted key name to the $keys array
 		$this->print_keys[$key_name] = true;
@@ -1192,7 +1192,7 @@ final class RAD_nav {
 
 	public function getPolicyKeyName($branch, $key){
 
-		$key_name = ("radient" . $this->key_delimiter . "policy" . $this->key_delimiter . $branch . $this->key_delimiter . $key);
+		$key_name = ("foxient" . $this->key_delimiter . "policy" . $this->key_delimiter . $branch . $this->key_delimiter . $key);
 
 		// Add formatted key name to the $keys array
 		$this->print_keys[$key_name] = true;
@@ -1283,7 +1283,7 @@ final class RAD_nav {
 
 
 
-} // End of class RAD_nav
+} // End of class FOX_nav
 
 
 
@@ -1294,7 +1294,7 @@ final class RAD_nav {
  * @since 0.1.9
  */
 
-function RAD_nav_injectSite($pages){
+function FOX_nav_injectSite($pages){
 
 	global $razor;
 
@@ -1307,13 +1307,13 @@ function RAD_nav_injectSite($pages){
 		return $pages;
 	}
 	else {
-		global $rad;
-		$result = $rad->navigation->injectSite($pages);
+		global $fox;
+		$result = $fox->navigation->injectSite($pages);
 		return $result;
 	}
 
 }
-add_filter('bp_core_get_directory_page_ids', 'RAD_nav_injectSite',10,1);
+add_filter('bp_core_get_directory_page_ids', 'FOX_nav_injectSite',10,1);
 
 
 

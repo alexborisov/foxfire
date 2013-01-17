@@ -1,20 +1,20 @@
 <?php
 
 /**
- * RADIENT NAVIGATION LOCATION MODULE
+ * FOXFIRE NAVIGATION LOCATION MODULE
  * Handles registration and configuration for module targets
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Navigation
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-class RAD_loc_module extends FOX_db_base {
+class FOX_loc_module extends FOX_db_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by ancestor class 
@@ -33,9 +33,9 @@ class RAD_loc_module extends FOX_db_base {
 
 	public static $struct = array(
 
-		"table" => "rad_nav_location_module",
+		"table" => "fox_nav_location_module",
 		"engine" => "InnoDB",
-		"cache_namespace" => "RAD_loc_module",
+		"cache_namespace" => "FOX_loc_module",
 		"cache_strategy" => "monolithic",
 		"cache_engine" => array("memcached", "redis", "apc"),	    
 		"columns" => array(
@@ -1558,7 +1558,7 @@ class RAD_loc_module extends FOX_db_base {
 
 
 
-} // End of class RAD_loc_module
+} // End of class FOX_loc_module
 
 
 
@@ -1570,9 +1570,9 @@ class RAD_loc_module extends FOX_db_base {
  * @since 0.1.9
  */
 
-function install_RAD_loc_module(){
+function install_FOX_loc_module(){
 
-	$cls = new RAD_loc_module();
+	$cls = new FOX_loc_module();
 	
 	try {
 		$cls->install();
@@ -1594,7 +1594,7 @@ function install_RAD_loc_module(){
 	}
 	
 }
-add_action( 'rad_install', 'install_RAD_loc_module', 2 );
+add_action( 'fox_install', 'install_FOX_loc_module', 2 );
 
 
 /**
@@ -1605,9 +1605,9 @@ add_action( 'rad_install', 'install_RAD_loc_module', 2 );
  * @since 0.1.9
  */
 
-function uninstall_RAD_loc_module(){
+function uninstall_FOX_loc_module(){
 
-	$cls = new RAD_loc_module();
+	$cls = new FOX_loc_module();
 	
 	try {
 		$cls->uninstall();
@@ -1629,6 +1629,6 @@ function uninstall_RAD_loc_module(){
 	}
 	
 }
-add_action( 'rad_uninstall', 'uninstall_RAD_loc_module', 2 );
+add_action( 'fox_uninstall', 'uninstall_FOX_loc_module', 2 );
 
 ?>
