@@ -217,15 +217,15 @@ else {
 	// Load the Navigation system
 	// ===============================================================
 	
-//	require ( dirname( __FILE__ ) . '/navigation/class.location.module.php' );
-//	require ( dirname( __FILE__ ) . '/navigation/class.location.policy.php' );
-//	require ( dirname( __FILE__ ) . '/navigation/class.module.slug.php' );
-//	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );
-//	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
-//	
-//	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
-//	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
-//	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	
+	require ( dirname( __FILE__ ) . '/navigation/class.location.module.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.location.policy.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.module.slug.php' );
+	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
+	
+	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
+	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
+	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	
 	
 
 	// Load the cache and config classes, as all the core classes need them,
@@ -248,7 +248,12 @@ else {
 
 	$fox->mCache = new FOX_mCache();    // Memory cache singleton
 	//$fox->disk = new FOX_dCache();	    // Disk singleton
-	$fox->config = new FOX_config();    // Config singleton
+	
+	$fox->config = new FOX_config();			// Config singleton
+	
+	//$fox->router = new FOX_router();			// URI router singleton
+	$fox->navigation = new FOX_nav();			// Navigation singleton
+	$fox->pageModules = new FOX_pageModuleManager();	// Page modules singleton	
 
 
 	/**

@@ -1,20 +1,20 @@
 <?php
 
 /**
- * RADIENT PAGE MODULE MANAGER CLASS
+ * FOXIENT PAGE MODULE MANAGER CLASS
  * Handles registration and configuration for page modules.
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Page Modules
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-class RAD_pageModuleManager extends RAD_module_manager_base {
+class FOX_pageModuleManager extends FOX_module_manager_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by ancestor class
@@ -48,20 +48,39 @@ class RAD_pageModuleManager extends RAD_module_manager_base {
 
 	public static $struct = array(
 
-		"table" => "rad_sys_page_modules",
+		"table" => "fox_sys_page_modules",
 		"engine" => "InnoDB",
-		"cache_namespace" => "RAD_pageModuleManager",
+		"cache_namespace" => "FOX_pageModuleManager",
 		"cache_strategy" => "monolithic",
 		"cache_engine" => array("memcached", "redis", "apc"),
 		"columns" => array(
-		    "module_id" =>	array(  "php"=>"int",		"sql"=>"tinyint",	"format"=>"%d", "width"=>null,"flags"=>"UNSIGNED NOT NULL",	"auto_inc"=>true,   "default"=>null,	"index"=>"PRIMARY"),
-		    "slug" =>	array(  "php"=>"string",	"sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",		"auto_inc"=>false,  "default"=>null,	"index"=>"UNIQUE"),
-		    "name" =>	array(  "php"=>"string",	"sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",		"auto_inc"=>false,  "default"=>null,	"index"=>"UNIQUE"),
-		    "php_class" =>	array(  "php"=>"string",	"sql"=>"varchar",	"format"=>"%s", "width"=>255,	"flags"=>"NOT NULL",		"auto_inc"=>false,  "default"=>null,	"index"=>"UNIQUE"),
-		    "active" =>	array(  "php"=>"bool",	"sql"=>"tinyint",	"format"=>"%d", "width"=>1,	"flags"=>"NOT NULL",		"auto_inc"=>false,  "default"=>0,	"index"=>true)
+		    "module_id" =>  array(  "php"=>"int",	"sql"=>"tinyint",   "format"=>"%d", "width"=>null,  "flags"=>"UNSIGNED NOT NULL",   "auto_inc"=>true,   "default"=>null,    "index"=>"PRIMARY"),
+		    "plugin_slug" =>array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>true),		    
+		    "module_slug" =>array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>"UNIQUE"),
+		    "module_name" =>array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>"UNIQUE"),
+		    "php_class" =>  array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>128,   "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>"UNIQUE"),
+		    "active" =>	    array(  "php"=>"bool",	"sql"=>"tinyint",   "format"=>"%d", "width"=>1,	    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>0,	    "index"=>true)
 		 )
 	);
 
+	// ================================================================================================================
+	// 	
+	// $module_id	    | Globally unique ID assigned to the page module by FoxFire. This allows faster database performance
+	//		    | and lower memory usage, and it could be tied to potentially millions of entried in the key database
+	//		    
+	// $plugin_slug	    | Offical WordPress 'slug' for the plugin that owns this page module "/wp-content/plugins/PLUGIN_SLUG"
+	// 			    
+	// $module_slug	    | Globally unique human-readable slug used to refer to the page module in URL's and admin screens
+	// 
+	// $module_name	    | Full name of your page module. This will be automatically translated if translations files exist.
+	// 
+	// $php_class	    | PHP class of your page module. 
+	// 
+	// $active	    | True to enable page module. False to disable it.
+	//
+	// ================================================================================================================	
+	
+	
 	public static $offset = "page";
 
 	// PHP allows this: $foo = new $class_name; $result = $foo::$struct; but does not allow this: $result = $class_name::$struct;
@@ -83,15 +102,17 @@ class RAD_pageModuleManager extends RAD_module_manager_base {
 
 	public function __construct($args=null) {
 
+	    
 		// Handle dependency-injection for unit tests
-		if($args){
-			$this->process_id = &$args['process_id'];
-			$this->mCache = &$args['mCache'];
+	    
+		if($args){		    
+			$this->process_id =& $args['process_id'];
+			$this->mCache =& $args['mCache'];
 		}
-		else {
+		else {		    
 			global $fox;
-			$this->process_id = &$fox->process_id;
-			$this->mCache = &$fox->mCache;
+			$this->process_id =& $fox->process_id;
+			$this->mCache =& $fox->mCache;
 		}
 
 		try{
@@ -106,10 +127,13 @@ class RAD_pageModuleManager extends RAD_module_manager_base {
 				'child'=>$child
 			));
 		}
+		
+		parent::init();
+		
 	}
 
 
-} // End of class RAD_pageModuleManager
+} // End of class FOX_pageModuleManager
 
 
 
@@ -121,9 +145,9 @@ class RAD_pageModuleManager extends RAD_module_manager_base {
  * @since 0.1.9
  */
 
-function install_RAD_pageModuleManager(){
+function install_FOX_pageModuleManager(){
 
-	$cls = new RAD_pageModuleManager();
+	$cls = new FOX_pageModuleManager();
 	
 	try {
 		$cls->install();
@@ -145,7 +169,7 @@ function install_RAD_pageModuleManager(){
 	}
 	
 }
-add_action( 'rad_install', 'install_RAD_pageModuleManager', 2 );
+add_action( 'fox_install', 'install_FOX_pageModuleManager', 2 );
 
 
 /**
@@ -156,9 +180,9 @@ add_action( 'rad_install', 'install_RAD_pageModuleManager', 2 );
  * @since 0.1.9
  */
 
-function uninstall_RAD_pageModuleManager(){
+function uninstall_FOX_pageModuleManager(){
 
-	$cls = new RAD_pageModuleManager();
+	$cls = new FOX_pageModuleManager();
 	
 	try {
 		$cls->uninstall();
@@ -180,72 +204,6 @@ function uninstall_RAD_pageModuleManager(){
 	}
 	
 }
-add_action( 'rad_uninstall', 'uninstall_RAD_pageModuleManager', 2 );
-
-
-
-/**
- * RADIENT PAGE MODULE TEMPLATE CLASS
- * Operates main loop in templates when displaying media items
- *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
- * @subpackage Page Modules
- * @link http://code.google.com/p/buddypress-media/
- *
- * ========================================================================================================
- */
-
-class RAD_pageModuleManager_template extends FOX_db_walker {
-
-
-	var $pag_links;			// Pagination links for the current page in the template object
-
-	// ============================================================================================================ //
-
-
-        /**
-         * Creates a template object filled with query result objects, based on user supplied parameters
-         *
-         * @version 0.1.9
-         * @since 0.1.9
-         *
-	 * @param array $args | @see FOX_db::runSelectQuery() for array structure
-	 * @param bool/array $columns | @see FOX_db::runSelectQuery() for array structure
-	 * @param array $ctrl | @see FOX_db::runSelectQuery() for array structure
-	 *
-         * @return bool/int/array | False on failure. Int on count. Array of page objects on success.
-         */
-
-	function __construct($args=null, $columns=null, $ctrl=null) {
-
-
-	    	// Run the parent constructor
-		// =========================================================================
-
-		$db_class = new RAD_pageModuleManager();
-
-		parent::__construct($db_class, $args, $columns, $ctrl);
-
-
-	    	// Build the pagination links string
-		// =========================================================================
-
-		$this->pag_links = paginate_links( array(
-
-			'base' => add_query_arg( 'page', '%#%' ),
-			'format' => '',
-			'total' => $this->total_pages,
-			'current' => (int) $ctrl["page"],
-			'prev_text' => '&larr;',
-			'next_text' => '&rarr;',
-			'mid_size' => 1
-		));
-
-	}
-
-
-} // End of class RAD_pageModuleManager_template
+add_action( 'fox_uninstall', 'uninstall_FOX_pageModuleManager', 2 );
 
 ?>

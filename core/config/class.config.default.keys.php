@@ -79,8 +79,7 @@ class FOX_config_defaultKeys {
 		}
 			    	    	    
 	}
-	
-
+		
 			
 	/**
          * Writes all of FoxFire's base configuration keys to the config class. Note that
@@ -150,22 +149,7 @@ class FOX_config_defaultKeys {
 		
 		try {
 			self::set_coreSettings();
-			self::set_albumModules();
-			self::set_pluginSetup_display();	
-			self::set_pluginSetup_pageSlugs();
-			self::set_pluginSetup_addingMedia();
-			self::set_socialSettings_keywordTags();	
-			self::set_socialSettings_memberTags();
-			self::set_socialSettings_activityStream();
-			self::set_socialSettings_notifications();
-			self::set_socialSettings_mediaRating();
-			self::set_widgets_memberUploads();
-			self::set_widgets_sitewideUploads();
-			self::set_mediaCache_fileSystem();
-			self::set_fileSettings_filePaths();
-			self::set_mediaCache_images();
-			self::set_debugTools_phpUnitTest();
-			self::set_debugTools_jsUnitTest();
+			//self::install_pageModules();
 			self::set_cacheSalt();
 		}
 		catch (FOX_exception $child) {
@@ -177,91 +161,7 @@ class FOX_config_defaultKeys {
 				'child'=>$child
 			));		    
 		}
-		
-		
-		// Write network module keys
-		// =================================================================		
-		
-		try {
-//			self::install_networkModules();
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>4,
-				'text'=>"Error loading network module keys",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));		    
-		}
-		
-		// Write media module keys
-		// =================================================================
-		
-		try {
-			self::install_mediaModules();
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>5,
-				'text'=>"Error loading media module keys",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));		    
-		}	
-		
-		// Write album module keys
-		// =================================================================
-		
-		try {
-			self::install_albumModules();
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>6,
-				'text'=>"Error loading album module keys",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));		    
-		}
-		
-		// Write page module keys
-		// =================================================================
-		
-		try {
-			self::install_pageModules();
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>7,
-				'text'=>"Error loading page module keys",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));		    
-		}		
-		
-		
-		// Set RBAC schema
-		// =================================================================		
-		
-		try {
-//			$cls = new FOX_config_defaultSchema();
-//			$cls->load();
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>8,
-				'text'=>"Error loading RBAC schema",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));		    
-		}
-		
-		return true;
+	   
 
 	}
 

@@ -419,7 +419,7 @@ class FOX_loc_module extends FOX_db_base {
 
 
 	/**
-	 * Registers ownership of one or more slugs to a Radient page module
+	 * Registers one or more "Page Module" <=> "Target" relationships
 	 *
 	 * @version 0.1.9
 	 * @since 0.1.9
@@ -581,7 +581,7 @@ class FOX_loc_module extends FOX_db_base {
 			$cache_image["data"][$row["location"]][$row["target"]] = $row_data;
 
 		}
-		unset($row, $row_data);
+		unset($row);
 
 		
 		// Write the image back to the persistent cache, releasing our lock
