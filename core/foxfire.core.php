@@ -217,15 +217,15 @@ else {
 	// Load the Navigation system
 	// ===============================================================
 	
-	require ( dirname( __FILE__ ) . '/navigation/class.location.module.php' );
-	require ( dirname( __FILE__ ) . '/navigation/class.location.policy.php' );
-	require ( dirname( __FILE__ ) . '/navigation/class.module.slug.php' );
-	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );
-	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
-	
-	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
-	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
-	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	
+//	require ( dirname( __FILE__ ) . '/navigation/class.location.module.php' );
+//	require ( dirname( __FILE__ ) . '/navigation/class.location.policy.php' );
+//	require ( dirname( __FILE__ ) . '/navigation/class.module.slug.php' );
+//	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );
+//	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
+//	
+//	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
+//	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
+//	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	
 	
 
 	// Load the cache and config classes, as all the core classes need them,
