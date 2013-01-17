@@ -227,7 +227,19 @@ else {
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	
 	
-
+	// Load the RBAC system
+	// ===============================================================
+	
+	require ( dirname( __FILE__ ) . '/rbac/class.user.data.php' );
+	require ( dirname( __FILE__ ) . '/rbac/class.user.php' );
+	require ( dirname( __FILE__ ) . '/rbac/class.group.keyring.php' );
+	require ( dirname( __FILE__ ) . '/rbac/class.group.members.php' );
+	require ( dirname( __FILE__ ) . '/rbac/class.group.types.php' );
+	require ( dirname( __FILE__ ) . '/rbac/class.key.types.system.php' );
+	require ( dirname( __FILE__ ) . '/rbac/class.key.types.token.php' );
+	require ( dirname( __FILE__ ) . '/rbac/class.user.keyring.php' );
+	require ( dirname( __FILE__ ) . '/rbac/class.user.types.php' );
+	
 	// Load the cache and config classes, as all the core classes need them,
 	// and create the global singletons for these two classes.
 	// ===============================================================
