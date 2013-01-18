@@ -101,8 +101,8 @@ class FOX_tab_ajax_selftest {
 				    <tr>
 					<th scope="row">
 					<input type="checkbox" value="1"
-					    <?php $fox->config->printNodeName("system", "jsUnitTest", "engineNoGlobals"); ?>
-					    <?php checked(true, $fox->config->getNodeVal("system", "jsUnitTest", "engineNoGlobals") ); ?> />
+					    <?php $fox->config->printNodeName("foxfire", "system", "jsUnitTest", "engineNoGlobals"); ?>
+					    <?php checked(true, $fox->config->getNodeVal("foxfire", "system", "jsUnitTest", "engineNoGlobals") ); ?> />
 					    <?php echo "noGlobals"; ?>
 					</th>
 
@@ -114,8 +114,8 @@ class FOX_tab_ajax_selftest {
 				    <tr>
 					<th scope="row">
 					<input type="checkbox" value="1"
-					    <?php $fox->config->printNodeName("system", "jsUnitTest", "engineNoTryCatch"); ?>
-					    <?php checked(true, $fox->config->getNodeVal("system", "jsUnitTest", "engineNoTryCatch") ); ?> />
+					    <?php $fox->config->printNodeName("foxfire", "system", "jsUnitTest", "engineNoTryCatch"); ?>
+					    <?php checked(true, $fox->config->getNodeVal("foxfire", "system", "jsUnitTest", "engineNoTryCatch") ); ?> />
 					    <?php echo "noTryCatch"; ?>
 					</th>
 
@@ -127,8 +127,8 @@ class FOX_tab_ajax_selftest {
 				    <tr>
 					<th scope="row">
 					<input type="checkbox" value="1"
-					    <?php $fox->config->printNodeName("system", "jsUnitTest", "engineHidePassedTests"); ?>
-					    <?php checked(true, $fox->config->getNodeVal("system", "jsUnitTest", "engineHidePassedTests") ); ?> />
+					    <?php $fox->config->printNodeName("foxfire", "system", "jsUnitTest", "engineHidePassedTests"); ?>
+					    <?php checked(true, $fox->config->getNodeVal("foxfire", "system", "jsUnitTest", "engineHidePassedTests") ); ?> />
 					    <?php echo "hidePassed"; ?>
 					</th>
 
@@ -140,8 +140,8 @@ class FOX_tab_ajax_selftest {
 				    <tr>
 					<th scope="row">
 					<input type="checkbox" value="1"
-					    <?php $fox->config->printNodeName("system", "jsUnitTest", "showUserAgent"); ?>
-					    <?php checked(true, $fox->config->getNodeVal("system", "jsUnitTest", "showUserAgent") ); ?> />
+					    <?php $fox->config->printNodeName("foxfire", "system", "jsUnitTest", "showUserAgent"); ?>
+					    <?php checked(true, $fox->config->getNodeVal("foxfire", "system", "jsUnitTest", "showUserAgent") ); ?> />
 					    <?php echo "showUserAgent"; ?>
 					</th>
 
@@ -161,8 +161,8 @@ class FOX_tab_ajax_selftest {
 				// List all testgroups that aren't disabled in dictionary.php
 				// ===================================================================
 
-				$base_name = $fox->config->getNodeName("system", "jsUnitTest", "activeTests");
-				$base_val = $fox->config->getNodeVal("system", "jsUnitTest", "activeTests");
+				$base_name = $fox->config->getNodeName("foxfire", "system", "jsUnitTest", "activeTests");
+				$base_val = $fox->config->getNodeVal("foxfire", "system", "jsUnitTest", "activeTests");
 
 				require ( FOX_PATH_TEST . '/testlib/js/test.core.php' );
 
@@ -247,9 +247,9 @@ class FOX_tab_ajax_selftest {
 			jQuery(document).ready(function(){
 
 				QUnit.config.urlConfig = [];
-				QUnit.config.notrycatch = <?php echo ($fox->config->getNodeVal("system", "jsUnitTest", "engineNoTryCatch") == true) ? "true" : "false" ?>;
-				QUnit.config.noglobals = <?php echo ($fox->config->getNodeVal("system", "jsUnitTest", "engineNoGlobals") == true) ? "true" : "false" ?>;
-				QUnit.config.hidepassed = <?php echo ($fox->config->getNodeVal("system", "jsUnitTest", "engineHidePassedTests") == true) ? "true" : "false" ?>;
+				QUnit.config.notrycatch = <?php echo ($fox->config->getNodeVal("foxfire", "system", "jsUnitTest", "engineNoTryCatch") == true) ? "true" : "false" ?>;
+				QUnit.config.noglobals = <?php echo ($fox->config->getNodeVal("foxfire", "system", "jsUnitTest", "engineNoGlobals") == true) ? "true" : "false" ?>;
+				QUnit.config.hidepassed = <?php echo ($fox->config->getNodeVal("foxfire", "system", "jsUnitTest", "engineHidePassedTests") == true) ? "true" : "false" ?>;
 
 			});
 
@@ -291,7 +291,7 @@ class FOX_tab_ajax_selftest {
 
 	public function enqueueScripts() {
 
-		$cls = new fox_registerScripts();
+		$cls = new FOX_registerScripts();
 		$cls->ajax_api();
 		
 		wp_register_script("fox-qunit", FOX_URL_TEST . "/qunit/qunit.js");

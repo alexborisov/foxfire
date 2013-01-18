@@ -240,6 +240,15 @@ else {
 	require ( dirname( __FILE__ ) . '/rbac/class.user.keyring.php' );
 	require ( dirname( __FILE__ ) . '/rbac/class.user.types.php' );
 	
+	// Load the logging classes
+	// ===============================================================
+	
+	require ( dirname( __FILE__ ) . '/logging/class.logging.dictionary.tree.php' );
+	require ( dirname( __FILE__ ) . '/logging/class.logging.dictionary.branch.php' );
+	require ( dirname( __FILE__ ) . '/logging/class.logging.dictionary.node.php' );
+	require ( dirname( __FILE__ ) . '/logging/class.logging.event.php' );
+	//require ( dirname( __FILE__ ) . '/logging/class.logging.error.php' );	
+	
 	// Load the cache and config classes, as all the core classes need them,
 	// and create the global singletons for these two classes.
 	// ===============================================================
@@ -256,6 +265,7 @@ else {
 
 	require ( dirname( __FILE__ ) . '/config/class.config.system.php' );	
 	require ( dirname( __FILE__ ) . '/admin/sub.admin.core.php' );
+	require ( dirname( __FILE__ ) . '/js/register.scripts.php' );	
 	
 
 	$fox->mCache = new FOX_mCache();    // Memory cache singleton

@@ -18,7 +18,7 @@
  */
 
 
-class fox_registerScripts {
+class FOX_registerScripts {
 
 
 	public function admin_jQuery_UI(){

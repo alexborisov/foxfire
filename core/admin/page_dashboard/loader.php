@@ -326,7 +326,7 @@ class FOX_admin_page_dashboard {
 
 		
 		add_meta_box('fox_database', __('Database Performance (real data)', "foxfire"), array( &$this, 'fox_database' ), 'bpa_overview', 'left', 'core');
-		add_meta_box('dashboard_primary_x', __('News Feed &nbsp<a href="https://twitter.com/#!/bpm_dev">(View All)</a>', "foxfire"), array( &$this, 'bpa_overview_news' ), 'bpa_overview', 'right', 'core');
+		//add_meta_box('dashboard_primary_x', __('News Feed &nbsp<a href="https://twitter.com/#!/bpm_dev">(View All)</a>', "foxfire"), array( &$this, 'bpa_overview_news' ), 'bpa_overview', 'right', 'core');
 		add_meta_box('dashboard_primary_y', __('System Log (simulated data)', "foxfire"), array( &$this, 'bpa_overview_server' ) , 'bpa_overview', 'left', 'core');
 	}
 
