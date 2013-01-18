@@ -265,8 +265,10 @@ else {
 	
 	//$fox->router = new FOX_router();			// URI router singleton
 	$fox->navigation = new FOX_nav();			// Navigation singleton
-	$fox->pageModules = new FOX_pageModuleManager();	// Page modules singleton	
+	$fox->pageModules = new FOX_pageModuleManager();	// Page modules singleton			
 
+	
+	do_action( 'fox_coreReady' );
 
 	/**
 	 * Adds the plugin admin menu to the WordPress "Site" admin menu

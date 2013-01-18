@@ -2,12 +2,12 @@
 /**
  * FOXFIRE BASE ADMIN PAGE CSS STYLES
  *
- * @version 1.0
- * @since 1.0
- * @package FoxFire
+ * @version 0.1.9
+ * @since 0.1.9
+ * @package Foxfire
  * @subpackage Admin
  * @license GPL v2.0
- * @link https://github.com/FoxFire/foxfire
+ * @link http://code.google.com/p/buddypress-media/
  *
  * ========================================================================================================
  */
@@ -82,7 +82,7 @@ input.fox-button, button.fox-button, a.fox-button {
 
 input.fox-button:hover, button.fox-button:hover, a.fox-button:hover {
 
-	background: url("./images/button-grad-active.png") repeat-x scroll left top #21759B;
+	background: url("./images/button-gfox-active.png") repeat-x scroll left top #21759B;
 	color: #FFFF00;
 }
 
@@ -106,16 +106,16 @@ input.fox-button:hover, button.fox-button:hover, a.fox-button:hover {
 
 .fox_header_small {
     width:1000px;
-    height:60px;
-    background: url(header-small.png);
-    margin: 5px 0px 0px 5px;
+    height:30px;
+    background: url(header.png);
+    margin: 15px 0px 0px 0px;
     border: solid 1px #333;
 }
 
 .fox_header_small #fox_admin_notice_area {
     float:right;
     width:500px;
-    height:50px;
+    height:0px;
     margin: 5px 20px 5px 5px;
     z-index:9999;
 }
@@ -198,7 +198,7 @@ input.fox-button:hover, button.fox-button:hover, a.fox-button:hover {
     width:1000px;
     height:30px;
     background: url(footer.png);
-    margin: 0px 0px 5px 5px;
+    margin: 0px 0px 5px 0px;
     border: solid 1px #333;
 }
 
@@ -484,9 +484,9 @@ input.fox-button:hover, button.fox-button:hover, a.fox-button:hover {
 
 .fox_dashboard_header {
     float:left;
-    margin:5px 0px 0px 5px;
+    margin:20px 0px 0px 0px;
     width:1000px;
-    height:120px;
+    height:60px;
     border: solid 1px #333;
     background: url(header-dashboard-nightly.png);
 }
@@ -626,7 +626,7 @@ input.fox-button:hover, button.fox-button:hover, a.fox-button:hover {
     border-style: solid;
     border-width: 1px;
     float: left;
-    margin: 10px 0px 10px 5px;
+    margin: 0px 0px 0px 0px;
     min-height: 500px;
     padding: 5px 10px 20px 10px;
     width: 980px;    
