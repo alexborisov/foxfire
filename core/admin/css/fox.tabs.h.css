@@ -211,7 +211,7 @@
 
 .tabs_h .panel {
     float:left;
-    margin:0px 0px 40px 45px;
+    margin:10px 0px 40px 45px;
     border:none;
     padding: 0px;
     background: #fff; 
@@ -231,7 +231,7 @@
     font-size:10px;
     line-height:120%;
     width:98%;
-    margin:-3px 0px 7px 10px;
+    margin:0px 0px 15px 10px;
 }
 
 .tabs_h .panel .fox_tip{
@@ -382,4 +382,22 @@
 
 	float:right;
 	margin: 0px 155px 0px 0px;
+}
+
+.fox_field_sublabel {
+    
+    display:inline;
+    margin:0px 10px 0px 5px;
+}
+
+.fox_checkbox_group {
+    
+    display:inline;
+    margin:0px 0px 0px 10px;
+}
+
+.fox_checkbox_group .label {
+    
+    display:inline;
+    margin:0px 0px 0px 2px;
 }

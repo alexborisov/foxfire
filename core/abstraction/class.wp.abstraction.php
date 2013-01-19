@@ -67,7 +67,12 @@ class FOX_wp {
 
 	}
 
+	public function isLoginScreen() {
 
+		return in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) );
+	}
+	
+	
 	/**
 	 * Adds a page to the WordPress installation. Used to create a page for the plugin, so that
 	 * it can be added to the top level site menu.

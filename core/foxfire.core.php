@@ -83,6 +83,13 @@ global $fox;
 
 $fox = new stdClass();
 
+// WP and BP abstraction
+// ===========================================================================================
+
+require ( dirname( __FILE__ ) . '/abstraction/class.bp.abstraction.php' );
+require ( dirname( __FILE__ ) . '/abstraction/class.wp.abstraction.php' );
+	
+	
 // These classes are REQUIRED for the version checker and debug functions to operate
 // ===========================================================================================
 
@@ -177,9 +184,6 @@ else {
 	}
 	set_exception_handler('fox_exceptionHandler');
 
-	// WP and BP abstraction
-	require ( dirname( __FILE__ ) . '/abstraction/class.bp.abstraction.php' );
-	require ( dirname( __FILE__ ) . '/abstraction/class.wp.abstraction.php' );
 
 	// Load the database classes, as all the core classes need them
 	// ===============================================================
