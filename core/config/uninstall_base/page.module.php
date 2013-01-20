@@ -1,19 +1,19 @@
 <?php
 /**
- * RADIENT PAGE MODULE UN-INSTALL CLASS
- * Handles uninstall operations for Radient page modules
+ * FOXFIRE PAGE MODULE UN-INSTALL CLASS
+ * Handles uninstall operations for FoxFire page modules
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Config
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-class RAD_pageModule_uninstall_base {
+class FOX_pageModule_uninstall_base {
 
 
 	var $slug;		// Album module's slug
@@ -26,15 +26,15 @@ class RAD_pageModule_uninstall_base {
 	/**
 	 * Loads the class with information about the album module
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $slug | Module slug name. Max 16 characters. Must be unique.
 	 * @param string $name | Module name. Max 32 characters.
 	 * @param string $php_class | Module PHP class. Max 255 characters. Must be unique.
 	 */
 
-	function RAD_pageModule_uninstall_base($slug, $name, $php_class) {
+	function FOX_pageModule_uninstall_base($slug, $name, $php_class) {
 
 		$this->__construct($slug, $name, $php_class);
 	}
@@ -42,8 +42,8 @@ class RAD_pageModule_uninstall_base {
 	/**
 	 * Loads the class with information about the album module
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $slug | Module slug name. Max 16 characters. Must be unique.
 	 * @param string $name | Module name. Max 32 characters.
@@ -61,8 +61,8 @@ class RAD_pageModule_uninstall_base {
 	/**
 	 * Removes configuration keys for the module's "settings" page
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $error | If system fails to delete one or more configuration keys, this
 	 *			 variable will contain an array of failed key names.
@@ -89,8 +89,8 @@ class RAD_pageModule_uninstall_base {
 	/**
 	 * Removes configuration keys for the module's "templates" page
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $error | If system fails to delete one or more configuration keys, this
 	 *			 variable will contain an array of failed key names.
@@ -121,6 +121,6 @@ class RAD_pageModule_uninstall_base {
 	}
 
 
-} // End of class RAD_pageModule_uninstall_base
+} // End of class FOX_pageModule_uninstall_base
 
 ?>

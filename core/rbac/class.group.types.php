@@ -98,8 +98,8 @@ class FOX_uGroupType extends FOX_db_base {
 	/**
 	 * Loads one or more group id's into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $name | Group name as string. Multiple names as array of string.
 	 * @param bool $skip_load | If set true, the function will not update the class cache array from
@@ -199,8 +199,8 @@ class FOX_uGroupType extends FOX_db_base {
 	/**
 	 * Returns the ID of the default group
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool/int | False on failure. Int default group id on success.
 	 */
@@ -310,8 +310,8 @@ class FOX_uGroupType extends FOX_db_base {
 	/**
 	 * Fetches the $group_id of one or more groups
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $name | Single name as string. Multiple as array of strings.
 	 * @return bool/int/array | False on failure. Int or array of ints on success.
@@ -384,8 +384,8 @@ class FOX_uGroupType extends FOX_db_base {
 	 * only be used in admin editing screens, where all of the group's data fields are
 	 * required.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $group_id | id of the group. Multiple id's as array of ints.
 	 * @return bool/int | False on failure. Array of arrays of group rows on success.
@@ -419,8 +419,8 @@ class FOX_uGroupType extends FOX_db_base {
 	 * NOT cached, and should only be used in admin editing screens, where all of the group's data
 	 * fields are required.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
 	 * @param array $args | @see FOX_db::runSelectQuery() for array structure
 	 * @param bool/array $columns | @see FOX_db::runSelectQuery() for array structure
@@ -458,8 +458,8 @@ class FOX_uGroupType extends FOX_db_base {
 	/**
 	 * Creates a single group
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $name | name of group (max 32 chars)
 	 * @param string $title | title of group (max 128 chars)
@@ -752,8 +752,8 @@ class FOX_uGroupType extends FOX_db_base {
 	/**
 	 * Edits fields for an existing group, given the group's id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $group_id | id of the group
 	 * @param string $name | name of group (max 32 chars)
@@ -1024,8 +1024,8 @@ class FOX_uGroupType extends FOX_db_base {
 	/**
 	 * Deletes a single group, given its group_id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $group_id | id of the group
 	 * @return bool | False on failure. True on success.
@@ -1534,8 +1534,8 @@ class FOX_uGroupType extends FOX_db_base {
 	/**
 	 * Returns all keys currently stored in the db
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool/array | False on failure. Array of keys on success.
 	 */
@@ -1566,8 +1566,8 @@ class FOX_uGroupType extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_uGroupType(){
@@ -1601,8 +1601,8 @@ add_action( 'fox_install', 'install_FOX_uGroupType', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_uGroupType(){

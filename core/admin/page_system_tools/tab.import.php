@@ -49,7 +49,7 @@ class FOX_tab_import {
 		    <div class="fox_bricks_large"></div>
 		    <div class="fox_tip_text">
 			<?php _e('<b>PLEASE NOTE: </b>Importing data is a complicated process which might require configuration changes to your web server and/or access to the
-			    command prompt. Please review the <a href="http://code.google.com/p/buddypress-media/wiki/ImportingData">Data Import Documentation</a>
+			    command prompt. Please review the <a href="https://github.com/FoxFirewiki/ImportingData">Data Import Documentation</a>
 			    before attempting to import large installations.', "foxfire") ?>
 		    </div>
 		</div>
@@ -59,7 +59,7 @@ class FOX_tab_import {
 		    <div class="title"><?php _e('BP Album 0.1.8',"foxfire") ?> </div>
 
 		    <div class="fox_section_advice">
-			<?php _e("This module fully upgrades a BP Album 0.1.8 installation to FoxFire 0.1.9","foxfire") ?>
+			<?php _e("This module fully upgrades a BP Album 0.1.8 installation to FoxFire 1.0","foxfire") ?>
 		    </div>
 
 		    <table class="form-table">

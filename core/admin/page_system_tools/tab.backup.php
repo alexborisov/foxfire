@@ -52,7 +52,7 @@ class FOX_tab_backup {
 			<div class="fox_tip_text">
 			    <?php _e("<b>Template Developers:</b> You can make BP Media installations work perfectly with your
 				templates every time! Just include a BP Media config file and tell users to load it. For more information, please see the
-				<a href='http://code.google.com/p/buddypress-media/wiki/DataExchangeAPI'>Plugin Config Files</a> documentation page.", "foxfire") ?>
+				<a href='https://github.com/FoxFirewiki/DataExchangeAPI'>Plugin Config Files</a> documentation page.", "foxfire") ?>
 			</div>
 		    </div>
 

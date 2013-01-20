@@ -21,7 +21,7 @@ define ( 'FOX_IS_INSTALLED', 1 );
 // Internal version number (Git repository commit number)
 define ( 'FOX_VERSION', '2618' );
 
-// Version of FoxFire shown on admin screen. This lets us show text like "0.1.9-RC1"
+// Version of FoxFire shown on admin screen. This lets us show text like "1.0-RC1"
 define ( 'FOX_DISPLAY_VERSION', "1.0" );
 
 // Build date of FoxFire shown on admin screen
@@ -227,6 +227,7 @@ else {
 	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );
 	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
 	
+	require ( dirname( __FILE__ ) . '/page_modules/class.access.manager.php' );	
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	
@@ -331,8 +332,8 @@ else {
 	 * installed in the plugins directory on a WPMU system.
 	 *
 	 * @global $bpm The BP-Media global variable
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	function fox_core_check_installed() {

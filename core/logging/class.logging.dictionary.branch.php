@@ -1,15 +1,15 @@
 <?php
 
 /**
- * RADIENT SYSTEM LOGGING DICTIONARY - BRANCH
+ * FOXFIRE SYSTEM LOGGING DICTIONARY - BRANCH
  * This class operates as a bidirectional dictionary, mapping tokens and token_ids
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage System Logging
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
@@ -32,9 +32,9 @@ class FOX_log_dictionary_branch extends FOX_dictionary_base {
 
 	public static $struct = array(
 
-		"table" => "RAD_sys_log_dictionary_branch",
+		"table" => "FOX_sys_log_dictionary_branch",
 		"engine" => "InnoDB", // Required for transactions
-		"cache_namespace" => "RAD_log_dictionary_branch",
+		"cache_namespace" => "FOX_log_dictionary_branch",
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc"),
 		"columns" => array(
@@ -91,8 +91,8 @@ class FOX_log_dictionary_branch extends FOX_dictionary_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_log_dictionary_branch(){
@@ -126,8 +126,8 @@ add_action( 'fox_install', 'install_FOX_log_dictionary_branch', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_log_dictionary_branch(){

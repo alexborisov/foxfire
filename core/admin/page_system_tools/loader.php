@@ -37,7 +37,7 @@ class FOX_admin_page_systemTools_intro {
 
 			<div class="details">
 			    <?php _e("Settings on these pages control the operation of the plugin core. For more information,
-				have a look at the <a href='http://code.google.com/p/buddypress-media/wiki/PLUGIN_systemToolsSettings'>System Tools</a> wiki page.","foxfire") ?>
+				have a look at the <a href='https://github.com/FoxFirewiki/PLUGIN_systemToolsSettings'>System Tools</a> wiki page.","foxfire") ?>
 			</div>
 
 		</div>

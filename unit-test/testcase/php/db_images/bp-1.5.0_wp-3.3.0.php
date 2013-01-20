@@ -64,7 +64,7 @@ function fox_remap_bp15wp33($db_object, $stub, &$error=null){
 			// These are the database ops we're changing
 			// INSERT INTO `wp_options` (`option_id`, `blog_id`, `option_name`, `option_value`, `autoload`) VALUES
 			// (36, 0, 'active_plugins', 'a:2:{i:0;s:19:"foxfire/loader.php";i:1;s:24:"buddypress/bp-loader.php";}', 'yes'),
-			// (112, 0, '_site_transient_update_plugins', 'O:8:"stdClass":3:{s:12:"last_checked";i:1313427422;s:7:"checked";a:4:{s:19:"akismet/akismet.php";s:5:"2.5.3";s:24:"buddypress/bp-loader.php";s:10:"1.5-beta-2";s:19:"foxfire/loader.php";s:5:"0.1.9";s:9:"hello.php";s:3:"1.6";}s:8:"response";a:0:{}}', 'yes'),
+			// (112, 0, '_site_transient_update_plugins', 'O:8:"stdClass":3:{s:12:"last_checked";i:1313427422;s:7:"checked";a:4:{s:19:"akismet/akismet.php";s:5:"2.5.3";s:24:"buddypress/bp-loader.php";s:10:"1.5-beta-2";s:19:"foxfire/loader.php";s:5:"1.0";s:9:"hello.php";s:3:"1.6";}s:8:"response";a:0:{}}', 'yes'),
 			// (154, 0, '_transient_plugin_slugs', 'a:4:{i:0;s:19:"akismet/akismet.php";i:1;s:24:"buddypress/bp-loader.php";i:2;s:19:"foxfire/loader.php";i:3;s:9:"hello.php";}', 'no'),
 
 			$active_plugins = unserialize($result);

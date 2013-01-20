@@ -4,12 +4,12 @@
  * FOXFIRE ROUTER
  * Analyzes a URI passed from the web server and determines the correct page module to send the request to.
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Navigation
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
@@ -95,10 +95,10 @@ class FOX_router {
 
 
 	/**
-	 * Given a URI owned by Radient, load the correct templates
+	 * Given a URI owned by FoxFire, load the correct templates
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function route(&$status=null) {
@@ -192,8 +192,8 @@ class FOX_router {
 	 * @link http://en.wikipedia.org/wiki/Glossary_of_graph_theory#Walks
 	 * @link http://en.wikipedia.org/wiki/Trie
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return array $walk | Exception on failure. Walk array on success.
 	 */
 
@@ -338,8 +338,8 @@ class FOX_router {
 	 * @link http://en.wikipedia.org/wiki/Union_(set_theory)
 	 * @link http://en.wikipedia.org/wiki/Trie
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $walk | Walk array
 	 * @return array $result | Exception on failure. Result array on success.
 	 */
@@ -405,8 +405,8 @@ class FOX_router {
 	 *
 	 * @link http://en.wikipedia.org/wiki/Cycle_(graph_theory)
 	 * @link http://en.wikipedia.org/wiki/Cycle_detection
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $intersect | Intersect array
 	 * @param array $status | Reason no match was found
 	 * @return bool $result | Exception on failure. True on match. False on no match.
@@ -781,8 +781,8 @@ class FOX_router {
 	/**
 	 * Returns a flat array of the site's page hierarchy
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return array $result | Exception on failure. Page hierarchy as flat array on success.
 	 */
 
@@ -847,8 +847,8 @@ class FOX_router {
 	 * @link http://en.wikipedia.org/wiki/Quicksort (in-place version)
 	 * @link http://en.wikipedia.org/wiki/Trie
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $nodes | Flat array of nodes
 	 * @return array $result | Hierarchical array of nodes
 	 */
@@ -887,8 +887,8 @@ class FOX_router {
 	 * @link http://en.wikipedia.org/wiki/Glossary_of_graph_theory#Walks
 	 * @link http://en.wikipedia.org/wiki/Breadth-first_search
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $walk | Walk array
 	 * @param array $tree | Tree array
 	 * @return array $result | Exception on failure. Walk key and matching node id on success.
@@ -984,8 +984,8 @@ class FOX_router {
 	 * @link http://en.wikipedia.org/wiki/Glossary_of_graph_theory#Walks
 	 * @link http://en.wikipedia.org/wiki/Breadth-first_search
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $walk | Walk array
 	 * @param array $tree | Tree array
 	 * @return array $result | Walk offset and matching node id
@@ -1071,8 +1071,8 @@ class FOX_router {
 	 * a secondary page nested below the "members" component. Third-party components following
 	 * the "BuddyPress Example Component" pattern will appear in the results.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $slug | Name of slug to check
 	 * @return string $result | Exception on failure. Null on nonexistent. Name of component on success.
 	 */
@@ -1138,8 +1138,8 @@ class FOX_router {
 	/**
 	 * Generates the BP component pages array
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param array $flat_pages | Flat array of all WordPress pages on the site
 	 * @return obj $pages | Exception on failure. Structured object containing page ID's, Names, and Slugs on success.
 	 */
@@ -1222,8 +1222,8 @@ class FOX_router {
 	 * Example: bp_core_load_template( 'members/index' );
 	 * Loads: wp-content/themes/[activated_theme]/members/index.php
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $templates | Single template name as string. Multiple template names as array of string.
 	 * @return die $result | Exception on failure. Loads template and terminates thread on success.
 	 */
@@ -1298,8 +1298,8 @@ class FOX_router {
 	/**
 	 * Catches URI's at /members/user_name/* when the "extended profiles" component has been disabled
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	function catchProfileURI() {
 
@@ -1314,8 +1314,8 @@ class FOX_router {
 	/**
 	 * Catches invalid access to BuddyPress pages and redirects them accordingly.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	function catchNoAccess() {
 
@@ -1338,8 +1338,8 @@ class FOX_router {
 	 * Redirects a user to login for BP pages that require access control and adds an error message (if
 	 * one is provided). If authenticated, redirects user back to requested content by default.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	function handleNoAccess($args = '') {
 
@@ -1397,8 +1397,8 @@ class FOX_router {
 	 * Adds an error message to wp-login.php.
 	 * Hooks into the "bpnoaccess" action defined in bp_core_no_access().
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @global $error
 	 */
 	function wpLoginError() {

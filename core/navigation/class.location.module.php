@@ -104,8 +104,8 @@ class FOX_loc_module extends FOX_db_base {
 	/**
 	 * Loads target data into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data | Array of targets to cache, or null to cache all rows in the database
 	 *	=> VAL @param string/array $location | Single location as string. Multiple locations as array of strings.
@@ -255,11 +255,11 @@ class FOX_loc_module extends FOX_db_base {
 
 
 	/**
-	 * Registers ownership of a target to a Radient page module if no entry exists in the database. Updates
+	 * Registers ownership of a target to a FoxFire page module if no entry exists in the database. Updates
 	 * the existing entry if an entry already exists in the database.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data |
 	 *	=> VAL @param string $location | Display location.
@@ -377,10 +377,10 @@ class FOX_loc_module extends FOX_db_base {
 
 
 	/**
-	 * Registers ownership of a target to a Radient page module
+	 * Registers ownership of a target to a FoxFire page module
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data |
 	 *	=> VAL @param string $location | Display location.
@@ -421,8 +421,8 @@ class FOX_loc_module extends FOX_db_base {
 	/**
 	 * Registers one or more "Page Module" <=> "Target" relationships
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of row arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -613,8 +613,8 @@ class FOX_loc_module extends FOX_db_base {
 	/**
 	 * Returns all targets that belong to the specified location or locations
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $locations | Single location name as string. Multiple location names as array of strings.
 	 * @return null/array | Exception on failure. Null or empty array on nonexistent. Array of row data arrays on success.
@@ -781,8 +781,8 @@ class FOX_loc_module extends FOX_db_base {
 	/**
 	 * Returns all targets owned by the module_id or module id's.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $module_id | Single module_id as int. Multiple module_id's as array of ints.
 	 * @return null/string| Exception on failure. Null or empty array on nonexistent. Data array on success.
@@ -875,8 +875,8 @@ class FOX_loc_module extends FOX_db_base {
 	/**
 	 * Edits a a module's table entry
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data |
 	 *	=> VAL @param string $location | Display location.
@@ -1211,8 +1211,8 @@ class FOX_loc_module extends FOX_db_base {
 	/**
 	 * Removes one or more locations from the database and cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $locations | Single location as string. Multiple locations as array of strings.
 	 * @return int | Exception on failure. Int number of db rows changed on success.
 	 */
@@ -1317,8 +1317,8 @@ class FOX_loc_module extends FOX_db_base {
 	/**
 	 * Removes one or more targets from the database and cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $location | Single location as string.
 	 * @param int/string/array targets | Single target as int or string. Multiple targets as array of int/string.
 	 * @return int | Exception on failure. Int number of db rows changed on success.
@@ -1447,8 +1447,8 @@ class FOX_loc_module extends FOX_db_base {
 	/**
 	 * Removes one or more modules from the database and cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $module_ids | Single module_id as int. Multiple module_id's as array of int.
 	 * @return int | Exception on failure. Int number of db rows changed on success.
 	 */
@@ -1566,8 +1566,8 @@ class FOX_loc_module extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_loc_module(){
@@ -1601,8 +1601,8 @@ add_action( 'fox_install', 'install_FOX_loc_module', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_loc_module(){

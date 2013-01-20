@@ -91,8 +91,8 @@ class FOX_module_slug extends FOX_db_base {
 	/**
 	 * Loads module_slug data into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data | Array of identifiers to cache, or null to cache all rows in the database
 	 *	=> VAL @param string/array $module_type | Single module_type as string. Multiple module_types as array of strings.
@@ -235,10 +235,10 @@ class FOX_module_slug extends FOX_db_base {
 
 
 	/**
-	 * Registers ownership of a module_slug to a Radient page module
+	 * Registers ownership of a module_slug to a FoxFire page module
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $module_type | Module type. "page", "album", "media", "network"
 	 * @param string $module_slug | Module slug
@@ -275,10 +275,10 @@ class FOX_module_slug extends FOX_db_base {
 
 
 	/**
-	 * Registers ownership of one or more slugs to a Radient page module
+	 * Registers ownership of one or more slugs to a FoxFire page module
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of row arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -368,10 +368,10 @@ class FOX_module_slug extends FOX_db_base {
 
 
 	/**
-	 * Returns an array containing all data for all module_slugs owned by Radient page modules
+	 * Returns an array containing all data for all module_slugs owned by FoxFire page modules
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool/array | False on failure. Empty array on nonexistent. Array of class names on success.
 	 */
@@ -428,8 +428,8 @@ class FOX_module_slug extends FOX_db_base {
 	/**
 	 * Returns all entries that belong to the specified module_type or module_types
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $module_types | Single module_type name as string. Multiple module_type names as array of strings.
 	 * @return null/array | Exception on failure. Null or empty array on nonexistent. Array of row data arrays on success.
@@ -550,8 +550,8 @@ class FOX_module_slug extends FOX_db_base {
 	/**
 	 * Returns all entries that belong to the specified module_slug or module_slugs
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $module_type | Single module_type name as string.
 	 * @param string/array $module_slugs | Single module_slug name as string. Multiple module_slug names as array of strings.
@@ -684,8 +684,8 @@ class FOX_module_slug extends FOX_db_base {
 	/**
 	 * Returns the module_slug corresponding to a module_type + module_id pair
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $module_type | Single module_type name as string.
 	 * @param int $module_id | Module id
@@ -735,8 +735,8 @@ class FOX_module_slug extends FOX_db_base {
 	/**
 	 * Edits a module_slug table entry
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data |
 	 *	=> VAL @param string $module_type | module type
@@ -858,8 +858,8 @@ class FOX_module_slug extends FOX_db_base {
 	/**
 	 * Removes one or more module_types from the database and cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $module_types | Single module_type as string. Multiple module_types as array of strings.
 	 * @return int | Exception on failure. Int number of db rows changed on success.
 	 */
@@ -966,8 +966,8 @@ class FOX_module_slug extends FOX_db_base {
 	/**
 	 * Removes one or more module_slugs from the database and cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @param string $module_type | Single module_type as string.
 	 * @param string/array module_slugs | Single module_slug as string. Multiple module_slugs as array of strings.
@@ -1095,8 +1095,8 @@ class FOX_module_slug extends FOX_db_base {
 	/**
 	 * Removes one or more modules from the database and cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * 
 	 * @param string $module_type | Single module_type as string.
 	 * @param int/array $module_ids | Single module_id as int. Multiple module_id's as array of int.
@@ -1208,8 +1208,8 @@ class FOX_module_slug extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_module_slug(){
@@ -1243,8 +1243,8 @@ add_action( 'fox_install', 'install_FOX_module_slug', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_module_slug(){

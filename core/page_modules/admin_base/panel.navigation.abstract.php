@@ -1,14 +1,14 @@
 <?php
 
 /**
- * RADIENT ADMIN PAGE CLASS 
+ * FOXFIRE ADMIN PAGE CLASS 
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
@@ -21,7 +21,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 // ============================================================================================================ //
 
 
-abstract class RAD_PM_tab_navigation_base {
+abstract class FOX_PM_tab_navigation_base {
 
 
 	/**
@@ -31,8 +31,8 @@ abstract class RAD_PM_tab_navigation_base {
 	 * contains a hidden field called 'page_options'. The class's "processor" function parses the variable names in this field
 	 * to determine which POST data fields to load and which objects in the $bp->bpa->options[] global to update.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	 function render($parent_class) {
@@ -45,7 +45,7 @@ abstract class RAD_PM_tab_navigation_base {
 
 	    $rad->navigation->loadModule($module_id);
 
-	    $cls = new RAD_wp();
+	    $cls = new FOX_wp();
 	    $pages = $cls->getAllPages();
 
 	    ?>
@@ -89,7 +89,7 @@ abstract class RAD_PM_tab_navigation_base {
 				<div class="title"><?php _e('Target Location',"radient") ?></div>
 
 				<div class="rad_section_advice">
-				    <?php _e("Radient can display content anywhere on your site, including dedicated WordPress pages, inside BuddyPress screens,
+				    <?php _e("FoxFire can display content anywhere on your site, including dedicated WordPress pages, inside BuddyPress screens,
 					and as embeddable widgets. For more information, see the
 					<a href='www.code.google.com/p/buddypress-media/wiki/docs_targetLocation'>target location</a> wiki page.","radient") ?>
 				</div>
@@ -338,7 +338,7 @@ abstract class RAD_PM_tab_navigation_base {
 
 				</table>
 
-				<div class="key_manager"><img src="<?php echo RAD_URL_CORE . '/admin/css/images/rad_key_editor.png' ?>"
+				<div class="key_manager"><img src="<?php echo FOX_URL_CORE . '/admin/css/images/rad_key_editor.png' ?>"
 							      alt="<?php _e('Key Manager',"radient") ?>"
 							      width="32" height="32"
 							      title="Open the Key Manager"/>
@@ -442,7 +442,7 @@ abstract class RAD_PM_tab_navigation_base {
 
 				    </table>
 
-				    <div class="key_manager"><img src="<?php echo RAD_URL_CORE . '/admin/css/images/rad_key_editor.png' ?>"
+				    <div class="key_manager"><img src="<?php echo FOX_URL_CORE . '/admin/css/images/rad_key_editor.png' ?>"
 								  alt="<?php _e('Key Manager',"radient") ?>"
 								  width="32" height="32"
 								  title="Open the Key Manager"/>
@@ -545,7 +545,7 @@ abstract class RAD_PM_tab_navigation_base {
 
 				    </table>
 
-				    <div class="key_manager"><img src="<?php echo RAD_URL_CORE . '/admin/css/images/rad_key_editor.png' ?>"
+				    <div class="key_manager"><img src="<?php echo FOX_URL_CORE . '/admin/css/images/rad_key_editor.png' ?>"
 								  alt="<?php _e('Key Manager',"radient") ?>"
 								  width="32" height="32"
 								  title="Open the Key Manager"/>

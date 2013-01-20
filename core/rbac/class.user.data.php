@@ -92,8 +92,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Removes all empty walks from the class cache for a specific user_id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 
 	 * @param int $user_id | user_id to compact cache for
 	 * @return null
@@ -114,8 +114,8 @@ class FOX_uData extends FOX_db_base {
 	 * Loads key, branch, tree, or all data for one or more users from the db
 	 * into the key cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user id as int. Multiple user id as array of int.
 	 * @param int/array $tree | Single tree id as int. Multiple tree id as array of int.
@@ -425,8 +425,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Loads all data for one or more $user_id's into the data cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user id as int. Multiple user id's as array of ints.
 	 * @return bool | False on failure. True on success.
@@ -453,8 +453,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Loads one or more trees for a single user_id into the data cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user id as int.
 	 * @param int/array $tree| Single tree id as int. Multiple tree id's as array of ints.
@@ -482,8 +482,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Loads one or more branches for a single tree and user_id into the data cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user id as int.
 	 * @param int/array $tree| Single tree id as int.
@@ -512,8 +512,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Loads one or more keys for a single branch, tree and user_id into the data cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user id as int.
 	 * @param int/array $tree| Single tree id as int.
@@ -551,8 +551,8 @@ class FOX_uData extends FOX_db_base {
 	 *                    ^^^^^^^^^^^^^^^^^^^^^^^^
 	 * RIGHT: get( $id=1, $tree=2, $branch=7, $key=array("fans","likes","gender")
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single $user_id as int. Multiple as array of ints.
 	 * @param int/array $tree | Single $tree as int. Multiple as array of ints.
@@ -1027,8 +1027,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Returns all data for one or more $user_id's.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user id as int. Multiple user id's as array of ints.
 	 * @param bool &$valid | True if user_id exists. False if not.
@@ -1056,8 +1056,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Returns one or more API data arrays for a single user_id.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user id as int.
 	 * @param int/array $tree| Single tree id as int. Multiple tree id's as array of ints.
@@ -1086,8 +1086,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Returns one or more branch data arrays from a single tree belonging to a single user id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | Single user id as int.
 	 * @param int $tree| Single tree id as int.
@@ -1117,8 +1117,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Returns one or more keys for a single branch within a single tree belonging to a single user id.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | Single user id as int.
 	 * @param int $tree| Single tree id as int.
@@ -1149,8 +1149,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Creates a new key or updates an existing key.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | User ID
 	 * @param int $tree | API id
@@ -1191,8 +1191,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Creates or updates one or more keys.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
          * @param array $data | Array of row arrays
 	 *	=> ARR @param int '' | Individual row array
@@ -1420,8 +1420,8 @@ class FOX_uData extends FOX_db_base {
 	 * Drops one or more keys from the database and cache for a single branch within a single tree
 	 * belonging to a single user id.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | ID of the user
 	 * @param int $tree | ID of the tree
@@ -1551,8 +1551,8 @@ class FOX_uData extends FOX_db_base {
 	 * Drops all keys from the database and cache for one or more branchs within a
 	 * single tree belonging to a single user id.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | ID of the user
 	 * @param int $tree | ID of the tree
@@ -1678,8 +1678,8 @@ class FOX_uData extends FOX_db_base {
 	 * Drops all keys from the database and cache for one or more trees belonging to
 	 * a single user id.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | ID of the user
 	 * @param int $tree | ID of the tree
@@ -1804,8 +1804,8 @@ class FOX_uData extends FOX_db_base {
 	/**
 	 * Drops all data for one or more user_id's from the database and cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | ID of the user
 	 * @param array &$error | Array containing numeric and text error information
@@ -1893,8 +1893,8 @@ class FOX_uData extends FOX_db_base {
 	 * tree FOR ALL USERS ON THE SITE. Generally used when uninstalling or upgrading modules, or for
 	 * managing admin-assigned data objects, notes about users, etc.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $tree | id of the tree
 	 * @param int $branch | id of the branch
@@ -1970,8 +1970,8 @@ class FOX_uData extends FOX_db_base {
 	 * Drops all keys from the database and cache for a single branch within a single tree
 	 * FOR ALL USERS ON THE SITE. Generally used when uninstalling or upgrading a module.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $tree | ID of the tree
 	 * @param int $branch | ID of the branch
@@ -2046,8 +2046,8 @@ class FOX_uData extends FOX_db_base {
 	 * Drops all keys from the database and cache for a single tree for ALL USERS ON
 	 * THE SITE. Generally used when uninstalling or upgrading an API.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $tree | ID of the tree
 	 * @return bool | False on failure. True on success.
@@ -2118,8 +2118,8 @@ class FOX_uData extends FOX_db_base {
 	 * Deletes the entire user data store, and flushes the cache. Generally
 	 * used for testing and debug.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool | False on failure. True on success.
 	 */
@@ -2185,8 +2185,8 @@ class FOX_uData extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_uData(){
@@ -2220,8 +2220,8 @@ add_action( 'rad_install', 'install_FOX_uData', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_uData(){

@@ -104,8 +104,8 @@ class FOX_userClass extends FOX_db_base {
 	/**
 	 * Creates a new user class
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data |
 	 *	=> VAL @param string $name | Name of this user class
@@ -167,8 +167,8 @@ class FOX_userClass extends FOX_db_base {
 	/**
 	 * Edits an existing user class
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data |
 	 *	=> VAL @param int $id | id of this class
@@ -316,8 +316,8 @@ class FOX_userClass extends FOX_db_base {
 	 * Deletes an existing user class. Users in this class will be moved to the class's "transfer_to"
 	 * class. If the "transfer_to" class was not set, users will be moved to the site's "default" class.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $id | id of this class to delete
 	 * @return bool/int | False on failure. Numer of affected users on success.
@@ -424,8 +424,8 @@ class FOX_userClass extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_userClass(){
@@ -459,8 +459,8 @@ add_action( 'fox_install', 'install_FOX_userClass', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_userClass(){

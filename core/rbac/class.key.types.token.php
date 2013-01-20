@@ -93,8 +93,8 @@ class FOX_uKeyType extends FOX_db_base {
 	 * Loads a key, branch, tree, or the entire keystore from the database
 	 * into the key cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree| The key's tree name
 	 * @param string $branch | The key's branch name
@@ -235,8 +235,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Fetches the ID of a single key
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | tree name for key
 	 * @param string $branch | branch name for key
@@ -273,8 +273,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Fetches the ID's of one or more keys.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $keys | one or more arrays, each descrrribing a key to retrieve
 	 *	=> ARR @param int '' | Array index
@@ -448,8 +448,8 @@ class FOX_uKeyType extends FOX_db_base {
 	 * only be used in admin editing screens, where all of the key's data fields are
 	 * required.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $key_id | id of key. Multiple id's as array of ints.
 	 * @return bool/int | False on failure. Array of arrays of key rows on success.
@@ -484,8 +484,8 @@ class FOX_uKeyType extends FOX_db_base {
 	 * is NOT cached, and should only be used in admin editing screens, where all of the key's
 	 * data fields are required.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
 	 * @param array $args | @see FOX_db::runSelectQuery() for array structure
 	 * @param bool/array $columns | @see FOX_db::runSelectQuery() for array structure
@@ -525,8 +525,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Creates a single key
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | tree name for key (max 32 chars)
 	 * @param string $branch | branch name for key (max 32 chars)
@@ -561,8 +561,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Creates a new key
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data | one or more arrays, each descrribing a key to create
 	 *	=> ARR @param int '' | Array index
@@ -683,8 +683,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Edits fields for an existing key, given the key's key_id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data | one or more arrays, each descrribing a key to create
 	 *	=> VAL @param int $key_id | key_id for the key to edit
@@ -880,8 +880,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Deletes a single key, given the key's $tree, $branch, and $name
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | tree name for key (max 32 chars)
 	 * @param string $branch | branch name for key (max 32 chars)
@@ -916,8 +916,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Deletes one or more existing keys given the key's $tree, $branch, and $name
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $keys | one or more arrays, each describing a key to delete
 	 *	=> ARR @param int '' | Array index
@@ -1104,8 +1104,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Deletes one or more keys, given the $key_id
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $key_id | single $key_id as int. Multiple as array of ints.
 	 * @return bool | False on failure. True on success.
@@ -1256,8 +1256,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Deletes an entire branch of keys
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | The branch's tree name
 	 * @param string $branch | The branch name
@@ -1408,8 +1408,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Deletes an entire tree of keys
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $tree | The tree name
 	 * @return bool | False on failure. True on success.
@@ -1556,8 +1556,8 @@ class FOX_uKeyType extends FOX_db_base {
 	/**
 	 * Returns all keys currently stored in the db
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool/array | False on failure. Array of keys on success.
 	 */
@@ -1586,8 +1586,8 @@ class FOX_uKeyType extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_uKeyType(){
@@ -1621,8 +1621,8 @@ add_action( 'fox_install', 'install_FOX_uKeyType', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_uKeyType(){

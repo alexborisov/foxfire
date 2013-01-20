@@ -88,8 +88,8 @@ class FOX_uGroupKeyRing extends FOX_db_base {
 	/**
 	 * Loads group keys into the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $group_id | Single group id as int. Multiple group id's as array of int.
 	 * @param int/array $key_id | Single key id as int. Multiple key ids as array of int.
@@ -233,8 +233,8 @@ class FOX_uGroupKeyRing extends FOX_db_base {
 	/**
 	 * Checks if a group grants a specific key
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $group_id | id of the group
 	 * @param int $key_id | id of the key
@@ -273,8 +273,8 @@ class FOX_uGroupKeyRing extends FOX_db_base {
 	 * Gets one or more groups' keyrings. If multiple groups are specified, the groups
 	 * individual keyrings are merged, eliminating duplicate keys
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $group_id | Group id as int. Multiple groups as array of int.
 	 * @return bool/array | False on failure. Array of key id's on success.
@@ -397,8 +397,8 @@ class FOX_uGroupKeyRing extends FOX_db_base {
 	/**
 	 * Adds one or more keys to one or more groups' keyrings
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $group_id | id of the group as int. Multiple groups as array of int.
 	 * @param int/array $key_id | id of the key as int. Multiple keys as array of int.
@@ -762,8 +762,8 @@ class FOX_uGroupKeyRing extends FOX_db_base {
 	/**
 	 * Removes one or more keys from one or more group's keyrings
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $group_id | id of the group as int. Multiple groups as array of int.
 	 * @param int/array $key_id | id of the key as int. Multiple keys as array of int.
@@ -847,8 +847,8 @@ class FOX_uGroupKeyRing extends FOX_db_base {
 	/**
 	 * Deletes the entire keyring for one or more groups
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $group_id | id of the group as int. Multiple groups as array of int.
 	 * @return int | Number of keys affected.
@@ -930,8 +930,8 @@ class FOX_uGroupKeyRing extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_uGroupKeyRing(){
@@ -965,8 +965,8 @@ add_action( 'fox_install', 'install_FOX_uGroupKeyRing', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_uGroupKeyRing(){

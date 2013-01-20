@@ -1,14 +1,14 @@
 <?php
 
 /**
- * RADIENT ADMIN PAGE CLASS "CORE SETTINGS"
+ * FOXFIRE ADMIN PAGE CLASS "CORE SETTINGS"
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
@@ -21,7 +21,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 // ============================================================================================================ //
 
 
-abstract class RAD_PM_tab_content_base {
+abstract class FOX_PM_tab_content_base {
 
 
 	/**
@@ -31,8 +31,8 @@ abstract class RAD_PM_tab_content_base {
 	 * contains a hidden field called 'page_options'. The class's "processor" function parses the variable names in this field
 	 * to determine which POST data fields to load and which objects in the $bp->bpa->options[] global to update.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	 function render($parent_class) {

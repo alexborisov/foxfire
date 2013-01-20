@@ -1,15 +1,15 @@
 <?php
 
 /**
- * RADIENT EVENT LOGGING
- * Handles user event logging within Radient
+ * FOXFIRE EVENT LOGGING
+ * Handles user event logging within FoxFire
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Logging
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
@@ -83,8 +83,8 @@ class FOX_log_event extends FOX_db_base {
 	/**
 	 * Adds an event to the event log
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $event | Array holding data to be added to DB. An array in this form: key string for the column with value as null | int | string | array
 	 *	=> KEY @param string "tree"
@@ -202,8 +202,8 @@ class FOX_log_event extends FOX_db_base {
 	/**
 	 * Drops one or more events from the log, based on the supplied args
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $args | Args in the form: array("col"=>column_name, "op" => "<, >, =, !=", "val" => "int | string | array()")
 	 *	=> ARR @param int '' | Array index
@@ -394,8 +394,8 @@ class FOX_log_event extends FOX_db_base {
 	/**
 	 * Drops one or more events from the log, based on the supplied event id's
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $id | Single event id as int. Multiple event id's as array of ints.
 	 * @return bool/int | False on failure. Number of rows deleted on success.
@@ -449,8 +449,8 @@ class FOX_log_event extends FOX_db_base {
 	/**
 	 * Drops all events from the log
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param bool $drop_dic | True to delete entires in the dictionaries.
 	 * @return bool | True on success.
@@ -618,9 +618,9 @@ class FOX_log_event extends FOX_db_base {
 			$primary = array( "class"=>self::$struct, "args"=>$processed_args);
 
 			$join = array(
-				array("class"=>"RAD_log_dictionary_tree","on"=>array("pri"=>"tree", "op"=>"=", "sec"=>"id"), "args"=>$join_args['tree']),
-				array("class"=>"RAD_log_dictionary_branch","on"=>array("pri"=>"branch", "op"=>"=", "sec"=>"id"), "args"=>$join_args['branch']),
-				array("class"=>"RAD_log_dictionary_node","on"=>array("pri"=>"node", "op"=>"=", "sec"=>"id"), "args"=>$join_args['node'])
+				array("class"=>"FOX_log_dictionary_tree","on"=>array("pri"=>"tree", "op"=>"=", "sec"=>"id"), "args"=>$join_args['tree']),
+				array("class"=>"FOX_log_dictionary_branch","on"=>array("pri"=>"branch", "op"=>"=", "sec"=>"id"), "args"=>$join_args['branch']),
+				array("class"=>"FOX_log_dictionary_node","on"=>array("pri"=>"node", "op"=>"=", "sec"=>"id"), "args"=>$join_args['node'])
 			);
 
 			if( is_null($columns)){
@@ -712,7 +712,7 @@ class FOX_log_event extends FOX_db_base {
 
 
 
-} // End of class RAD_log_event
+} // End of class FOX_log_event
 
 
 
@@ -725,14 +725,14 @@ class FOX_log_event extends FOX_db_base {
 
 
 /**
- * RADIENT EVENT LOG TEMPLATE CLASS
+ * FOXFIRE EVENT LOG TEMPLATE CLASS
  * Operates main loop in templates when displaying event log items
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Logging
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
@@ -746,8 +746,8 @@ class FOX_log_event_template extends FOX_db_walker {
         /**
          * Creates a template object filled with query result objects, based on user supplied parameters
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          *
 	 * @param array $args | @see FOX_db::runSelectQuery() for array structure
 	 * @param bool/array $columns | @see FOX_db::runSelectQuery() for array structure
@@ -762,7 +762,7 @@ class FOX_log_event_template extends FOX_db_walker {
 	    	// Run the parent constructor
 		// =========================================================================
 
-		$db_class = new RAD_log_event();
+		$db_class = new FOX_log_event();
 
 		parent::__construct($db_class, $args, $columns, $ctrl);
 
@@ -782,7 +782,7 @@ class FOX_log_event_template extends FOX_db_walker {
 	}
 
 
-} // End of class RAD_log_event_template
+} // End of class FOX_log_event_template
 
 
 
@@ -790,8 +790,8 @@ class FOX_log_event_template extends FOX_db_walker {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_log_event(){
@@ -825,8 +825,8 @@ add_action( 'fox_install', 'install_FOX_log_event', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_log_event(){

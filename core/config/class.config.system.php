@@ -1577,8 +1577,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 	/**
          * Processes config variables passed via an HTML form
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param array $post | HTML form array
          * @return int | Exception on failure. Number of rows changed on success.
@@ -1860,8 +1860,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * Resets the class's print_nodes array, making it ready to accept a new batch of keys. This method
 	 * MUST be called at the beginning of each admin form to clear old keys from the singleton.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          */
 
 	public function initNodesArray(){
@@ -1874,8 +1874,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * Creates a composite keyname given the keys's tree, branch, and name. Adds the
 	 * composited key name to the $print_nodes array for printing the form's keys array.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $tree | Tree name
 	 * @param string $branch | Branch name
@@ -1906,8 +1906,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 	/**
          * Prints a key's value
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $tree | Tree name
 	 * @param string $branch | Branch name
@@ -1958,8 +1958,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * Creates a composited string used to print a hidden field containing all of the key names enqueued
 	 * using keyName() or getNodeName()
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $field_name | (optional) name to use for the form field
          * @return ECHO | composited hidden form field string
@@ -2004,8 +2004,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * Places the system in "install mode" by loading all the base install classes
 	 * from the /core/config/install_base folder
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          */
 
 	public function installMode($basepath){
@@ -2033,8 +2033,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
          * Places the system in "uninstall mode" by loading all the base uninstall classes
 	 * from the /core/config/uninstall_base folder
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          */
 
 	public function uninstallMode($basepath){
@@ -2065,8 +2065,8 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_config(){
@@ -2100,8 +2100,8 @@ add_action( 'fox_install', 'install_FOX_config', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_config(){

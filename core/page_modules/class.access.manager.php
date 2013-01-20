@@ -1,20 +1,20 @@
 <?php
 
 /**
- * RADIENT ACCESS MANAGER CLASS
+ * FOXFIRE ACCESS MANAGER CLASS
  * Controls which screens which users have access to
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Access Control
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-class RAD_accessManager extends FOX_db_base {
+class FOX_accessManager extends FOX_db_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by ancestor class
@@ -33,9 +33,9 @@ class RAD_accessManager extends FOX_db_base {
 
 	public static $struct = array(
 
-	    "table" => "rad_sys_config_data",
+	    "table" => "FOX_accessManager",
 	    "engine" => "InnoDB",
-	    "cache_namespace" => "RAD_accessManager",
+	    "cache_namespace" => "FOX_accessManager",
 	    "cache_strategy" => "monolithic",
 	    "cache_engine" => array("memcached", "redis", "apc"),
 	    "columns" => array(
@@ -87,7 +87,7 @@ class RAD_accessManager extends FOX_db_base {
 
 
 
-} // End of class RAD_accessManager
+} // End of class FOX_accessManager
 
 
 
@@ -95,13 +95,13 @@ class RAD_accessManager extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
-function install_RAD_accessManager(){
+function install_FOX_accessManager(){
 
-	$cls = new RAD_accessManager();
+	$cls = new FOX_accessManager();
 	
 	try {
 		$cls->install();
@@ -122,20 +122,20 @@ function install_RAD_accessManager(){
 		}
 	}
 }
-add_action( 'rad_install', 'install_RAD_accessManager', 2 );
+add_action( 'rad_install', 'install_FOX_accessManager', 2 );
 
 
 /**
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
-function uninstall_RAD_accessManager(){
+function uninstall_FOX_accessManager(){
 
-	$cls = new RAD_accessManager();
+	$cls = new FOX_accessManager();
 	
 	try {
 		$cls->uninstall();
@@ -156,6 +156,6 @@ function uninstall_RAD_accessManager(){
 		}
 	}
 }
-add_action( 'rad_uninstall', 'uninstall_RAD_accessManager', 2 );
+add_action( 'rad_uninstall', 'uninstall_FOX_accessManager', 2 );
 
 ?>

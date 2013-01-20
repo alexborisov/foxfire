@@ -69,12 +69,12 @@ final class FOX_nav {
 
 	/**
 	 * Checks if the WordPress page corresponding to the $post_id is owned by one of
-	 * Radient's page modules, and returns info about the module if it is.
+	 * FoxFire's page modules, and returns info about the module if it is.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int $post_id | post_id of the WordPress page to search
-	 * @return bool/array $result | False on not owned by Radient. Data array on success.
+	 * @return bool/array $result | False on not owned by FoxFire. Data array on success.
 	 */
 
 	public function getPageOwner($post_id){
@@ -92,13 +92,13 @@ final class FOX_nav {
 
 
 	/**
-	 * Checks if $slug is owned by one of Radient's page modules, and returns info about the
+	 * Checks if $slug is owned by one of FoxFire's page modules, and returns info about the
 	 * module if it is.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $slug | name of the slug to search for
-	 * @return bool/array $result | Exception on failure. False on not owned by Radient. Data array on success.
+	 * @return bool/array $result | Exception on failure. False on not owned by FoxFire. Data array on success.
 	 */
 
 	public function getSlugOwner($location, $slug){
@@ -153,8 +153,8 @@ final class FOX_nav {
 	 * Determines if a user can access a resource based on their keyring and
 	 * the resource's policy object
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool $result | Exception on failure. True if can access. False if cannot access.
 	 */
 
@@ -169,8 +169,8 @@ final class FOX_nav {
 	 * Adds a page to the site's navigation tree by injecting it into the BP
 	 * active components array using the 'bp_core_get_directory_page_ids' action
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool $result | Exception on failure. True on success.
 	 */
 
@@ -281,11 +281,11 @@ final class FOX_nav {
 	}
 
 	/**
-	 * Adds Radient's tabs to the BP core navigation array, causing the tabs
+	 * Adds FoxFire's tabs to the BP core navigation array, causing the tabs
 	 * to appear on the user's profile
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool $result | Exception on failure. True on success.
 	 */
 
@@ -485,10 +485,10 @@ final class FOX_nav {
 
 
 	/**
-	 * Adds a page to Radient's tab on a user profile
+	 * Adds a page to FoxFire's tab on a user profile
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool $result | Exception on failure. True on success.
 	 */
 
@@ -502,8 +502,8 @@ final class FOX_nav {
 	/**
          * Loads a template file
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $template | Name of the template file, including file extension.
 	 * @param string $type | Template type: "page" (page module), "album" (album module), "media" (media module)
@@ -536,7 +536,7 @@ final class FOX_nav {
 
 		// Default template
 		// ================================================================
-		// Every Radient "page", "album", and "media" module is required to supply a set of default
+		// Every FoxFire "page", "album", and "media" module is required to supply a set of default
 		// templates for itself. This allows 3rd-party modules to be added to the system, because there
 		// will probably be no template files for them in the default theme.
 
@@ -566,8 +566,8 @@ final class FOX_nav {
 	/**
          * Loads configuration data for the specified page module
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param int $module_id | id of page module
          * @return bool | Exception on failure. True on success.
@@ -731,8 +731,8 @@ final class FOX_nav {
 	/**
          * Processes config variables passed via an HTML form
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param array $post | HTML form array
          * @return bool | Exception on failure. True on success.
@@ -931,8 +931,8 @@ final class FOX_nav {
 	/**
          * Adds a page module's target and policy data to the site's navigation tree
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param int $module_id | module_id for the page module
 	 *
@@ -1103,8 +1103,8 @@ final class FOX_nav {
          * Resets the class's print_keys array, making it ready to accept a new batch of keys. This method
 	 * MUST be called at the beginning of each admin form to clear old keys from the singleton.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
          */
 
 	public function initNodesArray(){
@@ -1117,8 +1117,8 @@ final class FOX_nav {
          * Creates a composite keyname for a navigation target given the key's branch, and name. Adds
 	 * the composited key name to the $print_keys array for printing the form's keys array.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $key | The key's name
          * @return ECHO | composited key name
@@ -1143,8 +1143,8 @@ final class FOX_nav {
 	/**
          * Prints a navigation target key's value
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $branch | The key's branch name
 	 * @param string $key | The key's name
@@ -1160,8 +1160,8 @@ final class FOX_nav {
 	/**
          * Returns a navigation target key's value
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $key | The key's name
          * @return mixed | composited key name
@@ -1177,8 +1177,8 @@ final class FOX_nav {
          * Creates a composite keyname for a policy key given the key's branch, and name. Adds
 	 * the composited key name to the $print_keys array for printing the form's keys array.
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $branch | The key's branch name
 	 * @param string $key | The key's name
@@ -1204,8 +1204,8 @@ final class FOX_nav {
 	/**
          * Prints a policy key's value
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $branch | The key's branch name
 	 * @param string $key | The key's name
@@ -1220,8 +1220,8 @@ final class FOX_nav {
 	/**
          * Returns a policy key's value
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $branch | The key's branch name
 	 * @param string $key | The key's name
@@ -1238,8 +1238,8 @@ final class FOX_nav {
          * Creates a composited string used to print a hidden field containing all of the key names enqueued
 	 * using keyName() or getNodeName()
          *
-         * @version 0.1.9
-         * @since 0.1.9
+         * @version 1.0
+         * @since 1.0
 	 *
 	 * @param string $field_name | (optional) name to use for the form field
          * @return ECHO | composited hidden form field string
@@ -1288,10 +1288,10 @@ final class FOX_nav {
 
 
 /**
- * Injects Radient's pages into the BP components array
+ * Injects FoxFire's pages into the BP components array
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function FOX_nav_injectSite($pages){

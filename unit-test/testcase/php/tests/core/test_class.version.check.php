@@ -45,7 +45,7 @@ class util_versionCheck extends RAZ_testCase {
 		$test_data[] = array("a"=>"1.0",	"b"=>"0.1",	    "op"=>"=",	"res"=>false);
 		$test_data[] = array("a"=>"1.0.0",	"b"=>"1",	    "op"=>"=",	"res"=>true);
 		$test_data[] = array("a"=>"1.00",	"b"=>"1",	    "op"=>"=",	"res"=>true);
-		$test_data[] = array("a"=>"0.1.9",	"b"=>"00.01.9.0",   "op"=>"=",	"res"=>true);
+		$test_data[] = array("a"=>"1.0",	"b"=>"00.01.9.0",   "op"=>"=",	"res"=>true);
 
 		foreach($test_data as $test ){
 
@@ -77,7 +77,7 @@ class util_versionCheck extends RAZ_testCase {
 		$test_data[] = array("a"=>"01.0",	"b"=>"0.01",	    "op"=>"!=",	"res"=>true);
 		$test_data[] = array("a"=>"1.0.0",	"b"=>"0.1",	    "op"=>"!=",	"res"=>true);
 		$test_data[] = array("a"=>"1.001",	"b"=>"1",	    "op"=>"!=",	"res"=>true);
-		$test_data[] = array("a"=>"0.1.9",	"b"=>"2.01.9.0",    "op"=>"!=",	"res"=>true);
+		$test_data[] = array("a"=>"1.0",	"b"=>"2.01.9.0",    "op"=>"!=",	"res"=>true);
 
 		foreach($test_data as $test ){
 
@@ -107,7 +107,7 @@ class util_versionCheck extends RAZ_testCase {
 		$test_data[] = array("a"=>"11.0",	"b"=>"1",	    "op"=>">=",	"res"=>true);
 		$test_data[] = array("a"=>"1.0.0",	"b"=>"1",	    "op"=>">=",	"res"=>true);
 		$test_data[] = array("a"=>"1.00",	"b"=>"1",	    "op"=>">=",	"res"=>true);
-		$test_data[] = array("a"=>"0.1.9",	"b"=>"00.01.9.0",   "op"=>">=",	"res"=>true);
+		$test_data[] = array("a"=>"1.0",	"b"=>"00.01.9.0",   "op"=>">=",	"res"=>true);
 		$test_data[] = array("a"=>"6.5.8",	"b"=>"5.5.8",	    "op"=>">=",	"res"=>true);
 		$test_data[] = array("a"=>"9.5.8",	"b"=>"5.5.8",	    "op"=>">=",	"res"=>true);
 		$test_data[] = array("a"=>"15.5.8",	"b"=>"5.5.8",	    "op"=>">=",	"res"=>true);
@@ -148,8 +148,8 @@ class util_versionCheck extends RAZ_testCase {
 		$test_data[] = array("a"=>"1.0",	"b"=>"1",	    "op"=>"<=",	"res"=>true);
 		$test_data[] = array("a"=>"1.0.0",	"b"=>"1",	    "op"=>"<=",	"res"=>true);
 		$test_data[] = array("a"=>"1.00",	"b"=>"1",	    "op"=>"<=",	"res"=>true);
-		$test_data[] = array("a"=>"0.1.9",	"b"=>"00.01.9.0",   "op"=>"<=",	"res"=>true);
-		$test_data[] = array("a"=>"0.1.9.6",	"b"=>"1.9.6.0",	    "op"=>"<=", "res"=>true);
+		$test_data[] = array("a"=>"1.0",	"b"=>"00.01.9.0",   "op"=>"<=",	"res"=>true);
+		$test_data[] = array("a"=>"1.0.6",	"b"=>"1.9.6.0",	    "op"=>"<=", "res"=>true);
 		$test_data[] = array("a"=>"5.5.8",	"b"=>"4.4.9",	    "op"=>"<=",	"res"=>false);
 		$test_data[] = array("a"=>"5.3.8",	"b"=>"4.4.9",	    "op"=>"<=",	"res"=>false);
 
@@ -175,7 +175,7 @@ class util_versionCheck extends RAZ_testCase {
 		$test_data[] = array("a"=>"7",		"b"=>"11",	    "op"=>"<",	"res"=>true);
 		$test_data[] = array("a"=>"7",		"b"=>"7",	    "op"=>"<",	"res"=>false);
 		$test_data[] = array("a"=>"23",		"b"=>"5",	    "op"=>"<",	"res"=>false);
-		$test_data[] = array("a"=>"0.1.9.5",	"b"=>"1.9.5",	    "op"=>"<",	"res"=>true);
+		$test_data[] = array("a"=>"1.0.5",	"b"=>"1.9.5",	    "op"=>"<",	"res"=>true);
 		$test_data[] = array("a"=>"0.0.1.7",	"b"=>"0.3",	    "op"=>"<",	"res"=>true);
 		$test_data[] = array("a"=>"1",		"b"=>"1.5",	    "op"=>"<",	"res"=>true);
 		$test_data[] = array("a"=>"01.0.7",	"b"=>"1.0.7.2",	    "op"=>"<",	"res"=>true);

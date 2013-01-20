@@ -1,20 +1,20 @@
 <?php
 
 /**
- * RADIENT ERROR LOGGING
- * Handles error logging within Radient
+ * FOXFIRE ERROR LOGGING
+ * Handles error logging within FoxFire
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Logging
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-class RAD_errorLog extends FOX_db_base {
+class FOX_errorLog extends FOX_db_base {
     
 	// DB table names and structures are hard-coded into the class. This allows class methods to be
 	// fired from an AJAX call, without loading the entire BP stack.
@@ -51,15 +51,15 @@ class RAD_errorLog extends FOX_db_base {
 	// ================================================================================================================
 
     
-	public function RAD_errorLog () {
+	public function FOX_errorLog () {
 
 	    }
 	
 	 /**
 	 * Adds one or more errors to the error log
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $tree | id of the event's tree
 	 * @param int $branch | id of the event's branch
@@ -82,8 +82,8 @@ class RAD_errorLog extends FOX_db_base {
 	/**
 	 * Adds one or more errors to the error log
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data | Array of event arrays
 	 *	=> ARR @param int '' | Array index
@@ -106,8 +106,8 @@ class RAD_errorLog extends FOX_db_base {
 	/**
 	 * Drops one or more errors from the log, based on the supplied args
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $args | Args in the form: array("col"=>column_name, "op" => "<, >, =, !=", "val" => "int | string | array()")
 	 *	=> ARR @param int '' | Array index
@@ -122,20 +122,20 @@ class RAD_errorLog extends FOX_db_base {
 	    
 	    }
 	
-    } // End of class RAD_errorLog
+    } // End of class FOX_errorLog
       
     
  /**
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
-function install_RAD_errorLog(){
+function install_FOX_errorLog(){
 
-	$cls = new RAD_errorLog();
+	$cls = new FOX_errorLog();
 	
 	try {
 		$cls->install();
@@ -157,20 +157,20 @@ function install_RAD_errorLog(){
 	}
 	
 }
-add_action( 'rad_install', 'install_RAD_errorLog', 2 );
+add_action( 'rad_install', 'install_FOX_errorLog', 2 );
 
 
 /**
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
-function uninstall_RAD_errorLog(){
+function uninstall_FOX_errorLog(){
 
-	$cls = new RAD_errorLog();
+	$cls = new FOX_errorLog();
 	
 	try {
 		$cls->uninstall();
@@ -192,6 +192,6 @@ function uninstall_RAD_errorLog(){
 	}
 	
 }
-add_action( 'rad_uninstall', 'uninstall_RAD_errorLog', 2 );
+add_action( 'rad_uninstall', 'uninstall_FOX_errorLog', 2 );
 
 ?>

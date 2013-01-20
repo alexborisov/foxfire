@@ -88,8 +88,8 @@ class FOX_uGroupMember extends FOX_db_base {
 	/**
 	 * Loads user groups into the cache.
 	 * 
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user id as int. Multiple user id's as array of int.
 	 * @param int/array $group_id | Single group id as int. Multiple group ids as array of int.
@@ -221,8 +221,8 @@ class FOX_uGroupMember extends FOX_db_base {
 	/**
 	 * Checks if a user is a member of a group
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | Single $user_id as int.
 	 * @param int $group_id | Single $group_id as int.
@@ -288,8 +288,8 @@ class FOX_uGroupMember extends FOX_db_base {
 	/**
 	 * Gets a list of the groups a user is a member of
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | Single $user_id as int.
 	 * @return array | Array of group id's
@@ -343,8 +343,8 @@ class FOX_uGroupMember extends FOX_db_base {
 	/**
 	 * Adds one or more users to one or more groups
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user_id as int. Multiple user_id's as array of ints.
 	 * @param int/array $group_id | Single group id as int. Multiple group ids as array of int.
@@ -1159,8 +1159,8 @@ class FOX_uGroupMember extends FOX_db_base {
 	/**
 	 * Removes one or more users from one or more groups
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user_id as int. Multiple user_id's as array of ints.
 	 * @param int/array $group_id | Single group_id as int. Multiple group_id's as array of ints.
@@ -2121,8 +2121,8 @@ class FOX_uGroupMember extends FOX_db_base {
 	 * Drops all groups for a single user_id from the database and cache. Generally
 	 * used when deleting user profiles.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | ID of the user
 	 * @return bool | False on failure. Number of rows affected on success.
@@ -2174,8 +2174,8 @@ class FOX_uGroupMember extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_uGroupMember(){
@@ -2209,8 +2209,8 @@ add_action( 'fox_install', 'install_FOX_uGroupMember', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_uGroupMember(){

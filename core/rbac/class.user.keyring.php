@@ -90,8 +90,8 @@ class FOX_uKeyRing extends FOX_db_base {
 	/**
 	 * Loads user keys into the cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user id as int. Multiple user id's as array of int.
 	 * @param int/array $key_id | Single key id as int. Multiple key ids as array of int.
@@ -221,8 +221,8 @@ class FOX_uKeyRing extends FOX_db_base {
 	 * Checks if a single user has a single key. If the key is not already cached, it will
 	 * be added to the class cache and the persistent cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | user_id to check
 	 * @param int $key_id | key_id to check for
@@ -279,8 +279,8 @@ class FOX_uKeyRing extends FOX_db_base {
 	 * Gets the entire keyring for a single user. If the user_id's keyring is not already cached,
 	 * it will be added to the class cache and persistent cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | user_id to get keyring for
 	 * @return array | Key ids for user_id
@@ -314,8 +314,8 @@ class FOX_uKeyRing extends FOX_db_base {
 	 * Gets the entire keyring for multiple users. If a user_id's keyring is not already cached,
 	 * it will be added to the class cache and persistent cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $users | array of user id's
 	 * @return array | "user_id"=>array($key_id)
@@ -387,8 +387,8 @@ class FOX_uKeyRing extends FOX_db_base {
 	/**
 	 * Creates a new key, adding it to the database and cache.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user_id as int. Multiple user_id's as array of ints.
 	 * @param int/array $key_id | Single key_id as int. Multiple key_id's as array of ints.
@@ -763,8 +763,8 @@ class FOX_uKeyRing extends FOX_db_base {
 	/**
 	 * Drops one or more keys from the database for one or more user_id's
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $user_id | Single user_id as int. Multiple user_id's as array of ints.
 	 * @param int/array $key_id | Single key_id as int. Multiple key_id's as array of ints.
@@ -843,8 +843,8 @@ class FOX_uKeyRing extends FOX_db_base {
 	 * Drops all keys for a single user id from the database and cache. Typically
 	 * used when deleting user profiles.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int $user_id | ID of the user
 	 * @return bool/int | False on failure. Int number of rows deleted on success.
@@ -893,8 +893,8 @@ class FOX_uKeyRing extends FOX_db_base {
 	 * Drops one or more keys from the database and cache for ALL USERS ON THE SITE. Generally used when
 	 * uninstalling or upgfoxing apps, or for managing admin-assigned arbitrary keys.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $key_id | Single key_id as int. Multiple key_id's as array of ints.
 	 * @return bool | False on failure. True on success.
@@ -954,8 +954,8 @@ class FOX_uKeyRing extends FOX_db_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_uKeyRing(){
@@ -989,8 +989,8 @@ add_action( 'fox_install', 'install_FOX_uKeyRing', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_uKeyRing(){

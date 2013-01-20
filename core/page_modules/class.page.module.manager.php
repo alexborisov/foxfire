@@ -141,8 +141,8 @@ class FOX_pageModuleManager extends FOX_module_manager_base {
  * Hooks on the plugin's install function, creates database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function install_FOX_pageModuleManager(){
@@ -176,8 +176,8 @@ add_action( 'fox_install', 'install_FOX_pageModuleManager', 2 );
  * Hooks on the plugin's uninstall function. Removes all database tables and
  * configuration options for the class.
  *
- * @version 0.1.9
- * @since 0.1.9
+ * @version 1.0
+ * @since 1.0
  */
 
 function uninstall_FOX_pageModuleManager(){

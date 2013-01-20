@@ -1,15 +1,15 @@
 <?php
 
 /**
- * RADIENT PAGE MODULE ADMIN PAGE LOADER BASE CLASS
+ * FOXFIRE PAGE MODULE ADMIN PAGE LOADER BASE CLASS
  * Loads page module config page tabs at the admin menu
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Admin
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
@@ -22,7 +22,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 // ============================================================================================================ //
 
 
-abstract class RAD_PM_loader_base {
+abstract class FOX_PM_loader_base {
 
     
 	var $tabs = array();	    // Tabs storage array
@@ -43,8 +43,8 @@ abstract class RAD_PM_loader_base {
 	/**
 	 * Renders all tabs on the page modules's admin page
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 */
 
 	public function render() {

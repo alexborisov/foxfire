@@ -2,7 +2,7 @@
 
 /**
  * FOXFIRE SYSTEM KEYS
- * Maps WordPress roles to Radient system keys, and adds parametric and conditional keys.
+ * Maps WordPress roles to FoxFire system keys, and adds parametric and conditional keys.
  * 
  * @version 1.0
  * @since 1.0
@@ -32,8 +32,8 @@ class FOX_sysKey {
 	/**
 	 * Returns all keys currently stored in the db
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return bool/array | False on failure. Array of keys on success.
 	 */

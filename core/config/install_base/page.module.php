@@ -1,19 +1,19 @@
 <?php
 /**
- * RADIENTPAGE MODULE INSTALL CLASS
- * Handles install operations for Radient page modules
+ * FOXFIREPAGE MODULE INSTALL CLASS
+ * Handles install operations for FoxFire page modules
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Config
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-class RAD_pageModule_install_base {
+class FOX_pageModule_install_base {
 
 
 	var $slug;		// Album module's slug
@@ -26,15 +26,15 @@ class RAD_pageModule_install_base {
 	/**
 	 * Loads the class with information about the album module
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $slug | Module slug name. Max 16 characters. Must be unique.
 	 * @param string $name | Module name. Max 32 characters.
 	 * @param string $php_class | Module PHP class. Max 255 characters. Must be unique.
 	 */
 
-	function RAD_pageModule_install_base($slug, $name, $php_class) {
+	function FOX_pageModule_install_base($slug, $name, $php_class) {
 
 		$this->__construct($slug, $name, $php_class);
 	}
@@ -42,8 +42,8 @@ class RAD_pageModule_install_base {
 	/**
 	 * Loads the class with information about the album module
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string $slug | Module slug name. Max 16 characters. Must be unique.
 	 * @param string $name | Module name. Max 32 characters.
@@ -62,8 +62,8 @@ class RAD_pageModule_install_base {
 	 * Creates configuration keys for the module's "settings" page, and loads them with
 	 * default values
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $error | If system fails to create one or more configuration keys, this
 	 *			 variable will contain an array of failed key names.
@@ -92,8 +92,8 @@ class RAD_pageModule_install_base {
 	 * Creates configuration keys for the module's "templates" page, and loads them with
 	 * default values
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $error | If system fails to create one or more configuration keys, this
 	 *			 variable will contain an array of failed key names.
@@ -107,9 +107,9 @@ class RAD_pageModule_install_base {
 
 		$data = array(
 
-			"viewSite"=>		RAD_PATH_PAGE_MODULES . "/" . $this->slug . "/templates/view_site.php",
-			"viewProfile" =>	RAD_PATH_PAGE_MODULES . "/" . $this->slug . "/templates/view_profile.php",
-			"viewEmbedded" =>	RAD_PATH_PAGE_MODULES . "/" . $this->slug . "/templates/view_embedded.php",
+			"viewSite"=>		FOX_PATH_PAGE_MODULES . "/" . $this->slug . "/templates/view_site.php",
+			"viewProfile" =>	FOX_PATH_PAGE_MODULES . "/" . $this->slug . "/templates/view_profile.php",
+			"viewEmbedded" =>	FOX_PATH_PAGE_MODULES . "/" . $this->slug . "/templates/view_embedded.php",
 
 		);
 
@@ -138,6 +138,6 @@ class RAD_pageModule_install_base {
 	}
 
 
-} // End of class RAD_pageModule_install_base
+} // End of class FOX_pageModule_install_base
 
 ?>

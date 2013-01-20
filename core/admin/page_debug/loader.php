@@ -37,7 +37,7 @@ class FOX_admin_page_debug_intro {
 
 			<div class="details">
 			    <?php _e("These admin screens are used to reset the server to a known state during debugging, and to test FoxFire's server-side and JavaScript code libraries. For more
-				info see the <a href='http://code.google.com/p/buddypress-media/wiki/PLUGIN_debug'>Debug Tools</a> wiki page.","foxfire") ?>
+				info see the <a href='https://github.com/FoxFirewiki/PLUGIN_debug'>Debug Tools</a> wiki page.","foxfire") ?>
 			</div>
 
 		</div>

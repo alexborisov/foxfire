@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RADIENT MODULE MANAGER BASE CLASS
+ * FOXFIRE MODULE MANAGER BASE CLASS
  * Handles registration and configuration for Page, Album, Media, Network, and future types of modules
  *
  * @version 1.0
@@ -144,12 +144,12 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * module's loader.php file is loaded, the module registers itself with the modules singleton and
 	 * becomes live on the system.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return int | Exception on failure. (int) number of modules loaded on success.
 	 */
 
-	public function loadAll($path=false) {
+	public function loadAllModules($path=false) {
 
 
 		if($path){
@@ -157,7 +157,7 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 			$modules_list = glob( $path . '*');
 		}
 		else {
-			$modules_list = glob( RAD_PATH_BASE .'/modules/' . $this->_offset() . '/*');
+			$modules_list = glob( FOX_PATH_BASE .'/modules/' . $this->_offset() . '/*');
 		}
 		
 		$result = 0;
@@ -193,8 +193,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * module's loader.php file is loaded, the module registers itself with the modules singleton and
 	 * becomes live on the system.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -220,7 +220,7 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 
 		if(!$base_path){
 
-			$base_path =  RAD_PATH_BASE .'/modules/' . $this->_offset() . '/';
+			$base_path =  FOX_PATH_BASE .'/modules/' . $this->_offset() . '/';
 		}
 
 		$result = 0;
@@ -371,8 +371,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Installs one or more modules on the system and generates a module_ids for them
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data | Array of modules to add
 	 *	=> ARR @param int '' | Array index
@@ -482,8 +482,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Edits a module that already exists on the system.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data |
 	 *	=> VAL @param int $module_id | The id of the module
@@ -653,8 +653,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * Returns an array containing the class names of all modules that are currently
 	 * present in the modules directory
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return array | Exception on failure. Array containing the modules' class names on success.
 	 */
@@ -668,8 +668,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Gets the slug of the currently selected module at the admin screen
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return string | Exception on failure. Module slug as string on success.
 	 */
 
@@ -680,7 +680,7 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 		try {
 			$result = $san->slug($_GET['module'], $ctrl=null);
 		}
-		catch (RAD_Exception $child) {
+		catch (FOX_Exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
@@ -698,8 +698,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Gets the slug of the currently selected module tab at the admin screen
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return string | Exception on failure. Module tab slug as string on success.
 	 */
 
@@ -710,7 +710,7 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 		try {
 			$result = $san->slug($_GET['tab'], $ctrl=null);
 		}
-		catch (RAD_Exception $child) {
+		catch (FOX_Exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
@@ -728,8 +728,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Loads admin page scripts for all modules.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -744,7 +744,7 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadModules();
+				self::loadAllModules();
 			}
 			catch (FOX_exception $child) {
 
@@ -820,8 +820,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Loads admin page CSS styles for all modules.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -834,7 +834,7 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadModules();
+				self::loadAllModules();
 			}
 			catch (FOX_exception $child) {
 
@@ -906,8 +906,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Loads module data into the cache
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param array $data | Array of identifiers to cache, or null to cache all rows in the database
 	 *	=> VAL @param int/array $module_id | Single module_id as int. Multiple module_ids as array of int.
@@ -1025,8 +1025,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Returns an array containing all data for all active modules
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return array | Exception on failure. Array of class names on success.
 	 */
@@ -1094,8 +1094,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Returns an array containing all data for all modules
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @return array | Exception on failure. Array of class names on success.
 	 */
@@ -1162,8 +1162,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Returns all data columns for one or more module id's.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param int/array $module_id | Single module_id as int. Multiple module_ids as array of int.
 	 * @return array | Exception on failure. Array of module data arrays on success.
@@ -1285,8 +1285,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Returns all data columns for one or more modules, given the module's PHP class name.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $php_class | Single class as string. Multiple classes as array of strings.
 	 * @return arrat | Exception on failure. Array of module data arrays on success.
@@ -1421,8 +1421,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Returns all data columns for one or more modules, given the module's slug name.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 *
 	 * @param string/array $slug | Single slug as string. Multiple slugs as array of strings.
 	 * @return array | Exception on failure. Array of module data arrays on success.
@@ -1557,8 +1557,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * Sets one or more module's status to active, making them available to use.
 	 * This version of the function uses the module's slug as the identifier.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $slug | Single module slug as string. Multiple modules as array of strings.
 	 * @return bool | Exception on failure. True on success. False on already activated.
 	 */
@@ -1683,8 +1683,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * Sets one or more module's status to active, making them available to use.
 	 * This version of the function uses the module's module_id as the identifier.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $module_id | Single module_id as int. Multiple module_ids as array of ints.
 	 * @return bool | Exception on failure. True on success. False on already activated.
 	 */
@@ -1804,8 +1804,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * Sets one or more module's status to inactive, making them unavailable for use.
 	 * This version of the function uses the module's slug as the identifier.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $slug | Single module slug as string. Multiple modules as array of strings.
 	 * @return bool | Exception on failure. True on success. False on already deactivated.
 	 */
@@ -1927,8 +1927,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * Sets one or more module's status to inactive, making them unavailable for use.
 	 * This version of the function uses the module's module_id as the identifier.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $module_id | Single module_id as int. Multiple module_ids as array of ints.
 	 * @return bool | Exception on failure. True on success. False on already deactivated.
 	 */
@@ -2048,8 +2048,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * Removes a module from the system. Modules are responsible for deleting their own
 	 * config keys and data objects.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param int/array $module_id | Single module_id as int. Multiple module ids as array of ints.
 	 * @return bool | Exception on failure. True on Success. False on nonexistent.
 	 */
@@ -2169,8 +2169,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * Removes a module from the system. Modules are responsible for deleting their own
 	 * config keys and data objects.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string/array $slug | Single slug as string. Multiple slugs as array of strings.
 	 * @return bool | Exception on failure. True on Success. False on nonexistent.
 	 */
@@ -2290,8 +2290,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Loads the configuration data for the template the module is currently using
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @param string $slug | Module slug name
 	 * @return bool | Exception on failure. True on Success.
 	 */
@@ -2377,7 +2377,7 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 				$this->thumbs["direction"] = $primary["thumbs"]["direction"]["value"];
 			}
 
-			//RAD_Debug::dump($this->targets); RAD_Debug::dump($this->views); RAD_Debug::dump($this->caps); die;
+			//FOX_Debug::dump($this->targets); FOX_Debug::dump($this->views); FOX_Debug::dump($this->caps); die;
 
 			return true;
 
@@ -2390,8 +2390,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	 * Returns the available target screen targets for the template that the
 	 * page module is currently using
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return array | Exception on failure. Array of available targets on success.
 	 */
 
@@ -2404,8 +2404,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Returns the available views for the template that the page module is currently using
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return array | Exception on failure. Array of available views on success.
 	 */
 
@@ -2418,8 +2418,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Returns the available capability locks for the template that the page module is currently using
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return array | Exception on failure. Array of available capability locks on success.
 	 */
 
@@ -2432,8 +2432,8 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 	/**
 	 * Returns the thumbnail config data for the template that the page module is currently using
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return array | Exception on failure. Array of thumbnail config data on success.
 	 */
 

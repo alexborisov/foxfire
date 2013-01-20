@@ -1,27 +1,27 @@
 <?php
 
 /**
- * RADIENT PAGE MODULE BASE CLASS
+ * FOXFIRE PAGE MODULE BASE CLASS
  * Provides common functions used in page modules
  *
- * @version 0.1.9
- * @since 0.1.9
- * @package Radient
+ * @version 1.0
+ * @since 1.0
+ * @package FoxFire
  * @subpackage Page Modules
  * @license GPL v2.0
- * @link http://code.google.com/p/buddypress-media/
+ * @link https://github.com/FoxFire
  *
  * ========================================================================================================
  */
 
-abstract class RAD_pageModule_base {
+abstract class FOX_pageModule_base {
 
 
 	/**
 	 * Returns the unique ID for the page module as assigned by the plugin core.
 	 *
-	 * @version 0.1.9
-	 * @since 0.1.9
+	 * @version 1.0
+	 * @since 1.0
 	 * @return int | Exception on failure. Page module ID on success.
 	 */
 	public function getID(){
@@ -59,6 +59,6 @@ abstract class RAD_pageModule_base {
 
 	}
 
-} // End of abstract class_RAD_pageModule_base
+} // End of abstract class_FOX_pageModule_base
 
 ?>
