@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class FOX_pageModuleManager extends FOX_module_manager_base {
+class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by ancestor class

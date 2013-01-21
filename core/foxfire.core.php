@@ -227,7 +227,8 @@ else {
 	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );
 	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
 	
-	require ( dirname( __FILE__ ) . '/page_modules/class.access.manager.php' );	
+	require ( dirname( __FILE__ ) . '/page_modules/class.access.manager.shared.php' );
+	require ( dirname( __FILE__ ) . '/page_modules/class.access.manager.private.php' );		
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	

@@ -1,8 +1,8 @@
 <?php
 
 /**
- * FOXFIRE SHARED MODULE MANAGER BASE CLASS
- * Handles registration and configuration for modules that are shared between multiple plugins
+ * FOXFIRE PRIVATE MODULE MANAGER BASE CLASS
+ * Handles registration and configuration for modules that are only used within a single plugin
  *
  * @version 1.0
  * @since 1.0
@@ -14,23 +14,17 @@
  * ========================================================================================================
  */
 
-abstract class FOX_moduleManager_shared_base extends FOX_db_base {
+abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 
-    	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache 
+    	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache
 					    // locking. Loaded by descendent class.
-	
+
 	var $cache;			    // Main cache array for this class
-	
-	var $db;			    // Local copy of database singleton
-	
-	var $mCache;			    // Local copy of memory cache singleton. Used by FOX_db_base for cache 
-					    // operations. Loaded by descendent class.	
-	
-	var $debug_on;			    // Send debugging info to the debug handler	
-	var $debug_handler;		    // Local copy of debug singleton	
-	
-	
+
+	var $mCache;			    // Local copy of memory cache singleton. Used by FOX_db_base for cache
+					    // operations. Loaded by descendent class.
+
 	var $admin_modules = array();	    // Array of all module php_classes as loaded on the admin screen
 
 	var $targets = array();		    // Array of all available targets for the template the module
@@ -43,7 +37,11 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 					    // is currently using (or default roles if not supplied by template)
 
 	var $thumbs = array();		    // Array of thumbnail configuration data (or default values if not supplied
-					    // by template)	
+					    // by template)
+
+	var $dir_override;		    // Used during unit testing. If set, the class will load modules from the
+					    // path specified.
+
 
 	/* ================================================================================================================
 	 *	Cache Strategy: "monolithic"
@@ -52,19 +50,18 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	 *
  	 *	    => ARR array $module_id | Main datastore
 	 *		=> ARR int '' | Array index
-	 *		    => VAL string $plugin_slug | Slug of plugin that owns the page module
-	 *		    => VAL string $module_slug | The page module's slug
-	 *		    => VAL string $module_name | The page module's name
-	 *		    => VAL string $php_class | The page module's PHP class
-	 *		    => VAL bool   $active | True if page module is active. False if not.
+	 *		    => VAL string $slug | The module's slug
+	 *		    => VAL string $name | The module's name
+	 *		    => VAL string $php_class | The module's PHP class
+	 *		    => VAL bool $active | True if active. False if not.
 	 *
  	 *	    => ARR array $php_class | PHP class dictionary
 	 *		=> KEY string $php_class | Name of PHP class
 	 *		    => VAL int $module_id | The module's id
 	 *
   	 *	    => ARR array $slug | Slug dictionary
-	 *		=> KEY string $module_slug | Name of the page module's slug
-	 *		    => VAL int $module_id | The page module's id
+	 *		=> KEY string $slug | Name of the module's slug
+	 *		    => VAL int $module_id | The module's id
 	 *
    	 *	    => ARR array $active_modules | Active modules dictionary
 	 *		=> KEY int $module_id | The module's id
@@ -77,124 +74,35 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 
 	/**
-	 * Initializes the class. This function MUST be called in the __construct() method
-	 * of descendent classes. 
-	 * 
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 * 
-	 * @return bool | Exception on failure. True on success.
-	 */
-
-	public function init($args=null){
-	    
-		
-		// Debug events
-		// ===========================================================
-		
-		if(FOX_sUtil::keyExists('debug_on', $args) && ($args['debug_on'] == true) ){
-		    
-			$this->debug_on = true;
-		    
-			if(FOX_sUtil::keyExists('debug_handler', $args)){
-
-				$this->debug_handler =& $args['debug_handler'];		    
-			}
-			else {
-				global $fox;
-				$this->debug_handler =& $fox->debug_handler;		    		    
-			}	    
-		}
-		else {
-			$this->debug_on = false;		    		    
-		}
-		
-		// Database singleton
-		// ===========================================================
-		
-		if(FOX_sUtil::keyExists('db', $args) ){
-		    
-			$this->db =& $args['db'];		    
-		}
-		else {
-			$this->db = new FOX_db( array('pid'=>$this->process_id) );		    		    
-		}
-		
-		
-		// Memory cache singleton
-		// ===========================================================
-		
-		if(FOX_sUtil::keyExists('mCache', $args) ){
-		    
-			$this->mCache =& $args['mCache'];		    
-		}
-		else {
-			global $fox;
-			$this->mCache =& $fox->mCache;		    		    
-		}		
-			    				
-		$this->init = true;
-	    
-	}
-	
-	
-	/**
 	 * Scans each subdirectory in the modules folder, adding loader.php to the include path. When a
 	 * module's loader.php file is loaded, the module registers itself with the modules singleton and
 	 * becomes live on the system.
 	 *
 	 * @version 1.0
 	 * @since 1.0
-	 * @return int | Exception on failure. (int) number of modules loaded on success.
+	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadAllModules($path=false) {
+	public function loadModules() {
 
 
-		if(!$this->init){
+		if($this->dir_override){
 
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		if($path){
-
-			$modules_list = glob( $path . '*');
+			$modules_list = glob( $this->dir_override . '*');
 		}
 		else {
-			$modules_list = glob( FOX_PATH_BASE .'/modules/' . $this->_offset() . '/*');
+			$modules_list = glob( RAD_PATH_BASE .'/modules/' . $this->_offset() . '/*');
 		}
-		
-		$result = 0;
-		
-		foreach( $modules_list as $module_path ){
 
-			if( file_exists($module_path . "/loader.php") ){
+		foreach ( $modules_list as $path ){
 
-				include_once( $module_path . "/loader.php" );
-				$result++;
+			if( file_exists($path . "/loader.php") ){
+
+				include_once( $path . "/loader.php" );
 			}
-			else {			    
-				throw new FOX_exception( array(
-					'numeric'=>1,
-					'text'=>"Module contains no loader file",
-					'data'=>$module_path,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    			    
-			}
-					
 		}
-		unset($module_path);
 
-		
-		return $result;
-		
+		return true;
 	}
 
 
@@ -208,116 +116,100 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadModule($module_slugs, $base_path=false) {
+	public function loadModule($slugs) {
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		if( empty($module_slugs) ){
+		if( empty($slugs) ){
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Called with empty slugs parameter",
-				'data'=>array('module_slugs'=>$module_slugs),
+				'text'=>"Called with empty slug",
+				'data'=>array('module_id'=>$slugs),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));
+
 		}
-		elseif( !is_array($module_slugs) ){
+		elseif( !is_array($slugs) ){
 
 			// Handle single string as input
-			$module_slugs = array($module_slugs);
+			$slugs = array($slugs);
 		}
 
 
-		if(!$base_path){
+		if($this->dir_override){
 
-			$base_path =  FOX_PATH_BASE .'/modules/' . $this->_offset() . '/';
+			$base_path =  $this->dir_override;
+		}
+		else {
+			$base_path =  RAD_PATH_BASE .'/modules/' . $this->_offset() . '/';
 		}
 
-		$result = 0;
-		
-		foreach( $module_slugs as $slug ){
+
+		foreach( $slugs as $slug ){
 
 			if( file_exists($base_path . $slug . "/loader.php") ){
 
 				include_once( $base_path . $slug . "/loader.php" );
-				$result++;
 			}
-			else {			    
-				throw new FOX_exception( array(
-					'numeric'=>1,
-					'text'=>"Specified module contains no loader file",
-					'data'=>$base_path . $slug ,
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));			    			    
-			}			
 		}
-		unset($slug);
-		
-		return $result;
+
+		return true;
 
 	}
 
 
 	/**
-	 * Registers a page module with the system. Generates a new $module_id for the 
-	 * page module if it doesn't exist on the system. Otherwise returns the page
-	 * module's current $module_id.
+	 * Registers a module with the module manager
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @param string $plugin_slug | WordPress slug for plugin that owns this page module	 
-	 * @param string $module_slug | Module slug name. Max 32 characters. Must be unique.
-	 * @param string $module_name | Human readable page module name. Max 32 characters.
+	 * @param string $slug | Module slug name. Max 16 characters. Must be unique.
+	 * @param string $name | Module name. Max 32 characters.
 	 * @param string $php_class | Module PHP class. Max 255 characters. Must be unique.
 	 * @param bool $active | True to auto-activate the module (used during unit testing)
 	 *
 	 * @return int | Exception on failure. Module id on success.
 	 */
 
-	public function register($plugin_slug, $module_slug, $module_name, $php_class, $active=false) {
+	public function register($slug, $name, $php_class, $active=false) {
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		if( class_exists($php_class) ){	    // This check is necessary so we can run unit tests
 						    // without creating huge numbers of mock classes
-		    
 			$this->admin_modules[] = new $php_class();
 		}
 
-		// Check the PHP class name
+		// Check the slug name
 		// ========================================================
 
 		try {
-			$class_exists = self::getByClass($php_class);
+			$slug_exists = self::getBySlug($slug);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error checking slug name",
+				'data'=> array('slug'=>$slug, 'name'=>$name, 'php_class'=>$php_class, 'active'=>$active),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+
+		// Check the class name
+		// ========================================================
+
+		try {
+			$class_exists = self::getByClass($name);
 		}
 		catch (FOX_exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error checking class name",
-				'data'=> array(	'plugin_slug'=>$plugin_slug, 'module_slug'=>$module_slug, 
-						'module_name'=>$module_name, 'php_class'=>$php_class, 'active'=>$active),
+				'data'=> array('slug'=>$slug, 'name'=>$name, 'php_class'=>$php_class, 'active'=>$active),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));
@@ -326,18 +218,17 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		// Add it to the system
 		// ========================================================
 
-		if(!$class_exists ){
+		if( !$slug_exists && !$class_exists ){
 
 			try {
-				$module_id = self::add($plugin_slug, $module_slug, $module_name, $php_class, $active);
+				$module_id = self::add($slug, $name, $php_class, $active);
 			}
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error adding module to database",
-					'data'=> array(	'plugin_slug'=>$plugin_slug, 'module_slug'=>$module_slug, 
-							'module_name'=>$module_name, 'php_class'=>$php_class, 'active'=>$active),
+					'data'=> array('slug'=>$slug, 'name'=>$name, 'php_class'=>$php_class, 'active'=>$active),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
 				));
@@ -345,373 +236,14 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 		}
 		else {
-			$module_id = $class_exists['module_id'];
+			$module_id = $slug_exists['module_id'];
 		}
 
-		
 		return $module_id;
 
 	}
 
 
-	/**
-	 * Installs a page module on the system and generates a module_id for it
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param string $plugin_slug | WordPress slug for plugin that owns this page module	 
-	 * @param string $module_slug | Module slug name. Max 32 characters. Must be unique.
-	 * @param string $module_name | Human readable page module name. Max 32 characters.
-	 * @param string $php_class | Module PHP class. Max 255 characters. Must be unique.
-	 * @param bool $active | True to auto-activate the module (used during unit testing)
-	 *
-	 * @return int | Exception on failure. Module id on success.
-	 */
-
-	public function add($plugin_slug, $module_slug, $module_name, $php_class, $active=false){
-
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$data = array( array(	'plugin_slug'=>$plugin_slug, 
-					'module_slug'=>$module_slug, 
-					'module_name'=>$module_name, 
-					'php_class'=>$php_class, 
-					'active'=>$active
-			));
-
-		try {
-			$result = self::addMulti($data);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"addMulti functon reported an error",
-				'data'=> array('data'=>$data),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		return $result[0];
-
-	}
-
-
-	/**
-	 * Installs one or more modules on the system and generates a module_ids for them
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param array $data | Array of modules to add
-	 *	=> ARR @param int '' | Array index
-	 *	    => VAL @param string $slug | The module's slug
-	 *	    => VAL @param string $name | The module's name
-	 *	    => VAL @param string $php_class | The module's PHP class
-	 *	    => VAL @param bool $active | True if active. False if not.
-	 *
-	 * @return array | Exception on failure. Array of module id's on success.
-	 */
-
-	public function addMulti($data){
-	    
-
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		// Note that because we're adding a *new* item to the datastore, we don't need
-		// to lock the cache. There are no entries in the cache to become out of sync
-		// with the db in the event of a failure.
-
-		try {
-			$columns = null;
-			$insert_ctrl = null;
-			
-			$insert_id = $this->db->runInsertQueryMulti($this->_struct(), $data, $columns, $insert_ctrl);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Error writing to database",
-				'data'=> array('data'=>$data),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		// Load the class cache from the persistent cache
-		// =================================================
-
-		try {
-			self::loadCache();
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Cache get error",
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		if( !$insert_id || ($insert_id != (int)$insert_id) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>3,
-				'text'=>"Database did not return valid insert_id",
-				'data'=>array("data"=>$data, "failed_id"=>$insert_id),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-
-		$module_id = $insert_id;
-		$result = array();
-
-		// MySQL will return the insert_id of the first row in the insert operation. Each
-		// successive row will have a sequential insert_id value incremented by the
-		// autoincrement_increment value set in the table definition array
-
-		foreach($data as $row_data){
-
-			$row_data["module_id"] = $module_id;
-
-			$this->cache["module_id"][$module_id] = $row_data;
-			$this->cache["php_class"][$row_data["php_class"]] = $module_id;
-			$this->cache["slug"][$row_data["slug"]] = $module_id;
-
-			if($row_data["active"] == true ){
-				$this->cache["active_modules"][$module_id] = true;
-			}
-
-			$result[] = $module_id;
-			$module_id += $this->db->auto_increment_increment;
-		}
-		unset($row_data, $module_id);
-
-
-		// Write back the class cache to the persistent cache
-		// =================================================
-
-		try {
-			self::saveCache();
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>4,
-				'text'=>"Cache set error",
-				'data'=>array('class_cache'=>$this->cache),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		return $result;
-
-	}
-	
-	
-	/**
-	 * Edits a module that already exists on the system.
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param array $data |
-	 *	=> VAL @param int $module_id | The id of the module
-	 *	=> VAL @param string $slug | Machine slug for the module. [a-z AZ 09 _-] only. Max 16 chars.
-	 *	=> VAL @param string $name | Human readable name of the module. Max 128 chars
-	 *	=> VAL @param bool $active | True if this module is active False if not.
-	 *	=> VAL @param string $php_class | PHP class for the module.
-	 *
-	 * @param bool $unit_test | Unit testing flag. Set true to stop function from throwing errors.
-	 *
-	 * @return int | Exception on failure. Number of db rows changed on success.
-	 */
-
-	public function edit($data) {
-
-
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$this->db = new FOX_db();
-
-		if( empty($data["module_id"]) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Missing module_id",
-				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-
-		$data["module_id"] = (int)$data["module_id"];
-
-
-		// Get the module's current db entry (required during cache update)
-		// =================================================================
-
-		$args = array(
-				array("col"=>"module_id", "op"=>"=", "val"=>$data["module_id"] ),
-		);
-		$ctrl = array("format"=>"row_array");
-
-		try {
-			$previous = $this->db->runSelectQuery($this->_struct(), $args, $columns=null, $ctrl);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error reading from database",
-				'data'=> array('args'=>$args, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		// Lock the current cache namespace
-		// =================================================================
-
-		try {
-			self::lockCache($this->process_id, 5);
-		}
-		catch (FOX_exception $child) {
-
-			if($child->getNumeric() == 4){
-
-				// In the future we'll handle this gracefully, but to simplify
-				// testing, we currently just throw an exception
-
-				throw new FOX_exception( array(
-					'numeric'=>3,
-					'text'=>"Another thread had exclusive use of the cache namespace",
-					'data'=> array('lock_info'=>$child->data),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));
-
-			}
-			else {
-				throw new FOX_exception( array(
-					'numeric'=>4,
-					'text'=>"Error locking persitent cache",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));
-			}
-		}
-
-		// Run the query
-		// =================================================================
-
-		$args = array(
-				array("col"=>"module_id", "op"=>"=", "val"=>$data["module_id"] ),
-		);
-		$columns = array("mode"=>"exclude", "col"=>array("module_id") );
-
-		try {
-			$rows_changed = $this->db->runUpdateQuery($this->_struct(), $data, $args, $columns);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>5,
-				'text'=>"Error writing to database",
-				'data'=> array('data'=>$data, 'args'=>$args, 'columns'=>$columns),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		// Rebuild the class cache if necessary
-		// =============================================================
-
-		// Fill in any fields missing from the $data array with the values that are currently in the db
-		$data = wp_parse_args($data, $previous);
-
-		// Update main datastore
-		$this->cache["module_id"][$data["module_id"]] = $data;
-
-		// Update php_class dictionary
-		if($previous["php_class"] != $data["php_class"] ){
-
-			unset($this->cache["php_class"][$previous["php_class"]]);
-			$this->cache["php_class"][$data["php_class"]] = $data["module_id"];
-		}
-
-		// Update slug dictionary
-		if($previous["php_class"] != $data["php_class"] ){
-
-			unset($this->cache["slug"][$previous["slug"]]);
-			$this->cache["slug"][$data["slug"]] = $data["module_id"];
-		}
-
-		// Update active_modules dictionary
-		if( $previous["active"] != $data["active"] ){
-
-			if($data["active"] == true ){
-
-				$this->cache["active_modules"][$data["module_id"]] = true;
-			}
-			else {
-				unset($this->cache["active_modules"][$data["module_id"]]);
-			}
-		}
-
-		// Update the persistent cache and release our lock
-		// =============================================================
-
-		try {
-			self::saveCache();
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>6,
-				'text'=>"Cache set error",
-				'data'=>$this->cache,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		return (int)$rows_changed;
-
-	}
-	
-	
 	/**
 	 * Returns an array containing the class names of all modules that are currently
 	 * present in the modules directory
@@ -724,19 +256,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function getAdminModules() {
 
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		return $this->admin_modules;
-		
 	}
 
 
@@ -750,23 +270,12 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function getSelectedModule() {
 
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		$san = new FOX_sanitize();
 
 		try {
 			$result = $san->slug($_GET['module'], $ctrl=null);
 		}
-		catch (FOX_Exception $child) {
+		catch (RAD_Exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
@@ -791,23 +300,12 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function getSelectedTab() {
 
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		$san = new FOX_sanitize();
 
 		try {
 			$result = $san->slug($_GET['tab'], $ctrl=null);
 		}
-		catch (FOX_Exception $child) {
+		catch (RAD_Exception $child) {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
@@ -832,16 +330,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function loadAdminScripts() {
 
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}	    
 
 		// Check if the modules have been loaded
 		// ============================================
@@ -851,7 +339,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadAllModules();
+				self::loadModules();
 			}
 			catch (FOX_exception $child) {
 
@@ -934,17 +422,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function loadAdminStyles() {
 
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		// Check if the modules have been loaded. If not, load them.
 
 		$modules_loaded = count($this->admin_modules);
@@ -952,7 +429,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadAllModules();
+				self::loadModules();
 			}
 			catch (FOX_exception $child) {
 
@@ -1038,17 +515,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function load($data=null){
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$this->db = new FOX_db();
+		$db = new FOX_db();
 
 		$args = array();
 
@@ -1071,7 +538,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		$ctrl = array("format"=>"array_key_array", "key_col"=>"module_id" );
 
 		try {
-			$this->db_result = $this->db->runSelectQuery($this->_struct(), $args, $columns=null, $ctrl);
+			$db_result = $db->runSelectQuery($this->_struct(), $args, $columns=null, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1085,7 +552,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		}
 
 
-		if($this->db_result){
+		if($db_result){
 
 
 			// Load the class cache from the persistent cache
@@ -1112,7 +579,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 				$this->cache["all_cached"] = true;
 			}
 
-			foreach($this->db_result as $module_id => $row_data){
+			foreach($db_result as $module_id => $row_data){
 
 				$this->cache["module_id"][$module_id] = $row_data;
 				$this->cache["php_class"][$row_data["php_class"]] = $module_id;
@@ -1148,6 +615,157 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 
 	/**
+	 * Installs a module on the system and generates a module_id for it
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $slug | Machine slug for the module. [a-z AZ 09 _-] only. Max 16 chars.
+	 * @param string $name | Human readable name of the module. Max 128 chars
+	 * @param string $php_class | PHP class for the module.
+	 * @param bool $active | True to set this module as active. False to set it as inactive.
+	 *
+	 * @return bool | Exception on failure. Id of new row on success.
+	 */
+
+	public function add($slug, $name, $php_class, $active=false){
+
+
+		$data = array( array( "slug"=>$slug, "name"=>$name, "php_class"=>$php_class, "active"=>$active) );
+
+		try {
+			$result = self::addMulti($data);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"addMulti functon reported an error",
+				'data'=> array('data'=>$data),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+
+		return $result[0];
+
+	}
+
+
+	/**
+	 * Installs one or more modules on the system and generates a module_ids for them
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param array $data | Array of modules to add
+	 *	=> ARR @param int '' | Array index
+	 *	    => VAL @param string $slug | The module's slug
+	 *	    => VAL @param string $name | The module's name
+	 *	    => VAL @param string $php_class | The module's PHP class
+	 *	    => VAL @param bool $active | True if active. False if not.
+	 *
+	 * @return array | Exception on failure. Array of module id's on success.
+	 */
+
+	public function addMulti($data){
+
+
+		$db = new FOX_db();
+
+		// Note that because we're adding a *new* item to the datastore, we don't need
+		// to lock the cache. There are no entries in the cache to become out of sync
+		// with the db in the event of a failure.
+
+		try {
+			$insert_id = $db->runInsertQueryMulti($this->_struct(), $data, $columns=null, $ctrl=null);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Error writing to database",
+				'data'=> array('data'=>$data),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+
+		// Load the class cache from the persistent cache
+		// =================================================
+
+		try {
+			self::loadCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Cache get error",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+
+		if( !$insert_id || ($insert_id != (int)$insert_id) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Database did not return valid insert_id",
+				'data'=>array("data"=>$data, "failed_id"=>$insert_id),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+
+		$module_id = $insert_id;
+		$result = array();
+
+		// MySQL will return the insert_id of the first row in the insert operation. Each
+		// successive row will have a sequential insert_id value incremented by the
+		// autoincrement_increment value set in the table definition array
+
+		foreach($data as $row_data){
+
+			$row_data["module_id"] = $module_id;
+
+			$this->cache["module_id"][$module_id] = $row_data;
+			$this->cache["php_class"][$row_data["php_class"]] = $module_id;
+			$this->cache["slug"][$row_data["slug"]] = $module_id;
+
+			if($row_data["active"] == true ){
+				$this->cache["active_modules"][$module_id] = true;
+			}
+
+			$result[] = $module_id;
+			$module_id += $db->auto_increment_increment;
+		}
+		unset($row_data, $module_id);
+
+
+		// Write back the class cache to the persistent cache
+		// =================================================
+
+		try {
+			self::saveCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>4,
+				'text'=>"Cache set error",
+				'data'=>array('class_cache'=>$this->cache),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+
+		return $result;
+
+	}
+
+
+	/**
 	 * Returns an array containing all data for all active modules
 	 *
 	 * @version 1.0
@@ -1158,17 +776,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function getActiveModules() {
 
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		// If the all_cached flag isn't set in the class cache, reload the class
 		// cache from the persistent cache.
 
@@ -1238,17 +845,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function getAllModules() {
 
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		// If the all_cached flag isn't set in the class cache, reload the class
 		// cache from the persistent cache.
 
@@ -1319,16 +915,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function getByID($module_id){
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		if( empty($module_id) ){
 
 			throw new FOX_exception( array(
@@ -1452,16 +1038,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function getByClass($php_class){
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		if( empty($php_class) ){
 
 			throw new FOX_exception( array(
@@ -1598,16 +1174,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function getBySlug($slug){
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		if( empty($slug) ){
 
 			throw new FOX_exception( array(
@@ -1731,6 +1297,177 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 
 	/**
+	 * Edits a module that already exists on the system.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param array $data |
+	 *	=> VAL @param int $module_id | The id of the module
+	 *	=> VAL @param string $slug | Machine slug for the module. [a-z AZ 09 _-] only. Max 16 chars.
+	 *	=> VAL @param string $name | Human readable name of the module. Max 128 chars
+	 *	=> VAL @param bool $active | True if this module is active False if not.
+	 *	=> VAL @param string $php_class | PHP class for the module.
+	 *
+	 * @param bool $unit_test | Unit testing flag. Set true to stop function from throwing errors.
+	 *
+	 * @return int | Exception on failure. Number of db rows changed on success.
+	 */
+
+	public function edit($data) {
+
+
+		$db = new FOX_db();
+
+		if( empty($data["module_id"]) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Missing module_id",
+				'data'=>$data,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+
+		$data["module_id"] = (int)$data["module_id"];
+
+
+		// Get the module's current db entry (required during cache update)
+		// =================================================================
+
+		$args = array(
+				array("col"=>"module_id", "op"=>"=", "val"=>$data["module_id"] ),
+		);
+		$ctrl = array("format"=>"row_array");
+
+		try {
+			$previous = $db->runSelectQuery($this->_struct(), $args, $columns=null, $ctrl);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error reading from database",
+				'data'=> array('args'=>$args, 'ctrl'=>$ctrl),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+
+		// Lock the current cache namespace
+		// =================================================================
+
+		try {
+			self::lockCache($this->process_id, 5);
+		}
+		catch (FOX_exception $child) {
+
+			if($child->getNumeric() == 4){
+
+				// In the future we'll handle this gracefully, but to simplify
+				// testing, we currently just throw an exception
+
+				throw new FOX_exception( array(
+					'numeric'=>3,
+					'text'=>"Another thread had exclusive use of the cache namespace",
+					'data'=> array('lock_info'=>$child->data),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));
+
+			}
+			else {
+				throw new FOX_exception( array(
+					'numeric'=>4,
+					'text'=>"Error locking persitent cache",
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));
+			}
+		}
+
+		// Run the query
+		// =================================================================
+
+		$args = array(
+				array("col"=>"module_id", "op"=>"=", "val"=>$data["module_id"] ),
+		);
+		$columns = array("mode"=>"exclude", "col"=>array("module_id") );
+
+		try {
+			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>5,
+				'text'=>"Error writing to database",
+				'data'=> array('data'=>$data, 'args'=>$args, 'columns'=>$columns),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+
+		// Rebuild the class cache if necessary
+		// =============================================================
+
+		// Fill in any fields missing from the $data array with the values that are currently in the db
+		$data = wp_parse_args($data, $previous);
+
+		// Update main datastore
+		$this->cache["module_id"][$data["module_id"]] = $data;
+
+		// Update php_class dictionary
+		if($previous["php_class"] != $data["php_class"] ){
+
+			unset($this->cache["php_class"][$previous["php_class"]]);
+			$this->cache["php_class"][$data["php_class"]] = $data["module_id"];
+		}
+
+		// Update slug dictionary
+		if($previous["php_class"] != $data["php_class"] ){
+
+			unset($this->cache["slug"][$previous["slug"]]);
+			$this->cache["slug"][$data["slug"]] = $data["module_id"];
+		}
+
+		// Update active_modules dictionary
+		if( $previous["active"] != $data["active"] ){
+
+			if($data["active"] == true ){
+
+				$this->cache["active_modules"][$data["module_id"]] = true;
+			}
+			else {
+				unset($this->cache["active_modules"][$data["module_id"]]);
+			}
+		}
+
+		// Update the persistent cache and release our lock
+		// =============================================================
+
+		try {
+			self::saveCache();
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>6,
+				'text'=>"Cache set error",
+				'data'=>$this->cache,
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+
+		return (int)$rows_changed;
+
+
+	}
+
+
+	/**
 	 * Sets one or more module's status to active, making them available to use.
 	 * This version of the function uses the module's slug as the identifier.
 	 *
@@ -1743,17 +1480,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function activateBySlug($slugs) {
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$this->db = new FOX_db();
+		$db = new FOX_db();
 
 		if( empty($slugs) ){
 
@@ -1812,7 +1539,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		$columns = array("mode"=>"include", "col"=>"active");
 
 		try {
-			$rows_changed = $this->db->runUpdateQuery($this->_struct(), $data, $args, $columns);
+			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
 		}
 		catch (FOX_exception $child) {
 
@@ -1879,17 +1606,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function activateById($module_ids) {
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$this->db = new FOX_db();
+		$db = new FOX_db();
 
 		if( empty($module_ids) ){
 
@@ -1947,7 +1664,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		$columns = array("mode"=>"include", "col"=>"active");
 
 		try {
-			$rows_changed = $this->db->runUpdateQuery($this->_struct(), $data, $args, $columns);
+			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
 		}
 		catch (FOX_exception $child) {
 
@@ -2010,17 +1727,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function deactivateBySlug($slugs) {
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$this->db = new FOX_db();
+		$db = new FOX_db();
 
 		if( empty($slugs) ){
 
@@ -2078,7 +1785,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		$columns = array("mode"=>"include", "col"=>"active");
 
 		try {
-			$rows_changed = $this->db->runUpdateQuery($this->_struct(), $data, $args, $columns);
+			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
 		}
 		catch (FOX_exception $child) {
 
@@ -2143,17 +1850,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function deactivateById($module_ids) {
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$this->db = new FOX_db();
+		$db = new FOX_db();
 
 		if( empty($module_ids) ){
 
@@ -2211,7 +1908,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		$columns = array("mode"=>"include", "col"=>"active");
 
 		try {
-			$rows_changed = $this->db->runUpdateQuery($this->_struct(), $data, $args, $columns);
+			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
 		}
 		catch (FOX_exception $child) {
 
@@ -2274,17 +1971,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function deleteById($module_ids) {
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$this->db = new FOX_db();
+		$db = new FOX_db();
 
 		if( empty($module_ids) ){
 
@@ -2373,7 +2060,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		);
 
 		try {
-			$rows_changed = $this->db->runDeleteQuery($this->_struct(), $args);
+			$rows_changed = $db->runDeleteQuery($this->_struct(), $args);
 		}
 		catch (FOX_exception $child) {
 
@@ -2405,17 +2092,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function deleteBySlug($slugs) {
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$this->db = new FOX_db();
+		$db = new FOX_db();
 
 		if( empty($slugs) ){
 
@@ -2505,7 +2182,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		);
 
 		try {
-			$rows_changed = $this->db->runDeleteQuery($this->_struct(), $args);
+			$rows_changed = $db->runDeleteQuery($this->_struct(), $args);
 		}
 		catch (FOX_exception $child) {
 
@@ -2536,16 +2213,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	public function loadTemplateConfig($slug) {
 
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		$template_name = 'modules/' . $this->_offset() . '/' . $slug . '/config.xml';
 		$located_template = locate_template($template_name, $load=false, $require_once=true );
 
@@ -2624,7 +2291,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 				$this->thumbs["direction"] = $primary["thumbs"]["direction"]["value"];
 			}
 
-			//FOX_Debug::dump($this->targets); FOX_Debug::dump($this->views); FOX_Debug::dump($this->caps); die;
+			//RAD_Debug::dump($this->targets); RAD_Debug::dump($this->views); RAD_Debug::dump($this->caps); die;
 
 			return true;
 
@@ -2644,19 +2311,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function getTargets() {
 
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		return $this->targets;
-		
 	}
 
 
@@ -2670,16 +2325,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function getViews() {
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		return $this->views;
 	}
 
@@ -2694,16 +2339,6 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function getCaps() {
 
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		return $this->caps;
 	}
 
@@ -2718,23 +2353,12 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	public function getThumbs() {
 
-	    
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
 		return $this->thumbs;
 	}
 
 
 
-} // End of class FOX_module_manager_base
+} // End of class RAD_module_manager_base
 
 
 
