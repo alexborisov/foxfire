@@ -25,7 +25,7 @@ class FOX_dataStore_paged_L3_tester_replaceMethods extends FOX_dataStore_paged_L
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
-		    "L3" =>	array(	"php"=>"int",    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",	"auto_inc"=>false,  "default"=>null,
+		    "L3" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,
 			// This forces every zone + rule + key_type + key_id combination to be unique
 			"index"=>array("name"=>"top_level_index",	"col"=>array("L3", "L2", "L1"), "index"=>"PRIMARY"), "this_row"=>true),
 		    "L2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
@@ -146,19 +146,19 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L3"=>1, "L2"=>"X", "L1"=>1, "L0"=>null),
-				array( "L3"=>1, "L2"=>"X", "L1"=>2, "L0"=>false),
-				array( "L3"=>1, "L2"=>"X", "L1"=>5, "L0"=>true),
-				array( "L3"=>1, "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1, "L0"=>null),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>2, "L0"=>false),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>5, "L0"=>true),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
 
-				array( "L3"=>1, "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),
 		    
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>3, "L0"=>$test_obj)	
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>3, "L0"=>$test_obj)	
 		    
 		);		
 		
@@ -184,7 +184,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(		
+				'A'=>array(   'keys'=>array(  'X'=>array(		
 										    1=>null,
 										    2=>false,
 										    5=>true, 							    
@@ -198,7 +198,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'K'=>array( 	
+				'B'=>array(   'keys'=>array(  'K'=>array( 	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),
 										    3=>$test_obj  						
@@ -214,7 +214,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################		
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>null,
 								    2=>false,
 								    5=>true, 							    
@@ -227,7 +227,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 								    4=>(float)-1.6  						
 					    )					    
 				),			
-				2=>array(   'K'=>array( 
+				'B'=>array(   'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
@@ -300,7 +300,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    9=>'foo',
 								    3=>'bar',										   					    
 								    1=>'foo',
@@ -316,7 +316,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 				// 2=>array( ... ),
 
 				// Create a new L3 '3' node
-				3=>array(   'X'=>array(	
+				'C'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
@@ -350,7 +350,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'L2'=>array(    'X'=>true),
+		$check_cache_A = array(	    'L2'=>array(    'X'=>true),
 					    'keys'=>array(  'X'=>array(	
 										    9=>'foo',
 										    3=>'bar',										   					    									
@@ -361,9 +361,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )				
 		);
 
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);		
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);		
 		
-		$check_cache_3 = array(	    'L2'=>array(    'X'=>true ),			    
+		$check_cache_C = array(	    'L2'=>array(    'X'=>true ),			    
 					    'keys'=>array(  'X'=>array(	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
@@ -372,7 +372,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);
 		
 		
 		// PASS 2: Combine the L3 nodes into a single array and check it
@@ -380,22 +380,22 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(	
-					1=>$check_cache_1,
-					3=>$check_cache_3		    
+					'A'=>$check_cache_A,
+					'C'=>$check_cache_C		    
 		);		
 	
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_C, $check_cache);
 		
 		
 		// Load updated items
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -413,7 +413,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_data_1 = array(  'X'=>array( 
+		$check_data_A = array(  'X'=>array( 
 								9=>'foo',
 								3=>'bar',										   					    									
 								1=>'foo',
@@ -423,25 +423,25 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 		);
 		
-		$this->assertEquals($check_data_1, $result[1]);	
+		$this->assertEquals($check_data_A, $result['A']);	
 		
-		$check_data_2 = array(	'K'=>array( 	
+		$check_data_B = array(	'K'=>array( 	
 								1=>(string)"foo",
 								2=>array(null, true, false, 1, 1.0, "foo"),
 								3=>$test_obj  						
 					)					    
 		);
 
-		$this->assertEquals($check_data_2, $result[2]);
+		$this->assertEquals($check_data_B, $result['B']);
 		
-		$check_data_3 = array(	'X'=>array( 	
+		$check_data_C = array(	'X'=>array( 	
 								1=>(string)"foo",
 								2=>array(null, true, false, 1, 1.0, "foo"),
 								3=>$test_obj  						
 					)					    
 		);
 		
-		$this->assertEquals($check_data_3, $result[3]);		
+		$this->assertEquals($check_data_C, $result['C']);		
 		
 		
 		// PASS 2: Combine the L3 nodes into a single array and check it
@@ -449,14 +449,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_data = array(
-					1=>$check_data_1,
-					2=>$check_data_2,
-					3=>$check_data_3,		    
+					'A'=>$check_data_A,
+					'B'=>$check_data_B,
+					'C'=>$check_data_C,		    
 		);
 			
 		$this->assertEquals($check_data, $result);	
 		
-		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
+		unset($check_data_A, $check_data_B, $check_data_C, $check_data);
 
 		
 		// Check cache state
@@ -465,7 +465,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(
 									9=>'foo',
@@ -477,9 +477,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
-		$check_cache_2 = array(	    'all_cached'=>true,
+		$check_cache_B = array(	    'all_cached'=>true,
 					    'L2'=>null,				    
 					    'keys'=>array(  'K'=>array(	
 									1=>(string)"foo",
@@ -489,9 +489,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);
 		
-		$check_cache_3 = array(	    'all_cached'=>true,
+		$check_cache_C = array(	    'all_cached'=>true,
 					    'L2'=>null,				    
 					    'keys'=>array(  'X'=>array(	
 									1=>(string)"foo",
@@ -501,7 +501,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);	
 		
 		
 		// PASS 2: Combine the L3 nodes into a single array and check it
@@ -509,14 +509,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,
-					2=>$check_cache_2,		    
-					3=>$check_cache_3,		    
+					'A'=>$check_cache_A,
+					'B'=>$check_cache_B,		    
+					'C'=>$check_cache_C,		    
 		);
 		
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_B, $check_cache_C, $check_cache);
 			
 		
 	}
@@ -550,7 +550,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";		
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    9=>'foo',
 								    3=>'bar',										   					    
 								    1=>'foo',
@@ -566,7 +566,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 				// 2=>array( ... ),
 
 				// Create a new L3 '3' node
-				3=>array(   'X'=>array(	
+				'C'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
@@ -601,7 +601,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'L2'=>array(    'X'=>true ),
+		$check_cache_A = array(	    'L2'=>array(    'X'=>true ),
 					    'keys'=>array(  'X'=>array(	
 								    9=>'foo',
 								    3=>'bar',										   					    
@@ -612,9 +612,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
-		$check_cache_2 = array(	    'keys'=>array(  'K'=>array(	
+		$check_cache_B = array(	    'keys'=>array(  'K'=>array(	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),										  						    
 										    3=>$test_obj  						
@@ -622,9 +622,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);
 		
-		$check_cache_3 = array(	    'L2'=>array(    'X'=>true	),				    
+		$check_cache_C = array(	    'L2'=>array(    'X'=>true	),				    
 					    'keys'=>array(  'X'=>array(	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),										    							    
@@ -633,7 +633,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);
 		
 		
 		// PASS 2: Combine the L3 nodes into a single array and check it
@@ -641,23 +641,23 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,	
-		    			2=>$check_cache_2,
-					3=>$check_cache_3		    		    
+					'A'=>$check_cache_A,	
+		    			'B'=>$check_cache_B,
+					'C'=>$check_cache_C		    		    
 		);	
 
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_B, $check_cache_C, $check_cache);
 
 		
 		// Load updated items
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -676,7 +676,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_data_1 = array(	    'X'=>array(	
+		$check_data_A = array(	    'X'=>array(	
 								    9=>'foo',
 								    3=>'bar',										   					    
 								    1=>'foo',
@@ -686,14 +686,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$check_data_2 = array(	    'K'=>array(	
+		$check_data_B = array(	    'K'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    						    
 								    3=>$test_obj 
 					    )					    
 		);
 		
-		$check_data_3 = array(	    'X'=>array(	
+		$check_data_C = array(	    'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    						    
 								    3=>$test_obj 
@@ -705,14 +705,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_data = array(
-					1=>$check_data_1,
-					2=>$check_data_2,
-					3=>$check_data_3,		    
+					'A'=>$check_data_A,
+					'B'=>$check_data_B,
+					'C'=>$check_data_C,		    
 		);
 			
 		$this->assertEquals($check_data, $result);	
 		
-		unset($check_data_1, $check_data_2,$check_data_3, $check_data);
+		unset($check_data_A, $check_data_B,$check_data_C, $check_data);
 
 		
 		// Check cache state
@@ -721,7 +721,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(		   					    
 								    1=>'foo',
@@ -733,9 +733,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
-		$check_cache_2 = array(	    'all_cached'=>true,
+		$check_cache_B = array(	    'all_cached'=>true,
 					    'L2'=>null,				    
 					    'keys'=>array(  'K'=>array(	
 										    1=>(string)"foo",
@@ -745,9 +745,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);
 		
-		$check_cache_3 = array(	    'all_cached'=>true,
+		$check_cache_C = array(	    'all_cached'=>true,
 					    'L2'=>null,				    
 					    'keys'=>array(  'X'=>array( 	
 										    1=>(string)"foo",
@@ -757,17 +757,17 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);		
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);		
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,
-					2=>$check_cache_2,	
-					3=>$check_cache_3			    		    
+					'A'=>$check_cache_A,
+					'B'=>$check_cache_B,	
+					'C'=>$check_cache_C			    		    
 		);
 		
 		$this->assertEquals($check_cache, $this->cls->cache);
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_B, $check_cache_C, $check_cache);
 			
 		
 	}
@@ -791,8 +791,8 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array()	    
+				    'A'=>array(),
+				    'B'=>array()	    
 		);
 		
 		$valid = false;
@@ -820,7 +820,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";		
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    9=>'foo',
 								    3=>'bar',										   					    
 								    1=>'foo',
@@ -836,7 +836,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 				// 2=>array( ... ),
 
 				// Create a new L3 '3' node
-				3=>array(   'X'=>array(	
+				'C'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
@@ -875,7 +875,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(		   					    
 								    1=>'foo',
@@ -887,10 +887,10 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
 		
-		$check_cache_2 = array(	    'all_cached'=>true,
+		$check_cache_B = array(	    'all_cached'=>true,
 					    'L2'=>null,				    
 					    'keys'=>array(  'K'=>array(	
 										    1=>(string)"foo",
@@ -900,10 +900,10 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);
 		
 
-		$check_cache_3 = array(	    'L2'=>array(    'X'=>true	),			    
+		$check_cache_C = array(	    'L2'=>array(    'X'=>true	),			    
 					    'keys'=>array(  'X'=>array( 	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),										    							    
@@ -912,7 +912,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -920,21 +920,21 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,
-					2=>$check_cache_2,
-					3=>$check_cache_3,		    
+					'A'=>$check_cache_A,
+					'B'=>$check_cache_B,
+					'C'=>$check_cache_C,		    
 		);
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_B, $check_cache_C, $check_cache);
 		
 		
 		// Load updated items
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -953,7 +953,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_data_1 = array(	    'X'=>array(	
+		$check_data_A = array(	    'X'=>array(	
 								    1=>'foo',
 								    3=>'bar',						
 								    4=>'baz', 											
@@ -962,39 +962,39 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    ),    
 		);
 		
-		$this->assertEquals($check_data_1, $result[1]);
+		$this->assertEquals($check_data_A, $result['A']);
 		
-		$check_data_2 = array(	    'K'=>array(	 
+		$check_data_B = array(	    'K'=>array(	 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
 					    )							    
 		);
 		
-		$this->assertEquals($check_data_2, $result[2]);
+		$this->assertEquals($check_data_B, $result['B']);
 		
-		$check_data_3 = array(	    'X'=>array(	 
+		$check_data_C = array(	    'X'=>array(	 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
 					    )						    
 		);
 		
-		$this->assertEquals($check_data_3, $result[3]);
+		$this->assertEquals($check_data_C, $result['C']);
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
 		// again. This finds L4 keys that aren't supposed to be there.
 		// ====================================================================
 		
 		$check_data = array(
-					1=>$check_data_1,	
-		    			2=>$check_data_2,
-					3=>$check_data_3		    
+					'A'=>$check_data_A,	
+		    			'B'=>$check_data_B,
+					'C'=>$check_data_C		    
 		);
 			
 		$this->assertEquals($check_data, $result);
 		
-		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
+		unset($check_data_A, $check_data_B, $check_data_C, $check_data);
 		
 
 		// Check cache state
@@ -1004,7 +1004,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,	    // $all_cached will be true because this L4 had		    
+		$check_cache_A = array(	    'all_cached'=>true,	    // $all_cached will be true because this L4 had		    
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(	
 								    1=>'foo',
@@ -1016,9 +1016,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);		
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);		
 		
-		$check_cache_2 = array(	    'all_cached'=>true,
+		$check_cache_B = array(	    'all_cached'=>true,
 					    'L2'=>null,				    
 					    'keys'=>array(  'K'=>array(	
 										    1=>(string)"foo",
@@ -1028,9 +1028,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);
 		
-		$check_cache_3 = array(	    'all_cached'=>true,
+		$check_cache_C = array(	    'all_cached'=>true,
 					    'L2'=>null,				    
 					    'keys'=>array(  'X'=>array(	
 										    1=>(string)"foo",
@@ -1040,7 +1040,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -1048,14 +1048,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,
-					2=>$check_cache_2,
-					3=>$check_cache_3		    		    
+					'A'=>$check_cache_A,
+					'B'=>$check_cache_B,
+					'C'=>$check_cache_C		    		    
 		);
 		
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_B, $check_cache_C, $check_cache);
 					
 	}
 	
@@ -1080,7 +1080,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 	    
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),
 								    3=>'bar' 
@@ -1103,7 +1103,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// NOTE: Since this is replaceL2_multi(), clip_order is at the L2 key
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),
 								    3=>'bar' 
@@ -1130,13 +1130,13 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// NOTE: Since this is replaceL2_multi(), clip_order is at the L2 key
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")								    								    				    
 
 					    )				    
 				),
-				2=>array() // Invalid clip node (at L4)
+				'B'=>array() // Invalid clip node (at L4)
 		);
 		
 		try {			
@@ -1157,7 +1157,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// automatically converts (string)'1' to (int)1 before sending it in to the function
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    'K'=>(string)"foo", // Invalid L1 key
 								     2=>array(null, true, false, 1, 1.0, "foo")								    			   
 
@@ -1179,7 +1179,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$data = array(
-				1=>array(   99=>array(	
+				'A'=>array(   99=>array(	
 								    1=>(string)"foo", 
 								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
 											    				
@@ -1204,14 +1204,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// automatically converts (string)'1' to (int)1 before sending it in to the function
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>(string)"foo", 
 								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
 												
 					    )			    
 				),
 				// Invalid L3 key
-				'Z'=>array( 'X'=>array(	
+				1=>array( 'X'=>array(	
 								    1=>(string)"foo", 
 								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
 					    )			    
@@ -1274,7 +1274,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    9=>'foo',
 								    3=>'bar',										   					    
 								    1=>'foo',
@@ -1289,7 +1289,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 				// 2=>array( ... ),
 
 				// Create a new L3 '3' node
-				3=>array(   'X'=>array(	
+				'C'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
@@ -1325,7 +1325,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(	
 										    9=>'foo',
 										    3=>'bar',										   					    									
@@ -1336,9 +1336,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )				
 		);
 
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);		
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);		
 		
-		$check_cache_3 = array(	    'all_cached'=>true,
+		$check_cache_C = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
@@ -1347,7 +1347,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);
 		
 		
 		// PASS 2: Combine the L3 nodes into a single array and check it
@@ -1355,22 +1355,22 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(	
-					1=>$check_cache_1,
-					3=>$check_cache_3		    
+					'A'=>$check_cache_A,
+					'C'=>$check_cache_C		    
 		);		
 	
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_C, $check_cache);
 
 		
 		// Load updated items
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -1389,7 +1389,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_data_1 = array(  'X'=>array( 
+		$check_data_A = array(  'X'=>array( 
 								9=>'foo',
 								3=>'bar',										   					    									
 								1=>'foo',
@@ -1399,25 +1399,25 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 		);
 		
-		$this->assertEquals($check_data_1, $result[1]);	
+		$this->assertEquals($check_data_A, $result['A']);	
 		
-		$check_data_2 = array(	'K'=>array( 	
+		$check_data_B = array(	'K'=>array( 	
 								1=>(string)"foo",
 								2=>array(null, true, false, 1, 1.0, "foo"),
 								3=>$test_obj  						
 					)					    
 		);
 
-		$this->assertEquals($check_data_2, $result[2]);
+		$this->assertEquals($check_data_B, $result['B']);
 		
-		$check_data_3 = array(	'X'=>array( 	
+		$check_data_C = array(	'X'=>array( 	
 								1=>(string)"foo",
 								2=>array(null, true, false, 1, 1.0, "foo"),
 								3=>$test_obj  						
 					)					    
 		);
 		
-		$this->assertEquals($check_data_3, $result[3]);		
+		$this->assertEquals($check_data_C, $result['C']);		
 		
 		
 		// PASS 2: Combine the L3 nodes into a single array and check it
@@ -1425,14 +1425,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_data = array(
-					1=>$check_data_1,
-					2=>$check_data_2,
-					3=>$check_data_3,		    
+					'A'=>$check_data_A,
+					'B'=>$check_data_B,
+					'C'=>$check_data_C,		    
 		);
 			
 		$this->assertEquals($check_data, $result);	
 		
-		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
+		unset($check_data_A, $check_data_B, $check_data_C, $check_data);
 
 		
 		// Check cache state
@@ -1441,7 +1441,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(
 									9=>'foo',
 									3=>'bar',										   					    									
@@ -1452,9 +1452,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
-		$check_cache_2 = array(	    'all_cached'=>true,
+		$check_cache_B = array(	    'all_cached'=>true,
 					    'L2'=>null,
 					    'keys'=>array(  'K'=>array(	
 									1=>(string)"foo",
@@ -1464,9 +1464,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);
 		
-		$check_cache_3 = array(	    'all_cached'=>true,
+		$check_cache_C = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(	
 									1=>(string)"foo",
 									2=>array(null, true, false, 1, 1.0, "foo"),
@@ -1475,7 +1475,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);		
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);		
 		
 		
 		// PASS 2: Combine the L3 nodes into a single array and check it
@@ -1483,14 +1483,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,
-					2=>$check_cache_2,		    
-					3=>$check_cache_3,		    
+					'A'=>$check_cache_A,
+					'B'=>$check_cache_B,		    
+					'C'=>$check_cache_C,		    
 		);
 		
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_B, $check_cache_C, $check_cache);
 			
 		
 	}
@@ -1524,7 +1524,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";		
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    9=>'foo',
 								    3=>'bar',										   					    
 								    1=>'foo',
@@ -1539,7 +1539,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 				// 2=>array( ... ),
 
 				// Create a new L3 '3' node
-				3=>array(   'X'=>array(	
+				'C'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
@@ -1575,7 +1575,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L3 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(	
 										    9=>'foo',
 										    3=>'bar',										   					    									
@@ -1586,9 +1586,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )				
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);	
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);	
 		
-		$check_cache_2 = array(	    
+		$check_cache_B = array(	    
 					    'keys'=>array(  'K'=>array(	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
@@ -1597,9 +1597,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);		
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);		
 		
-		$check_cache_3 = array(	    'all_cached'=>true,
+		$check_cache_C = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
@@ -1608,7 +1608,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -1616,23 +1616,23 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(	
-					1=>$check_cache_1,
-					2=>$check_cache_2,
-					3=>$check_cache_3		    
+					'A'=>$check_cache_A,
+					'B'=>$check_cache_B,
+					'C'=>$check_cache_C		    
 		);		
 	
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_C, $check_cache);
 
 		
 		// Load updated items
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -1651,7 +1651,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_data_1 = array(  'X'=>array( 
+		$check_data_A = array(  'X'=>array( 
 								9=>'foo',
 								3=>'bar',										   					    									
 								1=>'foo',
@@ -1661,25 +1661,25 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 		);
 		
-		$this->assertEquals($check_data_1, $result[1]);	
+		$this->assertEquals($check_data_A, $result['A']);	
 		
-		$check_data_2 = array(	'K'=>array( 	
+		$check_data_B = array(	'K'=>array( 	
 								1=>(string)"foo",
 								2=>array(null, true, false, 1, 1.0, "foo"),
 								3=>$test_obj  						
 					)					    
 		);
 
-		$this->assertEquals($check_data_2, $result[2]);
+		$this->assertEquals($check_data_B, $result['B']);
 		
-		$check_data_3 = array(	'X'=>array( 	
+		$check_data_C = array(	'X'=>array( 	
 								1=>(string)"foo",
 								2=>array(null, true, false, 1, 1.0, "foo"),
 								3=>$test_obj  						
 					)					    
 		);
 		
-		$this->assertEquals($check_data_3, $result[3]);		
+		$this->assertEquals($check_data_C, $result['C']);		
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -1687,14 +1687,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_data = array(
-					1=>$check_data_1,
-					2=>$check_data_2,
-					3=>$check_data_3,		    
+					'A'=>$check_data_A,
+					'B'=>$check_data_B,
+					'C'=>$check_data_C,		    
 		);
 			
 		$this->assertEquals($check_data, $result);	
 		
-		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
+		unset($check_data_A, $check_data_B, $check_data_C, $check_data);
 
 	
 		// Check cache state
@@ -1703,7 +1703,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(
 									9=>'foo',
 									3=>'bar',										   					    									
@@ -1714,9 +1714,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
-		$check_cache_2 = array(	    'all_cached'=>true,
+		$check_cache_B = array(	    'all_cached'=>true,
 					    'L2'=>null,
 					    'keys'=>array(  'K'=>array(	
 									1=>(string)"foo",
@@ -1726,9 +1726,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);
 		
-		$check_cache_3 = array(	    'all_cached'=>true,
+		$check_cache_C = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(	
 									1=>(string)"foo",
 									2=>array(null, true, false, 1, 1.0, "foo"),
@@ -1737,7 +1737,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);	
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -1745,14 +1745,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,
-					2=>$check_cache_2,		    
-					3=>$check_cache_3,		    
+					'A'=>$check_cache_A,
+					'B'=>$check_cache_B,		    
+					'C'=>$check_cache_C,		    
 		);
 		
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_B, $check_cache_C, $check_cache);
 			
 		
 	}
@@ -1776,8 +1776,8 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array()	    
+				    'A'=>array(),
+				    'B'=>array()	    
 		);
 		
 		$valid = false;
@@ -1805,7 +1805,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";		
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    9=>'foo',
 								    3=>'bar',										   					    
 								    1=>'foo',
@@ -1820,7 +1820,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 				// 2=>array( ... ),
 
 				// Create a new L3 '3' node
-				3=>array(   'X'=>array(	
+				'C'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
@@ -1860,7 +1860,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(	
 										    9=>'foo',
 										    3=>'bar',										   					    									
@@ -1871,9 +1871,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )				
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);	
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);	
 		
-		$check_cache_2 = array(	    'all_cached'=>true,
+		$check_cache_B = array(	    'all_cached'=>true,
 					    'L2'=>null,
 					    'keys'=>array(  'K'=>array(	
 										    1=>(string)"foo",
@@ -1883,9 +1883,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);		
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);		
 		
-		$check_cache_3 = array(	    'all_cached'=>true,
+		$check_cache_C = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
@@ -1894,7 +1894,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);	
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -1902,23 +1902,23 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,
-					2=>$check_cache_2,		    
-					3=>$check_cache_3,		    
+					'A'=>$check_cache_A,
+					'B'=>$check_cache_B,		    
+					'C'=>$check_cache_C,		    
 		);
 		
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_B, $check_cache_C, $check_cache);
 	
 		
 		// Load updated items
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -1937,7 +1937,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_data_1 = array(  'X'=>array( 
+		$check_data_A = array(  'X'=>array( 
 								9=>'foo',
 								3=>'bar',										   					    									
 								1=>'foo',
@@ -1947,25 +1947,25 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 	
 		);
 		
-		$this->assertEquals($check_data_1, $result[1]);	
+		$this->assertEquals($check_data_A, $result['A']);	
 		
-		$check_data_2 = array(	'K'=>array( 	
+		$check_data_B = array(	'K'=>array( 	
 								1=>(string)"foo",
 								2=>array(null, true, false, 1, 1.0, "foo"),
 								3=>$test_obj  						
 					)					    
 		);
 
-		$this->assertEquals($check_data_2, $result[2]);
+		$this->assertEquals($check_data_B, $result['B']);
 		
-		$check_data_3 = array(	'X'=>array( 	
+		$check_data_C = array(	'X'=>array( 	
 								1=>(string)"foo",
 								2=>array(null, true, false, 1, 1.0, "foo"),
 								3=>$test_obj  						
 					)					    
 		);
 		
-		$this->assertEquals($check_data_3, $result[3]);		
+		$this->assertEquals($check_data_C, $result['C']);		
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -1973,14 +1973,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_data = array(
-					1=>$check_data_1,
-					2=>$check_data_2,
-					3=>$check_data_3,		    
+					'A'=>$check_data_A,
+					'B'=>$check_data_B,
+					'C'=>$check_data_C,		    
 		);
 			
 		$this->assertEquals($check_data, $result);	
 		
-		unset($check_data_1, $check_data_2, $check_data_3, $check_data);
+		unset($check_data_A, $check_data_B, $check_data_C, $check_data);
 		
 
 		// Check cache state
@@ -1989,7 +1989,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(
 									9=>'foo',
 									3=>'bar',										   					    									
@@ -2000,9 +2000,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
-		$check_cache_2 = array(	    'all_cached'=>true,
+		$check_cache_B = array(	    'all_cached'=>true,
 					    'L2'=>null,
 					    'keys'=>array(  'K'=>array(	
 									1=>(string)"foo",
@@ -2012,9 +2012,9 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_2, $this->cls->cache[2]);
+		$this->assertEquals($check_cache_B, $this->cls->cache['B']);
 		
-		$check_cache_3 = array(	    'all_cached'=>true,
+		$check_cache_C = array(	    'all_cached'=>true,
 					    'keys'=>array(  'X'=>array(	
 									1=>(string)"foo",
 									2=>array(null, true, false, 1, 1.0, "foo"),
@@ -2023,7 +2023,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 					    )						
 		);
 		
-		$this->assertEquals($check_cache_3, $this->cls->cache[3]);	
+		$this->assertEquals($check_cache_C, $this->cls->cache['C']);	
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -2031,14 +2031,14 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(		    
-					1=>$check_cache_1,
-					2=>$check_cache_2,		    
-					3=>$check_cache_3,		    
+					'A'=>$check_cache_A,
+					'B'=>$check_cache_B,		    
+					'C'=>$check_cache_C,		    
 		);
 		
 		$this->assertEquals($check_cache, $this->cls->cache);	
 		
-		unset($check_cache_1, $check_cache_2, $check_cache_3, $check_cache);
+		unset($check_cache_A, $check_cache_B, $check_cache_C, $check_cache);
 			
 		
 	}
@@ -2066,7 +2066,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// NOTE: Since this is replaceL3_multi(), clip_order is at the L3 key
 		
 		$data = array(
-				1=>array(   'X'=>array(		
+				'A'=>array(   'X'=>array(		
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),
 								    3=>'bar'
@@ -2089,7 +2089,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// NOTE: Since this is replaceL3_multi(), clip_order is at the L2 key
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),
 								    3=>'bar' 							
@@ -2115,7 +2115,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// automatically converts (string)'1' to (int)1 before sending it in to the function
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    'K'=>(string)"foo", // Invalid L1 key
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    			   
 								    3=>'bar' 
@@ -2138,7 +2138,7 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>(string)"foo", 
 								    2=>array(null, true, false, 1, 1.0, "foo")											    
 					    ),				
@@ -2168,13 +2168,13 @@ class core_L3_paged_abstract_replaceMethods extends RAZ_testCase {
 		// automatically converts (string)'1' to (int)1 before sending it in to the function
 		
 		$data = array(
-				1=>array(   'X'=>array( 
+				'A'=>array(   'X'=>array( 
 								    1=>(string)"foo", 
 								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
 					    )			    
 				),
 				// Invalid L3 key
-				'Z'=>array( 'X'=>array(	
+				1=>array( 'X'=>array(	
 								    1=>(string)"foo", 
 								    2=>array(null, true, false, 1, 1.0, "foo")								    			    
 					    )			    

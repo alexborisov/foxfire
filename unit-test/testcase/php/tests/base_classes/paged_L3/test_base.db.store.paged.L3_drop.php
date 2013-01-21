@@ -25,7 +25,7 @@ class FOX_dataStore_paged_L3_tester_dropMethods extends FOX_dataStore_paged_L3_b
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
-		    "L3" =>	array(	"php"=>"int",    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",	"auto_inc"=>false,  "default"=>null,
+		    "L3" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,
 			// This forces every zone + rule + key_type + key_id combination to be unique
 			"index"=>array("name"=>"top_level_index",	"col"=>array("L3", "L2", "L1"), "index"=>"PRIMARY"), "this_row"=>true),
 		    "L2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
@@ -146,29 +146,29 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L3"=>1, "L2"=>"X", "L1"=>1, "L0"=>null),
-				array( "L3"=>1, "L2"=>"X", "L1"=>2, "L0"=>false),
-				array( "L3"=>1, "L2"=>"X", "L1"=>5, "L0"=>true),
-				array( "L3"=>1, "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1, "L0"=>null),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>2, "L0"=>false),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>5, "L0"=>true),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
 
-				array( "L3"=>1, "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),
 		    
-		    		array( "L3"=>2, "L2"=>"X", "L1"=>1, "L0"=>(string)"foo"),
-		    		array( "L3"=>2, "L2"=>"X", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L3"=>2, "L2"=>"X", "L1"=>3, "L0"=>$test_obj),
+		    		array( "L3"=>'B', "L2"=>"X", "L1"=>1, "L0"=>(string)"foo"),
+		    		array( "L3"=>'B', "L2"=>"X", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L3"=>'B', "L2"=>"X", "L1"=>3, "L0"=>$test_obj),
 		    
-				array( "L3"=>3, "L2"=>"X", "L1"=>1, "L0"=>null),
-				array( "L3"=>3, "L2"=>"X", "L1"=>2, "L0"=>false),
-				array( "L3"=>3, "L2"=>"X", "L1"=>5, "L0"=>true),
-				array( "L3"=>3, "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
+				array( "L3"=>'C', "L2"=>"X", "L1"=>1, "L0"=>null),
+				array( "L3"=>'C', "L2"=>"X", "L1"=>2, "L0"=>false),
+				array( "L3"=>'C', "L2"=>"X", "L1"=>5, "L0"=>true),
+				array( "L3"=>'C', "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
 
-				array( "L3"=>3, "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
-				array( "L3"=>3, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L3"=>3, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L3"=>3, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),		    
+				array( "L3"=>'C', "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
+				array( "L3"=>'C', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L3"=>'C', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L3"=>'C', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),		    
 		    
 		);		
 		
@@ -194,7 +194,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	
+				'A'=>array(   'keys'=>array(  'X'=>array(	
 										    1=>null,
 										    2=>false,
 										    5=>true, 							    
@@ -209,14 +209,14 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 					    )
 					    
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	
+				'B'=>array(   'keys'=>array(  'X'=>array(	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),
 										    3=>$test_obj  						
 							    )	
 					    	)				
 				),
-				3=>array(   'keys'=>array(  'X'=>array(	
+				'C'=>array(   'keys'=>array(  'X'=>array(	
 										    1=>null,
 										    2=>false,
 										    5=>true, 							    
@@ -239,7 +239,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################		
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>null,
 								    2=>false,
 								    5=>true, 							    
@@ -252,13 +252,13 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 								    4=>(float)-1.6  						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	
+				'B'=>array(   'X'=>array(
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
 					    )					    
 				),
-				3=>array(   'X'=>array(	
+				'C'=>array(   'X'=>array(	
 								    1=>null,
 								    2=>false,
 								    5=>true, 							    
@@ -331,15 +331,15 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>true						    
 
 					    ),	
 					    'Y'=>true,
 
 				),
-				2=>true,
-				3=>true
+				'B'=>true,
+				'C'=>true
 		);
 		
 		$ctrl = array(
@@ -384,7 +384,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// NOTE: the datastore will automatically clip empty branches
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    2=>false,
 								    3=>(int)0,				    
 								    5=>true
@@ -413,9 +413,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -457,15 +457,15 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>true						    
 
 					    ),	
 					    'Y'=>true,
 
 				),
-				2=>true,
-				3=>true
+				'B'=>true,
+				'C'=>true
 		);
 		
 		$ctrl = array(
@@ -510,7 +510,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// NOTE: the datastore will automatically clip empty branches
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    2=>false,
 								    3=>(int)0,
 								    5=>true
@@ -530,7 +530,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    
+		$check_cache_A = array(	    
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(	
 										    2=>false,
@@ -541,7 +541,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -549,7 +549,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(
-					1=>$check_cache_1
+					'A'=>$check_cache_A
 		);
 		
                 $this->assertEquals($check_cache, $this->cls->cache);		
@@ -560,9 +560,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -601,9 +601,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -624,15 +624,15 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>true						    
 
 					    ),	
 					    'Y'=>true,
 
 				),
-				2=>true,
-				3=>true
+				'B'=>true,
+				'C'=>true
 		);
 		
 		$ctrl = array(
@@ -677,7 +677,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// NOTE: the datastore will automatically clip empty branches
 		
 		$check = array(
-				1=>array(   'X'=>array(		
+				'A'=>array(   'X'=>array(		
 								    2=>false,	
 								    3=>(int)0,
 								    5=>true
@@ -698,7 +698,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(	
 										    2=>false,
@@ -708,7 +708,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -716,7 +716,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(
-					1=>$check_cache_1
+					'A'=>$check_cache_A
 		);
 		
                 $this->assertEquals($check_cache, $this->cls->cache);		
@@ -727,9 +727,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -772,7 +772,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 	    
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>true							    
 							
 					    ),	
@@ -793,7 +793,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 	    
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    "F"=>true						    
 					    ),	
 					    'Y'=>true			    
@@ -815,11 +815,11 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 	    
 		$data = array(
-				1=>array(   'X'=>array(
+				'A'=>array(   'X'=>array(
 								    1=>true						    
 					
 					    ),	
-					    '1'=>true
+					    1=>true
 				)
 		);
 		
@@ -838,7 +838,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 	    
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>true						    
 					    ),	
 					    '2'=>true,
@@ -859,12 +859,12 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 	    
 		$data = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>true						    
 					    ),	
 					    'Y'=>true
 				),
-				'F'=>true
+				2=>true
 		);
 		
 		try {			
@@ -932,10 +932,10 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$data = array(
-				array( "L3"=>1, "L2"=>"X", "L1"=>1	),
-				array( "L3"=>1, "L2"=>"Y"		),		    
-		    		array( "L3"=>2				),
-				array( "L3"=>3				)		    		    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1	),
+				array( "L3"=>'A', "L2"=>"Y"		),		    
+		    		array( "L3"=>'B'				),
+				array( "L3"=>'C'				)		    		    
 		);		
 		
 		$ctrl = array(
@@ -980,7 +980,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// NOTE: the datastore will automatically clip empty branches
 		
 		$check = array(
-				1=>array(   'X'=>array(	 
+				'A'=>array(   'X'=>array(	 
 								    2=>false,
 								    3=>(int)0,
 								    5=>true
@@ -1007,9 +1007,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -1051,10 +1051,10 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$data = array(
-				array( "L3"=>1, "L2"=>"X", "L1"=>1	),
-				array( "L3"=>1, "L2"=>"Y"		),		    
-		    		array( "L3"=>2				),
-				array( "L3"=>3				)		    		    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1	),
+				array( "L3"=>'A', "L2"=>"Y"		),		    
+		    		array( "L3"=>'B'				),
+				array( "L3"=>'C'				)		    		    
 		);		
 		
 		$ctrl = array(
@@ -1099,7 +1099,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// NOTE: the datastore will automatically clip empty branches
 		
 		$check = array(		    		    
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    2=>false,
 								    3=>(int)0,
 								    5=>true
@@ -1118,7 +1118,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    
+		$check_cache_A = array(	    
 					    'L2'=>null,		    
 					    'keys'=>array(  'X'=>array(	
 										    2=>false,
@@ -1128,7 +1128,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -1136,7 +1136,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(
-					1=>$check_cache_1
+					'A'=>$check_cache_A
 		);
 		
                 $this->assertEquals($check_cache, $this->cls->cache);		
@@ -1147,9 +1147,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -1188,9 +1188,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -1211,10 +1211,10 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 		
 		$data = array(
-				array( "L3"=>1, "L2"=>"X", "L1"=>1	),
-				array( "L3"=>1, "L2"=>"Y"		),		    
-		    		array( "L3"=>2				),
-				array( "L3"=>3				)		    		    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1	),
+				array( "L3"=>'A', "L2"=>"Y"		),		    
+		    		array( "L3"=>'B'				),
+				array( "L3"=>'C'				)		    		    
 		);		
 		
 		$ctrl = array(
@@ -1259,7 +1259,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// NOTE: the datastore will automatically clip empty branches
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    2=>false,
 								    3=>(int)0,
 								    5=>true
@@ -1280,7 +1280,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// PASS 1: Check the L4 nodes individually to simplify debugging
 		// ====================================================================
 		
-		$check_cache_1 = array(	    'all_cached'=>true,
+		$check_cache_A = array(	    'all_cached'=>true,
 					    'L2'=>null,
 					    'keys'=>array(  'X'=>array(
 										    2=>false,
@@ -1290,7 +1290,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 					    )
 		);
 		
-		$this->assertEquals($check_cache_1, $this->cls->cache[1]);
+		$this->assertEquals($check_cache_A, $this->cls->cache['A']);
 		
 		
 		// PASS 2: Combine the L4 nodes into a single array and check it
@@ -1298,7 +1298,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache = array(
-					1=>$check_cache_1
+					'A'=>$check_cache_A
 		);
 		
                 $this->assertEquals($check_cache, $this->cls->cache);		
@@ -1309,9 +1309,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -1357,8 +1357,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 	    
 		$data = array(
 
-				array( "L3"=>1, "L2"=>"X", "L1"=>1	),
-				array( "L3"=>1, "L2"=>"Y",		),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1	),
+				array( "L3"=>'A', "L2"=>"Y",		),
 		);		
 						
 		try {			
@@ -1375,8 +1375,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 	    
 		$data = array(
 
-				array( "L3"=>1, "L2"=>"X", "L1"=>'1'	),
-				array( "L3"=>1, "L2"=>"X"		),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>'1'	),
+				array( "L3"=>'A', "L2"=>"X"		),
 		);	
 		
 		try {			
@@ -1395,10 +1395,10 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 	    
 		$data = array(
 
-				array( "L3"=>1, "L2"=>"X", "L1"=>1	),
-				array( "L3"=>1, "L2"=>"X"		),
-				array( "L3"=>1, "L2"=>1			),	
-				array( "L3"=>1, "L2"=>"Y"		),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1	),
+				array( "L3"=>'A', "L2"=>"X"		),
+				array( "L3"=>'A', "L2"=>1			),	
+				array( "L3"=>'A', "L2"=>"Y"		),
 		);	
 		
 		try {			
@@ -1417,11 +1417,11 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 	    
 		$data = array(
 
-				array( "L3"=>1, "L2"=>"X", "L1"=>1	),
-				array( "L3"=>1, "L2"=>"X"		),
-				array( "L3"=>1, "L2"=>"X"		),	
-				array( "L3"=>1, "L2"=>"Y"		),
-		    		array( "L3"=>'1'				)
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1	),
+				array( "L3"=>'A', "L2"=>"X"		),
+				array( "L3"=>'A', "L2"=>"X"		),	
+				array( "L3"=>'A', "L2"=>"Y"		),
+		    		array( "L3"=>1				)
 		);	
 		
 		try {			
@@ -1474,7 +1474,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ==============================================
 		
 		try {
-			$rows_changed = $this->cls->dropL1(1, "X", 1, $ctrl);
+			$rows_changed = $this->cls->dropL1('A', "X", 1, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1488,7 +1488,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ==============================================	    
 
 		try {
-			$rows_changed = $this->cls->dropL1(2, "X", 1, $ctrl);
+			$rows_changed = $this->cls->dropL1('B', "X", 1, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1503,7 +1503,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ==============================================	    
 
 		try {
-			$rows_changed = $this->cls->dropL1(3, "X", array(1,2), $ctrl);
+			$rows_changed = $this->cls->dropL1('C', "X", array(1,2), $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1518,7 +1518,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ==============================================	    
 
 		try {
-			$rows_changed = $this->cls->dropL1(3, "Y", array(1,2), $ctrl);
+			$rows_changed = $this->cls->dropL1('C', "Y", array(1,2), $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1537,7 +1537,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    2=>false,
 								    5=>true, 							    
 								    3=>(int)0  						
@@ -1549,12 +1549,12 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 								    4=>(float)-1.6  						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	
+				'B'=>array(   'X'=>array(
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj 
 					    )					    
 				),
-				3=>array(   'X'=>array(		    5=>true,
+				'C'=>array(   'X'=>array(		    5=>true,
 								    3=>(int)0  						
 					    ),	
 					    'Y'=>array(		    3=>(float)1.7,							    
@@ -1564,9 +1564,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		);
 		
 		$request = array(
-				    1=>array(),	    // Request all L3 tries in datastore
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),	    // Request all L3 tries in datastore
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$ctrl = array(
@@ -1618,11 +1618,11 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {
 		    
 			$drop_nodes = array(
-					array( "L3"=>1, "L2"=>"X", "L1"=>1),
-					array( "L3"=>1, "L2"=>"X", "L1"=>2),
-					array( "L3"=>1, "L2"=>"X", "L1"=>5),
-					array( "L3"=>1, "L2"=>"X", "L1"=>3),	
-					array( "L3"=>1, "L2"=>"Y", "L1"=>1)	    
+					array( "L3"=>'A', "L2"=>"X", "L1"=>1),
+					array( "L3"=>'A', "L2"=>"X", "L1"=>2),
+					array( "L3"=>'A', "L2"=>"X", "L1"=>5),
+					array( "L3"=>'A', "L2"=>"X", "L1"=>3),	
+					array( "L3"=>'A', "L2"=>"Y", "L1"=>1)	    
 			);	
 			
 			$rows_changed = $this->cls->dropL1_multi($drop_nodes, $ctrl);
@@ -1642,8 +1642,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {
 		    
 			$drop_nodes = array(
-					array( "L3"=>2, "L2"=>"X", "L1"=>array(1,2)),
-					array( "L3"=>3, "L2"=>"X", "L1"=>array(1,2))	    
+					array( "L3"=>'B', "L2"=>"X", "L1"=>array(1,2)),
+					array( "L3"=>'C', "L2"=>"X", "L1"=>array(1,2))	    
 			);	
 			
 			$rows_changed = $this->cls->dropL1_multi($drop_nodes, $ctrl);
@@ -1664,15 +1664,15 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(   'Y'=>array(	
+				'A'=>array(   'Y'=>array(	
 								    2=>(int)-1,
 								    3=>(float)1.7, 							    
 								    4=>(float)-1.6  						
 					    )					    
 				),			
-				2=>array(   'X'=>array(		    3=>$test_obj ) 								    
+				'B'=>array(   'X'=>array(	    3=>$test_obj ) 								    
 				),
-				3=>array(   'X'=>array(		    5=>true,							    
+				'C'=>array(   'X'=>array(		    5=>true,							    
 								    3=>(int)0  						
 					    ),	
 					    'Y'=>array(		
@@ -1685,9 +1685,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		);	
 		
 		$request = array(
-				    1=>array(),	    // Request all L4 tries in datastore
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),	    // Request all L4 tries in datastore
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$ctrl = array(
@@ -1735,8 +1735,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 	    
 		$data = array(
 
-				array( "L3"=>1, "L2"=>"X", "L1"=>1),
-				array( "L3"=>1, "L2"=>"X", "L1"=>2)		    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>2)		    
 		);		
 						
 		try {			
@@ -1754,8 +1754,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {			
 			$data = array(
 
-					array( "L3"=>1, "L2"=>"X", "L1"=>1),
-					array( "L3"=>1, "L2"=>"X", "L1"=>'2')		    
+					array( "L3"=>'A', "L2"=>"X", "L1"=>1),
+					array( "L3"=>'A', "L2"=>"X", "L1"=>'2')		    
 			);	
 			
 			$this->cls->dropL1_multi($data, $ctrl);
@@ -1775,8 +1775,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {			
 			$data = array(
 
-					array( "L3"=>1, "L2"=>"X", "L1"=>array(1,'2')    ),
-					array( "L3"=>1, "L2"=>"X", "L1"=>3		    )		    
+					array( "L3"=>'A', "L2"=>"X", "L1"=>array(1,'2')    ),
+					array( "L3"=>'A', "L2"=>"X", "L1"=>3		    )		    
 			);	
 			
 			$this->cls->dropL1_multi($data, $ctrl);
@@ -1795,8 +1795,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {			
 			$data = array(
 
-					array( "L3"=>1, "L2"=>"X", "L1"=>array("F",'2')  ),
-					array( "L3"=>1, "L2"=>"X", "L1"=>3		    )		    
+					array( "L3"=>'A', "L2"=>"X", "L1"=>array("F",'2')  ),
+					array( "L3"=>'A', "L2"=>"X", "L1"=>3		    )		    
 			);	
 			
 			$this->cls->dropL1_multi($data, $ctrl);
@@ -1815,8 +1815,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {			
 			$data = array(
 
-					array( "L3"=>1, "L2"=>7, "L1"=>1	),
-					array( "L3"=>1, "L2"=>"X", "L1"=>3	)		    
+					array( "L3"=>'A', "L2"=>7, "L1"=>1	),
+					array( "L3"=>'A', "L2"=>"X", "L1"=>3	)		    
 			);	
 			
 			$this->cls->dropL1_multi($data, $ctrl);
@@ -1836,7 +1836,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 			$data = array(
 
 					array( "L3"=>"", "L2"=>"X", "L1"=>1  ),
-					array( "L3"=>1,	 "L2"=>"X", "L1"=>3  )	    
+					array( "L3"=>'A',	 "L2"=>"X", "L1"=>3  )	    
 			);	
 			
 			$this->cls->dropL1_multi($data, $ctrl);
@@ -1870,8 +1870,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 
 		try {			
 			$data = array(
-					array( "L3"=>1, "L2"=>"X", "L1"=>1, "L9"=>false  ),
-					array( "L3"=>1, "L2"=>"Z", "L1"=>3		    )		    
+					array( "L3"=>'A', "L2"=>"X", "L1"=>1, "L9"=>false  ),
+					array( "L3"=>'A', "L2"=>"Z", "L1"=>3		    )		    
 			);	
 			
 			$this->cls->dropL1_multi($data, $ctrl);
@@ -1889,8 +1889,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 
 		try {			
 			$data = array(
-					array( "L3"=>1, "L2"=>"X", "L1"=>1	),
-					array( "L3"=>1, "L2"=>"Z",		)		    
+					array( "L3"=>'A', "L2"=>"X", "L1"=>1	),
+					array( "L3"=>'A', "L2"=>"Z",		)		    
 			);	
 			
 			$this->cls->dropL1_multi($data, $ctrl);
@@ -1910,7 +1910,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {			
 			$data = array(
 
-					array( "L3"=>1, "L2"=>"X", "L1"=>1),
+					array( "L3"=>'A', "L2"=>"X", "L1"=>1),
 					array(		"L2"=>"Z", "L1"=>2)		    
 			);	
 			
@@ -1930,7 +1930,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 
 		try {			
 			$data = array(
-					array( "L3"=>1, "L2"=>"X", "L1"=>1),
+					array( "L3"=>'A', "L2"=>"X", "L1"=>1),
 					array( "L0"=>2, "L2"=>"Z", "L1"=>2)		    
 			);	
 			
@@ -1969,7 +1969,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ==============================================
 		
 		try {
-			$rows_changed = $this->cls->dropL2(1, "X", $ctrl);
+			$rows_changed = $this->cls->dropL2('A', "X", $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1983,7 +1983,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ==============================================	    
 
 		try {
-			$rows_changed = $this->cls->dropL2(1, "Y", $ctrl);
+			$rows_changed = $this->cls->dropL2('A', "Y", $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1998,7 +1998,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ==============================================	    
 
 		try {
-			$rows_changed = $this->cls->dropL2(3, array("X", "Y"), $ctrl);
+			$rows_changed = $this->cls->dropL2('C', array("X", "Y"), $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -2018,7 +2018,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				2=>array(   'X'=>array(	
+				'B'=>array(   'X'=>array(
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),
 										    3=>$test_obj  						
@@ -2027,9 +2027,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		);		
 		
 		$request = array(
-				    1=>array(),	    // Request all L3 tries in datastore
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),	    // Request all L3 tries in datastore
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$ctrl = array(
@@ -2081,8 +2081,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {
 		    
 			$drop_nodes = array(
-					array( "L3"=>1, "L2"=>"X"),
-					array( "L3"=>1, "L2"=>"Y")	    
+					array( "L3"=>'A', "L2"=>"X"),
+					array( "L3"=>'A', "L2"=>"Y")	    
 			);	
 			
 			$rows_changed = $this->cls->dropL2_multi($drop_nodes, $ctrl);
@@ -2102,7 +2102,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {
 		    
 			$drop_nodes = array(
-					array( "L3"=>3, "L2"=>array("X","Y"))
+					array( "L3"=>'C', "L2"=>array("X","Y"))
 			);	
 			
 			$rows_changed = $this->cls->dropL2_multi($drop_nodes, $ctrl);
@@ -2124,7 +2124,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				2=>array(   'X'=>array(	
+				'B'=>array(   'X'=>array(
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),
 										    3=>$test_obj  						
@@ -2133,9 +2133,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		);		
 		
 		$request = array(
-				    1=>array(),	    // Request all L3 tries in datastore
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),	    // Request all L3 tries in datastore
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$ctrl = array(
@@ -2181,8 +2181,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 	    
 		$data = array(
-				array( "L3"=>1, "L2"=>"X" ),
-				array( "L3"=>1, "L2"=>"X" )		    
+				array( "L3"=>'A', "L2"=>"X" ),
+				array( "L3"=>'A', "L2"=>"X" )		    
 		);		
 						
 		try {			
@@ -2199,8 +2199,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		try {			
 			$data = array(
-					array( "L3"=>1, "L2"=>"X" ),
-					array( "L3"=>1, "L2"=>"9" )		    
+					array( "L3"=>'A', "L2"=>"X" ),
+					array( "L3"=>'A', "L2"=>"9" )		    
 			);	
 			
 			$this->cls->dropL2_multi($data, $ctrl);
@@ -2219,8 +2219,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		try {			
 			$data = array(
-					array( "L3"=>1, "L2"=>array("K",'2') ),
-					array( "L3"=>1, "L3"=>"X"		)		    
+					array( "L3"=>'A', "L2"=>array("K",'2') ),
+					array( "L3"=>'A', "L3"=>"X"		)		    
 			);	
 			
 			$this->cls->dropL2_multi($data, $ctrl);
@@ -2238,8 +2238,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		try {			
 			$data = array(
-					array( "L3"=>1, "L2"=>array(1,'2') ),
-					array( "L3"=>1, "L2"=>"X"	      )		    
+					array( "L3"=>'A', "L2"=>array(1,'2') ),
+					array( "L3"=>'A', "L2"=>"X"	      )		    
 			);	
 			
 			$this->cls->dropL2_multi($data, $ctrl);
@@ -2259,7 +2259,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 			$data = array(
 
 					array( "L3"=>null, "L2"=>"X" ),
-					array( "L3"=>1,	   "L2"=>"Z" )		    
+					array( "L3"=>'A',	   "L2"=>"Z" )		    
 			);	
 			
 			$this->cls->dropL2_multi($data, $ctrl);
@@ -2294,8 +2294,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {			
 			$data = array(
 
-					array( "L3"=>1, "L2"=>"X"	        ),
-					array( "L3"=>1, "L2"=>"Y", "L1"=>"K" )		    
+					array( "L3"=>'A', "L2"=>"X"	        ),
+					array( "L3"=>'A', "L2"=>"Y", "L1"=>"K" )		    
 			);	
 			
 			$this->cls->dropL2_multi($data, $ctrl);
@@ -2314,8 +2314,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {			
 			$data = array(
 
-					array( "L3"=>1, "L2"=>"X" ),
-					array( "L3"=>1	     )		    
+					array( "L3"=>'A', "L2"=>"X" ),
+					array( "L3"=>'A'	     )		    
 			);	
 			
 			$this->cls->dropL2_multi($data, $ctrl);
@@ -2334,7 +2334,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {			
 			$data = array(
 
-					array( "L3"=>1, "L2"=>"X" ),
+					array( "L3"=>'A', "L2"=>"X" ),
 					array(		"L2"=>"Y" )		    
 			);	
 			
@@ -2354,7 +2354,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {			
 			$data = array(
 
-					array( "L3"=>1, "L2"=>"X" ),
+					array( "L3"=>'A', "L2"=>"X" ),
 					array( "L0"=>2, "L2"=>"Y" )		    
 			);	
 			
@@ -2393,7 +2393,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ==============================================
 		
 		try {
-			$rows_changed = $this->cls->dropL3(1, $ctrl);
+			$rows_changed = $this->cls->dropL3('A', $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -2407,7 +2407,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ==============================================	    
 
 		try {
-			$rows_changed = $this->cls->dropL3(array(2,3), $ctrl);
+			$rows_changed = $this->cls->dropL3(array('B','C'), $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -2429,9 +2429,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$check = array();		
 		
 		$request = array(
-				    1=>array(),	    // Request all L3 tries in datastore
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),	    // Request all L3 tries in datastore
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$ctrl = array(
@@ -2483,8 +2483,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		try {
 		    
 			$drop_nodes = array(
-					array( "L3"=>1),
-					array( "L3"=>3)	    
+					array( "L3"=>'A'),
+					array( "L3"=>'C')	    
 			);	
 			
 			$rows_changed = $this->cls->dropL3_multi($drop_nodes, $ctrl);
@@ -2507,7 +2507,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(			
-				2=>array(   'X'=>array(	
+				'B'=>array(   'X'=>array(
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj 						
@@ -2516,9 +2516,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		);	
 		
 		$request = array(
-				    1=>array(),	    // Request all L4 tries in datastore
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),	    // Request all L4 tries in datastore
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$ctrl = array(
@@ -2567,7 +2567,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		try {		    
 			$drop_nodes = array(
-					array( "L3"=>array(1,3))	    
+					array( "L3"=>array('A','C'))	    
 			);	
 			
 			$rows_changed = $this->cls->dropL3_multi($drop_nodes, $ctrl);
@@ -2590,7 +2590,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(			
-				2=>array(   'X'=>array(	
+				'B'=>array(   'X'=>array(
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj 						
@@ -2599,9 +2599,9 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		);	
 		
 		$request = array(
-				    1=>array(),	    // Request all L4 tries in datastore
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),	    // Request all L4 tries in datastore
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$ctrl = array(
@@ -2646,8 +2646,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ####################################################################
 	    
 		$data = array(
-				array( "L3"=>1 ),
-				array( "L3"=>3 )		    
+				array( "L3"=>'A' ),
+				array( "L3"=>'C' )		    
 		);		
 						
 		try {			
@@ -2664,8 +2664,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		try {			
 			$data = array(
-					array( "L3"=>"X" ),
-					array( "L3"=>1   )		    
+					array( "L3"=>2 ),
+					array( "L3"=>'A'   )		    
 			);	
 			
 			$this->cls->dropL3_multi($data, $ctrl);
@@ -2682,8 +2682,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		try {			
 			$data = array(
-					array( "L3"=>array("K",2) ),
-					array( "L3"=>1	     )		    
+					array( "L3"=>array("B",2) ),
+					array( "L3"=>'A'	     )		    
 			);	
 			
 			$this->cls->dropL3_multi($data, $ctrl);
@@ -2701,8 +2701,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		
 		try {			
 			$data = array(
-					array( "L3"=>array("X",'2') ),
-					array( "L3"=>1		    )		    
+					array( "L3"=>array("X",2) ),
+					array( "L3"=>'A'		    )		    
 			);	
 			
 			$this->cls->dropL3_multi($data, $ctrl);
@@ -2722,7 +2722,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 			$data = array(
 
 					array( "L3"=>null   ),
-					array( "L3"=>1	    )		    
+					array( "L3"=>'A'	    )		    
 			);	
 			
 			$this->cls->dropL3_multi($data, $ctrl);
@@ -2756,8 +2756,8 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 
 		try {			
 			$data = array(
-					array( "L3"=>1 ),
-					array( "L3"=>1, "L10"=>"Z"	     )		    
+					array( "L3"=>'A' ),
+					array( "L3"=>'A', "L10"=>"Z"	     )		    
 			);	
 			
 			$this->cls->dropL3_multi($data, $ctrl);
@@ -2800,7 +2800,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$rows_changed = $this->cls->dropL1(1, 'Y', 1, $ctrl);
+			$rows_changed = $this->cls->dropL1('A', 'Y', 1, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -2816,7 +2816,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ===========================================
 		
 		try {			
-			$result = $this->cls->dropL1(1, 'Y', "T", $ctrl);
+			$result = $this->cls->dropL1('A', 'Y', "T", $ctrl);
 			
 			// Execution will halt on the previous line if dropL1() throws an exception
 			$this->fail("Method dropL1() failed to throw an exception on invalid key type");
@@ -2830,7 +2830,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// =================================================
 		
 		try {			
-			$result = $this->cls->dropL1(1, 'Y', array(1, "T"), $ctrl);
+			$result = $this->cls->dropL1('A', 'Y', array(1, "T"), $ctrl);
 			
 			// Execution will halt on the previous line if dropL1() throws an exception
 			$this->fail("Method dropL1() failed to throw an exception on invalid key type");
@@ -2844,7 +2844,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ====================================================
 		
 		try {			
-			$result = $this->cls->dropL1(1, 'Y', array("Q", "T"), $ctrl);
+			$result = $this->cls->dropL1('A', 'Y', array("Q", "T"), $ctrl);
 			
 			// Execution will halt on the previous line if dropL1() throws an exception
 			$this->fail("Method dropL1() failed to throw an exception on invalid key type");
@@ -2858,7 +2858,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ===========================================
 
 		try {			
-			$result = $this->cls->dropL1(1, '4', 1, $ctrl);
+			$result = $this->cls->dropL1('A', '4', 1, $ctrl);
 			
 			// Execution will halt on the previous line if dropL1() throws an exception
 			$this->fail("Method dropL1() failed to throw an exception on invalid key type");			
@@ -2871,7 +2871,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ===========================================
 
 		try {			
-			$result = $this->cls->dropL1('2', 'Y', 1, $ctrl);
+			$result = $this->cls->dropL1(2, 'Y', 1, $ctrl);
 			
 			// Execution will halt on the previous line if dropL1() throws an exception
 			$this->fail("Method dropL1() failed to throw an exception on invalid key type");			
@@ -2889,7 +2889,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$rows_changed = $this->cls->dropL2(1, 'Y',  $ctrl);
+			$rows_changed = $this->cls->dropL2('A', 'Y',  $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -2905,7 +2905,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ===========================================
 		
 		try {			
-			$result = $this->cls->dropL2(1, '6', $ctrl);
+			$result = $this->cls->dropL2('A', '6', $ctrl);
 			
 			// Execution will halt on the previous line if dropL2() throws an exception
 			$this->fail("Method dropL2() failed to throw an exception on invalid key type");
@@ -2919,7 +2919,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// =================================================
 		
 		try {			
-			$result = $this->cls->dropL2(1, array(99, 'R'), $ctrl);
+			$result = $this->cls->dropL2('A', array(99, 'R'), $ctrl);
 			
 			// Execution will halt on the previous line if dropL2() throws an exception
 			$this->fail("Method dropL2() failed to throw an exception on invalid key type");
@@ -2933,7 +2933,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ====================================================
 		
 		try {			
-			$result = $this->cls->dropL2(1, array(1,2), $ctrl);
+			$result = $this->cls->dropL2('A', array(1,2), $ctrl);
 			
 			// Execution will halt on the previous line if dropL2() throws an exception
 			$this->fail("Method dropL2() failed to throw an exception on invalid key type");
@@ -2947,7 +2947,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ===========================================		
 		
 		try {			
-			$result = $this->cls->dropL2('2', 'Y', $ctrl);
+			$result = $this->cls->dropL2(2, 'Y', $ctrl);
 			
 			// Execution will halt on the previous line if dropL2() throws an exception
 			$this->fail("Method dropL2() failed to throw an exception on invalid key type");			
@@ -2964,7 +2964,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$rows_changed = $this->cls->dropL3(1, $ctrl);
+			$rows_changed = $this->cls->dropL3('A', $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -2980,7 +2980,7 @@ class core_L3_paged_abstract_dropMethods extends RAZ_testCase {
 		// ===========================================
 		
 		try {			
-			$result = $this->cls->dropL3('2', $ctrl);
+			$result = $this->cls->dropL3(2, $ctrl);
 			
 			// Execution will halt on the previous line if dropL3() throws an exception
 			$this->fail("Method dropL3() failed to throw an exception on invalid key type");

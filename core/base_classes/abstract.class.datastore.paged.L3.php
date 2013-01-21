@@ -60,26 +60,13 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 	 *
 	 *	=> ARR array $cache | Cache pages array
 	 * 
- 	 *	    => ARR array $L5 | Single cache page    ---------------------------------------------------------
-	 * 
-	 *		=> ARR @param array $keys | L5 datastore
-	 *		    => ARR string '' | L4 id
-	 *			=> ARR string '' | L3 id
+ 	 *	    => ARR array $L3 | Single cache page    ---------------------------------------------------------
+	 *		=> ARR @param array $keys | L3 id
 	 *			    => ARR string | L2 id
 	 *				=> KEY string | L1 id
 	 *				    => VAL mixed | serialized key data
 	 * 
 	 *		=> VAL bool $all_cached | True if cache page has authority (all rows loaded from db)
-	 * 
-	 *		=> ARR array $L4 | L4 cache LUT
-	 *		    => KEY string '' | L4 id
-	 *			=> VAL bool | True if L4 node has authority. False if not.
-	 * 
-	 *		=> ARR array $L3 | L3 cache LUT
-	 *		    => ARR string '' | L4 id
-	 *			=> KEY string '' | L3 id
-	 *			    => VAL bool | True if L3 node has authority. False if not.
-	 * 
 	 *		=> ARR array $L2 | L2 cache LUT
 	 *		    => ARR string '' | L4 id
 	 *			=> ARR string '' | L3 id 
@@ -1458,7 +1445,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 
 							if( FOX_sUtil::keyExists($L3, $db_result) ){
 
-								// The L5 object now has authority
+								// The L3 object now has authority
 								$update_cache[$L3]['all_cached'] = true;
 
 								// Update descendent LUT's
@@ -2319,7 +2306,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5->L2 walk.
+		// where two rows in the data array contain the same L3->L2 walk.
 		
 		$set_data = array();
 		
@@ -2627,7 +2614,6 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5->L3 walk.
 		
 		$set_data = array();
 		
@@ -3573,7 +3559,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5->L2 walk.
+		// where two rows in the data array contain the same L3->L2 walk.
 		
 		$set_data = array();
 		
@@ -3874,7 +3860,6 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		// ===========================================================
 		
 		// NOTE: we have to fully traverse every trie array to handle the situation
-		// where two rows in the data array contain the same L5->L3 walk.
 		
 		$set_data = array();
 		
@@ -7867,7 +7852,7 @@ abstract class FOX_dataStore_paged_L3_base extends FOX_db_base {
 		// Write updated cache page images to persistent cache
 		// ===========================================================
 
-		if($update_cache){  // Trap deleting nothing but L5's
+		if($update_cache){  // Trap deleting nothing but L3's
 		    
 			if($this->debug_on){
 

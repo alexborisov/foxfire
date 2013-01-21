@@ -25,7 +25,7 @@ class FOX_dataStore_paged_L3_tester_globalMethods extends FOX_dataStore_paged_L3
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
-		    "L3" =>	array(	"php"=>"int",    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",	"auto_inc"=>false,  "default"=>null,
+		    "L3" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,
 			// This forces every zone + rule + key_type + key_id combination to be unique
 			"index"=>array("name"=>"top_level_index",	"col"=>array("L3", "L2", "L1"), "index"=>"PRIMARY"), "this_row"=>true),
 		    "L2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
@@ -146,29 +146,29 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L3"=>1, "L2"=>"X", "L1"=>1, "L0"=>null),
-				array( "L3"=>1, "L2"=>"X", "L1"=>2, "L0"=>false),
-				array( "L3"=>1, "L2"=>"X", "L1"=>5, "L0"=>true),
-				array( "L3"=>1, "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1, "L0"=>null),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>2, "L0"=>false),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>5, "L0"=>true),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
 
-				array( "L3"=>1, "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),
 		    
-		    		array( "L3"=>2, "L2"=>"X", "L1"=>1, "L0"=>(string)"foo"),
-		    		array( "L3"=>2, "L2"=>"X", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L3"=>2, "L2"=>"X", "L1"=>3, "L0"=>$test_obj),
+		    		array( "L3"=>'B', "L2"=>"X", "L1"=>1, "L0"=>(string)"foo"),
+		    		array( "L3"=>'B', "L2"=>"X", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L3"=>'B', "L2"=>"X", "L1"=>3, "L0"=>$test_obj),
 		    
-				array( "L3"=>3, "L2"=>"X", "L1"=>1, "L0"=>null),
-				array( "L3"=>3, "L2"=>"X", "L1"=>2, "L0"=>false),
-				array( "L3"=>3, "L2"=>"X", "L1"=>5, "L0"=>true),
-				array( "L3"=>3, "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
+				array( "L3"=>'C', "L2"=>"X", "L1"=>1, "L0"=>null),
+				array( "L3"=>'C', "L2"=>"X", "L1"=>2, "L0"=>false),
+				array( "L3"=>'C', "L2"=>"X", "L1"=>5, "L0"=>true),
+				array( "L3"=>'C', "L2"=>"X", "L1"=>3, "L0"=>(int)0),	
 
-				array( "L3"=>3, "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
-				array( "L3"=>3, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L3"=>3, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L3"=>3, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),		    
+				array( "L3"=>'C', "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
+				array( "L3"=>'C', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L3"=>'C', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L3"=>'C', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6),		    
 		    
 		);		
 		
@@ -194,7 +194,7 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	
+				'A'=>array(   'keys'=>array(  'X'=>array(	
 										    1=>null,
 										    2=>false,
 										    5=>true, 							    
@@ -208,14 +208,14 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	
+				'B'=>array(   'keys'=>array(  'X'=>array(	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),										    							    
 										    3=>$test_obj 						
 							    )	
 					    )						
 				),
-				3=>array(   'keys'=>array(  'X'=>array(	
+				'C'=>array(   'keys'=>array(  'X'=>array(	
 										    1=>null,
 										    2=>false,
 										    5=>true, 							    
@@ -238,7 +238,7 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 		// ####################################################################		
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>null,
 								    2=>false,
 								    5=>true, 							    
@@ -251,13 +251,13 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 								    4=>(float)-1.6 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	
+				'B'=>array(   'X'=>array(	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj 						
 					    )					    
 				),
-				3=>array(   'X'=>array(
+				'C'=>array(   'X'=>array(
 								    1=>null,
 								    2=>false,
 								    5=>true, 							    
@@ -356,7 +356,7 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    2=>false,
 								    5=>true, 							    
 								    3=>(int)0 						
@@ -367,12 +367,12 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 								    4=>(float)-1.6  						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	
+				'B'=>array(   'X'=>array(	
 								    2=>array(null, true, false, 1, 1.0, "foo"),								    							    
 								    3=>$test_obj  						
 					    )					    
 				),
-				3=>array(   'X'=>array(	
+				'C'=>array(   'X'=>array(	
 								    2=>false,
 								    5=>true, 							    
 								    3=>(int)0 						
@@ -400,9 +400,9 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -485,7 +485,7 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    5=>true, 							    
 								    3=>(int)0  						
 					    ),	
@@ -494,8 +494,8 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 								    4=>(float)-1.6  						
 					    )					    
 				),			
-				2=>array(   'X'=>array(		    3=>$test_obj  ) ),
-				3=>array(   'X'=>array(		
+				'B'=>array(   'X'=>array(		    3=>$test_obj  ) ),
+				'C'=>array(   'X'=>array(		
 								    5=>true, 							    
 								    3=>(int)0  						
 					    ),	
@@ -521,9 +521,9 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -607,7 +607,7 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(
-				1=>array(   
+				'A'=>array(   
 					    'Y'=>array(	
 							1=>(int)1, 
 							2=>(int)-1, 
@@ -615,7 +615,7 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 							4=>(float)-1.6 
 					    ) 											    					    
 				),			
-				3=>array(  											   	
+				'C'=>array(  											   	
 					    'Y'=>array(	
 							1=>(int)1, 
 							2=>(int)-1, 						
@@ -640,9 +640,9 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;
@@ -735,9 +735,9 @@ class core_L3_paged_abstract_globalMethods extends RAZ_testCase {
 		
 		
 		$request = array(
-				    1=>array(),
-				    2=>array(),
-				    3=>array()		    
+				    'A'=>array(),
+				    'B'=>array(),
+				    'C'=>array()		    
 		);
 		
 		$valid = false;

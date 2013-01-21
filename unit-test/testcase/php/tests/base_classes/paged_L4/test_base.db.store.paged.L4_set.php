@@ -25,7 +25,7 @@ class FOX_dataStore_paged_L4_tester_setMethods extends FOX_dataStore_paged_L4_ba
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
-		    "L4" =>	array(	"php"=>"int",    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",		"auto_inc"=>false,  "default"=>null,
+		    "L4" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,
 			// This forces every combination to be unique
 			"index"=>array("name"=>"top_level_index",	"col"=>array("L4", "L3", "L2", "L1"), "index"=>"PRIMARY"), "this_row"=>true),
 		    "L3" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
@@ -146,19 +146,19 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>5, "L0"=>true),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1"=>5, "L0"=>true),
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
 
-				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
-				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),
+				array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
+				array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),
 		    
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>$test_obj)	
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>$test_obj)	
 		    
 		);		
 		
@@ -186,7 +186,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================
 		
 		try {
-			$rows_changed = $this->cls->setL1(1, 'X', 'Z', 3, 0, $ctrl=null);
+			$rows_changed = $this->cls->setL1('A', 'X', 'Z', 3, 0, $ctrl=null);
 			
 			// Should return (int)0 to indicate no rows were changed
 			$this->assertEquals(0, $rows_changed); 	
@@ -208,7 +208,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>null,
 										    2=>false,
 										    5=>true 							    
@@ -224,7 +224,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
@@ -241,7 +241,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -256,7 +256,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
@@ -307,19 +307,19 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>5, "L0"=>true),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>null),
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>false),
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1"=>5, "L0"=>true),
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>(int)0),	
 
-				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
-				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),
+				array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),
+				array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),
 		    
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>$test_obj)	
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"Z", "L1"=>3, "L0"=>$test_obj)	
 		    
 		);		
 		
@@ -343,7 +343,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$dupe_items = array(	
 
-				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),		    
+				array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>1, "L0"=>(int)1),		    
 		);
 		
 		try {
@@ -367,10 +367,10 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$dupe_items = array(
 
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),		   
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"Z", "L1"=>4, "L0"=>(float)-1.6),		   
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"),
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
 		);
 		
 		try {
@@ -397,7 +397,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>null,
 										    2=>false,
 										    5=>true 							    
@@ -413,7 +413,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")										    						    
 									),
@@ -430,7 +430,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -445,7 +445,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
@@ -494,31 +494,31 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1s"=>array(
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1s"=>array(
 										    1=>null,
 										    2=>false
 									    )),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1s"=>array(
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1s"=>array(
 										    5=>true
 									    )),   
-				array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1s"=>array(
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"Z", "L1s"=>array(
 										    3=>(int)0
 									    )),
-				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1s"=>array(
+				array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1s"=>array(
 										    1=>(int)1,
 										    2=>(int)-1
 									    )),
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1s"=>array(
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1s"=>array(
 										    3=>(float)1.7
 									    )),
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"Z", "L1s"=>array(
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"Z", "L1s"=>array(
 										    4=>(float)-1.6
 									    )),		    
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1s"=>array(
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"K", "L1s"=>array(
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")
 									    )),
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"Z", "L1s"=>array(
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"Z", "L1s"=>array(
 										    3=>$test_obj
 									    )),	
 		    
@@ -550,7 +550,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		
 		try {		    
 		    
-			$rows_changed = $this->cls->setL2(1, "X", "Z", array( 3=>(int)0 ), $ctrl=null);
+			$rows_changed = $this->cls->setL2('A', "X", "Z", array( 3=>(int)0 ), $ctrl=null);
 			
 			// Should return (int)0 to indicate no rows were changed
 			$this->assertEquals(0, $rows_changed);
@@ -572,7 +572,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>null,
 										    2=>false,
 										    5=>true 							    
@@ -588,7 +588,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
@@ -605,7 +605,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -620,7 +620,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")								    						    
 							),
@@ -671,31 +671,31 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>array(
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1"=>array(
 										    1=>null,
 										    2=>false
 									    )),
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>array(
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1"=>array(
 										    5=>true
 									    )),   
-				array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1"=>array(
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"Z", "L1"=>array(
 										    3=>(int)0
 									    )),
-				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>array(
+				array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>array(
 										    1=>(int)1,
 										    2=>(int)-1
 									    )),
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>array(
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>array(
 										    3=>(float)1.7
 									    )),
-		    		array( "L4"=>1, "L3"=>"Y", "L2"=>"Z", "L1"=>array(
+		    		array( "L4"=>'A', "L3"=>"Y", "L2"=>"Z", "L1"=>array(
 										    4=>(float)-1.6
 									    )),		    
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"K", "L1"=>array(
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"K", "L1"=>array(
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")
 									    )),
-		    		array( "L4"=>2, "L3"=>"X", "L2"=>"Z", "L1"=>array(
+		    		array( "L4"=>'B', "L3"=>"X", "L2"=>"Z", "L1"=>array(
 										    3=>$test_obj
 									    )),			    
 		);		
@@ -720,7 +720,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================
 				
 		$dupe_items = array(
-				array( "L4"=>1, "L3"=>"X", "L2"=>"K", "L1"=>array(1=>null,2=>false))
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"K", "L1"=>array(1=>null,2=>false))
 		);
 		
 		try {
@@ -742,8 +742,8 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================
 				
 		$dupe_items = array(
-				array( "L4"=>1, "L3"=>"X", "L2"=>"Z", "L1"=>array(3=>(int)0)),
-				array( "L4"=>1, "L3"=>"Y", "L2"=>"K", "L1"=>array(1=>(int)1,2=>(int)-1)),
+				array( "L4"=>'A', "L3"=>"X", "L2"=>"Z", "L1"=>array(3=>(int)0)),
+				array( "L4"=>'A', "L3"=>"Y", "L2"=>"K", "L1"=>array(1=>(int)1,2=>(int)-1)),
 		);
 		
 		try {
@@ -771,7 +771,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>null,
 										    2=>false,
 										    5=>true 							    
@@ -787,7 +787,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
@@ -804,7 +804,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -819,7 +819,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")								   							    
 							),
@@ -873,7 +873,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "count"=>4, "L4"=>1, "L3"=>"X", "L2s"=>array(	"K"=>array( 
+				array( "count"=>4, "L4"=>'A', "L3"=>"X", "L2s"=>array(	"K"=>array( 
 												    1=>null,
 												    2=>false,												    
 												    5=>true
@@ -881,7 +881,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 											"Z"=>array( 3=>(int)0 )
 										)),
 		    
-				array( "count"=>4, "L4"=>1, "L3"=>"Y", "L2s"=>array(	"K"=>array( 
+				array( "count"=>4, "L4"=>'A', "L3"=>"Y", "L2s"=>array(	"K"=>array( 
 												    1=>(int)1,												
 												    2=>(int)-1,												  
 												    3=>(float)1.7
@@ -889,7 +889,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 											"Z"=>array( 4=>(float)-1.6 )
 										)),
 		    		    		    
-		    		array( "count"=>3, "L4"=>2, "L3"=>"X", "L2s"=>array(	"K"=>array( 
+		    		array( "count"=>3, "L4"=>'B', "L3"=>"X", "L2s"=>array(	"K"=>array( 
 												    1=>(string)"foo",
 												    2=>array(null, true, false, 1, 1.0, "foo")
 											),
@@ -922,7 +922,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================
 		
 		try {			
-			$rows_changed = $this->cls->setL3(1, "Y", array( "K"=>array( 
+			$rows_changed = $this->cls->setL3('A', "Y", array( "K"=>array( 
 										    1=>(int)1,												
 										    2=>(int)-1,									
 										    3=>(float)1.7
@@ -950,7 +950,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>null,
 										    2=>false,
 										    5=>true 							    
@@ -966,7 +966,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
@@ -983,7 +983,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -998,7 +998,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
@@ -1050,7 +1050,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array(	"L4"=>1, "L3"=>"X", "L2"=>array(    "K"=>array( 
+				array(	"L4"=>'A', "L3"=>"X", "L2"=>array(    "K"=>array( 
 											1=>null,
 											2=>false,											
 											5=>true
@@ -1058,7 +1058,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 									    "Z"=>array( 3=>(int)0 )
 								)),
 		    
-				array(	"L4"=>1, "L3"=>"Y", "L2"=>array(    "K"=>array( 
+				array(	"L4"=>'A', "L3"=>"Y", "L2"=>array(    "K"=>array( 
 											1=>(int)1,												
 											2=>(int)-1,											
 											3=>(float)1.7
@@ -1066,7 +1066,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 									    "Z"=>array( 4=>(float)-1.6 )
 								)),
 		    		    		    
-		    		array(	"L4"=>2, "L3"=>"X", "L2"=>array(    "K"=>array( 
+		    		array(	"L4"=>'B', "L3"=>"X", "L2"=>array(    "K"=>array( 
 											1=>(string)"foo",
 											2=>array(null, true, false, 1, 1.0, "foo")
 									    ),
@@ -1098,7 +1098,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 			
 			$dupe_data = array(
 			    
-				array(	"L4"=>1, "L3"=>"Y", "L2"=>array(    "K"=>array( 
+				array(	"L4"=>'A', "L3"=>"Y", "L2"=>array(    "K"=>array( 
 											1=>(int)1,												
 											2=>(int)-1,											
 											3=>(float)1.7
@@ -1129,7 +1129,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 			
 			$dupe_data = array(
 			    
-				array(	"L4"=>1, "L3"=>"X", "L2"=>array(    "K"=>array( 
+				array(	"L4"=>'A', "L3"=>"X", "L2"=>array(    "K"=>array( 
 											1=>null,
 											2=>false,
 											5=>true
@@ -1137,7 +1137,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 									    "Z"=>array( 3=>(int)0 )
 								)),
 
-				array(	"L4"=>1, "L3"=>"Y", "L2"=>array(    "K"=>array( 
+				array(	"L4"=>'A', "L3"=>"Y", "L2"=>array(    "K"=>array( 
 											1=>(int)1,												
 											2=>(int)-1,
 											3=>(float)1.7
@@ -1169,7 +1169,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>null,
 										    2=>false,
 										    5=>true 							    
@@ -1185,7 +1185,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")																    
 									),
@@ -1202,7 +1202,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -1217,7 +1217,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")						    
 							),
@@ -1269,7 +1269,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "count"=>8, "L4"=>1, "L3s"=>array(   "X"=>array(	"K"=>array(
+				array( "count"=>8, "L4"=>'A', "L3s"=>array(   "X"=>array(	"K"=>array(
 												    1=>null,
 												    2=>false,
 												    5=>true
@@ -1285,7 +1285,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 									    )),				    				   				    
 				),
 		    
-		    		array( "count"=>3, "L4"=>2, "L3s"=>array(   "X"=>array(	"K"=>array( 
+		    		array( "count"=>3, "L4"=>'B', "L3s"=>array(   "X"=>array(	"K"=>array( 
 												    1=>(string)"foo",
 												    2=>array(null, true, false, 1, 1.0, "foo")
 											),
@@ -1321,7 +1321,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		
 		try {			
 			
-			$rows_changed = $this->cls->setL4(2, array( "X"=>array(	"K"=>array( 
+			$rows_changed = $this->cls->setL4('B', array( "X"=>array(	"K"=>array( 
 											    1=>(string)"foo",
 											    2=>array(null, true, false, 1, 1.0, "foo")
 										),
@@ -1348,7 +1348,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
 										    1=>null,
 										    2=>false,
 										    5=>true 							    
@@ -1364,7 +1364,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
@@ -1381,7 +1381,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -1396,7 +1396,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
@@ -1448,7 +1448,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L4"=>1, "L3"=>array(   "X"=>array( "K"=>array( 
+				array( "L4"=>'A', "L3"=>array(   "X"=>array( "K"=>array( 
 											1=>null,
 											2=>false,
 											5=>true
@@ -1464,7 +1464,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 								)),				    				   				    
 				),
 		    
-		    		array( "L4"=>2, "L3"=>array(   "X"=>array( "K"=>array( 
+		    		array( "L4"=>'B', "L3"=>array(   "X"=>array( "K"=>array( 
 											1=>(string)"foo",
 											2=>array(null, true, false, 1, 1.0, "foo")
 									    ),
@@ -1497,7 +1497,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 			
 			$dupe_data = array(
 			    
-				array( "L4"=>1, "L3"=>array(   "X"=>array( "K"=>array( 
+				array( "L4"=>'A', "L3"=>array(   "X"=>array( "K"=>array( 
 											1=>null,
 											2=>false,
 											5=>true
@@ -1536,7 +1536,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 			
 			$dupe_data = array(
 			    
-				array( "L4"=>1, "L3"=>array(   "X"=>array( "K"=>array( 
+				array( "L4"=>'A', "L3"=>array(   "X"=>array( "K"=>array( 
 											1=>null,
 											2=>false,
 											5=>true
@@ -1552,7 +1552,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 								)),				    				   				    
 				),
 		    
-		    		array( "L4"=>2, "L3"=>array(   "X"=>array( "K"=>array( 
+		    		array( "L4"=>'B', "L3"=>array(   "X"=>array( "K"=>array( 
 											1=>(string)"foo",
 											2=>array(null, true, false, 1, 1.0, "foo")
 									    ),
@@ -1584,7 +1584,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>null,
 										    2=>false,
 										    5=>true 							    
@@ -1600,7 +1600,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
@@ -1617,7 +1617,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -1632,7 +1632,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 )						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
@@ -1683,7 +1683,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";	
 				
 		$test_data = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -1698,7 +1698,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")						    
 							),
@@ -1731,7 +1731,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		try {			
 		    
 			$dupe_data = array(
-					1=>array(   'X'=>array(	'K'=>array( 
+					'A'=>array(   'X'=>array(	'K'=>array( 
 									    1=>null,
 									    2=>false,
 									    5=>true 							    
@@ -1773,7 +1773,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>null,
 										    2=>false,
 										    5=>true 							    
@@ -1789,7 +1789,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo")										    							    
 									),
@@ -1806,7 +1806,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 
+				'A'=>array(   'X'=>array(	'K'=>array( 
 								    1=>null,
 								    2=>false,
 								    5=>true 							    
@@ -1821,7 +1821,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array( 4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo")								    							    
 							),
@@ -1872,17 +1872,17 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";					
 		
 		$test_data = array(
-				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>null),
-				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>2, 'L0'=>false),
-				    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>3, 'L0'=>true),
-				    array('L4'=>1, 'L3'=>'X', 'L2'=>'Z', 'L1'=>3, 'L0'=>(int)0),
-				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>1, 'L0'=>(int)1),
-				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>2, 'L0'=>(int)-1),
-				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>3, 'L0'=>(float)1.7),
-				    array('L4'=>1, 'L3'=>'Y', 'L2'=>'Z', 'L1'=>4, 'L0'=>(float)-1.6),
-				    array('L4'=>2, 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>(string)"foo"),
-				    array('L4'=>2, 'L3'=>'X', 'L2'=>'K', 'L1'=>2, 'L0'=>array(null, true, false, 1, 1.0, "foo")),	
-				    array('L4'=>2, 'L3'=>'X', 'L2'=>'Z', 'L1'=>3, 'L0'=>$test_obj)		    
+				    array('L4'=>'A', 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>null),
+				    array('L4'=>'A', 'L3'=>'X', 'L2'=>'K', 'L1'=>2, 'L0'=>false),
+				    array('L4'=>'A', 'L3'=>'X', 'L2'=>'K', 'L1'=>3, 'L0'=>true),
+				    array('L4'=>'A', 'L3'=>'X', 'L2'=>'Z', 'L1'=>3, 'L0'=>(int)0),
+				    array('L4'=>'A', 'L3'=>'Y', 'L2'=>'K', 'L1'=>1, 'L0'=>(int)1),
+				    array('L4'=>'A', 'L3'=>'Y', 'L2'=>'K', 'L1'=>2, 'L0'=>(int)-1),
+				    array('L4'=>'A', 'L3'=>'Y', 'L2'=>'K', 'L1'=>3, 'L0'=>(float)1.7),
+				    array('L4'=>'A', 'L3'=>'Y', 'L2'=>'Z', 'L1'=>4, 'L0'=>(float)-1.6),
+				    array('L4'=>'B', 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>(string)"foo"),
+				    array('L4'=>'B', 'L3'=>'X', 'L2'=>'K', 'L1'=>2, 'L0'=>array(null, true, false, 1, 1.0, "foo")),	
+				    array('L4'=>'B', 'L3'=>'X', 'L2'=>'Z', 'L1'=>3, 'L0'=>$test_obj)		    
 		    		    
 		);
 		
@@ -1910,14 +1910,14 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		try {			
 		    
 			$dupe_data = array(
-					    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>null),
-					    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>2, 'L0'=>false),
-					    array('L4'=>1, 'L3'=>'X', 'L2'=>'K', 'L1'=>3, 'L0'=>true),
-					    array('L4'=>1, 'L3'=>'X', 'L2'=>'Z', 'L1'=>3, 'L0'=>(int)0),
-					    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>1, 'L0'=>(int)1),
-					    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>2, 'L0'=>(int)-1),
-					    array('L4'=>1, 'L3'=>'Y', 'L2'=>'K', 'L1'=>3, 'L0'=>(float)1.7),
-					    array('L4'=>1, 'L3'=>'Y', 'L2'=>'Z', 'L1'=>4, 'L0'=>(float)-1.6),	    
+					    array('L4'=>'A', 'L3'=>'X', 'L2'=>'K', 'L1'=>1, 'L0'=>null),
+					    array('L4'=>'A', 'L3'=>'X', 'L2'=>'K', 'L1'=>2, 'L0'=>false),
+					    array('L4'=>'A', 'L3'=>'X', 'L2'=>'K', 'L1'=>3, 'L0'=>true),
+					    array('L4'=>'A', 'L3'=>'X', 'L2'=>'Z', 'L1'=>3, 'L0'=>(int)0),
+					    array('L4'=>'A', 'L3'=>'Y', 'L2'=>'K', 'L1'=>1, 'L0'=>(int)1),
+					    array('L4'=>'A', 'L3'=>'Y', 'L2'=>'K', 'L1'=>2, 'L0'=>(int)-1),
+					    array('L4'=>'A', 'L3'=>'Y', 'L2'=>'K', 'L1'=>3, 'L0'=>(float)1.7),
+					    array('L4'=>'A', 'L3'=>'Y', 'L2'=>'Z', 'L1'=>4, 'L0'=>(float)-1.6),	    
 			);
 		    
 			$ctrl = array('mode'=>'matrix');			
@@ -1944,7 +1944,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
+				'A'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
 												1=>null,
 												2=>false,
 												3=>true 							    
@@ -1960,7 +1960,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							    )
 					    )
 				),			
-				2=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
+				'B'=>array(   'keys'=>array(  'X'=>array(	'K'=>array( 	
 												1=>(string)"foo",
 												2=>array(null, true, false, 1, 1.0, "foo")
 										    							    
@@ -1978,7 +1978,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	'K'=>array( 	
+				'A'=>array(   'X'=>array(	'K'=>array( 	
 										1=>null,
 										2=>false,
 										3=>true 							    
@@ -1993,7 +1993,7 @@ class core_L4_paged_abstract_setMethods extends RAZ_testCase {
 							'Z'=>array(		4=>(float)-1.6 ) 						
 					    )					    
 				),			
-				2=>array(   'X'=>array(	'K'=>array( 
+				'B'=>array(   'X'=>array(	'K'=>array( 
 										1=>(string)"foo",
 										2=>array(null, true, false, 1, 1.0, "foo")
 							),

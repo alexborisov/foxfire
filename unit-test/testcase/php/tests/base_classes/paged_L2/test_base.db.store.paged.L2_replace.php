@@ -477,7 +477,6 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_X, $this->cls->cache['X']);
 		
 		$check_cache_Y = array(	    'all_cached'=>true,
-					    'L2'=>null,				    
 					    'keys'=>array( 
 									1=>(int)1,
 									2=>(int)-1,
@@ -489,7 +488,6 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_Y, $this->cls->cache['Y']);
 		
 		$check_cache_Z = array(	    'all_cached'=>true,
-					    'L2'=>null,				    
 					    'keys'=>array(  
 									1=>(string)"foo",
 									2=>array(null, true, false, 1, 1.0, "foo"),
@@ -751,7 +749,6 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_X, $this->cls->cache['X']);
 		
 		$check_cache_Y = array(	    'all_cached'=>true,
-					    'L2'=>null,				    
 					    'keys'=>array(
 										    1=>(int)1,
 										    2=>(int)-1,
@@ -763,7 +760,6 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_Y, $this->cls->cache['Y']);
 		
 		$check_cache_Z = array(	    'all_cached'=>true,
-					    'L2'=>null,				    
 					    'keys'=>array(
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),										    							    
@@ -886,9 +882,9 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ####################################################################			
 				
 		// Since we're working with a hot cache, the all_cached flag will be set for all
-		// nodes that already exist in the database. The L2 and L3 LUT's for these
+		// nodes that already exist in the database. The L2 LUTs for these
 		// nodes will be missing, because the all_cached flag takes priority. However, for
-		// L3 nodes that were created in the cache as a result of us adding new L2's to the
+		// L2 nodes that were created in the cache as a result of us adding new L2's to the
 		// datastore, entries in the parent L3 object's L2 LUT will be set. This is because
 		// the parent L4 was created, not read from the db; so its all_cached flag won't be 
 		// set because it doesn't have authority.
@@ -897,7 +893,6 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache_X = array(	    'all_cached'=>true,
-					    'L2'=>null,
 					    'keys'=>array(
 								    9=>'foo',
 								    3=>'bar',										   					    
@@ -912,7 +907,6 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		
 		
 		$check_cache_Y = array(	    'all_cached'=>true,
-					    'L2'=>null,
 					    'keys'=>array( 
 										    1=>(int)1,
 										    2=>(int)-1,
@@ -1042,7 +1036,6 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		// ====================================================================
 		
 		$check_cache_X = array(	    'all_cached'=>true,	    // $all_cached will be true because this L4 had		    
-					    'L2'=>null,
 					    'keys'=>array(  
 								    1=>'foo',
 								    3=>'bar',						
@@ -1055,7 +1048,6 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_X, $this->cls->cache['X']);		
 		
 		$check_cache_Y = array(	    'all_cached'=>true,
-					    'L2'=>null,				    
 					    'keys'=>array(
 										    1=>(int)1,
 										    2=>(int)-1,
@@ -1067,7 +1059,6 @@ class core_L2_paged_abstract_replaceMethods extends RAZ_testCase {
 		$this->assertEquals($check_cache_Y, $this->cls->cache['Y']);
 		
 		$check_cache_Z = array(	    'all_cached'=>true,
-					    'L2'=>null,				    
 					    'keys'=>array( 
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),

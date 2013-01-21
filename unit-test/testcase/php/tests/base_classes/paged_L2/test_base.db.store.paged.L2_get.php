@@ -266,8 +266,7 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 	    
 		
 		self::loadData();
-				
-		
+
 		// STAGE 1 - WARM CACHE - Loaded from previous 'add' operation
 		// ===================================================================
 		
@@ -292,7 +291,7 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 
 			$this->fail($child->dumpString(1));	
 		}
-		
+
 		$this->assertEquals(true, $valid);		
 	        
 		$test_obj = new stdClass();
@@ -334,8 +333,7 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 											    3=>(int)0,
 											    5=>true							    
 
-								    ),
-						    'L2'=>null					    
+								    ),				    
 					),    
 					'Y'=>array(   'all_cached'=>true,
 
@@ -345,7 +343,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 											    3=>(float)1.7, 							    
 											    4=>(float)-1.6  						
 								    ),
-						    'L2'=>null
 						    
 					),			
 					'Z'=>array(   'all_cached'=>true,				    
@@ -353,8 +350,7 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 											    1=>(string)"foo",
 											    2=>array(null, true, false, 1, 1.0, "foo"),
 											    3=>$test_obj  						
-								     ),	
-						    'L2'=>null					    
+								     ),				    
 					)		    		    
 		);
 		
@@ -492,7 +488,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												5=>true, 							    
 												3=>(int)0  						
 									),
-							'L2'=>null						
 					    ),
 					    'Y'=>array(   
 							'keys'=>array(  
@@ -501,7 +496,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												3=>(float)1.7, 							    
 												4=>(float)-1.6 						    
 									),
-							'L2'=>null
 					    ),			
 					    'Z'=>array(   
 							'keys'=>array(
@@ -509,7 +503,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												2=>array(null, true, false, 1, 1.0, "foo"),																			    
 												3=>$test_obj  						
 									),
-							'L2'=>null
 					   )		    		    
 		);
 
@@ -543,20 +536,17 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												5=>true, 							    
 												3=>(int)0  						
 									),
-							'L2'=>null						
 					    ),
 					    'Y'=>array(   
 							'keys'=>array( 
 												4=>(float)-1.6  						
 									),
-							'L2'=>null
 					    ),			
 					    'Z'=>array(   
 							'keys'=>array(  
 												1=>(string)"foo",
 												3=>$test_obj  						
 									),
-							'L2'=>null
 	
 					    )		    		    
 		);
@@ -669,7 +659,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												5=>true, 							    
 												3=>(int)0  						
 									),
-							'L2'=>null
 					    ),
 					    'Y'=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
 							// L4->L1 walks, and all requested items are already in the cache, so
@@ -681,7 +670,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												3=>(float)1.7, 							    
 												4=>(float)-1.6 						    
 									),
-							'L2'=>null
 					    ),			
 					    'Z'=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
 							// L4->L1 walks, and all requested items are already in the cache, so
@@ -692,7 +680,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												2=>array(null, true, false, 1, 1.0, "foo"),																			    
 												3=>$test_obj  						
 									),
-							'L2'=>null
 					   )		    		    
 		);
 
@@ -721,7 +708,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 		
 		$check_cache_cold = array(		    
 					    'X'=>array(   
-							'L2'=>null,
 						
 							'keys'=>array(
 												1=>null,
@@ -730,7 +716,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 									)
 					    ),
 					    'Y'=>array(   
-							'L2'=>null,
 						
 							'keys'=>array(
 												2=>(int)-1,
@@ -738,7 +723,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 									)
 					    ),			
 					    'Z'=>array(   
-							'L2'=>null,
 						
 							'keys'=>array(  
 												1=>(string)"foo",
@@ -849,7 +833,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												5=>true, 							    
 												3=>(int)0  						
 							 ),
-							'L2'=>null
 					    ),	
 					    'Y'=>array(   
 							'all_cached'=>true,
@@ -859,7 +842,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												3=>(float)1.7, 							    
 												4=>(float)-1.6 						    
 							),
-							'L2'=>null
 					    ),			
 					    'Z'=>array(   
 							'all_cached'=>true,
@@ -868,7 +850,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												2=>array(null, true, false, 1, 1.0, "foo"),																			    
 												3=>$test_obj  						
 							),
-							'L2'=>null
 					   )		    		    
 		);
 		
@@ -901,7 +882,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 											    2=>false
 										
 								    ),
-						    'L2'=>null,
 					),
 					'Y'=>array(   
 						    'all_cached'=>true,
@@ -911,15 +891,14 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 											    3=>(float)1.7, 							    
 											    4=>(float)-1.6 						
 								    ),
-						    'L2'=>null,
 					),			
-					'Z'=>array(   'all_cached'=>true,
+					'Z'=>array( 
+						    'all_cached'=>true,
 						    'keys'=>array(
 											    1=>(string)"foo",
 											    2=>array(null, true, false, 1, 1.0, "foo"),																			    
 											    3=>$test_obj  						
 								    ),
-						    'L2'=>null
 					)		    		    
 		);
 		
@@ -1026,7 +1005,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												5=>true, 							    
 												3=>(int)0  						
 									),	
-							'L2'=>null
 					    ),
 					    'Y'=>array(   
 							'all_cached'=>true,
@@ -1036,7 +1014,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												3=>(float)1.7, 							    
 												4=>(float)-1.6 						    
 									),
-							'L2'=>null
 					    ),			
 					    'Z'=>array(   
 							'all_cached'=>true,
@@ -1044,8 +1021,7 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 												1=>(string)"foo",
 												2=>array(null, true, false, 1, 1.0, "foo"),																			    
 												3=>$test_obj  						
-							),	
-							'L2'=>null						
+							),						
 					   )		    		    
 		);
 
@@ -1078,7 +1054,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 											    2=>false
 										
 								    ),	
-						    'L2'=>null						
 					),
 					'Y'=>array(   					    
 						    'all_cached'=>true,					    
@@ -1088,7 +1063,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 											    3=>(float)1.7, 							    
 											    4=>(float)-1.6 						
 						    ),
-						    'L2'=>null
 					),			
 					'Z'=>array(   
 						    'all_cached'=>true,
@@ -1097,7 +1071,6 @@ class core_L2_paged_abstract_getMethods extends RAZ_testCase {
 											    2=>array(null, true, false, 1, 1.0, "foo"),																			    
 											    3=>$test_obj  						
 						    ),
-						    'L2'=>null,						    
 					)		    		    
 		);
 		
