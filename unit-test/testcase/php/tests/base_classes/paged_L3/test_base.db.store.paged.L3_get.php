@@ -25,7 +25,7 @@ class FOX_dataStore_paged_L3_tester_getMethods extends FOX_dataStore_paged_L3_ba
 		"cache_strategy" => "paged",
 		"cache_engine" => array("memcached", "redis", "apc", "thread"),	    
 		"columns" => array(
-		    "L3" =>	array(	"php"=>"int",    "sql"=>"int",	"format"=>"%d", "width"=>null,	"flags"=>"UNSIGNED NOT NULL",		"auto_inc"=>false,  "default"=>null,
+		    "L3" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,
 			// This forces every zone + rule + key_type + key_id combination to be unique
 			"index"=>array("name"=>"top_level_index",	"col"=>array("L3", "L2", "L1"), "index"=>"PRIMARY"), "this_row"=>true),
 		    "L2" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL",	"auto_inc"=>false,  "default"=>null,	"index"=>true),
@@ -146,19 +146,19 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 				
 		$test_data = array(
 
-				array( "L3"=>1, "L2"=>"X", "L1"=>1, "L0"=>null	    ),
-				array( "L3"=>1, "L2"=>"X", "L1"=>2, "L0"=>false	    ),
-				array( "L3"=>1, "L2"=>"X", "L1"=>5, "L0"=>true	    ),
-				array( "L3"=>1, "L2"=>"X", "L1"=>3, "L0"=>(int)0	    ),	
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1, "L0"=>null	    ),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>2, "L0"=>false	    ),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>5, "L0"=>true	    ),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>3, "L0"=>(int)0	    ),	
 
-				array( "L3"=>1, "L2"=>"Y", "L1"=>1, "L0"=>(int)1	    ),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1	    ),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7	    ),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6    ),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>1, "L0"=>(int)1	    ),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1	    ),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7	    ),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6    ),
 		    
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"  ),
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>3, "L0"=>$test_obj	    )	
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"  ),
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>3, "L0"=>$test_obj	    )	
 		    
 		);		
 		
@@ -184,7 +184,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// database reads that give objects authority
 		
 		$check = array(
-				1=>array(   'keys'=>array(  'X'=>array(	
+				'A'=>array(   'keys'=>array(  'X'=>array(	
 										    1=>null,
 										    2=>false,
 										    5=>true, 							    
@@ -199,7 +199,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 					    )
 					    
 				),			
-				2=>array(   'keys'=>array(  'K'=>array(
+				'B'=>array(   'keys'=>array(  'K'=>array(
 										    1=>(string)"foo",
 										    2=>array(null, true, false, 1, 1.0, "foo"),										    						    
 										    3=>$test_obj  						
@@ -215,7 +215,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===============================================================		
 		
 		$check = array(
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>null,
 								    2=>false,
 								    5=>true, 							    
@@ -228,7 +228,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 								    4=>(float)-1.6  						
 					    )					    
 				),			
-				2=>array(   'K'=>array(	 	
+				'B'=>array(   'K'=>array(	 	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),
 								    3=>$test_obj  						
@@ -277,8 +277,8 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===================================================================
 		
 		$request = array(
-				    1=>array(),
-				    2=>array()		    		    
+				    'A'=>array(),
+				    'B'=>array()		    		    
 		);
 		
 		$ctrl = array(		    
@@ -304,7 +304,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check_data = array(
-				    1=>array(   'X'=>array(	
+				    'A'=>array(   'X'=>array(	
 									1=>null,
 									2=>false,
 									5=>true, 							    
@@ -317,7 +317,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									4=>(float)-1.6  						
 						)					    
 				    ),			
-				    2=>array(   'K'=>array(	 	
+				    'B'=>array(   'K'=>array(	 	
 									1=>(string)"foo",
 									2=>array(null, true, false, 1, 1.0, "foo"),
 									3=>$test_obj  						
@@ -333,7 +333,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===============================================================			
 		
 		$check_cache = array(		    
-					1=>array(   'all_cached'=>true,
+					'A'=>array(   'all_cached'=>true,
 						    'L2'=>null,
 					    
 						    'keys'=>array(  'X'=>array(	
@@ -350,7 +350,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 								    )
 						    )
 					),			
-					2=>array(   'all_cached'=>true,
+					'B'=>array(   'all_cached'=>true,
 						    'L2'=>null,	
 					    
 						    'keys'=>array(  'K'=>array(
@@ -427,8 +427,8 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===================================================================
 		
 		$request = array(
-				array( "L3"=>1 ),
-				array( "L3"=>2 ),		    		    
+				array( "L3"=>'A' ),
+				array( "L3"=>'B' ),		    		    
 		);
 		
 		$ctrl = array(		    
@@ -455,7 +455,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check_data = array(
-				    1=>array(   'X'=>array(	
+				    'A'=>array(   'X'=>array(	
 									1=>null,
 									2=>false,
 									5=>true, 							    
@@ -468,7 +468,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									4=>(float)-1.6  						
 						)					    
 				    ),			
-				    2=>array(   'K'=>array(	 	
+				    'B'=>array(   'K'=>array(	 	
 									1=>(string)"foo",
 									2=>array(null, true, false, 1, 1.0, "foo"),
 									3=>$test_obj  						
@@ -483,7 +483,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===============================================================			
 		
 		$check_cache = array(		    
-					1=>array(   'all_cached'=>true,
+					'A'=>array(   'all_cached'=>true,
 						    'L2'=>null,
 					    
 						    'keys'=>array(  'X'=>array(	
@@ -500,7 +500,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 								    )
 						    )
 					),			
-					2=>array(   'all_cached'=>true,
+					'B'=>array(   'all_cached'=>true,
 						    'L2'=>null,	
 					    
 						    'keys'=>array(  'K'=>array(
@@ -579,8 +579,8 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===================================================================		
 		
 		$request = array(
-				    1=>array(   'Y'=>true ),			
-				    2=>array(   'K'=>true )					    				    		    		    
+				    'A'=>array(   'Y'=>true ),			
+				    'B'=>array(   'K'=>true )					    				    		    		    
 		);
 		
 		$ctrl = array(		    
@@ -608,14 +608,14 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		
 		
 		$check_data = array(
-				    1=>array(   'Y'=>array(	
+				    'A'=>array(   'Y'=>array(	
 									1=>(int)1,
 									2=>(int)-1,
 									3=>(float)1.7, 						    
 									4=>(float)-1.6  						
 						)					    
 				    ),			
-				    2=>array(   'K'=>array(	 	
+				    'B'=>array(   'K'=>array(	 	
 									1=>(string)"foo",
 									2=>array(null, true, false, 1, 1.0, "foo"),
 									3=>$test_obj  						
@@ -630,7 +630,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===============================================================			
 		
 		$check_cache_warm = array(		    
-					    1=>array(   
+					    'A'=>array(   
 							'L2'=>array( 'Y'=>true),	
 						
 							'keys'=>array(  'X'=>array(		
@@ -647,7 +647,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   
+					    'B'=>array(   
 							'L2'=>array('K'=>true),
 						
 							'keys'=>array(  'K'=>array(  	
@@ -683,7 +683,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		
 		
 		$check_cache_cold = array(		    
-					    1=>array(   
+					    'A'=>array(   
 							'L2'=>array( 'Y'=>true),
 						
 							'keys'=>array(  'Y'=>array( 
@@ -694,7 +694,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   		
+					    'B'=>array(   		
 							'L2'=>array('K'=>true),
 						
 							'keys'=>array(  'K'=>array(  	
@@ -750,8 +750,8 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===================================================================		
 		
 		$request = array(
-				array( "L3"=>1, "L2"=>"Y"),
-		    		array( "L3"=>2, "L2"=>"K")			    		    
+				array( "L3"=>'A', "L2"=>"Y"),
+		    		array( "L3"=>'B', "L2"=>"K")			    		    
 		);		
 		
 		$ctrl = array(		    
@@ -778,14 +778,14 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check_data = array(
-					1=>array(   'Y'=>array(	
+					'A'=>array(   'Y'=>array(	
 									    1=>(int)1,
 									    2=>(int)-1,	
 									    3=>(float)1.7, 							    
 									    4=>(float)-1.6  						
 						    )					    
 					),			
-					2=>array(   'K'=>array(		   
+					'B'=>array(   'K'=>array(		   
 									    1=>(string)"foo",
 									    2=>array(null, true, false, 1, 1.0, "foo"),																			    
 									    3=>$test_obj 					    
@@ -801,7 +801,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===============================================================			
 		
 		$check_cache_warm = array(		    
-					    1=>array(   
+					    'A'=>array(   
 							'L2'=>array( 'Y'=>true),	
 						
 							'keys'=>array(  'X'=>array(		
@@ -818,7 +818,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   
+					    'B'=>array(   
 							'L2'=>array('K'=>true),
 						
 							'keys'=>array(  'K'=>array(  	
@@ -854,7 +854,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		
 		
 		$check_cache_cold = array(		    
-					    1=>array(   
+					    'A'=>array(   
 							'L2'=>array('Y'=>true),
 						
 							'keys'=>array(  'Y'=>array(  	
@@ -865,7 +865,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   
+					    'B'=>array(   
 							'L2'=>array('K'=>true),
 						
 							'keys'=>array(  'K'=>array( 	
@@ -921,7 +921,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===================================================================
 
 		$request = array(
-				    1=>array(   'X'=>array( 	
+				    'A'=>array(   'X'=>array( 	
 									2=>true,
 									5=>true, 							    
 									3=>true  						
@@ -930,7 +930,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									4=>true  						
 						)					    
 				    ),			
-				    2=>array(   'K'=>array(		1=>true,
+				    'B'=>array(   'K'=>array(		1=>true,
 									3=>true  						
 						)					    
 				    )		    		    
@@ -960,7 +960,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check_data = array(
-					1=>array(   'X'=>array(	
+					'A'=>array(   'X'=>array(	
 									    2=>false,
 									    5=>true, 							    
 									    3=>(int)0  						
@@ -969,7 +969,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									    4=>(float)-1.6  						
 						    )					    
 					),			
-					2=>array(   'K'=>array(		    1=>(string)"foo",
+					'B'=>array(   'K'=>array(		    1=>(string)"foo",
 									    3=>$test_obj  						
 						    )					    
 					)		    		    
@@ -982,7 +982,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===============================================================			
 		
 		$check_cache_warm = array(		    
-					    1=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
+					    'A'=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
 							// L4->L1 walks, and all requested items are already in the cache, so
 							// neither the persistent cache nor db load code runs
 
@@ -1000,7 +1000,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
+					    'B'=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
 							// L4->L1 walks, and all requested items are already in the cache, so
 							// neither the persistent cache nor db load code runs
 
@@ -1037,7 +1037,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		
 		
 		$check_cache_cold = array(		    
-					    1=>array(   
+					    'A'=>array(   
 							'L2'=>null,
 						
 							'keys'=>array(  'X'=>array( 	
@@ -1051,7 +1051,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   
+					    'B'=>array(   
 							'L2'=>null,
 						
 							'keys'=>array(  'K'=>array(		1=>(string)"foo",
@@ -1104,13 +1104,13 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===================================================================
 		
 		$request = array(
-				array( "L3"=>1, "L2"=>"X", "L1"=>2),
-				array( "L3"=>1, "L2"=>"X", "L1"=>1),
-				array( "L3"=>1, "L2"=>"X", "L1"=>3),	
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>4),		    
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>1),
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>3)		    		    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>2),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>3),	
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>4),		    
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>1),
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>3)		    		    
 		);		
 		
 		$ctrl = array(		    
@@ -1137,7 +1137,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check_data = array(
-					1=>array(   'X'=>array(	
+					'A'=>array(   'X'=>array(	
 									    1=>null,
 									    2=>false, 							    
 									    3=>(int)0  						
@@ -1146,7 +1146,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									    4=>(float)-1.6  						
 						    )					    
 					),			
-					2=>array(   'K'=>array(		    1=>(string)"foo",
+					'B'=>array(   'K'=>array(		    1=>(string)"foo",
 									    3=>$test_obj  						
 						    )					    
 					)		    		    
@@ -1159,7 +1159,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===============================================================			
 		
 		$check_cache_warm = array(		    
-					    1=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
+					    'A'=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
 							// L4->L1 walks, and all requested items are already in the cache, so
 							// neither the persistent cache nor db load code runs
 
@@ -1177,7 +1177,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
+					    'B'=>array(   // There will be no LUT arrays, because all request data is fully-qualified 
 							// L4->L1 walks, and all requested items are already in the cache, so
 							// neither the persistent cache nor db load code runs
 
@@ -1214,7 +1214,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		
 		
 		$check_cache_cold = array(		    
-					    1=>array(   
+					    'A'=>array(   
 							'L2'=>null,
 						
 							'keys'=>array(  'X'=>array(  	
@@ -1227,7 +1227,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   
+					    'B'=>array(   
 							'L2'=>null,
 						
 							'keys'=>array(  'K'=>array(		1=>(string)"foo",
@@ -1280,10 +1280,10 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===================================================================
 
 		$request = array(
-				    1=>array(   'X'=>array( 	2=>true	),												
+				    'A'=>array(   'X'=>array( 	2=>true	),												
 						'Y'=>true					    
 				    ),			
-				    2=>true	    		    
+				    'B'=>true	    		    
 		);		
 		
 		$ctrl = array(		    
@@ -1310,7 +1310,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check_data = array(
-					1=>array(   'X'=>array(	
+					'A'=>array(   'X'=>array(	
 									    2=>false							    						
 						    ),	
 						    'Y'=>array(	
@@ -1320,7 +1320,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									    4=>(float)-1.6  						
 						    )					    
 					),			
-					2=>array(   'K'=>array(	
+					'B'=>array(   'K'=>array(	
 									    1=>(string)"foo",
 									    2=>array(null, true, false, 1, 1.0, "foo"),									    							    
 									    3=>$test_obj  						
@@ -1335,7 +1335,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===============================================================			
 		
 		$check_cache_warm = array(		    
-					    1=>array(   
+					    'A'=>array(   
 							'L2'=>array('Y'=>true),
 
 							'keys'=>array(  'X'=>array(  
@@ -1352,7 +1352,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   
+					    'B'=>array(   
 							'all_cached'=>true,
 							'L2'=>null,
 
@@ -1389,7 +1389,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		
 		
 		$check_cache_cold = array(		    
-					1=>array(   
+					'A'=>array(   
 						    'L2'=>array( 'Y'=>true),
 					    
 						    'keys'=>array(  'X'=>array(	
@@ -1404,7 +1404,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 								    )
 						    )
 					),			
-					2=>array(   'all_cached'=>true,
+					'B'=>array(   'all_cached'=>true,
 						    'L2'=>null,	
 					    
 						    'keys'=>array(  'K'=>array(
@@ -1460,9 +1460,9 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===================================================================
 
 		$request = array(		    
-				    array( "L3"=>1, "L2"=>"X", "L1"=>2   ),
-				    array( "L3"=>1, "L2"=>"Y"		 ),		    
-				    array( "L3"=>2			 )	    		    
+				    array( "L3"=>'A', "L2"=>"X", "L1"=>2   ),
+				    array( "L3"=>'A', "L2"=>"Y"		 ),		    
+				    array( "L3"=>'B'			 )	    		    
 		);
 		
 		$ctrl = array(		    
@@ -1489,7 +1489,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check_data = array(
-					1=>array(   'X'=>array(	
+					'A'=>array(   'X'=>array(	
 									    2=>false							    						
 						    ),	
 						    'Y'=>array(	
@@ -1499,7 +1499,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									    4=>(float)-1.6  						
 						    )					    
 					),			
-					2=>array(   'K'=>array(	
+					'B'=>array(   'K'=>array(	
 									    1=>(string)"foo",
 									    2=>array(null, true, false, 1, 1.0, "foo"),									    							    
 									    3=>$test_obj  						
@@ -1514,7 +1514,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===============================================================			
 		
 		$check_cache_warm = array(		    
-					    1=>array(   
+					    'A'=>array(   
 							'L2'=>array('Y'=>true),
 
 							'keys'=>array(  'X'=>array(  
@@ -1531,7 +1531,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 									)
 							)
 					    ),			
-					    2=>array(   
+					    'B'=>array(   
 							'all_cached'=>true,
 							'L2'=>null,
 
@@ -1568,7 +1568,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		
 		
 		$check_cache_cold = array(		    
-					1=>array(   
+					'A'=>array(   
 						    'L2'=>array( 'Y'=>true),
 					    
 						    'keys'=>array(  'X'=>array(	
@@ -1583,7 +1583,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 								    )
 						    )
 					),			
-					2=>array(   'all_cached'=>true,
+					'B'=>array(   'all_cached'=>true,
 						    'L2'=>null,	
 					    
 						    'keys'=>array(  'K'=>array(
@@ -1647,7 +1647,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y',  2, $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y',  2, $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1683,7 +1683,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y',  2, $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y',  2, $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1720,7 +1720,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y', array(1,2), $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y', array(1,2), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1761,7 +1761,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y', array(1,2), $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y', array(1,2), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1771,8 +1771,8 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$this->assertEquals(true, $valid);
 	
 		$check = array(		    
-				array( "L3"=>1, "L2"=>"Y",  "L1"=>1, "L0"=>(int)1),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),		    
+				array( "L3"=>'A', "L2"=>"Y",  "L1"=>1, "L0"=>(int)1),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),		    
 		);
 
 		$this->assertEquals($check, $result);	
@@ -1803,7 +1803,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(1, 'Y', $ctrl, $valid);
+			$result = $this->cls->getL2('A', 'Y', $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1846,7 +1846,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(1, 'Y', $ctrl, $valid);
+			$result = $this->cls->getL2('A', 'Y', $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1856,10 +1856,10 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$this->assertEquals(true, $valid);
 	
 		$check = array(		    
-				array( "L3"=>1, "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),		    
-				array( "L3"=>1, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6)
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),		    
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6)
 		);
 		
 		$this->assertEquals($check, $result);	
@@ -1890,7 +1890,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(1, array('X','Y'), $ctrl, $valid);
+			$result = $this->cls->getL2('A', array('X','Y'), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1940,7 +1940,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(1, array('X','Y'), $ctrl, $valid);
+			$result = $this->cls->getL2('A', array('X','Y'), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -1950,14 +1950,14 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$this->assertEquals(true, $valid);
 	
 		$check = array(	
-				array( "L3"=>1, "L2"=>"X", "L1"=>1, "L0"=>null),
-				array( "L3"=>1, "L2"=>"X", "L1"=>2, "L0"=>false),
-				array( "L3"=>1, "L2"=>"X", "L1"=>3, "L0"=>(int)0),		    
-				array( "L3"=>1, "L2"=>"X", "L1"=>5, "L0"=>true),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6)	    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1, "L0"=>null),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>2, "L0"=>false),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>3, "L0"=>(int)0),		    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>5, "L0"=>true),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6)	    
 		);
 		
 		$this->assertEquals($check, $result);	
@@ -1987,7 +1987,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL3(1, $ctrl, $valid);
+			$result = $this->cls->getL3('A', $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2038,7 +2038,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL3(1,  $ctrl, $valid);
+			$result = $this->cls->getL3('A',  $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2048,14 +2048,14 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$this->assertEquals(true, $valid);
 	
 		$check = array(	
-				array( "L3"=>1, "L2"=>"X", "L1"=>1, "L0"=>null),
-				array( "L3"=>1, "L2"=>"X", "L1"=>2, "L0"=>false),		    
-				array( "L3"=>1, "L2"=>"X", "L1"=>3, "L0"=>(int)0),
-				array( "L3"=>1, "L2"=>"X", "L1"=>5, "L0"=>true),			    
-				array( "L3"=>1, "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),		    
-				array( "L3"=>1, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6)	    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1, "L0"=>null),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>2, "L0"=>false),		    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>3, "L0"=>(int)0),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>5, "L0"=>true),			    
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>1, "L0"=>(int)1),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1),		    
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6)	    
 		);
 		
 		$this->assertEquals($check, $result);	
@@ -2085,7 +2085,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL3( array(1,2), $ctrl, $valid);
+			$result = $this->cls->getL3( array('A','B'), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2099,7 +2099,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(	
-				1=>array(   'X'=>array(	
+				'A'=>array(   'X'=>array(	
 								    1=>null,
 								    2=>false,
 								    3=>(int)0,				    
@@ -2112,7 +2112,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 								    4=>(float)-1.6  						
 					    )					    
 				),			
-				2=>array(   'K'=>array(	 	
+				'B'=>array(   'K'=>array(	 	
 								    1=>(string)"foo",
 								    2=>array(null, true, false, 1, 1.0, "foo"),
 								    3=>$test_obj  						
@@ -2147,7 +2147,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL3( array(1,2), $ctrl, $valid);
+			$result = $this->cls->getL3( array('A','B'), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2161,18 +2161,18 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$test_obj->bar = "test_Bar";
 		
 		$check = array(	
-				array( "L3"=>1, "L2"=>"X", "L1"=>1, "L0"=>null	    ),
-				array( "L3"=>1, "L2"=>"X", "L1"=>2, "L0"=>false	    ),
-				array( "L3"=>1, "L2"=>"X", "L1"=>3, "L0"=>(int)0	    ),			    
-				array( "L3"=>1, "L2"=>"X", "L1"=>5, "L0"=>true	    ),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>1, "L0"=>(int)1	    ),
-				array( "L3"=>1, "L2"=>"Y", "L1"=>2, "L0"=>(int)-1	    ),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7	    ),
-		    		array( "L3"=>1, "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6    ),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>1, "L0"=>null	    ),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>2, "L0"=>false	    ),
+				array( "L3"=>'A', "L2"=>"X", "L1"=>3, "L0"=>(int)0	    ),			    
+				array( "L3"=>'A', "L2"=>"X", "L1"=>5, "L0"=>true	    ),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>1, "L0"=>(int)1	    ),
+				array( "L3"=>'A', "L2"=>"Y", "L1"=>2, "L0"=>(int)-1	    ),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>3, "L0"=>(float)1.7	    ),
+		    		array( "L3"=>'A', "L2"=>"Y", "L1"=>4, "L0"=>(float)-1.6    ),
 		    
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"  ),
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
-		    		array( "L3"=>2, "L2"=>"K", "L1"=>3, "L0"=>$test_obj	    )	  
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>1, "L0"=>(string)"foo"  ),
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>2, "L0"=>array(null, true, false, 1, 1.0, "foo")),
+		    		array( "L3"=>'B', "L2"=>"K", "L1"=>3, "L0"=>$test_obj	    )	  
 		);
 
 		$this->assertEquals($check, $result);	
@@ -2211,7 +2211,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y', 1, $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y', 1, $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2227,7 +2227,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y', 99, $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y', 99, $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2243,7 +2243,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y', array(1,99), $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y', array(1,99), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2257,7 +2257,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y', array(88,99), $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y', array(88,99), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2273,7 +2273,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'H', 1, $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'H', 1, $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2290,7 +2290,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(66, 'Y', 1, $ctrl, $valid);
+			$result = $this->cls->getL1('D', 'Y', 1, $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2311,7 +2311,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(1, 'Y', $ctrl, $valid);
+			$result = $this->cls->getL2('A', 'Y', $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2327,7 +2327,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(1, 'Q', $ctrl, $valid);
+			$result = $this->cls->getL2('A', 'Q', $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2343,7 +2343,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(1, array('Q','Y'), $ctrl, $valid);
+			$result = $this->cls->getL2('A', array('Q','Y'), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2356,7 +2356,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(1, array('Q','W'), $ctrl, $valid);
+			$result = $this->cls->getL2('A', array('Q','W'), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2372,7 +2372,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(99,'X', $ctrl, $valid);
+			$result = $this->cls->getL2('C','X', $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2393,7 +2393,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL3(1, $ctrl, $valid);
+			$result = $this->cls->getL3('A', $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2409,7 +2409,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL3(99, $ctrl, $valid);
+			$result = $this->cls->getL3('D', $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2425,7 +2425,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL3(array(1,99), $ctrl, $valid);
+			$result = $this->cls->getL3(array('A','D'), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2438,7 +2438,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL3(array(99,88), $ctrl, $valid);
+			$result = $this->cls->getL3(array('D','E'), $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2476,7 +2476,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y', 1, $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y', 1, $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2492,7 +2492,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===========================================
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y', "T", $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y', "T", $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL1() throws an exception
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");
@@ -2506,7 +2506,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// =================================================
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y',  array(1, "T"), $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y',  array(1, "T"), $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL1() throws an exception
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");
@@ -2520,7 +2520,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ====================================================
 		
 		try {			
-			$result = $this->cls->getL1(1, 'Y',  array("Q", "T"), $ctrl, $valid);
+			$result = $this->cls->getL1('A', 'Y',  array("Q", "T"), $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL1() throws an exception
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");
@@ -2534,7 +2534,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===========================================
 
 		try {			
-			$result = $this->cls->getL1(1, 2, 1, $ctrl, $valid);
+			$result = $this->cls->getL1('A', 2, 1, $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL1() throws an exception
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");			
@@ -2548,7 +2548,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===========================================
 
 		try {			
-			$result = $this->cls->getL1('1', 'Y', 1, $ctrl, $valid);
+			$result = $this->cls->getL1(1, 'Y', 1, $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL1() throws an exception
 			$this->fail("Method getL1() failed to throw an exception on invalid key type");			
@@ -2567,7 +2567,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL2(1, 'Y', $ctrl, $valid);
+			$result = $this->cls->getL2('A', 'Y', $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2583,7 +2583,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===========================================
 		
 		try {			
-			$result = $this->cls->getL2(1, 1, $ctrl, $valid);
+			$result = $this->cls->getL2('A', 1, $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL2() throws an exception
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");
@@ -2597,7 +2597,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// =================================================
 		
 		try {			
-			$result = $this->cls->getL2(1, array(1,'Y'), $ctrl, $valid);
+			$result = $this->cls->getL2('A', array(1,'Y'), $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL2() throws an exception
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");
@@ -2611,7 +2611,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ====================================================
 		
 		try {			
-			$result = $this->cls->getL2(1, array('1','2'), $ctrl, $valid);
+			$result = $this->cls->getL2('A', array('1','2'), $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL2() throws an exception
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");
@@ -2626,7 +2626,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===========================================		
 		
 		try {			
-			$result = $this->cls->getL2('1', 'T', $ctrl, $valid);
+			$result = $this->cls->getL2(1, 'T', $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL2() throws an exception
 			$this->fail("Method getL2() failed to throw an exception on invalid key type");			
@@ -2645,7 +2645,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		$valid = false;
 		
 		try {			
-			$result = $this->cls->getL3(1,  $ctrl, $valid);
+			$result = $this->cls->getL3('A',  $ctrl, $valid);
 		}
 		catch (FOX_exception $child) {
 
@@ -2661,7 +2661,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ===========================================
 		
 		try {			
-			$result = $this->cls->getL3('7', $ctrl, $valid);
+			$result = $this->cls->getL3(1, $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL4() throws an exception
 			$this->fail("Method getL3() failed to throw an exception on invalid key type");
@@ -2675,7 +2675,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// =================================================
 		
 		try {			
-			$result = $this->cls->getL3(array('Y', 99), $ctrl, $valid);
+			$result = $this->cls->getL3(array('A', 9), $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL4() throws an exception
 			$this->fail("Method getL3() failed to throw an exception on invalid key type");
@@ -2689,7 +2689,7 @@ class core_L3_paged_abstract_getMethods extends RAZ_testCase {
 		// ====================================================
 		
 		try {			
-			$result = $this->cls->getL3(array('F','4'), $ctrl, $valid);
+			$result = $this->cls->getL3(array('F',4), $ctrl, $valid);
 			
 			// Execution will halt on the previous line if getL4() throws an exception
 			$this->fail("Method getL3() failed to throw an exception on invalid key type");

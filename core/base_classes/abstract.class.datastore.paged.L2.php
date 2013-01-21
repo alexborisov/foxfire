@@ -952,7 +952,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			}
 		}		    		    				
 		
-		// Find all requested objects that don't have authority in the class cache (L3 to L2),
+		// Find all requested objects that don't have authority in the class cache (L2),
 		// or which don't exist in the class cache (L1) and try to load them from the persistent cache
 		// ==============================================================================================
 		
@@ -1045,8 +1045,8 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			}
 			unset($page_id, $page_image);
 
-
-			// Find all requested objects that didn't have authority in the class cache (L3 to L2),
+			
+			// Find all requested objects that didn't have authority in the class cache (L2),
 			// or which didn't exist in the class cache (L1) and try to load them from the database
 			// =====================================================================================		
 
@@ -1206,8 +1206,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 								// The L2 object now has authority
 								$update_cache[$L2]['all_cached'] = true;
 
-								// Update descendent LUT's
-//								unset($update_cache[$L3][$this->L2_col][$L2]);
 
 								$update_cache[$L2]["keys"] = $db_result[$L2];				
 							}
@@ -1232,16 +1230,6 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 							}
 						}
 						unset($L1, $fake_var);
-
-
-
-						// Clear empty walks from the LUT's
-						// ==========================================================================		
-
-						if( FOX_sUtil::keyExists($L2, $db_result) ){
-						    
-							$update_cache[$L2][$this->L2_col] = FOX_sUtil::arrayPrune($update_cache[$L2][$this->L2_col], 2);								
-						}
 
 					}
 					unset($L2, $L1);
@@ -1269,7 +1257,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 		// Build the updated cache image, and generate the result from the image (this 
 		// lets us still return a result in the event of a cache write failure)
 		// ==========================================================================			
-					
+
 		if($update_cache){
 		    
 			$cache_image = $this->cache;
@@ -1284,7 +1272,7 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 			// Just bind by reference to save memory
 			$cache_image =& $this->cache;
 		}
-		
+
 		$result = array();
 		$valid = true;		
 		
@@ -4025,14 +4013,14 @@ abstract class FOX_dataStore_paged_L2_base extends FOX_db_base {
 				
 				$update_cache[$L2]['all_cached'] = true;
 
-				// Clear all objects currently inside the L3
+				// Clear all objects currently inside the L2
 				
 				unset($update_cache[$L2]["keys"]);
 				
 				// Clear the LUT entries for all the L2's 
 				// that were inside the L3	
 				
-//				unset($update_cache[$L2][$this->L2_col]);
+				unset($update_cache[$L2][$this->L2_col]);
 				
 
 
