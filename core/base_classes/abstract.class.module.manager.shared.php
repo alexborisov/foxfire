@@ -80,10 +80,8 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	 * Initializes the class. This function MUST be called in the __construct() method
 	 * of descendent classes. 
 	 * 
-	 *
 	 * @version 1.0
 	 * @since 1.0
-	 * 
 	 * @return bool | Exception on failure. True on success.
 	 */
 
@@ -135,6 +133,8 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		}		
 			    				
 		$this->init = true;
+		
+		return true;
 	    
 	}
 	

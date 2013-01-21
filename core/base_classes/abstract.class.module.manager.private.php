@@ -39,8 +39,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	var $thumbs = array();		    // Array of thumbnail configuration data (or default values if not supplied
 					    // by template)
 
-	var $dir_override;		    // Used during unit testing. If set, the class will load modules from the
-					    // path specified.
+	var $base_path;			    // Path that the class will load module files from
 
 
 	/* ================================================================================================================
@@ -74,6 +73,85 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 
 	/**
+	 * Initializes the class. This function MUST be called in the __construct() method
+	 * of descendent classes. 
+	 * 
+	 * @version 1.0
+	 * @since 1.0
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function init($args=null){
+	    
+		
+		// Trap missing base path
+		// ===========================================================
+		
+		if(!FOX_sUtil::keyExists('base_path', $args) ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Missing base_path parameter",
+				'data'=>$args,			    
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			
+		}
+		
+		$this->base_path = $args['base_path'];
+		
+		// Debug events
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('debug_on', $args) && ($args['debug_on'] == true) ){
+		    
+			$this->debug_on = true;
+		    
+			if(FOX_sUtil::keyExists('debug_handler', $args)){
+
+				$this->debug_handler =& $args['debug_handler'];		    
+			}
+			else {
+				global $fox;
+				$this->debug_handler =& $fox->debug_handler;		    		    
+			}	    
+		}
+		else {
+			$this->debug_on = false;		    		    
+		}
+		
+		// Database singleton
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('db', $args) ){
+		    
+			$this->db =& $args['db'];		    
+		}
+		else {
+			$this->db = new FOX_db( array('pid'=>$this->process_id) );		    		    
+		}
+		
+		
+		// Memory cache singleton
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('mCache', $args) ){
+		    
+			$this->mCache =& $args['mCache'];		    
+		}
+		else {
+			global $fox;
+			$this->mCache =& $fox->mCache;		    		    
+		}		
+			    				
+		$this->init = true;
+		
+		return true;
+	    
+	}
+	
+	
+	/**
 	 * Scans each subdirectory in the modules folder, adding loader.php to the include path. When a
 	 * module's loader.php file is loaded, the module registers itself with the modules singleton and
 	 * becomes live on the system.
@@ -86,13 +164,19 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function loadModules() {
 
 
-		if($this->dir_override){
+		if(!$this->init){
 
-			$modules_list = glob( $this->dir_override . '*');
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
 		}
-		else {
-			$modules_list = glob( RAD_PATH_BASE .'/modules/' . $this->_offset() . '/*');
-		}
+		
+
+		$modules_list = glob( $this->base_path . '*');
+
 
 		foreach ( $modules_list as $path ){
 
@@ -103,6 +187,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 		}
 
 		return true;
+		
 	}
 
 
@@ -119,6 +204,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function loadModule($slugs) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		if( empty($slugs) ){
 
 			throw new FOX_exception( array(
@@ -136,21 +231,11 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 			$slugs = array($slugs);
 		}
 
-
-		if($this->dir_override){
-
-			$base_path =  $this->dir_override;
-		}
-		else {
-			$base_path =  RAD_PATH_BASE .'/modules/' . $this->_offset() . '/';
-		}
-
-
 		foreach( $slugs as $slug ){
 
-			if( file_exists($base_path . $slug . "/loader.php") ){
+			if( file_exists($this->base_path . $slug . "/loader.php") ){
 
-				include_once( $base_path . $slug . "/loader.php" );
+				include_once( $this->base_path . $slug . "/loader.php" );
 			}
 		}
 
@@ -176,6 +261,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function register($slug, $name, $php_class, $active=false) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		if( class_exists($php_class) ){	    // This check is necessary so we can run unit tests
 						    // without creating huge numbers of mock classes
 			$this->admin_modules[] = new $php_class();
@@ -256,6 +351,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function getAdminModules() {
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		return $this->admin_modules;
 	}
 
@@ -270,6 +375,17 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function getSelectedModule() {
 
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$san = new FOX_sanitize();
 
 		try {
@@ -300,6 +416,17 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function getSelectedTab() {
 
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$san = new FOX_sanitize();
 
 		try {
@@ -331,6 +458,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function loadAdminScripts() {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		// Check if the modules have been loaded
 		// ============================================
 
@@ -422,6 +559,17 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function loadAdminStyles() {
 
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		// Check if the modules have been loaded. If not, load them.
 
 		$modules_loaded = count($this->admin_modules);
@@ -514,7 +662,17 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function load($data=null){
 
+	    
+		if(!$this->init){
 
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$db = new FOX_db();
 
 		$args = array();
@@ -631,6 +789,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function add($slug, $name, $php_class, $active=false){
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$data = array( array( "slug"=>$slug, "name"=>$name, "php_class"=>$php_class, "active"=>$active) );
 
 		try {
@@ -671,6 +839,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function addMulti($data){
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$db = new FOX_db();
 
 		// Note that because we're adding a *new* item to the datastore, we don't need
@@ -776,6 +954,17 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function getActiveModules() {
 
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		// If the all_cached flag isn't set in the class cache, reload the class
 		// cache from the persistent cache.
 
@@ -845,6 +1034,17 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function getAllModules() {
 
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		// If the all_cached flag isn't set in the class cache, reload the class
 		// cache from the persistent cache.
 
@@ -915,6 +1115,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function getByID($module_id){
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		if( empty($module_id) ){
 
 			throw new FOX_exception( array(
@@ -1038,6 +1248,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function getByClass($php_class){
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		if( empty($php_class) ){
 
 			throw new FOX_exception( array(
@@ -1174,6 +1394,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function getBySlug($slug){
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		if( empty($slug) ){
 
 			throw new FOX_exception( array(
@@ -1317,6 +1547,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function edit($data) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$db = new FOX_db();
 
 		if( empty($data["module_id"]) ){
@@ -1480,6 +1720,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function activateBySlug($slugs) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$db = new FOX_db();
 
 		if( empty($slugs) ){
@@ -1606,6 +1856,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function activateById($module_ids) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$db = new FOX_db();
 
 		if( empty($module_ids) ){
@@ -1727,6 +1987,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function deactivateBySlug($slugs) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$db = new FOX_db();
 
 		if( empty($slugs) ){
@@ -1850,6 +2120,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function deactivateById($module_ids) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$db = new FOX_db();
 
 		if( empty($module_ids) ){
@@ -1971,6 +2251,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function deleteById($module_ids) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$db = new FOX_db();
 
 		if( empty($module_ids) ){
@@ -2092,6 +2382,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function deleteBySlug($slugs) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$db = new FOX_db();
 
 		if( empty($slugs) ){
@@ -2213,6 +2513,16 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function loadTemplateConfig($slug) {
 
 
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		$template_name = 'modules/' . $this->_offset() . '/' . $slug . '/config.xml';
 		$located_template = locate_template($template_name, $load=false, $require_once=true );
 
@@ -2311,6 +2621,17 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function getTargets() {
 
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		return $this->targets;
 	}
 
@@ -2325,6 +2646,17 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function getViews() {
 
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		return $this->views;
 	}
 
@@ -2339,7 +2671,19 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function getCaps() {
 
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		return $this->caps;
+		
 	}
 
 
@@ -2353,12 +2697,24 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 
 	public function getThumbs() {
 
+	    
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+		
 		return $this->thumbs;
+		
 	}
 
 
 
-} // End of class RAD_module_manager_base
+} // End of class FOX_moduleManager_private_base
 
 
 

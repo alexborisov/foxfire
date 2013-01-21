@@ -1,7 +1,7 @@
 <?php
 
 /**
- * FOXIENT PAGE MODULE MANAGER CLASS
+ * FOXFIRE PAGE MODULE MANAGER CLASS
  * Handles registration and configuration for page modules.
  *
  * @version 1.0
@@ -48,7 +48,7 @@ class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
 
 	public static $struct = array(
 
-		"table" => "fox_sys_page_modules",
+		"table" => "FOX_pageModuleManager",
 		"engine" => "InnoDB",
 		"cache_namespace" => "FOX_pageModuleManager",
 		"cache_strategy" => "monolithic",
