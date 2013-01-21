@@ -455,7 +455,10 @@ abstract class FOX_module_manager_base extends FOX_db_base {
 		// with the db in the event of a failure.
 
 		try {
-			$insert_id = $this->db->runInsertQueryMulti($this->_struct(), $data, $columns=null, $ctrl=null);
+			$columns = null;
+			$insert_ctrl = null;
+			
+			$insert_id = $this->db->runInsertQueryMulti($this->_struct(), $data, $columns, $insert_ctrl);
 		}
 		catch (FOX_exception $child) {
 

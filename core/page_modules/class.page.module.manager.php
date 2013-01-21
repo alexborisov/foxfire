@@ -102,33 +102,34 @@ class FOX_pageModuleManager extends FOX_module_manager_base {
 
 	public function __construct($args=null) {
 
-	    
-		// Handle dependency-injection for unit tests
-	    
-		if($args){		    
-			$this->process_id =& $args['process_id'];
-			$this->mCache =& $args['mCache'];
+						
+		try{
+			parent::init($args);
 		}
-		else {		    
-			global $fox;
-			$this->process_id =& $fox->process_id;
-			$this->mCache =& $fox->mCache;
-		}
+		catch(FOX_exception $child){
 
+			throw new FOX_exception(array(
+				'numeric'=>1,
+				'text'=>"Error initializing base class",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+		
 		try{
 			self::loadCache();
 		}
 		catch(FOX_exception $child){
 
 			throw new FOX_exception(array(
-				'numeric'=>1,
+				'numeric'=>2,
 				'text'=>"Error loading cache",
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));
 		}
 		
-		parent::init();
+		
 		
 	}
 
