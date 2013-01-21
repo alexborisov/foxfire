@@ -161,7 +161,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadModules() {
+	public function loadAllModules() {
 
 
 		if(!$this->init){
@@ -476,7 +476,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadModules();
+				self::loadAllModules();
 			}
 			catch (FOX_exception $child) {
 
@@ -577,7 +577,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadModules();
+				self::loadAllModules();
 			}
 			catch (FOX_exception $child) {
 

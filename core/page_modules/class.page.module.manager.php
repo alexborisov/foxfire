@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
+final class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by ancestor class
@@ -80,8 +80,6 @@ class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
 	//
 	// ================================================================================================================	
 	
-	
-	public static $offset = "page";
 
 	// PHP allows this: $foo = new $class_name; $result = $foo::$struct; but does not allow this: $result = $class_name::$struct;
 	// or this: $result = $class_name::get_struct(); ...so we have to do this: $result = call_user_func( array($class_name,'_struct') );
@@ -91,12 +89,7 @@ class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
 		return self::$struct;
 	}
 
-	public static function _offset() {
-
-		return self::$offset;
-	}
-
-
+	
 	// ================================================================================================================
 
 

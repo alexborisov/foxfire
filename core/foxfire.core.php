@@ -215,7 +215,8 @@ else {
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.object.type.data.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.object.type.level.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.dictionary.php' );
-	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.php' );
+	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.private.php' );
+	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.shared.php' );	
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );		
 	
 	// Load the Navigation system
@@ -226,9 +227,7 @@ else {
 	require ( dirname( __FILE__ ) . '/navigation/class.module.slug.php' );
 	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );
 	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
-	
-	require ( dirname( __FILE__ ) . '/page_modules/class.access.manager.shared.php' );
-	require ( dirname( __FILE__ ) . '/page_modules/class.access.manager.private.php' );		
+			
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
 	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	

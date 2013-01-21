@@ -44,6 +44,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 
 	var $thumbs = array();		    // Array of thumbnail configuration data (or default values if not supplied
 					    // by template)	
+	
 
 	/* ================================================================================================================
 	 *	Cache Strategy: "monolithic"
@@ -146,10 +147,11 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	 *
 	 * @version 1.0
 	 * @since 1.0
+	 * @param string $path | Path to load modules from
 	 * @return int | Exception on failure. (int) number of modules loaded on success.
 	 */
 
-	public function loadAllModules($path=false) {
+	public function loadAllModules($path) {
 
 
 		if(!$this->init){
@@ -162,26 +164,34 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 			));
 		}
 		
-		if($path){
+		$modules_list = glob( $path . '*');
 
-			$modules_list = glob( $path . '*');
-		}
-		else {
-			$modules_list = glob( FOX_PATH_BASE .'/modules/' . $this->_offset() . '/*');
-		}
-		
 		$result = 0;
 		
 		foreach( $modules_list as $module_path ){
 
+		    
 			if( file_exists($module_path . "/loader.php") ){
 
-				include_once( $module_path . "/loader.php" );
+				try {
+					include_once( $module_path . "/loader.php" );
+				}
+				catch (FOX_exception $child) {
+
+					throw new FOX_exception( array(
+						'numeric'=>1,
+						'text'=>"Error in module loader",
+						'data'=>$module_path,
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));		    			
+				}
+				
 				$result++;
 			}
 			else {			    
 				throw new FOX_exception( array(
-					'numeric'=>1,
+					'numeric'=>2,
 					'text'=>"Module contains no loader file",
 					'data'=>$module_path,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -205,10 +215,12 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	 *
 	 * @version 1.0
 	 * @since 1.0
+	 * @param string/array $module_slugs | Single module slug as string. Multiple module slugs as array of strings.
+	 * @param string $path | Path to load modules from
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadModule($module_slugs, $base_path=false) {
+	public function loadModule($module_slugs, $path) {
 
 
 		if(!$this->init){
@@ -237,26 +249,20 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 			$module_slugs = array($module_slugs);
 		}
 
-
-		if(!$base_path){
-
-			$base_path =  FOX_PATH_BASE .'/modules/' . $this->_offset() . '/';
-		}
-
 		$result = 0;
 		
 		foreach( $module_slugs as $slug ){
 
-			if( file_exists($base_path . $slug . "/loader.php") ){
+			if( file_exists($path . $slug . "/loader.php") ){
 
-				include_once( $base_path . $slug . "/loader.php" );
+				include_once( $path . $slug . "/loader.php" );
 				$result++;
 			}
 			else {			    
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Specified module contains no loader file",
-					'data'=>$base_path . $slug ,
+					'data'=>$path . $slug ,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));			    			    
@@ -830,7 +836,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadAdminScripts() {
+	public function loadAdminScripts($path) {
 
 	    
 		if(!$this->init){
@@ -851,7 +857,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadAllModules();
+				self::loadAllModules($path);
 			}
 			catch (FOX_exception $child) {
 
@@ -932,7 +938,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadAdminStyles() {
+	public function loadAdminStyles($path) {
 
 	    
 		if(!$this->init){
@@ -952,7 +958,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadAllModules();
+				self::loadAllModules($path);
 			}
 			catch (FOX_exception $child) {
 
