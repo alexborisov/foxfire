@@ -22,6 +22,7 @@ abstract class FOX_pageModule_base {
 	
 	var $module_name;		    // Human readable name for this page module
 	var $module_slug;		    // Internal slug for this page module
+	var $module_path;		    // Path to the page module's root folder	
 	
 	var $icon_path;			    // Path to the page module's icon
 	
@@ -38,10 +39,6 @@ abstract class FOX_pageModule_base {
 	var $has_admin_page;		    // True if the page module has an admin config page
 	var $admin_class;		    // Name of the page module's admin loader class
 	
-	var $base_path;			    // Path to the page module's base folder
-	
-
-	
 
 
 	// ============================================================================================================ //
@@ -55,11 +52,13 @@ abstract class FOX_pageModule_base {
 	 * @since 1.0
 	 * @return string | Page module admin name
 	 */
+	
 	public function getName(){
 
 		return $this->module_name;
 	}
 
+	
 	/**
 	 * Returns the url-safe slug for the page module. Must be unique from all other
 	 * page modules installed on the system. Example: "foo_module"
@@ -249,7 +248,7 @@ abstract class FOX_pageModule_base {
 		wp_enqueue_style('fox-base', FOX_URL_CORE .'/admin/css/jquery.ui.base.css', false, '2.8.1', 'screen' );
 		wp_enqueue_style('fox-theme', FOX_URL_CORE .'/admin/css/jquery.ui.theme.css', false, '2.8.1', 'screen' );
 
-		wp_enqueue_style( $this->module_slug, dirname( __FILE__ ) . '/admin/admin.css', false, '2.8.1', 'screen' );
+		wp_enqueue_style( $this->module_slug, $this->module_path . '/admin/admin.css', false, '2.8.1', 'screen' );
 		
 		return $tab;
 
@@ -337,7 +336,7 @@ abstract class FOX_pageModule_base {
 		
 		try {
 			// Include the default loader file
-			require ( $this->base_path . '/admin/loader.php' );
+			require ( $this->module_path . '/admin/loader.php' );
 
 			// Instantiate the loader class, passing it the page module instance
 			$loader = new $this->admin_class($this);
@@ -391,20 +390,19 @@ abstract class FOX_pageModule_base {
 	
 	
 	
-	public function renderScreen(){
-
-    //	    echo get_class($this) . "->Screen";
+	public function renderScreen(){	    
 
 		global $fox;
 
 		$this->enqueueSiteScripts(true);
 		$this->enqueueSiteStyles(true);
 
-		$fox->navigation->loadTemplate("index.php", "page", self::getSlug());
-
-		die;
+		$fox->navigation->loadTemplate($this->plugin_path, "page", $this->module_slug, "index.php");
 
 	}	
+	
+	
+	
 	
 } // End of abstract class FOX_pageModule_base
 
