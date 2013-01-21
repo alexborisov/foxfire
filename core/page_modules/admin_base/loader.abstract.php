@@ -22,7 +22,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
 // ============================================================================================================ //
 
 
-abstract class FOX_PM_loader_base {
+abstract class FOX_pageModule_admin_base {
 
     
 	var $tabs = array();	    // Tabs storage array
@@ -36,8 +36,6 @@ abstract class FOX_PM_loader_base {
 		$this->parent_class = $parent_class;
 		$this->filepath    = admin_url() . 'admin.php?page=' . $_GET['page'];
 
-		$this->loadTabs();
-		$this->render();
 	}
 
 	/**

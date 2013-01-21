@@ -511,7 +511,7 @@ final class FOX_nav {
 	 *
          * @return bool $result | Exception on failure. True on success.
          */
-	function loadTemplate($template, $type, $slug) {
+	function loadTemplate($plugin_path, $type, $slug, $template) {
 
 
 		// Child theme
@@ -536,13 +536,13 @@ final class FOX_nav {
 
 		// Default template
 		// ================================================================
-		// Every FoxFire "page", "album", and "media" module is required to supply a set of default
-		// templates for itself. This allows 3rd-party modules to be added to the system, because there
-		// will probably be no template files for them in the default theme.
+		// Every FoxFire module is required to supply a set of default templates for itself. This 
+		// allows 3rd-party modules to be added to the system, because there will probably be
+		// no template files for them in the default theme.
 
 		else {
 
-			$path = FOX_PATH_BASE . '/modules/' . $type . '/' . $slug . '/templates/' . $template;
+			$path = $plugin_path . '/modules/' . $type . '/' . $slug . '/templates/' . $template;
 		}
 
 		if(!$path){
