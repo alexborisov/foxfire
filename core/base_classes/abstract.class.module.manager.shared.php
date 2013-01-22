@@ -215,12 +215,12 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	 *
 	 * @version 1.0
 	 * @since 1.0
+	 * @param string $path | Path to load modules from	 
 	 * @param string/array $module_slugs | Single module slug as string. Multiple module slugs as array of strings.
-	 * @param string $path | Path to load modules from
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadModule($module_slugs, $path) {
+	public function loadModule($path, $module_slugs) {
 
 
 		if(!$this->init){
@@ -393,7 +393,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 					'module_name'=>$module_name, 
 					'php_class'=>$php_class, 
 					'active'=>$active
-			));
+		));
 
 		try {
 			$result = self::addMulti($data);
