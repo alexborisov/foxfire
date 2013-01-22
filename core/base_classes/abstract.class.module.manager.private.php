@@ -175,7 +175,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 		}
 		
 
-		$modules_list = glob( $this->base_path . '*');
+		$modules_list = glob( $this->base_path . '/*');
 
 
 		foreach ( $modules_list as $path ){
@@ -1756,7 +1756,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 		}
 		catch (FOX_exception $child) {
 
-			if($child->getNumeric() == 4){
+			if($child->data['numeric'] == 4){
 
 				// In the future we'll handle this gracefully, but to simplify
 				// testing, we currently just throw an exception

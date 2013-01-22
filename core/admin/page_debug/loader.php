@@ -81,13 +81,13 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 			if( isset($_POST['reset_cache']) ){
 
 				global $fox;
-				$fox->cache->flushAll();
+				$fox->mCache->flushAll();
 
 			}
 			elseif( isset($_POST['reset_tables']) ){
 
 				global $fox;
-				$fox->cache->flushAll();
+				$fox->mCache->flushAll();
 
 				do_action('fox_uninstall');
 				do_action('fox_install');
@@ -100,7 +100,7 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 				// try to operate as if the data is still in the db, and as a result, crash.
 
 				global $fox;
-				$fox->cache->flushAll();
+				$fox->mCache->flushAll();
 
 				$reset_ok = fox_defaultsInstall($defaults_error);
 

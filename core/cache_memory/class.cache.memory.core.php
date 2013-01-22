@@ -161,6 +161,9 @@ class FOX_mCache {
 	}
 	
 	
+
+	
+	
 	/**
 	 * Returns performace data for the requested engine
 	 *
@@ -207,6 +210,31 @@ class FOX_mCache {
 
 	}	
 
+	
+	/**
+	 * Flushes all keys from every cache engine in the system. This function is only
+	 * intended for debug usage.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * 
+	 */
+	
+	public function flushAll(){
+	    
+	    
+		foreach( $this->engines as $engine ){
+
+			if( $engine->isActive() ){
+
+				$engine->flushAll();		    
+			}
+
+		}
+		unset($engine);
+    
+	}
+	
 
 	/**
 	 * Clears the persistent cache for the class namespace and broadcasts the 

@@ -95,7 +95,17 @@ final class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
 
 	public function __construct($args=null) {
 
-						
+			
+		if($args){
+			$this->process_id = &$args['process_id'];
+			$this->mCache = &$args['mCache'];
+		}
+		else {
+			global $fox;
+			$this->process_id = &$fox->process_id;
+			$this->mCache = &$fox->mCache;
+		}
+		
 		try{
 			parent::init($args);
 		}

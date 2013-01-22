@@ -164,7 +164,7 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 			));
 		}
 		
-		$modules_list = glob( $path . '*');
+		$modules_list = glob( $path . '/*');
 
 		$result = 0;
 		

@@ -1998,6 +1998,63 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		return $result;
 
 	}
+	
+	
+	/**
+         * Places the system in "install mode" by loading all the base install classes
+	 * from the /core/config/install_base folder
+         *
+         * @version 1.0
+         * @since 1.0
+         */
+
+	public function installMode($basepath){
+
+
+		if(!$this->install_classes_loaded){
+
+			$base_install_classes = glob( $basepath .'/core/config/install_base/*.php');
+
+			foreach ( $base_install_classes as $path ){
+
+				if( file_exists($path) ){
+					include_once ($path);
+				}
+			}
+
+			$this->install_classes_loaded = true;
+
+		}
+
+	}
+
+
+	/**
+         * Places the system in "uninstall mode" by loading all the base uninstall classes
+	 * from the /core/config/uninstall_base folder
+         *
+         * @version 1.0
+         * @since 1.0
+         */
+
+	public function uninstallMode($basepath){
+
+		if(!$this->uninstall_classes_loaded){
+
+			$base_uninstall_classes = glob( $basepath .'/core/config/uninstall_base/*.php');
+
+			foreach ( $base_uninstall_classes as $path ){
+
+				if( file_exists($path) ){
+					include_once ($path);
+				}
+			}
+
+			$this->uninstall_classes_loaded = true;
+
+		}
+
+	}	
 
 
 } // End of class FOX_config
