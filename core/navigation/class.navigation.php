@@ -505,9 +505,10 @@ final class FOX_nav {
          * @version 1.0
          * @since 1.0
 	 *
-	 * @param string $template | Name of the template file, including file extension.
-	 * @param string $type | Template type: "page" (page module), "album" (album module), "media" (media module)
+	 * @param string $plugin_path | Path to the plugin's root folder
+	 * @param string $type | Module type - "page" (page module), "album" (album module), "media" (media module)
 	 * @param string $slug | Module slug
+	 * @param string $template | Name of the template file, including file extension.
 	 *
          * @return bool $result | Exception on failure. True on success.
          */
@@ -521,7 +522,7 @@ final class FOX_nav {
 
 		if ( file_exists(STYLESHEETPATH . '/' . $type . '/' . $slug . '/' . $template)) {
 
-			$path = STYLESHEETPATH . '/' . $type . '/' . $slug . '/' . $template;
+			$located_template = STYLESHEETPATH . '/' . $type . '/' . $slug . '/' . $template;
 		}
 
 		// Parent theme
@@ -531,7 +532,7 @@ final class FOX_nav {
 
 		elseif ( file_exists(TEMPLATEPATH . '/' . $type . '/' . $slug . '/' . $template) ) {
 
-			$path = TEMPLATEPATH . '/' . $type . '/' . $slug . '/' . $template;
+			$located_template = TEMPLATEPATH . '/' . $type . '/' . $slug . '/' . $template;
 		}
 
 		// Default template
@@ -542,10 +543,10 @@ final class FOX_nav {
 
 		else {
 
-			$path = $plugin_path . '/modules/' . $type . '/' . $slug . '/templates/' . $template;
+			$located_template = $plugin_path . '/modules/' . $type . '/' . $slug . '/templates/' . $template;
 		}
 
-		if(!$path){
+		if(!$located_template){
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
@@ -556,7 +557,7 @@ final class FOX_nav {
 			));
 		}
 
-		require_once($path);
+		require_once($located_template);
 
 		return true;
 

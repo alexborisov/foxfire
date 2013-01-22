@@ -2535,11 +2535,15 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 	 *
 	 * @version 1.0
 	 * @since 1.0
-	 * @param string $slug | Module slug name
+	 * 
+	 * @param string $plugin_path | Path to the plugin's root folder
+	 * @param string $type | Module type - "page" (page module), "album" (album module), "media" (media module)
+	 * @param string $slug | Module slug
+	 * 
 	 * @return bool | Exception on failure. True on Success.
 	 */
 
-	public function loadTemplateConfig($slug) {
+	public function loadTemplateConfig($plugin_path, $type, $slug) {
 
 
 		if(!$this->init){
@@ -2552,9 +2556,39 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 			));
 		}
 		
-		$template_name = 'modules/' . $this->_offset() . '/' . $slug . '/config.xml';
-		$located_template = locate_template($template_name, $load=false, $require_once=true );
+		
+		// Child theme
+		// ================================================================
+		// A child theme will almost always specify its own custom CSS styles, which are set
+		// in the WP global 'STYLESHEETPATH', so check here first.
 
+		if ( file_exists(STYLESHEETPATH . '/' . $type . '/' . $slug . '/config.xml') ) {
+
+			$located_template = STYLESHEETPATH . '/' . $type . '/' . $slug . '/config.xml';
+		}
+
+		// Parent theme
+		// ================================================================
+		// If a child theme doesn't contain the requested template, move up the hierarchy and
+		// check the parent theme.
+
+		elseif ( file_exists(TEMPLATEPATH . '/' . $type . '/' . $slug . '/config.xml') ) {
+
+			$located_template = TEMPLATEPATH . '/' . $type . '/' . $slug . '/config.xml';
+		}
+
+		// Default template
+		// ================================================================
+		// Every FoxFire module is required to supply a set of default templates for itself. This 
+		// allows 3rd-party modules to be added to the system, because there will probably be
+		// no template files for them in the default theme.
+
+		else {
+
+			$located_template = $plugin_path . '/modules/' . $type . '/' . $slug . '/templates/config.xml';
+		}
+
+		
 		if(!$located_template){
 
 			return false;
