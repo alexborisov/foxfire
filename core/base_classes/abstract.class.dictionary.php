@@ -36,7 +36,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	
 	var $mCache;					// Local copy of memory cache singleton. Used by FOX_db_base for cache 
 							// operations. Loaded by descendent class.		
-	
+	var $db;
 	
 	/* ================================================================================================================
 	 *	Cache Strategy: "paged"
@@ -59,6 +59,57 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	
 	// ================================================================================================================
 
+	public function init($args=null){
+
+		
+		// Debug events
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('debug_on', $args) && ($args['debug_on'] == true) ){
+		    
+			$this->debug_on = true;
+		    
+			if(FOX_sUtil::keyExists('debug_handler', $args)){
+
+				$this->debug_handler =& $args['debug_handler'];		    
+			}
+			else {
+				global $fox;
+				$this->debug_handler =& $fox->debug_handler;		    		    
+			}	    
+		}
+		else {
+			$this->debug_on = false;		    		    
+		}
+		
+		// Database singleton
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('db', $args) ){
+		    
+			$this->db =& $args['db'];		    
+		}
+		else {
+			$this->db = new FOX_db( array('pid'=>$this->process_id) ); 		    		    
+		}			
+			    
+		// Memory cache singleton
+		// ===========================================================
+		
+		if(FOX_sUtil::keyExists('mCache', $args) ){
+		    
+			$this->mCache =& $args['mCache'];		    
+		}
+		else {
+			global $fox;
+			$this->mCache = $fox->mCache;		    		    
+		}
+								
+		$this->init = true;
+	    
+	}	
+	
+	
 
 	/**
 	 * Fetches one or more tokens from the db
@@ -71,7 +122,6 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	
 	public function dbFetchToken($tokens){
 		
-		$db = new FOX_db();
 		$struct = $this->_struct();
 		
 		if( is_null($tokens)){
@@ -95,7 +145,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			);
 		
 		try {
-			$result = $db->runSelectQuery($struct, $args, $columns=null, $ctrl);
+			$result = $this->db->runSelectQuery($struct, $args, $columns=null, $ctrl);
 		}
 		catch(FOX_exception $child){
 
@@ -172,7 +222,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	
 	public function dbFetchId($ids){
 	
-		$db = new FOX_db();
+
 		$struct = $this->_struct();		
 		
 	    	if( is_null($ids)) {
@@ -197,7 +247,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 
 
 		try {
-			$result = $db->runSelectQuery($struct, $args, $columns=null, $ctrl);
+			$result = $this->db->runSelectQuery($struct, $args, $columns=null, $ctrl);
 		}
 		catch(FOX_exception $child){
 		    
@@ -422,7 +472,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 	public function addToken($tokens){
 		
 
-		$db = new FOX_db();
+		
 		$struct = $this->_struct();
 		
 	    	if( is_null($tokens)){
@@ -456,7 +506,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 
 		try {
 		    
-			$db->runInsertQueryMulti($struct, $data, $columns, $ctrl=null);			
+			$this->db->runInsertQueryMulti($struct, $data, $columns, $ctrl=null);			
 		}
 		catch(FOX_exception $child){
 		    
@@ -476,7 +526,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		$cache_update = array();
 		
 		// The $db->insert_id will contain the id of the *first* item inserted
-		$token_id = $db->insert_id;			
+		$token_id = $this->db->insert_id;			
 		
 		foreach($tokens as $token_name){
 
@@ -492,7 +542,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			// Id values will be incremented by $db->auto_increment_increment for 
 			// each successive row
 			
-			$token_id += $db->auto_increment_increment;
+			$token_id += $this->db->auto_increment_increment;
 
 		}
 		unset($token_name, $token_id);
@@ -516,7 +566,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		// Update the class cache / build $result
 		// ==============================================
 
-		$token_id = $db->insert_id;
+		$token_id = $this->db->insert_id;
 		$result = array();
 		
 		foreach($tokens as $token_name){
@@ -526,7 +576,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			
 			$result[$token_name] = $token_id;			
 			
-			$token_id += $db->auto_increment_increment;
+			$token_id += $this->db->auto_increment_increment;
 
 		}
 		unset($token_name, $token_id);		
@@ -808,8 +858,6 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 
 	public function dropToken($tokens) {
 
-	    
-		$db = new FOX_db();
 		$struct = $this->_struct();
 		
 	    	if( is_null($tokens)){
@@ -848,11 +896,11 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		// ==================================================================
 		
 		$cache_pages = array();
-		
+
 		foreach($token_data as $token_name => $token_id){
 		    
-			$cache_pages[] = "id_".$token_id;
-			$cache_pages[] = "token_".$token_name;		    
+			$cache_pages["id_".$token_id] =$token_name;
+			$cache_pages["token_".$token_name] =$token_id;
 		}
 		unset($token_name, $token_id);
 
@@ -879,7 +927,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 
 		
 		try {
-			$rows_changed = $db->runDeleteQuery($struct, $args);		
+			$rows_changed = $this->db->runDeleteQuery($struct, $args);		
 		}
 		catch(FOX_exception $child){
 		    
@@ -936,8 +984,6 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 
 	public function dropId($ids) {
 
-
-		$db = new FOX_db();
 		$struct = $this->_struct();
 		
 	    	if( is_null($ids)){
@@ -981,8 +1027,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		
 		foreach($id_data as $token_id => $token_name){
 		    
-			$cache_pages[] = "id_".$token_id;
-			$cache_pages[] = "token_".$token_name;		    
+			$cache_pages["id_".$token_id]= $token_name;
+			$cache_pages["token_".$token_name] = $token_id;
 		}
 		unset($token_id, $token_name);
 
@@ -1009,7 +1055,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		);
 		
 		try{
-			$rows_changed = $db->runDeleteQuery($struct, $args);		
+			$rows_changed = $this->db->runDeleteQuery($struct, $args);		
 		}
 		catch(FOX_exception $child){
 		    
@@ -1067,8 +1113,6 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 
 	public function dropAll() {
 	    
-	    
-		$db = new FOX_db();
 		$struct = $this->_struct();
 
 		try{
@@ -1086,7 +1130,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		}
 						
 		try{
-			$result = $db->runTruncateTable($struct);
+			$result = $this->db->runTruncateTable($struct);
 		}
 		catch(FOX_exception $child){
 		    

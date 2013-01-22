@@ -26,8 +26,9 @@ class FOX_test_dictionary extends FOX_dictionary_base {
 		"engine" => "InnoDB", // Required for transactions
 		"cache_namespace" => "FOX_test_dictionary",
 		"cache_strategy" => "paged",
+		"cache_engine" => array("memcached", "redis", "apc", "thread"),	 	    
 		"columns" => array(
-		    "id" =>		array(	"php"=>"int",	"sql"=>"smallint",	"format"=>"%d", "width"=>null,"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
+		    "id" =>	array(	"php"=>"int",	"sql"=>"smallint",	"format"=>"%d", "width"=>null,"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
 		    "token" =>	array(	"php"=>"string",	"sql"=>"varchar",	"format"=>"%s", "width"=>32,	"flags"=>"NOT NULL", "auto_inc"=>false, "default"=>null,  "index"=>"UNIQUE"),
 		 )
 	);
@@ -43,9 +44,20 @@ class FOX_test_dictionary extends FOX_dictionary_base {
 
 	// ================================================================================================================
 
+	public function __construct($args=null){
+	    
 
-	public function FOX_test_dictionary() {
-
+		$this->process_id = 1337;
+		
+		// Generate our own cache singleton, and only enable the 'thread'
+		// engine to eliminate potential problems with APC, Memcached, etc
+		
+//		$this->mCache = new FOX_mCache();
+//		$this->mCache->setActiveEngines(array('thread'));
+		
+		$this->init($args=null);
+		
+		
 	}
 
 
@@ -59,60 +71,54 @@ class core_base_dictionary extends RAZ_testCase {
 
 		parent::setUp();
 
+		// Install the db table
+		// ===========================================
+		
 		$this->cls = new FOX_test_dictionary();
-
-		// --The install method throws errors
-		$result = $this->cls->install($error);
-
-		// --Note that I'm updating FOX_error so you can just go $error->getAsText()
-
-		$this->assertEquals(true, $result, FOX_debug::formatError_print($error) );
-
-		unset($error);
-
+		
+		try {
+			$install_ok = $this->cls->install();
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}		
+				
+		$this->assertEquals(true, $install_ok);	
+		
+		
+		// Clear table to guard against previous failed test
+		// ===========================================
+		
+		try {
+			$truncate_ok = $this->cls->truncate();
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+				
+		$this->assertEquals(true, $truncate_ok);
+		
+		
+		// Flush cache to guard against previous failed test
+		// ===========================================
+		
+		try {
+			$flush_ok = $this->cls->flushCache();
+		}
+		catch (FOX_exception $child) {
+		    
+			$this->fail($child->dumpString(1));		    
+		}
+				
+		$this->assertEquals(true, $flush_ok);		
+		
 	}
 
 	function test_addToken_Single() {
 
-		// Clear db and cache
-	    	// ======================================================
-
-	    	try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
-
-
-		// test adding one token
+		// Test adding one token
 		// ======================================================
 		$token = "test token";
 
@@ -144,7 +150,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 		global $fox;
 
-		$struct = $this->cls->_struct();
 		try{
 			$result_select = $db->runSelectQuery(FOX_test_dictionary::_struct(), $args=array( array( "col"=>"token", "op"=>"=", "val"=>$token) ), $column=array("mode"=>"include", "col"=>"id"), $ctrl=array("format"=>"var"));
 		}
@@ -171,11 +176,11 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check persistent cache
 		// ======================================================
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
-				$this->assertEquals($id, $fox->cache->get($struct["cache_namespace"],"token_".$token ) );
-				$this->assertEquals($token, $fox->cache->get($struct["cache_namespace"],"id_".$id ));
+				$this->assertEquals($id, $fox->mCache->get($struct["cache_namespace"],"token_".$token ) );
+				$this->assertEquals($token, $fox->mCache->get($struct["cache_namespace"],"id_".$id ));
 			}
 			catch(FOX_exception $child){
 				throw new FOX_exception(
@@ -194,42 +199,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 
 	function test_addToken_Multi() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
 
 		// Test adding multiple tokens
 		// ======================================================
@@ -263,7 +232,7 @@ class core_base_dictionary extends RAZ_testCase {
 
 		// Check db entry
 		// =======================================================
-
+		$db = new FOX_db();
 		try{
 			$select_result = $db->runSelectQuery(FOX_test_dictionary::_struct(), $args=null, $columns=null, $ctrl=array("format"=>"array_array") );
 		}
@@ -279,7 +248,7 @@ class core_base_dictionary extends RAZ_testCase {
 			);
 			return false;
 		}
-		$exp_array = array(  array( "id"=>5, "token"=>"five"),
+		$exp_array = array(	array( "id"=>5, "token"=>"five"),
 					array( "id"=>4, "token"=>"four"),
 					array( "id"=>1, "token"=>"one"),
 					array( "id"=>3, "token"=>"three"),
@@ -298,38 +267,38 @@ class core_base_dictionary extends RAZ_testCase {
 		$this->assertEquals(array_flip($exp_array), $this->cls->cache["ids"]);
 
 		//Check tokens has been added to persistent cache
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -349,43 +318,7 @@ class core_base_dictionary extends RAZ_testCase {
 
 	function test_dbFetchToken_Single() {
 
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
-
-		// load db then empty cache
+		// Load db then empty cache
 		// ======================================================
 
 		$add_tokens = array("one", "two", "three", "four", "five");
@@ -466,38 +399,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -520,42 +453,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 
 	function test_dbFetchToken_Multi() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
 
 		// load db then empty cache
 		// ======================================================
@@ -625,38 +522,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -677,43 +574,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_dbFetchId_Single() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db then empty cache
 		// ======================================================
@@ -797,38 +657,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -848,44 +708,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_dbFetchId_Multi() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db then empty cache
 		// ======================================================
@@ -958,38 +780,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -1010,44 +832,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_cacheFetchToken_Single() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -1075,7 +859,7 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_fetch = array("exp"=>array("one"=>1), "fetch"=>"one");
@@ -1113,44 +897,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 	function test_cacheFetchToken_Multi() {
 
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
 		// load db
 		// ======================================================
 
@@ -1177,7 +923,7 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 
@@ -1205,44 +951,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 	function test_cacheFetchId_Single() {
 
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
 		// load db
 		// ======================================================
 
@@ -1269,7 +977,7 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_fetch = array("exp"=>array(1=>"one"), "fetch"=>1);
@@ -1306,44 +1014,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 	function test_cacheFetchId_Multi() {
 
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
 		// load db
 		// ======================================================
 
@@ -1370,7 +1040,7 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 
@@ -1397,44 +1067,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getToken_Single_Class() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -1494,44 +1126,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 	function test_getToken_Multi_Class() {
 
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
 		// load db
 		// ======================================================
 
@@ -1577,44 +1171,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getToken_Single_Persistent() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -1684,44 +1240,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 	function test_getToken_Multi_Persistent() {
 
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
 		// load db
 		// ======================================================
 
@@ -1773,44 +1291,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getToken_Single_Db() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db and flush cache
 		// ======================================================
@@ -1896,38 +1376,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -1948,44 +1428,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getToken_Multi_Db() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db and flush cache
 		// ======================================================
@@ -2058,38 +1500,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -2109,44 +1551,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getToken_Single_Insert() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// Test single insert and get
 		// ======================================================
@@ -2192,38 +1596,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -2245,49 +1649,11 @@ class core_base_dictionary extends RAZ_testCase {
 
 	function test_getToken_Multi_Insert() {
 
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
 		// Test multi insert and  get
 		// ======================================================
 		try{
 			$exp_array  = array("one"=>1, "two"=>2, "three"=>3, "four"=>4, "five"=>5);
-			$this->assertEquals($exp_array, $this->cls->getToken($add_tokens));
+			$this->assertEquals($exp_array, $this->cls->getToken(array_keys($exp_array)));
 		}
 		catch(FOX_exception $child){
 
@@ -2314,38 +1680,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -2365,44 +1731,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getToken_Mixed_Insert_Get() {
-
-		// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db with first two tokens
 		// ======================================================
@@ -2458,38 +1786,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -2509,44 +1837,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getId_Single_Class(){
-
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -2609,44 +1899,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 	function test_getId_Multi_Class(){
 
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
 		// load db
 		// ======================================================
 
@@ -2694,44 +1946,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getId_Single_Persistent(){
-
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -2804,44 +2018,6 @@ class core_base_dictionary extends RAZ_testCase {
 
 	function test_getId_Multi_Persistent(){
 
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
 		// load db
 		// ======================================================
 
@@ -2899,44 +2075,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getId_Single_Db(){
-
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db and flush cache
 		// ======================================================
@@ -3023,38 +2161,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -3075,44 +2213,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_getId_Multi_Db(){
-
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db and flush cache
 		// ======================================================
@@ -3186,38 +2286,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>1, "get"=>"token_one");
-				$this->assertEquals(1, $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(1, $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>"one", "get"=>"id_1");
-				$this->assertEquals("one", $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals("one", $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>2, "get"=>"token_two");
-				$this->assertEquals(2, $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(2, $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>"two", "get"=>"id_2");
-				$this->assertEquals("two", $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals("two", $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>3, "get"=>"token_three");
-				$this->assertEquals(3, $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(3, $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>"three", "get"=>"id_3");
-				$this->assertEquals("three", $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals("three", $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>4, "get"=>"token_four");
-				$this->assertEquals(4, $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(4, $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>"four", "get"=>"id_4");
-				$this->assertEquals("four", $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals("four", $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>5, "get"=>"token_five");
-				$this->assertEquals(5, $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(5, $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>"five", "get"=>"id_5");
-				$this->assertEquals("five", $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals("five", $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -3238,44 +2338,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_dropAll() {
-
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -3347,38 +2409,38 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -3398,44 +2460,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_dropToken_Single() {
-
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -3496,6 +2520,7 @@ class core_base_dictionary extends RAZ_testCase {
 		// Check Db has no rows
 		// ======================================================
 		try{
+			$db = new FOX_db();
 			$this->assertEquals( "0", $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
 		}
 		catch(FOX_exception $child){
@@ -3513,44 +2538,44 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 
 		// Check Class cache is empty
-		$this->assertEquals( array(), $this->cls->cache);
+		$this->assertEquals( array('ids'=>array(), 'tokens'=>array()), $this->cls->cache);
 
 		// Check that persistent cache is empty
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -3571,44 +2596,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_dropToken_Multi() {
-
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -3632,11 +2619,11 @@ class core_base_dictionary extends RAZ_testCase {
 			return false;
 		}
 
-		// Test  single dropToken
+		// Test multi dropToken
 		// ======================================================
 
 		try{
-			$this->assertEquals(1, $this->cls->dropToken($add_tokens));
+			$this->assertEquals(5, $this->cls->dropToken($add_tokens));
 
 		}
 		catch(FOX_exception $child){
@@ -3656,6 +2643,7 @@ class core_base_dictionary extends RAZ_testCase {
 		// Check Db has no rows
 		// ======================================================
 		try{
+			$db = new FOX_db();
 			$this->assertEquals( "0", $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
 		}
 		catch(FOX_exception $child){
@@ -3673,44 +2661,44 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 
 		// Check Class cache is empty
-		$this->assertEquals( array(), $this->cls->cache);
+		$this->assertEquals(array('ids'=>array(), 'tokens'=>array()), $this->cls->cache);
 
 		// Check that persistent cache is empty
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -3731,44 +2719,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_dropId_Single() {
-
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -3829,6 +2779,7 @@ class core_base_dictionary extends RAZ_testCase {
 		// Check Db has no rows
 		// ======================================================
 		try{
+			$db = new FOX_db();
 			$this->assertEquals( "0", $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
 		}
 		catch(FOX_exception $child){
@@ -3846,44 +2797,44 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 
 		// Check Class cache is empty
-		$this->assertEquals( array(), $this->cls->cache);
+		$this->assertEquals( array('ids'=>array(), 'tokens'=>array()), $this->cls->cache);
 
 		// Check that persistent cache is empty
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
@@ -3904,44 +2855,6 @@ class core_base_dictionary extends RAZ_testCase {
 	}
 
 	function test_dropId_Multi() {
-
-	    	// Clear db and cache
-		// ======================================================
-		try{
-			$result = $this->cls->truncate();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"Class truncate exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
-
-		try{
-			$result = $this->cls->flushCache();
-			$this->assertEquals(true, $result);
-		}
-		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
-		}
 
 		// load db
 		// ======================================================
@@ -3990,6 +2903,7 @@ class core_base_dictionary extends RAZ_testCase {
 		// Check Db has no rows
 		// ======================================================
 		try{
+			$db = new FOX_db();
 			$this->assertEquals( "0", $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl= array( "count"=>true, "format"=>"var"), $error));
 		}
 		catch(FOX_exception $child){
@@ -4007,44 +2921,44 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 
 		// Check Class cache is empty
-		$this->assertEquals( array(), $this->cls->cache);
+		$this->assertEquals( array('ids'=>array(), 'tokens'=>array()), $this->cls->cache);
 
 		// Check that persistent cache is empty
 		// ======================================================
 		global $fox;
 		$struct = $this->cls->_struct();
-		if($fox->cache->isActive()) {
+		if($fox->mCache->isActive) {
 
 			try{
 				$cache_values = array("exp"=>array(), "get"=>"token_one");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_one" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_one" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_1");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_1" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_1" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_two");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_two" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_two" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_2");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_2" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_2" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_three");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_three" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_three" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_3");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_3" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_3" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_four");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_four" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_four" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_4");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_4" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_4" ));
 
 				$cache_values = array("exp"=>array(), "get"=>"token_five");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"token_five" ) );
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"token_five" ) );
 
 				$cache_values = array("exp"=>array(), "get"=>"id_5");
-				$this->assertEquals(array(), $fox->cache->get($struct["cache_namespace"],"id_5" ));
+				$this->assertEquals(array(), $fox->mCache->get($struct["cache_namespace"],"id_5" ));
 
 			}
 			catch(FOX_exception $child){
