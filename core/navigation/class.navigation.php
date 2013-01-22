@@ -1099,6 +1099,30 @@ final class FOX_nav {
 	}
 
 
+	/**
+         * Removes a page module's target and policy data from the site's navigation tree
+         *
+         * @version 1.0
+         * @since 1.0
+	 *
+	 * @param int $module_id | module_id for the page module
+	 *
+         * @return bool | Exception on failure. True on success.
+         */
+
+	public function uninstallPageModule($module_id){	
+	    
+	    
+		throw new FOX_exception( array(
+			'numeric'=>1,
+			'text'=>"This method has not been written yet",
+			'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+			'child'=>null
+		));	    
+	    
+	}
+	
+	
 
 	/**
          * Resets the class's print_keys array, making it ready to accept a new batch of keys. This method
