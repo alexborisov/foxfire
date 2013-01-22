@@ -2559,12 +2559,12 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		
 		// Child theme
 		// ================================================================
-		// A child theme will almost always specify its own custom CSS styles, which are set
-		// in the WP global 'STYLESHEETPATH', so check here first.
+		// A child theme will almost always specify its own custom CSS styles, which can be
+		// found in the stylesheet directory, so check here first.
 
-		if ( file_exists(STYLESHEETPATH . '/' . $type . '/' . $slug . '/config.xml') ) {
+		if ( file_exists(get_stylesheet_directory() . '/' . $type . '/' . $slug . '/' . $template)) {
 
-			$located_template = STYLESHEETPATH . '/' . $type . '/' . $slug . '/config.xml';
+			$located_template = get_stylesheet_directory(). '/' . $type . '/' . $slug . '/' . $template;
 		}
 
 		// Parent theme
@@ -2572,9 +2572,9 @@ abstract class FOX_moduleManager_shared_base extends FOX_db_base {
 		// If a child theme doesn't contain the requested template, move up the hierarchy and
 		// check the parent theme.
 
-		elseif ( file_exists(TEMPLATEPATH . '/' . $type . '/' . $slug . '/config.xml') ) {
+		elseif ( file_exists(get_template_directory() . '/' . $type . '/' . $slug . '/' . $template) ) {
 
-			$located_template = TEMPLATEPATH . '/' . $type . '/' . $slug . '/config.xml';
+			$located_template = get_template_directory() . '/' . $type . '/' . $slug . '/' . $template;
 		}
 
 		// Default template
