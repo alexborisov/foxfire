@@ -215,20 +215,6 @@ abstract class FOX_pageModule_base {
 	 * @param string $tab | Name of the admin tab the plugin is rendering
 	 */
 	public function enqueueAdminScripts($tab){
-
-
-		wp_enqueue_script('fox-jquery-ui-core');
-		wp_enqueue_script('fox-jquery-ui-widget');
-		wp_enqueue_script('fox-jquery-ui-mouse');
-		wp_enqueue_script('fox-jquery-ui-position');
-		wp_enqueue_script('fox-jquery-ui-tabs');
-		wp_enqueue_script('fox-jquery-ui-slider');
-		wp_enqueue_script('fox-jquery-ui-dialog');
-		wp_enqueue_script('fox-jquery-ui-draggable');
-		wp_enqueue_script('fox-jquery-ui-resizable');
-		wp_enqueue_script('fox-jquery-ui-sortable');
-
-		wp_enqueue_script('fox-pageModules');
 		
 		return $tab;			
 
@@ -244,10 +230,7 @@ abstract class FOX_pageModule_base {
 	 */
 	public function enqueueAdminStyles($tab){
 
-
-		wp_enqueue_style('fox-base', FOX_URL_CORE .'/admin/css/jquery.ui.base.css', false, '2.8.1', 'screen' );
-		wp_enqueue_style('fox-theme', FOX_URL_CORE .'/admin/css/jquery.ui.theme.css', false, '2.8.1', 'screen' );
-
+	    
 		wp_enqueue_style( $this->module_slug, $this->module_path . '/admin/admin.css', false, '2.8.1', 'screen' );
 		
 		return $tab;
