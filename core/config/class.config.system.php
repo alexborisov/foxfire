@@ -1731,7 +1731,6 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 		$invalid_nodes = array();
 		$update_keys = array();
 
-		//var_dump($current_keys); die;
 		foreach($query_keys as $plugin => $trees){
 		    
 			foreach($trees as $tree => $branches){
@@ -1846,8 +1845,7 @@ class FOX_config extends FOX_dataStore_paged_L4_base {
 				));
 			}		    
 		    
-		}		
-
+		}				
 		
 		return (int)$rows_changed;
 

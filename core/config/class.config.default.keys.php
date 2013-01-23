@@ -115,31 +115,18 @@ class FOX_config_defaultKeys {
 		    update_site_option('FOX_cache_salt', $salt);
 		}
 		
-		// Clear the config class db table and flush its cache
+		// Clear the config class settings for this plugin
 		// =================================================================
 
 		try {
-			$this->config_class->truncate();
+			$this->config_class->dropPlugin('foxfire');
 		}
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Error truncating table",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>$child
-			));		    
-		}
-		
-		try {
-			$this->config_class->flushCache();
-		}
-		catch (FOX_exception $child) {
-		    
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error flushing cache",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'text'=>"Error clearing plugin settings",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));		    
 		}
@@ -153,7 +140,7 @@ class FOX_config_defaultKeys {
 		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>2,
 				'text'=>"Error in key loader",
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>$child
