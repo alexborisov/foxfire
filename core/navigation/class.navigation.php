@@ -794,10 +794,9 @@ final class FOX_nav {
 			$full_name = explode($this->key_delimiter, $option);
 
 			// Process the raw form strings into proper key names
-			$discard = trim( $full_name[0] );
-			$raw_tree = trim( $full_name[1] );
-			$raw_branch = trim( $full_name[2] );
-			$raw_key = trim( $full_name[3] );
+			$raw_tree = trim( $full_name[0] );
+			$raw_branch = trim( $full_name[1] );
+			$raw_key = trim( $full_name[2] );
 
 			// Passed by reference
 			$tree_valid = null; $branch_valid = null; $key_valid = null;
@@ -843,14 +842,15 @@ final class FOX_nav {
 				throw new FOX_exception( array(
 					'numeric'=>5,
 					'text'=>"Called with invalid key name",
-					'data'=>array('raw_key'=>$raw_key, 'san_error'=>$key_error),
+					'data'=>array(	'raw_tree'=>$raw_tree, 'raw_branch'=>$raw_branch, 
+							'raw_key'=>$raw_key, 'san_error'=>$key_error),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>null
 				));
 			}
 
 			// Manually generate the $post array keyname to avoid escaping added by PHP
-			$post_key = "foxient" . $this->key_delimiter . $tree . $this->key_delimiter . $branch . $this->key_delimiter . $key;
+			$post_key = $tree . $this->key_delimiter . $branch . $this->key_delimiter . $key;
 			$processed_keys[$tree][$branch][$key] = FOX_sUtil::formVal($post[$post_key]);
 
 			unset($full_name, $tree, $raw_tree, $branch, $raw_branch, $key, $raw_key);
