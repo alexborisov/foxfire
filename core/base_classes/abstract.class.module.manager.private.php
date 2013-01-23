@@ -84,22 +84,6 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	public function init($args=null){
 	    
 		
-		// Trap missing base path
-		// ===========================================================
-		
-		if(!FOX_sUtil::keyExists('base_path', $args) ){
-		    
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Missing base_path parameter",
-				'data'=>$args,			    
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));			
-		}
-		
-		$this->base_path = $args['base_path'];
-		
 		// Debug events
 		// ===========================================================
 		
@@ -158,10 +142,11 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 *
 	 * @version 1.0
 	 * @since 1.0
-	 * @return bool | Exception on failure. True on success.
+	 * @param string $path | Path to load modules from
+	 * @return int | Exception on failure. (int) number of modules loaded on success.
 	 */
 
-	public function loadAllModules() {
+	public function loadAllModules($path) {
 
 
 		if(!$this->init){
@@ -174,22 +159,49 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 			));
 		}
 		
+		$modules_list = glob( $path . '/*');
 
-		$modules_list = glob( $this->base_path . '/*');
+		$result = 0;
+		
+		foreach( $modules_list as $module_path ){
 
+		    
+			if( file_exists($module_path . "/loader.php") ){
 
-		foreach ( $modules_list as $path ){
+				try {
+					include_once( $module_path . "/loader.php" );
+				}
+				catch (FOX_exception $child) {
 
-			if( file_exists($path . "/loader.php") ){
-
-				include_once( $path . "/loader.php" );
+					throw new FOX_exception( array(
+						'numeric'=>1,
+						'text'=>"Error in module loader",
+						'data'=>$module_path,
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));		    			
+				}
+				
+				$result++;
 			}
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Module contains no loader file",
+					'data'=>$module_path,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));			    			    
+			}
+					
 		}
+		unset($module_path);
 
-		return true;
+		
+		return $result;
 		
 	}
-
+	
 
 	/**
 	 * Scans each subdirectory in the modules folder, adding loader.php to the include path. When a
@@ -198,10 +210,12 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 *
 	 * @version 1.0
 	 * @since 1.0
+	 * @param string $path | Path to load modules from	 
+	 * @param string/array $module_slugs | Single module slug as string. Multiple module slugs as array of strings.
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadModule($slugs) {
+	public function loadModule($path, $module_slugs) {
 
 
 		if(!$this->init){
@@ -214,32 +228,44 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 			));
 		}
 		
-		if( empty($slugs) ){
+		if( empty($module_slugs) ){
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Called with empty slug",
-				'data'=>array('module_id'=>$slugs),
+				'text'=>"Called with empty slugs parameter",
+				'data'=>array('module_slugs'=>$module_slugs),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));
-
 		}
-		elseif( !is_array($slugs) ){
+		elseif( !is_array($module_slugs) ){
 
 			// Handle single string as input
-			$slugs = array($slugs);
+			$module_slugs = array($module_slugs);
 		}
 
-		foreach( $slugs as $slug ){
+		$result = 0;
+		
+		foreach( $module_slugs as $slug ){
 
-			if( file_exists($this->base_path . $slug . "/loader.php") ){
+			if( file_exists($path . $slug . "/loader.php") ){
 
-				include_once( $this->base_path . $slug . "/loader.php" );
+				include_once( $path . $slug . "/loader.php" );
+				$result++;
 			}
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>1,
+					'text'=>"Specified module contains no loader file",
+					'data'=>$path . $slug ,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));			    			    
+			}			
 		}
-
-		return true;
+		unset($slug);
+		
+		return $result;
 
 	}
 
@@ -455,9 +481,9 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadAdminScripts() {
+	public function loadAdminScripts($path) {
 
-
+	    
 		if(!$this->init){
 
 			throw new FOX_exception( array(
@@ -466,8 +492,8 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
-		}
-		
+		}	    
+
 		// Check if the modules have been loaded
 		// ============================================
 
@@ -476,7 +502,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadAllModules();
+				self::loadAllModules($path);
 			}
 			catch (FOX_exception $child) {
 
@@ -557,7 +583,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 * @return bool | Exception on failure. True on success.
 	 */
 
-	public function loadAdminStyles() {
+	public function loadAdminStyles($path) {
 
 	    
 		if(!$this->init){
@@ -577,7 +603,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 		if($modules_loaded < 1){
 
 			try {
-				self::loadAllModules();
+				self::loadAllModules($path);
 			}
 			catch (FOX_exception $child) {
 
@@ -2506,11 +2532,15 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 *
 	 * @version 1.0
 	 * @since 1.0
-	 * @param string $slug | Module slug name
+	 * 
+	 * @param string $plugin_path | Path to the plugin's root folder
+	 * @param string $type | Module type - "page" (page module), "album" (album module), "media" (media module)
+	 * @param string $slug | Module slug
+	 * 
 	 * @return bool | Exception on failure. True on Success.
 	 */
 
-	public function loadTemplateConfig($slug) {
+	public function loadTemplateConfig($plugin_path, $type, $slug) {
 
 
 		if(!$this->init){
@@ -2522,9 +2552,42 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
+
+
+		// Child theme
+		// ================================================================
+		// A child theme will almost always specify its own custom CSS styles, which are set
+		// in the WP global 'STYLESHEETPATH', so check here first.
+
+		if ( file_exists(STYLESHEETPATH . '/' . $type . '/' . $slug . '/config.xml') ) {
+
+			$located_template = STYLESHEETPATH . '/' . $type . '/' . $slug . '/config.xml';
+		}
+
+		// Parent theme
+		// ================================================================
+		// If a child theme doesn't contain the requested template, move up the hierarchy and
+		// check the parent theme.
+
+		elseif ( file_exists(TEMPLATEPATH . '/' . $type . '/' . $slug . '/config.xml') ) {
+
+			$located_template = TEMPLATEPATH . '/' . $type . '/' . $slug . '/config.xml';
+		}
+
+		// Default template
+		// ================================================================
+		// Every FoxFire module is required to supply a set of default templates for itself. This 
+		// allows 3rd-party modules to be added to the system, because there will probably be
+		// no template files for them in the default theme.
+
+		else {
+
+			$located_template = $plugin_path . '/modules/' . $type . '/' . $slug . '/templates/config.xml';
+		}
+
 		
-		$template_name = 'modules/' . $this->_offset() . '/' . $slug . '/config.xml';
-		$located_template = locate_template($template_name, $load=false, $require_once=true );
+		$template_name = 'modules/' . $type . '/' . $slug . '/config.xml';
+		$located_template = locate_template($template_name, $load=false, $require_once=true );		
 
 		if(!$located_template){
 
@@ -2601,7 +2664,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 				$this->thumbs["direction"] = $primary["thumbs"]["direction"]["value"];
 			}
 
-			//RAD_Debug::dump($this->targets); RAD_Debug::dump($this->views); RAD_Debug::dump($this->caps); die;
+			//FOX_Debug::dump($this->targets); FOX_Debug::dump($this->views); FOX_Debug::dump($this->caps); die;
 
 			return true;
 

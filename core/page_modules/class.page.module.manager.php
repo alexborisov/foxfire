@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-final class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
+final class FOX_pageModuleManager extends FOX_moduleManager_private_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by ancestor class
@@ -54,10 +54,9 @@ final class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
 		"cache_strategy" => "monolithic",
 		"cache_engine" => array("memcached", "redis", "apc"),
 		"columns" => array(
-		    "module_id" =>  array(  "php"=>"int",	"sql"=>"tinyint",   "format"=>"%d", "width"=>null,  "flags"=>"UNSIGNED NOT NULL",   "auto_inc"=>true,   "default"=>null,    "index"=>"PRIMARY"),
-		    "plugin_slug" =>array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>true),		    
-		    "module_slug" =>array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>"UNIQUE"),
-		    "module_name" =>array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>"UNIQUE"),
+		    "module_id" =>  array(  "php"=>"int",	"sql"=>"tinyint",   "format"=>"%d", "width"=>null,  "flags"=>"UNSIGNED NOT NULL",   "auto_inc"=>true,   "default"=>null,    "index"=>"PRIMARY"),	    
+		    "slug" =>array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>"UNIQUE"),
+		    "name" =>array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>32,    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>"UNIQUE"),
 		    "php_class" =>  array(  "php"=>"string",	"sql"=>"varchar",   "format"=>"%s", "width"=>128,   "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>null,    "index"=>"UNIQUE"),
 		    "active" =>	    array(  "php"=>"bool",	"sql"=>"tinyint",   "format"=>"%d", "width"=>1,	    "flags"=>"NOT NULL",	    "auto_inc"=>false,  "default"=>0,	    "index"=>true)
 		 )
@@ -66,15 +65,13 @@ final class FOX_pageModuleManager extends FOX_moduleManager_shared_base {
 	// ================================================================================================================
 	// 	
 	// $module_id	    | Globally unique ID assigned to the page module by FoxFire. This allows faster database performance
-	//		    | and lower memory usage, and it could be tied to potentially millions of entried in the key database
-	//		    
-	// $plugin_slug	    | Offical WordPress 'slug' for the plugin that owns this page module "/wp-content/plugins/PLUGIN_SLUG"
-	// 			    
-	// $module_slug	    | Globally unique human-readable slug used to refer to the page module in URL's and admin screens
+	//		    | and lower memory usage, and it could be tied to potentially millions of entries in the key database
+	//		    			    
+	// $slug	    | Globally unique human-readable slug used to refer to the page module in URL's and admin screens
 	// 
-	// $module_name	    | Full name of your page module. This will be automatically translated if translations files exist.
+	// $name	    | Full name of the page module. This will be automatically translated if translations files exist.
 	// 
-	// $php_class	    | PHP class of your page module. 
+	// $php_class	    | PHP class of the page module. 
 	// 
 	// $active	    | True to enable page module. False to disable it.
 	//

@@ -245,7 +245,20 @@ final class FOX_nav {
 
 				// Load the page module's class tree
 				try {
-					$this->page_modules_class->loadModule($page_module_data[$data["php_class"]]["slug"]);
+				    
+					throw new FOX_exception( array(
+						'numeric'=>0,
+						'text'=>"This algorithm is broken. See comments in the source code.",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));
+					
+					//$this->page_modules_class->loadModule($page_module_data[$data["php_class"]]["slug"]);
+					
+					// This algorithm needs to be modified so that the path to the page module is stored
+					// in abstract.class.module.manager.[X].base.php - otherwise there's no way to load
+					// page modules for multiple plugins.
+					
 				}
 				catch (FOX_exception $child) {
 
@@ -421,7 +434,19 @@ final class FOX_nav {
 				$page_module_id = $active_page_modules[$module_id];
 
 				try {
-					$this->page_modules_class->loadModule($page_module_id);
+				    	throw new FOX_exception( array(
+						'numeric'=>0,
+						'text'=>"This algorithm is broken. See comments in the source code.",
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));
+					
+					//$this->page_modules_class->loadModule($page_module_id);
+					
+					// This algorithm needs to be modified so that the path to the page module is stored
+					// in abstract.class.module.manager.[X].base.php - otherwise there's no way to load
+					// page modules for multiple plugins.
+														
 				}
 				catch (FOX_exception $child) {
 
@@ -574,7 +599,7 @@ final class FOX_nav {
          * @return bool | Exception on failure. True on success.
          */
 
-	public function loadModule($module_id){
+	public function loadModulePolicy($module_id){
 
 
 		try {

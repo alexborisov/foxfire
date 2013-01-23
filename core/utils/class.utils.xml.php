@@ -34,14 +34,14 @@ class FOX_xml {
 
 	public function parseFile($file, $get_attributes=1, $priority='tag') {
 
-		$data = file_get_contents($file);
+		$data = @file_get_contents($file);
 
 		if(!$data)
 		{
 			throw new FOX_exception(array(
 				'numeric'=>1,
 				'text'=>"Couldn't open the file",
-				'data'=>$data,
+				'data'=>$file,
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 				)

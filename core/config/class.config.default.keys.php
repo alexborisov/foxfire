@@ -64,7 +64,7 @@ class FOX_config_defaultKeys {
 		foreach( $keys as $key ){
 	    
 			try {
-				$this->config_class->createKey('foxfire', $key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
+				$this->config_class->addNode('foxfire', $key['tree'], $key['branch'], $key['key'], $key['val'], $key['filter'], $key['ctrl']);
 			}
 			catch (FOX_exception $child) {
 
@@ -149,8 +149,6 @@ class FOX_config_defaultKeys {
 		
 		try {
 			self::set_coreSettings();
-			//self::install_pageModules();
-			self::set_cacheSalt();
 		}
 		catch (FOX_exception $child) {
 		    
@@ -178,7 +176,7 @@ class FOX_config_defaultKeys {
  * @since 1.0
  */
 
-function FOX_config_defaultKeys_install (){
+function FOX_config_defaultKeys_install(){
 
 	$cls = new FOX_config_defaultKeys();
 	$cls->load();

@@ -102,7 +102,7 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 				global $fox;
 				$fox->mCache->flushAll();
 
-				$reset_ok = fox_defaultsInstall($defaults_error);
+				$reset_ok = FOX_config_defaultKeys_install($defaults_error);
 
 				if(!$reset_ok){
 

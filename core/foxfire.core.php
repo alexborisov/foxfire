@@ -216,7 +216,6 @@ else {
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.object.type.level.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.dictionary.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.private.php' );
-	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.shared.php' );	
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );		
 	
 	// Load the Navigation system
@@ -268,7 +267,10 @@ else {
 	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.redis.php' );
 	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.thread.php' );
 
-	require ( dirname( __FILE__ ) . '/config/class.config.system.php' );	
+	require ( dirname( __FILE__ ) . '/config/class.config.system.php' );
+	require ( dirname( __FILE__ ) . '/config/class.config.default.keys.php' );
+	require ( dirname( __FILE__ ) . '/config/class.config.default.schema.php' );
+	
 	require ( dirname( __FILE__ ) . '/admin/sub.admin.core.php' );
 	require ( dirname( __FILE__ ) . '/js/register.scripts.php' );	
 	
