@@ -202,18 +202,17 @@ function updatePageStatus(baseName, moduleID){
 	// from the db and the pages currently in use on the system
 	// =============================================================================
 
-	var search = "option[name='target^key^page_id']:selected";
-	
-	var page_id = jQuery(search).val();
+	var page_id = jQuery("select[name='target^key^page_id']").find(':selected').val();
+
 	var status = jQuery('.pageStatus').attr('status');
-alert("begin");
+
 	jQuery.ajax({
 
 	    type: 'POST',
 	    url: ajaxurl,
 	    data: {
 		'action':'fox_ajax_admin_checkPageStatus',
-		'page_id': 99
+		'page_id': page_id
 	    },
 	    dataType: "json",
 	    beforeSend: function(){
@@ -221,10 +220,10 @@ alert("begin");
 		jQuery(this).css('cursor','wait');
 	    },
 	    success: function(response){
-alert("success");
+
 		// NOTE: If the request URL 404's, jQuery will exit this method and jump to 
 		// the bottom of the code block, skipping the toggleSubmitButton() call
-console.log(response);			
+			
 		jQuery(this).css('cursor','default');
 
 		if( (response.exists === false) || (response.active === false) ){
