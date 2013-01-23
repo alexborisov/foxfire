@@ -271,8 +271,18 @@ else {
 	require ( dirname( __FILE__ ) . '/config/class.config.default.keys.php' );
 	require ( dirname( __FILE__ ) . '/config/class.config.default.schema.php' );
 	
+	// Load the AJAX functions
+	// ===============================================================
+	require ( dirname( __FILE__ ) . '/js/register.scripts.php' );
+	require ( dirname( __FILE__ ) . '/ajax/router.php' );
+	require ( dirname( __FILE__ ) . '/ajax/abstract.class.controller.php' );
+	require ( dirname( __FILE__ ) . '/ajax/abstract.class.model.php' );
+	require ( dirname( __FILE__ ) . '/ajax/class.request.php' );
+	require ( dirname( __FILE__ ) . '/ajax/class.response.php' );
+	require ( dirname( __FILE__ ) . '/ajax/class.session.db.php' );
+	
+	
 	require ( dirname( __FILE__ ) . '/admin/sub.admin.core.php' );
-	require ( dirname( __FILE__ ) . '/js/register.scripts.php' );	
 	
 
 	$fox->mCache = new FOX_mCache();    // Memory cache singleton

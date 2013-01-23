@@ -227,8 +227,6 @@ class FOX_bp {
 				$result["active"] = false;
 			}
 
-			return $result;
-
 		}
 
 		// CASE 2: FoxFire or an external plugin are adding a page
@@ -268,8 +266,6 @@ class FOX_bp {
 			else {
 				$result["active"] = false;
 			}
-
-			return $result;
 
 		}
 
@@ -311,9 +307,10 @@ class FOX_bp {
 					"component_name"=>null,
 			);
 
-			return $result;
-
 		}
+		
+				
+		return $result;
 
 
 	}

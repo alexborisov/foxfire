@@ -94,7 +94,7 @@
 
  
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_admin_albumTypesLevelSort', 'fox_ajax_admin_albumTypesLevelSort');
+ add_action('wp_ajax_fox_ajax_admin_albumTypesLevelSort', 'fox_ajax_admin_albumTypesLevelSort');
 
 
 /**
@@ -190,7 +190,7 @@
 	
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_fox_admin_getDialog', 'fox_ajax_admin_getDialog');
+ add_action('wp_ajax_fox_ajax_admin_getDialog', 'fox_ajax_admin_getDialog');
 
 
 /**
@@ -283,7 +283,7 @@
 
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_fox_admin_putDialog', 'fox_ajax_admin_putDialog');
+ add_action('wp_ajax_fox_ajax_admin_putDialog', 'fox_ajax_admin_putDialog');
 
 
 /**
@@ -327,7 +327,7 @@
 
 	$cls = new FOX_bp();
 	$page_data = $cls->getPageOwner($page_id);
-
+	
 	$result = json_encode($page_data);
 
 	// Return response
@@ -341,7 +341,7 @@
 
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_admin_checkPageStatus', 'fox_ajax_admin_checkPageStatus');
+ add_action('wp_ajax_fox_ajax_admin_checkPageStatus', 'fox_ajax_admin_checkPageStatus');
 
 
 /**
@@ -415,7 +415,7 @@
 
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_admin_checkSlugStatus', 'fox_ajax_admin_checkSlugStatus');
+ add_action('wp_ajax_fox_ajax_admin_checkSlugStatus', 'fox_ajax_admin_checkSlugStatus');
 
 
 /**
@@ -448,7 +448,7 @@
 
 
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_admin_selfTest', 'fox_ajax_admin_selfTest');
+ add_action('wp_ajax_fox_ajax_admin_selfTest', 'fox_ajax_admin_selfTest');
  
  
 /**
@@ -501,6 +501,6 @@
 
 	
  } // WP action name is "wp_ajax_" + "formActionName"
- add_action('wp_ajax_testData', 'fox_ajax_testData'); 
+ add_action('wp_ajax_fox_ajax_testData', 'fox_ajax_testData'); 
 
 ?>

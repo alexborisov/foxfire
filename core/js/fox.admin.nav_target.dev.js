@@ -16,10 +16,6 @@ var viewMode;
 var pageSubmitOK;
 var slugSubmitOK;
 
-var viewMode;
-var pageSubmitOK;
-var slugSubmitOK;
-
 function fox_pageModules_navTarget(baseName, moduleID){ 
 
 	// Remove row-striping from the target tables (the row-striping
@@ -70,7 +66,7 @@ function toggleMode(baseName, moduleID){
 	// Show the correct table based on the values the page loads from the db
 	// ============================================================================
 
-	var search = "input[name='" + baseName + "']:checked";
+	var search = 'input[name="target^key^location"]:checked';
 	var currentTargetType = jQuery(search).val();
 
 	if(currentTargetType == "page"){
@@ -98,7 +94,7 @@ function toggleMode(baseName, moduleID){
 
 	jQuery(target).click( function() {
 
-		var search = "input[name='" + baseName + "']:checked";
+		var search = 'input[name="target^key^location"]:checked';		
 		var currentTargetType = jQuery(search).val();
 		var previousTargetType = jQuery('.targetOne').attr('target');
 
@@ -206,19 +202,18 @@ function updatePageStatus(baseName, moduleID){
 	// from the db and the pages currently in use on the system
 	// =============================================================================
 
-	varName = baseName + "[targetPage]";
-
-	var search = "option[name='" + varName + "']:selected";
+	var search = "option[name='target^key^page_id']:selected";
+	
 	var page_id = jQuery(search).val();
 	var status = jQuery('.pageStatus').attr('status');
-
+alert("begin");
 	jQuery.ajax({
 
 	    type: 'POST',
 	    url: ajaxurl,
 	    data: {
-		'action':'admin_checkPageStatus',
-		'page_id': page_id
+		'action':'fox_ajax_admin_checkPageStatus',
+		'page_id': 99
 	    },
 	    dataType: "json",
 	    beforeSend: function(){
@@ -226,7 +221,10 @@ function updatePageStatus(baseName, moduleID){
 		jQuery(this).css('cursor','wait');
 	    },
 	    success: function(response){
-
+alert("success");
+		// NOTE: If the request URL 404's, jQuery will exit this method and jump to 
+		// the bottom of the code block, skipping the toggleSubmitButton() call
+console.log(response);			
 		jQuery(this).css('cursor','default');
 
 		if( (response.exists === false) || (response.active === false) ){
@@ -317,11 +315,10 @@ function updateSlugStatus(baseName, moduleID){
 	    html_slugInUse += '</div>';
 	html_slugInUse += '</div>';
 
-	search = "input[name='" + baseName + "']:checked";
+	search = 'input[name="target^key^location"]:checked';	
 	targetType = jQuery(search).val();
 
-	varName = baseName + "[targetSlug]";
-	search = "input:text[name='" + varName + "']";
+	search = 'input:text[name="target^key^slug"]';
 	slugName = jQuery(search).val();
 
 	var status = jQuery('.slugStatus').attr('status');
@@ -351,7 +348,7 @@ function updateSlugStatus(baseName, moduleID){
 		    type: 'POST',
 		    url: ajaxurl,
 		    data: {
-			'action':'admin_checkSlugStatus',
+			'action':'fox_ajax_admin_checkSlugStatus',
 			'location': targetType,
 			'slug': slugName
 		    },
@@ -362,6 +359,9 @@ function updateSlugStatus(baseName, moduleID){
 		    },
 		    success: function(response){
 
+			// NOTE: If the request URL 404's, jQuery will exit this method and jump to 
+			// the bottom of the code block, skipping the toggleSubmitButton() call
+			
 			jQuery(this).css('cursor','default'); 
 
 			if( response.exists === false ){
@@ -423,6 +423,7 @@ function updateSlugStatus(baseName, moduleID){
 
 		});
 
+
 	}
 
 }
@@ -475,7 +476,7 @@ function toggleSubmitButton(){
 
 function slugIsValid(slug){
 
-	if(!slug){
+	if(!slug){	
 	    return false;
 	}
 	
