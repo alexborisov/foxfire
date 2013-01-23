@@ -328,7 +328,7 @@ abstract class FOX_pageModule_base {
 			$loader->render();
 		
 		}
-		catch (FOXexception $child) {
+		catch (FOX_exception $child) {
 		    
 			throw new FOX_exception( array(
 				'numeric'=>2,
