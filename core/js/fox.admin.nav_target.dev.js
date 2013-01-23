@@ -1,16 +1,20 @@
 /**
  * FOXFIRE ADMIN PAGE DYNAMIC TABLES JAVASCRIPT FUNCTIONS
- * Adds field manipulation and animation to tables within FoxFire admin pages
+ * Adds field manipulation and animation to tables within Radient admin pages
  *
  * @version 1.0
  * @since 1.0
- * @package FoxFire
+ * @package Radient
  * @subpackage Admin JS
  * @license GPL v2.0
- * @link https://github.com/FoxFire/foxfire
+ * @link http://code.google.com/p/buddypress-media/
  *
  * ========================================================================================================
  */
+
+var viewMode;
+var pageSubmitOK;
+var slugSubmitOK;
 
 var viewMode;
 var pageSubmitOK;
@@ -25,7 +29,7 @@ function fox_pageModules_navTarget(baseName, moduleID){
 //	jQuery('.targetTwo tbody tr').removeClass('alt');
 
 	toggleMode(baseName, moduleID);
-	
+
 	// If the user changes the select box to a different page, check if the page
 	// is available, and update the status box if necessary
 	// =============================================================================
@@ -56,8 +60,8 @@ function fox_pageModules_navTarget(baseName, moduleID){
  * Switches between "page" mode and "slug" mode by toggling the visibility of the page
  * and slug tables, based on the display target selected by the user
  *
- * @version 1.0
- * @since 1.0
+ * @version 0.1.9
+ * @since 0.1.9
  */
 
 function toggleMode(baseName, moduleID){
@@ -66,7 +70,7 @@ function toggleMode(baseName, moduleID){
 	// Show the correct table based on the values the page loads from the db
 	// ============================================================================
 
-	var search = "input[name=" + baseName + "]:checked";
+	var search = "input[name='" + baseName + "']:checked";
 	var currentTargetType = jQuery(search).val();
 
 	if(currentTargetType == "page"){
@@ -94,7 +98,7 @@ function toggleMode(baseName, moduleID){
 
 	jQuery(target).click( function() {
 
-		var search = "input[name=" + baseName + "]:checked";
+		var search = "input[name='" + baseName + "']:checked";
 		var currentTargetType = jQuery(search).val();
 		var previousTargetType = jQuery('.targetOne').attr('target');
 
@@ -161,11 +165,11 @@ function toggleMode(baseName, moduleID){
 
 /**
  * When operating in page mode, checks if the page selected by the user is currently being used
- * as a target by another FoxFire or BuddyPress screen. Based on whether the page is available
+ * as a target by another BP-Media or BuddyPress screen. Based on whether the page is available
  * or not, it adds/removes HTML from the admin page DOM to display the correct page status.
  *
- * @version 1.0
- * @since 1.0
+ * @version 0.1.9
+ * @since 0.1.9
  */
 
 function updatePageStatus(baseName, moduleID){
@@ -204,7 +208,7 @@ function updatePageStatus(baseName, moduleID){
 
 	varName = baseName + "[targetPage]";
 
-	var search = "option[name=" + varName + "]:selected";
+	var search = "option[name='" + varName + "']:selected";
 	var page_id = jQuery(search).val();
 	var status = jQuery('.pageStatus').attr('status');
 
@@ -264,11 +268,11 @@ function updatePageStatus(baseName, moduleID){
 
 /**
  * When operating in slug mode, checks if the slug entered by the user is valid, and if it is currently
- * being used as a target by another FoxFire or BuddyPress screen. Based on whether the slug is available
+ * being used as a target by another BP-Media or BuddyPress screen. Based on whether the slug is available
  * and/or valid, it adds/removes HTML from the admin page DOM to display the correct slug status.
  *
- * @version 1.0
- * @since 1.0
+ * @version 0.1.9
+ * @since 0.1.9
  */
 
 function updateSlugStatus(baseName, moduleID){
@@ -313,11 +317,11 @@ function updateSlugStatus(baseName, moduleID){
 	    html_slugInUse += '</div>';
 	html_slugInUse += '</div>';
 
-	search = "input[name=" + baseName + "]:checked";
+	search = "input[name='" + baseName + "']:checked";
 	targetType = jQuery(search).val();
 
 	varName = baseName + "[targetSlug]";
-	search = "input:text[name=" + varName + "]";
+	search = "input:text[name='" + varName + "']";
 	slugName = jQuery(search).val();
 
 	var status = jQuery('.slugStatus').attr('status');
@@ -416,7 +420,7 @@ function updateSlugStatus(baseName, moduleID){
 
 			toggleSubmitButton();
 		    }
-		    
+
 		});
 
 	}
@@ -427,8 +431,8 @@ function updateSlugStatus(baseName, moduleID){
  * Enables or disables the submit button depending on whether the entered target
  * data passes validation in the browser
  *
- * @version 1.0
- * @since 1.0
+ * @version 0.1.9
+ * @since 0.1.9
  */
 
 function toggleSubmitButton(){
@@ -460,10 +464,10 @@ function toggleSubmitButton(){
 
 /**
  * Checks a slug only contains [a-z], [A-Z], [_-]. Fails on leading and internal spaces,
- * passes on trailing spaces. Matches the behavior of the FOX_sanitize::slug() sanitizer.
+ * passes on trailing spaces. Matches the behavior of the BPM_sanitize::slug() sanitizer.
  *
- * @version 1.0
- * @since 1.0
+ * @version 0.1.9
+ * @since 0.1.9
  *
  * @param slug string | Slug string to test
  * @return bool | True if slug is valid. False if not.
@@ -471,10 +475,14 @@ function toggleSubmitButton(){
 
 function slugIsValid(slug){
 
+	if(!slug){
+	    return false;
+	}
+	
 	var check = slug.replace(/\s+$/, '');
 
 	if( /[^a-zA-Z\d_-]/.test(check) ){
-	    
+
 		return false;
 	}
 	else {

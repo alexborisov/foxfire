@@ -1181,7 +1181,7 @@ final class FOX_nav {
 
 	public function getTargetNodeName($key){
 
-		$key_name = ("foxient" . $this->key_delimiter . "target" . $this->key_delimiter . "key" . $this->key_delimiter . $key);
+		$key_name = ("target" . $this->key_delimiter . "key" . $this->key_delimiter . $key);
 
 		// Add formatted key name to the $keys array
 		$this->print_keys[$key_name] = true;
@@ -1242,7 +1242,7 @@ final class FOX_nav {
 
 	public function getPolicyKeyName($branch, $key){
 
-		$key_name = ("foxient" . $this->key_delimiter . "policy" . $this->key_delimiter . $branch . $this->key_delimiter . $key);
+		$key_name = ("policy" . $this->key_delimiter . $branch . $this->key_delimiter . $key);
 
 		// Add formatted key name to the $keys array
 		$this->print_keys[$key_name] = true;
