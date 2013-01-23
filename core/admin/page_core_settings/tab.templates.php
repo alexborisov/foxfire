@@ -77,7 +77,7 @@ class FOX_tab_templates {
 				<tr>
 				    <th valign="top"><?php _e('Cache mode',"foxfire") ?></th>
 				    <td>
-					<label class="bpa-lockable-field">
+					<label class="fox_lockable_field">
 					    <input type="radio" value="global"
 						<?php echo $locked; ?>
 						<?php $fox->config->printNodeName("foxfire", "cache", "L1", "mode"); ?>
@@ -85,7 +85,7 @@ class FOX_tab_templates {
 						<?php _e('Site wide', "foxfire" ) ?> &nbsp;
 					</label>
 
-					<label class="bpa-lockable-field">
+					<label class="fox_lockable_field">
 					    <input type="radio" value="single"
 						<?php echo $locked; ?>
 						<?php $fox->config->printNodeName("foxfire","cache", "L1", "mode"); ?>
@@ -98,7 +98,7 @@ class FOX_tab_templates {
 				<tr valign="top">
 				    <th align="left"><?php _e('Site mode folder path',"foxfire"); ?></th>
 				    <td>
-					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
+					<input type="text" size="80" class="fox_lockable_field" maxlength="200"
 					       <?php echo $locked; ?>
 					       <?php $fox->config->printNodeName("foxfire","cache", "L1", "siteFolder"); ?>
 					       <?php $fox->config->printNodeVal("foxfire","cache", "L1", "siteFolder"); ?> />
@@ -109,7 +109,7 @@ class FOX_tab_templates {
 				<tr valign="top">
 				    <th align="left"><?php _e('Site mode folder URL',"foxfire"); ?></th>
 				    <td>
-					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
+					<input type="text" size="80" class="fox_lockable_field" maxlength="200"
 					       <?php echo $locked; ?>
 					       <?php $fox->config->printNodeName("foxfire","cache", "L1", "siteURI"); ?>
 					       <?php $fox->config->printNodeVal("foxfire","cache", "L1", "siteURI"); ?> />
@@ -120,7 +120,7 @@ class FOX_tab_templates {
 				<tr valign="top">
 				    <th align="left"><?php _e('Blog mode folder offset',"foxfire"); ?></th>
 				    <td>
-					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
+					<input type="text" size="80" class="fox_lockable_field" maxlength="200"
 					       <?php echo $locked; ?>
 					       <?php $fox->config->printNodeName("foxfire","cache", "L1", "blogFolderOffset"); ?>
 					       <?php $fox->config->printNodeVal("foxfire","cache", "L1", "blogFolderOffset"); ?> />
@@ -131,7 +131,7 @@ class FOX_tab_templates {
 				<tr valign="top">
 				    <th align="left"><?php _e('Blog mode URL offset',"foxfire"); ?></th>
 				    <td>
-					<input type="text" size="80" class="bpa-lockable-field" maxlength="200"
+					<input type="text" size="80" class="fox_lockable_field" maxlength="200"
 					       <?php echo $locked; ?>
 					       <?php $fox->config->printNodeName("foxfire","cache", "L1", "blogURIOffset"); ?>
 					       <?php $fox->config->printNodeVal("foxfire","cache", "L1", "blogURIOffset"); ?> />

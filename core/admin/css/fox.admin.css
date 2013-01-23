@@ -392,7 +392,7 @@ input.fox-button:hover, button.fox-button:hover, a.fox-button:hover {
     background: url(images/lock.png);
 }
 
-.bpa-lockable-field {
+.fox_lockable_field {
     float:left;
 }
 
