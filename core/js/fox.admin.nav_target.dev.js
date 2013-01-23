@@ -179,7 +179,7 @@ function updatePageStatus(baseName, moduleID){
 
 	var html_pageAvailable;
 
-	html_pageAvailable  = '<div class="bppm_pageValidator page_available">';
+	html_pageAvailable  = '<div class="fox_pm_pageValidator page_available">';
 	    html_pageAvailable += '<div class="icon_available"></div>';
 	    html_pageAvailable += '<div class="message_a">';
 		html_pageAvailable += 'This WordPress page is';
@@ -191,7 +191,7 @@ function updatePageStatus(baseName, moduleID){
 
 	var html_pageInUse;
 
-	html_pageInUse  = '<div class="bppm_pageValidator page_inuse">';
+	html_pageInUse  = '<div class="fox_pm_pageValidator page_inuse">';
 	    html_pageInUse += '<div class="icon_inuse"></div>';
 	    html_pageInUse += '<div class="message_a">';
 		html_pageInUse += 'This WordPress page is currently';
@@ -283,7 +283,7 @@ function updateSlugStatus(baseName, moduleID){
 
 	var html_slugValid;
 
-	html_slugValid  = '<div class="bppm_pageValidator slug_valid">';
+	html_slugValid  = '<div class="fox_pm_pageValidator slug_valid">';
 	    html_slugValid += '<div class="icon_available"></div>';
 	    html_slugValid += '<div class="message_a">';
 		html_slugValid += 'This slug is valid and';
@@ -295,7 +295,7 @@ function updateSlugStatus(baseName, moduleID){
 
 	var html_slugFail;
 
-	html_slugFail  = '<div class="bppm_pageValidator slug_fail">';
+	html_slugFail  = '<div class="fox_pm_pageValidator slug_fail">';
 	    html_slugFail += '<div class="icon_fail"></div>';
 	    html_slugFail += '<div class="message_a">';
 		html_slugFail += 'This is not a valid';
@@ -307,7 +307,7 @@ function updateSlugStatus(baseName, moduleID){
 
 	var html_slugInUse;
 
-	html_slugInUse  = '<div class="bppm_pageValidator slug_inuse">';
+	html_slugInUse  = '<div class="fox_pm_pageValidator slug_inuse">';
 	    html_slugInUse += '<div class="icon_inuse"></div>';
 	    html_slugInUse += '<div class="message_a">';
 		html_slugInUse += 'This slug is valid but is being';
