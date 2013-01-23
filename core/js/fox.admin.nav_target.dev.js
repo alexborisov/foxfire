@@ -16,7 +16,7 @@ var viewMode;
 var pageSubmitOK;
 var slugSubmitOK;
 
-function fox_pageModules_navTarget(baseName, moduleID){ 
+function fox_pageModules_navTarget(moduleID){ 
 
 	// Remove row-striping from the target tables (the row-striping
 	// function doesn't ignore hidden objects)
@@ -24,17 +24,17 @@ function fox_pageModules_navTarget(baseName, moduleID){
 //	jQuery('.targetThree tbody tr').removeClass('alt');
 //	jQuery('.targetTwo tbody tr').removeClass('alt');
 
-	toggleMode(baseName, moduleID);
+	toggleMode(moduleID);
 
 	// If the user changes the select box to a different page, check if the page
 	// is available, and update the status box if necessary
 	// =============================================================================
 
-	updatePageStatus(baseName, moduleID);
+	updatePageStatus(moduleID);
 
 	jQuery('.pageSelectBox').change( function() {
 
-		updatePageStatus(baseName, moduleID);
+		updatePageStatus(moduleID);
 	});
 
 
@@ -42,11 +42,11 @@ function fox_pageModules_navTarget(baseName, moduleID){
 	// and/or in use, and update the status box if necessary
 	// =============================================================================
 
-	updateSlugStatus(baseName, moduleID);
+	updateSlugStatus(moduleID);
 
 	jQuery('.slugField').change( function() {
 
-		updateSlugStatus(baseName, moduleID);
+		updateSlugStatus(moduleID);
 	});
 
 }
@@ -60,7 +60,7 @@ function fox_pageModules_navTarget(baseName, moduleID){
  * @since 0.1.9
  */
 
-function toggleMode(baseName, moduleID){
+function toggleMode(moduleID){
 
 
 	// Show the correct table based on the values the page loads from the db
@@ -144,7 +144,7 @@ function toggleMode(baseName, moduleID){
 				jQuery('.targetThree').show();
 				jQuery('.targetOne').attr('target', currentTargetType);
 
-				updateSlugStatus(baseName, moduleID);
+				updateSlugStatus(moduleID);
 
 				viewMode = "slug";
 			}
@@ -168,7 +168,7 @@ function toggleMode(baseName, moduleID){
  * @since 0.1.9
  */
 
-function updatePageStatus(baseName, moduleID){
+function updatePageStatus(){
 
 	// Declaring blocks of HTML one div per line and reassembling with the += operator
 	// makes them much easier to read and update
@@ -203,8 +203,6 @@ function updatePageStatus(baseName, moduleID){
 	// =============================================================================
 
 	var page_id = jQuery("select[name='target^key^page_id']").find(':selected').val();
-
-	var status = jQuery('.pageStatus').attr('status');
 
 	jQuery.ajax({
 
@@ -272,7 +270,7 @@ function updatePageStatus(baseName, moduleID){
  * @since 0.1.9
  */
 
-function updateSlugStatus(baseName, moduleID){
+function updateSlugStatus(moduleID){
 
 
 	// Declaring blocks of HTML one div per line and reassembling with the += operator
