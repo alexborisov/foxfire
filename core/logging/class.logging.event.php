@@ -233,24 +233,42 @@ class FOX_log_event extends FOX_db_base {
 		// array used to convert from dictionary to number
 		$dic_col = array("tree"=>$this->dict_tree, "branch"=>$this->dict_branch, "node"=>$this->dict_node);
 
+		// array used to catch greater then or less than operations on dictionary columns
+		$invalid_dict_ops = array("<", "<=", ">", ">=");
+		
+		
 		$delete_dic = array();
 
 		$processed_args = array();
 
-		// Process args incase dic entries are used instead of numbers
+		// Process args incase dictionary entries are used instead of numbers
 		foreach($args as $arg){
 
-			// check dic columns
+			// check if argument column is a dictionary column
 			if( in_array($arg["col"],array_keys( $dic_col ) ) ){
+			    
+				// Check if Invalid drop argument. less or greater than not allowed on dictionary columns
+				if( in_array( $arg["op"], $invalid_dict_ops ) ){
 
-				// if val is string or array of strings
+					    throw new FOX_exception(array(
+						    'numeric'=>2,
+						    'text'=>"Invalid drop argument. greater or less than not allowed on dictionary columns \n",
+						    'data'=> $arg,
+						    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						    'child'=>null
+					    ));
+
+					    return false;
+				} 
+				
+				// check if val is string or array of strings
 				if( is_string($arg["val"]) || (is_array($arg["val"]) && is_string($arg["val"][0])) ){
 
-					// if  op is equal add to delete dic array
+					// if op is equal add to delete dic array
 					if($arg["op"]=="="){
 
 						$delete_dic[$arg["col"]] = $arg["val"];
-					}
+					} 
 					if( is_string($arg["val"])){
 
 						try{
@@ -259,7 +277,7 @@ class FOX_log_event extends FOX_db_base {
 						catch(FOX_exception $child){
 						    
 							throw new FOX_exception(array(
-								'numeric'=>2,
+								'numeric'=>3,
 								'text'=>"Error converting token to id \n",
 								'data'=> $args,
 								'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -283,7 +301,7 @@ class FOX_log_event extends FOX_db_base {
 							catch(FOX_exception $child){
 
 								throw new FOX_exception(array(
-									'numeric'=>3,
+									'numeric'=>4,
 									'text'=>"Error converting token to id \n",
 									'data'=> array('source'=>$val, 'args'=>$args),
 									'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -298,44 +316,10 @@ class FOX_log_event extends FOX_db_base {
 						$arg["val"] = $vals;
 
 					}
-//					$dic = null;
-//
-//					if($arg["col"]== "tree") {
-//
-//						$dic = $this->dict_tree;
-//					}
-//					elseif($arg["col"]== "branch") {
-//
-//						$dic = $this->dict_branch;
-//					}
-//					else {
-//
-//						$dic = $this->dict_node;
-//					}
-//
-//					if( is_string($arg["val"])) {
-//
-//						$arg["val"] = $dic->getToken($arg["val"]);
-//
-//					}
-//					else {
-//
-//						$vals = array();
-//
-//						foreach($arg["val"] as $val) {
-//
-//							$val = $dic->getToken($val);
-//							$vals[] = $val;
-//						}
-//
-//						$arg["val"] = $vals;
-//
-//					}
-
 				}
 			}
 
-		    $processed_args[] = $arg;
+			$processed_args[] = $arg;
 		}
 
 		$db = new FOX_db();
@@ -345,7 +329,7 @@ class FOX_log_event extends FOX_db_base {
 		catch(FOX_exception $child){
 
 			throw new FOX_exception(array(
-				'numeric'=>4,
+				'numeric'=>5,
 				'text'=>"Error deleting DB rows \n",
 				'data'=> array('processed_args'=>$processed_args),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -367,8 +351,8 @@ class FOX_log_event extends FOX_db_base {
 				catch(FOX_exception $child){
 
 					throw new FOX_exception(array(
-						'numeric'=>5,
-						'text'=>"Error deleting cache entries \n",
+						'numeric'=>6,
+						'text'=>"Error deleting cache token entries \n",
 						'data'=> array('delete_dic'=>$delete_dic),
 						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 						'child'=>$child
@@ -564,12 +548,12 @@ class FOX_log_event extends FOX_db_base {
 	 *	=> VAL @param string $key_col | Column name to get key names from when using $format="key" or $format="asc"
 	 *	=> VAL @param string $asc_col | Column name to use as value when using $format="asc"
 	 *
-	 * @param bool $return_words | True to use dictionary and return words for tree, branch and node
+	 * @param bool $return_tokens | True to use dictionary and return words for tree, branch and node
 	 *
          * @return bool/int/array | False on failure. Int on count. Array of rows on success.
          */
 
-	public function query($args=null, $columns=null, $ctrl=null, $return_words=true){
+	public function query($args=null, $columns=null, $ctrl=null, $return_tokens=true){
 
 		if( !isset($ctrl) ){
 		    $ctrl = array();
@@ -592,7 +576,8 @@ class FOX_log_event extends FOX_db_base {
 
 					// if val is string or array of strings
 					if( !is_numeric($arg["val"]) || (is_array($arg["val"]) && !is_numeric($arg["val"][0])) ){
-
+						
+						// if val is string or array of strings then add to join_args and don't add to processed_args
 						$join_args[$arg['col']][] = $args;
 						continue;
 					}
@@ -607,7 +592,7 @@ class FOX_log_event extends FOX_db_base {
 		// Check if need to use runSelectLeftJoin
 		$num_join_args = count($join_args['tree']) + count($join_args['branch']) + count($join_args['node']);
 
-		if($return_words || $num_join_args>0){
+		if($return_tokens || $num_join_args>0){
 
 		    	if(!isset($ctrl['group'])){
 
@@ -625,7 +610,7 @@ class FOX_log_event extends FOX_db_base {
 
 			if( is_null($columns)){
 
-				if ($return_words){
+				if ($return_tokens){
 					$columns = array(
 						array("table_alias"=>"t1", "col_name"=>"id", "col_alias"=>"id"),
 						array("table_alias"=>"t2", "col_name"=>"token", "col_alias"=>"tree"),
@@ -690,8 +675,21 @@ class FOX_log_event extends FOX_db_base {
 				}
 			}
 
-			$result = $db->runSelectQuery(self::$struct, $processed_args, $select_columns, $ctrl);
-			
+			try{
+				$result = $db->runSelectQuery(self::$struct, $processed_args, $select_columns, $ctrl);
+			}
+			catch(FOX_exception $child){
+
+				throw new FOX_exception(array(
+					'numeric'=>4,
+					'text'=>"Error reading from DB \n",
+					'data'=> array('primary'=>$primary, 'join'=>$join, 'columns'=>$columns, 'ctrl'=>$ctrl),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));
+
+				return false;
+			}			
 		}
 		
 

@@ -185,6 +185,9 @@ class FOX_testPlan extends RAZ_testPlan_base {
 //				array( "enable"=>false,  "name"=>"User Settings", "mock"=>array(), "file"=>"/tests/store/test_user.data.php" ),
 //			),
 
+			"logging" => array(
+				array( "enable"=>true,  "name"=>"Logging Event", "mock"=>array(), "file"=>"/tests/logging/test_class.logging.event.php" ),
+			),		    
 		);
 
 	}
