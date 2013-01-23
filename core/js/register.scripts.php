@@ -41,8 +41,8 @@ class FOX_registerScripts {
 		    wp_register_script('fox-jquery-ui-tabs', FOX_URL_LIB .'/jquery/ui/jquery.ui.tabs.js');
 		    wp_register_script('fox-jquery-ui-widget', FOX_URL_LIB .'/jquery/ui/jquery.ui.widget.js');
 
-		    wp_register_script('fox-jquery-effects-core', FOX_URL_LIB .'/jquery/ui/jquery.effects.core.js');
-		    wp_register_script('fox-jquery-effects-fade', FOX_URL_LIB .'/jquery/ui/jquery.effects.fade.js');
+		    wp_register_script('fox-jquery-effects-core', FOX_URL_LIB .'/jquery/ui/jquery.ui.effect.js');
+		    wp_register_script('fox-jquery-effects-fade', FOX_URL_LIB .'/jquery/ui/jquery.ui.effect-fade.js');		    		    
 
 	}
 
