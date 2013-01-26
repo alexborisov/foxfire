@@ -141,7 +141,7 @@ final class FOX_nav {
 
 		}
 		else {
-			$result = null;
+			$result = false;
 		}
 
 		return $result;

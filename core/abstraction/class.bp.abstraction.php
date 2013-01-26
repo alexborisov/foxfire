@@ -327,7 +327,7 @@ class FOX_bp {
 
 	public function getSlugOwner($location, $slug) {
 
-		global $wpdb, $bp, $fox;
+		global $bp, $fox;
 
 		$location = strtolower($location);
 		$slug = strtolower($slug);
@@ -408,8 +408,19 @@ class FOX_bp {
 			// ===================================================
 			else {
 
-				$fox_slug_data = $fox->navigation->getSlugOwner($location, $slug, $slug_error);
+				try {
+					$fox_slug_data = $fox->navigation->getSlugOwner($location, $slug);
+				}
+				catch (FOXexception $child) {
 
+					throw new FOX_exception( array(
+						'numeric'=>1,
+						'text'=>"Error checking slug owner",
+						'data'=> array('location'=>$location, 'slug'=>$slug),
+						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+						'child'=>$child
+					));		    
+				}				
 
 				// FoxFire owns the slug
 				// ====================================
@@ -436,17 +447,27 @@ class FOX_bp {
 						"component_name"=>null,
 					);
 				}
-			}
-
-			return $result;
+			}			
 
 		}
 
 		// CASE 2: Checking on FoxFire tab
 		// ==============================================
 		else {
+			
+			try {
+				$fox_slug_data = $fox->navigation->getSlugOwner($location, $slug);
+			}
+			catch (FOXexception $child) {
 
-			$fox_slug_data = $fox->navigation->getSlugOwner($location, $slug);
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Error checking slug owner",
+					'data'=> array('location'=>$location, 'slug'=>$slug),
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>$child
+				));		    
+			}			
 
 			// FoxFire owns the slug
 			// ====================================
@@ -458,10 +479,10 @@ class FOX_bp {
 				$result["component_name"] = $fox_slug_data["module_name"];
 			}
 
-			return $result;
 		}
-
-
+		
+		//FOX_debug::printToFile($result);
+		return $result;
 
 
 	}

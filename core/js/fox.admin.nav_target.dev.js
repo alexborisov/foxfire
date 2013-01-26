@@ -360,9 +360,9 @@ function updateSlugStatus(moduleID){
 			// the bottom of the code block, skipping the toggleSubmitButton() call
 			
 			jQuery(this).css('cursor','default'); 
-
-			if( response.exists === false ){
-
+console.log(response);
+			if( response.exists == false ){
+alert("hit");
 				slugSubmitOK = true;
 
 				if(status != "valid"){
