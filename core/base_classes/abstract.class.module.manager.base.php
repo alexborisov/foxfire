@@ -603,8 +603,6 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 			));
 		}
 
-		$db = new FOX_db();
-
 		$args = array();
 
 		if( $data["module_id"]){
@@ -627,7 +625,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		$columns = null;
 
 		try {
-			$db_result = $db->runSelectQuery($this->_struct(), $args, $columns, $ctrl);
+			$db_result = $this->db->runSelectQuery($this->_struct(), $args, $columns, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -733,8 +731,6 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 			));
 		}
 
-		$db = new FOX_db();
-
 		// Note that because we're adding a *new* item to the datastore, we don't need
 		// to lock the cache. There are no entries in the cache to become out of sync
 		// with the db in the event of a failure.
@@ -743,7 +739,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		$ctrl = null;
 
 		try {
-			$insert_id = $db->runInsertQueryMulti($this->_struct(), $data, $columns, $ctrl);
+			$insert_id = $this->db->runInsertQueryMulti($this->_struct(), $data, $columns, $ctrl);
 		}
 		catch (FOX_exception $child) {
 
@@ -1435,8 +1431,6 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 			));
 		}
 
-		$db = new FOX_db();
-
 		if( empty($slugs) ){
 
 			throw new FOX_exception( array(
@@ -1494,7 +1488,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		$columns = array("mode"=>"include", "col"=>"active");
 
 		try {
-			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
+			$rows_changed = $this->db->runUpdateQuery($this->_struct(), $data, $args, $columns);
 		}
 		catch (FOX_exception $child) {
 
@@ -1525,7 +1519,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 			}
 
 		}
-		unset($slug, $module_id);
+		unset($slug);
 
 
 		try {
@@ -1570,8 +1564,6 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-
-		$db = new FOX_db();
 
 		if( empty($module_ids) ){
 
@@ -1629,7 +1621,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		$columns = array("mode"=>"include", "col"=>"active");
 
 		try {
-			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
+			$rows_changed = $this->db->runUpdateQuery($this->_struct(), $data, $args, $columns);
 		}
 		catch (FOX_exception $child) {
 
@@ -1702,8 +1694,6 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 			));
 		}
 
-		$db = new FOX_db();
-
 		if( empty($slugs) ){
 
 			throw new FOX_exception( array(
@@ -1760,7 +1750,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		$columns = array("mode"=>"include", "col"=>"active");
 
 		try {
-			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
+			$rows_changed = $this->db->runUpdateQuery($this->_struct(), $data, $args, $columns);
 		}
 		catch (FOX_exception $child) {
 
@@ -1790,7 +1780,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 			}
 
 		}
-		unset($slug, $module_id);
+		unset($slug);
 
 		try {
 			self::saveCache();
@@ -1834,8 +1824,6 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-
-		$db = new FOX_db();
 
 		if( empty($module_ids) ){
 
@@ -1893,7 +1881,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		$columns = array("mode"=>"include", "col"=>"active");
 
 		try {
-			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
+			$rows_changed = $this->db->runUpdateQuery($this->_struct(), $data, $args, $columns);
 		}
 		catch (FOX_exception $child) {
 
@@ -1965,8 +1953,6 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-
-		$db = new FOX_db();
 
 		if( empty($module_ids) ){
 
@@ -2055,7 +2041,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		);
 
 		try {
-			$rows_changed = $db->runDeleteQuery($this->_struct(), $args);
+			$rows_changed = $this->db->runDeleteQuery($this->_struct(), $args);
 		}
 		catch (FOX_exception $child) {
 
@@ -2096,8 +2082,6 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-
-		$db = new FOX_db();
 
 		if( empty($slugs) ){
 
@@ -2187,7 +2171,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		);
 
 		try {
-			$rows_changed = $db->runDeleteQuery($this->_struct(), $args);
+			$rows_changed = $this->db->runDeleteQuery($this->_struct(), $args);
 		}
 		catch (FOX_exception $child) {
 
@@ -2260,13 +2244,12 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		// no template files for them in the default theme.
 
 		else {
-
 			$located_template = $plugin_path . '/modules/' . $type . '/' . $slug . '/templates/config.xml';
 		}
 
 
 		$template_name = 'modules/' . $type . '/' . $slug . '/config.xml';
-		$located_template = locate_template($template_name, $load=false, $require_once=true );		
+		$located_template = locate_template($template_name, $load=false, true);		
 
 		if(!$located_template){
 
