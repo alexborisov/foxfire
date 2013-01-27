@@ -371,8 +371,8 @@
 		if(!$unit_test){
 		    
 			$result =  __METHOD__ . " called with bad or missing slug. ";
-			$result .= "Error: " . $child->data['data']['error'];			
-			echo $result;
+			$result .= "Error: " . $child->data['data']['error'];	
+			echo json_encode($result);
 			die;
 		}
 		else {
@@ -389,9 +389,9 @@
 		if(!$unit_test){
 		    
 			$result =  __METHOD__ . " called with bad or missing location. ";
-			$result .= "Error: " . $child->data['data']['error'];			
-			echo $result;
-			die;
+			$result .= "Error: " . $child->data['data']['error'];	
+			echo json_encode($result);
+			die;			
 		}
 		else {
 			return false;
@@ -400,7 +400,7 @@
 
 	$cls = new FOX_bp();
 	$page_data = $cls->getSlugOwner($location, $slug);
-
+	
 	$result = json_encode($page_data);
 
 

@@ -327,6 +327,29 @@ class FOX_bp {
 
 	public function getSlugOwner($location, $slug) {
 
+	    
+		if( ($location != 'tab') && ($location != 'profile') ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Invalid module location",
+				'data'=> array('location'=>$location, 'slug'=>$slug),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+				
+		if( empty($slug) ){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Invalid slug name",
+				'data'=> array('location'=>$location, 'slug'=>$slug),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}		
+					
 		global $bp, $fox;
 
 		$location = strtolower($location);
@@ -477,6 +500,10 @@ class FOX_bp {
 				$result["slug"] = $slug;
 				$result["plugin_name"] = __('FoxFire',"foxfire");
 				$result["component_name"] = $fox_slug_data["module_name"];
+				$result["module_id"] = $fox_slug_data["module_id"];				
+			}
+			else {
+				$result["exists"] = false;			    			    			    
 			}
 
 		}
