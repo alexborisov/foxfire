@@ -354,7 +354,15 @@ else {
 
 		if( current_user_can('install_plugins') ) {
 
-			$installed = $fox->config->getNodeVal('foxfire', "system", "core", "installed");
+			try {
+				$installed = $fox->config->getNodeVal('foxfire', "system", "core", "installed");
+			}
+			catch (FOX_exception $child) {
+
+				// If the plugin's config class database table doesn't exist, the 
+				// config class will throw an exception
+			}		    
+			
 
 			if(!$installed && !$razor){
 
