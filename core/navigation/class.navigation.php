@@ -16,6 +16,7 @@
 
 final class FOX_nav {
 
+    
 	var $config_class;		    // System config class
 
 	var $page_modules_class;	    // Page modules class instance
@@ -61,8 +62,7 @@ final class FOX_nav {
 			$this->group_keys_class = new FOX_uGroupType();
 			$this->system_keys_class = new FOX_sysKey();
 			$this->user_class = &$fox->user;
-		}
-		
+		}		
 
 	}
 
@@ -244,21 +244,12 @@ final class FOX_nav {
 				$pages[$data["php_class"]] = $page_id;
 
 				// Load the page module's class tree
-				try {
+				try {				   
 				    
-					throw new FOX_exception( array(
-						'numeric'=>0,
-						'text'=>"This algorithm is broken. See comments in the source code.",
-						'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-						'child'=>$child
-					));
+					$plugin_path = WP_PLUGIN_DIR . "/" . $page_module_data[$data["php_class"]]["plugin"] . "/modules/page/";
+					$module_slug = $page_module_data[$data["php_class"]]["slug"];
 					
-					//$this->page_modules_class->loadModule($page_module_data[$data["php_class"]]["slug"]);
-					
-					// This algorithm needs to be modified so that the path to the page module is stored
-					// in abstract.class.module.manager.[X].base.php - otherwise there's no way to load
-					// page modules for multiple plugins.
-					
+					$this->page_modules_class->loadModule($plugin_path, $module_slug);										
 				}
 				catch (FOX_exception $child) {
 
@@ -443,9 +434,7 @@ final class FOX_nav {
 					
 					//$this->page_modules_class->loadModule($page_module_id);
 					
-					// This algorithm needs to be modified so that the path to the page module is stored
-					// in abstract.class.module.manager.[X].base.php - otherwise there's no way to load
-					// page modules for multiple plugins.
+					// See injectSite() for updated example
 														
 				}
 				catch (FOX_exception $child) {

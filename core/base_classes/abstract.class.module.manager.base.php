@@ -1019,10 +1019,16 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 			));
 
 		}
-		elseif( !is_array($module_id) ){
+		
+		
+		if( !is_array($module_id) ){
 
 			// Handle single string as input
 			$module_id = array($module_id);
+			$single = true;
+		}
+		else {		    
+			$single = false;
 		}
 
 		// Build a list of all module_ids that are not in the cache
@@ -1088,14 +1094,10 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				));
 			}
 
-
 		}
 
-		// If only one module_id was requested, just return the contents of its db row. If
-		// multiple module_ids were requested, return them as a set of arrays keyed by module_id
-		// =======================================================================================
 
-		if( count($module_id) == 1){
+		if($single){
 
 			$result =  FOX_sUtil::keyVal($module_id[0], $this->cache["module_id"]);
 		}
@@ -1151,12 +1153,16 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-		elseif( !is_array($php_class) ){
-			// Handle single string input
+		
+		if( !is_array($php_class) ){
+
 			$php_class = array($php_class);
+			$single = true;
 		}
-
-
+		else {
+			$single = false;
+		}
+		
 		// Build a list of all classes that are not in the cache
 		// ========================================================
 		$missing_classes = array();
@@ -1222,13 +1228,8 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 
 		}
 
-		// If only one module_id was requested, just return the contents of its db row. If
-		// multiple module_ids were requested, return them as a set of arrays keyed by module_id
-		// =======================================================================================
+		if($single){
 
-		if( count($php_class) == 1){
-
-			// Check if the php_class exists in the php_class dictionary
 			if( FOX_sUtil::keyExists($php_class[0], $this->cache["php_class"]) ){
 
 				$module_id = $this->cache["php_class"][$php_class[0]];
@@ -1297,9 +1298,14 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-		elseif( !is_array($slug) ){
-			// Handle single string input
+		
+		if( !is_array($slug) ){
+
 			$slug = array($slug);
+			$single = true;
+		}
+		else {
+			$single = false;
 		}
 
 
@@ -1367,12 +1373,8 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		}
 
 
-		// If only one module_id was requested, just return the contents of its db row. If
-		// multiple module_ids were requested, return them as a set of arrays keyed by module_id
-		// =======================================================================================
-		if( count($slug) == 1){
+		if($single){
 
-			// Check if the slug_name exists in the slug dictionary
 			if( FOX_sUtil::keyExists($slug[0], $this->cache["slug"]) ){
 
 				$module_id = $this->cache["slug"][$slug[0]];
@@ -1441,9 +1443,9 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-		elseif( !is_array($slugs) ){
+		
+		if( !is_array($slugs) ){
 
-			// Handle single string input
 			$slugs = array($slugs);
 		}
 
@@ -1575,9 +1577,9 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-		elseif( !is_array($module_ids) ){
+		
+		if( !is_array($module_ids) ){
 
-			// Handle single string input
 			$module_ids = array($module_ids);
 		}
 
@@ -1704,9 +1706,10 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-		elseif( !is_array($slugs) ){
+		
+		
+		if( !is_array($slugs) ){
 
-			// Handle single string input
 			$slugs = array($slugs);
 		}
 
@@ -1835,9 +1838,9 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-		elseif( !is_array($module_ids) ){
+		
+		if( !is_array($module_ids) ){
 
-			// Handle single string as input
 			$module_ids = array($module_ids);
 		}
 
@@ -1964,9 +1967,9 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'child'=>null
 			));
 		}
-		elseif( !is_array($module_ids) ){
+		
+		if( !is_array($module_ids) ){
 
-			// Handle single string as input
 			$module_ids = array($module_ids);
 		}
 
@@ -2092,10 +2095,10 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
 			));
-		}
-		elseif( !is_array($slugs) ){
+		}		
+		
+		if( !is_array($slugs) ){
 
-			// Handle single string as input
 			$slugs = array($slugs);
 		}
 
@@ -2246,7 +2249,6 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 		else {
 			$located_template = $plugin_path . '/modules/' . $type . '/' . $slug . '/templates/config.xml';
 		}
-
 
 		$template_name = 'modules/' . $type . '/' . $slug . '/config.xml';
 		$located_template = locate_template($template_name, $load=false, true);		
