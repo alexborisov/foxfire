@@ -161,7 +161,7 @@ function toggleMode(moduleID){
 
 /**
  * When operating in page mode, checks if the page selected by the user is currently being used
- * as a target by another BP-Media or BuddyPress screen. Based on whether the page is available
+ * as a target by another Radient or BuddyPress screen. Based on whether the page is available
  * or not, it adds/removes HTML from the admin page DOM to display the correct page status.
  *
  * @version 0.1.9
@@ -263,7 +263,7 @@ function updatePageStatus(){
 
 /**
  * When operating in slug mode, checks if the slug entered by the user is valid, and if it is currently
- * being used as a target by another BP-Media or BuddyPress screen. Based on whether the slug is available
+ * being used as a target by another Radient or BuddyPress screen. Based on whether the slug is available
  * and/or valid, it adds/removes HTML from the admin page DOM to display the correct slug status.
  *
  * @version 0.1.9
@@ -360,7 +360,7 @@ function updateSlugStatus(moduleID){
 			// the bottom of the code block, skipping the toggleSubmitButton() call
 			
 			jQuery(this).css('cursor','default'); 
-console.log(response); 
+ 
 			if( response.exists == false ){
 
 				slugSubmitOK = true;
@@ -394,6 +394,7 @@ console.log(response);
 					// Clear any existing HTML inside the status box
 					jQuery('.slug_inuse').remove();
 					jQuery('.slug_fail').remove();
+					jQuery('.slug_valid').remove();					
 				}
 			}
 			else {
