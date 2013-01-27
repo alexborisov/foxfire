@@ -1,8 +1,8 @@
 <?php
 
 /**
- * FOXFIRE PRIVATE MODULE MANAGER BASE CLASS
- * Handles registration and configuration for modules that are only used within a single plugin
+ * FOXFIRE PUBLIC MODULE MANAGER BASE CLASS
+ * Handles registration and configuration for modules that are used across multiple plugins
  *
  * @version 1.0
  * @since 1.0
@@ -14,7 +14,7 @@
  * ========================================================================================================
  */
 
-abstract class FOX_moduleManager_private_base extends FOX_db_base {
+abstract class FOX_moduleManager_public_base extends FOX_db_base {
 
 
     	var $process_id;		    // Unique process id for this thread. Used by FOX_db_base for cache
@@ -39,7 +39,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	var $thumbs = array();		    // Array of thumbnail configuration data (or default values if not supplied
 					    // by template)
 
-	
+
 	/* ================================================================================================================
 	 *	Cache Strategy: "monolithic"
 	 *
@@ -47,6 +47,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 *
  	 *	    => ARR array $module_id | Main datastore
 	 *		=> ARR int '' | Array index
+	 *		    => VAL string $plugin | The plugin's slug
 	 *		    => VAL string $slug | The module's slug
 	 *		    => VAL string $name | The module's name
 	 *		    => VAL string $php_class | The module's PHP class
@@ -274,6 +275,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 *
+	 * @param string $plugin | Plugin folder name. "wp-content/plugins/NAME"	 
 	 * @param string $slug | Module slug name. Max 16 characters. Must be unique.
 	 * @param string $name | Module name. Max 32 characters.
 	 * @param string $php_class | Module PHP class. Max 255 characters. Must be unique.
@@ -282,7 +284,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 * @return int | Exception on failure. Module id on success.
 	 */
 
-	public function register($slug, $name, $php_class, $active=false) {
+	public function register($plugin, $slug, $name, $php_class, $active=false) {
 
 
 		if(!$this->init){
@@ -311,7 +313,8 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>1,
 				'text'=>"Error checking slug name",
-				'data'=> array('slug'=>$slug, 'name'=>$name, 'php_class'=>$php_class, 'active'=>$active),
+				'data'=> array(	'plugin'=>$plugin, 'slug'=>$slug, 'name'=>$name, 
+						'php_class'=>$php_class, 'active'=>$active),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));
@@ -328,7 +331,8 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>"Error checking class name",
-				'data'=> array('slug'=>$slug, 'name'=>$name, 'php_class'=>$php_class, 'active'=>$active),
+				'data'=> array(	'plugin'=>$plugin, 'slug'=>$slug, 'name'=>$name, 
+						'php_class'=>$php_class, 'active'=>$active),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
 			));
@@ -340,14 +344,15 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 		if( !$slug_exists && !$class_exists ){
 
 			try {
-				$module_id = self::add($slug, $name, $php_class, $active);
+				$module_id = self::add($plugin, $slug, $name, $php_class, $active);
 			}
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
 					'numeric'=>3,
 					'text'=>"Error adding module to database",
-					'data'=> array('slug'=>$slug, 'name'=>$name, 'php_class'=>$php_class, 'active'=>$active),
+					'data'=> array(	'plugin'=>$plugin, 'slug'=>$slug, 'name'=>$name, 
+							'php_class'=>$php_class, 'active'=>$active),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
 				));
@@ -802,6 +807,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 * @version 1.0
 	 * @since 1.0
 	 *
+	 * @param string $plugin | Plugin folder name. "wp-content/plugins/NAME"	 
 	 * @param string $slug | Machine slug for the module. [a-z AZ 09 _-] only. Max 16 chars.
 	 * @param string $name | Human readable name of the module. Max 128 chars
 	 * @param string $php_class | PHP class for the module.
@@ -810,7 +816,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 * @return bool | Exception on failure. Id of new row on success.
 	 */
 
-	public function add($slug, $name, $php_class, $active=false){
+	public function add($plugin, $slug, $name, $php_class, $active=false){
 
 
 		if(!$this->init){
@@ -823,7 +829,12 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 			));
 		}
 		
-		$data = array( array( "slug"=>$slug, "name"=>$name, "php_class"=>$php_class, "active"=>$active) );
+		$data = array( array(	"plugin"=>$plugin, 
+					"slug"=>$slug, 
+					"name"=>$name, 
+					"php_class"=>$php_class, 
+					"active"=>$active) 
+		);
 
 		try {
 			$result = self::addMulti($data);
@@ -852,6 +863,7 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 	 *
 	 * @param array $data | Array of modules to add
 	 *	=> ARR @param int '' | Array index
+	 *	    => VAL @param string $plugin | Plugin folder name. "wp-content/plugins/NAME"
 	 *	    => VAL @param string $slug | The module's slug
 	 *	    => VAL @param string $name | The module's name
 	 *	    => VAL @param string $php_class | The module's PHP class
@@ -1522,7 +1534,6 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 			else {
 				$result = null;
 			}
-
 		}
 		else {
 			$result = array();
@@ -1546,187 +1557,6 @@ abstract class FOX_moduleManager_private_base extends FOX_db_base {
 		}
 
 		return $result;
-
-	}
-
-
-	/**
-	 * Edits a module that already exists on the system.
-	 *
-	 * @version 1.0
-	 * @since 1.0
-	 *
-	 * @param array $data |
-	 *	=> VAL @param int $module_id | The id of the module
-	 *	=> VAL @param string $slug | Machine slug for the module. [a-z AZ 09 _-] only. Max 16 chars.
-	 *	=> VAL @param string $name | Human readable name of the module. Max 128 chars
-	 *	=> VAL @param bool $active | True if this module is active False if not.
-	 *	=> VAL @param string $php_class | PHP class for the module.
-	 *
-	 * @param bool $unit_test | Unit testing flag. Set true to stop function from throwing errors.
-	 *
-	 * @return int | Exception on failure. Number of db rows changed on success.
-	 */
-
-	public function edit($data) {
-
-
-		if(!$this->init){
-
-			throw new FOX_exception( array(
-				'numeric'=>0,
-				'text'=>"Descendent class must call init() before using class methods",
-				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-				'child'=>null
-			));
-		}
-		
-		$db = new FOX_db();
-
-		if( empty($data["module_id"]) ){
-
-			throw new FOX_exception( array(
-				'numeric'=>1,
-				'text'=>"Missing module_id",
-				'data'=>$data,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>null
-			));
-		}
-
-		$data["module_id"] = (int)$data["module_id"];
-
-
-		// Get the module's current db entry (required during cache update)
-		// =================================================================
-
-		$args = array(
-				array("col"=>"module_id", "op"=>"=", "val"=>$data["module_id"] ),
-		);
-		$ctrl = array("format"=>"row_array");
-
-		try {
-			$previous = $db->runSelectQuery($this->_struct(), $args, $columns=null, $ctrl);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>2,
-				'text'=>"Error reading from database",
-				'data'=> array('args'=>$args, 'ctrl'=>$ctrl),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		// Lock the current cache namespace
-		// =================================================================
-
-		try {
-			self::lockCache($this->process_id, 5);
-		}
-		catch (FOX_exception $child) {
-
-			if($child->getNumeric() == 4){
-
-				// In the future we'll handle this gracefully, but to simplify
-				// testing, we currently just throw an exception
-
-				throw new FOX_exception( array(
-					'numeric'=>3,
-					'text'=>"Another thread had exclusive use of the cache namespace",
-					'data'=> array('lock_info'=>$child->data),
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>null
-				));
-
-			}
-			else {
-				throw new FOX_exception( array(
-					'numeric'=>4,
-					'text'=>"Error locking persitent cache",
-					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-					'child'=>$child
-				));
-			}
-		}
-
-		// Run the query
-		// =================================================================
-
-		$args = array(
-				array("col"=>"module_id", "op"=>"=", "val"=>$data["module_id"] ),
-		);
-		$columns = array("mode"=>"exclude", "col"=>array("module_id") );
-
-		try {
-			$rows_changed = $db->runUpdateQuery($this->_struct(), $data, $args, $columns);
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>5,
-				'text'=>"Error writing to database",
-				'data'=> array('data'=>$data, 'args'=>$args, 'columns'=>$columns),
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		// Rebuild the class cache if necessary
-		// =============================================================
-
-		// Fill in any fields missing from the $data array with the values that are currently in the db
-		$data = wp_parse_args($data, $previous);
-
-		// Update main datastore
-		$this->cache["module_id"][$data["module_id"]] = $data;
-
-		// Update php_class dictionary
-		if($previous["php_class"] != $data["php_class"] ){
-
-			unset($this->cache["php_class"][$previous["php_class"]]);
-			$this->cache["php_class"][$data["php_class"]] = $data["module_id"];
-		}
-
-		// Update slug dictionary
-		if($previous["php_class"] != $data["php_class"] ){
-
-			unset($this->cache["slug"][$previous["slug"]]);
-			$this->cache["slug"][$data["slug"]] = $data["module_id"];
-		}
-
-		// Update active_modules dictionary
-		if( $previous["active"] != $data["active"] ){
-
-			if($data["active"] == true ){
-
-				$this->cache["active_modules"][$data["module_id"]] = true;
-			}
-			else {
-				unset($this->cache["active_modules"][$data["module_id"]]);
-			}
-		}
-
-		// Update the persistent cache and release our lock
-		// =============================================================
-
-		try {
-			self::saveCache();
-		}
-		catch (FOX_exception $child) {
-
-			throw new FOX_exception( array(
-				'numeric'=>6,
-				'text'=>"Cache set error",
-				'data'=>$this->cache,
-				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
-				'child'=>$child
-			));
-		}
-
-		return (int)$rows_changed;
-
 
 	}
 

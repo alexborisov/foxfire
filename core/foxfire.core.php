@@ -216,6 +216,7 @@ else {
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.object.type.level.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.dictionary.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.private.php' );
+	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.public.php' );	
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );		
 	
 	// Load the Navigation system

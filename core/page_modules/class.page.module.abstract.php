@@ -353,7 +353,7 @@ abstract class FOX_pageModule_base {
 		$active = false;
 		
 		try {
-			$module_id = $fox->pageModules->register($this->module_slug, $this->module_name, $php_class, $active);
+			$module_id = $fox->pageModules->register($this->plugin_slug, $this->module_slug, $this->module_name, $php_class, $active);
 		}
 		catch (FOX_exception $child) {
 		    
