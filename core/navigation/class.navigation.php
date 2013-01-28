@@ -249,7 +249,7 @@ final class FOX_nav {
 					$plugin_path = WP_PLUGIN_DIR . "/" . $page_module_data[$data["php_class"]]["plugin"] . "/modules/page/";
 					$module_slug = $page_module_data[$data["php_class"]]["slug"];
 					
-					$this->page_modules_class->loadModule($plugin_path, $module_slug);										
+					$this->page_modules_class->includeModule($plugin_path, $module_slug);										
 				}
 				catch (FOX_exception $child) {
 

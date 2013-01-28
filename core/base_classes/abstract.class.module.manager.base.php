@@ -135,8 +135,8 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 
 
 	/**
-	 * Scans each subdirectory in the modules folder, adding loader.php to the include path. When a
-	 * module's loader.php file is loaded, the module registers itself with the modules singleton and
+	 * Scans each subdirectory at $path, adding loader.php to the include path. When a module's
+	 * loader.php file is loaded, the module registers itself with the modules singleton and
 	 * becomes live on the system.
 	 *
 	 * @version 1.0
@@ -203,7 +203,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 
 
 	/**
-	 * Scans each subdirectory in the modules folder, adding loader.php to the include path. When a
+	 * Scans each subdirectory in $module_slugs at $path, adding loader.php to the include path. When a
 	 * module's loader.php file is loaded, the module registers itself with the modules singleton and
 	 * becomes live on the system.
 	 *
@@ -231,7 +231,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Called with empty slugs parameter",
+				'text'=>"Called with empty module_slugs parameter",
 				'data'=>array('module_slugs'=>$module_slugs),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>null
@@ -254,7 +254,7 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 			}
 			else {			    
 				throw new FOX_exception( array(
-					'numeric'=>1,
+					'numeric'=>2,
 					'text'=>"Specified module contains no loader file",
 					'data'=>$path . $slug ,
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
@@ -269,6 +269,73 @@ abstract class FOX_moduleManager_base extends FOX_db_base {
 	}
 
 
+	/**
+	 * Scans each subdirectory in $module_slugs at $path, adding /core/core.php to the include path. This
+	 * makes the page module's class avaliable in the current namespace. Use this method when loading a 
+	 * module that is already installed, to avoid extra database calls.
+	 *
+	 * @version 1.0
+	 * @since 1.0
+	 * @param string $path | Path to load modules from	 
+	 * @param string/array $module_slugs | Single module slug as string. Multiple module slugs as array of strings.
+	 * @return bool | Exception on failure. True on success.
+	 */
+
+	public function includeModule($path, $module_slugs) {
+
+
+		if(!$this->init){
+
+			throw new FOX_exception( array(
+				'numeric'=>0,
+				'text'=>"Descendent class must call init() before using class methods",
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+		if( empty($module_slugs) ){
+
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Called with empty module_slugs parameter",
+				'data'=>array('module_slugs'=>$module_slugs),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>null
+			));
+		}
+		elseif( !is_array($module_slugs) ){
+
+			// Handle single string as input
+			$module_slugs = array($module_slugs);
+		}
+
+		$result = 0;
+
+		foreach( $module_slugs as $slug ){
+
+			if( file_exists($path . $slug . "/core/core.php") ){
+
+				include_once( $path . $slug . "/core/core.php" );
+				$result++;
+			}
+			else {			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Specified module contains no core file",
+					'data'=>$path . $slug,
+					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					'child'=>null
+				));			    			    
+			}			
+		}
+		unset($slug);
+
+		return $result;
+
+	}
+	
+	
 	/**
 	 * Returns an array containing the class names of all modules that are currently
 	 * present in the modules directory
