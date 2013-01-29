@@ -112,7 +112,15 @@ class FOX_cast {
 
 			case "array" : {
 
-				$value = unserialize($value);
+				if( ($in_type == "point") || ($in_type == "polygon")){	
+
+					if($value !== null){
+						$value = (string)$value;
+					}				    
+				}
+				else {
+					$value = unserialize($value);
+				}
 
 			} break;
 
@@ -275,15 +283,104 @@ class FOX_cast {
 				}
 
 			} break;
+			
+			case "point" : {	// GIS Point, formatted as array('lat'=>X, 'lon'=>Y)
+			    
+				if( $in_type != "array" ) {
+				    
+					throw new FOX_exception( array(
+						'numeric'=>1,
+						'text'=>"Called with non-array input type",
+						'data'=>array("value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'child'=>null
+					));
+				}					
+
+				if( !FOX_sUtil::keyExists('lat', $value) || !FOX_sUtil::keyExists('lon', $value)){
+
+					throw new FOX_exception( array(
+						'numeric'=>2,
+						'text'=>"Called with malformed input array",
+						'data'=>array("value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'child'=>null
+					));										
+				}
+
+				$value = "GeomFromText('POINT(" . $value['lat'] . " " . $value['lon'] . ")')";				    
+			
+
+			} break;
+			
+			case "polygon" : {	// GIS Polygon, formatted as array( 0=>array('lat'=>X, 'lon'=>Y), 1=>array('lat'=>X, 'lon'=>Y))
+			
+				// NOTE: as per the OpenGIS standard for WKT polygon representation, polygons must be "closed" by defining 
+				// a last point with the exact same lat/lon as the first point. If you fail to do this, the polygon will be
+				// automatically set to NULL by the database because it isn't valid.
+			    
+				if( $in_type != "array" ) {
+				    
+					throw new FOX_exception( array(
+						'numeric'=>3,
+						'text'=>"Called with non-array input type",
+						'data'=>array("value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'child'=>null
+					));
+				}
+
+				$temp = "PolygonFromText('POLYGON((";
+				
+				$points_left = count($value) - 1;
+				
+				if($points_left < 3){
+				    
+					throw new FOX_exception( array(
+						'numeric'=>4,
+						'text'=>"A polygon definition must contain at least four points. Three to define the plane and a 4th to close it.",
+						'data'=>array("value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'child'=>null
+					));														    
+				}
+				
+				foreach( $value as $point ){
+				    
+					if( !FOX_sUtil::keyExists('lat', $point) || !FOX_sUtil::keyExists('lon', $point)){
+
+						throw new FOX_exception( array(
+							'numeric'=>5,
+							'text'=>"Called with malformed input array",
+							'data'=>array("value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'child'=>null
+						));										
+					}
+
+					$temp .= $value['lat'] . " " . $value['lon'];	
+					
+					if($points_left){
+					    
+						$temp .= ", ";
+						$points_left --;
+					}
+				}
+				unset($point);
+				
+				$temp .= "))')";
+				
+				$value = $temp;
+			
+
+			} break;				
 
 			default : {
-
-				$class_name = get_class($this);
 			
 				throw new FOX_exception( array(
-					'numeric'=>1,
+					'numeric'=>6,
 					'text'=>"Called with missing or invalid out_type",
-					'data'=>array("class_name"=>$class_name, "value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
+					'data'=>array("value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>null
 				));

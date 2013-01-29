@@ -87,52 +87,52 @@ class FOX_testPlan extends RAZ_testPlan_base {
 
 		$this->cases = array(
 
-//			"core" => array(
-//				array( "enable"=>true,  "name"=>"Typecasters", "mock"=>array(), "file"=>"/tests/core/test_class.typecast.php" ),		   
-//				array( "enable"=>false, "name"=>"Sanitizers", "mock"=>array(), "file"=>"/tests/core/test_class.sanitizers.php" ),
-//				array( "enable"=>false,  "name"=>"Version Check", "mock"=>array(), "file"=>"/tests/core/test_class.version.check.php" )
-//			),
-//		    
-//			"util" => array(
-//				array( "enable"=>true,  "name"=>"System", "mock"=>array(), "file"=>"/tests/util/test_class.utils.system.php" ),
-//				array( "enable"=>true,  "name"=>"Math", "mock"=>array(), "file"=>"/tests/util/test_class.utils.math.php" ),
-//				array( "enable"=>true,  "name"=>"Hash Table", "mock"=>array(), "file"=>"/tests/util/test_class.utils.hash.table.php" ),
-//			    	array( "enable"=>true,  "name"=>"Trie Flatten", "mock"=>array(), "file"=>"/tests/util/test_class.utils.trie.flatten.php" ),
-//			    	array( "enable"=>true,  "name"=>"Trie Clip", "mock"=>array(), "file"=>"/tests/util/test_class.utils.trie.clip.php" )			    
-//			),		    
-//
-//			"database" => array(
-//				array( "enable"=>true,	"name"=>"Builder Delete", "mock"=>array(), "file"=>"/tests/database/test_db.builder.delete.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Indate", "mock"=>array(), "file"=>"/tests/database/test_db.builder.indate.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Insert", "mock"=>array(), "file"=>"/tests/database/test_db.builder.insert.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Left Join", "mock"=>array(), "file"=>"/tests/database/test_db.builder.join.left.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Standard Join", "mock"=>array(), "file"=>"/tests/database/test_db.builder.join.php" ),			    
-//				array( "enable"=>true,	"name"=>"Builder Select", "mock"=>array(), "file"=>"/tests/database/test_db.builder.select.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Table", "mock"=>array(), "file"=>"/tests/database/test_db.builder.table.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Update", "mock"=>array(), "file"=>"/tests/database/test_db.builder.update.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Where", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Where-Trie", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.trie.php" ),				    
-//				array( "enable"=>true,	"name"=>"Builder Where-Matrix", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.matrix.php" ),			    
-//				array( "enable"=>true,	"name"=>"Builder Insert", "mock"=>array(), "file"=>"/tests/database/test_db.builder.insert.php" ),			    			    
-//				array( "enable"=>true,	"name"=>"Result Formatters", "mock"=>array(), "file"=>"/tests/database/test_db.core.formatters.php" ),	
-//				array( "enable"=>true,	"name"=>"Op Delete", "mock"=>array(), "file"=>"/tests/database/test_db.op.delete.php" ),			    
-//				array( "enable"=>true,	"name"=>"Op Indate", "mock"=>array(), "file"=>"/tests/database/test_db.op.indate.php" ),
-//				array( "enable"=>true,	"name"=>"Op Insert", "mock"=>array(), "file"=>"/tests/database/test_db.op.insert.php" ),			    
-//				array( "enable"=>true,	"name"=>"Op Insert (id check)", "mock"=>array(), "file"=>"/tests/database/test_db.op.insert.id.php" ),			    
-//				array( "enable"=>true,	"name"=>"Op Standard Join", "mock"=>array(), "file"=>"/tests/database/test_db.op.join.php" ),
-//				array( "enable"=>true,	"name"=>"Op Left Join", "mock"=>array(), "file"=>"/tests/database/test_db.op.join.left.php" ),			    			    
-//				array( "enable"=>true,	"name"=>"Op Tables", "mock"=>array(), "file"=>"/tests/database/test_db.op.table.php" ),
-//				array( "enable"=>true,	"name"=>"Op Transactions", "mock"=>array(), "file"=>"/tests/database/test_db.op.transaction.php" ),
-//				array( "enable"=>true,	"name"=>"Op Update", "mock"=>array(), "file"=>"/tests/database/test_db.op.update.php" ),			    			    			    
-//			),
-//
-//			"memory_cache" => array(
-//				array( "enable"=>true,  "name"=>"Loopback", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.loopback.php" ),
-//				array( "enable"=>true,  "name"=>"Thread", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.thread.php" ),				    
-//				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php" ),	
-//			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php" ),
-//			    	array( "enable"=>false,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
-//			),
+			"core" => array(
+				array( "enable"=>true,  "name"=>"Typecasters", "mock"=>array(), "file"=>"/tests/core/test_class.typecast.php" ),		   
+				array( "enable"=>false, "name"=>"Sanitizers", "mock"=>array(), "file"=>"/tests/core/test_class.sanitizers.php" ),
+				array( "enable"=>false,  "name"=>"Version Check", "mock"=>array(), "file"=>"/tests/core/test_class.version.check.php" )
+			),
+		    
+			"util" => array(
+				array( "enable"=>true,  "name"=>"System", "mock"=>array(), "file"=>"/tests/util/test_class.utils.system.php" ),
+				array( "enable"=>true,  "name"=>"Math", "mock"=>array(), "file"=>"/tests/util/test_class.utils.math.php" ),
+				array( "enable"=>true,  "name"=>"Hash Table", "mock"=>array(), "file"=>"/tests/util/test_class.utils.hash.table.php" ),
+			    	array( "enable"=>true,  "name"=>"Trie Flatten", "mock"=>array(), "file"=>"/tests/util/test_class.utils.trie.flatten.php" ),
+			    	array( "enable"=>true,  "name"=>"Trie Clip", "mock"=>array(), "file"=>"/tests/util/test_class.utils.trie.clip.php" )			    
+			),		    
+
+			"database" => array(
+				array( "enable"=>true,	"name"=>"Builder Delete", "mock"=>array(), "file"=>"/tests/database/test_db.builder.delete.php" ),
+				array( "enable"=>true,	"name"=>"Builder Indate", "mock"=>array(), "file"=>"/tests/database/test_db.builder.indate.php" ),
+				array( "enable"=>true,	"name"=>"Builder Insert", "mock"=>array(), "file"=>"/tests/database/test_db.builder.insert.php" ),
+				array( "enable"=>true,	"name"=>"Builder Left Join", "mock"=>array(), "file"=>"/tests/database/test_db.builder.join.left.php" ),
+				array( "enable"=>true,	"name"=>"Builder Standard Join", "mock"=>array(), "file"=>"/tests/database/test_db.builder.join.php" ),			    
+				array( "enable"=>true,	"name"=>"Builder Select", "mock"=>array(), "file"=>"/tests/database/test_db.builder.select.php" ),
+				array( "enable"=>true,	"name"=>"Builder Table", "mock"=>array(), "file"=>"/tests/database/test_db.builder.table.php" ),
+				array( "enable"=>true,	"name"=>"Builder Update", "mock"=>array(), "file"=>"/tests/database/test_db.builder.update.php" ),
+				array( "enable"=>true,	"name"=>"Builder Where", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.php" ),
+				array( "enable"=>true,	"name"=>"Builder Where-Trie", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.trie.php" ),				    
+				array( "enable"=>true,	"name"=>"Builder Where-Matrix", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.matrix.php" ),			    
+				array( "enable"=>true,	"name"=>"Builder Insert", "mock"=>array(), "file"=>"/tests/database/test_db.builder.insert.php" ),			    			    
+				array( "enable"=>true,	"name"=>"Result Formatters", "mock"=>array(), "file"=>"/tests/database/test_db.core.formatters.php" ),	
+				array( "enable"=>true,	"name"=>"Op Delete", "mock"=>array(), "file"=>"/tests/database/test_db.op.delete.php" ),			    
+				array( "enable"=>true,	"name"=>"Op Indate", "mock"=>array(), "file"=>"/tests/database/test_db.op.indate.php" ),
+				array( "enable"=>true,	"name"=>"Op Insert", "mock"=>array(), "file"=>"/tests/database/test_db.op.insert.php" ),			    
+				array( "enable"=>true,	"name"=>"Op Insert (id check)", "mock"=>array(), "file"=>"/tests/database/test_db.op.insert.id.php" ),			    
+				array( "enable"=>true,	"name"=>"Op Standard Join", "mock"=>array(), "file"=>"/tests/database/test_db.op.join.php" ),
+				array( "enable"=>true,	"name"=>"Op Left Join", "mock"=>array(), "file"=>"/tests/database/test_db.op.join.left.php" ),			    			    
+				array( "enable"=>true,	"name"=>"Op Tables", "mock"=>array(), "file"=>"/tests/database/test_db.op.table.php" ),
+				array( "enable"=>true,	"name"=>"Op Transactions", "mock"=>array(), "file"=>"/tests/database/test_db.op.transaction.php" ),
+				array( "enable"=>true,	"name"=>"Op Update", "mock"=>array(), "file"=>"/tests/database/test_db.op.update.php" ),			    			    			    
+			),
+
+			"memory_cache" => array(
+				array( "enable"=>true,  "name"=>"Loopback", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.loopback.php" ),
+				array( "enable"=>true,  "name"=>"Thread", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.thread.php" ),				    
+				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php" ),	
+			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php" ),
+			    	array( "enable"=>false,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
+			),
 		    
 			"base" => array(
 			    

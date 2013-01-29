@@ -38,13 +38,13 @@ class FOX_queryRunner {
 
 		$this->driver =& $parent_class->driver;
 		
-		$this->print_query_args = $parent_class->print_query_args;
-		$this->print_query_sql = $parent_class->print_query_sql;
-		$this->print_result_raw = $parent_class->print_result_raw;
-		$this->print_result_cast = $parent_class->print_result_cast;
-		$this->print_result_formatted = $parent_class->print_result_formatted;
-		$this->disable_typecast_write = $parent_class->disable_typecast_write;
-		$this->disable_typecast_read = $parent_class->disable_typecast_read;		
+		$this->print_query_args =& $parent_class->print_query_args;
+		$this->print_query_sql =& $parent_class->print_query_sql;
+		$this->print_result_raw =& $parent_class->print_result_raw;
+		$this->print_result_cast =& $parent_class->print_result_cast;
+		$this->print_result_formatted =& $parent_class->print_result_formatted;
+		$this->disable_typecast_write =& $parent_class->disable_typecast_write;
+		$this->disable_typecast_read =& $parent_class->disable_typecast_read;		
 		
 	}
 

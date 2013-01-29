@@ -1741,7 +1741,14 @@ class FOX_queryBuilder {
 
 		foreach( $select_columns as $name ){
 
-			$select_string .= $name;
+		    
+			if( ($struct["columns"][$name]["sql"] == "point") || ($struct["columns"][$name]["sql"] == "polygon") ){
+			    
+				$select_string .= "AsText(" . $name . ")";
+			}
+			else {
+				$select_string .= $name;			    			    
+			}											
 
 			if($columns_left != 0){
 				$select_string .= ", ";
