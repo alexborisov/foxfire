@@ -27,9 +27,9 @@ class FOX_queryBuilder {
 	function __construct(&$parent_class){
 
 
-		$this->base_prefix = $parent_class->base_prefix;
-		$this->charset = $parent_class->charset;
-		$this->collate = $parent_class->collate;
+		$this->base_prefix =& $parent_class->base_prefix;
+		$this->charset =& $parent_class->charset;
+		$this->collate =& $parent_class->collate;
 		
 	}
 
@@ -294,7 +294,7 @@ class FOX_queryBuilder {
 			if( !is_array($col_params["val"]) ){
 
 				$where .= " AND " . $prefix . $col_params["col"] . " " . $col_params["op"] . " " . $struct["columns"][$col_params["col"]]["format"];
-				$params_list[] = $col_params["val"];
+				$params_list[] = array('prefix'=>true, 'val'=>$col_params["val"]);
 			}
 
 			// If the compare is being run on an array of values, add a structure like
@@ -346,7 +346,7 @@ class FOX_queryBuilder {
 						$vals_left--;
 					}
 
-					$params_list[] = $val;
+					$params_list[] = array('prefix'=>true, 'val'=>$val);
 				}
 
 				unset($val);
@@ -909,13 +909,13 @@ class FOX_queryBuilder {
 				if($ctrl['offset']){
 
 					$limits = " LIMIT %d, %d";
-					$params_list[] = $ctrl['offset'];
-					$params_list[] = $ctrl['per_page'];
+					$params_list[] = array('escape'=>true, 'val'=>$ctrl['offset']);
+					$params_list[] = array('escape'=>true, 'val'=>$ctrl['per_page']);
 				}
 				else {
 					$limits = " LIMIT %d, %d";
-					$params_list[] = ($ctrl['page'] - 1) * $ctrl['per_page'];
-					$params_list[] = $ctrl['per_page'];
+					$params_list[] = array('escape'=>true, 'val'=>($ctrl['page'] - 1) * $ctrl['per_page']);
+					$params_list[] = array('escape'=>true, 'val'=>$ctrl['per_page']);
 				}
 
 			}
@@ -933,12 +933,8 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$temp = array();
-		$temp[0] = $query;
-		$temp = array_merge($temp, $params_list);
-
 		$result = array();
-		$result["query"] = $temp;
+		$result["query"] = array('query'=>$query, 'params'=>$params_list);
 		$result["types"] = $type_cast;
 
 		return $result;
@@ -1579,14 +1575,14 @@ class FOX_queryBuilder {
 			if($ctrl['offset']){
 
 				$limits = " LIMIT %d, %d";
-				$params_list[] = $ctrl['offset'];
-				$params_list[] = $ctrl['per_page'];
+				$params_list[] = array('escape'=>true, 'val'=>$ctrl['offset']);
+				$params_list[] = array('escape'=>true, 'val'=>$ctrl['per_page']);
 			}
 			else {
 				$limits = " LIMIT %d, %d";
 				//$params_list[] = absint(($ctrl['page'] - 1)) * $ctrl['per_page'];
-				$params_list[] = ($ctrl['page'] - 1) * $ctrl['per_page'];
-				$params_list[] = $ctrl['per_page'];
+				$params_list[] = array('escape'=>true, 'val'=>($ctrl['page'] - 1) * $ctrl['per_page']);
+				$params_list[] = array('escape'=>true, 'val'=>$ctrl['per_page']);
 			}
 
 		}
@@ -1602,12 +1598,8 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$temp = array();
-		$temp[0] = $query;
-		$temp = array_merge($temp, $params_list);
-
 		$result = array();
-		$result["query"] = $temp;
+		$result["query"] = array('query'=>$query, 'params'=>$params_list);
 		$result["types"] = $type_cast;
 
 		return $result;
@@ -1969,13 +1961,13 @@ class FOX_queryBuilder {
 				if($ctrl['offset']){
 
 					$limits = " LIMIT %d, %d";
-					$params_list[] = $ctrl['offset'];
-					$params_list[] = $ctrl['per_page'];
+					$params_list[] = array('escape'=>true, 'val'=>$ctrl['offset']);
+					$params_list[] = array('escape'=>true, 'val'=>$ctrl['per_page']);
 				}
 				else {
 					$limits = " LIMIT %d, %d";
-					$params_list[] = ($ctrl['page'] - 1) * $ctrl['per_page'];
-					$params_list[] = $ctrl['per_page'];
+					$params_list[] = array('escape'=>true, 'val'=>($ctrl['page'] - 1) * $ctrl['per_page']);
+					$params_list[] = array('escape'=>true, 'val'=>$ctrl['per_page']);
 				}
 			}
 
@@ -1990,12 +1982,8 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$temp = array();
-		$temp[0] = $query;
-		$temp = array_merge($temp, $params_list);
-
 		$result = array();
-		$result["query"] = $temp;
+		$result["query"] = array('query'=>$query, 'params'=>$params_list);
 		$result["types"] = $type_cast;
 
 		return $result;
@@ -2157,11 +2145,11 @@ class FOX_queryBuilder {
 
 			if( is_array($data) ){
 				// Handle data passed as array
-				$params_list[] = $cast->PHPToSQL($data[$column_name], $in_type, $out_type);
+				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data[$column_name], $in_type, $out_type) );
 			}
 			else {
 				// Handle data passed as object
-				$params_list[] = $cast->PHPToSQL($data->{$column_name}, $in_type, $out_type);
+				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
 			}
 
 			if($columns_left != 0){
@@ -2224,12 +2212,8 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$temp = array();
-		$temp[0] = $query;
-		$temp = array_merge($temp, $params_list);
-
 		$result = array();
-		$result["query"] = $temp;
+		$result["query"] = array('query'=>$query, 'params'=>$params_list);
 
 		return $result;
 		
@@ -2384,7 +2368,7 @@ class FOX_queryBuilder {
 					$in_type = $struct["columns"][$column_name]["php"];
 					$out_type = $struct["columns"][$column_name]["sql"];
 
-					$params_list[] = $cast->PHPToSQL($block[$column_name], $in_type, $out_type);
+					$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($block[$column_name], $in_type, $out_type) );
 
 					if($columns_left != 0){
 						$query_formats .= ", ";
@@ -2419,7 +2403,7 @@ class FOX_queryBuilder {
 				$in_type = $struct["columns"][$column_name]["php"];
 				$out_type = $struct["columns"][$column_name]["sql"];
 
-				$params_list[] = $cast->PHPToSQL($data->{$column_name}, $in_type, $out_type);
+				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
 
 				if($columns_left != 0){
 					$query_formats .= ", ";
@@ -2438,12 +2422,8 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$temp = array();
-		$temp[0] = $query;
-		$temp = array_merge($temp, $params_list);
-
 		$result = array();
-		$result["query"] = $temp;
+		$result["query"] = array('query'=>$query, 'params'=>$params_list);
 
 		return $result;
 		
@@ -2556,7 +2536,7 @@ class FOX_queryBuilder {
 				$in_type = $struct["columns"][$column_name]["php"];
 				$out_type = $struct["columns"][$column_name]["sql"];
 
-				$params_list[] = $cast->PHPToSQL($data[$column_name], $in_type, $out_type);
+				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data[$column_name], $in_type, $out_type) );
 
 				if($columns_left != 0){
 					$query_formats .= ", ";
@@ -2582,7 +2562,7 @@ class FOX_queryBuilder {
 				$in_type = $struct["columns"][$column_name]["php"];
 				$out_type = $struct["columns"][$column_name]["sql"];
 
-				$params_list[] = $cast->PHPToSQL($data->{$column_name}, $in_type, $out_type);
+				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
 
 				if($columns_left != 0){
 					$query_formats .= ", ";
@@ -2609,11 +2589,11 @@ class FOX_queryBuilder {
 
 			if( is_array($data) ){
 				// Handle data passed as array
-				$params_list[] = $cast->PHPToSQL($data[$column_name], $in_type, $out_type);
+				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data[$column_name], $in_type, $out_type) );
 			}
 			else {
 				// Handle data passed as object
-				$params_list[] = $cast->PHPToSQL($data->{$column_name}, $in_type, $out_type);
+				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
 			}
 
 			if($columns_left != 0){
@@ -2630,12 +2610,8 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$temp = array();
-		$temp[0] = $query;
-		$temp = array_merge($temp, $params_list);
-
 		$result = array();
-		$result["query"] = $temp;
+		$result["query"] = array('query'=>$query, 'params'=>$params_list);
 
 		return $result;
 	}
@@ -2780,12 +2756,8 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$temp = array();
-		$temp[0] = $query;
-		$temp = array_merge($temp, $params_list);
-
 		$result = array();
-		$result["query"] = $temp;
+		$result["query"] = array('query'=>$query, 'params'=>$params_list);
 
 		return $result;
 

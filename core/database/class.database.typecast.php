@@ -307,8 +307,9 @@ class FOX_cast {
 						'child'=>null
 					));										
 				}
-
-				$value = "GeomFromText('POINT(" . $value['lat'] . " " . $value['lon'] . ")')";				    
+// INSERT INTO `wp_fox_test_typecast_sqltophp`(`col_14`) VALUES (PointFromText('POINT(-11.5 22.1)'))
+				
+				$value = "POINTFROMTEXT('POINT(" . $value['lat'] . " " . $value['lon'] . ")')";				    
 			
 
 			} break;

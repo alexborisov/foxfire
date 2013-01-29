@@ -660,21 +660,6 @@ class FOX_db_driver_mysqli {
 		
 
 	}
-	
-	
-	/**
-	 * Escapes content by reference for insertion into the database, for security
-	 *
-         * @version 1.0
-         * @since 1.0
-	 * @param string $string to escape
-	 * @return void
-	 */
-	function escape_by_ref(&$string){
-	    
-		// NOTE: parameters are in reverse order from mysql_real_escape_string()	    
-		$string = mysqli_real_escape_string($this->dbh, $string);
-	}
 		
 	
 	/**
@@ -691,18 +676,46 @@ class FOX_db_driver_mysqli {
 	 */
 	
 	function prepare($args){
-
-		$query = array_shift($args);
+					
+	    
+		$query = $args['query'];
+		$params = $args['params'];
 		
 		// Force floats to be locale unaware
 		$query = preg_replace( '|(?<!%)%f|' , '%F', $query );
 		
 		// Quote the strings, avoiding escaped strings like %%s
 		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); 
+		
+		// Replace our %r raw string token with an unquoted %s
+		$query = preg_replace( '|(?<!%)%r|', "%s", $query ); 			
 
-		array_walk($args, array(&$this, 'escape_by_ref'));
+		$processed_params = array();
+		
+		if($params){
+		    
+			foreach($params as $param){
 
-		return @vsprintf($query, $args);
+				if($param['escape'] !== false){
+
+					// NOTE: parameters are in reverse order from mysql_real_escape_string()
+					$processed_params[] = mysqli_real_escape_string($this->dbh, $param['val']);
+				}
+				else {			    
+					$processed_params[] = $param['val'];
+				}		    
+			}
+			unset($param);
+		
+		}
+		
+		$result = @vsprintf($query, $processed_params);
+		
+		var_dump($query);
+		var_dump($params);
+		var_dump($result);
+		
+		return $result;
 		
 	}	
 

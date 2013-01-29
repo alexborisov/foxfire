@@ -92,8 +92,8 @@ class FOX_queryRunner {
 		// ==================================================
 
 		if( is_array($query) ){
-
-			$sql = $this->driver->prepare($query["query"]);			
+		    
+			$sql = $this->driver->prepare($query['query']);				
 		}
 		else {
 			$sql = $query;
