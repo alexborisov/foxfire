@@ -1177,10 +1177,10 @@ class FOX_queryRunner {
 
 			    if($this->disable_typecast_read == true){
 				
-				    $data = $sql_result;
+				    $result = $sql_result;
 			    }
 			    else {				
-				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
+				    $result = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();

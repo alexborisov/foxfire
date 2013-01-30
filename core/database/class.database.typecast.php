@@ -535,8 +535,7 @@ class FOX_cast {
 							// column name as the key. Example: "AsText(colName)"
 
 							$wrapped_var = "AsText(".$var.")";
-							$result[$index]->{$var} = self::SQLToPHP($data[$index]->{$wrapped_var}, $in_type, $out_type);							
-							
+							$result[$index]->{$var} = self::SQLToPHP($data[$index]->{$wrapped_var}, $in_type, $out_type);													
 						}
 						else {							
 							$result[$index]->{$var} = self::SQLToPHP($data[$index]->{$var}, $in_type, $out_type);
