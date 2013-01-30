@@ -433,8 +433,6 @@ class FOX_queryBuilder {
 	public function buildSelectQueryJoin($primary, $join, $columns=null, $ctrl=null){
 
 
-		$function_name = "buildSelectQueryJoin";
-
 		// Switch between "operation mode" (pass as class name)
 		// and "unit test mode" (pass as array)
 		// ====================================================
@@ -477,19 +475,54 @@ class FOX_queryBuilder {
 		// Passing "null" = "select all columns", passing "false" = "select no columns"
 
 		if($columns === null){
-
-			$select_columns[] = $this->base_prefix . $primary_struct["table"] . ".*";
+			
 			$from_tables[] = $this->base_prefix . $primary_struct["table"];
+			
+			// If the table doesn't contain any columns which use GIS data types, we can
+			// use the more efficient "SELECT *" construct
+			
+			if( !self::hasGISColumn($primary_struct) ){
+			
+				$select_columns[] = $this->base_prefix . $primary_struct["table"] . ".*";
 
-			// Add all primary table columns to the typecast array
-			foreach( $primary_struct["columns"] as $name => $params){
+				// Add all primary table columns to the typecast array
+				foreach( $primary_struct["columns"] as $name => $params){
 
-				// NOTE: MySQL automatically strips the table prefix off the key names in the returned
-				// result, so if we request primaryTableName.colName_1, the result back from the SQL
-				// server will be colName_1 => value
+					// NOTE: MySQL automatically strips the table prefix off the key names in the returned
+					// result, so if we request primaryTableName.colName_1, the result back from the SQL
+					// server will be colName_1 => value
+
+					$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+				}	
+				unset($name, $params);
+				
+			}	
+			// If the table contains one or more columns which use GIS data type, we have to process
+			// them individually so we can wrap the column names with AsText() clauses
+			
+			else {	
 			    
-				$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
-			}
+				foreach( $primary_struct["columns"] as $name => $params){
+
+					// NOTE: MySQL automatically strips the table prefix off the key names in the returned
+					// result, so if we request primaryTableName.colName_1, the result back from the SQL
+					// server will be colName_1 => value
+
+					if( !self::isGISDataType($params['sql']) ){
+
+						$select_columns[] = $this->base_prefix . $primary_struct["table"] . "." . $name;					    
+						$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+					}
+					else {					    
+						// MySQL will return data from column names wrapped in an AsText() clause 
+						// as "AsText(column_name)", with the table prefix stripped as above
+					    
+						$select_columns[] = "AsText(" . $this->base_prefix . $primary_struct["table"] . "." . $name . ")";
+						$type_cast["AsText(".$name.")"] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+					}
+				}
+				unset($name, $params);
+			}			
 
 		}
 		else {
@@ -512,22 +545,46 @@ class FOX_queryBuilder {
 				if ($columns["mode"] == "include"){
 
 					if( array_search($name, $columns["col"] ) !== false) {
-
-						$select_columns[] = $this->base_prefix . $primary_struct["table"] . "." . $name;
 						
 						// NOTE: MySQL automatically strips the table prefix off the key names in the returned
 						// result, so if we request primaryTableName.colName_1, the result back from the SQL
 						// server will be colName_1 => value
+
+						if( !self::isGISDataType($params['sql']) ){
+
+							$select_columns[] = $this->base_prefix . $primary_struct["table"] . "." . $name;					    
+							$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+						}
+						else {					    
+							// MySQL will return data from column names wrapped in an AsText() clause 
+							// as "AsText(column_name)", with the table prefix stripped as above
+
+							$select_columns[] = "AsText(" . $this->base_prefix . $primary_struct["table"] . "." . $name . ")";
+							$type_cast["AsText(".$name.")"] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+						}						
 						
-						$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
 					}
 				}
 				elseif ($columns["mode"] == "exclude"){
 
 					if( array_search($name, $columns["col"] ) === false) {
+						
+						// NOTE: MySQL automatically strips the table prefix off the key names in the returned
+						// result, so if we request primaryTableName.colName_1, the result back from the SQL
+						// server will be colName_1 => value
 
-						$select_columns[] = $this->base_prefix . $primary_struct["table"] . "." . $name;
-						$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+						if( !self::isGISDataType($params['sql']) ){
+
+							$select_columns[] = $this->base_prefix . $primary_struct["table"] . "." . $name;					    
+							$type_cast[$name] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+						}
+						else {					    
+							// MySQL will return data from column names wrapped in an AsText() clause 
+							// as "AsText(column_name)", with the table prefix stripped as above
+
+							$select_columns[] = "AsText(" . $this->base_prefix . $primary_struct["table"] . "." . $name . ")";
+							$type_cast["AsText(".$name.")"] = array("php"=>$params["php"], "sql"=>$params["sql"] );
+						}						
 					}
 				}
 
@@ -551,7 +608,7 @@ class FOX_queryBuilder {
 			$prefix = $this->base_prefix . $primary_struct["table"] . ".";
 
 			try {
-				$result = self::buildWhere( $primary_struct, $primary["args"], $function_name, $prefix);
+				$result = self::buildWhere( $primary_struct, $primary["args"], __FUNCTION__, $prefix);
 			}
 			catch (FOX_exception $child) {
 
@@ -559,7 +616,7 @@ class FOX_queryBuilder {
 					'numeric'=>1,
 					'text'=>"Error building primary args WHERE construct",
 					'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
-						      "function_name"=>$function_name, "prefix"=>$prefix),
+						      "function_name"=>__FUNCTION__, "prefix"=>$prefix),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
@@ -609,7 +666,7 @@ class FOX_queryBuilder {
 				$prefix = $ctrl['alias_prefix'] . $join_struct["table"] . ".";
 
 				try {
-					$result = self::buildWhere( $join_struct, $join_obj["args"], $function_name, $prefix);
+					$result = self::buildWhere( $join_struct, $join_obj["args"], __FUNCTION__, $prefix);
 				}
 				catch (FOX_exception $child) {
 
@@ -617,7 +674,7 @@ class FOX_queryBuilder {
 						'numeric'=>2,
 						'text'=>"Error building joined table WHERE construct",
 						'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
-							      "function_name"=>$function_name, "prefix"=>$prefix),
+							      "function_name"=>__FUNCTION__, "prefix"=>$prefix),
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>$child
 					));
@@ -647,10 +704,28 @@ class FOX_queryBuilder {
 					// Because we are using aliases for the joined tables, we have to use the alias names in the
 					// select statement. So if we have "INNER JOIN example_table AS alias_example_table", we have to
 					// use "SELECT alias_example_table.column_name" instead of "SELECT example_table.column_name"
+					
+					if( !self::isGISDataType($join_struct["columns"][$name]['sql']) ){
 
-					$select_columns[] = $ctrl['alias_prefix'] . $join_struct["table"] . "." . $name;
-					$type_cast[$ctrl['alias_prefix'] . $join_struct["table"] . "." . $name] = array("php"=>$join_struct["columns"][$name]["php"],
-														"sql"=>$join_struct["columns"][$name]["sql"] );
+						$select_columns[] = $ctrl['alias_prefix'] . $join_struct["table"] . "." . $name;
+						
+						$type_cast[$ctrl['alias_prefix'].$join_struct["table"].".".$name] = array(
+						    
+							"php"=>$join_struct["columns"][$name]["php"],
+							"sql"=>$join_struct["columns"][$name]["sql"] 
+						);
+					}
+					else {					    					   
+						// Typical output: "AsText(alias_joinTable.fooColumn)"
+					    
+						$select_columns[] = "AsText(" . $ctrl['alias_prefix'] . $join_struct["table"] . "." . $name . ")";
+						
+						$type_cast["AsText(".$ctrl['alias_prefix'].$join_struct["table"].".".$name.")"] = array(
+						    
+							"php"=>$join_struct["columns"][$name]["php"],
+							"sql"=>$join_struct["columns"][$name]["sql"] 
+						);						
+					}					
 				}
 
 			}
@@ -685,7 +760,6 @@ class FOX_queryBuilder {
 		} unset($name);
 
 
-
 		// Build FROM string
 		// ######################################################
 
@@ -701,7 +775,6 @@ class FOX_queryBuilder {
 			}
 
 		} unset($name);
-
 
 
 		// Build COUNT, ORDER BY, GROUP BY, and LIMIT
@@ -837,7 +910,6 @@ class FOX_queryBuilder {
 					}
 
 					// ====================================================
-
 
 
 					if( is_array($key["sort"]) ){
@@ -1021,8 +1093,6 @@ class FOX_queryBuilder {
 	public function buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl=null){
 
 
-		$function_name = "buildSelectQueryLeftJoin";
-
 		// Switch between "operation mode" (pass as class name)
 		// and "unit test mode" (pass as array)
 		// ====================================================
@@ -1093,7 +1163,7 @@ class FOX_queryBuilder {
 		if($primary["args"]){
 
 			try {
-				$result = self::buildWhere( $primary_struct, $primary["args"], $function_name, 
+				$result = self::buildWhere( $primary_struct, $primary["args"], __FUNCTION__, 
 							    $alias["tables"][$primary_struct["table"]]."." );
 			}
 			catch (FOX_Exception $child) {
@@ -1102,7 +1172,7 @@ class FOX_queryBuilder {
 					'numeric'=>1,
 					'text'=>"Error building primary args WHERE construct",
 					'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
-						      "function_name"=>$function_name, "prefix"=>$alias["tables"][$primary_struct["table"]]),
+						      "function_name"=>__FUNCTION__, "prefix"=>$alias["tables"][$primary_struct["table"]]),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
@@ -1117,7 +1187,7 @@ class FOX_queryBuilder {
 		// Build LEFT JOIN statements
 		// ######################################################
 
-		$join_num =2;
+		$join_num = 2;
 		
 		foreach( $join as $join_obj ){
 
@@ -1167,7 +1237,7 @@ class FOX_queryBuilder {
 				// make the LEFT JOIN statements comply with SQL syntax rules
 
 				try {
-					$result = self::buildWhere( $join_struct, $join_obj["args"], $function_name, 
+					$result = self::buildWhere( $join_struct, $join_obj["args"], __FUNCTION__, 
 								    $alias["tables"][$join_struct["table"]].".");
 				}
 				catch (FOX_exception $child) {
@@ -1176,7 +1246,7 @@ class FOX_queryBuilder {
 						'numeric'=>2,
 						'text'=>"Error building joined table WHERE construct",
 						'data'=>array("primary_struct"=>$primary_struct, "primary_args"=>$primary["args"],
-							      "function_name"=>$function_name, "prefix"=>$alias["tables"][$join_struct["table"]]),
+							      "function_name"=>__FUNCTION__, "prefix"=>$alias["tables"][$join_struct["table"]]),
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>$child
 					));
@@ -1199,7 +1269,8 @@ class FOX_queryBuilder {
 
 		$valid_sum_ops = array("+", "-", "*");
 		
-		// if columns is array process else return all columns
+		// If columns is array process else return all columns
+		
 		if( is_array($columns)) {
 
 			foreach ($columns as $col) {
@@ -1208,7 +1279,7 @@ class FOX_queryBuilder {
 				$alias_string = "";
 				$add_closing_brackets = false;
 
-				// if sum array is used don't process top level column data apart from col_alias
+				// If sum array is used don't process top level column data apart from col_alias
 				$process_top_level_column_naming =true;
 
 				if( is_string($col)){
@@ -1228,13 +1299,13 @@ class FOX_queryBuilder {
 					}
 				}
 
-				// if count set add Count to start of this select column
+				// If count set add Count to start of this select column
 				if($col["count"] === true) {
 
 					$select_column ="COUNT( ";
 					$add_closing_brackets = true;
 				} 
-				// if sum set add SUM to start of this select column
+				// If sum set add SUM to start of this select column
 				elseif( isset($col["sum"])) {
 
 					$select_column = "SUM( ";
@@ -1254,7 +1325,6 @@ class FOX_queryBuilder {
 							if( !isset($sum_col["op"])) {
 
 								$sum_col["op"] = "+";
-
 							}
 
 							// If op is valid add it to select column
@@ -1267,12 +1337,9 @@ class FOX_queryBuilder {
 
 										    $select_column .=" ".$sum_col["op"]." ";
 									    }
-
 								    } 
 								    else {
-
 									    $select_column .=" ".$sum_col["op"]." ";
-
 								    }
 								    
 								    $first_sum = false;
@@ -1283,14 +1350,11 @@ class FOX_queryBuilder {
 									    if( is_string($sum_col["table_class"]) ){
 
 										    $sum_col["table_alias"] = $alias["tables"][call_user_func(array($sum_col["table_class"],'_struct'))];
-
 									    } 
 									    else {
 
 										    $sum_col["table_alias"] = $alias["tables"][$sum_col["table_class"]["table"]];
-
 									    }
-
 								    }
 
 								    $sum_close_brackets = false;
@@ -1299,39 +1363,31 @@ class FOX_queryBuilder {
 
 									    $select_column .= "COUNT( ";
 									    $sum_close_brackets = true;
-
 								    }
 
 								    // If col_alias is used don't need to use tables_alias and col_name
 								    if( isset($sum_col["col_alias"])) {
 
 									    $select_column .=$sum_col["col_alias"];
-
 								    } 
 								    else {
-
 									    if( isset($sum_col["table_alias"])) {
 
 										    if( isset($sum_col["col_name"]))     {
 
 											    $select_column .=$sum_col["table_alias"].".".$sum_col["col_name"];
-
 										    } 
 										    elseif($sum_col["count"]==true) {
 
 											    $select_column .=$sum_col["table_alias"].".*";
-
 										    }
 									    }
-
 								    }
 								    if($sum_close_brackets) {
 
 									    $select_column .= " )";
-
 								    }
-
-
+								    
 							}
 						}
 
@@ -1343,12 +1399,11 @@ class FOX_queryBuilder {
 
 					if( isset($col["table_alias"]) ) {
 					    
-						// cannot only use table_alias in column definition if no col_name and not using count
+						// Cannot only use table_alias in column definition if no col_name and not using count
 						if( isset($col["col_name"]) || isset($col["count"]) ) {
 
 							$select_column .= $col["table_alias"].".";
 						}
-
 					}
 
 					if( isset($col["col_name"])) {
@@ -1356,16 +1411,14 @@ class FOX_queryBuilder {
 						$select_column .= $col["col_name"];
 
 						if( isset($col["table_alias"])) {
-							// this is set in case there is no column alias
+						    
+							// This is set in case there is no column alias
 							$alias_string .= $col["table_alias"].$col["col_name"];
-
 						}
-
 					} 
 					elseif($col["count"] === true) {
 
 						$select_column .= "*";
-
 					}
 
 				}
@@ -1657,7 +1710,6 @@ class FOX_queryBuilder {
 
 	public function buildSelectQuery($struct, $args, $columns=null, $ctrl=null){
 
-		$function_name = "buildSelectQuery";
 
 		// Switch between "operation mode" (pass as class name)
 		// and "unit test mode" (pass as array)
@@ -1700,17 +1752,30 @@ class FOX_queryBuilder {
 
 		if($columns === null){
 
-			$select_string = "*";
-
-			// Add all primary table columns to the typecast array
+			// If the table doesn't contain any columns which use GIS data types, we can
+			// use the more efficient "SELECT *" construct
+		    
+			if( !self::hasGISColumn($struct) ){
 			
-			$column_names = array_keys($struct["columns"]);
-			
-			foreach( $column_names as $name ){
+				$select_string = "*";
 
-				$type_cast[$name] = array("php"=>$struct["columns"][$name]["php"], "sql"=>$struct["columns"][$name]["sql"] );
+				// Add all primary table columns to the typecast array
+
+				$column_names = array_keys($struct["columns"]);
+
+				foreach( $column_names as $name ){
+
+					$type_cast[$name] = array("php"=>$struct["columns"][$name]["php"], "sql"=>$struct["columns"][$name]["sql"] );
+				}
+				unset($name);			    
 			}
-			unset($name);
+			
+			// If the table contains one or more columns which use GIS data type, we have to process
+			// them individually so we can wrap the column names with AsText() clauses
+			
+			else {			    
+				$select_columns = $columns_list;
+			}
 
 		}
 		elseif($columns) {
@@ -1777,7 +1842,7 @@ class FOX_queryBuilder {
 
 					case "multi" : {
 
-						$result = self::buildWhereMulti($struct, $args, $function_name, $prefix=null);
+						$result = self::buildWhereMulti($struct, $args, __FUNCTION__, $prefix=null);
 
 					} break;
 
@@ -1795,7 +1860,7 @@ class FOX_queryBuilder {
 				    
 					default : {
 
-						$result = self::buildWhere($struct, $args, $function_name, $prefix=null);
+						$result = self::buildWhere($struct, $args, __FUNCTION__, $prefix=null);
 
 					} break;
 
@@ -1807,7 +1872,7 @@ class FOX_queryBuilder {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in WHERE clause generator",
-					'data'=>array("struct"=>$struct, "args"=>$args, "function_name"=>$function_name),
+					'data'=>array("struct"=>$struct, "args"=>$args, "function_name"=>__FUNCTION__),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
@@ -2085,8 +2150,6 @@ class FOX_queryBuilder {
 
 	public function buildUpdateQuery($struct, $data, $args, $columns=null){
 
-	    
-		$function_name = "buildUpdateQuery";
 
 		// Switch between unit test mode (pass as array) and
 		// normal mode (pass as class name)
@@ -2186,14 +2249,14 @@ class FOX_queryBuilder {
 		if( is_array($args) ){
 
 			try {
-				$result = self::buildWhere($struct, $args, $function_name, $prefix=null);
+				$result = self::buildWhere($struct, $args, __FUNCTION__, $prefix=null);
 			}
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Error in WHERE clause generator",
-					'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "function_name"=>$function_name),
+					'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "function_name"=>__FUNCTION__),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 					'child'=>$child
 				));
@@ -2212,7 +2275,7 @@ class FOX_queryBuilder {
 			throw new FOX_exception( array(
 				'numeric'=>2,
 				'text'=>$text,
-				'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "function_name"=>$function_name),
+				'data'=>array("struct"=>$struct, "data"=>$data, "args"=>$args, "function_name"=>__FUNCTION__),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
@@ -2729,7 +2792,7 @@ class FOX_queryBuilder {
 
 					case "multi" : {
 
-						$result = self::buildWhereMulti($struct, $args, $function_name, $prefix=null);
+						$result = self::buildWhereMulti($struct, $args, __FUNCTION__, $prefix=null);
 
 					} break;
 
@@ -2767,7 +2830,7 @@ class FOX_queryBuilder {
 
 					default : {
 
-						$result = self::buildWhere($struct, $args, $function_name, $prefix=null);
+						$result = self::buildWhere($struct, $args, __FUNCTION__, $prefix=null);
 
 					} break;
 
@@ -3237,6 +3300,58 @@ class FOX_queryBuilder {
 		
 	}
 
+	
+	/**
+         * Determines if a table contains a column which uses a GIS data type such as 'point' or 'polygon'
+         *
+         * @version 1.0
+         * @since 1.0
+         *
+         * @param array $struct | Structure of the db table, @see class FOX_db header for examples
+         * @return bool | Exception on failure. True if one or more columns use a GIS data type. False if not.
+         */
+	
+	public function hasGISColumn($struct){
+	    
+	    
+		foreach( $struct['columns'] as $column ){
+		
+			if( self::isGISDataType($column['sql']) ){
+
+				return true;
+			}
+		}
+		unset($column);
+		
+		return false;
+		
+	}
+	
+	
+	/**
+         * Determines if a SQL column's data type is a GIS data type
+         *
+         * @version 1.0
+         * @since 1.0
+         *
+         * @param string $type | Column data type as string
+         * @return bool | Exception on failure. True if GIS data type. False if not.
+         */
+	
+	public function isGISDataType($type){
+	    
+	    
+		if( ($type == 'point') || ($type == 'polygon') ){
+
+			return true;
+		}
+		else {		
+			return false;
+		}
+		
+	}	
+	
+	
 	
 } // End of class FOX_queryBuilder
 

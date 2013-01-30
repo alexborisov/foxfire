@@ -290,26 +290,31 @@ class FOX_cast {
 				    
 					throw new FOX_exception( array(
 						'numeric'=>1,
-						'text'=>"Called with non-array input type",
+						'text'=>"GIS data points must use 'array' as input type",
 						'data'=>array("value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>null
 					));
 				}					
 
-				if( !FOX_sUtil::keyExists('lat', $value) || !FOX_sUtil::keyExists('lon', $value)){
+				if( !empty($value) ){
+				    
+					if( !FOX_sUtil::keyExists('lat', $value) || !FOX_sUtil::keyExists('lon', $value)){
 
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Called with malformed input array",
-						'data'=>array("value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
-						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-						'child'=>null
-					));										
+						throw new FOX_exception( array(
+							'numeric'=>2,
+							'text'=>"Called with malformed input array",
+							'data'=>array("value"=>$value, "in_type"=>$in_type, "out_type"=>$out_type),
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'child'=>null
+						));										
+					}
+
+					$value = "POINTFROMTEXT('POINT(" . $value['lat'] . " " . $value['lon'] . ")')";	
 				}
-// INSERT INTO `wp_fox_test_typecast_sqltophp`(`col_14`) VALUES (PointFromText('POINT(-11.5 22.1)'))
-				
-				$value = "POINTFROMTEXT('POINT(" . $value['lat'] . " " . $value['lon'] . ")')";				    
+				else {
+					$value = 'NULL';				    
+				}
 			
 
 			} break;

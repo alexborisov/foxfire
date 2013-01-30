@@ -204,6 +204,7 @@ class database_typeCasters extends RAZ_testCase {
 					"col_11"=> array("val_1"=>(float)2, "val_2"=>(float)-27450, "val_3"=>(float)-26.17239),
 					"col_12"=> (int)mktime(0, 0, 0, 11, 21, 2010),
 					"col_13"=> (int)mktime(18, 44, 52, 11, 21, 2010),
+					"col_14"=> array('lat'=>23.417, 'lon'=>17.449),
 				    )
 		);
 
