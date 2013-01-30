@@ -131,7 +131,7 @@ class FOX_queryRunner {
 		    case "var" : {
 
 			    try {
-				    $result = $this->driver->get_var($sql);
+				    $sql_result = $this->driver->get_var($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -147,14 +147,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "\nRAW, format = var\n";
-				    print_r($result);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
+			    if($this->disable_typecast_read == true){
 
-				    $cast->queryResult($format="var", $result, $query["types"]);
+				    $result = $sql_result;				
+			    }
+			    else {				  
+				    $result = $cast->queryResult($format="var", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -162,8 +165,9 @@ class FOX_queryRunner {
 					    print_r($result);
 					    $out = ob_get_clean();
 					    FOX_debug::addToFile($out);
-				    }
+				    }				
 			    }
+			    
 
 		    } break;
 
@@ -178,7 +182,7 @@ class FOX_queryRunner {
 		    case "col" : {
 			    			    
 			    try {
-				    $result = $this->driver->get_col($sql);
+				    $sql_result = $this->driver->get_col($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -194,15 +198,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "\nRAW, format = col\n";
-				    print_r($result);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
+			    if($this->disable_typecast_read == true){
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="col", $result, $query["types"]);
+				    $result = $sql_result;
+			    }
+			    else {				
+				    $result = $cast->queryResult($format="col", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -210,8 +216,9 @@ class FOX_queryRunner {
 					    print_r($result);
 					    $out = ob_get_clean();
 					    FOX_debug::addToFile($out);
-				    }
+				    }				
 			    }
+			    
 
 		    } break;
 
@@ -232,7 +239,7 @@ class FOX_queryRunner {
 		    case "row_object" : {
 
 			    try {
-				    $result = $this->driver->get_row($sql);
+				    $sql_result = $this->driver->get_row($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -248,15 +255,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "\nRAW, format = row\n";
-				    print_r($result);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
+			    if($this->disable_typecast_read == true){
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="row_object", $result, $query["types"]);
+				    $result = $sql_result;				
+			    }
+			    else {				
+				    $result = $cast->queryResult($format="row_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -264,8 +273,9 @@ class FOX_queryRunner {
 					    print_r($result);
 					    $out = ob_get_clean();
 					    FOX_debug::addToFile($out);
-				    }
+				    }				
 			    }
+			    
 
 		    } break;
 
@@ -284,10 +294,9 @@ class FOX_queryRunner {
 		    //	       )
 
 		    case "row_array" : {
-
 			    
 			    try {
-				    $data = $this->driver->get_row($sql);
+				    $sql_result = $this->driver->get_row($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -303,14 +312,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "\nRAW, format = row_array\n";
-				    print_r($data);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
+			    if($this->disable_typecast_read == true){
 
-				    $cast->queryResult($format="row_object", $data, $query["types"]);
+				$data = $sql_result;
+			    }
+			    else {				
+				    $data = $cast->queryResult($format="row_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -318,7 +330,7 @@ class FOX_queryRunner {
 					    print_r($data);
 					    $out = ob_get_clean();
 					    FOX_debug::addToFile($out);
-				    }
+				    }								
 			    }
 
 			    if($data){
@@ -397,7 +409,7 @@ class FOX_queryRunner {
 		    case "array_key_object" : {			    
 
 			    try {
-				    $data = $this->driver->get_results($sql);
+				    $sql_result = $this->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -413,14 +425,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "\nRAW, format = array_key_object\n";
-				    print_r($data);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="array_object", $data, $query["types"]);
+			    if($this->disable_typecast_read == true){
+				
+				    $data = $sql_result;
+			    }
+			    else {
+				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -552,7 +567,7 @@ class FOX_queryRunner {
 		    case "array_key_array" : {
 
 			    try {
-				    $data = $this->driver->get_results($sql);
+				    $sql_result = $this->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -568,14 +583,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "RAW, format = array_key_array\n";
-				    print_r($data);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="array_object", $data, $query["types"]);
+			    if($this->disable_typecast_read == true){
+				
+				    $data = $sql_result;
+			    }
+			    else {
+				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -719,7 +737,7 @@ class FOX_queryRunner {
 		    case "array_key_array_grouped" : {
 
 			    try {
-				    $data = $this->driver->get_results($sql);
+				    $sql_result = $this->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -735,14 +753,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "RAW, format = array_key_array_grouped\n";
-				    print_r($data);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="array_object", $data, $query["types"]);
+			    if($this->disable_typecast_read == true){
+				
+				    $data = $sql_result;
+			    }
+			    else {
+				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -844,7 +865,7 @@ class FOX_queryRunner {
 		    case "array_key_array_true" : {
 
 			    try {
-				    $data = $this->driver->get_results($sql);
+				    $sql_result = $this->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -860,14 +881,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "RAW, format = array_key_array_true\n";
-				    print_r($data);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="array_object", $data, $query["types"]);
+			    if($this->disable_typecast_read == true){
+				
+				    $data = $sql_result;
+			    }
+			    else {
+				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -961,7 +985,7 @@ class FOX_queryRunner {
 		    case "array_key_array_false" : {
 
 			    try {
-				    $data = $this->driver->get_results($sql);
+				    $sql_result = $this->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -977,14 +1001,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "RAW, format = array_key_array_false";
-				    print_r($data);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="array_object", $data, $query["types"]);
+			    if($this->disable_typecast_read == true){
+				
+				    $data = $sql_result;
+			    }
+			    else {
+				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -1051,7 +1078,7 @@ class FOX_queryRunner {
 		    case "array_key_single" : {
 
 			    try {
-				    $data = $this->driver->get_results($sql);
+				    $sql_result = $this->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -1067,14 +1094,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "RAW, format = array_key_single\n";
-				    print_r($data);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="array_object", $data, $query["types"]);
+			    if($this->disable_typecast_read == true){
+				
+				    $data = $sql_result;
+			    }
+			    else {
+				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -1124,7 +1154,7 @@ class FOX_queryRunner {
 		    case "array_object" : {
 
 			    try {
-				    $result = $this->driver->get_results($sql);
+				    $sql_result = $this->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -1140,14 +1170,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "RAW, format = array_object\n";
-				    print_r($result);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="array_object", $result, $query["types"]);
+			    if($this->disable_typecast_read == true){
+				
+				    $data = $sql_result;
+			    }
+			    else {				
+				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();
@@ -1186,7 +1219,7 @@ class FOX_queryRunner {
 		    case "array_array" : {
 
 			    try {
-				    $data = $this->driver->get_results($sql);
+				    $sql_result = $this->driver->get_results($sql);
 			    }    
 			    catch (FOX_exception $child) {
 
@@ -1202,14 +1235,17 @@ class FOX_queryRunner {
 			    if($this->print_result_raw == true){
 				    ob_start();
 				    echo "RAW, format = array_array\n";
-				    print_r($data);
+				    print_r($sql_result);
 				    $out = ob_get_clean();
 				    FOX_debug::addToFile($out);
 			    }
 
-			    if($this->disable_typecast_read == false){
-
-				    $cast->queryResult($format="array_object", $data, $query["types"]);
+			    if($this->disable_typecast_read == true){
+				
+				    $data = $sql_result;
+			    }
+			    else {
+				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
 
 				    if($this->print_result_cast == true){
 					    ob_start();

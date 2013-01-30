@@ -99,22 +99,6 @@ class database_typeCasters extends RAZ_testCase {
 				    )
 		);
 
-		$check_data = new stdClass();
-
-		$check_data->col_1 = true;
-		$check_data->col_2 = true;
-		$check_data->col_3 = (int)17384;
-		$check_data->col_4 = (int)29411;
-		$check_data->col_5 = (float)4871312;
-		$check_data->col_6 = (float)43.71175;
-		$check_data->col_7 = (string)"32871";
-		$check_data->col_8 = (string)"test_string";
-		$check_data->col_9 = array("val_1"=>1, "val_2"=>"test_01", "val_3"=>17.239);
-		$check_data->col_10 = array("val_1"=>(string)1, "val_2"=>(string)-23580, "val_3"=>(string)17.239);
-		$check_data->col_11 = array("val_1"=>(float)2, "val_2"=>(float)-27450, "val_3"=>(float)-26.17239);
-		$check_data->col_12 = (int)mktime(0, 0, 0, 11, 21, 2010);
-		$check_data->col_13 = (int)mktime(18, 44, 52, 11, 21, 2010);
-
 		// Set the disable_typecast flags to prevent FOX_db from automatically typecasting data
 		// written to / read from the datyabase
 
@@ -151,7 +135,7 @@ class database_typeCasters extends RAZ_testCase {
 		// returned *exactly* as stored in the db
 		
 		try {
-			$result = $this->tdb->runSelectQueryCol(self::$struct, $col = 'col_1', $op = "=", $val = '1', $columns=null, 
+			$sql_result = $this->tdb->runSelectQueryCol(self::$struct, $col = 'col_1', $op = "=", $val = '1', $columns=null, 
 								$ctrl=array("format"=>"row_object"));
 		}
 		catch (FOX_exception $child) {
@@ -162,11 +146,27 @@ class database_typeCasters extends RAZ_testCase {
 		// Run the returned test data through the query result typecaster, then compare the result to the check array.
 		
 		
-		
+		$check_data = new stdClass();
+
+		$check_data->col_1 = true;
+		$check_data->col_2 = true;
+		$check_data->col_3 = (int)17384;
+		$check_data->col_4 = (int)29411;
+		$check_data->col_5 = (float)4871312;
+		$check_data->col_6 = (float)43.71175;
+		$check_data->col_7 = (string)"32871";
+		$check_data->col_8 = (string)"test_string";
+		$check_data->col_9 = array("val_1"=>1, "val_2"=>"test_01", "val_3"=>17.239);
+		$check_data->col_10 = array("val_1"=>(string)1, "val_2"=>(string)-23580, "val_3"=>(string)17.239);
+		$check_data->col_11 = array("val_1"=>(float)2, "val_2"=>(float)-27450, "val_3"=>(float)-26.17239);
+		$check_data->col_12 = (int)mktime(0, 0, 0, 11, 21, 2010);
+		$check_data->col_13 = (int)mktime(18, 44, 52, 11, 21, 2010);
+		$check_data->col_14 =  array('lat'=>23.417, 'lon'=>17.449);
+				
 		$cst = new FOX_cast();
 		
 		try {
-			$cst->queryResult($format="row_object", $result, $types);
+			$result = $cst->queryResult($format="row_object", $sql_result, $types);
 		}
 		catch (FOX_exception $child) {
 		    
@@ -248,7 +248,10 @@ class database_typeCasters extends RAZ_testCase {
 		$check_data_1->col_11 = (string)'a:3:{s:5:"val_1";d:2;s:5:"val_2";d:-27450;s:5:"val_3";d:-26.17239000000000004320099833421409130096435546875;}';
 		$check_data_1->col_12 = "2010-11-21";
 		$check_data_1->col_13 = "2010-11-21 18:44:52";
-
+		
+		$col_name = "AsText(col_14)";
+		$check_data_1->{$col_name} = "POINT(23.417 17.449)";
+		
 		$this->assertEquals($check_data_1, $result);
 
 
@@ -278,7 +281,8 @@ class database_typeCasters extends RAZ_testCase {
 			"col_10"=> array("val_1"=>(string)1, "val_2"=>(string)-23580, "val_3"=>(string)17.239),
 			"col_11"=> array("val_1"=>(float)2, "val_2"=>(float)-27450, "val_3"=>(float)-26.17239),
 			"col_12"=> mktime(0, 0, 0, 11, 21, 2010),
-			"col_13"=> mktime(18, 44, 52, 11, 21, 2010)
+			"col_13"=> mktime(18, 44, 52, 11, 21, 2010),
+			"col_14"=> array('lat'=>23.417, 'lon'=>17.449)
 		);
 
 		$this->assertEquals($check_data_2, $result);

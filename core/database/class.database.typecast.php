@@ -18,8 +18,7 @@ class FOX_cast {
 
 
 	/**
-         * Converts an SQL data type to a PHP data type. The conversion is done
-	 * in-place using a reference, to help conserve memory space.
+         * Converts an SQL data type to a PHP data type, returning the converted value.
          *
          * @version 1.0
          * @since 1.0
@@ -31,14 +30,14 @@ class FOX_cast {
          * @return bool/int/float/string/array/object | converted output value
          */
 
-	public function SQLToPHP(&$value, $in_type, $out_type){
+	public function SQLToPHP($value, $in_type, $out_type){
 
 
 		switch($out_type){
 
 			case "bool" : {
 
-				$value = (bool)$value;
+				return (bool)$value;
 
 			} break;
 
@@ -55,7 +54,7 @@ class FOX_cast {
 					$month = (int)$date[1];
 					$day = (int)$date[2];
 
-					$value = mktime(0, 0, 0, $month, $day, $year);
+					return mktime(0, 0, 0, $month, $day, $year);
 
 				}
 				elseif($in_type == "datetime"){
@@ -75,19 +74,18 @@ class FOX_cast {
 					$minute = (int)$time[1];
 					$second = (int)$time[2];
 
-					$value = mktime($hour, $minute, $second, $month, $day, $year);
+					return mktime($hour, $minute, $second, $month, $day, $year);
 
 				}
 				else {
-
-					$value = (int)$value;
+					return (int)$value;
 				}
 
 			} break;
 
 			case "float" : {
 
-				$value = (float)$value;
+				return (float)$value;
 
 			} break;
 
@@ -95,7 +93,11 @@ class FOX_cast {
 
 				// If you try to cast NULL to (string) it becomes "0"
 				if($value !== null){
-					$value = (string)$value;
+				    
+					return (string)$value;
+				}
+				else {
+					return "";
 				}
 				
 			} break;
@@ -105,28 +107,53 @@ class FOX_cast {
 				// If you try to cast NULL to (string) it becomes "0"
 				if($value !== null){
 
-					$value = unserialize($value);
+					return unserialize($value);
 				}
+				else {
+					return null;
+				}				
 
 			} break;
 
 			case "array" : {
 
-				if( ($in_type == "point") || ($in_type == "polygon")){	
+				if( $value === null ){	
+				    
+					return null;
+				}
+				elseif($in_type == "point"){
+				    
+					// Typical input: POINT(23.1179 15.223)
 
-					if($value !== null){
-						$value = (string)$value;
-					}				    
+					$space_offset = stripos($value, " ");
+
+					$lat_start = 6;
+					$lat_len = $space_offset - $lat_start;
+
+					$lon_start = $space_offset + 1;
+					$lon_len = strlen($value) - ($space_offset + 1);
+
+					$result = array(
+							'lat'=> (float)substr($value, $lat_start, $lat_len),
+							'lon'=> (float)substr($value, $lon_start, $lon_len),
+					);
+
+					return $result;
+				    
+				}
+				elseif($in_type == "polygon"){			
+
+					return "FAIL";
 				}
 				else {
-					$value = unserialize($value);
+					return unserialize($value);
 				}
 
 			} break;
 
 			case "object" : {
 
-				$value = unserialize($value);
+				return unserialize($value);
 
 			} break;
 
@@ -146,16 +173,11 @@ class FOX_cast {
 
 		} // ENDOF: switch($out_type)
 
-
-		// Return the cast result
-		// ======================================
-		return $value;
-
 	}
 
 
 	/**
-         * Converts a PHP data type to an SQL data type
+         * Converts a PHP data type to an SQL data type, returning the converted value.
          *
          * @version 1.0
          * @since 1.0
@@ -172,44 +194,45 @@ class FOX_cast {
 
 		switch($out_type){
 
-			case "tinyint" : {  // 8 bit integer
-				$value = (int)$value;
+			case "tinyint" : {  // 8 bit integer			    
+				return (int)$value;
 			} break;
 
 			case "smallint" : { // 16 bit integer
-				$value = (int)$value;
+				return (int)$value;
 			} break;
 
 			case "mediumint" : { // 24 bit integer
-				$value = (int)$value;
+				return (int)$value;
 			} break;
 
 			case "int" : { // 32 bit integer
-				$value = (int)$value;
+				return (int)$value;
 			} break;
 
 			case "bigint" : { // 64 bit integer
 
 				// TODO: on 32 bit systems, this needs to be cast as (float)
-				$value = (int)$value;
+				return (int)$value;
 			} break;
 
 			case "float" : { // 32 bit float
-				$value = (float)$value;
+				return (float)$value;
 			} break;
 
 			case "double" : { // 64 bit float
-				$value = (float)$value;
+				return (float)$value;
 			} break;
 
 			case "char" : {	// Fixed-length string of up 65,535 8-bit chars. Note UTF8 uses 24 bits per char
 					// so max length will be 1/3 of this length.
 
 				if( ($in_type == "array") || ($in_type == "object") || ($in_type == "serialize") ){
-					$value = serialize($value);
+				    
+					return serialize($value);
 				}
 				else{
-					$value = (string)$value;
+					return (string)$value;
 				}
 
 			} break;
@@ -218,10 +241,11 @@ class FOX_cast {
 					   // so max length will be 1/3 of this length.
 
 				if( ($in_type == "array") || ($in_type == "object") || ($in_type == "serialize") ){
-					$value = serialize($value);
+				    
+					return serialize($value);
 				}
 				else{
-					$value = (string)$value;
+					return (string)$value;
 				}
 
 			} break;
@@ -230,10 +254,11 @@ class FOX_cast {
 					    // so max length will be 1/3 of this length.
 
 				if( ($in_type == "array") || ($in_type == "object") || ($in_type == "serialize") ){
-					$value = serialize($value);
+				    
+					return serialize($value);
 				}
 				else{
-					$value = (string)$value;
+					return (string)$value;
 				}
 
 			} break;
@@ -242,10 +267,11 @@ class FOX_cast {
 						// so max length will be 1/3 of this length.
 
 				if( ($in_type == "array") || ($in_type == "object") || ($in_type == "serialize") ){
-					$value = serialize($value);
+				    
+					return serialize($value);
 				}
 				else{
-					$value = (string)$value;
+					return (string)$value;
 				}
 
 			} break;
@@ -254,10 +280,11 @@ class FOX_cast {
 						// so max length will be 1/3 of this length.
 
 				if( ($in_type == "array") || ($in_type == "object") || ($in_type == "serialize") ){
-					$value = serialize($value);
+				    
+					return serialize($value);
 				}
 				else{
-					$value = (string)$value;
+					return (string)$value;
 				}
 
 			} break;
@@ -265,10 +292,11 @@ class FOX_cast {
 			case "date" : {		// Date, formatted as "9999-12-31"
 
 				if( $in_type == "int" ){
-					$value = gmdate( "Y-m-d", (int)$value);
+				    
+					return gmdate( "Y-m-d", (int)$value);
 				}
 				else{
-					$value = $value;
+					return $value;
 				}
 
 			} break;
@@ -276,16 +304,17 @@ class FOX_cast {
 			case "datetime" : {	// Date and time, formatted as "9999-12-31 23:59:59"
 
 				if( $in_type == "int" ){
-					$value = gmdate( "Y-m-d H:i:s", (int)$value);
+				    
+					return gmdate( "Y-m-d H:i:s", (int)$value);
 				}
 				else{
-					$value = $value;
+					return $value;
 				}
 
 			} break;
 			
-			case "point" : {	// GIS Point, formatted as array('lat'=>X, 'lon'=>Y)
-			    
+			case "point" : {	// GIS Point, formatted as array('lat'=>X, 'lon'=>Y)			    
+					
 				if( $in_type != "array" ) {
 				    
 					throw new FOX_exception( array(
@@ -310,11 +339,13 @@ class FOX_cast {
 						));										
 					}
 
-					$value = "POINTFROMTEXT('POINT(" . $value['lat'] . " " . $value['lon'] . ")')";	
+					$result = "POINTFROMTEXT('POINT(" . $value['lat'] . " " . $value['lon'] . ")')";	
 				}
 				else {
-					$value = 'NULL';				    
-				}
+					$result = 'NULL';				    
+				}				
+				
+				return $result;
 			
 
 			} break;
@@ -336,7 +367,7 @@ class FOX_cast {
 					));
 				}
 
-				$temp = "PolygonFromText('POLYGON((";
+				$result = "PolygonFromText('POLYGON((";
 				
 				$points_left = count($value) - 1;
 				
@@ -364,19 +395,19 @@ class FOX_cast {
 						));										
 					}
 
-					$temp .= $value['lat'] . " " . $value['lon'];	
+					$result .= $value['lat'] . " " . $value['lon'];	
 					
 					if($points_left){
 					    
-						$temp .= ", ";
+						$result .= ", ";
 						$points_left --;
 					}
 				}
 				unset($point);
 				
-				$temp .= "))')";
+				$result .= "))')";
 				
-				$value = $temp;
+				return $result;
 			
 
 			} break;				
@@ -395,10 +426,6 @@ class FOX_cast {
 
 		} // END switch($out_type)
 
-
-		// Return the cast result
-		// ======================================
-		return $value;
 
 	}
 
@@ -420,7 +447,7 @@ class FOX_cast {
          * @return bool/int/float/string/array/object | converted output value
          */
 
-	public function queryResult($format, &$data, $types){
+	public function queryResult($format, $data, $types){
 
 		// Handle null queries
 		if(!$data){
@@ -437,7 +464,7 @@ class FOX_cast {
 				$in_type = $types[$key]["sql"];
 				$out_type = $types[$key]["php"];
 
-				self::SQLToPHP($data, $in_type, $out_type);
+				return self::SQLToPHP($data, $in_type, $out_type);
 
 			} break;
 
@@ -449,38 +476,77 @@ class FOX_cast {
 				$in_type = $types[$key]["sql"];
 				$out_type = $types[$key]["php"];
 
+				$result = array();
+				
 				// Cast each value in the array
-				foreach($data as $key => $val){
+				foreach($data as $val){
 
-					 self::SQLToPHP($data[$key], $in_type, $out_type);
+					 $result[] = self::SQLToPHP($val, $in_type, $out_type);
 				}
-
+				unset($val);
+				
+				return $result;
 
 			} break;
 
 			case "row_object" : {
 
+				$result = new stdClass();
+				
 				foreach($types as $var => $cast){
 
 					$in_type = $cast["sql"];
 					$out_type = $cast["php"];
-					self::SQLToPHP($data->{$var}, $in_type, $out_type);
+					
+					if( ($in_type == 'point') || ($in_type == 'polygon') ){
+					    
+						// GIS data types come back from the db with the wrapped
+						// column name as the key. Example: "AsText(colName)"
+					    
+						$wrapped_var = "AsText(".$var.")";
+						$result->{$var} = self::SQLToPHP($data->{$wrapped_var}, $in_type, $out_type);
+					}
+					else {
+						$result->{$var} = self::SQLToPHP($data->{$var}, $in_type, $out_type);
+					}
 				}
+				
+				return $result;
 
 
 			} break;
 
 			case "array_object" : {
 
-				foreach($data as $index => $row){
+				$result = array();
+			    
+				foreach($data as $index => $fake_var){
 
+					$result[$index] = new stdClass();
+				    
 					foreach($types as $var => $cast){
 
 						$in_type = $cast["sql"];
 						$out_type = $cast["php"];
-						self::SQLToPHP($data[$index]->{$var}, $in_type, $out_type);
+						
+						if( ($in_type == 'point') || ($in_type == 'polygon') ){
+							
+							// GIS data types come back from the db with the wrapped
+							// column name as the key. Example: "AsText(colName)"
+
+							$wrapped_var = "AsText(".$var.")";
+							$result[$index]->{$var} = self::SQLToPHP($data[$index]->{$wrapped_var}, $in_type, $out_type);							
+							
+						}
+						else {							
+							$result[$index]->{$var} = self::SQLToPHP($data[$index]->{$var}, $in_type, $out_type);
+						}											
 					}
+					unset($var, $cast);
 				}
+				unset($index, $fake_var);
+				
+				return $result;				
 
 			} break;
 			
