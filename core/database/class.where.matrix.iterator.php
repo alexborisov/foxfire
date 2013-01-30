@@ -333,7 +333,7 @@ class FOX_queryBuilder_whereMatrix_iterator {
 		if(!$this->is_root_node){
 		
 			$where .= $this->base->prefix . $this->column . " = " . $this->format;						
-			$params_list[] = $this->value;		    
+			$params_list[] = array('escape'=>true, 'val'=>$this->value);		    
 		}
 		
 		if( !count($this->children) ){
@@ -396,7 +396,7 @@ class FOX_queryBuilder_whereMatrix_iterator {
 			    
 				$where .= $col_name . " = ";
 				$where .= $nodes[$node_keys[0]]->format;
-				$params_list[] = $nodes[$node_keys[0]]->value;	
+				$params_list[] = array('escape'=>true, 'val'=>$nodes[$node_keys[0]]->value);	
 
 				unset($node_keys);
 			}
@@ -409,7 +409,7 @@ class FOX_queryBuilder_whereMatrix_iterator {
 				foreach($nodes as $node_id => $node){
 
 					$where .= $node->format;
-					$params_list[] = $node->value;
+					$params_list[] = array('escape'=>true, 'val'=>$node->value);
 
 					if($nodes_left > 0){
 

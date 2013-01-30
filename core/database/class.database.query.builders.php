@@ -287,14 +287,21 @@ class FOX_queryBuilder {
 				));
 			}
 
+			if( $struct["columns"][$col_params["col"]]["format"] == "%r" ){
 
+				$escape = false;
+			}
+			else {
+				$escape = true;
+			}
+					
 			// If the compare is being run on a single value, add a structure like "column_name < %d"
 			// to the query, and copy the value to the params list.
 			// ======================================================================================
 			if( !is_array($col_params["val"]) ){
 
 				$where .= " AND " . $prefix . $col_params["col"] . " " . $col_params["op"] . " " . $struct["columns"][$col_params["col"]]["format"];
-				$params_list[] = array('prefix'=>true, 'val'=>$col_params["val"]);
+				$params_list[] = array('escape'=>$escape, 'val'=>$col_params["val"]);
 			}
 
 			// If the compare is being run on an array of values, add a structure like
@@ -345,10 +352,10 @@ class FOX_queryBuilder {
 						$where .= ", ";
 						$vals_left--;
 					}
-
-					$params_list[] = array('prefix'=>true, 'val'=>$val);
+					
+					$params_list[] = array('escape'=>$escape, 'val'=>$val);	
+					
 				}
-
 				unset($val);
 
 				$where .= ")";
@@ -2143,13 +2150,21 @@ class FOX_queryBuilder {
 
 			$cast = new FOX_cast();
 
+			if( $struct["columns"][$column_name]["format"] == "%r" ){
+			    
+				$escape = false; 
+			}
+			else {
+				$escape = true;
+			}
+			
 			if( is_array($data) ){
 				// Handle data passed as array
-				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data[$column_name], $in_type, $out_type) );
+				$params_list[] = array('escape'=>$escape, 'val'=>$cast->PHPToSQL($data[$column_name], $in_type, $out_type) );
 			}
 			else {
 				// Handle data passed as object
-				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
+				$params_list[] = array('escape'=>$escape, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
 			}
 
 			if($columns_left != 0){
@@ -2368,7 +2383,15 @@ class FOX_queryBuilder {
 					$in_type = $struct["columns"][$column_name]["php"];
 					$out_type = $struct["columns"][$column_name]["sql"];
 
-					$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($block[$column_name], $in_type, $out_type) );
+					if( $struct["columns"][$column_name]["format"] == "%r" ){
+
+						$escape = false; 
+					}
+					else {
+						$escape = true;
+					}
+					
+					$params_list[] = array('escape'=>$escape, 'val'=>$cast->PHPToSQL($block[$column_name], $in_type, $out_type) );
 
 					if($columns_left != 0){
 						$query_formats .= ", ";
@@ -2403,7 +2426,15 @@ class FOX_queryBuilder {
 				$in_type = $struct["columns"][$column_name]["php"];
 				$out_type = $struct["columns"][$column_name]["sql"];
 
-				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
+				if( $struct["columns"][$column_name]["format"] == "%r" ){
+
+					$escape = false; 
+				}
+				else {
+					$escape = true;
+				}	
+				
+				$params_list[] = array('escape'=>$escape, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
 
 				if($columns_left != 0){
 					$query_formats .= ", ";
@@ -2536,7 +2567,15 @@ class FOX_queryBuilder {
 				$in_type = $struct["columns"][$column_name]["php"];
 				$out_type = $struct["columns"][$column_name]["sql"];
 
-				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data[$column_name], $in_type, $out_type) );
+				if( $struct["columns"][$column_name]["format"] == "%r" ){
+
+					$escape = false; 
+				}
+				else {
+					$escape = true;
+				}	
+				
+				$params_list[] = array('escape'=>$escape, 'val'=>$cast->PHPToSQL($data[$column_name], $in_type, $out_type) );
 
 				if($columns_left != 0){
 					$query_formats .= ", ";
@@ -2562,7 +2601,15 @@ class FOX_queryBuilder {
 				$in_type = $struct["columns"][$column_name]["php"];
 				$out_type = $struct["columns"][$column_name]["sql"];
 
-				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
+				if( $struct["columns"][$column_name]["format"] == "%r" ){
+
+					$escape = false; 
+				}
+				else {
+					$escape = true;
+				}
+				
+				$params_list[] = array('escape'=>$escape, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
 
 				if($columns_left != 0){
 					$query_formats .= ", ";
@@ -2586,14 +2633,22 @@ class FOX_queryBuilder {
 			$out_type = $struct["columns"][$column_name]["sql"];
 
 			$cast = new FOX_cast();
+			
+			if( $struct["columns"][$column_name]["format"] == "%r" ){
+
+				$escape = false; 
+			}
+			else {
+				$escape = true;
+			}			
 
 			if( is_array($data) ){
 				// Handle data passed as array
-				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data[$column_name], $in_type, $out_type) );
+				$params_list[] = array('escape'=>$escape, 'val'=>$cast->PHPToSQL($data[$column_name], $in_type, $out_type) );
 			}
 			else {
 				// Handle data passed as object
-				$params_list[] = array('escape'=>true, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
+				$params_list[] = array('escape'=>$escape, 'val'=>$cast->PHPToSQL($data->{$column_name}, $in_type, $out_type) );
 			}
 
 			if($columns_left != 0){

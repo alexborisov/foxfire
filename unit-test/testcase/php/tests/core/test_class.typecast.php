@@ -118,8 +118,8 @@ class database_typeCasters extends RAZ_testCase {
 		// Set the disable_typecast flags to prevent FOX_db from automatically typecasting data
 		// written to / read from the datyabase
 
-//		$this->tdb->disable_typecast_write = true;
-//		$this->tdb->disable_typecast_read = true;
+		$this->tdb->disable_typecast_write = true;
+		$this->tdb->disable_typecast_read = true;
 
 		// Load the test data into the database. Because $disable_typecast_write is set it will be
 		// stored *exactly* as sent in to the db
@@ -129,11 +129,10 @@ class database_typeCasters extends RAZ_testCase {
 		}
 		catch (FOX_exception $child) {
 		    
-			//$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));		    
 		}
 					
-		//$this->assertEquals(1, $result, 'runInsertQueryMulti() reported adding wrong number of rows');
-	die;	
+		$this->assertEquals(1, $result, 'runInsertQueryMulti() reported adding wrong number of rows');
 		
 		// Get the "types" array for the test data by running the query's "builder" function and extracting it from the result
 		
@@ -181,7 +180,7 @@ class database_typeCasters extends RAZ_testCase {
 
 
 	function test_dataIn(){		
-return;	    
+  
 		try {
 			$this->tdb->runTruncateTable(self::$struct);
 		}
