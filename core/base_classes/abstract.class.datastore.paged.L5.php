@@ -8878,8 +8878,7 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 		// ==========================
 		
 		$replace_data = array( $L5=>$data );
-				//FOX_debug::dump($replace_data); die;
-		
+
 		$replace_ctrl = array(
 				    'validate'=>false
 		);
@@ -9022,9 +9021,6 @@ abstract class FOX_dataStore_paged_L5_base extends FOX_db_base {
 			}			
 			
 			if($tree_valid !== true){
-			    
-			    FOX_debug::dump($data);FOX_debug::dump($data);
-			    FOX_debug::dump($tree_valid); die;
 			    
 				throw new FOX_exception( array(
 					'numeric'=>3,
