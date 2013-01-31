@@ -136,14 +136,14 @@ class FOX_testPlan extends RAZ_testPlan_base {
 		    
 			"base" => array(
 			    
-				array( "enable"=>true,	 "name"=>"Validators",	"mock"=>array(), "file"=>"/tests/base_classes/test_base.datastore.validators.php" ),
+//				array( "enable"=>true,	 "name"=>"Validators",	"mock"=>array(), "file"=>"/tests/base_classes/test_base.datastore.validators.php" ),
 			    
-				array( "enable"=>true,	 "name"=>"L5 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_add.php" ),
-				array( "enable"=>true,	 "name"=>"L5 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_set.php" ),
-				array( "enable"=>true,	 "name"=>"L5 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_get.php" ),
-				array( "enable"=>true,	 "name"=>"L5 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_replace.php" ),
-				array( "enable"=>true,	 "name"=>"L5 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_drop.php" ),
-				array( "enable"=>true,	 "name"=>"L5 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_global.php" ),			    
+//				array( "enable"=>true,	 "name"=>"L5 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_add.php" ),
+//				array( "enable"=>true,	 "name"=>"L5 Paged (Set)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_set.php" ),
+//				array( "enable"=>true,	 "name"=>"L5 Paged (Get)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_get.php" ),
+//				array( "enable"=>true,	 "name"=>"L5 Paged (Replace)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_replace.php" ),
+//				array( "enable"=>true,	 "name"=>"L5 Paged (Drop)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_drop.php" ),
+//				array( "enable"=>true,	 "name"=>"L5 Paged (Global)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_global.php" ),			    
 //			    	array( "enable"=>true,	 "name"=>"L5 Paged (ACID)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L5/test_base.db.store.paged.L5_ACID.php" ),	
 			    
 //				array( "enable"=>true,	 "name"=>"L4 Paged (Add)",	"mock"=>array(), "file"=>"/tests/base_classes/paged_L4/test_base.db.store.paged.L4_add.php" ),
@@ -176,7 +176,7 @@ class FOX_testPlan extends RAZ_testPlan_base {
 //			    
 //				array( "enable"=>false,	 "name"=>"L3 Monolithic", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.store.monolithic.L3.php" ),			    
 //				array( "enable"=>false,  "name"=>"Module Manager", "mock"=>array(), "file"=>"/tests/base_classes/test_base.module.manager.php" ),
-//				array( "enable"=>false,  "name"=>"Dictionary Base", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.dictionary.php" ),
+				array( "enable"=>true,  "name"=>"Dictionary Base", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.dictionary.php" ),
 //				array( "enable"=>false,	 "name"=>"Config", "mock"=>array(), "file"=>"/tests/base_classes/test_system.config.php" ),				    
 			),
 

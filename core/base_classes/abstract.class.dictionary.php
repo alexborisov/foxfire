@@ -38,6 +38,8 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 							// operations. Loaded by descendent class.		
 	var $db;
 	
+	var $hashtable;					// Hash table instance used for hashing tokens
+	
 	/* ================================================================================================================
 	 *	Cache Strategy: "paged"
 	 *
@@ -104,7 +106,19 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			global $fox;
 			$this->mCache = $fox->mCache;		    		    
 		}
-								
+				
+		
+		// Token hashing
+		// ===========================================================
+	    
+		if(FOX_sUtil::keyExists('hash_tokens', $args) ){
+		    
+			$this->hashtable = new FOX_hashTable($args);  
+		}
+		else {
+			$this->hashtable = new FOX_hashTable();
+		}
+		
 		$this->init = true;
 	    
 	}	
@@ -140,7 +154,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 
 		$args = array( array("col"=>"token", "op"=>"=", "val"=>$tokens) );
 	
-		$ctrl = array("format"=>"array_key_single", "key_col"=>"token", "val_col"=>"id", 
+		$ctrl = array("format"=>"array_key_single", "key_col"=>"id", "val_col"=>"token", 
 				"sort"=>array( array( "col"=>"id", "sort"=>"ASC"))
 			);
 		
@@ -165,7 +179,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			
 			$cache_update = array();
 
-			foreach($result as $token_name => $token_id){
+			foreach($result as $token_id => $token_name){
 				
 				// This class is unique because each token<=>key pair has two cache pages, one for
 				// the token=>key relationship and one for the key=>token relationship. We separate
@@ -174,7 +188,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				// in one operation.
 				
 				$cache_update["id_".$token_id] = $token_name;
-				$cache_update["token_".$token_name] = $token_id;
+				$cache_update["token_".$this->generateHash($token_name)] = $token_id;
 				
 			}
 			unset($token_name, $token_id);
@@ -194,9 +208,9 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			}
 			
 			// Update the class cache
-			foreach($result as $token_name => $token_id){
+			foreach($result as $token_id => $token_name){
 
-				$this->cache["tokens"][$token_name] = $token_id;
+				$this->cache["tokens"][$this->generateHash($token_name)] = $token_id;
 				$this->cache["ids"][$token_id] = $token_name;							
 			}
 			unset($token_name, $token_id);
@@ -277,7 +291,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				// in one operation.
 				
 				$cache_update["id_".$token_id] = $token_name;
-				$cache_update["token_".$token_name] = $token_id;
+				$cache_update["token_".$this->generateHash($token_name)] = $token_id;
 				
 			}
 			unset($token_name, $token_id);
@@ -300,7 +314,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			
 			foreach($result as $token_id => $token_name){
 
-				$this->cache["tokens"][$token_name] = $token_id;
+				$this->cache["tokens"][$this->generateHash($token_name)] = $token_id;
 				$this->cache["ids"][$token_id] = $token_name;				
 			}
 			unset($token_name, $token_id);			
@@ -345,11 +359,18 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		
 		$cache_keys = array();
 		
+		//used to update class cache ids
+		$hashed_array = array();
+		
 		foreach($tokens as $token){
-
-			$cache_keys[] = "token_" . $token;
+			
+			$hashed_token = $this->generateHash($token);
+			
+			$cache_keys[] = "token_" .$hashed_token;
+			
+			$hashed_array[$hashed_token]= $token;
 		}
-		unset($token);
+		unset($token, $hashed_token);
 		
 		
 		try {			
@@ -367,7 +388,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		}
 		
 		$result = array();
-		
+
 		foreach($raw_cache_result as $raw_token_name => $token_id){
 		    
 			// Remove prefix from token name
@@ -375,10 +396,10 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			$token_name = substr($raw_token_name, $prefix_length, strlen($raw_token_name) - $prefix_length);
 			
 			// Update class cache
-			$this->cache["tokens"][$token_name] = $token_id;	
-			$this->cache["ids"][$token_id] = $token_name;
+			$this->cache["tokens"][$token_name] = $token_id;
+			$this->cache["ids"][$token_id] = $hashed_array[$token_name];			
 			
-			$result[$token_name] = $token_id;
+			$result[$token_id] = $hashed_array[$token_name];
 			
 		}
 		unset($raw_token_name, $token_id, $prefix_length, $token_name);	
@@ -446,7 +467,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			$token_id = substr($raw_token_id, $prefix_length, strlen($raw_token_id) - $prefix_length);
 			
 			// Update class cache
-			$this->cache["tokens"][$token_name] = $token_id;	
+			$this->cache["tokens"][$this->generateHash($token_name)] = $token_id;	
 			$this->cache["ids"][$token_id] = $token_name;
 			
 			$result[$token_id] = $token_name;
@@ -499,8 +520,22 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		$data = array();
 		
 		foreach($tokens as $token){
-		    
-			$data[] = array("token"=>$token);
+			
+			// Test if token is a string
+			if( is_string($token)){
+				
+				$data[] = array("token"=>$token);
+			} else {
+			    
+				throw new FOX_exception( array(
+					'numeric'=>2,
+					'text'=>"Parameter passed as token is not a string exception",
+					'data'=>array("tokens"=>$tokens),
+					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+					'child'=>null
+				));
+			}
+			
 		}
 		unset($token);		
 
@@ -511,7 +546,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		catch(FOX_exception $child){
 		    
 		    	throw new FOX_exception( array(
-				'numeric'=>2,
+				'numeric'=>3,
 				'text'=>"Error writing to database",
 				'data'=>array("data"=>$data),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -537,7 +572,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			// in one operation.
 
 			$cache_update["id_".$token_id] = $token_name;
-			$cache_update["token_".$token_name] = $token_id;
+			$cache_update["token_".$this->generateHash($token_name)] = $token_id;
 			
 			// Id values will be incremented by $db->auto_increment_increment for 
 			// each successive row
@@ -554,7 +589,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		catch(FOX_exception $child){
 
 			throw new FOX_exception( array(
-				'numeric'=>3,
+				'numeric'=>4,
 				'text'=>"Cache write error",
 				'data'=>array("cache update"=>$cache_update),
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -571,10 +606,10 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		
 		foreach($tokens as $token_name){
 
-			$this->cache["tokens"][$token_name] = $token_id;
+			$this->cache["tokens"][$this->generateHash($token_name)] = $token_id;
 			$this->cache["ids"][$token_id] = $token_name;
 			
-			$result[$token_name] = $token_id;			
+			$result[$token_id] = $token_name;			
 			
 			$token_id += $this->db->auto_increment_increment;
 
@@ -584,7 +619,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		
 		if($single == true){
 		   
-			return $result[$tokens[0]];
+			return key($result);
 		}
 		else {
 			return $result;
@@ -634,16 +669,15 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		
 		foreach($tokens as $token){
 		    
-			if( FOX_sUtil::keyExists($token, $this->cache["tokens"]) ){
+			if( FOX_sUtil::keyExists($this->generateHash($token), $this->cache["tokens"]) ){
 
-				$result[$token] = $this->cache["tokens"][$token];
+				$result[$this->cache["tokens"][$this->generateHash($token)]] = $token;
 			}
 			else {
 				$missing_tokens[] = $token;
 			}
 		}
 		unset($token);
-		
 		
 		// Try to fetch missing tokens from the persistent cache
 		// ======================================================
@@ -663,12 +697,16 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 					'child'=>$child
 				));
 			}
+			// Add found tokens
+			foreach($cache_tokens as $key=>$value){
+			    
+				$result[$key] = $value;
+				
+			}
+//			$result = array_merge($cache_tokens, $result);			
+			$missing_tokens = array_diff($missing_tokens, array_values($cache_tokens) );
 			
-			$result = array_merge($result, $cache_tokens);			
-			$missing_tokens = array_diff($missing_tokens, array_keys($cache_tokens) );
-			
-		}
-		
+		}		
 		
 		// Try to fetch missing tokens from the database
 		// ======================================================
@@ -689,8 +727,13 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				));
 			}
 			
-			$result = array_merge($result, $db_tokens);			
-			$missing_tokens = array_diff($missing_tokens, array_keys($db_tokens) );
+			// Add found tokens
+			foreach( $db_tokens as $key=>$value){
+			    
+				$result[$key] = $value;
+			}
+			
+			$missing_tokens = array_diff($missing_tokens, array_values($db_tokens) );
 			
 		}
 		
@@ -706,7 +749,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 			catch(FOX_exception $child) {
 			    			
 				throw new FOX_exception( array(
-					'numeric'=>2,
+					'numeric'=>4,
 					'text'=>"Error in self::addToken()",
 					'data'=>array("tokens"=>$missing_tokens),
 					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
@@ -714,14 +757,19 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 				));
 			}	
 			
-			$result = array_merge($result, $insert_tokens);
+			// Add found tokens
+			foreach( $insert_tokens as $key=>$value){
+			    
+				$result[$key] = $value;
+			}			
+
 			
 		}
 		
 		
 		if($single == true){
 		    
-			return $result[$tokens[0]];
+			return key($result);
 		}
 		else {
 			return $result;
@@ -897,10 +945,10 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		
 		$cache_pages = array();
 
-		foreach($token_data as $token_name => $token_id){
+		foreach($token_data as $token_id => $token_name){
 		    
 			$cache_pages["id_".$token_id] =$token_name;
-			$cache_pages["token_".$token_name] =$token_id;
+			$cache_pages["token_".$this->generateHash($token_name)] =$token_id;
 		}
 		unset($token_name, $token_id);
 
@@ -960,9 +1008,9 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		// Update the class cache
 		// ===============================
 		
-		foreach($token_data as $token_name => $token_id){
+		foreach($token_data as $token_id => $token_name){
 		    		   
-			unset($this->cache["tokens"][$token_name]);
+			unset($this->cache["tokens"][$this->generateHash($token_name)]);
 			unset($this->cache["ids"][$token_id]);					    
 		}
 		unset($token_name, $token_id);			
@@ -1028,7 +1076,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		foreach($id_data as $token_id => $token_name){
 		    
 			$cache_pages["id_".$token_id]= $token_name;
-			$cache_pages["token_".$token_name] = $token_id;
+			$cache_pages["token_".$this->generateHash($token_name)] = $token_id;
 		}
 		unset($token_id, $token_name);
 
@@ -1091,7 +1139,7 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		
 		foreach($id_data as $token_id => $token_name){
 		    		   
-			unset($this->cache["tokens"][$token_name]);
+			unset($this->cache["tokens"][$this->generateHash($token_name)]);
 			unset($this->cache["ids"][$token_id]);					    
 		}
 		unset($token_id, $token_name);	
@@ -1147,7 +1195,46 @@ abstract class FOX_dictionary_base extends FOX_db_base {
 		
 	}
 	
+	/**
+	 * Convert Tokens to Hashes
+	 * 
+	 * @version 1.0
+	 * @since 1.0
+	 *
+	 * @param string $token | Single token as string.
+	 * @return string/array | return hash or array of hashes with Exception on failure. True on success.
+	 */
 
+	public function generateHash($token) {
+	    	    
+	    	if( is_null($token)){
+		    
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Null parameter passed as tokens exception",
+				'data'=>array("tokens"=>$tokens),
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));
+		}
+
+		// Check if token has been hashed before
+		// ===============================
+		$hash = $this->hashtable->get($token);
+		
+		// If hasn't been hashed before
+		if( is_null($hash) ){
+		    
+			$hash = $this->hashtable->set($token);
+			
+		} else {
+			// get returns token=>hash so extract hash
+			return $hash[0];
+		}
+		
+		return $hash;
+	    
+	}
 	
 } // End of abstract class FOX_module_dictionary_base
 
