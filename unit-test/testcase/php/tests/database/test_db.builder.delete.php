@@ -72,12 +72,14 @@ class database_queryBuilders_delete extends RAZ_testCase {
 
 			array("col"=>"col_1", "op"=>"=", "val"=>53)
 		);
-
-		$check_args = array();
-		$check_args[0] = "DELETE FROM {$table} WHERE 1 = 1 AND col_1 = %d";
-
-		$check_array = array(53);
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "DELETE FROM {$table} WHERE 1 = 1 AND col_1 = %d",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>53)
+			)		    
+		);
 
 		try {
 			$result = $this->builder->buildDeleteQuery($struct, $args);
@@ -87,7 +89,7 @@ class database_queryBuilders_delete extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 
 		// Multiple constraints
@@ -98,12 +100,15 @@ class database_queryBuilders_delete extends RAZ_testCase {
 			array("col"=>"col_1", "op"=>"=", "val"=>53),
 			array("col"=>"col_2", "op"=>"!=", "val"=>"test_val")
 		);
-
-		$check_args = array();
-		$check_args[0] = "DELETE FROM {$table} WHERE 1 = 1 AND col_1 = %d AND col_2 != %s";
-
-		$check_array = array(53, "test_val");
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "DELETE FROM {$table} WHERE 1 = 1 AND col_1 = %d AND col_2 != %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>53),
+					    array('escape'=>true, 'val'=>'test_val')			    
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildDeleteQuery($struct, $args);
@@ -113,7 +118,7 @@ class database_queryBuilders_delete extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}	
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 	}
 
@@ -135,12 +140,14 @@ class database_queryBuilders_delete extends RAZ_testCase {
 
 		
 		$table = $this->base_prefix . $struct["table"];
-
-		$check_args = array();
-		$check_args[0] = "DELETE FROM {$table} WHERE 1 = 1 AND col_1 <> %d";
-
-		$check_array = array(31);
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "DELETE FROM {$table} WHERE 1 = 1 AND col_1 <> %d",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>31)		    
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildDeleteQueryCol($struct, "col_1", "<>", 31);
@@ -150,7 +157,7 @@ class database_queryBuilders_delete extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}					
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 		
 
 	}

@@ -675,11 +675,8 @@ class FOX_db_driver_mysqli {
          * @return string | Prepared query string	 
 	 */
 	
-	function prepare($args){
-					
+	function prepare($query, $params=null){
 	    
-		$query = $args['query'];
-		$params = $args['params'];
 		
 		// Force floats to be locale unaware
 		$query = preg_replace( '|(?<!%)%f|' , '%F', $query );

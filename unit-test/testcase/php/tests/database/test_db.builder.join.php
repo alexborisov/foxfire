@@ -96,14 +96,15 @@ class database_queryBuilders_join extends RAZ_testCase {
 		$struct_join_table = $this->base_prefix . $struct_join["table"];
 
 		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.* FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
+		$query  = "SELECT DISTINCT {$struct_primary_table}.* FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
 		
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);		
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns=null, $ctrl);
@@ -113,7 +114,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(3, count($result["types"]));
 
 
 		// Single column selected using INCLUDE mode
@@ -126,14 +129,15 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"include", "col"=>"col_1");
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_1 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_1 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -143,7 +147,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 		// Multiple columns selected using INCLUDE mode
@@ -156,14 +162,15 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"include", "col"=>array("col_1", "col_2") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_1, {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_1, {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -173,7 +180,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"]));
 
 
 		// Single column skipped using EXCLUDE mode
@@ -186,14 +195,15 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>"col_1");
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2, {$struct_primary_table}.col_3 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2, {$struct_primary_table}.col_3 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -203,7 +213,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"]));
 
 
 		// Multiple columns skipped using EXCLUDE mode
@@ -216,14 +228,15 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -233,7 +246,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 		// Count items, bool true
@@ -247,14 +262,15 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT COUNT(DISTINCT {$struct_primary_table}.*) FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT COUNT(DISTINCT {$struct_primary_table}.*) FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -264,7 +280,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 		// Count items, single primary table column
@@ -276,14 +294,15 @@ class database_queryBuilders_join extends RAZ_testCase {
 			'count'=>array( array("class"=>$struct_primary, "col"=>"col_1") )
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT COUNT(DISTINCT {$struct_primary_table}.col_1) FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT COUNT(DISTINCT {$struct_primary_table}.col_1) FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns=false, $ctrl);
@@ -293,7 +312,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"]));
 
 
 		// Count items, multiple columns
@@ -308,15 +329,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 			)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT COUNT(DISTINCT {$struct_primary_table}.col_1), COUNT(DISTINCT {$struct_join_table}.col_6) ";
-		$check_args[0] .= "FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT COUNT(DISTINCT {$struct_primary_table}.col_1), COUNT(DISTINCT {$struct_join_table}.col_6) ";
+		$query .= "FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns=false, $ctrl);
@@ -326,7 +348,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"]));
 
 
 		
@@ -343,15 +367,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY {$struct_primary_table}.col_1 DESC";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "ORDER BY {$struct_primary_table}.col_1 DESC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -361,7 +386,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 		// Sort items, primary table used as sort class, arbitrary sort order
@@ -379,15 +406,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY FIND_IN_SET({$struct_primary_table}.col_1, '1,5,3,2,4')";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "ORDER BY FIND_IN_SET({$struct_primary_table}.col_1, '1,5,3,2,4')";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -397,7 +425,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 
@@ -416,15 +446,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY {$struct_primary_table}.col_1 DESC, {$struct_primary_table}.col_2 ASC";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "ORDER BY {$struct_primary_table}.col_1 DESC, {$struct_primary_table}.col_2 ASC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -434,7 +465,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 		// Sort items, primary table used as sort class, multiple sort columns, arbitrary sort order
@@ -453,15 +486,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY {$struct_primary_table}.col_1 DESC, FIND_IN_SET({$struct_primary_table}.col_2, '1,5,3,2,4')";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "ORDER BY {$struct_primary_table}.col_1 DESC, FIND_IN_SET({$struct_primary_table}.col_2, '1,5,3,2,4')";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -471,7 +505,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 
@@ -488,15 +524,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY {$struct_join_table}.col_4 DESC";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "ORDER BY {$struct_join_table}.col_4 DESC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -506,7 +543,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 		
 		// Sort items, joined table used as sort class, arbitrary sort order
@@ -524,15 +563,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY FIND_IN_SET({$struct_join_table}.col_4, '1,5,3,2,4')";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "ORDER BY FIND_IN_SET({$struct_join_table}.col_4, '1,5,3,2,4')";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -542,7 +582,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 		
 		
 
@@ -561,15 +603,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY {$struct_join_table}.col_4 DESC, {$struct_join_table}.col_5 ASC";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "ORDER BY {$struct_join_table}.col_4 DESC, {$struct_join_table}.col_5 ASC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -579,7 +622,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 		// Sort items, joined table used as sort class, multiple sort columns, arbitrary sort order
@@ -599,15 +644,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY {$struct_join_table}.col_4 DESC, FIND_IN_SET({$struct_join_table}.col_5, '1,5,3,2,4')";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "ORDER BY {$struct_join_table}.col_4 DESC, FIND_IN_SET({$struct_join_table}.col_5, '1,5,3,2,4')";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -617,7 +663,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 		
 
 		// Sort items, primary and joined tables used as sort classes
@@ -633,15 +681,16 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY {$struct_join_table}.col_4 DESC, {$struct_primary_table}.col_2 ASC";
-		$check_array = array(1, 6);
-
-		$check_args = array_merge($check_args, $check_array);
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "ORDER BY {$struct_join_table}.col_4 DESC, {$struct_primary_table}.col_2 ASC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -651,7 +700,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 		// Paging
@@ -666,17 +717,20 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "LIMIT %d, %d";
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "LIMIT %d, %d";
 
 		// SQL format for LIMIT construct: "LIMIT [offset from zero], [max records to return]"
-		$check_array = array(1, 6, 28, 7);
 
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	
+				array('escape'=>true, 'val'=>28),
+				array('escape'=>true, 'val'=>7),		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -686,7 +740,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 
@@ -703,17 +759,20 @@ class database_queryBuilders_join extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
-		$check_args[0] .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
-		$check_args[0] .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
-		$check_args[0] .= "LIMIT %d, %d";
+		$query  = "SELECT DISTINCT {$struct_primary_table}.col_2 FROM {$struct_primary_table} ";
+		$query .= "INNER JOIN {$struct_join_table} AS alias_{$struct_join["table"]} ";
+		$query .= "ON ({$struct_primary_table}.col_1 = alias_{$struct_join["table"]}.col_4) ";
+		$query .= "WHERE 1 = 1 AND {$struct_primary_table}.col_1 = %d AND alias_{$struct_join["table"]}.col_6 >= %s ";
+		$query .= "LIMIT %d, %d";
 
 		// SQL format for LIMIT construct: "LIMIT [offset from zero], [max records to return]"
-		$check_array = array(1, 6, 3, 7);
-
-		$check_args = array_merge($check_args, $check_array);
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),	
+				array('escape'=>true, 'val'=>3),
+				array('escape'=>true, 'val'=>7),		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryJoin($primary, $join, $columns, $ctrl);
@@ -723,7 +782,9 @@ class database_queryBuilders_join extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 	}
 

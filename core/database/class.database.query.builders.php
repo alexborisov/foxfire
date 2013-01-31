@@ -1012,9 +1012,11 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$result = array();
-		$result["query"] = array('query'=>$query, 'params'=>$params_list);
-		$result["types"] = $type_cast;
+		$result = array(		    
+			'query'=>$query,
+			'params'=>$params_list,
+			'types'=>$type_cast
+		);
 
 		return $result;
 
@@ -1658,9 +1660,11 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$result = array();
-		$result["query"] = array('query'=>$query, 'params'=>$params_list);
-		$result["types"] = $type_cast;
+		$result = array(		    
+			'query'=>$query,
+			'params'=>$params_list,
+			'types'=>$type_cast
+		);
 
 		return $result;
 
@@ -2054,9 +2058,11 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$result = array();
-		$result["query"] = array('query'=>$query, 'params'=>$params_list);
-		$result["types"] = $type_cast;
+		$result = array(		    
+			'query'=>$query,
+			'params'=>$params_list,
+			'types'=>$type_cast
+		);
 
 		return $result;
 	}
@@ -2290,8 +2296,10 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$result = array();
-		$result["query"] = array('query'=>$query, 'params'=>$params_list);
+		$result = array(		    
+			'query'=>$query,
+			'params'=>$params_list
+		);
 
 		return $result;
 		
@@ -2516,8 +2524,10 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$result = array();
-		$result["query"] = array('query'=>$query, 'params'=>$params_list);
+		$result = array(		    
+			'query'=>$query,
+			'params'=>$params_list
+		);
 
 		return $result;
 		
@@ -2727,9 +2737,11 @@ class FOX_queryBuilder {
 
 		// Merge all return data into an array
 		// ###############################################################
-
-		$result = array();
-		$result["query"] = array('query'=>$query, 'params'=>$params_list);
+		
+		$result = array(		    
+			'query'=>$query,
+			'params'=>$params_list
+		);		
 
 		return $result;
 	}
@@ -2874,8 +2886,10 @@ class FOX_queryBuilder {
 		// Merge all return data into an array
 		// ###############################################################
 
-		$result = array();
-		$result["query"] = array('query'=>$query, 'params'=>$params_list);
+		$result = array(		    
+			'query'=>$query,
+			'params'=>$params_list
+		);
 
 		return $result;
 

@@ -102,19 +102,19 @@ class FOX_testPlan extends RAZ_testPlan_base {
 			),		    
 
 			"database" => array(
-//				array( "enable"=>true,	"name"=>"Builder Delete", "mock"=>array(), "file"=>"/tests/database/test_db.builder.delete.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Indate", "mock"=>array(), "file"=>"/tests/database/test_db.builder.indate.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Insert", "mock"=>array(), "file"=>"/tests/database/test_db.builder.insert.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Left Join", "mock"=>array(), "file"=>"/tests/database/test_db.builder.join.left.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Standard Join", "mock"=>array(), "file"=>"/tests/database/test_db.builder.join.php" ),			    
-//				array( "enable"=>true,	"name"=>"Builder Select", "mock"=>array(), "file"=>"/tests/database/test_db.builder.select.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Table", "mock"=>array(), "file"=>"/tests/database/test_db.builder.table.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Update", "mock"=>array(), "file"=>"/tests/database/test_db.builder.update.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Where", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.php" ),
-//				array( "enable"=>true,	"name"=>"Builder Where-Trie", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.trie.php" ),				    
-//				array( "enable"=>true,	"name"=>"Builder Where-Matrix", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.matrix.php" ),			    
-//				array( "enable"=>true,	"name"=>"Builder Insert", "mock"=>array(), "file"=>"/tests/database/test_db.builder.insert.php" ),			    			    
-//				array( "enable"=>true,	"name"=>"Result Formatters", "mock"=>array(), "file"=>"/tests/database/test_db.core.formatters.php" ),	
+				array( "enable"=>true,	"name"=>"Builder Delete", "mock"=>array(), "file"=>"/tests/database/test_db.builder.delete.php" ),
+				array( "enable"=>true,	"name"=>"Builder Indate", "mock"=>array(), "file"=>"/tests/database/test_db.builder.indate.php" ),
+				array( "enable"=>true,	"name"=>"Builder Insert", "mock"=>array(), "file"=>"/tests/database/test_db.builder.insert.php" ),
+				array( "enable"=>true,	"name"=>"Builder Left Join", "mock"=>array(), "file"=>"/tests/database/test_db.builder.join.left.php" ),
+				array( "enable"=>true,	"name"=>"Builder Standard Join", "mock"=>array(), "file"=>"/tests/database/test_db.builder.join.php" ),			    
+				array( "enable"=>true,	"name"=>"Builder Select", "mock"=>array(), "file"=>"/tests/database/test_db.builder.select.php" ),
+				array( "enable"=>true,	"name"=>"Builder Table", "mock"=>array(), "file"=>"/tests/database/test_db.builder.table.php" ),
+				array( "enable"=>true,	"name"=>"Builder Update", "mock"=>array(), "file"=>"/tests/database/test_db.builder.update.php" ),
+				array( "enable"=>true,	"name"=>"Builder Where", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.php" ),
+				array( "enable"=>true,	"name"=>"Builder Where-Trie", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.trie.php" ),				    
+				array( "enable"=>true,	"name"=>"Builder Where-Matrix", "mock"=>array(), "file"=>"/tests/database/test_db.builder.where.matrix.php" ),			    
+				array( "enable"=>true,	"name"=>"Builder Insert", "mock"=>array(), "file"=>"/tests/database/test_db.builder.insert.php" ),			    			    
+				array( "enable"=>true,	"name"=>"Result Formatters", "mock"=>array(), "file"=>"/tests/database/test_db.core.formatters.php" ),	
 				array( "enable"=>true,	"name"=>"Op Delete", "mock"=>array(), "file"=>"/tests/database/test_db.op.delete.php" ),			    
 				array( "enable"=>true,	"name"=>"Op Indate", "mock"=>array(), "file"=>"/tests/database/test_db.op.indate.php" ),
 				array( "enable"=>true,	"name"=>"Op Insert", "mock"=>array(), "file"=>"/tests/database/test_db.op.insert.php" ),			    
@@ -179,15 +179,15 @@ class FOX_testPlan extends RAZ_testPlan_base {
 //				array( "enable"=>false,  "name"=>"Dictionary Base", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.dictionary.php" ),
 //				array( "enable"=>false,	 "name"=>"Config", "mock"=>array(), "file"=>"/tests/base_classes/test_system.config.php" ),				    
 			),
-//
+
 //			"store" => array(
 //				array( "enable"=>false,  "name"=>"System Config", "mock"=>array(), "file"=>"/tests/store/test_config.system.php" ),
 //				array( "enable"=>false,  "name"=>"User Settings", "mock"=>array(), "file"=>"/tests/store/test_user.data.php" ),
 //			),
-
-			"logging" => array(
+//
+//			"logging" => array(
 //				array( "enable"=>false,  "name"=>"Logging Event", "mock"=>array(), "file"=>"/tests/logging/test_class.logging.event.php" ),
-			),		    
+//			),		    
 		);
 
 	}

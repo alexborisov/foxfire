@@ -86,12 +86,11 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 		$struct_primary_table = $this->base_prefix . $struct_primary["table"];
 		$struct_join_table = $this->base_prefix . $struct_join["table"];
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1";		
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -101,8 +100,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 		
-		$this->assertEquals($check_args, $result["query"]); 
-		$this->assertEquals(6, count($result["types"]));
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals(array(), $result['params']); 		
+		$this->assertEquals(6, count($result['types']));
 		
 		
 		// No columns skipped Joining three tables
@@ -120,15 +120,14 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 				)
 		);
 		
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6, ";
-		$check_args[0] .= "t3.col_4 AS t3col_4, t3.col_5 AS t3col_5, t3.col_6 AS t3col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t3 ";
-		$check_args[0] .= "ON (t1.col_1 = t3.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6, ";
+		$query .= "t3.col_4 AS t3col_4, t3.col_5 AS t3col_5, t3.col_6 AS t3col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t3 ";
+		$query .= "ON (t1.col_1 = t3.col_4) ";		
+		$query .= "WHERE 1 = 1";
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -138,8 +137,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_args, $result["query"]); 			
-		$this->assertEquals(9, count($result["types"]));
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals(array(), $result['params']); 		
+		$this->assertEquals(9, count($result['types']));
 		
 		
 		// No columns skipped Joining two tables with arguments
@@ -164,14 +164,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 				    )
 		);
 		
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);		
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -180,9 +182,10 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 		    
 			$this->fail($child->dumpString(1));		    
 		}			
-
-		$this->assertEquals($check_args, $result["query"]); 		
-		$this->assertEquals(6, count($result["types"]));
+		
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(6, count($result['types']));
 		
 		
 		// No columns skipped Joining two tables with arguments primary table using set alias
@@ -207,15 +210,17 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 				    )
 		);
 		
-		$check_args = array();
-		$check_args[0]  = "SELECT t_1.col_1 AS t_1col_1, t_1.col_2 AS t_1col_2, t_1.col_3 AS t_1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t_1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t_1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t_1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t_1.col_1 AS t_1col_1, t_1.col_2 AS t_1col_2, t_1.col_3 AS t_1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t_1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t_1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t_1.col_1 = %d AND t2.col_6 >= %s";
 				
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
+		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
 		}
@@ -224,8 +229,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_args, $result["query"]); 
-		$this->assertEquals(6, count($result["types"]));
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(6, count($result['types']));
 		
 		
 		// No columns skipped Joining two tables with arguments both tables use set aliases
@@ -248,14 +254,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array( "class"=>$struct_join, "on"=>array("pri"=>"col_1", "op"=>"=", "sec"=>"col_4"),"args"=>$args_join, "alias"=>"t_2" )  
 		);
 		
-		$check_args = array();
-		$check_args[0]  = "SELECT t_1.col_1 AS t_1col_1, t_1.col_2 AS t_1col_2, t_1.col_3 AS t_1col_3, t_2.col_4 AS t_2col_4, t_2.col_5 AS t_2col_5, t_2.col_6 AS t_2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t_1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t_2 ";
-		$check_args[0] .= "ON (t_1.col_1 = t_2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t_1.col_1 = %d AND t_2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;		
+		$query  = "SELECT t_1.col_1 AS t_1col_1, t_1.col_2 AS t_1col_2, t_1.col_3 AS t_1col_3, t_2.col_4 AS t_2col_4, t_2.col_5 AS t_2col_5, t_2.col_6 AS t_2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t_1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t_2 ";
+		$query .= "ON (t_1.col_1 = t_2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t_1.col_1 = %d AND t_2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);	
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -265,10 +273,11 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_args, $result["query"]); 		
-		$this->assertEquals(6, count($result["types"]));
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(6, count($result['types']));
 		
-		
+
 		// Single column selected from each table with column and table aliases
 		// ============================================================================================
 
@@ -292,14 +301,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array("table_alias"=>"t2", "col_name"=>"col_4", "col_alias"=>"col2")
 		);
 		
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS col1, t2.col_4 AS col2 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS col1, t2.col_4 AS col2 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -309,7 +320,8 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 		
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
 		$this->assertEquals(2, count($result["types"]));
 		
 		
@@ -336,14 +348,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array("table_alias"=>"t2", "col_name"=>"col_4")
 		);
 		
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t2.col_4 AS t2col_4 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, t2.col_4 AS t2col_4 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -353,7 +367,8 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
 		$this->assertEquals(2, count($result["types"]));
 
 		
@@ -380,14 +395,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array("col_name"=>"col_4", "col_alias"=>"col2")
 		);
 		
-		$check_args = array();
-		$check_args[0]  = "SELECT col_1 AS col1, col_4 AS col2 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT col_1 AS col1, col_4 AS col2 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -397,8 +414,10 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
-								
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"])); 
+			
 		
 		// Single column selected from each table without column and table aliases
 		// ============================================================================================
@@ -423,14 +442,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array("col_name"=>"col_4")
 		);
 		
-		$check_args = array();
-		$check_args[0]  = "SELECT col_1, col_4 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT col_1, col_4 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -440,7 +461,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"])); 
 		
 
 		// Count on column of joined table with table and column aliases
@@ -456,14 +479,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array("table_alias"=>"t2", "col_name"=>"col_4", "col_alias"=>"col4", "count"=>true)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS col1, COUNT( t2.col_4 ) AS col4 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS col1, COUNT( t2.col_4 ) AS col4 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -473,7 +498,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"])); 
 		
 
 		// Count on column of joined table with table aliases
@@ -489,14 +516,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array("table_alias"=>"t2", "col_name"=>"col_4", "count"=>true)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, COUNT( t2.col_4 ) AS t2col_4 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, COUNT( t2.col_4 ) AS t2col_4 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -506,7 +535,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"])); 
 		
 
 		// Count on column of joined table without table and column aliases
@@ -522,14 +553,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array("col_name"=>"col_4", "count"=>true)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT col_1, COUNT( col_4 ) ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT col_1, COUNT( col_4 ) ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -539,7 +572,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"]));
 		
 		
 		// Sum on column of joined table with table and column aliases
@@ -555,14 +590,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array("table_alias"=>"t2", "col_name"=>"col_4", "col_alias"=>"col4", "sum"=>true)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS col1, SUM( t2.col_4 ) AS col4 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS col1, SUM( t2.col_4 ) AS col4 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -572,7 +609,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"]));
 		
 			
 		// Sum on column of joined table without table and column aliases
@@ -588,14 +627,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			    array("col_name"=>"col_4", "sum"=>true)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT col_1, SUM( col_4 ) ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT col_1, SUM( col_4 ) ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -605,7 +646,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"]));
 		
 		
 		// Sum on multiple columns of joined table with table and column aliases
@@ -626,14 +669,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 				)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS col1, SUM( t2.col_4 + t2.col_5 ) AS total ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS col1, SUM( t2.col_4 + t2.col_5 ) AS total ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -643,7 +688,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"]));
 		
 
 		// Sum on multiple columns of joined table and one of the sum colums is a count column with table and column aliases
@@ -664,14 +711,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 				)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS col1, SUM( t2.col_4 + COUNT( t2.col_5 ) ) AS total ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS col1, SUM( t2.col_4 + COUNT( t2.col_5 ) ) AS total ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -681,7 +730,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"]));
 		
 		
 		// Sum on multiple columns of joined table and one of the sum colums uses a column alias with table and column aliases
@@ -702,14 +753,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 				)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS col1, SUM( t2.col_4 + col5 ) AS total ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS col1, SUM( t2.col_4 + col5 ) AS total ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -719,7 +772,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"]));
 		
 		
 		// Negative sum on multiple columns of joined table with table and column aliases
@@ -740,14 +795,16 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 				)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS col1, SUM(  - t2.col_4 - t2.col_5 ) AS total ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";		
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS col1, SUM(  - t2.col_4 - t2.col_5 ) AS total ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";		
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -757,7 +814,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(2, count($result["types"]));
 		
 
 		// Sort by one column no columns skipped Joining two tables
@@ -782,15 +841,17 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 		$struct_primary_table = $this->base_prefix . $struct_primary["table"];
 		$struct_join_table = $this->base_prefix . $struct_join["table"];
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY t1.col_1 DESC";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
+		$query .= "ORDER BY t1.col_1 DESC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -800,7 +861,8 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
 		$this->assertEquals(6, count($result["types"]));
 		
 
@@ -826,15 +888,17 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 		$struct_primary_table = $this->base_prefix . $struct_primary["table"];
 		$struct_join_table = $this->base_prefix . $struct_join["table"];
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY t1col_1 DESC";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
+		$query .= "ORDER BY t1col_1 DESC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -844,7 +908,8 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
 		$this->assertEquals(6, count($result["types"]));
 		
 		
@@ -871,15 +936,17 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 		$struct_primary_table = $this->base_prefix . $struct_primary["table"];
 		$struct_join_table = $this->base_prefix . $struct_join["table"];
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY t1.col_1 DESC, t2.col_4 ASC";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
+		$query .= "ORDER BY t1.col_1 DESC, t2.col_4 ASC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -889,7 +956,8 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
 		$this->assertEquals(6, count($result["types"]));
 		
 		
@@ -915,15 +983,17 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 		$struct_primary_table = $this->base_prefix . $struct_primary["table"];
 		$struct_join_table = $this->base_prefix . $struct_join["table"];
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
-		$check_args[0] .= "ORDER BY FIND_IN_SET(t1.col_1, '5,4,3,2,1')";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
+		$query .= "ORDER BY FIND_IN_SET(t1.col_1, '5,4,3,2,1')";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -933,7 +1003,8 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
 		$this->assertEquals(6, count($result["types"]));
 		
 
@@ -959,15 +1030,17 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 		$struct_primary_table = $this->base_prefix . $struct_primary["table"];
 		$struct_join_table = $this->base_prefix . $struct_join["table"];
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
-		$check_args[0] .= "GROUP BY t1.col_1 DESC";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
+		$query .= "GROUP BY t1.col_1 DESC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -977,7 +1050,8 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
 		$this->assertEquals(6, count($result["types"]));
 		
 
@@ -1003,15 +1077,17 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 		$struct_primary_table = $this->base_prefix . $struct_primary["table"];
 		$struct_join_table = $this->base_prefix . $struct_join["table"];
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
-		$check_args[0] .= "GROUP BY t1col_1 DESC";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
+		$query .= "GROUP BY t1col_1 DESC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -1021,7 +1097,8 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
 		$this->assertEquals(6, count($result["types"]));
 		
 		
@@ -1049,15 +1126,17 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 		$struct_primary_table = $this->base_prefix . $struct_primary["table"];
 		$struct_join_table = $this->base_prefix . $struct_join["table"];
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
-		$check_args[0] .= "GROUP BY t1.col_1 DESC, t2.col_4 ASC";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
+		$query .= "GROUP BY t1.col_1 DESC, t2.col_4 ASC";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),		    		    
+		);
 		
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns=null, $ctrl);
@@ -1067,7 +1146,8 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]); 
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
 		$this->assertEquals(6, count($result["types"]));
 		
 
@@ -1081,17 +1161,20 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			'per_page'=>7
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
-		$check_args[0] .= "LIMIT %d, %d";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;		
-		$check_args[3]  = 28;
-		$check_args[4]  = 7;		
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
+		$query .= "LIMIT %d, %d";
+
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),
+				array('escape'=>true, 'val'=>28),
+				array('escape'=>true, 'val'=>7),		    
+		);		
+		
 		// SQL format for LIMIT construct: "LIMIT [offset from zero], [max records to return]"
 
 		try {
@@ -1102,7 +1185,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(6, count($result["types"]));
 
 
 		// Offset
@@ -1115,18 +1200,19 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			'offset'=>3
 		);
 
-
-		$check_args = array();
-		$check_args[0]  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
-		$check_args[0] .= "FROM {$struct_primary_table} AS t1 ";
-		$check_args[0] .= "LEFT JOIN {$struct_join_table} AS t2 ";
-		$check_args[0] .= "ON (t1.col_1 = t2.col_4) ";
-		$check_args[0] .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
-		$check_args[0] .= "LIMIT %d, %d";
-		$check_args[1]  = 1;
-		$check_args[2]  = 6;		
-		$check_args[3]  = 3;
-		$check_args[4]  = 7;	
+		$query  = "SELECT t1.col_1 AS t1col_1, t1.col_2 AS t1col_2, t1.col_3 AS t1col_3, t2.col_4 AS t2col_4, t2.col_5 AS t2col_5, t2.col_6 AS t2col_6 ";
+		$query .= "FROM {$struct_primary_table} AS t1 ";
+		$query .= "LEFT JOIN {$struct_join_table} AS t2 ";
+		$query .= "ON (t1.col_1 = t2.col_4) ";
+		$query .= "WHERE 1 = 1 AND t1.col_1 = %d AND t2.col_6 >= %s ";
+		$query .= "LIMIT %d, %d";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>1),
+				array('escape'=>true, 'val'=>6),
+				array('escape'=>true, 'val'=>3),
+				array('escape'=>true, 'val'=>7),		    
+		);		
 
 		try {
 			$result = $this->builder->buildSelectQueryLeftJoin($primary, $join, $columns, $ctrl);
@@ -1136,7 +1222,9 @@ class database_queryBuilders_joinLeft extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);	
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(6, count($result["types"]));	
 		
 	}
 

@@ -68,10 +68,22 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C1 = A AND C2 = B AND C3 = D AND ((C4 = E AND C5 IN(G,K,T)) OR (C4 = F AND C5 = I)))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s AND C2 = %s AND C3 = %s AND ((C4 = %s AND C5 IN(%s,%s,%s)) OR (C4 = %s AND C5 = %s)))";
 		
-		$this->assertEquals($check, $test);
+		$params = array(				
+				array('escape'=>true, 'val'=>'A'),	
+				array('escape'=>true, 'val'=>'B'),
+		    		array('escape'=>true, 'val'=>'D'),	
+				array('escape'=>true, 'val'=>'E'),
+				array('escape'=>true, 'val'=>'G'),
+		    		array('escape'=>true, 'val'=>'K'),	
+				array('escape'=>true, 'val'=>'T'),
+		    		array('escape'=>true, 'val'=>'F'),	
+				array('escape'=>true, 'val'=>'I'),		    
+		);		
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']); 
 		
 	}
 		
@@ -103,11 +115,22 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C1 = A AND C2 = B AND C3 = C AND ((C4 = D AND C5 IN(E,T)) OR (C4 = I AND C5 = J)))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s AND C2 = %s AND C3 = %s AND ((C4 = %s AND C5 IN(%s,%s)) OR (C4 = %s AND C5 = %s)))";
 
-		$this->assertEquals($check, $test);
-
+		$params = array(				
+				array('escape'=>true, 'val'=>'A'),	
+				array('escape'=>true, 'val'=>'B'),
+		    		array('escape'=>true, 'val'=>'C'),	
+				array('escape'=>true, 'val'=>'D'),
+				array('escape'=>true, 'val'=>'E'),
+		    		array('escape'=>true, 'val'=>'T'),	
+				array('escape'=>true, 'val'=>'I'),
+		    		array('escape'=>true, 'val'=>'J'),			    
+		);		
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
+		
 	}
 	
 	
@@ -151,10 +174,10 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}			
 
-		$check = " AND TRUE";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND TRUE";
 
-		$this->assertEquals($check, $test);		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals(array(), $result['params']);
 
 		
 	}
@@ -189,10 +212,20 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 		}
 			
 
-		$check = " AND (C2 = B AND C3 = C AND ((C4 = D AND C5 IN(E,T)) OR (C4 = I AND C5 = J)))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C2 = %s AND C3 = %s AND ((C4 = %s AND C5 IN(%s,%s)) OR (C4 = %s AND C5 = %s)))";
 		
-		$this->assertEquals($check, $test);
+		$params = array(					
+				array('escape'=>true, 'val'=>'B'),
+		    		array('escape'=>true, 'val'=>'C'),	
+				array('escape'=>true, 'val'=>'D'),
+				array('escape'=>true, 'val'=>'E'),
+		    		array('escape'=>true, 'val'=>'T'),	
+				array('escape'=>true, 'val'=>'I'),
+		    		array('escape'=>true, 'val'=>'J'),			    
+		);
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 		
 	}
 	
@@ -225,10 +258,18 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 			
-		$check = " AND ((C4 = D AND C5 IN(E,T)) OR (C4 = I AND C5 = J))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND ((C4 = %s AND C5 IN(%s,%s)) OR (C4 = %s AND C5 = %s))";
 		
-		$this->assertEquals($check, $test);
+		$params = array(						
+				array('escape'=>true, 'val'=>'D'),
+				array('escape'=>true, 'val'=>'E'),
+		    		array('escape'=>true, 'val'=>'T'),	
+				array('escape'=>true, 'val'=>'I'),
+		    		array('escape'=>true, 'val'=>'J'),			    
+		);
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']); 
 		
 	}
 	
@@ -260,11 +301,19 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 		}
 			
 
-		$check = " AND (C1 = A AND C2 = B AND C3 = C AND C4 IN(K,D,I))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s AND C2 = %s AND C3 = %s AND C4 IN(%s,%s,%s))";
 		
-
-		$this->assertEquals($check, $test);	
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+				array('escape'=>true, 'val'=>'B'),
+		    		array('escape'=>true, 'val'=>'C'),	
+				array('escape'=>true, 'val'=>'K'),
+		    		array('escape'=>true, 'val'=>'D'),
+		    		array('escape'=>true, 'val'=>'I'),
+		);
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']); 
 		
 	}
 	
@@ -296,11 +345,19 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 		}
 			
 
-		$check = " AND (C1 = A AND C2 = B AND C3 = C AND C4 IN(K,D,I))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s AND C2 = %s AND C3 = %s AND C4 IN(%s,%s,%s))";
 		
-
-		$this->assertEquals($check, $test);	
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+				array('escape'=>true, 'val'=>'B'),
+		    		array('escape'=>true, 'val'=>'C'),	
+				array('escape'=>true, 'val'=>'K'),
+		    		array('escape'=>true, 'val'=>'D'),
+		    		array('escape'=>true, 'val'=>'I'),
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);		
 		
 	}
 	
@@ -332,11 +389,19 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 		}
 			
 
-		$check = " AND (C1 = A AND C2 = B AND C3 = C AND C4 IN(K,D,I))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s AND C2 = %s AND C3 = %s AND C4 IN(%s,%s,%s))";
 		
-
-		$this->assertEquals($check, $test);	
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+				array('escape'=>true, 'val'=>'B'),
+		    		array('escape'=>true, 'val'=>'C'),	
+				array('escape'=>true, 'val'=>'K'),
+		    		array('escape'=>true, 'val'=>'D'),
+		    		array('escape'=>true, 'val'=>'I'),
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 		
 	}	
 	
@@ -372,10 +437,19 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C1 = A AND C2 = B AND C3 IN(K,E,F,D))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s AND C2 = %s AND C3 IN(%s,%s,%s,%s))";
 		
-		$this->assertEquals($check, $test);	
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+				array('escape'=>true, 'val'=>'B'),
+		    		array('escape'=>true, 'val'=>'K'),	
+				array('escape'=>true, 'val'=>'E'),
+		    		array('escape'=>true, 'val'=>'F'),
+		    		array('escape'=>true, 'val'=>'D'),
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 		
 	}
 		
@@ -408,10 +482,14 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND C1 = A";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND C1 = %s";
 		
-		$this->assertEquals($check, $test);
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 		
 	}
 
@@ -446,10 +524,16 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND C1 IN(A,B,C)";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND C1 IN(%s,%s,%s)";
 		
-		$this->assertEquals($check, $test);	
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+				array('escape'=>true, 'val'=>'B'),
+		    		array('escape'=>true, 'val'=>'C'),
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 		
 		
 	}
@@ -485,10 +569,18 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C1 = A OR (C1 = B AND C2 = X) OR (C1 = C AND C2 = Y))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s OR (C1 = %s AND C2 = %s) OR (C1 = %s AND C2 = %s))";
 		
-		$this->assertEquals($check, $test);	
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+				array('escape'=>true, 'val'=>'B'),
+		    		array('escape'=>true, 'val'=>'X'),		    
+		    		array('escape'=>true, 'val'=>'C'),
+		    		array('escape'=>true, 'val'=>'Y'),		    
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 		
 	}
 
@@ -534,10 +626,16 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C1 = A OR C2 IN(X,Y))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s OR C2 IN(%s,%s))";
 		
-		$this->assertEquals($check, $test);
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+		    		array('escape'=>true, 'val'=>'X'),		    
+		    		array('escape'=>true, 'val'=>'Y'),		    
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 		
 	}
 
@@ -590,10 +688,16 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C1 = A OR C2 IN(X,Y))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s OR C2 IN(%s,%s))";
 		
-		$this->assertEquals($check, $test);
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+		    		array('escape'=>true, 'val'=>'X'),		    
+		    		array('escape'=>true, 'val'=>'Y'),		    
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']); 
 		
 	}
 		
@@ -642,10 +746,16 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C1 = A OR C2 IN(X,Y))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s OR C2 IN(%s,%s))";
 		
-		$this->assertEquals($check, $test);	
+		$params = array(						
+				array('escape'=>true, 'val'=>'A'),
+		    		array('escape'=>true, 'val'=>'X'),		    
+		    		array('escape'=>true, 'val'=>'Y'),		    
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']); 	
 		
 	}
 
@@ -693,10 +803,20 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C2 IN(Y,X) OR (C2 = G AND C1 = A) OR (C4 = K AND C5 = W AND C1 = K))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C2 IN(%s,%s) OR (C2 = %s AND C1 = %s) OR (C4 = %s AND C5 = %s AND C1 = %s))";
 		
-		$this->assertEquals($check, $test);	
+		$params = array(						
+				array('escape'=>true, 'val'=>'Y'),
+		    		array('escape'=>true, 'val'=>'X'),		    
+		    		array('escape'=>true, 'val'=>'G'),
+				array('escape'=>true, 'val'=>'A'),
+		    		array('escape'=>true, 'val'=>'K'),		    
+		    		array('escape'=>true, 'val'=>'W'),
+		    		array('escape'=>true, 'val'=>'K'),		    
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']); 
 		
 	}
 
@@ -747,11 +867,21 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C1 = T OR C2 IN(Y,X) OR (C4 = K AND C5 = W AND C1 = K) OR (C2 = G AND C1 = A))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s OR C2 IN(%s,%s) OR (C4 = %s AND C5 = %s AND C1 = %s) OR (C2 = %s AND C1 = %s))";
 		
+		$params = array(
+		    		array('escape'=>true, 'val'=>'T'),
+				array('escape'=>true, 'val'=>'Y'),
+		    		array('escape'=>true, 'val'=>'X'),
+		    		array('escape'=>true, 'val'=>'K'),		    
+		    		array('escape'=>true, 'val'=>'W'),
+		    		array('escape'=>true, 'val'=>'K'),		    
+		    		array('escape'=>true, 'val'=>'G'),
+				array('escape'=>true, 'val'=>'A'),		   
+		);	
 		
-		$this->assertEquals($check, $test);
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 		
 		
 	}
@@ -801,10 +931,21 @@ class database_queryBuilders_whereTrie extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}						
 
-		$check = " AND (C1 = T OR C2 IN(Y,X) OR (C2 = G AND C1 = A) OR (C4 = K AND C5 = W AND C1 = K))";
-		$test =  vsprintf($result['where'], $result['params']);
+		$query = " AND (C1 = %s OR C2 IN(%s,%s) OR (C2 = %s AND C1 = %s) OR (C4 = %s AND C5 = %s AND C1 = %s))";
 		
-		$this->assertEquals($check, $test);		
+		$params = array(
+		    		array('escape'=>true, 'val'=>'T'),
+				array('escape'=>true, 'val'=>'Y'),
+		    		array('escape'=>true, 'val'=>'X'),
+		    		array('escape'=>true, 'val'=>'G'),
+				array('escape'=>true, 'val'=>'A'),		    
+		    		array('escape'=>true, 'val'=>'K'),		    
+		    		array('escape'=>true, 'val'=>'W'),
+		    		array('escape'=>true, 'val'=>'K'),		    		   
+		);	
+		
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);	
 		
 
 	}

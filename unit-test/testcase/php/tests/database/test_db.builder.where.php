@@ -55,7 +55,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 			array( "col"=>"col_3", "op"=>">", "val"=>3),
 		);
 
-		$check_string = " AND test_col_1 >= %d AND test_col_2 <= %s AND test_col_3 > %s";
+		$query = " AND test_col_1 >= %d AND test_col_2 <= %s AND test_col_3 > %s";
 
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix="test_");
@@ -65,7 +65,7 @@ class database_queryBuilders_where extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 		
-		$this->assertEquals($check_string, $result['where']);
+		$this->assertEquals($query, $result['where']);
 
 
 
@@ -83,8 +83,17 @@ class database_queryBuilders_where extends RAZ_testCase {
 			 array( "col"=>"col_7", "op"=>"<>", "val"=>7),
 		);
 
-		$check_string = " AND col_1 >= %d AND col_2 <= %s AND col_3 > %s AND col_4 < %d AND col_5 = %d AND col_6 != %d AND col_7 <> %d";
-		$check_array = array(1, 2, 3, 4, 5, 6, 7);
+		$query = " AND col_1 >= %d AND col_2 <= %s AND col_3 > %s AND col_4 < %d AND col_5 = %d AND col_6 != %d AND col_7 <> %d";
+		
+		$params = array(				
+				array('escape'=>true, 'val'=>1),	
+				array('escape'=>true, 'val'=>2),
+		    		array('escape'=>true, 'val'=>3),	
+				array('escape'=>true, 'val'=>4),
+				array('escape'=>true, 'val'=>5),
+		    		array('escape'=>true, 'val'=>6),	
+				array('escape'=>true, 'val'=>7),		    
+		);		
 
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix=null);
@@ -94,8 +103,8 @@ class database_queryBuilders_where extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 		
-		$this->assertEquals($check_string, $result['where']);
-		$this->assertEquals($check_array, $result['params']);
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 
 
 		// Simple strings
@@ -115,8 +124,17 @@ class database_queryBuilders_where extends RAZ_testCase {
 			array( "col"=>"col_7", "op"=>"<>", "val"=>"s_7"),
 		);
 
-		$check_string = " AND col_1 >= %d AND col_2 <= %s AND col_3 > %s AND col_4 < %d AND col_5 = %d AND col_6 != %d AND col_7 <> %d";
-		$check_array = array("s_1", "s_2", "s_3", "s_4", "s_5", "s_6", "s_7");
+		$query = " AND col_1 >= %d AND col_2 <= %s AND col_3 > %s AND col_4 < %d AND col_5 = %d AND col_6 != %d AND col_7 <> %d";
+		
+		$params = array(				
+				array('escape'=>true, 'val'=>'s_1'),	
+				array('escape'=>true, 'val'=>'s_2'),
+		    		array('escape'=>true, 'val'=>'s_3'),	
+				array('escape'=>true, 'val'=>'s_4'),
+				array('escape'=>true, 'val'=>'s_5'),
+		    		array('escape'=>true, 'val'=>'s_6'),	
+				array('escape'=>true, 'val'=>'s_7'),		    
+		);		
 
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix=null);
@@ -126,8 +144,8 @@ class database_queryBuilders_where extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_string, $result['where']);
-		$this->assertEquals($check_array, $result['params']);
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 
 
 
@@ -143,8 +161,19 @@ class database_queryBuilders_where extends RAZ_testCase {
 			array( "col"=>"col_3", "op"=>"<>", "val"=>array(7, 8, 9) )
 		);
 
-		$check_string = " AND col_1 IN(%d, %d, %d) AND col_2 NOT IN(%s, %s, %s) AND col_3 NOT IN(%s, %s, %s)";
-		$check_array = array(1, 2, 3, 4, 5, 6, 7, 8, 9);
+		$query = " AND col_1 IN(%d, %d, %d) AND col_2 NOT IN(%s, %s, %s) AND col_3 NOT IN(%s, %s, %s)";
+		
+		$params = array(				
+				array('escape'=>true, 'val'=>1),	
+				array('escape'=>true, 'val'=>2),
+		    		array('escape'=>true, 'val'=>3),	
+				array('escape'=>true, 'val'=>4),
+				array('escape'=>true, 'val'=>5),
+		    		array('escape'=>true, 'val'=>6),	
+				array('escape'=>true, 'val'=>7),
+		    		array('escape'=>true, 'val'=>8),	
+				array('escape'=>true, 'val'=>9),		    
+		);				
 		
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix=null);
@@ -154,8 +183,8 @@ class database_queryBuilders_where extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_string, $result['where']);
-		$this->assertEquals($check_array, $result['params']);
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 
 
 		// Arrays of strings
@@ -170,9 +199,19 @@ class database_queryBuilders_where extends RAZ_testCase {
 			array( "col"=>"col_3", "op"=>"<>", "val"=>array("s_7", "s_8", "s_9") )
 		);
 
-		$check_string = " AND col_1 IN(%d, %d, %d) AND col_2 NOT IN(%s, %s, %s) AND col_3 NOT IN(%s, %s, %s)";
-		$check_array = array("s_1", "s_2", "s_3", "s_4", "s_5", "s_6", "s_7", "s_8", "s_9");
-
+		$query = " AND col_1 IN(%d, %d, %d) AND col_2 NOT IN(%s, %s, %s) AND col_3 NOT IN(%s, %s, %s)";
+		
+		$params = array(				
+				array('escape'=>true, 'val'=>'s_1'),	
+				array('escape'=>true, 'val'=>'s_2'),
+		    		array('escape'=>true, 'val'=>'s_3'),	
+				array('escape'=>true, 'val'=>'s_4'),
+				array('escape'=>true, 'val'=>'s_5'),
+		    		array('escape'=>true, 'val'=>'s_6'),	
+				array('escape'=>true, 'val'=>'s_7'),
+		    		array('escape'=>true, 'val'=>'s_8'),	
+				array('escape'=>true, 'val'=>'s_9'),		    
+		);
 		try {
 			$result = $this->builder->buildWhere($struct, $args, $caller, $prefix=null);
 		}
@@ -181,8 +220,8 @@ class database_queryBuilders_where extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_string, $result['where']);
-		$this->assertEquals($check_array, $result['params']);
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 
 				
 	}
@@ -227,11 +266,23 @@ class database_queryBuilders_where extends RAZ_testCase {
 				)
 		);
 
-		$check_string  = " AND (test_col_1 >= %d AND test_col_2 <= %s AND test_col_3 > %s)";
-		$check_string .= " OR (test_col_1 = %d AND test_col_2 != %s AND test_col_3 < %s)";
-		$check_string .= " OR (test_col_5 <> %d AND test_col_6 = %d AND test_col_7 <> %d)";
+		$query  = " AND (test_col_1 >= %d AND test_col_2 <= %s AND test_col_3 > %s)";
+		$query .= " OR (test_col_1 = %d AND test_col_2 != %s AND test_col_3 < %s)";
+		$query .= " OR (test_col_5 <> %d AND test_col_6 = %d AND test_col_7 <> %d)";
 
-		$check_array = array(1, 2, 3, 9, 6, 1, 5, 8, 11);
+		$params = array(1, 2, 3, 9, 6, 1, 5, 8, 11);
+		
+		$params = array(				
+				array('escape'=>true, 'val'=>1),	
+				array('escape'=>true, 'val'=>2),
+		    		array('escape'=>true, 'val'=>3),	
+				array('escape'=>true, 'val'=>9),
+				array('escape'=>true, 'val'=>6),
+		    		array('escape'=>true, 'val'=>1),	
+				array('escape'=>true, 'val'=>5),
+		    		array('escape'=>true, 'val'=>8),	
+				array('escape'=>true, 'val'=>11),		    
+		);		
 
 		try {
 			$result = $this->builder->buildWhereMulti($struct, $args, $caller, $prefix="test_");
@@ -242,8 +293,8 @@ class database_queryBuilders_where extends RAZ_testCase {
 		}		
 
 
-		$this->assertEquals($check_string, $result['where']);
-		$this->assertEquals($check_array, $result['params']);
+		$this->assertEquals($query, $result['where']);
+		$this->assertEquals($params, $result['params']);
 
 		
 	}

@@ -59,11 +59,12 @@ class database_queryBuilders_update extends RAZ_testCase {
 			'col_2'=>'s_31'
 		);
 
-		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_1 = %d, col_2 = %s WHERE 1 = 1";
-
-		$check_array = array(17, "s_31");
-		$check_args = array_merge($check_args, $check_array);
+		$query = "UPDATE {$table} SET col_1 = %d, col_2 = %s WHERE 1 = 1";
+		
+		$params = array(
+				array('escape'=>true, 'val'=>17),
+				array('escape'=>true, 'val'=>'s_31'),		    
+		);		
 		
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns=null);
@@ -73,7 +74,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Array as data source, single column using INCLUDE mode
@@ -87,11 +90,11 @@ class database_queryBuilders_update extends RAZ_testCase {
 
 		$columns = array("mode"=>"include", "col"=>"col_2");
 
-		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1";
+		$query = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1";
 
-		$check_array = array("s_31");
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>'s_31'),		    
+		);	
 		
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
@@ -101,7 +104,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"]));
 
 
 		// Array as data source, multiple columns using INCLUDE mode
@@ -116,10 +121,12 @@ class database_queryBuilders_update extends RAZ_testCase {
 		$columns = array("mode"=>"include", "col"=>array("col_1", "col_3") );
 
 		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_1 = %d, col_3 = %s WHERE 1 = 1";
+		$query = "UPDATE {$table} SET col_1 = %d, col_3 = %s WHERE 1 = 1";
 
-		$check_array = array(17, "s_19");
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>17),
+				array('escape'=>true, 'val'=>'s_19'),			    
+		);
 
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
@@ -129,7 +136,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Array as data source, single column using EXCLUDE mode
@@ -144,10 +153,12 @@ class database_queryBuilders_update extends RAZ_testCase {
 		$columns = array("mode"=>"exclude", "col"=>"col_1");
 
 		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_2 = %s, col_3 = %s WHERE 1 = 1";
+		$query = "UPDATE {$table} SET col_2 = %s, col_3 = %s WHERE 1 = 1";
 
-		$check_array = array("s_31", "s_19");
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>'s_31'),
+				array('escape'=>true, 'val'=>'s_19'),			    
+		);
 
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
@@ -157,8 +168,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
-
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Array as data source, multiple columns using EXCLUDE mode
@@ -172,11 +184,11 @@ class database_queryBuilders_update extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1";
+		$query = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1";
 
-		$check_array = array("s_31");
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>'s_31'),		    
+		);
 
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
@@ -186,7 +198,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Array as data source, with constraints
@@ -203,10 +217,13 @@ class database_queryBuilders_update extends RAZ_testCase {
 		);
 
 		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_1 = %d, col_2 = %s WHERE 1 = 1 AND col_1 = %d";
+		$query = "UPDATE {$table} SET col_1 = %d, col_2 = %s WHERE 1 = 1 AND col_1 = %d";
 
-		$check_array = array(17, "s_31", 53);
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>17),		
+				array('escape'=>true, 'val'=>'s_31'),	
+				array('escape'=>true, 'val'=>53),			    
+		);
 
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args, $columns=null);
@@ -216,7 +233,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// #### OBJECT MODE ################################################################
@@ -230,10 +249,13 @@ class database_queryBuilders_update extends RAZ_testCase {
 		$data->col_2 = "s_31";
 
 		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_1 = %d, col_2 = %s, col_3 = %s WHERE 1 = 1";
+		$query = "UPDATE {$table} SET col_1 = %d, col_2 = %s, col_3 = %s WHERE 1 = 1";
 
-		$check_array = array(17, "s_31", null);
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>17),		
+				array('escape'=>true, 'val'=>'s_31'),	
+				array('escape'=>true, 'val'=>null),			    
+		);
 		
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns=null);
@@ -243,7 +265,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Object as data source, single column using INCLUDE mode
@@ -256,11 +280,11 @@ class database_queryBuilders_update extends RAZ_testCase {
 
 		$columns = array("mode"=>"include", "col"=>"col_2");
 
-		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1";
+		$query = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1";
 
-		$check_array = array("s_31");
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(		
+				array('escape'=>true, 'val'=>'s_31'),				    
+		);
 		
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
@@ -270,7 +294,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Object as data source, multiple columns using INCLUDE mode
@@ -283,11 +309,12 @@ class database_queryBuilders_update extends RAZ_testCase {
 
 		$columns = array("mode"=>"include", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_1 = %d, col_3 = %s WHERE 1 = 1";
+		$query = "UPDATE {$table} SET col_1 = %d, col_3 = %s WHERE 1 = 1";
 
-		$check_array = array(17, "s_19");
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(		
+				array('escape'=>true, 'val'=>17),	
+				array('escape'=>true, 'val'=>'s_19'),			    
+		);
 		
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
@@ -297,7 +324,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"]));
 
 
 		// Object as data source, single column using EXCLUDE mode
@@ -310,11 +339,12 @@ class database_queryBuilders_update extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>"col_2");
 
-		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_1 = %d, col_3 = %s WHERE 1 = 1";
+		$query = "UPDATE {$table} SET col_1 = %d, col_3 = %s WHERE 1 = 1";
 
-		$check_array = array(17, "s_19");
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(		
+				array('escape'=>true, 'val'=>17),	
+				array('escape'=>true, 'val'=>'s_19'),			    
+		);
 
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
@@ -324,7 +354,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Object as data source, multiple columns using EXCLUDE mode
@@ -337,11 +369,11 @@ class database_queryBuilders_update extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1";
+		$query = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1";
 
-		$check_array = array("s_31");
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(			
+				array('escape'=>true, 'val'=>'s_31'),			    
+		);
 		
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args="overwrite_all", $columns);
@@ -351,7 +383,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Object as data source, with constraints
@@ -365,11 +399,14 @@ class database_queryBuilders_update extends RAZ_testCase {
 			    array("col"=>"col_1", "op"=>"=", "val"=>11)
 		);
 
-		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_1 = %d, col_2 = %s, col_3 = %s WHERE 1 = 1 AND col_1 = %d";
+		$query = "UPDATE {$table} SET col_1 = %d, col_2 = %s, col_3 = %s WHERE 1 = 1 AND col_1 = %d";
 
-		$check_array = array(17, "s_31", null, 11);
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(			
+				array('escape'=>true, 'val'=>17),	
+				array('escape'=>true, 'val'=>'s_31'),	
+				array('escape'=>true, 'val'=>null),	
+				array('escape'=>true, 'val'=>11),			    
+		);
 		
 		try {
 			$result = $this->builder->buildUpdateQuery($struct, $data, $args, $columns=null);
@@ -379,7 +416,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"]));
 		
 
 	}
@@ -403,7 +442,6 @@ class database_queryBuilders_update extends RAZ_testCase {
 			 )
 		);
 
-
 		
 		$table = $this->base_prefix . $struct["table"];
 
@@ -414,11 +452,12 @@ class database_queryBuilders_update extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1") );
 
-		$check_args = array();
-		$check_args[0] = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1 AND col_1 <> %d";
+		$query = "UPDATE {$table} SET col_2 = %s WHERE 1 = 1 AND col_1 <> %d";
 
-		$check_array = array("s_31", 37);
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(				
+				array('escape'=>true, 'val'=>'s_31'),	
+				array('escape'=>true, 'val'=>37),				    
+		);
 		
 		try {
 			$result = $this->builder->buildUpdateQueryCol($struct, $data, "col_1", "<>", 37, $columns);
@@ -428,7 +467,9 @@ class database_queryBuilders_update extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 				
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(0, count($result["types"]));
 		
 
 	}

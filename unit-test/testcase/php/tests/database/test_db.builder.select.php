@@ -56,10 +56,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 			'per_page'=>null
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1";
 		
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -69,7 +68,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 			
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 		
+		$this->assertEquals(3, count($result["types"]));
 
 		
 		// Single column selected using INCLUDE mode
@@ -82,10 +82,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 
 		$columns = array("mode"=>"include", "col"=>"col_1");
 
-		$check_args = array();
-		$check_args[0]  = "SELECT col_1 ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT col_1 ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1";
 
 		
 		try {
@@ -96,7 +95,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 		// Multiple columns selected using INCLUDE mode
@@ -109,10 +109,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 
 		$columns = array("mode"=>"include", "col"=>array("col_1", "col_2") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT col_1, col_2 ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT col_1, col_2 ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns, $ctrl);
@@ -122,7 +121,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 		
+		$this->assertEquals(2, count($result["types"]));
 
 
 		// Single column skipped using EXCLUDE mode
@@ -135,10 +135,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>"col_1");
 
-		$check_args = array();
-		$check_args[0]  = "SELECT col_2, col_3 ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT col_2, col_3 ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns, $ctrl);
@@ -148,7 +147,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 		
+		$this->assertEquals(2, count($result["types"]));
 		
 
 		// Multiple columns skipped using EXCLUDE mode
@@ -161,10 +161,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT col_2 ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT col_2 ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns, $ctrl);
@@ -174,7 +173,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 		
+		$this->assertEquals(1, count($result["types"]));
 
 
 		// Single column constraint
@@ -190,13 +190,13 @@ class database_queryBuilders_select extends RAZ_testCase {
 			 array("col"=>"col_1", "op"=>"=", "val"=>1)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 AND col_1 = %d";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 AND col_1 = %d";
 
-		$check_array = array(1);
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>1),		    
+		);
 		
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args, $columns=null, $ctrl);
@@ -206,7 +206,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 	
+		$this->assertEquals(3, count($result["types"]));
 
 
 		// Multiple column constraints
@@ -223,13 +225,14 @@ class database_queryBuilders_select extends RAZ_testCase {
 			 array("col"=>"col_2", "op"=>"=", "val"=>5)
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 AND col_1 = %d AND col_2 = %s";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 AND col_1 = %d AND col_2 = %s";
 
-		$check_array = array(1, 5);
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>1),	
+				array('escape'=>true, 'val'=>5),
+		);
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args, $columns=null, $ctrl);
@@ -239,7 +242,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 
+		$this->assertEquals($params, $result['params']); 	
+		$this->assertEquals(3, count($result["types"]));
 
 
 		// Count items, bool true 
@@ -251,10 +256,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 			'count'=>true
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT COUNT(*) ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT COUNT(*) ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1";
 				
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -264,7 +268,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals(3, count($result["types"])); 
 
 
 		// Count items, single column as string
@@ -276,10 +281,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 			'count'=>"col_3"
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT COUNT(col_3) ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT COUNT(col_3) ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1";
 		
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=false, $ctrl);
@@ -289,7 +293,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Count items, multiple columns as array
@@ -301,10 +306,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 			'count'=>array("col_1","col_3")
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT COUNT(col_1), COUNT(col_3) ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1";
+		$query  = "SELECT COUNT(col_1), COUNT(col_3) ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=false, $ctrl);
@@ -314,7 +318,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals(0, count($result["types"])); 
 
 
 		// Sort items, single column
@@ -326,11 +331,10 @@ class database_queryBuilders_select extends RAZ_testCase {
 			'sort'=>array( array("col"=>"col_1", "sort"=>"DESC") )
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 ";
-		$check_args[0] .= "ORDER BY col_1 DESC";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 ";
+		$query .= "ORDER BY col_1 DESC";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -340,7 +344,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals(3, count($result["types"])); 
 
 
 		// Sort items, single column, arbitrary order
@@ -352,11 +357,10 @@ class database_queryBuilders_select extends RAZ_testCase {
 			'sort'=>array( array("col"=>"col_1", "sort"=>array(1,5,3,2,4)) )
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 ";
-		$check_args[0] .= "ORDER BY FIND_IN_SET(col_1, '1,5,3,2,4')";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 ";
+		$query .= "ORDER BY FIND_IN_SET(col_1, '1,5,3,2,4')";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -366,7 +370,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals(3, count($result["types"])); 
 
 
 		// Sort items, multiple columns
@@ -380,11 +385,10 @@ class database_queryBuilders_select extends RAZ_testCase {
 				     )
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 ";
-		$check_args[0] .= "ORDER BY col_1 DESC, col_3 ASC";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 ";
+		$query .= "ORDER BY col_1 DESC, col_3 ASC";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -394,7 +398,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals(3, count($result["types"])); 
 		
 		
 		// Sort items, multiple columns, arbitrary sort order
@@ -408,11 +413,10 @@ class database_queryBuilders_select extends RAZ_testCase {
 				     )
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 ";
-		$check_args[0] .= "ORDER BY col_1 DESC, FIND_IN_SET(col_3, '1,5,3,2,4')";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 ";
+		$query .= "ORDER BY col_1 DESC, FIND_IN_SET(col_3, '1,5,3,2,4')";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -422,7 +426,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals(3, count($result["types"])); 
 
 
 		// Group items, single column
@@ -434,11 +439,10 @@ class database_queryBuilders_select extends RAZ_testCase {
 			'group'=>array( array("col"=>"col_1", "sort"=>"DESC") )
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 ";
-		$check_args[0] .= "GROUP BY col_1 DESC";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 ";
+		$query .= "GROUP BY col_1 DESC";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -448,7 +452,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals(3, count($result["types"]));
 
 
 		// Group items, multiple columns
@@ -462,11 +467,10 @@ class database_queryBuilders_select extends RAZ_testCase {
 				     )
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 ";
-		$check_args[0] .= "GROUP BY col_1 DESC, col_3 ASC";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 ";
+		$query .= "GROUP BY col_1 DESC, col_3 ASC";
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -476,7 +480,8 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals(3, count($result["types"]));
 
 
 		// Paging, limit number of returned results
@@ -489,15 +494,16 @@ class database_queryBuilders_select extends RAZ_testCase {
 			'per_page'=>7
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 ";
-		$check_args[0] .= "LIMIT %d, %d";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 ";
+		$query .= "LIMIT %d, %d";
 
 		// SQL format for LIMIT construct: "LIMIT [offset from zero], [max records to return]"
-		$check_array = array(0, 7);
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>0),	
+				array('escape'=>true, 'val'=>7),
+		);
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -507,7 +513,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(3, count($result["types"]));
 
 
 		// Paging, offset by X pages
@@ -521,15 +529,16 @@ class database_queryBuilders_select extends RAZ_testCase {
 			'per_page'=>7
 		);
 
-		$check_args = array();
-		$check_args[0]  = "SELECT * ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 ";
-		$check_args[0] .= "LIMIT %d, %d";
+		$query  = "SELECT * ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 ";
+		$query .= "LIMIT %d, %d";
 
 		// SQL format for LIMIT construct: "LIMIT [offset from zero], [max records to return]"
-		$check_array = array(28, 7);
-		$check_args = array_merge($check_args, $check_array);
+		$params = array(
+				array('escape'=>true, 'val'=>28),	
+				array('escape'=>true, 'val'=>7),
+		);
 
 		try {
 			$result = $this->builder->buildSelectQuery($struct, $args=null, $columns=null, $ctrl);
@@ -539,7 +548,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(3, count($result["types"])); 
 
 		
 	}
@@ -578,15 +589,14 @@ class database_queryBuilders_select extends RAZ_testCase {
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
-		$check_args = array();
-		$check_args[0]  = "SELECT col_2 ";
-		$check_args[0] .= "FROM {$table} ";
-		$check_args[0] .= "WHERE 1 = 1 AND col_1 <> %d";
+		$query  = "SELECT col_2 ";
+		$query .= "FROM {$table} ";
+		$query .= "WHERE 1 = 1 AND col_1 <> %d";
 
-		$check_array = array(37);
-		$check_args = array_merge($check_args, $check_array);
-
-		
+		$params = array(
+				array('escape'=>true, 'val'=>37),
+		);
+	
 		try {
 			$result = $this->builder->buildSelectQueryCol($struct, "col_1", "<>", 37, $columns, $ctrl);
 		}
@@ -595,7 +605,9 @@ class database_queryBuilders_select extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($query, $result['query']); 	
+		$this->assertEquals($params, $result['params']); 		
+		$this->assertEquals(1, count($result["types"])); 
 
 	}
 

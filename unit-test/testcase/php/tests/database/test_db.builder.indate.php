@@ -54,11 +54,18 @@ class database_queryBuilders_indate extends RAZ_testCase {
 
 		$data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_53');
 
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_1, col_2, col_3) VALUES (%d, %s, %s) ON DUPLICATE KEY UPDATE col_1 = %d, col_2 = %s, col_3 = %s";
-
-		$check_array = array(17, "s_31", "s_53", 17, "s_31", "s_53");
-		$check_args = array_merge($check_args, $check_array);
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_1, col_2, col_3) VALUES (%d, %s, %s) ON DUPLICATE KEY UPDATE col_1 = %d, col_2 = %s, col_3 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>17),	
+					    array('escape'=>true, 'val'=>'s_31'),
+					    array('escape'=>true, 'val'=>'s_53'),	
+					    array('escape'=>true, 'val'=>17),
+					    array('escape'=>true, 'val'=>'s_31'),	
+					    array('escape'=>true, 'val'=>'s_53'),			    
+			)		    
+		);		
 		
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns=null);
@@ -68,7 +75,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 
 		// Array as data source, single column using INCLUDE mode
@@ -77,12 +84,15 @@ class database_queryBuilders_indate extends RAZ_testCase {
 		$data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_19');
 
 		$columns = array("mode"=>"include", "col"=>"col_2");
-
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_2) VALUES (%s) ON DUPLICATE KEY UPDATE col_2 = %s";
-
-		$check_array = array("s_31", "s_31");
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_2) VALUES (%s) ON DUPLICATE KEY UPDATE col_2 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>'s_31'),	
+					    array('escape'=>true, 'val'=>'s_31'),			    
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns);
@@ -92,7 +102,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 
 		// Array as data source, multiple columns using INCLUDE mode
@@ -101,12 +111,17 @@ class database_queryBuilders_indate extends RAZ_testCase {
 		$data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_19');
 
 		$columns = array("mode"=>"include", "col"=>array("col_1", "col_3") );
-
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_1, col_3) VALUES (%d, %s) ON DUPLICATE KEY UPDATE col_1 = %d, col_3 = %s";
-
-		$check_array = array(17, "s_19", 17, "s_19");
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_1, col_3) VALUES (%d, %s) ON DUPLICATE KEY UPDATE col_1 = %d, col_3 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>17),	
+					    array('escape'=>true, 'val'=>'s_19'),
+					    array('escape'=>true, 'val'=>17),	
+					    array('escape'=>true, 'val'=>'s_19'),			    
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns);
@@ -116,7 +131,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 		
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 
 		// Array as data source, single column using EXCLUDE mode
@@ -125,12 +140,17 @@ class database_queryBuilders_indate extends RAZ_testCase {
 		$data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_19');
 
 		$columns = array("mode"=>"exclude", "col"=>"col_1");
-
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_2, col_3) VALUES (%s, %s) ON DUPLICATE KEY UPDATE col_2 = %s, col_3 = %s";
-
-		$check_array = array("s_31", "s_19", "s_31", "s_19");
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_2, col_3) VALUES (%s, %s) ON DUPLICATE KEY UPDATE col_2 = %s, col_3 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>'s_31'),	
+					    array('escape'=>true, 'val'=>'s_19'),
+					    array('escape'=>true, 'val'=>'s_31'),	
+					    array('escape'=>true, 'val'=>'s_19'),			    
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns);
@@ -140,7 +160,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}		
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 
 		// Array as data source, multiple columns using EXCLUDE mode
@@ -149,12 +169,15 @@ class database_queryBuilders_indate extends RAZ_testCase {
 		$data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_19');
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
-
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_2) VALUES (%s) ON DUPLICATE KEY UPDATE col_2 = %s";
-
-		$check_array = array("s_31", "s_31");
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_2) VALUES (%s) ON DUPLICATE KEY UPDATE col_2 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>'s_31'),	
+					    array('escape'=>true, 'val'=>'s_31'),			    
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns);
@@ -164,7 +187,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 		
 
 		// #### OBJECT MODE ################################################################
@@ -176,12 +199,19 @@ class database_queryBuilders_indate extends RAZ_testCase {
 		$data = new stdClass();
 		$data->col_1 = 17;
 		$data->col_2 = "s_31";
-
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_1, col_2, col_3) VALUES (%d, %s, %s) ON DUPLICATE KEY UPDATE col_1 = %d, col_2 = %s, col_3 = %s";
-
-		$check_array = array(17, "s_31", null, 17, "s_31", null);
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_1, col_2, col_3) VALUES (%d, %s, %s) ON DUPLICATE KEY UPDATE col_1 = %d, col_2 = %s, col_3 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>17),	
+					    array('escape'=>true, 'val'=>'s_31'),
+					    array('escape'=>true, 'val'=>null),	
+					    array('escape'=>true, 'val'=>17),
+					    array('escape'=>true, 'val'=>'s_31'),	
+					    array('escape'=>true, 'val'=>null),			    
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns=null);
@@ -191,7 +221,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}				
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 
 		// Object as data source, single column using INCLUDE mode
@@ -203,12 +233,15 @@ class database_queryBuilders_indate extends RAZ_testCase {
 		$data->col_3 = "s_19";
 
 		$columns = array("mode"=>"include", "col"=>"col_2");
-
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_2) VALUES (%s) ON DUPLICATE KEY UPDATE col_2 = %s";
-
-		$check_array = array("s_31", "s_31");
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_2) VALUES (%s) ON DUPLICATE KEY UPDATE col_2 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>'s_31'),	
+					    array('escape'=>true, 'val'=>'s_31'),		    
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns);
@@ -218,7 +251,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 
 		// Object as data source, multiple columns using INCLUDE mode
@@ -230,12 +263,17 @@ class database_queryBuilders_indate extends RAZ_testCase {
 		$data->col_3 = "s_19";
 
 		$columns = array("mode"=>"include", "col"=>array("col_1", "col_3") );
-
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_1, col_3) VALUES (%d, %s) ON DUPLICATE KEY UPDATE col_1 = %d, col_3 = %s";
-
-		$check_array = array(17, "s_19", 17, "s_19");
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_1, col_3) VALUES (%d, %s) ON DUPLICATE KEY UPDATE col_1 = %d, col_3 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>17),	
+					    array('escape'=>true, 'val'=>'s_19'),	
+					    array('escape'=>true, 'val'=>17),	
+					    array('escape'=>true, 'val'=>'s_19'),
+			)		    
+		);			
 
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns);
@@ -245,7 +283,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 
 		// Object as data source, single column using EXCLUDE mode
@@ -257,12 +295,17 @@ class database_queryBuilders_indate extends RAZ_testCase {
 		$data->col_3 = "s_19";
 
 		$columns = array("mode"=>"exclude", "col"=>"col_1");
-
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_2, col_3) VALUES (%s, %s) ON DUPLICATE KEY UPDATE col_2 = %s, col_3 = %s";
-
-		$check_array = array("s_31", "s_19", "s_31", "s_19");
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_2, col_3) VALUES (%s, %s) ON DUPLICATE KEY UPDATE col_2 = %s, col_3 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>'s_31'),	
+					    array('escape'=>true, 'val'=>'s_19'),	
+					    array('escape'=>true, 'val'=>'s_31'),	
+					    array('escape'=>true, 'val'=>'s_19'),
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns);
@@ -272,7 +315,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 
 
 		// Object as data source, multiple columns using EXCLUDE mode
@@ -284,12 +327,15 @@ class database_queryBuilders_indate extends RAZ_testCase {
 		$data->col_3 = "s_19";
 
 		$columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
-
-		$check_args = array();
-		$check_args[0] = "INSERT INTO {$table} (col_2) VALUES (%s) ON DUPLICATE KEY UPDATE col_2 = %s";
-
-		$check_array = array("s_31", "s_31");
-		$check_args = array_merge($check_args, $check_array);
+		
+		$check_args = array(
+		    
+			'query'=> "INSERT INTO {$table} (col_2) VALUES (%s) ON DUPLICATE KEY UPDATE col_2 = %s",
+			'params'=> array(
+					    array('escape'=>true, 'val'=>'s_31'),		
+					    array('escape'=>true, 'val'=>'s_31'),
+			)		    
+		);		
 
 		try {
 			$result = $this->builder->buildIndateQuery($struct, $data, $columns);
@@ -299,7 +345,7 @@ class database_queryBuilders_indate extends RAZ_testCase {
 			$this->fail($child->dumpString(1));		    
 		}
 
-		$this->assertEquals($check_args, $result["query"]);
+		$this->assertEquals($check_args, $result);
 		
 
 	}
