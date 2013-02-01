@@ -322,6 +322,35 @@ class core_base_dictionary extends RAZ_testCase {
 		$exp_array = array(1=>"one", 2=>"two", 3=>"three", 4=>"four", 5=>"five");
 		
 		$this->assertEquals($exp_array, $this->cls->cache["ids"]);
+		
+		// Test adding invalid tokens
+		// ======================================================
+		
+		try {
+			$result_add = $this->cls->addToken( array("six",true));
+			// Execution will halt on the previous line if addToken() throws an exception
+			$this->fail("Method addToken() failed to throw an exception on invalid token type");			
+		}
+		catch(FOX_exception $child){
+
+		}	
+		
+		// Check class cache
+		// =======================================================
+
+		$exp_array = array( $this->cls->generateHash("one")=>1, 
+				    $this->cls->generateHash("two")=>2, 
+				    $this->cls->generateHash("three")=>3, 
+				    $this->cls->generateHash("four")=>4, 
+				    $this->cls->generateHash("five")=>5
+			);
+
+		$this->assertEquals($exp_array, $this->cls->cache["tokens"]);
+
+		$exp_array = array(1=>"one", 2=>"two", 3=>"three", 4=>"four", 5=>"five");
+		
+		$this->assertEquals($exp_array, $this->cls->cache["ids"]);		
+		
 	}
 
 	function test_dbFetchToken_Single() {
@@ -409,6 +438,75 @@ class core_base_dictionary extends RAZ_testCase {
 		$exp_array = array(1=>"one", 2=>"two", 3=>"three", 4=>"four", 5=>"five");
 		
 		$this->assertEquals($exp_array, $this->cls->cache["ids"]);
+		
+		// Test invalid tokens
+		// ======================================================
+
+		// Test adding null token		
+		try {
+			$result = $this->cls->dbFetchToken( null);
+			// Execution will halt on the previous line if dbFetchToken() throws an exception
+			$this->fail("Method dbFetchToken() failed to throw an exception on invalid token type");			
+		}
+		catch(FOX_exception $child){
+
+		}
+
+		// Test adding bool token		
+		try {
+			$result = $this->cls->dbFetchToken( true);			
+		}
+		catch(FOX_exception $child){
+
+		}		
+		
+		$this->assertEquals(array(), $result);
+		
+		// Test adding int token		
+		try {
+			$result = $this->cls->dbFetchToken( 1);			
+		}
+		catch(FOX_exception $child){
+
+		}
+		
+		$this->assertEquals(array(), $result);
+		
+		// Test adding float token		
+		try {
+			$result = $this->cls->dbFetchToken( 1.7);			
+		}
+		catch(FOX_exception $child){
+
+		}	
+		
+		$this->assertEquals(array(), $result);		
+		
+//		// Test adding an array as a token		
+//		try {
+//			$result = $this->cls->dbFetchToken(array(array("one")));
+//			// Execution will halt on the previous line if dbFetchToken() throws an exception
+//			$this->fail("Method dbFetchToken() failed to throw an exception on invalid token type");			
+//		}
+//		catch(FOX_exception $child){
+//
+//		}
+		
+//		$test_obj = new stdClass();
+//		$test_obj->foo = "11";
+//		$test_obj->bar = "test_Bar";		
+//		
+//		// Test adding an object as a token		
+//		try {
+//			$result = $this->cls->dbFetchToken($test_obj);
+//			// Execution will halt on the previous line if dbFetchToken() throws an exception
+//			$this->fail("Method dbFetchToken() failed to throw an exception on invalid token type");			
+//		}
+//		catch(FOX_exception $child){
+//
+//		}
+				
+		
 	}
 
 
