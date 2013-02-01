@@ -118,7 +118,7 @@ class FOX_geoHash extends FOX_geoAdapter{
 	* @author algorithm based on code by Alexander Songe <a@songe.me>
 	* @see https://github.com/asonge/php-geohash/issues/1
 	*/
-	private function encodePoint($point, $precision = null){
+	public function encodePoint($point, $precision = null){
 	    
 		if($precision === null){
 		    
@@ -194,7 +194,7 @@ class FOX_geoHash extends FOX_geoAdapter{
 	* @author algorithm based on code by Alexander Songe <a@songe.me>
 	* @see https://github.com/asonge/php-geohash/issues/1
 	*/
-	private function decode($hash){
+	public function decode($hash){
 	    
 		$ll = array();
 		$minlat =  -90;

@@ -99,7 +99,7 @@ class FOX_gpx extends FOX_geoAdapter {
 		
 	}
 
-	protected function geomFromXML(){
+	public function geomFromXML(){
 	    
 		$geometries = array();
 		
@@ -122,7 +122,7 @@ class FOX_gpx extends FOX_geoAdapter {
 		
 	}
 
-	protected function childElements($xml, $nodename = ''){
+	public function childElements($xml, $nodename = ''){
 	    
 		$children = array();
 		
@@ -138,7 +138,7 @@ class FOX_gpx extends FOX_geoAdapter {
 		
 	}
 
-	protected function parseWaypoints(){
+	public function parseWaypoints(){
 	    
 		$points = array();
 		$wpt_elements = $this->xmlobj->getElementsByTagName('wpt');
@@ -154,7 +154,7 @@ class FOX_gpx extends FOX_geoAdapter {
 		
 	}
 
-	protected function parseTracks(){
+	public function parseTracks(){
 	    
 		$lines = array();
 		$trk_elements = $this->xmlobj->getElementsByTagName('trk');
@@ -180,7 +180,7 @@ class FOX_gpx extends FOX_geoAdapter {
 		
 	}
 
-	protected function parseRoutes(){
+	public function parseRoutes(){
 	    
 		$lines = array();
 		$rte_elements = $this->xmlobj->getElementsByTagName('rte');
@@ -204,7 +204,7 @@ class FOX_gpx extends FOX_geoAdapter {
 		
 	}
 
-	protected function geometryToGPX($geom){
+	public function geometryToGPX($geom){
 	    
 		$type = strtolower($geom->getGeomType());	
 		
@@ -244,12 +244,12 @@ class FOX_gpx extends FOX_geoAdapter {
 		
 	}
 
-	private function pointToGPX($geom){
+	public function pointToGPX($geom){
 	    
 		return '<'.$this->nss.'wpt lat="'.$geom->getY().'" lon="'.$geom->getX().'" />';
 	}
 
-	private function linestringToGPX($geom){
+	public function linestringToGPX($geom){
 	    
 		$gpx = '<'.$this->nss.'trk><'.$this->nss.'trkseg>';
 

@@ -94,7 +94,7 @@ class FOX_kml extends FOX_geoAdapter {
 		
 	}
 
-	protected function geomFromXML(){
+	public function geomFromXML(){
 	    
 		$geometries = array();
 		$geom_types = FOX_geo::geometryList();
@@ -146,7 +146,7 @@ class FOX_kml extends FOX_geoAdapter {
 		
 	}
 
-	protected function childElements($xml, $nodename = ''){
+	public function childElements($xml, $nodename = ''){
 	    
 		$children = array();
 		
@@ -165,14 +165,14 @@ class FOX_kml extends FOX_geoAdapter {
 		
 	}
 
-	protected function parsePoint($xml){
+	public function parsePoint($xml){
 	    
 		$coordinates = $this->_extractCoordinates($xml);
 		return new FOX_point($coordinates[0][0],$coordinates[0][1]);
 		
 	}
 
-	protected function parseLineString($xml){
+	public function parseLineString($xml){
 	    
 		$coordinates = $this->_extractCoordinates($xml);
 		$point_array = array();
@@ -186,7 +186,7 @@ class FOX_kml extends FOX_geoAdapter {
 		
 	}
 
-	protected function parsePolygon($xml){
+	public function parsePolygon($xml){
 	    
 		$components = array();
 
@@ -226,7 +226,7 @@ class FOX_kml extends FOX_geoAdapter {
 		
 	}
 
-	protected function parseGeometryCollection($xml){
+	public function parseGeometryCollection($xml){
 	    
 		$components = array();
 		$geom_types = FOX_geo::geometryList();
@@ -246,7 +246,7 @@ class FOX_kml extends FOX_geoAdapter {
 		
 	}
 
-	protected function _extractCoordinates($xml){
+	public function _extractCoordinates($xml){
 	    
 		$coord_elements = $this->childElements($xml, 'coordinates');
 		$coordinates = array();
@@ -275,7 +275,7 @@ class FOX_kml extends FOX_geoAdapter {
 		
 	}
 
-	private function geometryToKML($geom){
+	public function geometryToKML($geom){
 	    
 
 		$type = strtolower($geom->getGeomType());	
@@ -319,12 +319,12 @@ class FOX_kml extends FOX_geoAdapter {
 		
 	}
 
-	private function pointToKML($geom){
+	public function pointToKML($geom){
 	    
 		return '<'.$this->nss.'Point><'.$this->nss.'coordinates>'.$geom->getX().",".$geom->getY().'</'.$this->nss.'coordinates></'.$this->nss.'Point>';
 	}
 
-	private function linestringToKML($geom, $type=false){
+	public function linestringToKML($geom, $type=false){
 	    
 		if(!$type){
 		    

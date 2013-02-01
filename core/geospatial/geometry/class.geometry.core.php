@@ -45,8 +45,13 @@ class FOX_geo {
 
 		if(!$processor_type){
 		    
-			throw new exception('geoPHP could not find an adapter of type '.htmlentities($type));
-			exit;
+			throw new FOX_exception( array(
+				'numeric'=>1,
+				'text'=>"Unsupported file format",
+				'data'=>$type,
+				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+				'child'=>null
+			));			
 		}
 
 		$processor = new $processor_type();

@@ -64,7 +64,7 @@ class FOX_wkb extends FOX_geoAdapter {
 		
 	}
 
-	function getGeometry(&$mem){
+	public function getGeometry(&$mem){
 	    
 		$base_info = unpack("corder/ctype/cz/cm/cs", fread($mem, 5));
 		
@@ -143,14 +143,14 @@ class FOX_wkb extends FOX_geoAdapter {
 		
 	}
 
-	function getPoint(&$mem){
+	public function getPoint(&$mem){
 	    
 		$point_coords = unpack("d*", fread($mem,$this->dimension*8));
 		
 		return new FOX_point($point_coords[1],$point_coords[2]);
 	}
 
-	function getLinstring(&$mem){
+	public function getLinstring(&$mem){
 	    
 		// Get the number of points expected in this string out of the first 4 bytes
 		$line_length = unpack('L',fread($mem,4));
@@ -180,7 +180,7 @@ class FOX_wkb extends FOX_geoAdapter {
 	}
 
 	
-	function getPolygon(&$mem){
+	public function getPolygon(&$mem){
 	    
 		// Get the number of linestring expected in this poly out of the first 4 bytes
 		$poly_length = unpack('L',fread($mem,4));
@@ -199,7 +199,7 @@ class FOX_wkb extends FOX_geoAdapter {
 	}
 
 	
-	function getMulti(&$mem, $type){
+	public function getMulti(&$mem, $type){
 	    
 		// Get the number of items expected in this multi out of the first 4 bytes
 		$multi_length = unpack('L',fread($mem,4));
@@ -324,7 +324,7 @@ class FOX_wkb extends FOX_geoAdapter {
 		
 	}
 
-	function writePoint($point){
+	public function writePoint($point){
 	    
 		// Set the coords
 		$wkb = pack('dd',$point->x(), $point->y());
@@ -332,7 +332,7 @@ class FOX_wkb extends FOX_geoAdapter {
 		return $wkb;
 	}
 
-	function writeLineString($line){
+	public function writeLineString($line){
 	    
 		// Set the number of points in this line
 		$wkb = pack('L',$line->numPoints());
@@ -346,7 +346,7 @@ class FOX_wkb extends FOX_geoAdapter {
 		return $wkb;
 	}
 
-	function writePolygon($poly){
+	public function writePolygon($poly){
 	    
 		// Set the number of lines in this poly
 		$wkb = pack('L',$poly->numGeometries());
@@ -360,7 +360,7 @@ class FOX_wkb extends FOX_geoAdapter {
 		return $wkb;
 	}
 
-	function writeMulti($geometry){
+	public function writeMulti($geometry){
 	    
 		// Set the number of components
 		$wkb = pack('L',$geometry->numGeometries());

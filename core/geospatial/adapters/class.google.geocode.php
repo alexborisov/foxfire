@@ -163,7 +163,7 @@ class FOX_googleGeocode extends FOX_geoAdapter {
 		
 	}
 
-	private function getPoint($delta=0){
+	public function getPoint($delta=0){
 	    
 		$lat = $this->result->results[$delta]->geometry->location->lat;
 		$lon = $this->result->results[$delta]->geometry->location->lng;
@@ -173,7 +173,7 @@ class FOX_googleGeocode extends FOX_geoAdapter {
 	}
 
 	
-	private function getPolygon($delta = 0){
+	public function getPolygon($delta = 0){
 	    
 		$points = array (
 				    $this->getTopLeft($delta),
@@ -191,7 +191,7 @@ class FOX_googleGeocode extends FOX_geoAdapter {
 	}
 
 	
-	private function getTopLeft($delta = 0){
+	public function getTopLeft($delta = 0){
 	    
 		$lat = $this->result->results[$delta]->geometry->bounds->northeast->lat;
 		$lon = $this->result->results[$delta]->geometry->bounds->southwest->lng;
@@ -200,7 +200,7 @@ class FOX_googleGeocode extends FOX_geoAdapter {
 		
 	}
 
-	private function getTopRight($delta = 0){
+	public function getTopRight($delta = 0){
 	    
 		$lat = $this->result->results[$delta]->geometry->bounds->northeast->lat;
 		$lon = $this->result->results[$delta]->geometry->bounds->northeast->lng;
@@ -209,7 +209,7 @@ class FOX_googleGeocode extends FOX_geoAdapter {
 		
 	}
 
-	private function getBottomLeft($delta = 0){
+	public function getBottomLeft($delta = 0){
 	    
 		$lat = $this->result->results[$delta]->geometry->bounds->southwest->lat;
 		$lon = $this->result->results[$delta]->geometry->bounds->southwest->lng;
@@ -218,7 +218,7 @@ class FOX_googleGeocode extends FOX_geoAdapter {
 		    
 	}
 
-	private function getBottomRight($delta = 0){
+	public function getBottomRight($delta = 0){
 	    
 		$lat = $this->result->results[$delta]->geometry->bounds->southwest->lat;
 		$lon = $this->result->results[$delta]->geometry->bounds->northeast->lng;

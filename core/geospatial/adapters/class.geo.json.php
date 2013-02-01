@@ -79,7 +79,7 @@ class FOX_geoJSON extends FOX_geoAdapter {
 		
 	}
 
-	private function objToGeom($obj){
+	public function objToGeom($obj){
 	    
 		$type = $obj->type;
 
@@ -93,12 +93,12 @@ class FOX_geoJSON extends FOX_geoAdapter {
 		
 	}
 
-	private function arrayToPoint($array){
+	public function arrayToPoint($array){
 	    
 		return new FOX_point($array[0], $array[1]);
 	}
 
-	private function arrayToLineString($array){
+	public function arrayToLineString($array){
 	    
 		$points = array();
 		
@@ -111,7 +111,7 @@ class FOX_geoJSON extends FOX_geoAdapter {
 		
 	}
 
-	private function arrayToPolygon($array){
+	public function arrayToPolygon($array){
 	    
 		$lines = array();
 		
@@ -124,7 +124,7 @@ class FOX_geoJSON extends FOX_geoAdapter {
 		
 	}
 
-	private function arrayToMultiPoint($array){
+	public function arrayToMultiPoint($array){
 	    
 		$points = array();
 		foreach ($array as $comp_array){
@@ -133,7 +133,7 @@ class FOX_geoJSON extends FOX_geoAdapter {
 		return new MultiPoint($points);
 	}
 
-	private function arrayToMultiLineString($array){
+	public function arrayToMultiLineString($array){
 	    
 		$lines = array();
 		
@@ -146,7 +146,7 @@ class FOX_geoJSON extends FOX_geoAdapter {
 		
 	}
 
-	private function arrayToMultiPolygon($array){
+	public function arrayToMultiPolygon($array){
 	    
 		$polys = array();
 		
@@ -159,7 +159,7 @@ class FOX_geoJSON extends FOX_geoAdapter {
 		
 	}
 
-	private function objToGeometryCollection($obj){
+	public function objToGeometryCollection($obj){
 	    
 		$geoms = array();
 		

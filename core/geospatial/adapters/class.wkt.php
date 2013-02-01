@@ -86,7 +86,7 @@ class FOX_wkt extends FOX_geoAdapter {
 		
 	}
 
-	private function parsePoint($data_string){
+	public function parsePoint($data_string){
 	    
 		$data_string = $this->trimParens($data_string);
 		$parts = explode(' ',$data_string);
@@ -95,7 +95,7 @@ class FOX_wkt extends FOX_geoAdapter {
 		
 	}
 
-	private function parseLineString($data_string){
+	public function parseLineString($data_string){
 	    
 	    
 		$data_string = $this->trimParens($data_string);
@@ -118,7 +118,7 @@ class FOX_wkt extends FOX_geoAdapter {
 		
 	}
 
-	private function parsePolygon($data_string){
+	public function parsePolygon($data_string){
 	    
 		$data_string = $this->trimParens($data_string);
 
@@ -150,7 +150,7 @@ class FOX_wkt extends FOX_geoAdapter {
 		
 	}
 
-	private function parseMultiPoint($data_string){
+	public function parseMultiPoint($data_string){
 	    
 	    
 		$data_string = $this->trimParens($data_string);
@@ -174,7 +174,7 @@ class FOX_wkt extends FOX_geoAdapter {
 	}
 
 	
-	private function parseMultiLineString($data_string){
+	public function parseMultiLineString($data_string){
 	    
 		$data_string = $this->trimParens($data_string);
 
@@ -207,7 +207,7 @@ class FOX_wkt extends FOX_geoAdapter {
 		
 	}
 
-	private function parseMultiPolygon($data_string){
+	public function parseMultiPolygon($data_string){
 	    
 	    
 		$data_string = $this->trimParens($data_string);
@@ -242,7 +242,7 @@ class FOX_wkt extends FOX_geoAdapter {
 	}
 
 	
-	private function parseGeometryCollection($data_string){
+	public function parseGeometryCollection($data_string){
 	    
 	    
 		$data_string = $this->trimParens($data_string);
@@ -266,7 +266,7 @@ class FOX_wkt extends FOX_geoAdapter {
 		
 	}
 
-	protected function getDataString($wkt, $type){
+	public function getDataString($wkt, $type){
 	    
 		return substr($wkt, strlen($type));
 	}
@@ -274,7 +274,7 @@ class FOX_wkt extends FOX_geoAdapter {
 	/**
 	* Trim the parenthesis and spaces
 	*/
-	protected function trimParens($str){
+	public function trimParens($str){
 	    
 		$str = trim($str);
 
@@ -286,13 +286,13 @@ class FOX_wkt extends FOX_geoAdapter {
 		else return $str;
 	}
 
-	protected function beginsWith($str, $char){
+	public function beginsWith($str, $char){
 	    
 		if(substr($str,0,strlen($char)) == $char) return true;
 		else return false;
 	}
 
-	protected function endsWith($str, $char){
+	public function endsWith($str, $char){
 	    
 	    
 		if( substr($str,(0 - strlen($char))) == $char ){

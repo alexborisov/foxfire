@@ -96,7 +96,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 		
 	}
 
-	protected function geomFromXML(){
+	public function geomFromXML(){
 	    
 		$geometries = array();
 		
@@ -121,7 +121,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 		
 	}
 
-	protected function getPointsFromCoords($string){
+	public function getPointsFromCoords($string){
 	    
 		$coords = array();
 		$latlon = explode(' ',$string);
@@ -144,7 +144,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 		
 	}
 
-	protected function parsePoints(){
+	public function parsePoints(){
 	    
 		$points = array();
 		$pt_elements = $this->xmlobj->getElementsByTagName('point');
@@ -159,7 +159,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 		
 	}
 
-	protected function parseLines(){
+	public function parseLines(){
 	    
 		$lines = array();
 		$line_elements = $this->xmlobj->getElementsByTagName('line');
@@ -174,7 +174,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 		
 	}
 
-	protected function parsePolygons(){
+	public function parsePolygons(){
 	    
 		$polygons = array();
 		$poly_elements = $this->xmlobj->getElementsByTagName('polygon');
@@ -198,7 +198,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 	}
 
 	// Boxes are rendered into polygons
-	protected function parseBoxes(){
+	public function parseBoxes(){
 	    
 		$polygons = array();
 		$box_elements = $this->xmlobj->getElementsByTagName('box');
@@ -225,7 +225,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 
 	// Circles are rendered into points
 	// @@TODO: Add good support once we have circular-string geometry support
-	protected function parseCircles(){
+	public function parseCircles(){
 	    
 		$points = array();
 		$circle_elements = $this->xmlobj->getElementsByTagName('circle');
@@ -240,7 +240,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 		
 	}
 
-	protected function geometryToGeoRSS($geom){
+	public function geometryToGeoRSS($geom){
 	    
 	    
 		$type = strtolower($geom->getGeomType());
@@ -291,13 +291,13 @@ class FOX_geoRSS extends FOX_geoAdapter {
 	
 	
 
-	private function pointToGeoRSS($geom){
+	public function pointToGeoRSS($geom){
 	    
 		return '<'.$this->nss.'point>'.$geom->getY().' '.$geom->getX().'</'.$this->nss.'point>';
 	}
 
 
-	private function linestringToGeoRSS($geom){
+	public function linestringToGeoRSS($geom){
 	    
 		$output = '<'.$this->nss.'line>';
 		
@@ -317,7 +317,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 		
 	}
 
-	private function polygonToGeoRSS($geom){
+	public function polygonToGeoRSS($geom){
 	    
 		$output = '<'.$this->nss.'polygon>';
 		$exterior_ring = $geom->exteriorRing();
