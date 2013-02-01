@@ -414,8 +414,7 @@ class FOX_wkt extends FOX_geoAdapter {
 				));			    
 			}
 		    
-		}
-		
+		}		
 				
 	}
 	
