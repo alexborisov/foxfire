@@ -133,26 +133,52 @@ abstract class FOX_collection extends FOX_geometry {
 		}
 
 		// Go through each component and get the max and min x and y
-		$i = 0;
-
+		// =====================================================================
+		
+		$first_item = true;	
+		$maxx = 0; $maxy = 0; $minx = 0; $miny = 0;
+		
 		foreach( $this->components as $component ){
-
+		    
+		    
 			$component_bbox = $component->getBBox();
 
 			// On the first run through, set the bbox to the component bbox
-			if ($i == 0) {
+			
+			if($first_item){
+			    
 				$maxx = $component_bbox['maxx'];
 				$maxy = $component_bbox['maxy'];
 				$minx = $component_bbox['minx'];
 				$miny = $component_bbox['miny'];
+				
+				$first_item = false;				
 			}
+			
+			// Otherwise,  a check and replace on each boundary, slowly growing the bbox
+			
+			else {			    				
 
-			// Do a check and replace on each boundary, slowly growing the bbox
-			$maxx = $component_bbox['maxx'] > $maxx ? $component_bbox['maxx'] : $maxx;
-			$maxy = $component_bbox['maxy'] > $maxy ? $component_bbox['maxy'] : $maxy;
-			$minx = $component_bbox['minx'] < $minx ? $component_bbox['minx'] : $minx;
-			$miny = $component_bbox['miny'] < $miny ? $component_bbox['miny'] : $miny;
-			$i++;
+				if( $component_bbox['maxx'] > $maxx){
+
+					$maxx = $component_bbox['maxx'] ;
+				}
+
+				if( $component_bbox['maxy'] > $maxy ){
+
+					$maxy = $component_bbox['maxy'];
+				}
+
+				if( $component_bbox['minx'] < $minx ){
+
+					$minx = $component_bbox['minx'];
+				}
+
+				if( $component_bbox['miny'] < $miny ){
+
+					$miny = $component_bbox['miny'];
+				}			
+			}
 
 		}
 
