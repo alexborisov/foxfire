@@ -29,7 +29,7 @@ abstract class FOX_geoAdapter {
 	* 
 	* @return mixed
 	*/
-	abstract public function write(Geometry $geometry);
+	abstract public function write(FOX_geometry $geometry);
   
 }
 
