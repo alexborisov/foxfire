@@ -297,7 +297,7 @@ class FOX_kml extends FOX_geoAdapter {
 			case 'multipoint':
 			case 'multilinestring':
 			case 'multipolygon': 
-			case 'geometrycollection':	{
+			case 'geometrycollection': {
 
 				return $this->collectionToKML($geom);
 
