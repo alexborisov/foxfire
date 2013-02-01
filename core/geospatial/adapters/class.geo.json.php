@@ -65,7 +65,7 @@ class FOX_geoJSON extends FOX_geoAdapter {
 				$geoms[] = $this->read($feature);
 			}
 			
-			return geoPHP::geometryReduce($geoms);
+			return FOX_geo::geometryReduce($geoms);
 		}
 
 		// Check to see if it's a Feature

@@ -97,7 +97,7 @@ class FOX_kml extends FOX_geoAdapter {
 	protected function geomFromXML(){
 	    
 		$geometries = array();
-		$geom_types = geoPHP::geometryList();
+		$geom_types = FOX_geo::geometryList();
 		$placemark_elements = $this->xmlobj->getElementsByTagName('placemark');
 		
 		if($placemark_elements->length){
@@ -142,7 +142,7 @@ class FOX_kml extends FOX_geoAdapter {
 			}
 		}
 		
-		return geoPHP::geometryReduce($geometries);
+		return FOX_geo::geometryReduce($geometries);
 		
 	}
 
@@ -229,7 +229,7 @@ class FOX_kml extends FOX_geoAdapter {
 	protected function parseGeometryCollection($xml){
 	    
 		$components = array();
-		$geom_types = geoPHP::geometryList();
+		$geom_types = FOX_geo::geometryList();
 		
 		foreach($xml->childNodes as $child){
 		    

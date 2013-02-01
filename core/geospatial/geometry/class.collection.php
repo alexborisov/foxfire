@@ -89,7 +89,7 @@ abstract class FOX_collection extends FOX_geometry {
 			
 			if( $geos_centroid->typeName() == 'Point'){
 			    
-				return geoPHP::geosToGeometry($this->geos()->centroid());
+				return FOX_geo::geosToGeometry($this->geos()->centroid());
 			}
 		}
 
@@ -119,7 +119,7 @@ abstract class FOX_collection extends FOX_geometry {
 
 			if ($envelope->typeName() == 'Point') {
 
-			    return geoPHP::geosToGeometry($envelope)->getBBOX();
+			    return FOX_geo::geosToGeometry($envelope)->getBBOX();
 			}
 
 			$geos_ring = $envelope->exteriorRing();
@@ -241,7 +241,7 @@ abstract class FOX_collection extends FOX_geometry {
 			$components_boundaries[] = $component->boundary();
 		}
 
-		return geoPHP::geometryReduce($components_boundaries);
+		return FOX_geo::geometryReduce($components_boundaries);
 	    
 	}
 

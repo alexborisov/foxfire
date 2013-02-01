@@ -2,7 +2,7 @@
 /**
  * MultiPolygon: A collection of Polygons
  */
-class MultiPolygon extends Collection 
+class FOX_multiPolygon extends FOX_collection 
 {
-  protected $geom_type = 'MultiPolygon';
+	protected $geom_type = 'MultiPolygon';
 }

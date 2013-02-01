@@ -41,19 +41,19 @@ class FOX_wkt extends FOX_geoAdapter {
 		}
 
 		// If geos is installed, then we take a shortcut and let it parse the WKT
-		if(geoPHP::geosInstalled()){
+		if(FOX_geo::geosInstalled()){
 		    
 			$reader = new GEOSWKTReader();
 			
 			if($srid){
 			    
-				$geom = geoPHP::geosToGeometry($reader->read($wkt));
+				$geom = FOX_geo::geosToGeometry($reader->read($wkt));
 				$geom->setSRID($srid);
 				
 				return $geom;
 			}
 			else { 
-				return geoPHP::geosToGeometry($reader->read($wkt));
+				return FOX_geo::geosToGeometry($reader->read($wkt));
 			}
 		}
 		
@@ -62,7 +62,7 @@ class FOX_wkt extends FOX_geoAdapter {
 		// For each geometry type, check to see if we have a match at the
 		// beggining of the string. If we do, then parse using that type
 		
-		foreach (geoPHP::geometryList() as $geom_type){
+		foreach (FOX_geo::geometryList() as $geom_type){
 		    
 			$wkt_geom = strtoupper($geom_type);
 			
@@ -315,7 +315,7 @@ class FOX_wkt extends FOX_geoAdapter {
 	    
 	    
 		// If geos is installed, then we take a shortcut and let it write the WKT
-		if(geoPHP::geosInstalled()){
+		if(FOX_geo::geosInstalled()){
 		    
 			$writer = new GEOSWKTWriter();
 			$writer->setTrim(true);

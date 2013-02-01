@@ -88,7 +88,7 @@ class FOX_polygon extends FOX_collection {
 
 		if($this->geos()){
 		    
-			return geoPHP::geosToGeometry($this->geos()->centroid());
+			return FOX_geo::geosToGeometry($this->geos()->centroid());
 		}
 
 		$exterior_ring = $this->components[0];

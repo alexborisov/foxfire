@@ -117,7 +117,7 @@ class FOX_geoRSS extends FOX_geoAdapter {
 			));		    
 		}
 
-		return geoPHP::geometryReduce($geometries); 
+		return FOX_geo::geometryReduce($geometries); 
 		
 	}
 

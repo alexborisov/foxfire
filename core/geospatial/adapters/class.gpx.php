@@ -118,7 +118,7 @@ class FOX_gpx extends FOX_geoAdapter {
 			));
 		}
 
-		return geoPHP::geometryReduce($geometries); 
+		return FOX_geo::geometryReduce($geometries); 
 		
 	}
 

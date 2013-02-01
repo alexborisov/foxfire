@@ -88,7 +88,7 @@ abstract class FOX_geometry {
 
 		if( $this->geos() ){
 
-			return geoPHP::geosToGeometry($this->geos()->envelope());
+			return FOX_geo::geosToGeometry($this->geos()->envelope());
 		}
 
 		$bbox = $this->getBBox();
@@ -123,7 +123,7 @@ abstract class FOX_geometry {
 		$args = func_get_args();
 
 		$format = array_shift($args);
-		$type_map = geoPHP::getAdapterMap();
+		$type_map = FOX_geo::getAdapterMap();
 		$processor_type = $type_map[$format];
 		$processor = new $processor_type();
 
@@ -189,13 +189,13 @@ abstract class FOX_geometry {
 	    
 		// If it's already been set, just return it
 
-		if( $this->geos && geoPHP::geosInstalled() ){
+		if( $this->geos && FOX_geo::geosInstalled() ){
 
 			return $this->geos;
 		}
 		// It hasn't been set yet, generate it
 
-		if( geoPHP::geosInstalled() ){
+		if( FOX_geo::geosInstalled() ){
 
 			$reader = new GEOSWKBReader();
 			$this->geos = $reader->readHEX($this->out('wkb',true));
@@ -217,7 +217,7 @@ abstract class FOX_geometry {
 	    
 		if( $this->geos() ){
 
-			return geoPHP::geosToGeometry($this->geos()->pointOnSurface());
+			return FOX_geo::geosToGeometry($this->geos()->pointOnSurface());
 		}
 	    
 	}
@@ -261,7 +261,7 @@ abstract class FOX_geometry {
 	    
 		if($this->geos()){
 		    
-			return geoPHP::geosToGeometry($this->geos()->buffer($distance));
+			return FOX_geo::geosToGeometry($this->geos()->buffer($distance));
 		}
 		
 	}
@@ -269,7 +269,7 @@ abstract class FOX_geometry {
 	public function intersection(FOX_geometry $geometry) {
 	    
 		if($this->geos()){
-			return geoPHP::geosToGeometry($this->geos()->intersection($geometry->geos()));
+			return FOX_geo::geosToGeometry($this->geos()->intersection($geometry->geos()));
 		}
 		
 	}
@@ -277,21 +277,21 @@ abstract class FOX_geometry {
 	public function convexHull(){
 	    
 		if ($this->geos()) {
-			return geoPHP::geosToGeometry($this->geos()->convexHull());
+			return FOX_geo::geosToGeometry($this->geos()->convexHull());
 		}
 	}
 
 	public function difference(Geometry $geometry) {
 	    
 		if ($this->geos()) {
-			return geoPHP::geosToGeometry($this->geos()->difference($geometry->geos()));
+			return FOX_geo::geosToGeometry($this->geos()->difference($geometry->geos()));
 		}
 	}
 
 	public function symDifference(Geometry $geometry) {
 	    
 		if ($this->geos()) {
-			return geoPHP::geosToGeometry($this->geos()->symDifference($geometry->geos()));
+			return FOX_geo::geosToGeometry($this->geos()->symDifference($geometry->geos()));
 		}
 	}
 
@@ -309,10 +309,10 @@ abstract class FOX_geometry {
 					$geom = $geom->union($item->geos());
 				}
 				
-				return geoPHP::geosToGeometry($geom);
+				return FOX_geo::geosToGeometry($geom);
 			}
 			else {
-				return geoPHP::geosToGeometry($this->geos()->union($geometry->geos()));
+				return FOX_geo::geosToGeometry($this->geos()->union($geometry->geos()));
 			}
 		}
 		
@@ -321,7 +321,7 @@ abstract class FOX_geometry {
 	public function simplify($tolerance, $preserveTopology=false){
 	    
 		if ($this->geos()) {
-			return geoPHP::geosToGeometry($this->geos()->simplify($tolerance, $preserveTopology));
+			return FOX_geo::geosToGeometry($this->geos()->simplify($tolerance, $preserveTopology));
 		}
 		
 	}
@@ -416,37 +416,37 @@ abstract class FOX_geometry {
 	
 	public function hasZ(){
 	    
-		// geoPHP does not support Z values at the moment
+		// FOX_geo does not support Z values at the moment
 		return false;
 	}
 
 	public function is3D(){
 	    
-		// geoPHP does not support 3D geometries at the moment
+		// FOX_geo does not support 3D geometries at the moment
 		return false;
 	}
 
 	public function isMeasured(){
 	    
-		// geoPHP does not yet support M values
+		// FOX_geo does not yet support M values
 		return false;
 	}
 
 	public function coordinateDimension(){
 	    
-		// geoPHP only supports 2-dimentional space
+		// FOX_geo only supports 2-dimentional space
 		return 2;
 	}
 
 	public function z(){
 	    
-		// geoPHP only supports 2-dimentional space
+		// FOX_geo only supports 2-dimentional space
 		return null;
 	}
 
 	public function m(){
 	    
-		// geoPHP only supports 2-dimentional space
+		// FOX_geo only supports 2-dimentional space
 		return null;
 	}
 	
