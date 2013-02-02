@@ -123,16 +123,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$result_add = $this->cls->addToken( $token);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>1,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$token),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
+		    
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Function Return
@@ -154,16 +147,9 @@ class core_base_dictionary extends RAZ_testCase {
 				);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"DB Select exception",
-					'data'=>array( "args"=>$args, "column"=>$column, "ctrl"=>$ctrl),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
+		    
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+			
 		}
 		$this->assertEquals($id, $result_select);
 
@@ -255,18 +241,10 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$token),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
-		}
 
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
+		}
 
 		// Check function return
 		// =======================================================
@@ -287,16 +265,9 @@ class core_base_dictionary extends RAZ_testCase {
 								$ctrl=array("format"=>"array_array") );
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"DB Select exception",
-					'data'=>array("ctrl"=>$ctrl),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 		$exp_array = array(	array( "id"=>5, "token"=>"five"),
 					array( "id"=>4, "token"=>"four"),
@@ -326,8 +297,19 @@ class core_base_dictionary extends RAZ_testCase {
 		// Test adding invalid tokens
 		// ======================================================
 		
+		// Test adding one invalid one valid tokens 
 		try {
 			$result_add = $this->cls->addToken( array("six",true));
+			// Execution will halt on the previous line if addToken() throws an exception
+			$this->fail("Method addToken() failed to throw an exception on invalid token type");			
+		}
+		catch(FOX_exception $child){
+
+		}	
+
+		// Test adding multiple invalid tokens 
+		try {
+			$result_add = $this->cls->addToken( array(12,1.7));
 			// Execution will halt on the previous line if addToken() throws an exception
 			$this->fail("Method addToken() failed to throw an exception on invalid token type");			
 		}
@@ -364,31 +346,17 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 		try{
 		    	$result = $this->cls->flushCache();
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		$this->cls->cache = array();
@@ -396,32 +364,21 @@ class core_base_dictionary extends RAZ_testCase {
 		// test single fetch
 		// ======================================================
 		try{
-			$fetch_values = array("exp"=>array(1=>"one"), "fetch"=>"one");
+
 			$this->assertEquals(array(1=>"one"),$this->cls->dbFetchToken("one") );
 
-			$fetch_values = array("exp"=>array(2=>"two"), "fetch"=>"two");
 			$this->assertEquals(array(2=>"two"),$this->cls->dbFetchToken("two") );
 
-			$fetch_values = array("exp"=>array(3=>"three"), "fetch"=>"three");
 			$this->assertEquals(array(3=>"three"),$this->cls->dbFetchToken("three") );
 
-			$fetch_values = array("exp"=>array(4=>"four"), "fetch"=>"four");
 			$this->assertEquals(array(4=>"four"),$this->cls->dbFetchToken("four") );
 
-			$fetch_values = array("exp"=>array(5=>"five"), "fetch"=>"five");
 			$this->assertEquals(array(5=>"five"),$this->cls->dbFetchToken("five") );
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"dbfetchToken exception",
-					'data'=>array( "fetch values"=>$fetch_values),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check class cache
@@ -442,7 +399,7 @@ class core_base_dictionary extends RAZ_testCase {
 		// Test invalid tokens
 		// ======================================================
 
-		// Test adding null token		
+		// Test fetching null token		
 		try {
 			$result = $this->cls->dbFetchToken( null);
 			// Execution will halt on the previous line if dbFetchToken() throws an exception
@@ -452,7 +409,7 @@ class core_base_dictionary extends RAZ_testCase {
 
 		}
 
-		// Test adding bool token		
+		// Test fetching bool token		
 		try {
 			$result = $this->cls->dbFetchToken( true);			
 		}
@@ -462,7 +419,7 @@ class core_base_dictionary extends RAZ_testCase {
 		
 		$this->assertEquals(array(), $result);
 		
-		// Test adding int token		
+		// Test fetching int token		
 		try {
 			$result = $this->cls->dbFetchToken( 1);			
 		}
@@ -472,7 +429,7 @@ class core_base_dictionary extends RAZ_testCase {
 		
 		$this->assertEquals(array(), $result);
 		
-		// Test adding float token		
+		// Test fetching float token		
 		try {
 			$result = $this->cls->dbFetchToken( 1.7);			
 		}
@@ -482,21 +439,23 @@ class core_base_dictionary extends RAZ_testCase {
 		
 		$this->assertEquals(array(), $result);		
 		
-//		// Test adding an array as a token		
+//		// Test fetching an array as a token		
 //		try {
 //			$result = $this->cls->dbFetchToken(array(array("one")));
 //			// Execution will halt on the previous line if dbFetchToken() throws an exception
 //			$this->fail("Method dbFetchToken() failed to throw an exception on invalid token type");			
 //		}
 //		catch(FOX_exception $child){
-//
+//		    
+//			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));
 //		}
-		
+//		
+//		// Test fetching an object as a token	
+//		
 //		$test_obj = new stdClass();
 //		$test_obj->foo = "11";
-//		$test_obj->bar = "test_Bar";		
+//		$test_obj->bar = "test_Bar";				
 //		
-//		// Test adding an object as a token		
 //		try {
 //			$result = $this->cls->dbFetchToken($test_obj);
 //			// Execution will halt on the previous line if dbFetchToken() throws an exception
@@ -521,31 +480,17 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 		try{
 		    $result = $this->cls->flushCache();
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		$this->cls->cache = array();
@@ -560,16 +505,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals($exp_array, $this->cls->dbFetchToken($add_tokens));
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"dbfetchToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-			return false;
+
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 
@@ -582,6 +520,37 @@ class core_base_dictionary extends RAZ_testCase {
 
 		$exp_array = array(1=>"one", 2=>"two", 3=>"three", 4=>"four", 5=>"five");
 		$this->assertEquals($exp_array, $this->cls->cache["ids"]);
+		
+		// Test invalid tokens
+		// ======================================================
+
+		// Test fetching missing token		
+		try {
+			$result = $this->cls->dbFetchToken( "six");
+
+		}
+		catch(FOX_exception $child){
+
+		}
+		$this->assertEquals(array(), $result);
+		
+		// Test fetching multiple tokens one invalid		
+		try {
+			$result = $this->cls->dbFetchToken( array( "five", 12));			
+		}
+		catch(FOX_exception $child){
+
+		}
+		$this->assertEquals(array(5=>"five"), $result);
+		
+		// Test fetching multiple tokens multiple invalid		
+		try {
+			$result = $this->cls->dbFetchToken( array( 1.7, 12));			
+		}
+		catch(FOX_exception $child){
+
+		}		
+		$this->assertEquals(array(), $result);
 
 	}
 
@@ -596,33 +565,17 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 		try{
 		    $result = $this->cls->flushCache();
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		
@@ -632,33 +585,21 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 
 		try{
-			$fetch_value= array("exp"=>array(1=>"one"), "fetch"=>1);
+
 			$this->assertEquals(array(1=>"one"),$this->cls->dbFetchId(1) );
 
-			$fetch_value= array("exp"=>array(2=>"two"), "fetch"=>2);
 			$this->assertEquals(array(2=>"two"),$this->cls->dbFetchId(2) );
 
-			$fetch_value= array("exp"=>array(3=>"three"), "fetch"=>3);
 			$this->assertEquals(array(3=>"three"),$this->cls->dbFetchId(3) );
 
-			$fetch_value= array("exp"=>array(4=>"four"), "fetch"=>4);
 			$this->assertEquals(array(4=>"four"),$this->cls->dbFetchId(4) );
 
-			$fetch_value= array("exp"=>array(5=>"five"), "fetch"=>5);
 			$this->assertEquals(array(5=>"five"),$this->cls->dbFetchId(5) );
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"dbfetchToken exception",
-					'data'=>array( "fetch values"=>$fetch_values),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check class cache
@@ -671,6 +612,77 @@ class core_base_dictionary extends RAZ_testCase {
 		$exp_array = array(1=>"one", 2=>"two", 3=>"three", 4=>"four", 5=>"five");
 		$this->assertEquals($exp_array, $this->cls->cache["ids"]);
 
+		
+		// Test invalid ids
+		// ======================================================
+
+		// Test fetching null id		
+		try {
+			$result = $this->cls->dbFetchId( null);
+			// Execution will halt on the previous line if dbFetchId() throws an exception
+			$this->fail("Method dbFetchId() failed to throw an exception on invalid id type");			
+		}
+		catch(FOX_exception $child){
+
+		}
+
+//		// Test fetching bool id		
+//		try {
+//			$result = $this->cls->dbFetchId( true);			
+//		}
+//		catch(FOX_exception $child){
+//
+//		}		
+//		
+//		$this->assertEquals(array(), $result);
+		
+		// Test fetching string id		
+		try {
+			$result = $this->cls->dbFetchId( "one");			
+		}
+		catch(FOX_exception $child){
+
+		}
+		
+		$this->assertEquals(array(), $result);
+		
+//		// Test fetching float id		
+//		try {
+//			$result = $this->cls->dbFetchId( 1.7);			
+//		}
+//		catch(FOX_exception $child){
+//
+//		}	
+//		
+//		$this->assertEquals(array(), $result);		
+		
+//		// Test fetching an array as an id		
+//		try {
+//			$result = $this->cls->dbFetchId(array(array(1)));
+//			// Execution will halt on the previous line if dbFetchId() throws an exception
+//			$this->fail("Method dbFetchId() failed to throw an exception on invalid id type");			
+//		}
+//		catch(FOX_exception $child){
+//		    
+//			$this->fail($child->dumpString(array('depth'=>1, 'data'=>true)));
+//		}
+		
+//		// Test fetching an object as a id	
+//		
+//		$test_obj = new stdClass();
+//		$test_obj->foo = "11";
+//		$test_obj->bar = "test_Bar";				
+//		
+//		try {
+//			$result = $this->cls->dbFetchId($test_obj);
+//			// Execution will halt on the previous line if dbFetchId() throws an exception
+//			$this->fail("Method dbFetchId() failed to throw an exception on invalid id type");			
+//		}
+//		catch(FOX_exception $child){
+//
+//		}		
+		
+		
 	}
 
 	function test_dbFetchId_Multi() {
@@ -684,33 +696,17 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 		try{
 		    $result = $this->cls->flushCache();
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		$this->cls->cache = array();
@@ -724,19 +720,10 @@ class core_base_dictionary extends RAZ_testCase {
 		$this->assertEquals($exp_array, $this->cls->dbFetchId($add_ids));
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"dbfetchToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
-
 
 		// Check class cache
 		// =======================================================
@@ -761,17 +748,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -783,34 +762,22 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 
 		try{
-			$cache_fetch = array("exp"=>array(1=>"one"), "fetch"=>"one");
+			
 			$this->assertEquals(array(1=>"one"), $this->cls->cacheFetchToken("one") );
 
-			$cache_fetch = array("exp"=>array(2=>"two"), "fetch"=>"two");
 			$this->assertEquals(array(2=>"two"), $this->cls->cacheFetchToken("two") );
 
-			$cache_fetch = array("exp"=>array(3=>"three"), "fetch"=>"three");
 			$this->assertEquals(array(3=>"three"), $this->cls->cacheFetchToken("three") );
 
-			$cache_fetch = array("exp"=>array(4=>"four"), "fetch"=>"four");
 			$this->assertEquals(array(4=>"four"), $this->cls->cacheFetchToken("four") );
 
-			$cache_fetch = array("exp"=>array(5=>"five"), "fetch"=>"five");
 			$this->assertEquals(array(5=>"five"), $this->cls->cacheFetchToken("five") );
 
 		}
 		catch(FOX_exception $child){
-			throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"cacheFetchToken exception",
-					'data'=>array("cache_values"=>$cache_fetch),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check class cache
@@ -835,17 +802,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -867,17 +826,9 @@ class core_base_dictionary extends RAZ_testCase {
 
 		}
 		catch(FOX_exception $child){
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"CacheFetchToken exception",
-					'data'=>array("tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check class cache
@@ -903,17 +854,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -924,35 +867,20 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 
 		try{
-			$cache_fetch = array("exp"=>array(1=>"one"), "fetch"=>"one");
 			$this->assertEquals(array(1=>"one"), $this->cls->cacheFetchId(1) );
 
-			$cache_fetch = array("exp"=>array(2=>"two"), "fetch"=>"two");
 			$this->assertEquals(array(2=>"two"), $this->cls->cacheFetchId(2) );
 
-			$cache_fetch = array("exp"=>array(3=>"three"), "fetch"=>"three");
 			$this->assertEquals(array(3=>"three"), $this->cls->cacheFetchId(3) );
 
-			$cache_fetch = array("exp"=>array(4=>"four"), "fetch"=>"four");
 			$this->assertEquals(array(4=>"four"), $this->cls->cacheFetchId(4) );
 
-			$cache_fetch = array("exp"=>array(5=>$this->cls->generateHash("five")), "fetch"=>"five");
 			$this->assertEquals(array(5=>"five"), $this->cls->cacheFetchId(5) );
-
-
 		}
 		catch(FOX_exception $child){
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"cacheFetchId exception",
-					'data'=>array("cache_values"=>$cache_fetch),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 		
 		// Check class cache
@@ -979,17 +907,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -1006,17 +926,9 @@ class core_base_dictionary extends RAZ_testCase {
 
 		}
 		catch(FOX_exception $child){
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"cacheFetchId exception",
-					'data'=>array("cache_values"=>$ids),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check class cache
@@ -1043,50 +955,27 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 		
 		//test single class cache get
 		// ======================================================
 		try{
-			$get_token= array("exp"=>1, "get"=>"one");
 			$this->assertEquals(1,$this->cls->getToken("one"));
 
-			$get_token= array("exp"=>2, "get"=>"two");
 			$this->assertEquals(2,$this->cls->getToken("two"));
 
-			$get_token= array("exp"=>3, "get"=>"three");
 			$this->assertEquals(3,$this->cls->getToken("three"));
 
-			$get_token= array("exp"=>4, "get"=>"four");
 			$this->assertEquals(4,$this->cls->getToken("four"));
 
-			$get_token= array("exp"=>5, "get"=>"five");
 			$this->assertEquals(5,$this->cls->getToken("five"));
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getToken exception",
-					'data'=>array( "getToken"=>$get_token),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 		}
 	}
 
@@ -1101,17 +990,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}	
 		
 		// Test Multi Class Cache getToken
@@ -1122,17 +1003,8 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getToken exception",
-					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 	}
 
@@ -1147,17 +1019,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -1167,34 +1031,20 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 
 		try{
-			$get_token= array("exp"=>1, "get"=>"one");
 			$this->assertEquals(1,$this->cls->getToken("one"));
 
-			$get_token= array("exp"=>2, "get"=>"two");
 			$this->assertEquals(2,$this->cls->getToken("two"));
 
-			$get_token= array("exp"=>3, "get"=>"three");
 			$this->assertEquals(3,$this->cls->getToken("three"));
 
-			$get_token= array("exp"=>4, "get"=>"four");
 			$this->assertEquals(4,$this->cls->getToken("four"));
 
-			$get_token= array("exp"=>5, "get"=>"five");
 			$this->assertEquals(5,$this->cls->getToken("five"));
 		}
 		catch(FOX_exception $child){
-		    echo $get_token;
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getToken exception",
-					'data'=>array( "getToken"=>$get_token),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check that class cache has been rebuilt
@@ -1218,17 +1068,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -1242,17 +1084,8 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getToken exception",
-					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 		// Check that class cache has been rebuilt
@@ -1275,17 +1108,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		try{
@@ -1293,17 +1118,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals(true, $result);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -1314,34 +1131,20 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 
 		try{
-			$get_token= array("exp"=>1, "get"=>"one");
 			$this->assertEquals(1,$this->cls->getToken("one"));
 
-			$get_token= array("exp"=>2, "get"=>"two");
 			$this->assertEquals(2,$this->cls->getToken("two"));
 
-			$get_token= array("exp"=>3, "get"=>"three");
 			$this->assertEquals(3,$this->cls->getToken("three"));
 
-			$get_token= array("exp"=>4, "get"=>"four");
 			$this->assertEquals(4,$this->cls->getToken("four"));
 
-			$get_token= array("exp"=>5, "get"=>"five");
 			$this->assertEquals(5,$this->cls->getToken("five"));
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"getToken exception",
-					'data'=>array( "getToken"=>$get_token),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 		// Check that class cache has been rebuilt
@@ -1365,17 +1168,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		try{
@@ -1383,17 +1178,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals(true, $result);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -1407,17 +1194,8 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getToken exception",
-					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 		// Check that class cache has been rebuilt
@@ -1435,34 +1213,19 @@ class core_base_dictionary extends RAZ_testCase {
 		// ======================================================
 
 		try{
-			$get_token= array("exp"=>1, "get"=>"one");
 			$this->assertEquals(1,$this->cls->getToken("one"));
 
-			$get_token= array("exp"=>2, "get"=>"two");
 			$this->assertEquals(2,$this->cls->getToken("two"));
 
-			$get_token= array("exp"=>3, "get"=>"three");
 			$this->assertEquals(3,$this->cls->getToken("three"));
 
-			$get_token= array("exp"=>4, "get"=>"four");
 			$this->assertEquals(4,$this->cls->getToken("four"));
 
-			$get_token= array("exp"=>5, "get"=>"five");
 			$this->assertEquals(5,$this->cls->getToken("five"));
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"getToken exception",
-					'data'=>array( "getToken"=>$get_token),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
-
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 		}
 
 		// Check class cache
@@ -1485,17 +1248,8 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getToken exception",
-					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 		// Check class cache
@@ -1520,17 +1274,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->cls->addToken($add_tokens[1]);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Test multi mixed insert and get
@@ -1541,17 +1287,8 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getToken exception",
-					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 		// Check class cache
@@ -1575,52 +1312,28 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		//test single class cache get
 		// ======================================================
 		try{
-
-			$get_id= array("exp"=>"one", "get"=>1);
 			$this->assertEquals("one",$this->cls->getId(1));
 
-			$get_id= array("exp"=>"two", "get"=>2);
 			$this->assertEquals("two",$this->cls->getId(2));
 
-			$get_id= array("exp"=>"three", "get"=>3);
 			$this->assertEquals("three",$this->cls->getId(3));
 
-			$get_id= array("exp"=>"four", "get"=>4);
 			$this->assertEquals("four",$this->cls->getId(4));
 
-			$get_id= array("exp"=>"five", "get"=>5);
 			$this->assertEquals("five",$this->cls->getId(5));
-
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getId exception",
-					'data'=>array( "getId"=>$get_id),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 	}
@@ -1636,17 +1349,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 
@@ -1659,17 +1364,8 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getId exception",
-					'data'=>array( "get ids"=>$get_ids),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 	}
 
@@ -1684,17 +1380,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -1704,36 +1392,21 @@ class core_base_dictionary extends RAZ_testCase {
 		//test single class cache get
 		// ======================================================
 		try{
-
-			$get_id= array("exp"=>"one", "get"=>1);
 			$this->assertEquals("one",$this->cls->getId(1));
 
-			$get_id= array("exp"=>"two", "get"=>2);
 			$this->assertEquals("two",$this->cls->getId(2));
 
-			$get_id= array("exp"=>"three", "get"=>3);
 			$this->assertEquals("three",$this->cls->getId(3));
 
-			$get_id= array("exp"=>"four", "get"=>4);
 			$this->assertEquals("four",$this->cls->getId(4));
 
-			$get_id= array("exp"=>"five", "get"=>5);
 			$this->assertEquals("five",$this->cls->getId(5));
 
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getId exception",
-					'data'=>array( "getId"=>$get_id),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 		// Check class cache
@@ -1757,17 +1430,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -1783,17 +1448,8 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getId exception",
-					'data'=>array( "get ids"=>$get_ids),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 		// Check class cache
@@ -1817,17 +1473,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		try{
@@ -1835,17 +1483,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals(true, $result);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Clear class cache
@@ -1855,36 +1495,20 @@ class core_base_dictionary extends RAZ_testCase {
 		//test single class cache get
 		// ======================================================
 		try{
-
-			$get_id= array("exp"=>"one", "get"=>1);
 			$this->assertEquals("one",$this->cls->getId(1));
 
-			$get_id= array("exp"=>"two", "get"=>2);
 			$this->assertEquals("two",$this->cls->getId(2));
 
-			$get_id= array("exp"=>"three", "get"=>3);
 			$this->assertEquals("three",$this->cls->getId(3));
 
-			$get_id= array("exp"=>"four", "get"=>4);
 			$this->assertEquals("four",$this->cls->getId(4));
 
-			$get_id= array("exp"=>"five", "get"=>5);
 			$this->assertEquals("five",$this->cls->getId(5));
-
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getId exception",
-					'data'=>array( "getId"=>$get_id),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 		// Check class cache
@@ -1908,17 +1532,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		try{
@@ -1926,17 +1542,8 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals(true, $result);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>2,
-					'text'=>"Class flushCache exception",
-					'data'=>array( "class name"=>get_class($this->cls)),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 		}
 		
 		// Clear class cache
@@ -1952,17 +1559,8 @@ class core_base_dictionary extends RAZ_testCase {
 		}
 		catch(FOX_exception $child){
 
-			throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"getId exception",
-					'data'=>array( "get ids"=>$get_ids),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
 
-			return false;
 		}
 
 		// Check class cache
@@ -1986,17 +1584,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Test dropAll
@@ -2005,17 +1595,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->cls->dropAll();
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"dropAll exception",
-					'data'=>null,
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 
@@ -2027,17 +1609,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals( false, $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl=null));
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"DB select exception",
-					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Class cache is empty
@@ -2056,51 +1630,29 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Test  single dropToken
 		// ======================================================
 
 		try{
-			$drop_values = array("exp"=>1, "token"=>"one");
 			$this->assertEquals(1, $this->cls->dropToken("one"));
 
-			$drop_values = array("exp"=>1, "token"=>"two");
 			$this->assertEquals(1, $this->cls->dropToken("two"));
 
-			$drop_values = array("exp"=>1, "token"=>"three");
 			$this->assertEquals(1, $this->cls->dropToken("three"));
 
-			$drop_values = array("exp"=>1, "token"=>"four");
 			$this->assertEquals(1, $this->cls->dropToken("four"));
 
-			$drop_values = array("exp"=>1, "token"=>"five");
 			$this->assertEquals(1, $this->cls->dropToken("five"));
-
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"dropToken exception",
-					'data'=>array( "drop values"=>$drop_values),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Db has no rows
@@ -2110,17 +1662,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals( false, $db->runSelectQuery(FOX_test_dictionary::$struct, $args=null, $columns=null, $ctrl=null));
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"DB select exception",
-					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Class cache is empty
@@ -2139,17 +1683,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Test multi dropToken
@@ -2160,17 +1696,9 @@ class core_base_dictionary extends RAZ_testCase {
 
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"dropToken exception",
-					'data'=>array( "add tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Db has no rows
@@ -2180,17 +1708,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals( false, $db->runSelectQuery(FOX_test_dictionary::$struct));
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"DB select exception",
-					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Class cache is empty
@@ -2209,51 +1729,29 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Test  single dropId
 		// ======================================================
 
 		try{
-			$drop_values = array("exp"=>1, "id"=>1);
 			$this->assertEquals(1, $this->cls->dropId(1));
 
-			$drop_values = array("exp"=>1, "id"=>2);
 			$this->assertEquals(1, $this->cls->dropId(2));
 
-			$drop_values = array("exp"=>1, "id"=>3);
 			$this->assertEquals(1, $this->cls->dropId(3));
 
-			$drop_values = array("exp"=>1, "id"=>4);
 			$this->assertEquals(1, $this->cls->dropId(4));
 
-			$drop_values = array("exp"=>1, "id"=>"5");
 			$this->assertEquals(1, $this->cls->dropId(5));
-
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"dropId exception",
-					'data'=>array( "drop values"=>$drop_values),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Db has no rows
@@ -2263,17 +1761,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals( false, $db->runSelectQuery(FOX_test_dictionary::$struct));
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"DB select exception",
-					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Class cache is empty
@@ -2292,17 +1782,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$add_result = $this->cls->addToken($add_tokens);
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>3,
-					'text'=>"addToken exception",
-					'data'=>array( "tokens"=>$add_tokens),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Test  single dropId
@@ -2314,17 +1796,9 @@ class core_base_dictionary extends RAZ_testCase {
 
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>4,
-					'text'=>"dropId exception",
-					'data'=>array( "drop ids"=>$drop_ids),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Db has no rows
@@ -2334,17 +1808,9 @@ class core_base_dictionary extends RAZ_testCase {
 			$this->assertEquals( false, $db->runSelectQuery(FOX_test_dictionary::$struct));
 		}
 		catch(FOX_exception $child){
-		    	throw new FOX_exception(
-				    array(
-					'numeric'=>5,
-					'text'=>"DB select exception",
-					'data'=>array("ctrl"=>array( "count"=>true, "format"=>"var")),
-					'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-					'child'=>$child
-				    )
-			);
 
-			return false;
+			$this->fail($child->dumpString(array('depth'=>50, 'data'=>true)));
+
 		}
 
 		// Check Class cache is empty
