@@ -129,8 +129,8 @@ class FOX_testPlan extends RAZ_testPlan_base {
 			"memory_cache" => array(
 				array( "enable"=>true,  "name"=>"Loopback", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.loopback.php" ),
 				array( "enable"=>true,  "name"=>"Thread", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.thread.php" ),				    
-				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php" ),	
-			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php" ),
+				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php", 'ext'=>array('apc') ),	
+			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php", 'ext'=>array('memcache') ),
 			    	array( "enable"=>false,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
 			),
 		    
@@ -180,6 +180,11 @@ class FOX_testPlan extends RAZ_testPlan_base {
 //				array( "enable"=>false,	 "name"=>"Config", "mock"=>array(), "file"=>"/tests/base_classes/test_system.config.php" ),				    
 			),
 
+			"geospatial" => array(
+				array( "enable"=>false,  "name"=>"System Config", "mock"=>array(), "file"=>"/tests/geospatial/test_config.system.php" ),
+				array( "enable"=>false,  "name"=>"User Settings", "mock"=>array(), "file"=>"/tests/geospatial/test_user.data.php" ),
+			),
+					    
 //			"store" => array(
 //				array( "enable"=>false,  "name"=>"System Config", "mock"=>array(), "file"=>"/tests/store/test_config.system.php" ),
 //				array( "enable"=>false,  "name"=>"User Settings", "mock"=>array(), "file"=>"/tests/store/test_user.data.php" ),
