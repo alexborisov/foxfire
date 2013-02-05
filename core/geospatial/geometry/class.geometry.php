@@ -281,14 +281,14 @@ abstract class FOX_geometry {
 		}
 	}
 
-	public function difference(Geometry $geometry) {
+	public function difference(FOX_geometry $geometry) {
 	    
 		if ($this->geos()) {
 			return FOX_geo::geosToGeometry($this->geos()->difference($geometry->geos()));
 		}
 	}
 
-	public function symDifference(Geometry $geometry) {
+	public function symDifference(FOX_geometry $geometry) {
 	    
 		if ($this->geos()) {
 			return FOX_geo::geosToGeometry($this->geos()->symDifference($geometry->geos()));
@@ -403,7 +403,7 @@ abstract class FOX_geometry {
 		}
 	}
 
-	public function project(Geometry $point, $normalized = null){
+	public function project(FOX_geometry $point, $normalized = null){
 	    
 		if ($this->geos()) {
 			return $this->geos()->project($point->geos(), $normalized);
