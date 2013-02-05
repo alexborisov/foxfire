@@ -123,14 +123,14 @@ class FOX_testPlan extends RAZ_testPlan_base {
 				array( "enable"=>true,	"name"=>"Op Left Join", "mock"=>array(), "file"=>"/tests/database/test_db.op.join.left.php" ),			    			    
 				array( "enable"=>true,	"name"=>"Op Tables", "mock"=>array(), "file"=>"/tests/database/test_db.op.table.php" ),
 				array( "enable"=>true,	"name"=>"Op Transactions", "mock"=>array(), "file"=>"/tests/database/test_db.op.transaction.php" ),
-				array( "enable"=>true,	"name"=>"Op Update", "mock"=>array(), "file"=>"/tests/database/test_db.op.update.php" ),			    			    			    
+				array( "enable"=>true,	"name"=>"Op Update", "mock"=>array(), "file"=>"/tests/database/test_db.op.update.php" ),		    
 			),
 
 			"memory_cache" => array(
 				array( "enable"=>true,  "name"=>"Loopback", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.loopback.php" ),
 				array( "enable"=>true,  "name"=>"Thread", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.thread.php" ),				    
-				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php" ),	
-			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php" ),
+				array( "enable"=>true,  "name"=>"APC", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.apc.php", 'ext'=>array('apc') ),	
+			    	array( "enable"=>true,  "name"=>"Memcached", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.memcached.php", 'ext'=>array('memcache') ),
 			    	array( "enable"=>false,  "name"=>"Redis", "mock"=>array(), "file"=>"/tests/cache_memory/test_cache.driver.redis.php" ),			    
 			),
 		    
@@ -176,10 +176,35 @@ class FOX_testPlan extends RAZ_testPlan_base {
 //			    
 //				array( "enable"=>false,	 "name"=>"L3 Monolithic", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.store.monolithic.L3.php" ),			    
 //				array( "enable"=>false,  "name"=>"Module Manager", "mock"=>array(), "file"=>"/tests/base_classes/test_base.module.manager.php" ),
-				array( "enable"=>true,  "name"=>"Dictionary Base", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.dictionary.php" ),
+//				array( "enable"=>true,  "name"=>"Dictionary Base", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.dictionary.php" ),
 //				array( "enable"=>false,	 "name"=>"Config", "mock"=>array(), "file"=>"/tests/base_classes/test_system.config.php" ),				    
 			),
 
+			"geospatial" => array(
+				array( "enable"=>false,  "name"=>"Collection", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_collection.php" ),
+				array( "enable"=>false,  "name"=>"Geometry Collection", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_geometry.collection.php" ),
+				array( "enable"=>false,  "name"=>"Geometry Core", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_geometry.core.php" ),
+				array( "enable"=>false,  "name"=>"Geometry Base", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_geometry.php" ),
+				array( "enable"=>false,  "name"=>"Line String", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_line.string.php" ),
+				array( "enable"=>false,  "name"=>"Line String Multi", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_line.string.multi.php" ),			    
+				array( "enable"=>false,  "name"=>"Point", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_point.php" ),			    
+				array( "enable"=>false,  "name"=>"Point Multi", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_point.multi.php" ),			    
+				array( "enable"=>false,  "name"=>"Polygon", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_polygon.php" ),				   
+				array( "enable"=>false,  "name"=>"Polygon Multi", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_polygon.multi.php" ),				    
+			    
+				array( "enable"=>false,  "name"=>"Adapter Base", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.base.php" ),
+				array( "enable"=>false,  "name"=>"WKB", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.wkb.php" ),
+				array( "enable"=>false,  "name"=>"WKT", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.wkt.php" ),				    
+				array( "enable"=>false,  "name"=>"EWKB", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.ewkb.php" ),
+				array( "enable"=>false,  "name"=>"EWKT", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.ewkt.php" ),	
+			    	array( "enable"=>false,  "name"=>"GeoHash", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.geo.hash.php" ),
+				array( "enable"=>false,  "name"=>"Google Geocoder", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.google.geocode.php" ),	
+				array( "enable"=>false,  "name"=>"GPX", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.gpx.php" ),
+				array( "enable"=>false,  "name"=>"JSON", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.json.php" ),	
+				array( "enable"=>false,  "name"=>"KML", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.kml.php" ),	
+				array( "enable"=>false,  "name"=>"RSS", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.rss.php" ),		
+			),	
+					    
 //			"store" => array(
 //				array( "enable"=>false,  "name"=>"System Config", "mock"=>array(), "file"=>"/tests/store/test_config.system.php" ),
 //				array( "enable"=>false,  "name"=>"User Settings", "mock"=>array(), "file"=>"/tests/store/test_user.data.php" ),
