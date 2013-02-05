@@ -218,8 +218,36 @@ else {
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.base.php' );	
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.private.php' );
 	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.manager.public.php' );	
-	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );		
+	require ( dirname( __FILE__ ) . '/base_classes/abstract.class.module.data.php' );
 	
+	
+	// Load Geospatial classes
+	// ===============================================================
+	
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.geo.adapter.php' );	
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.wkb.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.wkt.php' );		
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.ewkb.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.ewkt.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.geo.hash.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.geo.json.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.geo.rss.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.google.geocode.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.gpx.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/adapters/class.kml.php' );
+
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.geometry.php' );		
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.collection.php' );	
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.geometry.collection.php' );		
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.geometry.core.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.line.string.multi.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.line.string.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.point.multi.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.point.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.polygon.multi.php' );
+	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.polygon.php' );
+
+		
 	// Load the Navigation system
 	// ===============================================================
 	

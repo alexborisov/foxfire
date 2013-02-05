@@ -123,7 +123,7 @@ class FOX_testPlan extends RAZ_testPlan_base {
 				array( "enable"=>true,	"name"=>"Op Left Join", "mock"=>array(), "file"=>"/tests/database/test_db.op.join.left.php" ),			    			    
 				array( "enable"=>true,	"name"=>"Op Tables", "mock"=>array(), "file"=>"/tests/database/test_db.op.table.php" ),
 				array( "enable"=>true,	"name"=>"Op Transactions", "mock"=>array(), "file"=>"/tests/database/test_db.op.transaction.php" ),
-				array( "enable"=>true,	"name"=>"Op Update", "mock"=>array(), "file"=>"/tests/database/test_db.op.update.php" ),			    			    			    
+				array( "enable"=>true,	"name"=>"Op Update", "mock"=>array(), "file"=>"/tests/database/test_db.op.update.php" ),		    
 			),
 
 			"memory_cache" => array(
@@ -176,7 +176,7 @@ class FOX_testPlan extends RAZ_testPlan_base {
 //			    
 //				array( "enable"=>false,	 "name"=>"L3 Monolithic", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.store.monolithic.L3.php" ),			    
 //				array( "enable"=>false,  "name"=>"Module Manager", "mock"=>array(), "file"=>"/tests/base_classes/test_base.module.manager.php" ),
-				array( "enable"=>true,  "name"=>"Dictionary Base", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.dictionary.php" ),
+//				array( "enable"=>true,  "name"=>"Dictionary Base", "mock"=>array(), "file"=>"/tests/base_classes/test_base.db.dictionary.php" ),
 //				array( "enable"=>false,	 "name"=>"Config", "mock"=>array(), "file"=>"/tests/base_classes/test_system.config.php" ),				    
 			),
 
