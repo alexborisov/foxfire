@@ -1,22 +1,32 @@
 <?php
 
 /**
- * FOXFIRE GEOSPATIAL ADAPTER BASE CLASS
- * Provides base geo adapter methods for reading and writing to and from Geomtry objects
- * 
+ * FOXFIRE UNIT TEST SCRIPT - GEOSPATIAL ADAPTER - BASE
+ *
  * @version 1.0
  * @since 1.0
  * @package FoxFire
- * @subpackage Geospatial
+ * @subpackage Unit Test
  * @license GPL v2.0
- * @author Originally based on the geoPHP library
  * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-abstract class FOX_geoAdapter {
+
+class adapter_base extends RAZ_testCase {
+
   
+	function setUp() {
+
+		parent::setUp();			
+	}
+	
+	
+	function tearDown() {
+
+		parent::tearDown();
+	}    
 }
 
 ?>

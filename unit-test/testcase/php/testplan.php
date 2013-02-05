@@ -181,9 +181,29 @@ class FOX_testPlan extends RAZ_testPlan_base {
 			),
 
 			"geospatial" => array(
-				array( "enable"=>false,  "name"=>"System Config", "mock"=>array(), "file"=>"/tests/geospatial/test_config.system.php" ),
-				array( "enable"=>false,  "name"=>"User Settings", "mock"=>array(), "file"=>"/tests/geospatial/test_user.data.php" ),
-			),
+				array( "enable"=>false,  "name"=>"Collection", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_collection.php" ),
+				array( "enable"=>false,  "name"=>"Geometry Collection", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_geometry.collection.php" ),
+				array( "enable"=>false,  "name"=>"Geometry Core", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_geometry.core.php" ),
+				array( "enable"=>false,  "name"=>"Geometry Base", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_geometry.php" ),
+				array( "enable"=>false,  "name"=>"Line String", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_line.string.php" ),
+				array( "enable"=>false,  "name"=>"Line String Multi", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_line.string.multi.php" ),			    
+				array( "enable"=>false,  "name"=>"Point", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_point.php" ),			    
+				array( "enable"=>false,  "name"=>"Point Multi", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_point.multi.php" ),			    
+				array( "enable"=>false,  "name"=>"Polygon", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_polygon.php" ),				   
+				array( "enable"=>false,  "name"=>"Polygon Multi", "mock"=>array(), "file"=>"/tests/geospatial/geometry/test_polygon.multi.php" ),				    
+			    
+				array( "enable"=>false,  "name"=>"Adapter Base", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.base.php" ),
+				array( "enable"=>false,  "name"=>"WKB", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.wkb.php" ),
+				array( "enable"=>false,  "name"=>"WKT", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.wkt.php" ),				    
+				array( "enable"=>false,  "name"=>"EWKB", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.ewkb.php" ),
+				array( "enable"=>false,  "name"=>"EWKT", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.ewkt.php" ),	
+			    	array( "enable"=>false,  "name"=>"GeoHash", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.geo.hash.php" ),
+				array( "enable"=>false,  "name"=>"Google Geocoder", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.google.geocode.php" ),	
+				array( "enable"=>false,  "name"=>"GPX", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.gpx.php" ),
+				array( "enable"=>false,  "name"=>"JSON", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.json.php" ),	
+				array( "enable"=>false,  "name"=>"KML", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.kml.php" ),	
+				array( "enable"=>false,  "name"=>"RSS", "mock"=>array(), "file"=>"/tests/geospatial/adapter/test_adapter.rss.php" ),		
+			),	
 					    
 //			"store" => array(
 //				array( "enable"=>false,  "name"=>"System Config", "mock"=>array(), "file"=>"/tests/store/test_config.system.php" ),

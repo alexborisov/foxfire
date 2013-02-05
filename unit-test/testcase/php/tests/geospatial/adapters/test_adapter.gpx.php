@@ -1,23 +1,32 @@
 <?php
 
 /**
- * FOXFIRE GEOSPATIAL ADAPTER - GPX
- * Reads and writes data to GPX format
- * 
+ * FOXFIRE UNIT TEST SCRIPT - GEOSPATIAL ADAPTER - GPX
+ *
  * @version 1.0
  * @since 1.0
  * @package FoxFire
- * @subpackage Geospatial
+ * @subpackage Unit Test
  * @license GPL v2.0
- * @author Originally based on the geoPHP library
  * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class FOX_gpx extends FOX_geoAdapter {
+
+class adapter_gpx extends RAZ_testCase {
     
     
+	function setUp() {
+
+		parent::setUp();			
+	}
+	
+	
+	function tearDown() {
+
+		parent::tearDown();
+	}    
 }
 
 

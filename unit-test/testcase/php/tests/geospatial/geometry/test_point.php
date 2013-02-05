@@ -1,7 +1,7 @@
 <?php
 
 /**
- * FOXFIRE UNIT TEST SCRIPT - GEOSPATIAL ADAPTER - WELL KNOWN TEXT
+ * FOXFIRE UNIT TEST SCRIPT - GEOSPATIAL GEOMETRY - POINT
  *
  * @version 1.0
  * @since 1.0
@@ -14,9 +14,9 @@
  */
 
 
-class adapter_wkt extends RAZ_testCase {
-  
+class geometry_point extends RAZ_testCase {
     
+  
 	function setUp() {
 
 		parent::setUp();			
@@ -26,7 +26,8 @@ class adapter_wkt extends RAZ_testCase {
 	function tearDown() {
 
 		parent::tearDown();
-	}    
+	}
+	
 }
 
 ?>

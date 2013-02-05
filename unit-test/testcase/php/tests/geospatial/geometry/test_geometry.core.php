@@ -1,7 +1,7 @@
 <?php
 
 /**
- * FOXFIRE UNIT TEST SCRIPT - GEOSPATIAL ADAPTER - KML
+ * FOXFIRE UNIT TEST SCRIPT - GEOSPATIAL GEOMETRY - CORE
  *
  * @version 1.0
  * @since 1.0
@@ -14,9 +14,9 @@
  */
 
 
-class adapter_kml extends RAZ_testCase {
-        
-  
+class geometry_core extends RAZ_testCase {
+    
+    
 	function setUp() {
 
 		parent::setUp();			
@@ -27,7 +27,7 @@ class adapter_kml extends RAZ_testCase {
 
 		parent::tearDown();
 	}    
-	
+ 	
 }
 
 

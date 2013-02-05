@@ -1,23 +1,32 @@
 <?php
 
 /**
- * FOXFIRE GEOSPATIAL ADAPTER - GEOHASH
- * Reads and writes data stored in GeoHash format @see http://en.wikipedia.org/wiki/Geohash
- * 
+ * FOXFIRE UNIT TEST SCRIPT - GEOSPATIAL ADAPTER - GEO HASH
+ *
  * @version 1.0
  * @since 1.0
  * @package FoxFire
- * @subpackage Geospatial
+ * @subpackage Unit Test
  * @license GPL v2.0
- * @author Originally based on the geoPHP library
  * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class FOX_geoHash extends FOX_geoAdapter{
+
+class adapter_geoHash extends RAZ_testCase {
     
   
+	function setUp() {
+
+		parent::setUp();			
+	}
+	
+	
+	function tearDown() {
+
+		parent::tearDown();
+	}    
 }
 
 

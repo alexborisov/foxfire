@@ -1,23 +1,32 @@
 <?php
 
 /**
- * FOXFIRE GEOSPATIAL ADAPTER - EXTENDED WELL KNOWN TEXT
- * Reads and writes data to Extended Well Known Text format
- * 
+ * FOXFIRE UNIT TEST SCRIPT - GEOSPATIAL ADAPTER - EXTENDED WELL KNOWN TEXT
+ *
  * @version 1.0
  * @since 1.0
  * @package FoxFire
- * @subpackage Geospatial
+ * @subpackage Unit Test
  * @license GPL v2.0
- * @author Originally based on the geoPHP library
  * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class FOX_ewkt extends FOX_wkt {
+
+class adapter_ewkt extends RAZ_testCase {
   
 
+	function setUp() {
+
+		parent::setUp();			
+	}
+	
+	
+	function tearDown() {
+
+		parent::tearDown();
+	}    
 }
 
 ?>

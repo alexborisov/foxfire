@@ -1,22 +1,32 @@
 <?php
 
 /**
- * FOXFIRE GEOSPATIAL ADAPTER - WELL KNOWN BINARY
- * Reads and writes data to Well Known Binary format
- * 
+ * FOXFIRE UNIT TEST SCRIPT - GEOSPATIAL ADAPTER - WELL KNOWN BINARY
+ *
  * @version 1.0
  * @since 1.0
  * @package FoxFire
- * @subpackage Geospatial
+ * @subpackage Unit Test
  * @license GPL v2.0
- * @author Originally based on the geoPHP library
  * @link https://github.com/FoxFire/foxfire
  *
  * ========================================================================================================
  */
 
-class FOX_wkb extends FOX_geoAdapter {
 
+class adapter_wkb extends RAZ_testCase {
+
+    
+	function setUp() {
+
+		parent::setUp();			
+	}
+	
+	
+	function tearDown() {
+
+		parent::tearDown();
+	}    
 }
 
 ?>
