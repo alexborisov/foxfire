@@ -212,8 +212,8 @@ class FOX_cast {
 
 			case "bigint" : { // 64 bit integer
 
-				// TODO: on 32 bit systems, this needs to be cast as (float)
-				return (int)$value;
+				// Since 32-bit systems can't print this properly, we cast it as a string
+				return (string)$value;
 			} break;
 
 			case "float" : { // 32 bit float
