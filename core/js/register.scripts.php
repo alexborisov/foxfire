@@ -62,11 +62,6 @@ class FOX_registerScripts {
 
 		    wp_register_script('fox-adminNotifier', FOX_URL_CORE .'/js/fox.admin.notifier.dev.js');
 	}
-
-	public function admin_ext(){
-		    		    
-		    wp_register_script('fox-ext', FOX_URL_LIB .'/ext/ext-all-dev.js');
-	}
 	
 	public function admin_selfTest(){
 
@@ -78,7 +73,6 @@ class FOX_registerScripts {
 		self::admin_jQuery_UI();
 		self::admin_albumModules();
 		self::admin_pageModules();
-		self::admin_ext();
 		self::admin_notifier();
 		self::admin_selfTest();
 	}
