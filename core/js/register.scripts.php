@@ -46,6 +46,11 @@ class FOX_registerScripts {
 
 	}
 
+	public function admin_dataTables(){
+
+		    wp_register_script('fox-datatables-core', FOX_URL_LIB .'/datatables/media/js/jquery.dataTables.min.js');	    		    
+	}
+	
 	public function admin_albumModules(){
 
 		    wp_register_script('fox-albumModules', FOX_URL_CORE .'/js/fox.album.modules.panel.dev.js');
@@ -71,6 +76,7 @@ class FOX_registerScripts {
 	public function registerAll(){
 
 		self::admin_jQuery_UI();
+		self::admin_dataTables();		
 		self::admin_albumModules();
 		self::admin_pageModules();
 		self::admin_notifier();
