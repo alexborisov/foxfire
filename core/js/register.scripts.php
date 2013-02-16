@@ -63,9 +63,14 @@ class FOX_registerScripts {
 		    wp_register_script('fox-adminNotifier', FOX_URL_CORE .'/js/fox.admin.notifier.dev.js');
 	}
 
+	public function admin_ext(){
+
+		    wp_register_script('fox-adminNotifier', FOX_URL_CORE .'/js/ext-all-dev.js');
+	}
+	
 	public function admin_selfTest(){
 
-		    wp_register_script('fox-adminSelfTest', FOX_URL_CORE .'/js/fox.self.test.dev.js');
+		    wp_register_script('fox-ext', FOX_URL_LIB .'/ext/fox.self.test.dev.js');
 	}
 
 	public function registerAll(){
@@ -73,6 +78,7 @@ class FOX_registerScripts {
 		self::admin_jQuery_UI();
 		self::admin_albumModules();
 		self::admin_pageModules();
+		self::admin_ext();
 		self::admin_notifier();
 		self::admin_selfTest();
 	}
