@@ -1725,7 +1725,6 @@ class FOX_queryBuilder {
 		}
 		// ====================================================
 
-		$columns_list = array();
 		$columns_list = array_keys($struct["columns"]);
 
 		$ctrl_default = array(
@@ -1800,7 +1799,6 @@ class FOX_queryBuilder {
 				$select_columns = array_diff($columns_list, $columns["col"]);
 			}
 		}
-
 
 		// Assemble select string (if not selecting * )
 		// =============================================

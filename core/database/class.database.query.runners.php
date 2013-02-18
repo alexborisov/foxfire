@@ -1287,6 +1287,90 @@ class FOX_queryRunner {
 
 		    } break;
 
+		    // ARRAY_ARRAY_OFFSET
+		    // =============================================================================
+		    // Returns results as an array of arrays, where the primary array keys are
+		    // zero-indexed ints, and the secondary array keys are the offset of the 
+		    // column in the table definition array
+		    //
+		    // EXAMPLE: "SELECT * FROM test_table"
+		    // RESULT:   array(
+		    //		    array( 1, "red", "dog", "big"),
+		    //		    array( 2, "green", "cat", "med"),
+		    //		    array( 3, "blue", "bird", "small"),
+		    //		    array( 4, "black", "fish", "tiny"),
+		    //	     )
+
+		    case "array_array_offset" : {
+
+			    try {
+				    $sql_result = $this->driver->get_results($sql);
+			    }    
+			    catch (FOX_exception $child) {
+
+				    throw new FOX_exception( array(
+					    'numeric'=>12,
+					    'text'=>"Error in database driver",
+					    'data'=>array('query'=>$query, 'sql'=>$sql),
+					    'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+					    'child'=>$child
+				    ));		    
+			    }
+			    
+			    if($this->print_result_raw == true){
+				    ob_start();
+				    echo "RAW, format = array_array_offset\n";
+				    print_r($sql_result);
+				    $out = ob_get_clean();
+				    FOX_debug::addToFile($out);
+			    }
+
+			    if($this->disable_typecast_read == true){
+				
+				    $data = $sql_result;
+			    }
+			    else {
+				    $data = $cast->queryResult($format="array_object", $sql_result, $query["types"]);
+
+				    if($this->print_result_cast == true){
+					    ob_start();
+					    echo "\nCAST, format = array_array_offset\n";
+					    print_r($data);
+					    $out = ob_get_clean();
+					    FOX_debug::addToFile($out);
+				    }
+			    }
+
+			    if($data){
+
+				    $result = array();
+
+				    foreach($data as $row){
+
+					    $arr = array();
+
+					    // Convert row object into array
+					    foreach($row as $key => $value){
+
+						    $arr[] = $value;
+					    }
+
+					    // Insert row array into primary array as unnamed key
+					    $result[] = $arr;
+				    }
+
+				    if($this->print_result_formatted == true){
+					    ob_start();
+					    echo "\nFORMATTED, format = array_array_offset\n";
+					    print_r($result);
+					    $out = ob_get_clean();
+					    FOX_debug::addToFile($out);
+				    }
+
+				    unset($data); // Reduce memory usage
+			    }
+
+		    } break;		    
 		    
 		    // RAW
 		    // =============================================================================
