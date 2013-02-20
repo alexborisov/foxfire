@@ -51,6 +51,11 @@ class FOX_registerScripts {
 		    wp_register_script('fox-datatables-core', FOX_URL_LIB .'/datatables/media/js/jquery.dataTables.min.js');	    		    
 	}
 	
+	public function admin_dataTables_columnFilter(){
+
+		    wp_register_script('fox-datatables-plugin-columnfilter', FOX_URL_LIB .'/datatables/extras/ColumnFilter/media/js/jquery.dataTables.columnFilter.js');	    		    
+	}	
+	
 	public function admin_albumModules(){
 
 		    wp_register_script('fox-albumModules', FOX_URL_CORE .'/js/fox.album.modules.panel.dev.js');
