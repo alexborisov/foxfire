@@ -297,8 +297,13 @@ tfoot input.search_init {
 	color: #999;
 }
 
-tfoot input.is_empty {
-	color: #FF0000;
+tfoot input.is_empty, .is_empty {
+	color: #999;
+}
+
+.select_item {
+	color: #333;
+	font-weight:bold;
 }
 
 td.group {
