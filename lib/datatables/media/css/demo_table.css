@@ -297,13 +297,19 @@ tfoot input.search_init {
 	color: #999;
 }
 
-tfoot input.is_empty, .is_empty {
+input.is_empty, .is_empty {
 	color: #999;
 }
 
 .select_item {
 	color: #333;
 	font-weight:bold;
+}
+
+.disable_date{
+    
+    color:#444;
+    background-color:#AAA;
 }
 
 td.group {
