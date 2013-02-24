@@ -694,35 +694,42 @@ class FOX_db_driver_mysqli {
 			foreach($params as $param){
 
 			    
-				if( !FOX_sUtil::keyExists('escape', $param) || !FOX_sUtil::keyExists('val', $param) ||
-				    !FOX_sUtil::keyExists('php', $param) || !FOX_sUtil::keyExists('sql', $param) ){
-				    
-					$text  = "SAFETY INTERLOCK TRIP [ANTI SQL-INJECTION] - All data objects passed to the ";
-					$text .= "database driver must include 'val', 'escape', 'php', and 'sql' parameters. This ";
-					$text .= "interlock cannot be disabled.";
-
-					throw new FOX_exception( array(
-						'numeric'=>1,
-						'text'=>$text,
-						'data'=>$param,
-						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-						'child'=>null
-					));				    				    
-				}
+//				if( !FOX_sUtil::keyExists('escape', $param) || !FOX_sUtil::keyExists('val', $param) ||
+//				    !FOX_sUtil::keyExists('php', $param) || !FOX_sUtil::keyExists('sql', $param) ){
+//				    
+//					$text  = "SAFETY INTERLOCK TRIP [ANTI SQL-INJECTION] - All data objects passed to the ";
+//					$text .= "database driver must include 'val', 'escape', 'php', and 'sql' parameters. This ";
+//					$text .= "interlock cannot be disabled.";
+//
+//					throw new FOX_exception( array(
+//						'numeric'=>1,
+//						'text'=>$text,
+//						'data'=>$param,
+//						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+//						'child'=>null
+//					));				    				    
+//				}
 				
-				try {				   
-					$cast_val = $cast->PHPToSQL($param['val'], $param['php'], $param['sql']);
-				}			
-				catch (FOX_exception $child) {
+				if( FOX_sUtil::keyExists('php', $param) && FOX_sUtil::keyExists('sql', $param) ){
 
-					throw new FOX_exception( array(
-						'numeric'=>2,
-						'text'=>"Error while casting parameter",
-						'data'=>array("val"=>$param['val'], "php"=>$param['php'], "sql"=>$param['sql'] ),
-						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
-						'child'=>$child
-					));
-				}				
+					try {				   
+						$cast_val = $cast->PHPToSQL($param['val'], $param['php'], $param['sql']);
+					}			
+					catch (FOX_exception $child) {
+
+						throw new FOX_exception( array(
+							'numeric'=>2,
+							'text'=>"Error while casting parameter",
+							'data'=>array("val"=>$param['val'], "php"=>$param['php'], "sql"=>$param['sql'] ),
+							'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+							'child'=>$child
+						));
+					}
+
+				}
+				else {
+					$cast_val = $param['val'];
+				}
 				
 				if( $param['escape'] !== false ) {
 
