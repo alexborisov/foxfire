@@ -307,7 +307,7 @@ class FOX_cast {
 				    
 					return gmdate( "Y-m-d H:i:s", (int)$value);
 				}
-				else{
+				else{				    				    
 					return $value;
 				}
 

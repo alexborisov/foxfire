@@ -656,8 +656,7 @@ class FOX_db_driver_mysqli {
 				'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 				'child'=>null
 			));
-		}
-		
+		}		
 
 	}
 		
@@ -668,9 +667,8 @@ class FOX_db_driver_mysqli {
          * @version 1.0
          * @since 1.0
          *
-         * @param array $args | Query args array
-	 *	=> VAL @param string [0] | First key in array is query string in vsprintf() format
-	 *	=> VAL @param mixed  [N] | Each successive key is a var referred to in the query string
+         * @param string $query | query string in vsprintf() format
+	 * @param array $params |
 	 *
          * @return string | Prepared query string	 
 	 */
@@ -691,15 +689,48 @@ class FOX_db_driver_mysqli {
 		
 		if($params){
 		    
+			$cast = new FOX_cast();
+		    
 			foreach($params as $param){
 
+			    
+				if( !FOX_sUtil::keyExists('escape', $param) || !FOX_sUtil::keyExists('val', $param) ||
+				    !FOX_sUtil::keyExists('php', $param) || !FOX_sUtil::keyExists('sql', $param) ){
+				    
+					$text  = "SAFETY INTERLOCK TRIP [ANTI SQL-INJECTION] - All data objects passed to the ";
+					$text .= "database driver must include 'val', 'escape', 'php', and 'sql' parameters. This ";
+					$text .= "interlock cannot be disabled.";
+
+					throw new FOX_exception( array(
+						'numeric'=>1,
+						'text'=>"Database failed to rollback transaction",
+						'data'=> array("result"=>$sql_error),
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'child'=>null
+					));				    				    
+				}
+				
+				try {				   
+					$cast_val = $cast->PHPToSQL($param['val'], $param['php'], $param['sql']);
+				}			
+				catch (FOX_exception $child) {
+
+					throw new FOX_exception( array(
+						'numeric'=>2,
+						'text'=>"Error while casting parameter",
+						'data'=>array("val"=>$param['val'], "php"=>$param['php'], "sql"=>$param['sql'] ),
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'child'=>$child
+					));
+				}				
+				
 				if( $param['escape'] !== false ) {
 
 					// NOTE: parameters are in reverse order from mysql_real_escape_string()
-					$escaped_params[] = mysqli_real_escape_string($this->dbh, $param['val']);
+					$escaped_params[] = mysqli_real_escape_string($this->dbh, $cast_val);
 				}
 				else {			    
-					$escaped_params[] = $param['val'];
+					$escaped_params[] = $cast_val;
 				}		    
 			}
 			unset($param);

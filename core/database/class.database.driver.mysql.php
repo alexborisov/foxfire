@@ -698,20 +698,6 @@ class FOX_db_driver_mysql {
 	
 	
 	/**
-	 * Escapes content by reference for insertion into the database, for security
-	 *
-         * @version 1.0
-         * @since 1.0
-	 * @param string $string to escape
-	 * @return void
-	 */
-	function escape_by_ref(&$string){
-	    
-		$string = mysql_real_escape_string($string, $this->dbh);
-	}
-		
-	
-	/**
 	 * Prepares a SQL query for safe execution. Uses sprintf()-like syntax.
 	 * 
          * @version 1.0
@@ -724,19 +710,73 @@ class FOX_db_driver_mysql {
          * @return string | Prepared query string	 
 	 */
 	
-	function prepare($args){
-
-		$query = array_shift($args);
+	function prepare($query, $params=null){
+	    
 		
 		// Force floats to be locale unaware
 		$query = preg_replace( '|(?<!%)%f|' , '%F', $query );
 		
 		// Quote the strings, avoiding escaped strings like %%s
 		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); 
+		
+		// Replace our %r raw string token with an unquoted %s
+		$query = preg_replace( '|(?<!%)%r|', "%s", $query ); 			
 
-		array_walk($args, array(&$this, 'escape_by_ref'));
+		$escaped_params = array();
+		
+		if($params){
+		    
+			$cast = new FOX_cast();
+		    
+			foreach($params as $param){
 
-		return @vsprintf($query, $args);
+			    
+				if( !FOX_sUtil::keyExists('escape', $param) || !FOX_sUtil::keyExists('val', $param) ||
+				    !FOX_sUtil::keyExists('php', $param) || !FOX_sUtil::keyExists('sql', $param) ){
+				    
+					$text  = "SAFETY INTERLOCK TRIP [ANTI SQL-INJECTION] - All data objects passed to the ";
+					$text .= "database driver must include 'val', 'escape', 'php', and 'sql' parameters. This ";
+					$text .= "interlock cannot be disabled.";
+
+					throw new FOX_exception( array(
+						'numeric'=>1,
+						'text'=>"Database failed to rollback transaction",
+						'data'=> array("result"=>$sql_error),
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'child'=>null
+					));				    				    
+				}
+				
+				try {				   
+					$cast_val = $cast->PHPToSQL($param['val'], $param['php'], $param['sql']);
+				}			
+				catch (FOX_exception $child) {
+
+					throw new FOX_exception( array(
+						'numeric'=>2,
+						'text'=>"Error while casting parameter",
+						'data'=>array("val"=>$param['val'], "php"=>$param['php'], "sql"=>$param['sql'] ),
+						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
+						'child'=>$child
+					));
+				}				
+				
+				if( $param['escape'] !== false ) {
+
+					// NOTE: parameters are in reverse order from mysqli_real_escape_string()
+					$escaped_params[] = mysql_real_escape_string($cast_val, $this->dbh);
+				}
+				else {			    
+					$escaped_params[] = $cast_val;
+				}		    
+			}
+			unset($param);
+		
+		}
+		
+		$result = vsprintf($query, $escaped_params);			
+		
+		return $result;		
 		
 	}
 	

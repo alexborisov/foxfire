@@ -264,6 +264,7 @@ class FOX_queryBuilder {
 
 		$where = '';
 		$params_list = array();
+		$data_types = array();
 
 
 		// Trap users supplying invalid compare operators
@@ -301,7 +302,12 @@ class FOX_queryBuilder {
 			if( !is_array($col_params["val"]) ){
 
 				$where .= " AND " . $prefix . $col_params["col"] . " " . $col_params["op"] . " " . $struct["columns"][$col_params["col"]]["format"];
-				$params_list[] = array('escape'=>$escape, 'val'=>$col_params["val"]);
+				
+				$params_list[] = array(	'escape'=>$escape, 
+							'val'=>$col_params['val'], 
+							'php'=>$struct['columns'][$col_params['col']]['php'],
+							'sql'=>$struct['columns'][$col_params['col']]['sql'] 
+				);				
 			}
 
 			// If the compare is being run on an array of values, add a structure like
@@ -353,14 +359,17 @@ class FOX_queryBuilder {
 						$vals_left--;
 					}
 					
-					$params_list[] = array('escape'=>$escape, 'val'=>$val);	
-					
+					$params_list[] = array(	'escape'=>$escape, 
+								'val'=>$val, 
+								'php'=>$struct['columns'][$col_params['col']]['php'],
+								'sql'=>$struct['columns'][$col_params['col']]['sql'] 
+					);															
 				}
 				unset($val);
 
 				$where .= ")";
-			}
-
+			}		
+			
 
 		} //ENDOF foreach($args as $col_name => $col_params)
 
@@ -1882,7 +1891,9 @@ class FOX_queryBuilder {
 
 			$where .= $result['where'];
 			$params_list = array_merge($params_list, $result['params']);
+			
 			unset($result);
+			
 		}
 
 
@@ -2035,13 +2046,37 @@ class FOX_queryBuilder {
 				if($ctrl['offset']){
 
 					$limits = " LIMIT %d, %d";
-					$params_list[] = array('escape'=>true, 'val'=>$ctrl['offset']);
-					$params_list[] = array('escape'=>true, 'val'=>$ctrl['per_page']);
+					
+					$params_list[] = array(
+								'escape'=>true, 
+								'val'=>$ctrl['offset'],
+								'php'=>'int',
+								'sql'=>'int' 					    
+					);
+					
+					$params_list[] = array(
+								'escape'=>true, 
+								'val'=>$ctrl['per_page'],
+								'php'=>'int',
+								'sql'=>'int' 						    
+					);
 				}
 				else {
 					$limits = " LIMIT %d, %d";
-					$params_list[] = array('escape'=>true, 'val'=>($ctrl['page'] - 1) * $ctrl['per_page']);
-					$params_list[] = array('escape'=>true, 'val'=>$ctrl['per_page']);
+					
+					$params_list[] = array(
+								'escape'=>true, 
+								'val'=>($ctrl['page'] - 1) * $ctrl['per_page'],
+								'php'=>'int',
+								'sql'=>'int' 						    
+					);
+					
+					$params_list[] = array(
+								'escape'=>true, 
+								'val'=>$ctrl['per_page'],
+								'php'=>'int',
+								'sql'=>'int' 						    
+					);
 				}
 			}
 
@@ -2061,6 +2096,8 @@ class FOX_queryBuilder {
 			'params'=>$params_list,
 			'types'=>$type_cast
 		);
+		
+		FOX_debug::addToFile($result);
 
 		return $result;
 	}
@@ -2273,8 +2310,9 @@ class FOX_queryBuilder {
 		}
 		elseif( $args !== 'overwrite_all' ){
 
-			$text =  "\nFATAL ERROR: buildUpdateQuery() called with no WHERE args. Running this query as supplied would ";
+			$text =  "\nSAFTEY INTERLOCK TRIP [OVERWRITE TABLE] - buildUpdateQuery() called with no WHERE args. Running this query as supplied would ";
 			$text .= "overwrite ALL rows in the target table. If this is what you really want to do, set \$args = 'overwrite_all' ";
+						
 
 			throw new FOX_exception( array(
 				'numeric'=>2,
@@ -2866,7 +2904,7 @@ class FOX_queryBuilder {
 			// From the MySQL site: "DELETE FROM tbl_name does not regenerate the table but instead deletes all rows, one by one."
 			// @link http://dev.mysql.com/doc/refman/5.5/en/innodb-restrictions.html
 
-			$text =  "\nFATAL ERROR: buildDeleteQuery() called with no WHERE args. Running this query would delete ";
+			$text =  "\nSAFTEY INTERLOCK TRIP [DESTROY TABLE] - buildDeleteQuery() called with no WHERE args. Running this query would delete ";
 			$text .= " ALL rows in the target table. If this is what you really want to do, use buildTruncateTable().\n";
 
 			throw new FOX_exception( array(
