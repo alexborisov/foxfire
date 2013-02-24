@@ -740,8 +740,8 @@ class FOX_db_driver_mysql {
 
 					throw new FOX_exception( array(
 						'numeric'=>1,
-						'text'=>"Database failed to rollback transaction",
-						'data'=> array("result"=>$sql_error),
+						'text'=>$text,
+						'data'=>$param,
 						'file'=>__FILE__, 'class'=>__CLASS__, 'function'=>__FUNCTION__, 'line'=>__LINE__,  
 						'child'=>null
 					));				    				    
