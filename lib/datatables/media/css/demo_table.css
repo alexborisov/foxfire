@@ -297,6 +297,10 @@ tfoot input.search_init {
 	color: #999;
 }
 
+tfoot input.is_empty {
+	color: #FF0000;
+}
+
 td.group {
 	background-color: #d1cfd0;
 	border-bottom: 2px solid #A19B9E;

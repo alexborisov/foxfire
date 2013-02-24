@@ -286,7 +286,11 @@ thead input, thead select {
 }
 
 .search_init {
-	color: #999;
+	color: #00FF00;
+}
+
+.is_empty {
+	color: #ff0000;
 }
 
 td.group {

@@ -2095,9 +2095,7 @@ class FOX_queryBuilder {
 			'query'=>$query,
 			'params'=>$params_list,
 			'types'=>$type_cast
-		);
-		
-		FOX_debug::addToFile($result);
+		);		
 
 		return $result;
 	}
