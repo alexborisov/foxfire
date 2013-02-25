@@ -53,8 +53,9 @@
 }
 
 .dataTables_length {
-	width: 40%;
-	float: left;
+	width: 140px;
+	float: right;
+	margin:0px 0px 5px 0px;
 }
 
 .dataTables_filter {
