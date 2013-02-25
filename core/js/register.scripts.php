@@ -53,13 +53,13 @@ class FOX_registerScripts {
 	
 	public function admin_dataTables_columnFilter(){
 
-		    wp_register_script('fox-datatables-plugin-columnfilter', FOX_URL_LIB .'/datatables/extras/ColumnFilter/media/js/jquery.dataTables.columnFilter.js');	    		    
+		    wp_register_script('fox-datatables-plugin-columnfilter', FOX_URL_CORE .'/datatables/columnFilter/js/jquery.dataTables.columnFilter.js');	    		    
 	}
 	
 	public function admin_dataTables_tableToolsPlus(){
 
-		    wp_register_script('fox-datatables-plugin-zeroclipboard', FOX_URL_LIB .'/datatables/extras/TableToolsPlus/media/js/ZeroClipboard.js');	    
-		    wp_register_script('fox-datatables-plugin-tabletoolsplus', FOX_URL_LIB .'/datatables/extras/TableToolsPlus/media/js/jquery.dataTables.tableToolsPlus.js');
+		    wp_register_script('fox-datatables-plugin-zeroclipboard', FOX_URL_LIB .'/datatables/tableToolsPlus/js/ZeroClipboard.js');	    
+		    wp_register_script('fox-datatables-plugin-tabletoolsplus', FOX_URL_LIB .'/datatables/tableToolsPlus/js/jquery.dataTables.tableToolsPlus.js');
 	 
 	}	
 	
