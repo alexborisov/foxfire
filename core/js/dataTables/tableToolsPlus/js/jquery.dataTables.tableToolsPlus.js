@@ -1,31 +1,25 @@
-/*
- * File:        TableTools.js
- * Version:     2.1.4
- * Description: Tools and buttons for DataTables
- * Author:      Allan Jardine (www.sprymedia.co.uk)
- * Language:    Javascript
- * License:	    GPL v2 or BSD 3 point style
- * Project:	    DataTables
- * 
- * Copyright 2009-2012 Allan Jardine, all rights reserved.
- *
- * This source file is free software, under either the GPL v2 license or a
- * BSD style license, available at:
- *   http://datatables.net/license_gpl2
- *   http://datatables.net/license_bsd
+/**
+ * @summary     Column Filter
+ * @description Filters datatable columns by range or value, using local or remote data sources
+ * @file        dataTables.TableToolsPlusPlus.js
+ * @version     1.0
+ * @author      Carl Roett, based on code by Allan Jardine
+ * @license     GPL v2 or BSD 3 point style
+ * @contact     https://github.com/foxly
  */
 
-/* Global scope for TableTools */
-var TableTools;
+
+/* Global scope for TableToolsPlus */
+var TableToolsPlus;
 
 (function($, window, document) {
 
 /** 
- * TableTools provides flexible buttons and other tools for a DataTables enhanced table
- * @class TableTools
+ * TableToolsPlus provides flexible buttons and other tools for a DataTables enhanced table
+ * @class TableToolsPlus
  * @constructor
  * @param {Object} oDT DataTables instance
- * @param {Object} oOpts TableTools options
+ * @param {Object} oOpts TableToolsPlus options
  * @param {String} oOpts.sSwfPath ZeroClipboard SWF path
  * @param {String} oOpts.sRowSelect Row selection options - 'none', 'single' or 'multi'
  * @param {Function} oOpts.fnPreRowSelect Callback function just prior to row selection
@@ -33,12 +27,12 @@ var TableTools;
  * @param {Function} oOpts.fnRowDeselected Callback function when row is deselected
  * @param {Array} oOpts.aButtons List of buttons to be used
  */
-TableTools = function( oDT, oOpts )
+TableToolsPlus = function( oDT, oOpts )
 {
 	/* Santiy check that we are a new instance */
-	if ( ! this instanceof TableTools )
+	if ( ! this instanceof TableToolsPlus )
 	{
-		alert( "Warning: TableTools must be initialised with the keyword 'new'" );
+		alert( "Warning: TableToolsPlus must be initialised with the keyword 'new'" );
 	}
 	
 	
@@ -47,7 +41,7 @@ TableTools = function( oDT, oOpts )
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	/**
-	 * @namespace Settings object which contains customisable information for TableTools instance
+	 * @namespace Settings object which contains customisable information for TableToolsPlus instance
 	 */
 	this.s = {
 		/**
@@ -198,7 +192,7 @@ TableTools = function( oDT, oOpts )
 		"buttonSet": [],
 		
 		/**
-		 * When there is more than one TableTools instance for a DataTable, there must be a 
+		 * When there is more than one TableToolsPlus instance for a DataTable, there must be a 
 		 * master which controls events (row selection etc)
 		 *  @property master
 		 *  @type	 boolean
@@ -219,7 +213,7 @@ TableTools = function( oDT, oOpts )
 	 */
 	this.dom = {
 		/**
-		 * DIV element that is create and all TableTools buttons (and their children) put into
+		 * DIV element that is create and all TableToolsPlus buttons (and their children) put into
 		 *  @property container
 		 *  @type	 node
 		 *  @default  null
@@ -227,7 +221,7 @@ TableTools = function( oDT, oOpts )
 		"container": null,
 		
 		/**
-		 * The table node to which TableTools will be applied
+		 * The table node to which TableToolsPlus will be applied
 		 *  @property table
 		 *  @type	 node
 		 *  @default  null
@@ -278,13 +272,13 @@ TableTools = function( oDT, oOpts )
 	};
 
 	/**
-	 * @namespace Name space for the classes that this TableTools instance will use
-	 * @extends TableTools.classes
+	 * @namespace Name space for the classes that this TableToolsPlus instance will use
+	 * @extends TableToolsPlus.classes
 	 */
-	this.classes = $.extend( true, {}, TableTools.classes );
+	this.classes = $.extend( true, {}, TableToolsPlus.classes );
 	if ( this.s.dt.bJUI )
 	{
-		$.extend( true, this.classes, TableTools.classes_themeroller );
+		$.extend( true, this.classes, TableToolsPlus.classes_themeroller );
 	}
 	
 	
@@ -295,7 +289,7 @@ TableTools = function( oDT, oOpts )
 	/**
 	 * Retreieve the settings object from an instance
 	 *  @method fnSettings
-	 *  @returns {object} TableTools settings object
+	 *  @returns {object} TableToolsPlus settings object
 	 */
 	this.fnSettings = function () {
 		return this.s;
@@ -315,7 +309,7 @@ TableTools = function( oDT, oOpts )
 
 
 
-TableTools.prototype = {
+TableToolsPlus.prototype = {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Public methods
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -550,17 +544,17 @@ TableTools.prototype = {
 	
 	
 	/**
-	 * Resize the flash elements of the buttons attached to this TableTools instance - this is
-	 * useful for when initialising TableTools when it is hidden (display:none) since sizes can't
+	 * Resize the flash elements of the buttons attached to this TableToolsPlus instance - this is
+	 * useful for when initialising TableToolsPlus when it is hidden (display:none) since sizes can't
 	 * be calculated at that time.
 	 */
 	"fnResizeButtons": function ()
 	{
-		for ( var cli in ZeroClipboard_TableTools.clients )
+		for ( var cli in ZeroClipboard_TableToolsPlus.clients )
 		{
 			if ( cli )
 			{
-				var client = ZeroClipboard_TableTools.clients[cli];
+				var client = ZeroClipboard_TableToolsPlus.clients[cli];
 				if ( typeof client.domElement != 'undefined' &&
 					 client.domElement.parentNode )
 				{
@@ -576,11 +570,11 @@ TableTools.prototype = {
 	 */
 	"fnResizeRequired": function ()
 	{
-		for ( var cli in ZeroClipboard_TableTools.clients )
+		for ( var cli in ZeroClipboard_TableToolsPlus.clients )
 		{
 			if ( cli )
 			{
-				var client = ZeroClipboard_TableTools.clients[cli];
+				var client = ZeroClipboard_TableToolsPlus.clients[cli];
 				if ( typeof client.domElement != 'undefined' &&
 					 client.domElement.parentNode == this.dom.container &&
 					 client.sized === false )
@@ -650,7 +644,7 @@ TableTools.prototype = {
 	/**
 	 * Constructor logic
 	 *  @method  _fnConstruct
-	 *  @param   {Object} oOpts Same as TableTools constructor
+	 *  @param   {Object} oOpts Same as TableToolsPlus constructor
 	 *  @returns void
 	 *  @private 
 	 */
@@ -675,7 +669,7 @@ TableTools.prototype = {
 		
 		/* Destructor - need to wipe the DOM for IE's garbage collector */
 		this.s.dt.aoDestroyCallback.push( {
-			"sName": "TableTools",
+			"sName": "TableToolsPlus",
 			"fn": function () {
 				that.dom.container.innerHTML = "";
 			}
@@ -686,30 +680,30 @@ TableTools.prototype = {
 	/**
 	 * Take the user defined settings and the default settings and combine them.
 	 *  @method  _fnCustomiseSettings
-	 *  @param   {Object} oOpts Same as TableTools constructor
+	 *  @param   {Object} oOpts Same as TableToolsPlus constructor
 	 *  @returns void
 	 *  @private 
 	 */
 	"_fnCustomiseSettings": function ( oOpts )
 	{
 		/* Is this the master control instance or not? */
-		if ( typeof this.s.dt._TableToolsInit == 'undefined' )
+		if ( typeof this.s.dt._TableToolsPlusInit == 'undefined' )
 		{
 			this.s.master = true;
-			this.s.dt._TableToolsInit = true;
+			this.s.dt._TableToolsPlusInit = true;
 		}
 		
 		/* We can use the table node from comparisons to group controls */
 		this.dom.table = this.s.dt.nTable;
 		
 		/* Clone the defaults and then the user options */
-		this.s.custom = $.extend( {}, TableTools.DEFAULTS, oOpts );
+		this.s.custom = $.extend( {}, TableToolsPlus.DEFAULTS, oOpts );
 		
 		/* Flash file location */
 		this.s.swfPath = this.s.custom.sSwfPath;
-		if ( typeof ZeroClipboard_TableTools != 'undefined' )
+		if ( typeof ZeroClipboard_TableToolsPlus != 'undefined' )
 		{
-			ZeroClipboard_TableTools.moviePath = this.s.swfPath;
+			ZeroClipboard_TableToolsPlus.moviePath = this.s.swfPath;
 		}
 		
 		/* Table row selecting */
@@ -748,21 +742,21 @@ TableTools.prototype = {
 		{
 			if ( typeof buttonSet[i] == "string" )
 			{
-				if ( typeof TableTools.BUTTONS[ buttonSet[i] ] == 'undefined' )
+				if ( typeof TableToolsPlus.BUTTONS[ buttonSet[i] ] == 'undefined' )
 				{
-					alert( "TableTools: Warning - unknown button type: "+buttonSet[i] );
+					alert( "TableToolsPlus: Warning - unknown button type: "+buttonSet[i] );
 					continue;
 				}
-				buttonDef = $.extend( {}, TableTools.BUTTONS[ buttonSet[i] ], true );
+				buttonDef = $.extend( {}, TableToolsPlus.BUTTONS[ buttonSet[i] ], true );
 			}
 			else
 			{
-				if ( typeof TableTools.BUTTONS[ buttonSet[i].sExtends ] == 'undefined' )
+				if ( typeof TableToolsPlus.BUTTONS[ buttonSet[i].sExtends ] == 'undefined' )
 				{
-					alert( "TableTools: Warning - unknown button type: "+buttonSet[i].sExtends );
+					alert( "TableToolsPlus: Warning - unknown button type: "+buttonSet[i].sExtends );
 					continue;
 				}
-				var o = $.extend( {}, TableTools.BUTTONS[ buttonSet[i].sExtends ], true );
+				var o = $.extend( {}, TableToolsPlus.BUTTONS[ buttonSet[i].sExtends ], true );
 				buttonDef = $.extend( o, buttonSet[i], true );
 			}
 			
@@ -775,7 +769,7 @@ TableTools.prototype = {
 	
 	
 	/**
-	 * Create and configure a TableTools button
+	 * Create and configure a TableToolsPlus button
 	 *  @method  _fnCreateButton
 	 *  @param   {Object} oConfig Button configuration object
 	 *  @returns {Node} Button element
@@ -848,11 +842,11 @@ TableTools.prototype = {
 	
 	
 	/**
-	 * Get the settings object for the master instance. When more than one TableTools instance is
+	 * Get the settings object for the master instance. When more than one TableToolsPlus instance is
 	 * assigned to a DataTable, only one of them can be the 'master' (for the select rows). As such,
 	 * we will typically want to interact with that master for global properties.
 	 *  @method  _fnGetMasterSettings
-	 *  @returns {Object} TableTools settings object
+	 *  @returns {Object} TableToolsPlus settings object
 	 *  @private 
 	 */
 	"_fnGetMasterSettings": function ()
@@ -864,7 +858,7 @@ TableTools.prototype = {
 		else
 		{
 			/* Look for the master which has the same DT as this one */
-			var instances = TableTools._aInstances;
+			var instances = TableToolsPlus._aInstances;
 			for ( var i=0, iLen=instances.length ; i<iLen ; i++ )
 			{
 				if ( this.dom.table == instances[i].s.dt.nTable )
@@ -1059,7 +1053,7 @@ TableTools.prototype = {
 				if ( dt.aoData[index]._DTTT_selected ) {
 					$(tr).addClass( that.classes.select.row );
 				}
-			}, 'TableTools-SelectAll' );
+			}, 'TableToolsPlus-SelectAll' );
 		}
 	},
 
@@ -1070,12 +1064,11 @@ TableTools.prototype = {
 	 */
 	"_fnRowSelect": function ( src, e )
 	{
-		var
-			that = this,
-			data = this._fnSelectData( src ),
-			firstTr = data.length===0 ? null : data[0].nTr,
-			anSelected = [],
-			i, len;
+		var that = this;
+		var data = this._fnSelectData( src );
+		var firstTr = data.length===0 ? null : data[0].nTr;
+		var anSelected = [];
+		var i, len;
 
 		// Get all the rows that will be selected
 		for ( i=0, len=data.length ; i<len ; i++ )
@@ -1109,7 +1102,7 @@ TableTools.prototype = {
 			this.s.select.postSelected.call( this, anSelected );
 		}
 
-		TableTools._fnEventDispatch( this, 'select', anSelected, true );
+		TableToolsPlus._fnEventDispatch( this, 'select', anSelected, true );
 	},
 
 	/**
@@ -1158,7 +1151,7 @@ TableTools.prototype = {
 			this.s.select.postDeselected.call( this, anDeselectedTrs );
 		}
 
-		TableTools._fnEventDispatch( this, 'select', anDeselectedTrs, false );
+		TableToolsPlus._fnEventDispatch( this, 'select', anDeselectedTrs, false );
 	},
 	
 	/**
@@ -1250,7 +1243,7 @@ TableTools.prototype = {
 		
 		if ( oConfig.fnSelect !== null )
 		{
-			TableTools._fnEventListen( this, 'select', function (n) {
+			TableToolsPlus._fnEventListen( this, 'select', function (n) {
 				oConfig.fnSelect.call( that, nButton, oConfig, n );
 			} );
 		}
@@ -1271,135 +1264,6 @@ TableTools.prototype = {
 			
 			that._fnCollectionHide( nButton, oConfig );
 		} );
-	},
-	
-	
-	
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Flash button functions
-	 */
-	
-	/**
-	 * Configure a flash based button for interaction events
-	 *  @method  _fnFlashConfig
-	 *  @param   {Node} nButton Button element which is being considered
-	 *  @param   {o} oConfig Button configuration object
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnFlashConfig": function ( nButton, oConfig )
-	{
-		var that = this;
-		var flash = new ZeroClipboard_TableTools.Client();
-		
-		if ( oConfig.fnInit !== null )
-		{
-			oConfig.fnInit.call( this, nButton, oConfig );
-		}
-		
-		flash.setHandCursor( true );
-		
-		if ( oConfig.sAction == "flash_save" )
-		{
-			flash.setAction( 'save' );
-			flash.setCharSet( (oConfig.sCharSet=="utf16le") ? 'UTF16LE' : 'UTF8' );
-			flash.setBomInc( oConfig.bBomInc );
-			flash.setFileName( oConfig.sFileName.replace('*', this.fnGetTitle(oConfig)) );
-		}
-		else if ( oConfig.sAction == "flash_pdf" )
-		{
-			flash.setAction( 'pdf' );
-			flash.setFileName( oConfig.sFileName.replace('*', this.fnGetTitle(oConfig)) );
-		}
-		else
-		{
-			flash.setAction( 'copy' );
-		}
-		
-		flash.addEventListener('mouseOver', function(client) {
-			if ( oConfig.fnMouseover !== null )
-			{
-				oConfig.fnMouseover.call( that, nButton, oConfig, flash );
-			}
-		} );
-		
-		flash.addEventListener('mouseOut', function(client) {
-			if ( oConfig.fnMouseout !== null )
-			{
-				oConfig.fnMouseout.call( that, nButton, oConfig, flash );
-			}
-		} );
-		
-		flash.addEventListener('mouseDown', function(client) {
-			if ( oConfig.fnClick !== null )
-			{
-				oConfig.fnClick.call( that, nButton, oConfig, flash );
-			}
-		} );
-		
-		flash.addEventListener('complete', function (client, text) {
-			if ( oConfig.fnComplete !== null )
-			{
-				oConfig.fnComplete.call( that, nButton, oConfig, flash, text );
-			}
-			that._fnCollectionHide( nButton, oConfig );
-		} );
-		
-		this._fnFlashGlue( flash, nButton, oConfig.sToolTip );
-	},
-	
-	
-	/**
-	 * Wait until the id is in the DOM before we "glue" the swf. Note that this function will call
-	 * itself (using setTimeout) until it completes successfully
-	 *  @method  _fnFlashGlue
-	 *  @param   {Object} clip Zero clipboard object
-	 *  @param   {Node} node node to glue swf to
-	 *  @param   {String} text title of the flash movie
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnFlashGlue": function ( flash, node, text )
-	{
-		var that = this;
-		var id = node.getAttribute('id');
-		
-		if ( document.getElementById(id) )
-		{
-			flash.glue( node, text );
-		}
-		else
-		{
-			setTimeout( function () {
-				that._fnFlashGlue( flash, node, text );
-			}, 100 );
-		}
-	},
-	
-	
-	/**
-	 * Set the text for the flash clip to deal with
-	 * 
-	 * This function is required for large information sets. There is a limit on the 
-	 * amount of data that can be transferred between Javascript and Flash in a single call, so
-	 * we use this method to build up the text in Flash by sending over chunks. It is estimated
-	 * that the data limit is around 64k, although it is undocumented, and appears to be different
-	 * between different flash versions. We chunk at 8KiB.
-	 *  @method  _fnFlashSetText
-	 *  @param   {Object} clip the ZeroClipboard object
-	 *  @param   {String} sData the data to be set
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnFlashSetText": function ( clip, sData )
-	{
-		var asData = this._fnChunkData( sData, 8192 );
-		
-		clip.clearText();
-		for ( var i=0, iLen=asData.length ; i<iLen ; i++ )
-		{
-			clip.appendText( asData[i] );
-		}
 	},
 	
 	
@@ -1937,7 +1801,7 @@ TableTools.prototype = {
 	
 	
 	/**
-	 * Resume the display of all TableTools hidden nodes
+	 * Resume the display of all TableToolsPlus hidden nodes
 	 *  @method  _fnPrintShowNodes
 	 *  @returns void
 	 *  @private 
@@ -2000,14 +1864,14 @@ TableTools.prototype = {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
- * Store of all instances that have been created of TableTools, so one can look up other (when
+ * Store of all instances that have been created of TableToolsPlus, so one can look up other (when
  * there is need of a master)
  *  @property _aInstances
  *  @type	 Array
  *  @default  []
  *  @private
  */
-TableTools._aInstances = [];
+TableToolsPlus._aInstances = [];
 
 
 /**
@@ -2016,7 +1880,7 @@ TableTools._aInstances = [];
  *  @type	 Array
  *  @default  []
  */
-TableTools._aListeners = [];
+TableToolsPlus._aListeners = [];
 
 
 
@@ -2027,17 +1891,17 @@ TableTools._aListeners = [];
 /**
  * Get an array of all the master instances
  *  @method  fnGetMasters
- *  @returns {Array} List of master TableTools instances
+ *  @returns {Array} List of master TableToolsPlus instances
  *  @static
  */
-TableTools.fnGetMasters = function ()
+TableToolsPlus.fnGetMasters = function ()
 {
 	var a = [];
-	for ( var i=0, iLen=TableTools._aInstances.length ; i<iLen ; i++ )
+	for ( var i=0, iLen=TableToolsPlus._aInstances.length ; i<iLen ; i++ )
 	{
-		if ( TableTools._aInstances[i].s.master )
+		if ( TableToolsPlus._aInstances[i].s.master )
 		{
-			a.push( TableTools._aInstances[i] );
+			a.push( TableToolsPlus._aInstances[i] );
 		}
 	}
 	return a;
@@ -2046,21 +1910,21 @@ TableTools.fnGetMasters = function ()
 /**
  * Get the master instance for a table node (or id if a string is given)
  *  @method  fnGetInstance
- *  @returns {Object} ID of table OR table node, for which we want the TableTools instance
+ *  @returns {Object} ID of table OR table node, for which we want the TableToolsPlus instance
  *  @static
  */
-TableTools.fnGetInstance = function ( node )
+TableToolsPlus.fnGetInstance = function ( node )
 {
 	if ( typeof node != 'object' )
 	{
 		node = document.getElementById(node);
 	}
 	
-	for ( var i=0, iLen=TableTools._aInstances.length ; i<iLen ; i++ )
+	for ( var i=0, iLen=TableToolsPlus._aInstances.length ; i<iLen ; i++ )
 	{
-		if ( TableTools._aInstances[i].s.master && TableTools._aInstances[i].dom.table == node )
+		if ( TableToolsPlus._aInstances[i].s.master && TableToolsPlus._aInstances[i].dom.table == node )
 		{
-			return TableTools._aInstances[i];
+			return TableToolsPlus._aInstances[i];
 		}
 	}
 	return null;
@@ -2077,9 +1941,9 @@ TableTools.fnGetInstance = function ( node )
  *  @private
  *  @static
  */
-TableTools._fnEventListen = function ( that, type, fn )
+TableToolsPlus._fnEventListen = function ( that, type, fn )
 {
-	TableTools._aListeners.push( {
+	TableToolsPlus._aListeners.push( {
 		"that": that,
 		"type": type,
 		"fn": fn
@@ -2099,9 +1963,9 @@ TableTools._fnEventListen = function ( that, type, fn )
  *  @private
  *  @static
  */
-TableTools._fnEventDispatch = function ( that, type, node, selected )
+TableToolsPlus._fnEventDispatch = function ( that, type, node, selected )
 {
-	var listeners = TableTools._aListeners;
+	var listeners = TableToolsPlus._aListeners;
 	for ( var i=0, iLen=listeners.length ; i<iLen ; i++ )
 	{
 		if ( that.dom.table == listeners[i].that.dom.table && listeners[i].type == type )
@@ -2122,7 +1986,7 @@ TableTools._fnEventDispatch = function ( that, type, node, selected )
 
 
 
-TableTools.buttonBase = {
+TableToolsPlus.buttonBase = {
 	// Button base
 	"sAction": "text",
 	"sTag": "default",
@@ -2159,71 +2023,9 @@ TableTools.buttonBase = {
 /**
  * @namespace Default button configurations
  */
-TableTools.BUTTONS = {
-	"csv": $.extend( {}, TableTools.buttonBase, {
-		"sAction": "flash_save",
-		"sButtonClass": "DTTT_button_csv",
-		"sButtonText": "CSV",
-		"sFieldBoundary": '"',
-		"sFieldSeperator": ",",
-		"fnClick": function( nButton, oConfig, flash ) {
-			this.fnSetText( flash, this.fnGetTableData(oConfig) );
-		}
-	} ),
+TableToolsPlus.BUTTONS = {
 
-	"xls": $.extend( {}, TableTools.buttonBase, {
-		"sAction": "flash_save",
-		"sCharSet": "utf16le",
-		"bBomInc": true,
-		"sButtonClass": "DTTT_button_xls",
-		"sButtonText": "Excel",
-		"fnClick": function( nButton, oConfig, flash ) {
-			this.fnSetText( flash, this.fnGetTableData(oConfig) );
-		}
-	} ),
-
-	"copy": $.extend( {}, TableTools.buttonBase, {
-		"sAction": "flash_copy",
-		"sButtonClass": "DTTT_button_copy",
-		"sButtonText": "Copy",
-		"fnClick": function( nButton, oConfig, flash ) {
-			this.fnSetText( flash, this.fnGetTableData(oConfig) );
-		},
-		"fnComplete": function(nButton, oConfig, flash, text) {
-			var
-				lines = text.split('\n').length,
-				len = this.s.dt.nTFoot === null ? lines-1 : lines-2,
-				plural = (len==1) ? "" : "s";
-			this.fnInfo( '<h6>Table copied</h6>'+
-				'<p>Copied '+len+' row'+plural+' to the clipboard.</p>',
-				1500
-			);
-		}
-	} ),
-
-	"pdf": $.extend( {}, TableTools.buttonBase, {
-		"sAction": "flash_pdf",
-		"sNewLine": "\n",
-		"sFileName": "*.pdf",
-		"sButtonClass": "DTTT_button_pdf",
-		"sButtonText": "PDF",
-		"sPdfOrientation": "portrait",
-		"sPdfSize": "A4",
-		"sPdfMessage": "",
-		"fnClick": function( nButton, oConfig, flash ) {
-			this.fnSetText( flash, 
-				"title:"+ this.fnGetTitle(oConfig) +"\n"+
-				"message:"+ oConfig.sPdfMessage +"\n"+
-				"colWidth:"+ this.fnCalcColRatios(oConfig) +"\n"+
-				"orientation:"+ oConfig.sPdfOrientation +"\n"+
-				"size:"+ oConfig.sPdfSize +"\n"+
-				"--/TableToolsOpts--\n" +
-				this.fnGetTableData(oConfig)
-			);
-		}
-	} ),
-
-	"print": $.extend( {}, TableTools.buttonBase, {
+	"print": $.extend( {}, TableToolsPlus.buttonBase, {
 		"sInfo": "<h6>Print view</h6><p>Please use your browser's print function to "+
 		  "print this table. Press escape when finished.",
 		"sMessage": null,
@@ -2236,9 +2038,9 @@ TableTools.BUTTONS = {
 		}
 	} ),
 
-	"text": $.extend( {}, TableTools.buttonBase ),
+	"text": $.extend( {}, TableToolsPlus.buttonBase ),
 
-	"select": $.extend( {}, TableTools.buttonBase, {
+	"select": $.extend( {}, TableToolsPlus.buttonBase, {
 		"sButtonText": "Select button",
 		"fnSelect": function( nButton, oConfig ) {
 			if ( this.fnGetSelected().length !== 0 ) {
@@ -2252,7 +2054,7 @@ TableTools.BUTTONS = {
 		}
 	} ),
 
-	"select_single": $.extend( {}, TableTools.buttonBase, {
+	"select_single": $.extend( {}, TableToolsPlus.buttonBase, {
 		"sButtonText": "Select button",
 		"fnSelect": function( nButton, oConfig ) {
 			var iSelected = this.fnGetSelected().length;
@@ -2267,7 +2069,7 @@ TableTools.BUTTONS = {
 		}
 	} ),
 
-	"select_all": $.extend( {}, TableTools.buttonBase, {
+	"select_all": $.extend( {}, TableToolsPlus.buttonBase, {
 		"sButtonText": "Select all",
 		"fnClick": function( nButton, oConfig ) {
 			this.fnSelectAll();
@@ -2281,7 +2083,7 @@ TableTools.BUTTONS = {
 		}
 	} ),
 
-	"select_none": $.extend( {}, TableTools.buttonBase, {
+	"select_none": $.extend( {}, TableToolsPlus.buttonBase, {
 		"sButtonText": "Deselect all",
 		"fnClick": function( nButton, oConfig ) {
 			this.fnSelectNone();
@@ -2298,7 +2100,7 @@ TableTools.BUTTONS = {
 		}
 	} ),
 
-	"ajax": $.extend( {}, TableTools.buttonBase, {
+	"ajax": $.extend( {}, TableToolsPlus.buttonBase, {
 		"sAjaxUrl": "/xhr.php",
 		"sButtonText": "Ajax button",
 		"fnClick": function( nButton, oConfig ) {
@@ -2322,14 +2124,14 @@ TableTools.BUTTONS = {
 		}
 	} ),
 
-	"div": $.extend( {}, TableTools.buttonBase, {
+	"div": $.extend( {}, TableToolsPlus.buttonBase, {
 		"sAction": "div",
 		"sTag": "div",
 		"sButtonClass": "DTTT_nonbutton",
 		"sButtonText": "Text button"
 	} ),
 
-	"collection": $.extend( {}, TableTools.buttonBase, {
+	"collection": $.extend( {}, TableToolsPlus.buttonBase, {
 		"sAction": "collection",
 		"sButtonClass": "DTTT_button_collection",
 		"sButtonText": "Collection",
@@ -2349,11 +2151,11 @@ TableTools.BUTTONS = {
 
 
 /**
- * @namespace Classes used by TableTools - allows the styles to be override easily.
- *   Note that when TableTools initialises it will take a copy of the classes object
+ * @namespace Classes used by TableToolsPlus - allows the styles to be override easily.
+ *   Note that when TableToolsPlus initialises it will take a copy of the classes object
  *   and will use its internal copy for the remainder of its run time.
  */
-TableTools.classes = {
+TableToolsPlus.classes = {
 	"container": "DTTT_container",
 	"buttons": {
 		"normal": "DTTT_button",
@@ -2383,7 +2185,7 @@ TableTools.classes = {
  * @namespace ThemeRoller classes - built in for compatibility with DataTables' 
  *   bJQueryUI option.
  */
-TableTools.classes_themeroller = {
+TableToolsPlus.classes_themeroller = {
 	"container": "DTTT_container ui-buttonset ui-buttonset-multi",
 	"buttons": {
 		"normal": "DTTT_button ui-button ui-state-default"
@@ -2395,16 +2197,16 @@ TableTools.classes_themeroller = {
 
 
 /**
- * @namespace TableTools default settings for initialisation
+ * @namespace TableToolsPlus default settings for initialisation
  */
-TableTools.DEFAULTS = {
+TableToolsPlus.DEFAULTS = {
 	"sSwfPath":        "media/swf/copy_csv_xls_pdf.swf",
 	"sRowSelect":      "none",
 	"sSelectedClass":  null,
 	"fnPreRowSelect":  null,
 	"fnRowSelected":   null,
 	"fnRowDeselected": null,
-	"aButtons":        [ "copy", "csv", "xls", "pdf", "print" ],
+	"aButtons":        [ "print" ],
 	"oTags": {
 		"container": "div",
 		"button": "a", // We really want to use buttons here, but Firefox and IE ignore the
@@ -2423,19 +2225,19 @@ TableTools.DEFAULTS = {
  * Name of this class
  *  @constant CLASS
  *  @type	 String
- *  @default  TableTools
+ *  @default  TableToolsPlus
  */
-TableTools.prototype.CLASS = "TableTools";
+TableToolsPlus.prototype.CLASS = "TableToolsPlus";
 
 
 /**
- * TableTools version
+ * TableToolsPlus version
  *  @constant  VERSION
  *  @type	  String
  *  @default   See code
  */
-TableTools.VERSION = "2.1.4";
-TableTools.prototype.VERSION = TableTools.VERSION;
+TableToolsPlus.VERSION = "2.1.4";
+TableToolsPlus.prototype.VERSION = TableToolsPlus.VERSION;
 
 
 
@@ -2453,23 +2255,23 @@ if ( typeof $.fn.dataTable == "function" &&
 {
 	$.fn.dataTableExt.aoFeatures.push( {
 		"fnInit": function( oDTSettings ) {
-			var oOpts = typeof oDTSettings.oInit.oTableTools != 'undefined' ? 
-				oDTSettings.oInit.oTableTools : {};
+			var oOpts = typeof oDTSettings.oInit.oTableToolsPlus != 'undefined' ? 
+				oDTSettings.oInit.oTableToolsPlus : {};
 			
-			var oTT = new TableTools( oDTSettings.oInstance, oOpts );
-			TableTools._aInstances.push( oTT );
+			var oTT = new TableToolsPlus( oDTSettings.oInstance, oOpts );
+			TableToolsPlus._aInstances.push( oTT );
 			
 			return oTT.dom.container;
 		},
 		"cFeature": "T",
-		"sFeature": "TableTools"
+		"sFeature": "TableToolsPlus"
 	} );
 }
 else
 {
-	alert( "Warning: TableTools 2 requires DataTables 1.9.0 or newer - www.datatables.net/download");
+	alert( "Warning: TableToolsPlus 2 requires DataTables 1.9.0 or newer - www.datatables.net/download");
 }
 
-$.fn.DataTable.TableTools = TableTools;
+$.fn.DataTable.TableToolsPlus = TableToolsPlus;
 
 })(jQuery, window, document);

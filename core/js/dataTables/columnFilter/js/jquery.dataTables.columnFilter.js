@@ -974,7 +974,7 @@ var ColumnFilter; // Global scope for ColumnFilter
 					var toVal = $('#' + parent._oConfig.sTableId + 'range_to_' + args.index).val();
 					var toDate = $.datepicker.parseDate($.datepicker.regional[""].dateFormat, toVal);
 
-					if(true){ console.log({
+					if(parent._oConfig.bTrace){ console.log({
 								method:'beforeShowDay',
 								action: '"from" datepicker beforeShowDay',
 								data: {
@@ -1028,7 +1028,7 @@ var ColumnFilter; // Global scope for ColumnFilter
 					var fromVal = $('#' + parent._oConfig.sTableId + 'range_from_' + args.index).val();
 					var fromDate = $.datepicker.parseDate($.datepicker.regional[""].dateFormat, fromVal);
 
-					if(true){ console.log({
+					if(parent._oConfig.bTrace){ console.log({
 								method:'beforeShowDay',
 								action: '"from" datepicker beforeShowDay',
 								data: {

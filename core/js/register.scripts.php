@@ -57,10 +57,8 @@ class FOX_registerScripts {
 	}
 	
 	public function admin_dataTables_tableToolsPlus(){
-
-		    wp_register_script('fox-datatables-plugin-zeroclipboard', FOX_URL_CORE .'/js/dataTables/tableToolsPlus/js/ZeroClipboard.js');	    
-		    wp_register_script('fox-datatables-plugin-tabletoolsplus', FOX_URL_CORE .'/js/dataTables/tableToolsPlus/js/jquery.dataTables.tableToolsPlus.js');
-	 
+	    
+		    wp_register_script('fox-datatables-plugin-tabletoolsplus', FOX_URL_CORE .'/js/dataTables/tableToolsPlus/js/jquery.dataTables.tableToolsPlus.js');	 
 	}	
 	
 	public function admin_albumModules(){
