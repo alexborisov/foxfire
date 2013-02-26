@@ -671,8 +671,9 @@ TableToolsPlus.prototype = {
 
 		this.s.tags = this.s.custom.oTags;
 
-		/* Button set */
+		// Button set 
 		this.s.buttonSet = this.s.custom.aButtons;
+		
 	},
 	
 	
@@ -685,37 +686,42 @@ TableToolsPlus.prototype = {
 	 *  @returns void
 	 *  @private 
 	 */
-	"_fnButtonDefinations": function ( buttonSet, wrapper )
-	{
+	"_fnButtonDefinations": function (buttonSet, wrapper){
+	    
 		var buttonDef;
 		
-		for ( var i=0, iLen=buttonSet.length ; i<iLen ; i++ )
-		{
-			if ( typeof buttonSet[i] == "string" )
-			{
-				if ( typeof TableToolsPlus.BUTTONS[ buttonSet[i] ] == 'undefined' )
-				{
+		for ( var i=0, iLen=buttonSet.length ; i<iLen ; i++ ){
+		    
+			if( typeof buttonSet[i] == "string" ){
+			    
+				if( typeof TableToolsPlus.BUTTONS[ buttonSet[i] ] == 'undefined' ){
+				    
 					alert( "TableToolsPlus: Warning - unknown button type: "+buttonSet[i] );
 					continue;
 				}
+				
 				buttonDef = $.extend( {}, TableToolsPlus.BUTTONS[ buttonSet[i] ], true );
 			}
-			else
-			{
-				if ( typeof TableToolsPlus.BUTTONS[ buttonSet[i].sExtends ] == 'undefined' )
-				{
+			else {
+			    
+				if ( typeof TableToolsPlus.BUTTONS[ buttonSet[i].sExtends ] == 'undefined' ){
+				    
 					alert( "TableToolsPlus: Warning - unknown button type: "+buttonSet[i].sExtends );
 					continue;
 				}
+				
 				var o = $.extend( {}, TableToolsPlus.BUTTONS[ buttonSet[i].sExtends ], true );
 				buttonDef = $.extend( o, buttonSet[i], true );
 			}
 			
 			wrapper.appendChild( this._fnCreateButton( 
+			
 				buttonDef, 
 				$(wrapper).hasClass(this.classes.collection.container)
 			) );
+			    
 		}
+		
 	},
 	
 	
@@ -726,29 +732,30 @@ TableToolsPlus.prototype = {
 	 *  @returns {Node} Button element
 	 *  @private 
 	 */
-	"_fnCreateButton": function ( oConfig, bCollectionButton )
-	{
-	  var nButton = this._fnButtonBase( oConfig, bCollectionButton );
+	"_fnCreateButton": function (oConfig, bCollectionButton){
+	    
+		var nButton = this._fnButtonBase(oConfig, bCollectionButton);
 		
-		if ( oConfig.sAction.match(/flash/) )
-		{
+		if( oConfig.sAction.match(/flash/) ){
+		    
 			this._fnFlashConfig( nButton, oConfig );
 		}
-		else if ( oConfig.sAction == "text" )
-		{
+		else if( oConfig.sAction == "text" ){
+		    
 			this._fnTextConfig( nButton, oConfig );
 		}
-		else if ( oConfig.sAction == "div" )
-		{
+		else if( oConfig.sAction == "div" ){
+		    
 			this._fnTextConfig( nButton, oConfig );
 		}
-		else if ( oConfig.sAction == "collection" )
-		{
+		else if( oConfig.sAction == "collection" ){
+		    
 			this._fnTextConfig( nButton, oConfig );
 			this._fnCollectionConfig( nButton, oConfig );
 		}
 		
 		return nButton;
+		
 	},
 	
 	
@@ -759,27 +766,26 @@ TableToolsPlus.prototype = {
 	 *  @returns {Node} DIV element for the button
 	 *  @private 
 	 */
-	"_fnButtonBase": function ( o, bCollectionButton )
-	{
+	"_fnButtonBase": function(o, bCollectionButton){
+	    
 		var sTag, sLiner, sClass;
 
-		if ( bCollectionButton )
-		{
+		if(bCollectionButton){
+		    
 			sTag = o.sTag !== "default" ? o.sTag : this.s.tags.collection.button;
 			sLiner = o.sLinerTag !== "default" ? o.sLiner : this.s.tags.collection.liner;
 			sClass = this.classes.collection.buttons.normal;
 		}
-		else
-		{
+		else {
 			sTag = o.sTag !== "default" ? o.sTag : this.s.tags.button;
 			sLiner = o.sLinerTag !== "default" ? o.sLiner : this.s.tags.liner;
 			sClass = this.classes.buttons.normal;
 		}
 
-		var
-		  nButton = document.createElement( sTag ),
-		  nSpan = document.createElement( sLiner ),
-		  masterS = this._fnGetMasterSettings();
+		
+		var nButton = document.createElement(sTag);
+		var nSpan = document.createElement(sLiner);
+		var masterS = this._fnGetMasterSettings();
 		
 		nButton.className = sClass+" "+o.sButtonClass;
 		nButton.setAttribute('id', "ToolTables_"+this.s.dt.sInstance+"_"+masterS.buttonCounter );
@@ -789,9 +795,9 @@ TableToolsPlus.prototype = {
 		masterS.buttonCounter++;
 		
 		return nButton;
+		
 	},
-	
-	
+		
 	/**
 	 * Get the settings object for the master instance. When more than one TableToolsPlus instance is
 	 * assigned to a DataTable, only one of them can be the 'master' (for the select rows). As such,
@@ -800,27 +806,28 @@ TableToolsPlus.prototype = {
 	 *  @returns {Object} TableToolsPlus settings object
 	 *  @private 
 	 */
-	"_fnGetMasterSettings": function ()
-	{
-		if ( this.s.master )
-		{
+	"_fnGetMasterSettings": function (){
+	    
+		if(this.s.master){
+		    
 			return this.s;
 		}
-		else
-		{
-			/* Look for the master which has the same DT as this one */
+		else {
+			// Look for the master which has the same DT as this one
+			
 			var instances = TableToolsPlus._aInstances;
-			for ( var i=0, iLen=instances.length ; i<iLen ; i++ )
-			{
-				if ( this.dom.table == instances[i].s.dt.nTable )
-				{
+			
+			for( var i=0, iLen=instances.length ; i<iLen ; i++ ){
+			    
+				if( this.dom.table == instances[i].s.dt.nTable ){
+				    
 					return instances[i].s;
 				}
 			}
 		}
+		
 	},
-	
-	
+		
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Button collection functions
@@ -833,9 +840,10 @@ TableToolsPlus.prototype = {
 	 *  @returns void
 	 *  @private
 	 */
-	"_fnCollectionConfig": function ( nButton, oConfig )
-	{
-		var nHidden = document.createElement( this.s.tags.collection.container );
+	"_fnCollectionConfig": function (nButton, oConfig){
+	    
+		var nHidden = document.createElement(this.s.tags.collection.container);
+		
 		nHidden.style.display = "none";
 		nHidden.className = this.classes.collection.container;
 		oConfig._collection = nHidden;
@@ -843,8 +851,7 @@ TableToolsPlus.prototype = {
 		
 		this._fnButtonDefinations( oConfig.aButtons, nHidden );
 	},
-	
-	
+		
 	/**
 	 * Show a button collection
 	 *  @param   {Node} nButton Button to use for the collection
@@ -852,16 +859,16 @@ TableToolsPlus.prototype = {
 	 *  @returns void
 	 *  @private
 	 */
-	"_fnCollectionShow": function ( nButton, oConfig )
-	{
-		var
-			that = this,
-			oPos = $(nButton).offset(),
-			nHidden = oConfig._collection,
-			iDivX = oPos.left,
-			iDivY = oPos.top + $(nButton).outerHeight(),
-			iWinHeight = $(window).height(), iDocHeight = $(document).height(),
-		 	iWinWidth = $(window).width(), iDocWidth = $(document).width();
+	"_fnCollectionShow": function (nButton, oConfig){
+	    
+		
+		var that = this;
+		var oPos = $(nButton).offset();
+		var nHidden = oConfig._collection;
+		var iDivX = oPos.left;
+		var iDivY = oPos.top + $(nButton).outerHeight();
+		var iWinHeight = $(window).height(), iDocHeight = $(document).height();
+		var iWinWidth = $(window).width(), iDocWidth = $(document).width();
 		
 		nHidden.style.position = "absolute";
 		nHidden.style.left = iDivX+"px";
@@ -870,6 +877,7 @@ TableToolsPlus.prototype = {
 		$(nHidden).css('opacity',0);
 		
 		var nBackground = document.createElement('div');
+		
 		nBackground.style.position = "absolute";
 		nBackground.style.left = "0px";
 		nBackground.style.top = "0px";
@@ -881,38 +889,40 @@ TableToolsPlus.prototype = {
 		document.body.appendChild( nBackground );
 		document.body.appendChild( nHidden );
 		
-		/* Visual corrections to try and keep the collection visible */
+		// Visual corrections to try and keep the collection visible 
 		var iDivWidth = $(nHidden).outerWidth();
 		var iDivHeight = $(nHidden).outerHeight();
 		
-		if ( iDivX + iDivWidth > iDocWidth )
-		{
+		if( (iDivX + iDivWidth) > iDocWidth ){
+		    
 			nHidden.style.left = (iDocWidth-iDivWidth)+"px";
 		}
 		
-		if ( iDivY + iDivHeight > iDocHeight )
-		{
+		if( (iDivY + iDivHeight) > iDocHeight ){
+		    
 			nHidden.style.top = (iDivY-iDivHeight-$(nButton).outerHeight())+"px";
 		}
 	
 		this.dom.collection.collection = nHidden;
 		this.dom.collection.background = nBackground;
 		
-		/* This results in a very small delay for the end user but it allows the animation to be
-		 * much smoother. If you don't want the animation, then the setTimeout can be removed
-		 */
+		// This results in a very small delay for the end user but it allows the animation to be
+		// much smoother. If you don't want the animation, then the setTimeout can be removed
+
 		setTimeout( function () {
 			$(nHidden).animate({"opacity": 1}, 500);
 			$(nBackground).animate({"opacity": 0.25}, 500);
 		}, 10 );
 
-		/* Resize the buttons to the Flash contents fit */
+		// Resize the buttons to the Flash contents fit
 		this.fnResizeButtons();
 		
-		/* Event handler to remove the collection display */
+		// Event handler to remove the collection display
 		$(nBackground).click( function () {
+		    
 			that._fnCollectionHide.call( that, null, null );
 		} );
+		
 	},
 	
 	
