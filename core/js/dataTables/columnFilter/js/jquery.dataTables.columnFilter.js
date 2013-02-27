@@ -297,8 +297,8 @@ var ColumnFilter; // Global scope for ColumnFilter
 								    th: th,
 								    bIsNumber: true
 					    });
-					    break;
-				    }
+					    
+				    } break;
 
 				    case "text": {
 
@@ -308,8 +308,8 @@ var ColumnFilter; // Global scope for ColumnFilter
 								    th: th,								    
 								    bIsNumber: false
 					    });					    
-					    break;
-				    }
+					    
+				    } break;
 
 				    case "select": {
 
@@ -319,8 +319,8 @@ var ColumnFilter; // Global scope for ColumnFilter
 								    th: th,								    
 								    aData: aoColumn.values
 					    });
-					    break;
-				    }
+					    
+				    } break;
 
 				    case "number-range": {
 
@@ -329,8 +329,8 @@ var ColumnFilter; // Global scope for ColumnFilter
 								    label: label,
 								    th: th								    
 					    });
-					    break;
-				    }
+					    
+				    } break;
 
 				    case "date-range": {
 
@@ -339,14 +339,14 @@ var ColumnFilter; // Global scope for ColumnFilter
 								    label: label,
 								    th: th								    
 					    });					    
-					    break;
-				    }
+					    
+				    } break;
 
 				    default: {
 
 					    alert( "Warning: ColumnFilter passed unknown column type '" + aoColumn.type + "', index '" + index + "'");
-					    break;
-				    }
+					    
+				    } break;
 
 
 			    }   // ENDOF: switch(aoColumn.type){

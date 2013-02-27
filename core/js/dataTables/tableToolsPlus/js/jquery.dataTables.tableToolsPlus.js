@@ -1353,59 +1353,87 @@ TableToolsPlus.prototype = {
 		var aColumns = [];
 		var dt = this.s.dt;
 		var i;
+		var sColumnsType;
 		
 		if( typeof mColumns == "object" ){
 		    
-			for(i=0; i < dt.aoColumns.length; i++){
-			    
-				aColumns.push(false);
-			}
-			
-			for(i=0; i < mColumns.length; i++){
-			    
-				aColumns[ mColumns[i] ] = true;
-			}
-		}
-		else if( mColumns == "visible" ){
-		    
-			for(i=0; i < dt.aoColumns.length; i++){
-			    
-				aColumns.push(dt.aoColumns[i].bVisible);
-			}
-		}
-		else if( mColumns == "hidden" ){
-		    
-			for(i=0; i < dt.aoColumns.length; i++){
-			    
-				aColumns.push(!dt.aoColumns[i].bVisible);  // Note the ! operator
-			}
-		}
-		else if( mColumns == "sortable" ){
-		    
-			for(i=0; i < dt.aoColumns.length; i++){
-			    
-				aColumns.push(dt.aoColumns[i].bSortable);
-			}
+			sColumnsType = "object";
 		}
 		else {
-			for(i=0; i < dt.aoColumns.length; i++){
-			    
-				aColumns.push(true);
-			}
+			sColumnsType = mColumns;
 		}
+		
+		var iLen = dt.aoColumns.length;  // Caching to prevent .length() running on each loop iteration
+		
+		
+		switch(sColumnsType){
+
+			case "object": { 
+
+				for(i=0; i < iLen; i++){
+
+					aColumns.push(false);
+				}
+
+				iLen = mColumns.length;
+
+				for(i=0; i < iLen; i++){
+
+					aColumns[ mColumns[i] ] = true;
+				}
+
+			} break;
+			
+			case "visible": {
+				
+				for(i=0; i < iLen; i++){
+
+					aColumns.push(dt.aoColumns[i].bVisible);
+				}
+
+			} break;	
+			
+			case "hidden": {
+				
+				for(i=0; i < iLen; i++){
+
+					aColumns.push(!dt.aoColumns[i].bVisible);  // Note the ! operator
+				}
+
+			} break;
+
+			case "sortable": {
+				
+				for(i=0; i < iLen; i++){
+
+					aColumns.push(dt.aoColumns[i].bSortable);
+				}
+
+			} break;
+			
+			default : {
+				
+				for(i=0; i < iLen; i++){
+
+					aColumns.push(true);
+				}
+
+			} break;			
+
+		}		
 		
 		return aColumns;
 		
 	},
-	
-	
+		
 	/**
 	 * New line character(s) depend on the platforms
 	 *  @method  method
 	 *  @param   {Object} oConfig Button configuration object - only interested in oConfig.sNewLine
 	 *  @returns {String} Newline character
 	 */
-	"_fnNewline": function( oConfig){
+	"_fnNewline": function(oConfig){
+	    
 	    
 		if( oConfig.sNewLine == "auto" ){
 		    
@@ -1436,21 +1464,22 @@ TableToolsPlus.prototype = {
 		
 		var aRow, aData=[], sLoopData='', arr;
 		var dt = this.s.dt, tr;
-		var regex = new RegExp(oConfig.sFieldBoundary, "g"); /* Do it here for speed */
+		var regex = new RegExp(oConfig.sFieldBoundary, "g"); // Do it here for speed 
 		var aColumnsInc = this._fnColumnTargets( oConfig.mColumns );
 		
 		var bSelectedOnly = (typeof oConfig.bSelectedOnly != 'undefined') ? oConfig.bSelectedOnly : false;
 		
-		var i, j;
+		var i, j, iLenA, iLenB;
 		
-		/*
-		 * Header
-		 */
+		// Header
+		// ===================================================================
+
 		if(oConfig.bHeader){
 		    
-			aRow = [];
+			aRow = [];			
+			iLenA = dt.aoColumns.length; // Caching to prevent .length() running on each loop iteration
 			
-			for(i=0; i < dt.aoColumns.length; i++){
+			for(i=0; i < iLenA; i++){
 			    
 				if(aColumnsInc[i]){
 				    
@@ -1464,35 +1493,39 @@ TableToolsPlus.prototype = {
 			aData.push( aRow.join(oConfig.sFieldSeperator) );
 		}
 		
-		/*
-		 * Body
-		 */
+		// Body
+		// ===================================================================
 		
 		var aDataIndex = dt.aiDisplay;
 		var aSelected = this.fnGetSelected();
 		
 		if( this.s.select.type !== "none" && bSelectedOnly && aSelected.length !== 0 ){
 		    
-			aDataIndex = [];
+			aDataIndex = [];			
+			iLenA = aSelected.length;
 			
-			for(i=0; i < aSelected.length; i++){
+			for(i=0; i < iLenA; i++){
 			    
 				aDataIndex.push( dt.oInstance.fnGetPosition( aSelected[i] ) );
 			}
 		}
 		
-		for(j=0; j < aDataIndex.length; j++){
+		iLenB = aDataIndex.length;
+		iLenA = dt.aoColumns.length;		
+		
+		for(j=0; j < iLenB; j++){
 		    
 			tr = dt.aoData[ aDataIndex[j] ].nTr;
-			aRow = [];
+			aRow = [];						
 			
-			/* Columns */
+			// Columns 
 			
-			for(i=0; i < dt.aoColumns.length; i++){
+			for(i=0; i < iLenA; i++){
 			    
 				if(aColumnsInc[i]){
 				    
-					/* Convert to strings (with small optimisation) */
+					// Convert to strings (with small optimisation) 
+					
 					var mTypeData = dt.oApi._fnGetCellData( dt, aDataIndex[j], i, 'display' );
 					
 					if(oConfig.fnCellRender){
@@ -1502,7 +1535,8 @@ TableToolsPlus.prototype = {
 					}
 					else if( typeof mTypeData == "string" ){
 					    
-						/* Strip newlines, replace img tags with alt attr. and finally strip html... */
+						// Strip newlines, replace img tags with alt attr. and finally strip html.
+						
 						sLoopData = mTypeData.replace(/\n/g," ");
 						sLoopData =
 						 	sLoopData.replace(/<img.*?\s+alt\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s>]+)).*?>/gi,
@@ -1514,11 +1548,11 @@ TableToolsPlus.prototype = {
 						sLoopData = mTypeData+"";
 					}
 					
-					/* Trim and clean the data */
+					// Trim and clean the data 
 					sLoopData = sLoopData.replace(/^\s+/, '').replace(/\s+$/, '');
 					sLoopData = this._fnHtmlDecode( sLoopData );
 					
-					/* Bound it and add it to the total data */
+					// Bound it and add it to the total data
 					aRow.push( this._fnBoundData(sLoopData, oConfig.sFieldBoundary, regex) );
 					
 				}
@@ -1526,7 +1560,7 @@ TableToolsPlus.prototype = {
       
 			aData.push( aRow.join(oConfig.sFieldSeperator) );
       
-			/* Details rows from fnOpen */
+			// Details rows from fnOpen
 			
 			if(oConfig.bOpenRows){
 			    
@@ -1540,15 +1574,15 @@ TableToolsPlus.prototype = {
 			}
 		}
 		
-		/*
-		 * Footer
-		 */
+		// Footer
+		// ===================================================================
 		
 		if( oConfig.bFooter && dt.nTFoot !== null ){
 		    
 			aRow = [];
+			iLenA = dt.aoColumns.length;
 			
-			for(i=0; i < dt.aoColumns.length; i++){
+			for(i=0; i < iLenA; i++){
 			    
 				if( aColumnsInc[i] && (dt.aoColumns[i].nTf !== null) ){
 				    
@@ -1579,6 +1613,7 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnBoundData": function(sData, sBoundary, regex){
 	    
+	    
 		if( sBoundary === "" ){
 		    
 			return sData;
@@ -1599,17 +1634,18 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnChunkData": function(sData, iSize){
 	    
+	    
 		var asReturn = [];
-		var iStrlen = sData.length;
+		var iLen = sData.length;  // Caching to prevent .length() running on each loop iteration
 		
-		for(var i=0; i < iStrlen; i += iSize){
+		for(var i=0; i < iLen; i += iSize){
 		    
-			if( (i + iSize) < iStrlen ){
+			if( (i + iSize) < iLen ){
 			    
 				asReturn.push( sData.substring(i, i + iSize) );
 			}
 			else {
-				asReturn.push( sData.substring(i, iStrlen) );
+				asReturn.push( sData.substring(i, iLen) );
 			}
 		}
 		
@@ -1626,14 +1662,13 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnHtmlDecode": function(sData){
 	    
+	    
 		if( sData.indexOf('&') === -1 ){
 		    
 			return sData;
 		}
 		
-		var n = document.createElement('div');
-		
-		// TODO: is should the regex below be a string?
+		var n = document.createElement('div');		
 		
 		var result = sData.replace( /&([^\s]*);/g, 
 					    function( match, match2 ) {
@@ -1671,10 +1706,10 @@ TableToolsPlus.prototype = {
 		var parent = this;
 		var oSetDT = this.s.dt;
 	  
-		/* Parse through the DOM hiding everything parent isn't needed for the table */
+		// Parse through the DOM hiding everything parent isn't needed for the table
 		this._fnPrintHideNodes( oSetDT.nTable );
 		
-		/* Show the whole table */
+		// Show the whole table
 		this.s.print.saveStart = oSetDT._iDisplayStart;
 		this.s.print.saveLength = oSetDT._iDisplayLength;
 
@@ -1686,26 +1721,30 @@ TableToolsPlus.prototype = {
 			oSetDT.oApi._fnDraw( oSetDT );
 		}
 		
-		/* Adjust the display for scrolling which might be done by DataTables */
+		// Adjust the display for scrolling which might be done by DataTables
+		
 		if( (oSetDT.oScroll.sX !== "") || (oSetDT.oScroll.sY !== "") ){
 		    
 			this._fnPrintScrollStart( oSetDT );
 
 			// If the table redraws while in print view, the DataTables scrolling
 			// setup would hide the header, so we need to readd it on draw
+			
 			$(this.s.dt.nTable).bind('draw.DTTT_Print', function () {
 				parent._fnPrintScrollStart( oSetDT );
 			} );
 		}
 		
-		/* Remove the other DataTables feature nodes - but leave the table! and info div */
+		// Remove the other DataTables feature nodes - but leave the table! and info div
 		var anFeature = oSetDT.aanFeatures;
 		
 		for( var cFeature in anFeature ){
 		    
 			if( (cFeature != 'i') && (cFeature != 't') && (cFeature.length == 1) ){
 			    
-				for(var i=0; i < anFeature[cFeature].length; i++){
+				var iLen = anFeature[cFeature].length; // Caching to prevent .length() running on each loop iteration
+			    
+				for(var i=0; i < iLen; i++){
 				    
 					this.dom.print.hidden.push( {
 						"node": anFeature[cFeature][i],
@@ -1717,16 +1756,16 @@ TableToolsPlus.prototype = {
 			}
 		}
 		
-		/* Print class can be used for styling */
+		// Print class can be used for styling
 		$(document.body).addClass(this.classes.print.body);
 
-		/* Show information message to let the user know what is happening */
+		// Show information message to let the user know what is happening
 		if( oConfig.sInfo !== "" ){
 		    
 			this.fnInfo( oConfig.sInfo, 3000 );
 		}
 
-		/* Add a message at the top of the page */
+		// Add a message at the top of the page
 		if(oConfig.sMessage){
 		    
 			this.dom.print.message = document.createElement( "div" );
@@ -1736,16 +1775,15 @@ TableToolsPlus.prototype = {
 			document.body.insertBefore( this.dom.print.message, document.body.childNodes[0] );
 		}
 		
-		/* Cache the scrolling and the jump to the top of the page */
+		// Cache the scrolling and the jump to the top of the page
 		this.s.print.saveScroll = $(window).scrollTop();
 		window.scrollTo( 0, 0 );
 
-		/* Bind a key event listener to the document for the escape key -
-		 * it is removed in the callback
-		 */
+		// Bind a key event listener to the document for the escape key - it is removed in the callback
+
 		$(document).bind( "keydown.DTTT", function(e) {
 		    
-			/* Only interested in the escape key */
+			// Only interested in the escape key
 			if( e.keyCode == 27 ){
 			    
 				e.preventDefault();
@@ -1900,8 +1938,9 @@ TableToolsPlus.prototype = {
 	"_fnPrintShowNodes": function(){
 	    
 		var anHidden = this.dom.print.hidden;
+		var iLen = anHidden.length;  // Caching to prevent .length() running on each loop iteration
 	  
-		for(var i=0; i < anHidden.length; i++){
+		for(var i=0; i < iLen; i++){
 		    
 			anHidden[i].node.style.display = anHidden[i].display;
 		}
