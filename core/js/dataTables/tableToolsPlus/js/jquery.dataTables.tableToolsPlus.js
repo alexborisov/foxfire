@@ -293,7 +293,7 @@ TableToolsPlus = function( oDT, oOpts )
 	this.fnSettings = function(){
 	    
 		return this.s;
-	};
+	}
 	
 	
 	/* Constructor logic */
@@ -327,13 +327,14 @@ TableToolsPlus.prototype = {
 		var data = this.s.dt.aoData;
 		var displayed = this.s.dt.aiDisplay;
 		var i, iLen;
+		
 
 		if(filtered){
 		    
 			// Only consider filtered rows
 			
-			iLen = displayed.length;
-			
+			iLen = displayed.length; // Caching to prevent .length() running on each loop iteration
+
 			for(i=0; i < iLen; i++){
 			    
 				if(data[ displayed[i] ]._DTTT_selected){
@@ -369,10 +370,9 @@ TableToolsPlus.prototype = {
 	    
 		var out = [];
 		var data = this.s.dt.aoData;
-		var iLen=data.length;
+		var iLen = data.length; // Caching to prevent .length() running on each loop iteration
 
-
-		for(var i=0; i < iLen ; i++){
+		for(var i=0; i < iLen; i++){
 		    
 			if(data[i]._DTTT_selected){
 			    
@@ -518,9 +518,9 @@ TableToolsPlus.prototype = {
 		var aColWidths = [];
 		var iWidth = 0;
 		var iTotal = 0;
-		var i, iLen;
+		var i, iLen;		
 		
-		iLen = aColumnsInc.length;
+		iLen = aColumnsInc.length; // Caching to prevent .length() running on each loop iteration
 		
 		for(i=0; i < iLen; i++){
 		    
@@ -530,7 +530,7 @@ TableToolsPlus.prototype = {
 				iTotal += iWidth;
 				aColWidths.push(iWidth);
 			}
-		}
+		}		
 		
 		iLen = aColWidths.length;
 		
@@ -710,8 +710,10 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnButtonDefinations": function (buttonSet, wrapper){
 	    
+	    
 		var buttonDef;
-		var iLen=buttonSet.length;
+		var iLen = buttonSet.length; // Caching to prevent .length() running on each loop iteration
+		
 		
 		for(var i=0; i < iLen; i++){
 		    
@@ -859,6 +861,7 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnGetMasterSettings": function(){
 	    
+	    
 		if(this.s.master){
 		    
 			return this.s;
@@ -867,9 +870,9 @@ TableToolsPlus.prototype = {
 			// Look for the master which has the same DT as this one
 			
 			var instances = TableToolsPlus._aInstances;
-			var iLen = instances.length;
-			
-			for(var i=0; i < iLen ; i++){
+			var iLen = instances.length;  // Caching to prevent .length() running on each loop iteration
+
+			for(var i=0; i < iLen; i++){
 			    
 				if( this.dom.table == instances[i].s.dt.nTable ){
 				    
@@ -1103,14 +1106,14 @@ TableToolsPlus.prototype = {
 		
 		var data = this._fnSelectData(src);
 		var anSelected = [];
-		var i, len;
+		var i, iLen;
 
 		
 		// Get all the rows parent will be selected
+
+		iLen = data.length;  // Caching to prevent .length() running on each loop iteration
 		
-		len = data.length;
-		
-		for(i=0; i < len; i++){
+		for(i=0; i < iLen; i++){
 		    
 			if(data[i].nTr){
 			    
@@ -1126,9 +1129,9 @@ TableToolsPlus.prototype = {
 
 		// Mark them as selected
 		
-		len = data.length;
+		iLen = data.length;
 		
-		for(i=0; i < len; i++){
+		for(i=0; i < iLen; i++){
 		    
 			data[i]._DTTT_selected = true;
 
@@ -1154,16 +1157,18 @@ TableToolsPlus.prototype = {
 	 *  @private 
 	 */
 	"_fnRowDeselect": function(src, e){
-	    
-		
+	    		
 		var parent = this;
-		var data = this._fnSelectData( src );
-		var firstTr = data.length===0 ? null : data[0].nTr;
+		
+		var data = this._fnSelectData(src);
 		var anDeselectedTrs = [];
-		var i, len;
+		var i, iLen;
 
 		// Get all the rows parent will be deselected
-		for( i=0, len=data.length ; i<len ; i++ ){
+		
+		iLen = data.length;  // Caching to prevent .length() running on each loop iteration
+		
+		for(i=0; i < iLen; i++){
 		    
 			if(data[i].nTr){
 			    
@@ -1178,11 +1183,14 @@ TableToolsPlus.prototype = {
 		}
 
 		// Mark them as deselected
-		for( i=0, len=data.length ; i<len ; i++ ){
+		
+		iLen = data.length;
+		
+		for(i=0; i < data.length; i++){
 		    
 			data[i]._DTTT_selected = false;
 
-			if ( data[i].nTr ){
+			if( data[i].nTr ){
 			    
 				$(data[i].nTr).removeClass( parent.classes.select.row );
 			}
@@ -1195,6 +1203,7 @@ TableToolsPlus.prototype = {
 		}
 
 		TableToolsPlus._fnEventDispatch( this, 'select', anDeselectedTrs, false );
+		
 	},
 	
 	/**
@@ -1204,10 +1213,10 @@ TableToolsPlus.prototype = {
 	 *     points or an array of aoData indexes
 	 *   @returns {array} An array of aoData points
 	 */
-	"_fnSelectData": function( src){
+	"_fnSelectData": function(src){
 	    
 		var out = [];
-		var pos, i, iLen;
+		var pos, i;
 
 		if(src.nodeName){
 		    
@@ -1219,19 +1228,22 @@ TableToolsPlus.prototype = {
 		else if( typeof src.length !== 'undefined' ){
 		    
 			// jQuery object or an array of nodes, or aoData points
-			for( i=0, iLen=src.length ; i<iLen ; i++ ){
+			
+			var iLen = src.length;  // Caching to prevent .length() running on each loop iteration
+			
+			for(i=0; i < iLen; i++){
 			    
 				if(src[i].nodeName){
 				    
-					pos = this.s.dt.oInstance.fnGetPosition( src[i] );
-					out.push( this.s.dt.aoData[pos] );
+					pos = this.s.dt.oInstance.fnGetPosition(src[i]);
+					out.push(this.s.dt.aoData[pos]);
 				}
 				else if( typeof src[i] === 'number' ){
 				    
-					out.push( this.s.dt.aoData[ src[i] ] );
+					out.push(this.s.dt.aoData[ src[i] ]);
 				}
 				else {
-					out.push( src[i] );
+					out.push(src[i]);
 				}
 			}
 
@@ -1239,13 +1251,13 @@ TableToolsPlus.prototype = {
 		}
 		else {
 			// A single aoData point
-			out.push( src );
+			out.push(src);
 		}
 
 		return out;
+		
 	},
-	
-	
+		
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Text button functions
 	 */
@@ -1267,7 +1279,7 @@ TableToolsPlus.prototype = {
 			oConfig.fnInit.call(this, nButton, oConfig);
 		}
 		
-		if ( oConfig.sToolTip !== "" ){
+		if( oConfig.sToolTip !== "" ){
 		    
 			nButton.title = oConfig.sToolTip;
 		}
@@ -1276,7 +1288,7 @@ TableToolsPlus.prototype = {
 		    
 					    if( oConfig.fnMouseover !== null ){
 
-						    oConfig.fnMouseover.call( this, nButton, oConfig, null );
+						    oConfig.fnMouseover.call(this, nButton, oConfig, null);
 					    }
 			
 				    }, 
@@ -1284,14 +1296,15 @@ TableToolsPlus.prototype = {
 					
 					    if( oConfig.fnMouseout !== null ){
 						
-						    oConfig.fnMouseout.call( this, nButton, oConfig, null );
+						    oConfig.fnMouseout.call(this, nButton, oConfig, null);
 					    }
 				    } 
 		);
 		
 		if( oConfig.fnSelect !== null ){
 		    
-			TableToolsPlus._fnEventListen( this, 'select', function (n) {
+			TableToolsPlus._fnEventListen( this, 'select', function(n){
+			    
 				oConfig.fnSelect.call( parent, nButton, oConfig, n );
 			} );
 		}
@@ -1300,14 +1313,15 @@ TableToolsPlus.prototype = {
 		    
 					    //e.preventDefault();
 
-					    if ( oConfig.fnClick !== null )
-					    {
+					    if( oConfig.fnClick !== null ){
+						
 						    oConfig.fnClick.call( parent, nButton, oConfig, null );
 					    }
 
-					    /* Provide a complete function to match the behaviour of the flash elements */
-					    if ( oConfig.fnComplete !== null )
-					    {
+					    // Provide a complete function to match the behaviour of the flash elements
+					    
+					    if( oConfig.fnComplete !== null ){
+						
 						    oConfig.fnComplete.call( parent, nButton, oConfig, null, null );
 					    }
 
@@ -1338,48 +1352,50 @@ TableToolsPlus.prototype = {
 	    
 		var aColumns = [];
 		var dt = this.s.dt;
+		var i;
 		
 		if( typeof mColumns == "object" ){
 		    
-			for( i=0, iLen=dt.aoColumns.length ; i<iLen ; i++ ){
+			for(i=0; i < dt.aoColumns.length; i++){
 			    
-				aColumns.push( false );
+				aColumns.push(false);
 			}
 			
-			for( i=0, iLen=mColumns.length ; i<iLen ; i++ ){
+			for(i=0; i < mColumns.length; i++){
 			    
 				aColumns[ mColumns[i] ] = true;
 			}
 		}
 		else if( mColumns == "visible" ){
 		    
-			for( i=0, iLen=dt.aoColumns.length ; i<iLen ; i++ ){
+			for(i=0; i < dt.aoColumns.length; i++){
 			    
-				aColumns.push( dt.aoColumns[i].bVisible ? true : false );
+				aColumns.push(dt.aoColumns[i].bVisible);
 			}
 		}
 		else if( mColumns == "hidden" ){
 		    
-			for( i=0, iLen=dt.aoColumns.length ; i<iLen ; i++ ){
+			for(i=0; i < dt.aoColumns.length; i++){
 			    
-				aColumns.push( dt.aoColumns[i].bVisible ? false : true );
+				aColumns.push(!dt.aoColumns[i].bVisible);  // Note the ! operator
 			}
 		}
 		else if( mColumns == "sortable" ){
 		    
-			for ( i=0, iLen=dt.aoColumns.length ; i<iLen ; i++ ){
+			for(i=0; i < dt.aoColumns.length; i++){
 			    
-				aColumns.push( dt.aoColumns[i].bSortable ? true : false );
+				aColumns.push(dt.aoColumns[i].bSortable);
 			}
 		}
 		else {
-			for ( i=0, iLen=dt.aoColumns.length ; i<iLen ; i++ ){
+			for(i=0; i < dt.aoColumns.length; i++){
 			    
-				aColumns.push( true );
+				aColumns.push(true);
 			}
 		}
 		
 		return aColumns;
+		
 	},
 	
 	
@@ -1398,8 +1414,8 @@ TableToolsPlus.prototype = {
 		else {
 			return oConfig.sNewLine;
 		}
-	},
-	
+		
+	},	
 	
 	/**
 	 * Get data from DataTables' internals and format it for output
@@ -1417,12 +1433,15 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnGetDataTablesData": function(oConfig){
 	    
-		var i, iLen, j, jLen;
+		
 		var aRow, aData=[], sLoopData='', arr;
-		var dt = this.s.dt, tr, child;
+		var dt = this.s.dt, tr;
 		var regex = new RegExp(oConfig.sFieldBoundary, "g"); /* Do it here for speed */
 		var aColumnsInc = this._fnColumnTargets( oConfig.mColumns );
+		
 		var bSelectedOnly = (typeof oConfig.bSelectedOnly != 'undefined') ? oConfig.bSelectedOnly : false;
+		
+		var i, j;
 		
 		/*
 		 * Header
@@ -1431,7 +1450,7 @@ TableToolsPlus.prototype = {
 		    
 			aRow = [];
 			
-			for( i=0, iLen=dt.aoColumns.length ; i<iLen ; i++ ){
+			for(i=0; i < dt.aoColumns.length; i++){
 			    
 				if(aColumnsInc[i]){
 				    
@@ -1448,6 +1467,7 @@ TableToolsPlus.prototype = {
 		/*
 		 * Body
 		 */
+		
 		var aDataIndex = dt.aiDisplay;
 		var aSelected = this.fnGetSelected();
 		
@@ -1455,19 +1475,20 @@ TableToolsPlus.prototype = {
 		    
 			aDataIndex = [];
 			
-			for( i=0, iLen=aSelected.length ; i<iLen ; i++ ){
+			for(i=0; i < aSelected.length; i++){
 			    
 				aDataIndex.push( dt.oInstance.fnGetPosition( aSelected[i] ) );
 			}
 		}
 		
-		for( j=0, jLen=aDataIndex.length ; j<jLen ; j++ ){
+		for(j=0; j < aDataIndex.length; j++){
 		    
 			tr = dt.aoData[ aDataIndex[j] ].nTr;
 			aRow = [];
 			
 			/* Columns */
-			for( i=0, iLen=dt.aoColumns.length ; i<iLen ; i++ ){
+			
+			for(i=0; i < dt.aoColumns.length; i++){
 			    
 				if(aColumnsInc[i]){
 				    
@@ -1489,8 +1510,7 @@ TableToolsPlus.prototype = {
 						sLoopData = sLoopData.replace( /<.*?>/g, "" );
 						
 					}
-					else {
-					    
+					else {					    
 						sLoopData = mTypeData+"";
 					}
 					
@@ -1500,12 +1520,14 @@ TableToolsPlus.prototype = {
 					
 					/* Bound it and add it to the total data */
 					aRow.push( this._fnBoundData(sLoopData, oConfig.sFieldBoundary, regex) );
+					
 				}
 			}
       
 			aData.push( aRow.join(oConfig.sFieldSeperator) );
       
 			/* Details rows from fnOpen */
+			
 			if(oConfig.bOpenRows){
 			    
 				arr = $.grep(dt.aoOpenRows, function(o) { return o.nParent === tr; });
@@ -1521,11 +1543,12 @@ TableToolsPlus.prototype = {
 		/*
 		 * Footer
 		 */
+		
 		if( oConfig.bFooter && dt.nTFoot !== null ){
 		    
 			aRow = [];
 			
-			for( i=0, iLen=dt.aoColumns.length ; i<iLen ; i++ ){
+			for(i=0; i < dt.aoColumns.length; i++){
 			    
 				if( aColumnsInc[i] && (dt.aoColumns[i].nTf !== null) ){
 				    
@@ -1537,11 +1560,11 @@ TableToolsPlus.prototype = {
 			}
 			
 			aData.push( aRow.join(oConfig.sFieldSeperator) );
-		}
+		}		
 		
-		_sLastData = aData.join( this._fnNewline(oConfig) );
 		
-		return _sLastData;
+		return aData.join( this._fnNewline(oConfig) );
+		
 	},
 		
 	/**
@@ -1579,14 +1602,14 @@ TableToolsPlus.prototype = {
 		var asReturn = [];
 		var iStrlen = sData.length;
 		
-		for( var i=0 ; i<iStrlen ; i+=iSize ){
+		for(var i=0; i < iStrlen; i += iSize){
 		    
-			if( i+iSize < iStrlen ){
+			if( (i + iSize) < iStrlen ){
 			    
-				asReturn.push( sData.substring( i, i+iSize ) );
+				asReturn.push( sData.substring(i, i + iSize) );
 			}
 			else {
-				asReturn.push( sData.substring( i, iStrlen ) );
+				asReturn.push( sData.substring(i, iStrlen) );
 			}
 		}
 		
@@ -1682,7 +1705,7 @@ TableToolsPlus.prototype = {
 		    
 			if( (cFeature != 'i') && (cFeature != 't') && (cFeature.length == 1) ){
 			    
-				for( var i=0, iLen=anFeature[cFeature].length ; i<iLen ; i++ ){
+				for(var i=0; i < anFeature[cFeature].length; i++){
 				    
 					this.dom.print.hidden.push( {
 						"node": anFeature[cFeature][i],
@@ -1695,7 +1718,7 @@ TableToolsPlus.prototype = {
 		}
 		
 		/* Print class can be used for styling */
-		$(document.body).addClass( this.classes.print.body );
+		$(document.body).addClass(this.classes.print.body);
 
 		/* Show information message to let the user know what is happening */
 		if( oConfig.sInfo !== "" ){
@@ -1741,15 +1764,15 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnPrintEnd": function(e){
 	    
-		var parent = this;
 		var oSetDT = this.s.dt;
 		var oSetPrint = this.s.print;
 		var oDomPrint = this.dom.print;
 		
-		/* Show all hidden nodes */
+		// Show all hidden nodes 
 		this._fnPrintShowNodes();
 		
-		/* Restore DataTables' scrolling */
+		// Restore DataTables' scrolling 
+		
 		if( (oSetDT.oScroll.sX !== "") || (oSetDT.oScroll.sY !== "") ){
 		    
 			$(this.s.dt.nTable).unbind('draw.DTTT_Print');
@@ -1757,20 +1780,24 @@ TableToolsPlus.prototype = {
 			this._fnPrintScrollEnd();
 		}
 		
-		/* Restore the scroll */
+		// Restore the scroll
+		
 		window.scrollTo( 0, oSetPrint.saveScroll );
 		
-		/* Drop the print message */
+		// Drop the print message 
+		
 		if( oDomPrint.message !== null ){
 		    
 			document.body.removeChild( oDomPrint.message );
 			oDomPrint.message = null;
 		}
 		
-		/* Styling class */
+		// Styling class 
+		
 		$(document.body).removeClass( 'DTTT_Print' );
 		
-		/* Restore the table length */
+		// Restore the table length
+		
 		oSetDT._iDisplayStart = oSetPrint.saveStart;
 		oSetDT._iDisplayLength = oSetPrint.saveLength;
 		oSetDT.oApi._fnCalculateEnd( oSetDT );
@@ -1790,7 +1817,6 @@ TableToolsPlus.prototype = {
 		 
 		var oSetDT = this.s.dt;
 		var nScrollHeadInner = oSetDT.nScrollHead.getElementsByTagName('div')[0];
-		var nScrollHeadTable = nScrollHeadInner.getElementsByTagName('table')[0];
 		var nScrollBody = oSetDT.nTable.parentNode;
 
 		/* Copy the header in the thead in the body table, this way we show one single table when
@@ -1822,7 +1848,8 @@ TableToolsPlus.prototype = {
 			oSetDT.nTable.insertBefore( nTfootSize, oSetDT.nTable.childNodes[1] );
 		}
 		
-		/* Now adjust the table's viewport so we can actually see it */
+		// Now adjust the table's viewport so we can actually see it
+		
 		if( oSetDT.oScroll.sX !== "" ){
 		    
 			oSetDT.nTable.style.width = $(oSetDT.nTable).outerWidth()+"px";
@@ -1874,7 +1901,7 @@ TableToolsPlus.prototype = {
 	    
 		var anHidden = this.dom.print.hidden;
 	  
-		for( var i=0, iLen=anHidden.length ; i<iLen ; i++ ){
+		for(var i=0; i < anHidden.length; i++){
 		    
 			anHidden[i].node.style.display = anHidden[i].display;
 		}
@@ -1898,7 +1925,9 @@ TableToolsPlus.prototype = {
 		var nParent = nNode.parentNode;
 		var nChildren = nParent.childNodes;
 		
-		for( var i=0, iLen=nChildren.length ; i<iLen ; i++ ){
+		var iLen = nChildren.length; // Caching to prevent .length() running on each loop iteration
+		
+		for(var i=0; i < iLen; i++){
 		    
 			if( nChildren[i] != nNode && nChildren[i].nodeType == 1 ){
 			    
@@ -1967,8 +1996,9 @@ TableToolsPlus._aListeners = [];
 TableToolsPlus.fnGetMasters = function(){
     
 	var a = [];
+	var iLen = TableToolsPlus._aInstances.length; // Caching to prevent .length() running on each loop iteration
 	
-	for( var i=0, iLen=TableToolsPlus._aInstances.length ; i<iLen ; i++ ){
+	for(var i=0; i < iLen; i++){
 	    	    
 		if(TableToolsPlus._aInstances[i].s.master){
 		    
@@ -1994,7 +2024,9 @@ TableToolsPlus.fnGetInstance = function(node){
 		node = document.getElementById(node);
 	}
 	
-	for( var i=0, iLen=TableToolsPlus._aInstances.length ; i<iLen ; i++ ){
+	var iLen = TableToolsPlus._aInstances.length; // Caching to prevent .length() running on each loop iteration
+	
+	for(var i=0; i < iLen; i++){
 	    
 		if( TableToolsPlus._aInstances[i].s.master && (TableToolsPlus._aInstances[i].dom.table == node) ){
 		    
@@ -2043,8 +2075,9 @@ TableToolsPlus._fnEventListen = function(parent, type, fn){
 TableToolsPlus._fnEventDispatch = function(parent, type, node, selected){
     
 	var listeners = TableToolsPlus._aListeners;
+	var iLen = listeners.length; // Caching to prevent .length() running on each loop iteration
 	
-	for( var i=0, iLen=listeners.length ; i<iLen ; i++ ){
+	for(var i=0; i < iLen; i++){
 	    
 		if( (parent.dom.table == listeners[i].parent.dom.table) && (listeners[i].type == type) ){
 		    
