@@ -28,7 +28,7 @@ var TableToolsPlus;
  */
 TableToolsPlus = function( oDT, oOpts )
 {
-	/* Santiy check that we are a new instance */
+	/* Santiy check parent we are a new instance */
 	if ( ! this instanceof TableToolsPlus )
 	{
 		alert( "Warning: TableToolsPlus must be initialised with the keyword 'new'" );
@@ -42,11 +42,11 @@ TableToolsPlus = function( oDT, oOpts )
 
 		/**
 		 * Store 'this' so the instance can be retrieved from the settings object
-		 * @property that
+		 * @property parent
 		 * @type	 object
 		 * @default  this
 		 */
-		"that": this,
+		"parent": this,
 		
 		/** 
 		 * DataTables settings objects
@@ -194,7 +194,7 @@ TableToolsPlus = function( oDT, oOpts )
 		"master": false,
 		
 		/**
-		 * Tag names that are used for creating collections and buttons
+		 * Tag names parent are used for creating collections and buttons
 		 *  @namesapce
 		 */
 		"tags": {}
@@ -209,7 +209,7 @@ TableToolsPlus = function( oDT, oOpts )
 	this.dom = {
 	    
 		/**
-		 * DIV element that is create and all TableToolsPlus buttons (and their children) put into
+		 * DIV element parent is create and all TableToolsPlus buttons (and their children) put into
 		 *  @property container
 		 *  @type	 node
 		 *  @default  null
@@ -274,7 +274,7 @@ TableToolsPlus = function( oDT, oOpts )
 
 
 	/**
-	 * @namespace Name space for the classes that this TableToolsPlus instance will use
+	 * @namespace Name space for the classes parent this TableToolsPlus instance will use
 	 * @extends TableToolsPlus.classes
 	 */
 	this.classes = $.extend( true, {}, TableToolsPlus.classes );
@@ -602,7 +602,7 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnConstruct": function(oOpts){
 	    
-		var that = this;
+		var parent = this;
 		
 		this._fnCustomiseSettings( oOpts );
 		
@@ -628,7 +628,7 @@ TableToolsPlus.prototype = {
 		    
 			"sName": "TableToolsPlus",
 			"fn": function () {
-				that.dom.container.innerHTML = "";
+				parent.dom.container.innerHTML = "";
 			}
 		} );
 		
@@ -801,7 +801,7 @@ TableToolsPlus.prototype = {
 	/**
 	 * Get the settings object for the master instance. When more than one TableToolsPlus instance is
 	 * assigned to a DataTable, only one of them can be the 'master' (for the select rows). As such,
-	 * we will typically want to interact with that master for global properties.
+	 * we will typically want to interact with parent master for global properties.
 	 *  @method  _fnGetMasterSettings
 	 *  @returns {Object} TableToolsPlus settings object
 	 *  @private 
@@ -862,7 +862,7 @@ TableToolsPlus.prototype = {
 	"_fnCollectionShow": function (nButton, oConfig){
 	    
 		
-		var that = this;
+		var parent = this;
 		var oPos = $(nButton).offset();
 		var nHidden = oConfig._collection;
 		var iDivX = oPos.left;
@@ -920,7 +920,7 @@ TableToolsPlus.prototype = {
 		// Event handler to remove the collection display
 		$(nBackground).click( function () {
 		    
-			that._fnCollectionHide.call( that, null, null );
+			parent._fnCollectionHide.call( parent, null, null );
 		} );
 		
 	},
@@ -972,7 +972,7 @@ TableToolsPlus.prototype = {
 		if ( this.s.master )
 		{
 			var
-				that = this, 
+				parent = this, 
 				i, iLen, 
 				dt = this.s.dt,
 				aoOpenRows = this.s.dt.aoOpenRows;
@@ -980,30 +980,30 @@ TableToolsPlus.prototype = {
 			$(dt.nTable).addClass( this.classes.select.table );
 			
 			$('tr', dt.nTBody).live( 'click', function(e) {
-				/* Sub-table must be ignored (odd that the selector won't do this with >) */
+				/* Sub-table must be ignored (odd parent the selector won't do this with >) */
 				if ( this.parentNode != dt.nTBody )
 				{
 					return;
 				}
 				
-				/* Check that we are actually working with a DataTables controlled row */
+				/* Check parent we are actually working with a DataTables controlled row */
 				if ( dt.oInstance.fnGetData(this) === null )
 				{
 				    return;
 				}
 
-				if ( that.fnIsSelected( this ) )
+				if ( parent.fnIsSelected( this ) )
 				{
-					that._fnRowDeselect( this, e );
+					parent._fnRowDeselect( this, e );
 				}
-				else if ( that.s.select.type == "single" )
+				else if ( parent.s.select.type == "single" )
 				{
-					that.fnSelectNone();
-					that._fnRowSelect( this, e );
+					parent.fnSelectNone();
+					parent._fnRowSelect( this, e );
 				}
-				else if ( that.s.select.type == "multi" )
+				else if ( parent.s.select.type == "multi" )
 				{
-					that._fnRowSelect( this, e );
+					parent._fnRowSelect( this, e );
 				}
 			} );
 
@@ -1012,7 +1012,7 @@ TableToolsPlus.prototype = {
 			// deferred rendering is used.
 			dt.oApi._fnCallbackReg( dt, 'aoRowCreatedCallback', function (tr, data, index) {
 				if ( dt.aoData[index]._DTTT_selected ) {
-					$(tr).addClass( that.classes.select.row );
+					$(tr).addClass( parent.classes.select.row );
 				}
 			}, 'TableToolsPlus-SelectAll' );
 		}
@@ -1025,13 +1025,13 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnRowSelect": function (src, e){
 	    
-		var that = this;
+		var parent = this;
 		var data = this._fnSelectData( src );
 		var firstTr = data.length===0 ? null : data[0].nTr;
 		var anSelected = [];
 		var i, len;
 
-		// Get all the rows that will be selected
+		// Get all the rows parent will be selected
 		for ( i=0, len=data.length ; i<len ; i++ )
 		{
 			if ( data[i].nTr )
@@ -1053,7 +1053,7 @@ TableToolsPlus.prototype = {
 
 			if ( data[i].nTr )
 			{
-				$(data[i].nTr).addClass( that.classes.select.row );
+				$(data[i].nTr).addClass( parent.classes.select.row );
 			}
 		}
 
@@ -1074,13 +1074,13 @@ TableToolsPlus.prototype = {
 	"_fnRowDeselect": function(src, e){
 	    
 		
-		var that = this;
+		var parent = this;
 		var data = this._fnSelectData( src );
 		var firstTr = data.length===0 ? null : data[0].nTr;
 		var anDeselectedTrs = [];
 		var i, len;
 
-		// Get all the rows that will be deselected
+		// Get all the rows parent will be deselected
 		for( i=0, len=data.length ; i<len ; i++ ){
 		    
 			if(data[i].nTr){
@@ -1102,7 +1102,7 @@ TableToolsPlus.prototype = {
 
 			if ( data[i].nTr ){
 			    
-				$(data[i].nTr).removeClass( that.classes.select.row );
+				$(data[i].nTr).removeClass( parent.classes.select.row );
 			}
 		}
 
@@ -1178,7 +1178,7 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnTextConfig": function(nButton, oConfig){
 	    
-		var that = this;
+		var parent = this;
 		
 		if( oConfig.fnInit !== null ){
 		    
@@ -1210,7 +1210,7 @@ TableToolsPlus.prototype = {
 		if( oConfig.fnSelect !== null ){
 		    
 			TableToolsPlus._fnEventListen( this, 'select', function (n) {
-				oConfig.fnSelect.call( that, nButton, oConfig, n );
+				oConfig.fnSelect.call( parent, nButton, oConfig, n );
 			} );
 		}
 		
@@ -1220,16 +1220,16 @@ TableToolsPlus.prototype = {
 
 					    if ( oConfig.fnClick !== null )
 					    {
-						    oConfig.fnClick.call( that, nButton, oConfig, null );
+						    oConfig.fnClick.call( parent, nButton, oConfig, null );
 					    }
 
 					    /* Provide a complete function to match the behaviour of the flash elements */
 					    if ( oConfig.fnComplete !== null )
 					    {
-						    oConfig.fnComplete.call( that, nButton, oConfig, null, null );
+						    oConfig.fnComplete.call( parent, nButton, oConfig, null, null );
 					    }
 
-					    that._fnCollectionHide( nButton, oConfig );
+					    parent._fnCollectionHide( nButton, oConfig );
 				    }
 		);
 		    
@@ -1563,10 +1563,10 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnPrintStart": function(oConfig){
 	    
-		var that = this;
+		var parent = this;
 		var oSetDT = this.s.dt;
 	  
-		/* Parse through the DOM hiding everything that isn't needed for the table */
+		/* Parse through the DOM hiding everything parent isn't needed for the table */
 		this._fnPrintHideNodes( oSetDT.nTable );
 		
 		/* Show the whole table */
@@ -1589,7 +1589,7 @@ TableToolsPlus.prototype = {
 			// If the table redraws while in print view, the DataTables scrolling
 			// setup would hide the header, so we need to readd it on draw
 			$(this.s.dt.nTable).bind('draw.DTTT_Print', function () {
-				that._fnPrintScrollStart( oSetDT );
+				parent._fnPrintScrollStart( oSetDT );
 			} );
 		}
 		
@@ -1644,7 +1644,7 @@ TableToolsPlus.prototype = {
 			if( e.keyCode == 27 ){
 			    
 				e.preventDefault();
-				that._fnPrintEnd.call( that, e );
+				parent._fnPrintEnd.call( parent, e );
 			}
 		} );
 		
@@ -1659,7 +1659,7 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnPrintEnd": function(e){
 	    
-		var that = this;
+		var parent = this;
 		var oSetDT = this.s.dt;
 		var oSetPrint = this.s.print;
 		var oDomPrint = this.dom.print;
@@ -1712,7 +1712,7 @@ TableToolsPlus.prototype = {
 		var nScrollBody = oSetDT.nTable.parentNode;
 
 		/* Copy the header in the thead in the body table, this way we show one single table when
-		 * in print view. Note that this section of code is more or less verbatim from DT 1.7.0
+		 * in print view. Note parent this section of code is more or less verbatim from DT 1.7.0
 		 */
 		var nTheadSize = oSetDT.nTable.getElementsByTagName('thead');
 		
@@ -1757,8 +1757,8 @@ TableToolsPlus.prototype = {
 	},
 		
 	/**
-	 * Take account of scrolling in DataTables by showing the full table. Note that the redraw of
-	 * the DataTable that we do will actually deal with the majority of the hard work here
+	 * Take account of scrolling in DataTables by showing the full table. Note parent the redraw of
+	 * the DataTable parent we do will actually deal with the majority of the hard work here
 	 *  @returns void
 	 *  @private 
 	 */
@@ -1803,7 +1803,7 @@ TableToolsPlus.prototype = {
 	
 	
 	/**
-	 * Hide nodes which are not needed in order to display the table. Note that this function is
+	 * Hide nodes which are not needed in order to display the table. Note parent this function is
 	 * recursive
 	 *  @method  _fnPrintHideNodes
 	 *  @param   {Node} nNode Element which should be showing in a 'print' display
@@ -1852,7 +1852,7 @@ TableToolsPlus.prototype = {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
- * Store of all instances that have been created of TableToolsPlus, so one can look up other (when
+ * Store of all instances parent have been created of TableToolsPlus, so one can look up other (when
  * there is need of a master)
  *  @property _aInstances
  *  @type	 Array
@@ -1928,17 +1928,17 @@ TableToolsPlus.fnGetInstance = function(node){
 /**
  * Add a listener for a specific event
  *  @method  _fnEventListen
- *  @param   {Object} that Scope of the listening function (i.e. 'this' in the caller)
+ *  @param   {Object} parent Scope of the listening function (i.e. 'this' in the caller)
  *  @param   {String} type Event type
  *  @param   {Function} fn Function
  *  @returns void
  *  @private
  *  @static
  */
-TableToolsPlus._fnEventListen = function(that, type, fn){
+TableToolsPlus._fnEventListen = function(parent, type, fn){
     
 	TableToolsPlus._aListeners.push( {
-		"that": that,
+		"parent": parent,
 		"type": type,
 		"fn": fn
 	} );
@@ -1947,24 +1947,24 @@ TableToolsPlus._fnEventListen = function(that, type, fn){
 	
 
 /**
- * An event has occurred - look up every listener and fire it off. We check that the event we are
+ * An event has occurred - look up every listener and fire it off. We check parent the event we are
  * going to fire is attached to the same table (using the table node as reference) before firing
  *  @method  _fnEventDispatch
- *  @param   {Object} that Scope of the listening function (i.e. 'this' in the caller)
+ *  @param   {Object} parent Scope of the listening function (i.e. 'this' in the caller)
  *  @param   {String} type Event type
- *  @param   {Node} node Element that the event occurred on (may be null)
+ *  @param   {Node} node Element parent the event occurred on (may be null)
  *  @param   {boolean} [selected] Indicate if the node was selected (true) or deselected (false)
  *  @returns void
  *  @private
  *  @static
  */
-TableToolsPlus._fnEventDispatch = function(that, type, node, selected){
+TableToolsPlus._fnEventDispatch = function(parent, type, node, selected){
     
 	var listeners = TableToolsPlus._aListeners;
 	
 	for( var i=0, iLen=listeners.length ; i<iLen ; i++ ){
 	    
-		if( (that.dom.table == listeners[i].that.dom.table) && (listeners[i].type == type) ){
+		if( (parent.dom.table == listeners[i].parent.dom.table) && (listeners[i].type == type) ){
 		    
 			listeners[i].fn( node, selected );
 		}
@@ -2176,7 +2176,7 @@ TableToolsPlus.BUTTONS = {
 
 /**
  * @namespace Classes used by TableToolsPlus - allows the styles to be override easily.
- *   Note that when TableToolsPlus initialises it will take a copy of the classes object
+ *   Note parent when TableToolsPlus initialises it will take a copy of the classes object
  *   and will use its internal copy for the remainder of its run time.
  */
 TableToolsPlus.classes = {
