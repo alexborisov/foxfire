@@ -495,8 +495,7 @@ TableToolsPlus.prototype = {
 	 *  @returns {Array} Unity array of column ratios
 	 */
 	"fnCalcColRatios": function(oConfig){
-		
-		
+				
 		var aoCols = this.s.dt.aoColumns;		
 		var aColumnsInc = this._fnColumnTargets( oConfig.mColumns );		
 		var aColWidths = [];
@@ -532,10 +531,10 @@ TableToolsPlus.prototype = {
 	
 		// In future this could be used to get data from a plain HTML source as well as DataTables
 	
-		if(this.s.d ){
+		if(this.s.d){
 	
 			return this._fnGetDataTablesData(oConfig);
-				}
+		}
 	
 	},
 	
@@ -573,20 +572,22 @@ TableToolsPlus.prototype = {
 	 *  @param {string} message The HTML string to show to the user
 	 *  @param {int} time The duration the message is to be shown on screen for (mS)
 	 */
-	"fnInfo": function (message, time){
+	"fnInfo": function(message, time){
 	    
 		var nInfo = document.createElement( "div" );
+		
 		nInfo.className = this.classes.print.info;
 		nInfo.innerHTML = message;
 
 		document.body.appendChild( nInfo );
 		
-		setTimeout( function() {
-			$(nInfo).fadeOut( "normal", function() {
-					    
-				document.body.removeChild( nInfo );
-			} );
-	},
+		setTimeout( function(){
+		    
+				    $(nInfo).fadeOut( "normal", function() {
+
+					    document.body.removeChild( nInfo );
+				    });
+			    },
 			    time 
 		);
 	
@@ -664,8 +665,8 @@ TableToolsPlus.prototype = {
 		this.s.select.postDeselected = this.s.custom.fnRowDeselected;
 
 		// Backwards compatibility - allow the user to specify a custom class in the initialiser
-		if ( this.s.custom.sSelectedClass )
-		{
+		if(this.s.custom.sSelectedClass){
+		    
 			this.classes.select.row = this.s.custom.sSelectedClass;
 		}
 
@@ -690,7 +691,7 @@ TableToolsPlus.prototype = {
 	    
 		var buttonDef;
 		
-		for ( var i=0, iLen=buttonSet.length ; i<iLen ; i++ ){
+		for( var i=0, iLen=buttonSet.length ; i<iLen ; i++ ){
 		    
 			if( typeof buttonSet[i] == "string" ){
 			    
@@ -704,7 +705,7 @@ TableToolsPlus.prototype = {
 			}
 			else {
 			    
-				if ( typeof TableToolsPlus.BUTTONS[ buttonSet[i].sExtends ] == 'undefined' ){
+				if( typeof TableToolsPlus.BUTTONS[ buttonSet[i].sExtends ] == 'undefined' ){
 				    
 					alert( "TableToolsPlus: Warning - unknown button type: "+buttonSet[i].sExtends );
 					continue;
@@ -732,7 +733,7 @@ TableToolsPlus.prototype = {
 	 *  @returns {Node} Button element
 	 *  @private 
 	 */
-	"_fnCreateButton": function (oConfig, bCollectionButton){
+	"_fnCreateButton": function(oConfig, bCollectionButton){
 	    
 		var nButton = this._fnButtonBase(oConfig, bCollectionButton);
 		
@@ -806,7 +807,7 @@ TableToolsPlus.prototype = {
 	 *  @returns {Object} TableToolsPlus settings object
 	 *  @private 
 	 */
-	"_fnGetMasterSettings": function (){
+	"_fnGetMasterSettings": function(){
 	    
 		if(this.s.master){
 		    
@@ -840,7 +841,7 @@ TableToolsPlus.prototype = {
 	 *  @returns void
 	 *  @private
 	 */
-	"_fnCollectionConfig": function (nButton, oConfig){
+	"_fnCollectionConfig": function(nButton, oConfig){
 	    
 		var nHidden = document.createElement(this.s.tags.collection.container);
 		
@@ -859,7 +860,7 @@ TableToolsPlus.prototype = {
 	 *  @returns void
 	 *  @private
 	 */
-	"_fnCollectionShow": function (nButton, oConfig){
+	"_fnCollectionShow": function(nButton, oConfig){
 	    
 		
 		var parent = this;
@@ -909,16 +910,19 @@ TableToolsPlus.prototype = {
 		// This results in a very small delay for the end user but it allows the animation to be
 		// much smoother. If you don't want the animation, then the setTimeout can be removed
 
-		setTimeout( function () {
-			$(nHidden).animate({"opacity": 1}, 500);
-			$(nBackground).animate({"opacity": 0.25}, 500);
-		}, 10 );
+		setTimeout( function(){
+		    
+				    $(nHidden).animate({"opacity": 1}, 500);
+				    $(nBackground).animate({"opacity": 0.25}, 500);
+			    }, 
+			    10 
+		);
 
 		// Resize the buttons to the Flash contents fit
 		this.fnResizeButtons();
 		
 		// Event handler to remove the collection display
-		$(nBackground).click( function () {
+		$(nBackground).click( function(){
 		    
 			parent._fnCollectionHide.call( parent, null, null );
 		} );
@@ -933,20 +937,20 @@ TableToolsPlus.prototype = {
 	 *  @returns void
 	 *  @private
 	 */
-	"_fnCollectionHide": function (nButton, oConfig){
+	"_fnCollectionHide": function(nButton, oConfig){
 	    
-		if ( oConfig !== null && oConfig.sExtends == 'collection' )
-		{
+		if ( oConfig !== null && oConfig.sExtends == 'collection' ){
+		    
 			return;
 		}
 		
-		if ( this.dom.collection.collection !== null )
-		{
-			$(this.dom.collection.collection).animate({"opacity": 0}, 500, function (e) {
+		if( this.dom.collection.collection !== null ){
+		    
+			$(this.dom.collection.collection).animate({"opacity": 0}, 500, function(e){
 				this.style.display = "none";
 			} );
 			
-			$(this.dom.collection.background).animate({"opacity": 0}, 500, function (e) {
+			$(this.dom.collection.background).animate({"opacity": 0}, 500, function(e){
 				this.parentNode.removeChild( this );
 			} );
 			
@@ -967,43 +971,44 @@ TableToolsPlus.prototype = {
 	 *  @returns void
 	 *  @private 
 	 */
-	"_fnRowSelectConfig": function (){
+	"_fnRowSelectConfig": function(){
 	    
-		if ( this.s.master )
-		{
-			var
-				parent = this, 
-				i, iLen, 
-				dt = this.s.dt,
-				aoOpenRows = this.s.dt.aoOpenRows;
+		if(this.s.master){
+		    
+			
+			var parent = this;
+			var i, iLen;
+			var dt = this.s.dt;
+			var aoOpenRows = this.s.dt.aoOpenRows;
 			
 			$(dt.nTable).addClass( this.classes.select.table );
 			
-			$('tr', dt.nTBody).live( 'click', function(e) {
+			$('tr', dt.nTBody).live( 'click', function(e){
+			    
 				/* Sub-table must be ignored (odd parent the selector won't do this with >) */
-				if ( this.parentNode != dt.nTBody )
-				{
+				if( this.parentNode != dt.nTBody ){
+				    
 					return;
 				}
 				
 				/* Check parent we are actually working with a DataTables controlled row */
-				if ( dt.oInstance.fnGetData(this) === null )
-				{
-				    return;
+				if( dt.oInstance.fnGetData(this) === null ){
+				    
+					return;
 				}
 
-				if ( parent.fnIsSelected( this ) )
-				{
-					parent._fnRowDeselect( this, e );
+				if( parent.fnIsSelected(this) ){
+				    
+					parent._fnRowDeselect(this, e);
 				}
-				else if ( parent.s.select.type == "single" )
-				{
+				else if( parent.s.select.type == "single" ){
+				    
 					parent.fnSelectNone();
-					parent._fnRowSelect( this, e );
+					parent._fnRowSelect(this, e);
 				}
-				else if ( parent.s.select.type == "multi" )
-				{
-					parent._fnRowSelect( this, e );
+				else if( parent.s.select.type == "multi" ){
+				    
+					parent._fnRowSelect(this, e);
 				}
 			} );
 
@@ -1011,9 +1016,12 @@ TableToolsPlus.prototype = {
 			// This allows rows to be visually selected when they should be and
 			// deferred rendering is used.
 			dt.oApi._fnCallbackReg( dt, 'aoRowCreatedCallback', function (tr, data, index) {
-				if ( dt.aoData[index]._DTTT_selected ) {
+			    
+				if( dt.aoData[index]._DTTT_selected ){
+				    
 					$(tr).addClass( parent.classes.select.row );
 				}
+				
 			}, 'TableToolsPlus-SelectAll' );
 		}
 	},
@@ -1023,7 +1031,7 @@ TableToolsPlus.prototype = {
 	 *  @param   {*} src Rows to select - see _fnSelectData for a description of valid inputs
 	 *  @private 
 	 */
-	"_fnRowSelect": function (src, e){
+	"_fnRowSelect": function(src, e){
 	    
 		var parent = this;
 		var data = this._fnSelectData( src );
@@ -1032,38 +1040,39 @@ TableToolsPlus.prototype = {
 		var i, len;
 
 		// Get all the rows parent will be selected
-		for ( i=0, len=data.length ; i<len ; i++ )
-		{
-			if ( data[i].nTr )
-			{
+		for( i=0, len=data.length ; i<len ; i++ ){
+		    
+			if(data[i].nTr){
+			    
 				anSelected.push( data[i].nTr );
 			}
 		}
 		
 		// User defined pre-selection function
-		if ( this.s.select.preRowSelect !== null && !this.s.select.preRowSelect.call(this, e, anSelected, true) )
-		{
+		if( (this.s.select.preRowSelect !== null) && !this.s.select.preRowSelect.call(this, e, anSelected, true) ){
+		    
 			return;
 		}
 
 		// Mark them as selected
-		for ( i=0, len=data.length ; i<len ; i++ )
-		{
+		for( i=0, len=data.length ; i<len ; i++ ){
+		    
 			data[i]._DTTT_selected = true;
 
-			if ( data[i].nTr )
-			{
+			if( data[i].nTr ){
+			    
 				$(data[i].nTr).addClass( parent.classes.select.row );
 			}
 		}
 
 		// Post-selection function
-		if ( this.s.select.postSelected !== null )
-		{
+		if( this.s.select.postSelected !== null ){
+		    
 			this.s.select.postSelected.call( this, anSelected );
 		}
 
 		TableToolsPlus._fnEventDispatch( this, 'select', anSelected, true );
+		
 	},
 
 	/**
@@ -1122,8 +1131,8 @@ TableToolsPlus.prototype = {
 	 *     points or an array of aoData indexes
 	 *   @returns {array} An array of aoData points
 	 */
-	"_fnSelectData": function( src)
-	{
+	"_fnSelectData": function( src){
+	    
 		var out = [];
 		var pos, i, iLen;
 
@@ -1134,7 +1143,7 @@ TableToolsPlus.prototype = {
 			out.push(this.s.dt.aoData[pos]);
 			
 		}
-		else if(typeof src.length !== 'undefined'){
+		else if( typeof src.length !== 'undefined' ){
 		    
 			// jQuery object or an array of nodes, or aoData points
 			for( i=0, iLen=src.length ; i<iLen ; i++ ){
