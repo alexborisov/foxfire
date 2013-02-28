@@ -54,7 +54,7 @@ TableToolsPlus = function( oDT, oOpts ) {
 		 * @type	 object
 		 * @default  <i>From the oDT init option</i>
 		 */
-		"dt": oDT.fnSettings(),
+		"dt": oDT.fnSettings(), // @see DataTable.models.oRow in dataTables library
 		
 		/**
 		* @namespace Print specific information
@@ -352,7 +352,15 @@ TableToolsPlus.prototype = {
 			if(evt.which == 16){ 
 
 				parent._shiftKeyActive = true;
+			}	
+			
+			// ESCAPE on Windows and Mac
+			
+			if(evt.which == 27){ 
+
+				parent.fnSelectNone();	// Deselect all rows
 			}			
+						
 				
 		}).keyup(function(evt) {
 			    
@@ -1089,12 +1097,15 @@ TableToolsPlus.prototype = {
 		if(this.s.master){
 		    			
 			var parent = this;
-			var dt = this.s.dt;
+			var dt = this.s.dt;						
 			
 			$(dt.nTable).addClass(this.classes.select.table);
 			
 			$('tr', dt.nTBody).live( 'click', function(e){
 			    
+				var anSelected = [];
+				var i;	
+				
 				// Sub-table must be ignored (odd that the selector won't do this with >)
 				if( this.parentNode != dt.nTBody ){
 				    
@@ -1110,18 +1121,103 @@ TableToolsPlus.prototype = {
 		
 				if(parent._ctrlKeyActive){
 		    
+		    
+					// Get all the rows that will be selected
+					var data = parent._fnSelectData(this);
+					var iLen = data.length;  // Caching to prevent .length() running on each loop iteration
+					
+						
 					if( parent.fnIsSelected(this) ){
 
-						parent._fnRowDeselect(this, e);
+						var anDeselectedTrs = [];
+
+						for(i=0; i < iLen; i++){
+
+							if(data[i].nTr){
+
+								anDeselectedTrs.push( data[i].nTr );
+							}
+						}
+
+						// User defined pre-selection function
+						if( (parent.s.select.preRowSelect !== null) 
+						    && !parent.s.select.preRowSelect.call(parent, e, anDeselectedTrs, false) )
+						{
+
+							return;
+						}
+
+						for(i=0; i < data.length; i++){
+
+							data[i]._DTTT_selected = false;
+
+							if( data[i].nTr ){
+
+								$(data[i].nTr).removeClass(parent.classes.select.row);
+							}
+						}
+
+						// Post-deselection function
+						if( parent.s.select.postDeselected !== null ){
+
+							parent.s.select.postDeselected.call( parent, anDeselectedTrs );
+						}
+
+						TableToolsPlus._fnEventDispatch( parent, 'select', anDeselectedTrs, false );
+						
 					}
 					else {
 
-						parent._fnRowSelect(this, e);
+						for(i=0; i < iLen; i++){
+
+							if(data[i].nTr){
+
+								anSelected.push(data[i].nTr);
+							}
+						}
+
+						// User defined pre-selection function
+						
+						if( (parent.s.select.preRowSelect !== null) 
+						    && !parent.s.select.preRowSelect.call(parent, e, anSelected, true) )
+						{
+							return;
+						}
+
+						for(i=0; i < iLen; i++){
+
+							data[i]._DTTT_selected = true;
+
+							if(data[i].nTr){
+
+								$(data[i].nTr).addClass( parent.classes.select.row );
+							}
+						}
+
+						// Post-selection function
+						
+						if( parent.s.select.postSelected !== null ){
+
+							parent.s.select.postSelected.call( parent, anSelected );
+						}
+
+						TableToolsPlus._fnEventDispatch( parent, 'select', anSelected, true );
+						
 					}
 				
 				}
 				else if(parent._shiftKeyActive){
 				    
+				    // If no rows selected, select from [row 0] down to [clicked row]
+				    
+				    // If rows selected, and [clicked row] is below last row in group,
+				    // select from [last row in group] to [clicked row]
+				    
+				    // If rows selected, and [clicked row] is above first row in group,
+				    // select from [first row in group] to [clicked row]
+				    
+				    // If rows selected, and [clicked row] is between first and last rows in group,
+				    // select from [last row in group] to [clicked row]
 				    
 				}
 				else {
@@ -1131,19 +1227,6 @@ TableToolsPlus.prototype = {
 				    
 				}
 				
-//				if( parent.fnIsSelected(this) ){
-//				    
-//					parent._fnRowDeselect(this, e);
-//				}
-//				else if( parent.s.select.type == "single" ){
-//				    
-//					parent.fnSelectNone();
-//					parent._fnRowSelect(this, e);
-//				}
-//				else if( parent.s.select.type == "multi" ){
-//				    
-//					parent._fnRowSelect(this, e);
-//				}
 				
 			} );
 
