@@ -1118,113 +1118,109 @@ TableToolsPlus.prototype = {
 					return;
 				}
 
-		
+				// Get all the rows that will be selected
+				var data = parent._fnSelectData(this);
+				var iLen = data.length;  // Caching to prevent .length() running on each loop iteration
+				
+				// Emulate CTRL key functionality
+				// =================================================================
+					
 				if(parent._ctrlKeyActive){
 		    
-		    
-					// Get all the rows that will be selected
-					var data = parent._fnSelectData(this);
-					var iLen = data.length;  // Caching to prevent .length() running on each loop iteration
-					
-						
 					if( parent.fnIsSelected(this) ){
 
-						var anDeselectedTrs = [];
+						parent._fnRowDeselect(this, e);						
+					}
+					else {
+						parent._fnRowSelect(this, e);						
+					}				
+				}
+				
+				// Emulate SHIFT key functionality
+				// =================================================================		
+				
+				else if(parent._shiftKeyActive){
+				    
+				    
+					var allRows = parent._fnSelectData($('.DTTT_selectable tbody tr').get());
+					var selectedRows = parent._fnSelectData($('.DTTT_selectable tbody tr.DTTT_selected').get());
 
-						for(i=0; i < iLen; i++){
+					var clickedRow = parent._fnSelectData(this)[0];
+					var clickedRowOffset = clickedRow.nTr._DT_RowIndex;	
+					
 
-							if(data[i].nTr){
+					// If no rows selected, select from [first row in table] down to [clicked row]
 
-								anDeselectedTrs.push( data[i].nTr );
-							}
-						}
-
-						// User defined pre-selection function
-						if( (parent.s.select.preRowSelect !== null) 
-						    && !parent.s.select.preRowSelect.call(parent, e, anDeselectedTrs, false) )
-						{
-
-							return;
-						}
-
-						for(i=0; i < data.length; i++){
-
-							data[i]._DTTT_selected = false;
-
-							if( data[i].nTr ){
-
-								$(data[i].nTr).removeClass(parent.classes.select.row);
-							}
-						}
-
-						// Post-deselection function
-						if( parent.s.select.postDeselected !== null ){
-
-							parent.s.select.postDeselected.call( parent, anDeselectedTrs );
-						}
-
-						TableToolsPlus._fnEventDispatch( parent, 'select', anDeselectedTrs, false );
+					if(selectedRows.length == 0){
 						
+						iLen = allRows.length;
+						
+						for(i=0; i <= clickedRowOffset; i++){
+
+							allRows[i]._DTTT_selected = true;
+							$(allRows[i].nTr).addClass( parent.classes.select.row );						    
+						}					
 					}
 					else {
 
-						for(i=0; i < iLen; i++){
-
-							if(data[i].nTr){
-
-								anSelected.push(data[i].nTr);
+						var bestAbove = null;
+						var bestBelow = null;
+						
+						iLen = selectedRows.length;
+						
+						for(i=0; i < iLen; i++){						    
+						    						    
+							if( selectedRows[i].nTr._DT_RowIndex < clickedRowOffset ){
+							    
+								if( (selectedRows[i].nTr._DT_RowIndex > bestAbove) || (bestAbove === null) ){
+    
+									bestAbove = selectedRows[i].nTr._DT_RowIndex;
+								}
 							}
+							else if( selectedRows[i].nTr._DT_RowIndex > clickedRowOffset ){
+							    
+								if( (selectedRows[i].nTr._DT_RowIndex > bestBelow) || (bestBelow === null)){
+    
+									bestBelow = selectedRows[i].nTr._DT_RowIndex;
+								}
+							}														
 						}
-
-						// User defined pre-selection function
 						
-						if( (parent.s.select.preRowSelect !== null) 
-						    && !parent.s.select.preRowSelect.call(parent, e, anSelected, true) )
-						{
-							return;
-						}
-
-						for(i=0; i < iLen; i++){
-
-							data[i]._DTTT_selected = true;
-
-							if(data[i].nTr){
-
-								$(data[i].nTr).addClass( parent.classes.select.row );
-							}
-						}
-
-						// Post-selection function
+						// Clear all currently selected rows
+						parent.fnSelectNone();
 						
-						if( parent.s.select.postSelected !== null ){
-
-							parent.s.select.postSelected.call( parent, anSelected );
-						}
-
-						TableToolsPlus._fnEventDispatch( parent, 'select', anSelected, true );
+						// If [clicked row] is below last row in group, select from 
+						// [last row in group] to [clicked row]
 						
+						if(bestBelow !== null){						    
+
+							for(i=clickedRowOffset; i <= bestBelow; i++){
+
+								allRows[i]._DTTT_selected = true;
+								$(allRows[i].nTr).addClass( parent.classes.select.row );						    
+							}						    						    
+						}
+						
+						// If [clicked row] is above first row in group, or [clicked row] is between 
+						// first and last rows in group, select from [clicked row] to [last row in group]
+						
+						else {
+							for(i=bestAbove; i <= clickedRowOffset; i++){
+
+								allRows[i]._DTTT_selected = true;
+								$(allRows[i].nTr).addClass( parent.classes.select.row );						    
+							}						    						    
+						}						
 					}
+				    
+				}
 				
-				}
-				else if(parent._shiftKeyActive){
-				    
-				    // If no rows selected, select from [row 0] down to [clicked row]
-				    
-				    // If rows selected, and [clicked row] is below last row in group,
-				    // select from [last row in group] to [clicked row]
-				    
-				    // If rows selected, and [clicked row] is above first row in group,
-				    // select from [first row in group] to [clicked row]
-				    
-				    // If rows selected, and [clicked row] is between first and last rows in group,
-				    // select from [last row in group] to [clicked row]
-				    
-				}
-				else {
-				    
+				// Handle no modifier key pressed
+				// =================================================================
+				
+				else {				    
 					parent.fnSelectNone();
-					parent._fnRowSelect(this, e);				    
-				    
+					parent._fnRowSelect(this, e);				    				    
 				}
 				
 				
