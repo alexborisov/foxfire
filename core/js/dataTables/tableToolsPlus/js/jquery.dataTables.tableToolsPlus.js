@@ -294,8 +294,7 @@ TableToolsPlus = function( oDT, oOpts ) {
 	    
 		return this.s;
 	}
-	
-	
+		
 	/* Constructor logic */
 	if(typeof oOpts == 'undefined'){
 	    
@@ -378,7 +377,8 @@ TableToolsPlus.prototype = {
 
 				parent._shiftKeyActive = false;
 			}						
-		});		
+		});	
+		
 		
 		// Container element 
 		
@@ -1150,6 +1150,7 @@ TableToolsPlus.prototype = {
 					
 
 					// If no rows selected, select from [first row in table] down to [clicked row]
+					// ----------------------------------------------------------------------------
 
 					if(selectedRows.length == 0){
 						
@@ -1190,7 +1191,8 @@ TableToolsPlus.prototype = {
 						parent.fnSelectNone();
 						
 						// If [clicked row] is below last row in group, select from 
-						// [last row in group] to [clicked row]
+						// [last row in group] to [clicked row]						
+						// ----------------------------------------------------------------------------
 						
 						if(bestBelow !== null){						    
 
@@ -1203,6 +1205,7 @@ TableToolsPlus.prototype = {
 						
 						// If [clicked row] is above first row in group, or [clicked row] is between 
 						// first and last rows in group, select from [clicked row] to [last row in group]
+						// ----------------------------------------------------------------------------
 						
 						else {
 							for(i=bestAbove; i <= clickedRowOffset; i++){

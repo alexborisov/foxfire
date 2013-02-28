@@ -176,6 +176,12 @@ button.DTTT_button_collection:hover span {
 table.DTTT_selectable tbody tr {
 	cursor: pointer;
 	*cursor: hand;
+	
+	/* Prevent row text from being highlighted */
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;	
 }
 
 table.dataTable tr.DTTT_selected.odd {
