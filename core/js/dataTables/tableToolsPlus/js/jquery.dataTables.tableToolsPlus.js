@@ -8,9 +8,7 @@
  * @contact     https://github.com/foxly
  */
 
-
-/* Global scope for TableToolsPlus */
-var TableToolsPlus;
+var TableToolsPlus;  // Global scope for TableToolsPlus 
 
 (function($, window, document) {
 
@@ -26,18 +24,20 @@ var TableToolsPlus;
  * @param {Function} oOpts.fnRowDeselected Callback function when row is deselected
  * @param {Array} oOpts.aButtons List of buttons to be used
  */
-TableToolsPlus = function( oDT, oOpts )
-{
-	/* Santiy check parent we are a new instance */
+TableToolsPlus = function( oDT, oOpts ) {
+    
+    
+	// Sanity check parent we're a new instance 
+	
 	if ( ! this instanceof TableToolsPlus )
 	{
 		alert( "Warning: TableToolsPlus must be initialised with the keyword 'new'" );
 	}
 	
 	/**
-	 * @namespace Settings object which contains customisable information for TableToolsPlus instance
+	* @namespace Settings object which contains customisable information for TableToolsPlus instance
 	* ==========================================================================================================
-	 */
+	*/
 	this.s = {
 
 		/**
@@ -57,57 +57,57 @@ TableToolsPlus = function( oDT, oOpts )
 		"dt": oDT.fnSettings(),
 		
 		/**
-		 * @namespace Print specific information
+		* @namespace Print specific information
 		* ===================================================================================
-		 */
+		*/
 		"print": {
 
 			/** 
-			 * DataTables draw 'start' point before the printing display was shown
-			 *  @property saveStart
-			 *  @type	 int
-			 *  @default  -1
-		 	 */
-		  "saveStart": -1,
-			
+			* DataTables draw 'start' point before the printing display was shown
+			*  @property saveStart
+			*  @type	 int
+			*  @default  -1
+			*/
+			"saveStart": -1,
+
 			/** 
-			 * DataTables draw 'length' point before the printing display was shown
-			 *  @property saveLength
-			 *  @type	 int
-			 *  @default  -1
-		 	 */
-		  "saveLength": -1,
-		
+			* DataTables draw 'length' point before the printing display was shown
+			*  @property saveLength
+			*  @type	 int
+			*  @default  -1
+			*/
+			"saveLength": -1,
+
 			/** 
-			 * Page scrolling point before the printing display was shown so it can be restored
-			 *  @property saveScroll
-			 *  @type	 int
-			 *  @default  -1
-		 	 */
-		  "saveScroll": -1,
-		
+			* Page scrolling point before the printing display was shown so it can be restored
+			*  @property saveScroll
+			*  @type	 int
+			*  @default  -1
+			*/
+			"saveScroll": -1,
+
 			/** 
-			 * Wrapped function to end the print display (to maintain scope)
-			 *  @property funcEnd
-		 	 *  @type	 Function
-			 *  @default  function () {}
-		 	 */
-		  "funcEnd": function () {}
+			* Wrapped function to end the print display (to maintain scope)
+			*  @property funcEnd
+			*  @type	 Function
+			*  @default  function () {}
+			*/
+			"funcEnd": function () {}
 
 	  },
 	
-		/**
-		 * A unique ID is assigned to each button in each instance
-		 * @property buttonCounter
-		 *  @type	 int
-		 * @default  0
-		 */
-	  "buttonCounter": 0,
+	/**
+	* A unique ID is assigned to each button in each instance
+	* @property buttonCounter
+	*  @type	 int
+	* @default  0
+	*/
+	"buttonCounter": 0,
 		
 		/**
-		 * @namespace Select rows specific information
+		* @namespace Select rows specific information
 		* ===================================================================================
-		 */
+		*/
 		"select": {
 		    
 			/**
@@ -203,9 +203,9 @@ TableToolsPlus = function( oDT, oOpts )
 	
 	
 	/**
-	 * @namespace Common and useful DOM elements for the class instance
+	* @namespace Common and useful DOM elements for the class instance
 	* ==========================================================================================================
-	 */
+	*/
 	this.dom = {
 	    
 		/**
@@ -225,18 +225,18 @@ TableToolsPlus = function( oDT, oOpts )
 		"table": null,
 		
 		/**
-		 * @namespace Nodes used for the print display
+		* @namespace Nodes used for the print display
 		* ===================================================================================
-		 */
+		*/
 		"print": {
 		    
 			/**
 			 * Nodes which have been removed from the display by setting them to display none
 			 *  @property hidden
-			 *  @type	 array
+			 *  @type array
 		 	 *  @default  []
 			 */
-		  "hidden": [],
+			"hidden": [],
 			
 			/**
 			 * The information display saying telling the user about the print display
@@ -244,19 +244,19 @@ TableToolsPlus = function( oDT, oOpts )
 			 *  @type	 node
 		 	 *  @default  null
 			 */
-		  "message": null
-	  },
+			"message": null
+		},
 		
 		/**
-		 * @namespace Nodes used for a collection display. This contains the currently used collection
+		* @namespace Nodes used for a collection display. This contains the currently used collection
 		* ===================================================================================
-		 */
+		*/
 		"collection": {
 		    
 			/**
 			 * The div wrapper containing the buttons in the collection (i.e. the menu)
 			 *  @property collection
-			 *  @type	 node
+			 *  @type node
 		 	 *  @default  null
 			 */
 			"collection": null,
@@ -264,7 +264,7 @@ TableToolsPlus = function( oDT, oOpts )
 			/**
 			 * Background display to provide focus and capture events
 			 *  @property background
-			 *  @type	 node
+			 *  @type node
 		 	 *  @default  null
 			 */
 			"background": null
@@ -312,6 +312,93 @@ TableToolsPlus = function( oDT, oOpts )
 
 TableToolsPlus.prototype = {
 	
+	
+	/**
+	 * Constructor logic
+	 *  @method  _fnConstruct
+	 *  @param   {Object} oOpts Same as TableToolsPlus constructor
+	 *  @returns void
+	 *  @private 
+	 */
+	"_fnConstruct": function(oOpts){
+	    
+		this._ctrlKeyActive = false;
+		this._shiftKeyActive = false;
+		
+		var parent = this;
+		
+		this._fnCustomiseSettings(oOpts);		
+		
+		// Register keydown functions, so we can track the state of the CTRL
+		// and SHIFT keys through private variables
+		// =========================================================================
+		
+		// @see http://stackoverflow.com/questions/2445613/how-can-i-check-if-key-is-pressed-during-click-event-with-jquery
+		// @see http://stackoverflow.com/questions/3834175/jquery-key-code-for-command-key
+		// @see http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+		
+		$(window).keydown(function(evt) {
+		    			 			
+			if( (evt.which == 17)		// CTRL on Windows
+			    || (evt.which == 224)	// COMMAND in FireFox			
+			    || (evt.which == 91)	// COMMAND (LEFT) on Mac, in Chrome / Safari
+			    || (evt.which == 93) ){	// COMMAND (RIGHT) on Mac, in Chrome / Safari
+
+				parent._ctrlKeyActive = true;
+			}
+			
+			// SHIFT on Windows and Mac
+			
+			if(evt.which == 16){ 
+
+				parent._shiftKeyActive = true;
+			}			
+				
+		}).keyup(function(evt) {
+			    
+			if( (evt.which == 17)		// CTRL on Windows
+			    || (evt.which == 224)	// COMMAND in FireFox			
+			    || (evt.which == 91)	// COMMAND (LEFT) on Mac, in Chrome / Safari
+			    || (evt.which == 93) ){	// COMMAND (RIGHT) on Mac, in Chrome / Safari
+
+				parent._ctrlKeyActive = false;
+			}
+			
+			// SHIFT on Windows and Mac
+			
+			if(evt.which == 16){
+
+				parent._shiftKeyActive = false;
+			}						
+		});		
+		
+		// Container element 
+		
+		this.dom.container = document.createElement(this.s.tags.container);
+		this.dom.container.className = this.classes.container;
+		
+		// Row selection config
+		
+		if( this.s.select.type != 'none' ){
+		    
+			this._fnRowSelectConfig();
+		}
+		
+		// Buttons
+		
+		this._fnButtonDefinations(this.s.buttonSet, this.dom.container);
+		
+		// Destructor - need to wipe the DOM for IE's garbage collector
+		
+		this.s.dt.aoDestroyCallback.push( {
+		    
+			"sName": "TableToolsPlus",
+			"fn": function(){			    
+				parent.dom.container.innerHTML = "";
+			}
+		} );
+		
+	},
 	
 	/**
 	 * Retreieve the settings object from an instance
@@ -612,48 +699,6 @@ TableToolsPlus.prototype = {
 			    time 
 		);
 	
-	},
-	
-	
-	/**
-	 * Constructor logic
-	 *  @method  _fnConstruct
-	 *  @param   {Object} oOpts Same as TableToolsPlus constructor
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnConstruct": function(oOpts){
-	    
-		var parent = this;
-		
-		this._fnCustomiseSettings(oOpts);
-		
-		// Container element 
-		
-		this.dom.container = document.createElement(this.s.tags.container);
-		this.dom.container.className = this.classes.container;
-		
-		// Row selection config
-		
-		if( this.s.select.type != 'none' ){
-		    
-			this._fnRowSelectConfig();
-		}
-		
-		// Buttons
-		
-		this._fnButtonDefinations(this.s.buttonSet, this.dom.container);
-		
-		// Destructor - need to wipe the DOM for IE's garbage collector
-		
-		this.s.dt.aoDestroyCallback.push( {
-		    
-			"sName": "TableToolsPlus",
-			"fn": function () {
-				parent.dom.container.innerHTML = "";
-			}
-		} );
-		
 	},
 	
 	/**
@@ -1050,31 +1095,55 @@ TableToolsPlus.prototype = {
 			
 			$('tr', dt.nTBody).live( 'click', function(e){
 			    
-				/* Sub-table must be ignored (odd parent the selector won't do this with >) */
+				// Sub-table must be ignored (odd that the selector won't do this with >)
 				if( this.parentNode != dt.nTBody ){
 				    
 					return;
 				}
 				
-				/* Check parent we are actually working with a DataTables controlled row */
+				// Check that we are actually working with a DataTables controlled row 
 				if( dt.oInstance.fnGetData(this) === null ){
 				    
 					return;
 				}
 
-				if( parent.fnIsSelected(this) ){
-				    
-					parent._fnRowDeselect(this, e);
+		
+				if(parent._ctrlKeyActive){
+		    
+					if( parent.fnIsSelected(this) ){
+
+						parent._fnRowDeselect(this, e);
+					}
+					else {
+
+						parent._fnRowSelect(this, e);
+					}
+				
 				}
-				else if( parent.s.select.type == "single" ){
+				else if(parent._shiftKeyActive){
+				    
+				    
+				}
+				else {
 				    
 					parent.fnSelectNone();
-					parent._fnRowSelect(this, e);
-				}
-				else if( parent.s.select.type == "multi" ){
+					parent._fnRowSelect(this, e);				    
 				    
-					parent._fnRowSelect(this, e);
 				}
+				
+//				if( parent.fnIsSelected(this) ){
+//				    
+//					parent._fnRowDeselect(this, e);
+//				}
+//				else if( parent.s.select.type == "single" ){
+//				    
+//					parent.fnSelectNone();
+//					parent._fnRowSelect(this, e);
+//				}
+//				else if( parent.s.select.type == "multi" ){
+//				    
+//					parent._fnRowSelect(this, e);
+//				}
 				
 			} );
 
@@ -1082,11 +1151,11 @@ TableToolsPlus.prototype = {
 			// This allows rows to be visually selected when they should be and
 			// deferred rendering is used.
 			
-			dt.oApi._fnCallbackReg( dt, 'aoRowCreatedCallback', function (tr, data, index) {
+			dt.oApi._fnCallbackReg( dt, 'aoRowCreatedCallback', function(tr, data, index){
 			    
 				if( dt.aoData[index]._DTTT_selected ){
 				    
-					$(tr).addClass( parent.classes.select.row );
+					$(tr).addClass(parent.classes.select.row);
 				}
 				
 			}, 'TableToolsPlus-SelectAll' );
@@ -1103,14 +1172,15 @@ TableToolsPlus.prototype = {
 	"_fnRowSelect": function(src, e){
 	    
 		var parent = this;
-		
-		var data = this._fnSelectData(src);
+				
 		var anSelected = [];
 		var i, iLen;
-
 		
-		// Get all the rows parent will be selected
+		// Get all the rows that will be selected
+		// =================================================================
 
+		var data = this._fnSelectData(src);
+		
 		iLen = data.length;  // Caching to prevent .length() running on each loop iteration
 		
 		for(i=0; i < iLen; i++){
@@ -1128,6 +1198,7 @@ TableToolsPlus.prototype = {
 		}
 
 		// Mark them as selected
+		// =================================================================
 		
 		iLen = data.length;
 		
@@ -1192,7 +1263,7 @@ TableToolsPlus.prototype = {
 
 			if( data[i].nTr ){
 			    
-				$(data[i].nTr).removeClass( parent.classes.select.row );
+				$(data[i].nTr).removeClass(parent.classes.select.row);
 			}
 		}
 
@@ -1218,17 +1289,16 @@ TableToolsPlus.prototype = {
 		var out = [];
 		var pos, i;
 
+		// Single node
 		if(src.nodeName){
-		    
-			// Single node
+		    			
 			pos = this.s.dt.oInstance.fnGetPosition(src);
-			out.push(this.s.dt.aoData[pos]);
-			
+			out.push(this.s.dt.aoData[pos]);			
 		}
+		
+		// jQuery object or an array of nodes, or aoData points
 		else if( typeof src.length !== 'undefined' ){
-		    
-			// jQuery object or an array of nodes, or aoData points
-			
+		    						
 			var iLen = src.length;  // Caching to prevent .length() running on each loop iteration
 			
 			for(i=0; i < iLen; i++){
@@ -1246,21 +1316,16 @@ TableToolsPlus.prototype = {
 					out.push(src[i]);
 				}
 			}
-
-			return out;
 		}
-		else {
-			// A single aoData point
+		
+		// A single aoData point
+		else {			
 			out.push(src);
 		}
 
 		return out;
 		
-	},
-		
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Text button functions
-	 */
+	},		
 	
 	/**
 	 * Configure a text based button for interaction events
@@ -2002,7 +2067,7 @@ TableToolsPlus.prototype = {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
- * Store of all instances parent have been created of TableToolsPlus, so one can look up other (when
+ * Store of all instances that have been created of TableToolsPlus, so one can look up other (when
  * there is need of a master)
  *  @property _aInstances
  *  @type	 Array
@@ -2453,7 +2518,7 @@ if( (typeof $.fn.dataTable == "function")
 }
 else
 {
-	alert( "Warning: TableToolsPlus 2 requires DataTables 1.9.0 or newer - www.datatables.net/download");
+	alert( "Warning: TableToolsPlus requires DataTables 1.9.0 or newer - www.datatables.net/download");
 }
 
 $.fn.DataTable.TableToolsPlus = TableToolsPlus;
