@@ -2146,7 +2146,30 @@ TableToolsPlus.prototype = {
 			this._fnPrintHideNodes( nParent );
 		}
 		
-	}
+	},
+	
+	/**
+	 * Applies changes made in 'edit' modal dialog to all selected rows
+	 *  @method  _fnEditHandler
+	 *  @param   {Node} nNode Element which should be showing in a 'print' display
+	 *  @returns void
+	 *  @private 
+	 */
+	"_fnEditHandler": function(formFields){
+	    
+		console.log(formFields);
+	 },
+	 
+	/**
+	 * Deletes all currently selected rows
+	 *  @method  _fnDeleteHandler
+	 *  @returns void
+	 *  @private 
+	 */
+	"_fnDeleteHandler": function(){
+	    
+		alert('DELETE!');
+	 }
 	
 };
 
@@ -2390,7 +2413,8 @@ TableToolsPlus.BUTTONS = {
 
 							html_form += '<tr valign="top">';
 							html_form += '<th>' + this.s.custom.aoColumns[i].desc + '</th>';
-							html_form += '<td><input type="text" name="' + i + '" id="' + i + '" class="text ui-widget-content ui-corner-all" /></td>';
+							html_form += '<td><input type="text" name="' + i;
+							html_form += '" id="' + i + '" class="edit_field" /></td>';
 							html_form += '</tr>';
 							
 							form_height += 30;
@@ -2403,6 +2427,7 @@ TableToolsPlus.BUTTONS = {
 
 				html_form += '</div>';		
 				
+				var parent = this;
 			    
 				$(".DTTT_modal_dialog_edit_target").dialog({
 
@@ -2439,10 +2464,21 @@ TableToolsPlus.BUTTONS = {
 					},
 					buttons: {
 					    "Save": function() {
-					    $( this ).dialog( "close" );
+						
+						    var formFields = [];
+						    
+						    $('.DTTT_modal_dialog_edit .edit_field').each(function(){
+							
+							    formFields[$(this).attr('id')] = $(this).val();							
+						    });
+						    
+						    parent._fnEditHandler(formFields);
+						    
+						    $(this).dialog("close");
 					    },
 					    "Cancel": function() {
-					    $( this ).dialog( "close" );
+						
+						    $(this).dialog("close");
 					    }
 					},					
 					height: form_height,
@@ -2476,6 +2512,7 @@ TableToolsPlus.BUTTONS = {
 		"fnClick": function(nButton, oConfig){		    		    
 		    
 			var selectedRowCount = this.fnGetSelected().length;
+			var parent = this;
 			
 			if( selectedRowCount !== 0 ){
 			    
@@ -2517,11 +2554,14 @@ TableToolsPlus.BUTTONS = {
 
 					},
 					buttons: {
-					    "Delete keys": function() {
-					    $( this ).dialog( "close" );
+					    "Delete keys": function(){
+						
+						    $(this).dialog("close");
+						    parent._fnDeleteHandler();
 					    },
-					    "Cancel": function() {
-					    $( this ).dialog( "close" );
+					    "Cancel": function(){
+						
+						    $(this).dialog("close");
 					    }
 					},					
 					height: 100,
