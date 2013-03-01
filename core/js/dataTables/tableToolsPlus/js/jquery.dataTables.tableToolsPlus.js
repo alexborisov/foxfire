@@ -295,7 +295,6 @@ TableToolsPlus = function( oDT, oOpts ) {
 		return this.s;
 	}
 		
-	/* Constructor logic */
 	if(typeof oOpts == 'undefined'){
 	    
 		oOpts = {};
@@ -674,7 +673,7 @@ TableToolsPlus.prototype = {
 
 		if( (bView === undefined) || bView ){
 		    
-			this._fnPrintStart( oConfig );
+			this._fnPrintStart(oConfig);
 		}
 		else{
 		    
@@ -690,18 +689,19 @@ TableToolsPlus.prototype = {
 	 */
 	"fnInfo": function(message, time){
 	    
-		var nInfo = document.createElement( "div" );
+	    
+		var nInfo = document.createElement("div");
 		
 		nInfo.className = this.classes.print.info;
 		nInfo.innerHTML = message;
 
-		document.body.appendChild( nInfo );
+		document.body.appendChild(nInfo);
 		
 		setTimeout( function(){
 		    
 				    $(nInfo).fadeOut( "normal", function() {
 
-					    document.body.removeChild( nInfo );
+					    document.body.removeChild(nInfo);
 				    });
 			    },
 			    time 
@@ -1103,7 +1103,6 @@ TableToolsPlus.prototype = {
 			
 			$('tr', dt.nTBody).live( 'click', function(e){
 			    
-				var anSelected = [];
 				var i;	
 				
 				// Sub-table must be ignored (odd that the selector won't do this with >)
@@ -1140,8 +1139,8 @@ TableToolsPlus.prototype = {
 				// =================================================================		
 				
 				else if(parent._shiftKeyActive){
-				    
-				    
+				    				    
+								    
 					var allRows = parent._fnSelectData($('.DTTT_selectable tbody tr').get());
 					var selectedRows = parent._fnSelectData($('.DTTT_selectable tbody tr.DTTT_selected').get());
 
@@ -1222,8 +1221,16 @@ TableToolsPlus.prototype = {
 				// =================================================================
 				
 				else {				    
-					parent.fnSelectNone();
-					parent._fnRowSelect(this, e);				    				    
+										
+					if( parent.fnIsSelected(this) ){
+					    
+						parent.fnSelectNone();
+						parent._fnRowDeselect(this, e);						
+					}
+					else {
+						parent.fnSelectNone();
+						parent._fnRowSelect(this, e);						
+					}			    				    
 				}
 				
 				
@@ -1853,8 +1860,8 @@ TableToolsPlus.prototype = {
 		var parent = this;
 		var oSetDT = this.s.dt;
 	  
-		// Parse through the DOM hiding everything parent isn't needed for the table
-		this._fnPrintHideNodes( oSetDT.nTable );
+		// Parse through the DOM hiding everything that isn't needed for the table
+		this._fnPrintHideNodes(oSetDT.nTable);
 		
 		// Show the whole table
 		this.s.print.saveStart = oSetDT._iDisplayStart;
@@ -1882,7 +1889,7 @@ TableToolsPlus.prototype = {
 			} );
 		}
 		
-		// Remove the other DataTables feature nodes - but leave the table! and info div
+		// Remove the other DataTables feature nodes - but leave the table and info div
 		var anFeature = oSetDT.aanFeatures;
 		
 		for( var cFeature in anFeature ){
@@ -2335,11 +2342,179 @@ TableToolsPlus.BUTTONS = {
 	} ),
 
 	"text": $.extend( {}, TableToolsPlus.buttonBase ),
+	
+	"edit": $.extend( {}, TableToolsPlus.buttonBase, {
+	    
+		"sButtonText": "Edit",
+		"sToolTip": "Edit selected rows",		
+		"fnClick": function(nButton, oConfig){
+		    
+			if( this.fnGetSelected().length !== 0 ){
+			    
+				var html_titleBar;
+
+				html_titleBar  =  '<div class="fox_title_bar_icon">';
+				html_titleBar  += '<div class="key_manager_icon"></div>';
+				html_titleBar  += '</div>';	    
+				html_titleBar  += '<div class="title_string">Edit Rows</div>';
+				
+				var html_form;
+				
+				html_form =  '<form><fieldset>';
+				html_form += '<label for="name">Name</label>';
+				html_form += '<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />';
+				html_form += '<label for="email">Email</label>';
+				html_form += '<input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" />';
+				html_form += '<label for="password">Password</label>';
+				html_form += '<input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />';
+				html_form += '</fieldset></form>';
+
+
+				$(".modal_dialog").dialog({
+
+					dialogClass:'fox_floating_palette',
+					modal: true,
+					autoOpen: true,
+					resizable: false,					
+
+					// In order to use the "fade" effect below, the script aliases "fox-jquery-effects-core"
+					// and "fox-jquery-effects-fade" have to be included in the page. Other possible effects:
+					// 'blind', 'clip', 'drop', 'explode', 'fold', 'puff', 'slide', 'scale', 'size', 'pulsate'
+
+					show: {effect: "fade", duration: 200},
+					hide: {effect: "fade", duration: 200},
+					open: function(){
+
+						// Because jquery.ui doesn't float the title text inside the title bar, and
+						// has it set up as a <span> its just easier to remove it, then replace
+						// it with our floating icon and floating title text
+
+						$('.fox_floating_palette .ui-dialog-titlebar .ui-dialog-title').remove();
+
+						// Remove our HTML (if it exists) to prevent multiple copies getting added
+						// when the user closes the dialog and opens it again
+
+						$('.fox_floating_palette .ui-dialog-titlebar .fox_title_bar_icon').remove();
+						$('.fox_floating_palette .ui-dialog-titlebar .title_string').remove();
+
+						$('.fox_floating_palette .ui-dialog-titlebar').prepend(html_titleBar);
+						
+						// Set the dialog contents to our HTML
+						$('.modal_dialog').html(html_form);					
+
+					},
+					buttons: {
+					    "Save": function() {
+					    $( this ).dialog( "close" );
+					    },
+					    "Cancel": function() {
+					    $( this ).dialog( "close" );
+					    }
+					},					
+					height: 240,
+					width: 360
+				});	    
+				
+			}
+		},
+		"fnSelect": function(nButton, oConfig){
+		    
+			if( this.fnGetSelected().length !== 0 ){
+			    
+				$(nButton).removeClass(this.classes.buttons.disabled);
+			}
+			else {
+				$(nButton).addClass(this.classes.buttons.disabled);
+			}
+			
+		},
+		"fnInit": function(nButton, oConfig){
+		    
+			$(nButton).addClass( this.classes.buttons.disabled );
+			
+		}		
+	} ),	
+	
+	"delete": $.extend( {}, TableToolsPlus.buttonBase, {
+	    
+		"sButtonText": "Delete",
+		"sToolTip": "Delete selected rows",		
+		"fnClick": function(nButton, oConfig){		    		    
+		    
+			if( this.fnGetSelected().length !== 0 ){
+			    
+				var html_titleBar;
+
+				html_titleBar  =  '<div class="fox_title_bar_icon">';
+				html_titleBar  += '<div class="key_manager_icon"></div>';
+				html_titleBar  += '</div>';	    
+				html_titleBar  += '<div class="title_string">Confirm key delete</div>';
+
+				$(".modal_dialog").dialog({
+
+					dialogClass:'fox_floating_palette',
+					modal: true,
+					autoOpen: true,
+					resizable: false,					
+
+					// In order to use the "fade" effect below, the script aliases "fox-jquery-effects-core"
+					// and "fox-jquery-effects-fade" have to be included in the page. Other possible effects:
+					// 'blind', 'clip', 'drop', 'explode', 'fold', 'puff', 'slide', 'scale', 'size', 'pulsate'
+
+					show: {effect: "fade", duration: 200},
+					hide: {effect: "fade", duration: 200},
+					open: function(){
+
+						// Because jquery.ui doesn't float the title text inside the title bar, and
+						// has it set up as a <span> its just easier to remove it, then replace
+						// it with our floating icon and floating title text
+
+						$('.fox_floating_palette .ui-dialog-titlebar .ui-dialog-title').remove();
+
+						// Remove our HTML (if it exists) to prevent multiple copies getting added
+						// when the user closes the dialog and opens it again
+
+						$('.fox_floating_palette .ui-dialog-titlebar .fox_title_bar_icon').remove();
+						$('.fox_floating_palette .ui-dialog-titlebar .title_string').remove();
+
+						$('.fox_floating_palette .ui-dialog-titlebar').prepend(html_titleBar);
+
+					},
+					buttons: {
+					    "Delete keys": function() {
+					    $( this ).dialog( "close" );
+					    },
+					    "Cancel": function() {
+					    $( this ).dialog( "close" );
+					    }
+					},					
+					height: 100,
+					width: 200
+				});	    
+				
+			}
+		},
+		"fnSelect": function(nButton, oConfig){
+		    
+			if( this.fnGetSelected().length !== 0 ){
+			    
+				$(nButton).removeClass(this.classes.buttons.disabled);
+			}
+			else {
+				$(nButton).addClass(this.classes.buttons.disabled);
+			}
+		},
+		"fnInit": function(nButton, oConfig){
+		    
+			$(nButton).addClass( this.classes.buttons.disabled );
+			
+		}		
+	} ),	
 
 	"select": $.extend( {}, TableToolsPlus.buttonBase, {
 	    
 		"sButtonText": "Select button",
-		"fnSelect": function(nButton, oConfig){
+		"fnSelect": function(nButton, oConfig){		    		    
 		    
 			if( this.fnGetSelected().length !== 0 ){
 			    
@@ -2353,6 +2528,7 @@ TableToolsPlus.BUTTONS = {
 		"fnInit": function(nButton, oConfig){
 		    
 			$(nButton).addClass( this.classes.buttons.disabled );
+			
 		}
 	} ),
 

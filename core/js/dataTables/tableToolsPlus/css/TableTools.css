@@ -99,11 +99,17 @@ a.DTTT_button:hover {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#f4f4f4',GradientType=0 ); /* IE6-9 */
 }
 
-button.DTTT_disabled,
-div.DTTT_disabled,
-a.DTTT_disabled {
+button.DTTT_disabled, button.DTTT_disabled:hover,
+div.DTTT_disabled, div.DTTT_disabled:hover,
+a.DTTT_disabled, a.DTTT_disabled:hover {
 	color: #999;
 	border: 1px solid #d0d0d0;
+	
+	-webkit-box-shadow: 1px 1px 3px #ccc;
+	   -moz-box-shadow: 1px 1px 3px #ccc;
+	    -ms-box-shadow: 1px 1px 3px #ccc;
+	     -o-box-shadow: 1px 1px 3px #ccc;
+	        box-shadow: 1px 1px 3px #ccc;	
 	
 	background: #ffffff; /* Old browsers */
 	background: -webkit-linear-gradient(top, #ffffff 0%,#f9f9f9 89%,#fafafa 100%); /* Chrome10+,Safari5.1+ */
@@ -174,8 +180,8 @@ button.DTTT_button_collection:hover span {
  * Row selection styles
  */
 table.DTTT_selectable tbody tr {
+    
 	cursor: pointer;
-	*cursor: hand;
 	
 	/* Prevent row text from being highlighted */
 	-moz-user-select: none;
