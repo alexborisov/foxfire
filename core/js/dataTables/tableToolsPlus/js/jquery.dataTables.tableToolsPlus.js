@@ -732,6 +732,7 @@ TableToolsPlus.prototype = {
 		// Clone the defaults and then the user options 
 		this.s.custom = $.extend( {}, TableToolsPlus.DEFAULTS, oOpts );
 		
+		
 		// Table row selecting 
 		this.s.select.type = this.s.custom.sRowSelect;
 		this.s.select.preRowSelect = this.s.custom.fnPreRowSelect;
@@ -1871,21 +1872,21 @@ TableToolsPlus.prototype = {
 		    
 			oSetDT._iDisplayStart = 0;
 			oSetDT._iDisplayLength = -1;
-			oSetDT.oApi._fnCalculateEnd( oSetDT );
-			oSetDT.oApi._fnDraw( oSetDT );
+			oSetDT.oApi._fnCalculateEnd(oSetDT);
+			oSetDT.oApi._fnDraw(oSetDT);
 		}
 		
 		// Adjust the display for scrolling which might be done by DataTables
 		
 		if( (oSetDT.oScroll.sX !== "") || (oSetDT.oScroll.sY !== "") ){
 		    
-			this._fnPrintScrollStart( oSetDT );
+			this._fnPrintScrollStart(oSetDT);
 
 			// If the table redraws while in print view, the DataTables scrolling
 			// setup would hide the header, so we need to readd it on draw
 			
 			$(this.s.dt.nTable).bind('draw.DTTT_Print', function () {
-				parent._fnPrintScrollStart( oSetDT );
+				parent._fnPrintScrollStart(oSetDT);
 			} );
 		}
 		
@@ -1916,7 +1917,7 @@ TableToolsPlus.prototype = {
 		// Show information message to let the user know what is happening
 		if( oConfig.sInfo !== "" ){
 		    
-			this.fnInfo( oConfig.sInfo, 3000 );
+			this.fnInfo(oConfig.sInfo, 3000);
 		}
 
 		// Add a message at the top of the page
@@ -2349,26 +2350,36 @@ TableToolsPlus.BUTTONS = {
 		"sToolTip": "Edit selected rows",		
 		"fnClick": function(nButton, oConfig){
 		    
-			if( this.fnGetSelected().length !== 0 ){
+			var selectedRowCount = this.fnGetSelected().length;
+		    
+			if( selectedRowCount !== 0 ){
 			    
 				var html_titleBar;
 
 				html_titleBar  =  '<div class="fox_title_bar_icon">';
 				html_titleBar  += '<div class="key_manager_icon"></div>';
 				html_titleBar  += '</div>';	    
-				html_titleBar  += '<div class="title_string">Edit Rows</div>';
+				html_titleBar  += '<div class="title_string">Editing ' + selectedRowCount + ' rows</div>';
 				
 				var html_form;
 				
-				html_form =  '<form><fieldset>';
-				html_form += '<label for="name">Name</label>';
-				html_form += '<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />';
-				html_form += '<label for="email">Email</label>';
-				html_form += '<input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" />';
-				html_form += '<label for="password">Password</label>';
-				html_form += '<input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />';
-				html_form += '</fieldset></form>';
+				html_form =  '<form><table class="form-table">';
+				
+				var iLen = this.s.custom.aoColumns.length; // Caching to prevent .length() running on each loop iteration
+				
+				for(var i=0; i < iLen; i++){
 
+					if(this.s.custom.aoColumns[i].multiEdit == true){
+
+						html_form += '<tr valign="top">';
+						html_form += '<th align="left">' + this.s.custom.aoColumns[i].desc + '</th>';
+						html_form += '<td><input type="text" name="' + i + '" id="' + i + '" class="text ui-widget-content ui-corner-all" /></td>';
+						html_form += '</tr>';
+					}
+				}				
+				
+				html_form += '</fieldset></form>';			
+				
 
 				$(".modal_dialog").dialog({
 
@@ -2511,90 +2522,6 @@ TableToolsPlus.BUTTONS = {
 		}		
 	} ),	
 
-	"select": $.extend( {}, TableToolsPlus.buttonBase, {
-	    
-		"sButtonText": "Select button",
-		"fnSelect": function(nButton, oConfig){		    		    
-		    
-			if( this.fnGetSelected().length !== 0 ){
-			    
-				$(nButton).removeClass( this.classes.buttons.disabled );
-			} 
-			else {
-				$(nButton).addClass( this.classes.buttons.disabled );
-			}
-			
-		},
-		"fnInit": function(nButton, oConfig){
-		    
-			$(nButton).addClass( this.classes.buttons.disabled );
-			
-		}
-	} ),
-
-	"select_single": $.extend( {}, TableToolsPlus.buttonBase, {
-	    
-		"sButtonText": "Select button",
-		"fnSelect": function(nButton, oConfig){
-		    
-			var iSelected = this.fnGetSelected().length;
-			
-			if( iSelected == 1 ){
-			    
-				$(nButton).removeClass( this.classes.buttons.disabled );
-			} 
-			else {
-				$(nButton).addClass( this.classes.buttons.disabled );
-			}
-		},
-		"fnInit": function(nButton, oConfig){
-		    
-			$(nButton).addClass( this.classes.buttons.disabled );
-		}
-	} ),
-
-	"select_all": $.extend( {}, TableToolsPlus.buttonBase, {
-	    
-		"sButtonText": "Select all",
-		"fnClick": function(nButton, oConfig){
-		    
-			this.fnSelectAll();
-		},
-		"fnSelect": function(nButton, oConfig){
-		    
-			if( this.fnGetSelected().length == this.s.dt.fnRecordsDisplay() ){
-			    
-				$(nButton).addClass(this.classes.buttons.disabled);
-			} 
-			else {
-				$(nButton).removeClass(this.classes.buttons.disabled);
-			}
-		}
-	} ),
-
-	"select_none": $.extend( {}, TableToolsPlus.buttonBase, {
-	    
-		"sButtonText": "Deselect all",
-		"fnClick": function(nButton, oConfig){
-		    
-			this.fnSelectNone();
-		},
-		"fnSelect": function(nButton, oConfig){
-		    
-			if( this.fnGetSelected().length !== 0 ){
-			    
-				$(nButton).removeClass(this.classes.buttons.disabled);
-			}
-			else {
-				$(nButton).addClass(this.classes.buttons.disabled);
-			}
-		},
-		"fnInit": function(nButton, oConfig){
-		    
-			$(nButton).addClass(this.classes.buttons.disabled);
-		}
-	} ),
-
 	"ajax": $.extend( {}, TableToolsPlus.buttonBase, {
 	    
 		"sAjaxUrl": "/xhr.php",
@@ -2641,15 +2568,6 @@ TableToolsPlus.BUTTONS = {
 		}
 	} )
 };
-/*
- *  on* callback parameters:
- *  	1. node - button element
- *  	2. object - configuration object for this button
- *  	3. object - ZeroClipboard reference (flash button only)
- *  	4. string - Returned string from Flash (flash button only - and only on 'complete')
- */
-
-
 
 /**
  * @namespace Classes used by TableToolsPlus - allows the styles to be override easily.
