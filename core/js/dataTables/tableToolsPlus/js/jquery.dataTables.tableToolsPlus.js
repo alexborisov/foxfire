@@ -2354,36 +2354,59 @@ TableToolsPlus.BUTTONS = {
 		    
 			if( selectedRowCount !== 0 ){
 			    
+				
+				// TITLE BAR
+				// =============================================================================
+						
 				var html_titleBar;
 
 				html_titleBar  =  '<div class="fox_title_bar_icon">';
-				html_titleBar  += '<div class="key_manager_icon"></div>';
-				html_titleBar  += '</div>';	    
+
+				    html_titleBar  += '<div class="key_manager_icon"></div>';
+
+				html_titleBar  += '</div>';	
+
 				html_titleBar  += '<div class="title_string">Editing ' + selectedRowCount + ' rows</div>';
-				
+						
+						
+				// DIALOG CONTENTS
+				// =============================================================================
+
 				var html_form;
-				
-				html_form =  '<form><table class="form-table">';
-				
-				var iLen = this.s.custom.aoColumns.length; // Caching to prevent .length() running on each loop iteration
-				
-				for(var i=0; i < iLen; i++){
+				var form_height = 110;
 
-					if(this.s.custom.aoColumns[i].multiEdit == true){
+				html_form  = '<div class="form_wrap">';
 
-						html_form += '<tr valign="top">';
-						html_form += '<th align="left">' + this.s.custom.aoColumns[i].desc + '</th>';
-						html_form += '<td><input type="text" name="' + i + '" id="' + i + '" class="text ui-widget-content ui-corner-all" /></td>';
-						html_form += '</tr>';
-					}
-				}				
+				    html_form +=  '<form>';
+
+					html_form += '<table class="form_table">';
+
+					    // Caching to prevent .length() running on each loop iteration
+					    var iLen = this.s.custom.aoColumns.length; 
+
+					    for(var i=0; i < iLen; i++){
+
+						if(this.s.custom.aoColumns[i].multiEdit == true){
+
+							html_form += '<tr valign="top">';
+							html_form += '<th>' + this.s.custom.aoColumns[i].desc + '</th>';
+							html_form += '<td><input type="text" name="' + i + '" id="' + i + '" class="text ui-widget-content ui-corner-all" /></td>';
+							html_form += '</tr>';
+							
+							form_height += 30;
+						}
+					    }				
+
+					html_form += '</table>';
+
+				    html_form += '</form>';
+
+				html_form += '</div>';		
 				
-				html_form += '</fieldset></form>';			
-				
+			    
+				$(".DTTT_modal_dialog_edit_target").dialog({
 
-				$(".modal_dialog").dialog({
-
-					dialogClass:'fox_floating_palette',
+					dialogClass:'DTTT_modal_dialog DTTT_modal_dialog_edit',
 					modal: true,
 					autoOpen: true,
 					resizable: false,					
@@ -2395,23 +2418,23 @@ TableToolsPlus.BUTTONS = {
 					show: {effect: "fade", duration: 200},
 					hide: {effect: "fade", duration: 200},
 					open: function(){
-
+						
 						// Because jquery.ui doesn't float the title text inside the title bar, and
 						// has it set up as a <span> its just easier to remove it, then replace
 						// it with our floating icon and floating title text
 
-						$('.fox_floating_palette .ui-dialog-titlebar .ui-dialog-title').remove();
+						$('.DTTT_modal_dialog_edit .ui-dialog-titlebar .ui-dialog-title').remove();
 
 						// Remove our HTML (if it exists) to prevent multiple copies getting added
 						// when the user closes the dialog and opens it again
 
-						$('.fox_floating_palette .ui-dialog-titlebar .fox_title_bar_icon').remove();
-						$('.fox_floating_palette .ui-dialog-titlebar .title_string').remove();
-
-						$('.fox_floating_palette .ui-dialog-titlebar').prepend(html_titleBar);
+						$('.DTTT_modal_dialog_edit .ui-dialog-titlebar .fox_title_bar_icon').remove();
+						$('.DTTT_modal_dialog_edit .ui-dialog-titlebar .title_string').remove();
 						
+						$('.DTTT_modal_dialog_edit .ui-dialog-titlebar').prepend(html_titleBar);
+
 						// Set the dialog contents to our HTML
-						$('.modal_dialog').html(html_form);					
+						$('.DTTT_modal_dialog_edit_target').html(html_form);					
 
 					},
 					buttons: {
@@ -2422,7 +2445,7 @@ TableToolsPlus.BUTTONS = {
 					    $( this ).dialog( "close" );
 					    }
 					},					
-					height: 240,
+					height: form_height,
 					width: 360
 				});	    
 				
@@ -2452,18 +2475,20 @@ TableToolsPlus.BUTTONS = {
 		"sToolTip": "Delete selected rows",		
 		"fnClick": function(nButton, oConfig){		    		    
 		    
-			if( this.fnGetSelected().length !== 0 ){
+			var selectedRowCount = this.fnGetSelected().length;
+			
+			if( selectedRowCount !== 0 ){
 			    
 				var html_titleBar;
 
 				html_titleBar  =  '<div class="fox_title_bar_icon">';
 				html_titleBar  += '<div class="key_manager_icon"></div>';
 				html_titleBar  += '</div>';	    
-				html_titleBar  += '<div class="title_string">Confirm key delete</div>';
+				html_titleBar  += '<div class="title_string">Delete ' + selectedRowCount + ' keys</div>';
 
-				$(".modal_dialog").dialog({
+				$(".DTTT_modal_dialog_delete_target").dialog({
 
-					dialogClass:'fox_floating_palette',
+					dialogClass:'DTTT_modal_dialog DTTT_modal_dialog_delete',
 					modal: true,
 					autoOpen: true,
 					resizable: false,					
@@ -2480,15 +2505,15 @@ TableToolsPlus.BUTTONS = {
 						// has it set up as a <span> its just easier to remove it, then replace
 						// it with our floating icon and floating title text
 
-						$('.fox_floating_palette .ui-dialog-titlebar .ui-dialog-title').remove();
+						$('.DTTT_modal_dialog_delete .ui-dialog-titlebar .ui-dialog-title').remove();
 
 						// Remove our HTML (if it exists) to prevent multiple copies getting added
 						// when the user closes the dialog and opens it again
 
-						$('.fox_floating_palette .ui-dialog-titlebar .fox_title_bar_icon').remove();
-						$('.fox_floating_palette .ui-dialog-titlebar .title_string').remove();
+						$('.DTTT_modal_dialog_delete .ui-dialog-titlebar .fox_title_bar_icon').remove();
+						$('.DTTT_modal_dialog_delete .ui-dialog-titlebar .title_string').remove();
 
-						$('.fox_floating_palette .ui-dialog-titlebar').prepend(html_titleBar);
+						$('.DTTT_modal_dialog_delete .ui-dialog-titlebar').prepend(html_titleBar);
 
 					},
 					buttons: {
@@ -2500,7 +2525,7 @@ TableToolsPlus.BUTTONS = {
 					    }
 					},					
 					height: 100,
-					width: 200
+					width: 250
 				});	    
 				
 			}
