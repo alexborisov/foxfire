@@ -55,46 +55,6 @@ TableToolsPlus = function( oDT, oOpts ) {
 		 * @default  <i>From the oDT init option</i>
 		 */
 		"dt": oDT.fnSettings(), // @see DataTable.models.oRow in dataTables library
-		
-		/**
-		* @namespace Print specific information
-		* ===================================================================================
-		*/
-		"print": {
-
-			/** 
-			* DataTables draw 'start' point before the printing display was shown
-			*  @property saveStart
-			*  @type	 int
-			*  @default  -1
-			*/
-			"saveStart": -1,
-
-			/** 
-			* DataTables draw 'length' point before the printing display was shown
-			*  @property saveLength
-			*  @type	 int
-			*  @default  -1
-			*/
-			"saveLength": -1,
-
-			/** 
-			* Page scrolling point before the printing display was shown so it can be restored
-			*  @property saveScroll
-			*  @type	 int
-			*  @default  -1
-			*/
-			"saveScroll": -1,
-
-			/** 
-			* Wrapped function to end the print display (to maintain scope)
-			*  @property funcEnd
-			*  @type	 Function
-			*  @default  function () {}
-			*/
-			"funcEnd": function () {}
-
-	  },
 	
 	/**
 	* A unique ID is assigned to each button in each instance
@@ -223,29 +183,6 @@ TableToolsPlus = function( oDT, oOpts ) {
 		 *  @default  null
 		 */
 		"table": null,
-		
-		/**
-		* @namespace Nodes used for the print display
-		* ===================================================================================
-		*/
-		"print": {
-		    
-			/**
-			 * Nodes which have been removed from the display by setting them to display none
-			 *  @property hidden
-			 *  @type array
-		 	 *  @default  []
-			 */
-			"hidden": [],
-			
-			/**
-			 * The information display saying telling the user about the print display
-			 *  @property message
-			 *  @type	 node
-		 	 *  @default  null
-			 */
-			"message": null
-		},
 		
 		/**
 		* @namespace Nodes used for a collection display. This contains the currently used collection
@@ -651,35 +588,6 @@ TableToolsPlus.prototype = {
 			return this._fnGetDataTablesData(oConfig);
 		}
 	
-	},
-	
-	/**
-	 * Programmatically enable or disable the print view
-	 *  @param {boolean} [bView=true] Show the print view if true or not given. If false, then
-	 *    terminate the print view and return to normal.
-	 *  @param {object} [oConfig={}] Configuration for the print view
-	 *  @param {boolean} [oConfig.bShowAll=false] Show all rows in the table if true
-	 *  @param {string} [oConfig.sInfo] Information message, displayed as an overlay to the
-	 *    user to let them know what the print view is.
-	 *  @param {string} [oConfig.sMessage] HTML string to show at the top of the document - will
-	 *    be included in the printed document.
-	 */
-	"fnPrint": function(bView, oConfig){
-	    
-		if(oConfig === undefined){
-		    
-			oConfig = {};
-		}
-
-		if( (bView === undefined) || bView ){
-		    
-			this._fnPrintStart(oConfig);
-		}
-		else{
-		    
-			this._fnPrintEnd();
-		}
-		
 	},
 	
 	/**
@@ -1842,311 +1750,7 @@ TableToolsPlus.prototype = {
 		
 		return result;
 		
-	},
-			
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Printing functions
-	 */
-	
-	/**
-	 * Show print display
-	 *  @method  _fnPrintStart
-	 *  @param   {Event} e Event object
-	 *  @param   {Object} oConfig Button configuration object
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnPrintStart": function(oConfig){
-	    
-		var parent = this;
-		var oSetDT = this.s.dt;
-	  
-		// Parse through the DOM hiding everything that isn't needed for the table
-		this._fnPrintHideNodes(oSetDT.nTable);
-		
-		// Show the whole table
-		this.s.print.saveStart = oSetDT._iDisplayStart;
-		this.s.print.saveLength = oSetDT._iDisplayLength;
-
-		if(oConfig.bShowAll){
-		    
-			oSetDT._iDisplayStart = 0;
-			oSetDT._iDisplayLength = -1;
-			oSetDT.oApi._fnCalculateEnd(oSetDT);
-			oSetDT.oApi._fnDraw(oSetDT);
-		}
-		
-		// Adjust the display for scrolling which might be done by DataTables
-		
-		if( (oSetDT.oScroll.sX !== "") || (oSetDT.oScroll.sY !== "") ){
-		    
-			this._fnPrintScrollStart(oSetDT);
-
-			// If the table redraws while in print view, the DataTables scrolling
-			// setup would hide the header, so we need to readd it on draw
-			
-			$(this.s.dt.nTable).bind('draw.DTTT_Print', function () {
-				parent._fnPrintScrollStart(oSetDT);
-			} );
-		}
-		
-		// Remove the other DataTables feature nodes - but leave the table and info div
-		var anFeature = oSetDT.aanFeatures;
-		
-		for( var cFeature in anFeature ){
-		    
-			if( (cFeature != 'i') && (cFeature != 't') && (cFeature.length == 1) ){
-			    
-				var iLen = anFeature[cFeature].length; // Caching to prevent .length() running on each loop iteration
-			    
-				for(var i=0; i < iLen; i++){
-				    
-					this.dom.print.hidden.push( {
-						"node": anFeature[cFeature][i],
-						"display": "block"
-					} );
-					
-					anFeature[cFeature][i].style.display = "none";
-				}
-			}
-		}
-		
-		// Print class can be used for styling
-		$(document.body).addClass(this.classes.print.body);
-
-		// Show information message to let the user know what is happening
-		if( oConfig.sInfo !== "" ){
-		    
-			this.fnInfo(oConfig.sInfo, 3000);
-		}
-
-		// Add a message at the top of the page
-		if(oConfig.sMessage){
-		    
-			this.dom.print.message = document.createElement( "div" );
-			this.dom.print.message.className = this.classes.print.message;
-			this.dom.print.message.innerHTML = oConfig.sMessage;
-			
-			document.body.insertBefore( this.dom.print.message, document.body.childNodes[0] );
-		}
-		
-		// Cache the scrolling and the jump to the top of the page
-		this.s.print.saveScroll = $(window).scrollTop();
-		window.scrollTo( 0, 0 );
-
-		// Bind a key event listener to the document for the escape key - it is removed in the callback
-
-		$(document).bind( "keydown.DTTT", function(e) {
-		    
-			// Only interested in the escape key
-			if( e.keyCode == 27 ){
-			    
-				e.preventDefault();
-				parent._fnPrintEnd.call( parent, e );
-			}
-		} );
-		
-	},
-		
-	/**
-	 * Printing is finished, resume normal display
-	 *  @method  _fnPrintEnd
-	 *  @param   {Event} e Event object
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnPrintEnd": function(e){
-	    
-		var oSetDT = this.s.dt;
-		var oSetPrint = this.s.print;
-		var oDomPrint = this.dom.print;
-		
-		// Show all hidden nodes 
-		this._fnPrintShowNodes();
-		
-		// Restore DataTables' scrolling 
-		
-		if( (oSetDT.oScroll.sX !== "") || (oSetDT.oScroll.sY !== "") ){
-		    
-			$(this.s.dt.nTable).unbind('draw.DTTT_Print');
-
-			this._fnPrintScrollEnd();
-		}
-		
-		// Restore the scroll
-		
-		window.scrollTo( 0, oSetPrint.saveScroll );
-		
-		// Drop the print message 
-		
-		if( oDomPrint.message !== null ){
-		    
-			document.body.removeChild( oDomPrint.message );
-			oDomPrint.message = null;
-		}
-		
-		// Styling class 
-		
-		$(document.body).removeClass( 'DTTT_Print' );
-		
-		// Restore the table length
-		
-		oSetDT._iDisplayStart = oSetPrint.saveStart;
-		oSetDT._iDisplayLength = oSetPrint.saveLength;
-		oSetDT.oApi._fnCalculateEnd( oSetDT );
-		oSetDT.oApi._fnDraw( oSetDT );
-		
-		$(document).unbind( "keydown.DTTT" );
-		
-	},
-		
-	/**
-	 * Take account of scrolling in DataTables by showing the full table
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnPrintScrollStart": function ()
-	{
-		 
-		var oSetDT = this.s.dt;
-		var nScrollHeadInner = oSetDT.nScrollHead.getElementsByTagName('div')[0];
-		var nScrollBody = oSetDT.nTable.parentNode;
-
-		/* Copy the header in the thead in the body table, this way we show one single table when
-		 * in print view. Note parent this section of code is more or less verbatim from DT 1.7.0
-		 */
-		var nTheadSize = oSetDT.nTable.getElementsByTagName('thead');
-		
-		if( nTheadSize.length > 0 ){
-		    
-			oSetDT.nTable.removeChild( nTheadSize[0] );
-		}
-		
-		if( oSetDT.nTFoot !== null ){
-		    
-			var nTfootSize = oSetDT.nTable.getElementsByTagName('tfoot');
-			
-			if( nTfootSize.length > 0 ){
-			    
-				oSetDT.nTable.removeChild( nTfootSize[0] );
-			}
-		}
-		
-		nTheadSize = oSetDT.nTHead.cloneNode(true);
-		oSetDT.nTable.insertBefore( nTheadSize, oSetDT.nTable.childNodes[0] );
-		
-		if( oSetDT.nTFoot !== null ){
-		    
-			nTfootSize = oSetDT.nTFoot.cloneNode(true);
-			oSetDT.nTable.insertBefore( nTfootSize, oSetDT.nTable.childNodes[1] );
-		}
-		
-		// Now adjust the table's viewport so we can actually see it
-		
-		if( oSetDT.oScroll.sX !== "" ){
-		    
-			oSetDT.nTable.style.width = $(oSetDT.nTable).outerWidth()+"px";
-			nScrollBody.style.width = $(oSetDT.nTable).outerWidth()+"px";
-			nScrollBody.style.overflow = "visible";
-		}
-		
-		if( oSetDT.oScroll.sY !== "" ){
-		    
-			nScrollBody.style.height = $(oSetDT.nTable).outerHeight()+"px";
-			nScrollBody.style.overflow = "visible";
-		}
-		
-	},
-		
-	/**
-	 * Take account of scrolling in DataTables by showing the full table. Note parent the redraw of
-	 * the DataTable parent we do will actually deal with the majority of the hard work here
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnPrintScrollEnd": function(){
-	    
-		 
-		var oSetDT = this.s.dt;
-		var nScrollBody = oSetDT.nTable.parentNode;
-		
-		if( oSetDT.oScroll.sX !== "" ){
-		    
-			nScrollBody.style.width = oSetDT.oApi._fnStringToCss( oSetDT.oScroll.sX );
-			nScrollBody.style.overflow = "auto";
-		}
-		
-		if( oSetDT.oScroll.sY !== "" ){
-		    
-			nScrollBody.style.height = oSetDT.oApi._fnStringToCss( oSetDT.oScroll.sY );
-			nScrollBody.style.overflow = "auto";
-		}
-		
-	},	
-	
-	/**
-	 * Resume the display of all TableToolsPlus hidden nodes
-	 *  @method  _fnPrintShowNodes
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnPrintShowNodes": function(){
-	    
-		var anHidden = this.dom.print.hidden;
-		var iLen = anHidden.length;  // Caching to prevent .length() running on each loop iteration
-	  
-		for(var i=0; i < iLen; i++){
-		    
-			anHidden[i].node.style.display = anHidden[i].display;
-		}
-		
-		anHidden.splice( 0, anHidden.length );
-		
-	},
-	
-	
-	/**
-	 * Hide nodes which are not needed in order to display the table. Note parent this function is
-	 * recursive
-	 *  @method  _fnPrintHideNodes
-	 *  @param   {Node} nNode Element which should be showing in a 'print' display
-	 *  @returns void
-	 *  @private 
-	 */
-	"_fnPrintHideNodes": function(nNode){
-	    
-		var anHidden = this.dom.print.hidden;	  
-		var nParent = nNode.parentNode;
-		var nChildren = nParent.childNodes;
-		
-		var iLen = nChildren.length; // Caching to prevent .length() running on each loop iteration
-		
-		for(var i=0; i < iLen; i++){
-		    
-			if( nChildren[i] != nNode && nChildren[i].nodeType == 1 ){
-			    
-				/* If our node is shown (don't want to show nodes which were previously hidden) */
-				var sDisplay = $(nChildren[i]).css("display");
-				
-			 	if( sDisplay != "none" ){
-				    
-					/* Cache the node and it's previous state so we can restore it */
-					anHidden.push( {
-						"node": nChildren[i],
-						"display": sDisplay
-					} );
-					
-					nChildren[i].style.display = "none";
-				}
-			}
-		}
-		
-		if( nParent.nodeName != "BODY" ){
-		    
-			this._fnPrintHideNodes( nParent );
-		}
-		
-	},
+	},			
 	
 	/**
 	 * Applies changes made in 'edit' modal dialog to all selected rows
@@ -2157,7 +1761,13 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnEditHandler": function(formFields){
 	    
-		console.log(formFields);
+		$.getJSON(
+			    sUrl, 
+			    aoData, 
+			    function(json){
+					    parent._oDataTable.fnSettings().fnCallback(json)
+			    }
+		);
 	 },
 	 
 	/**
@@ -2349,21 +1959,6 @@ TableToolsPlus.buttonBase = {
  * @namespace Default button configurations
  */
 TableToolsPlus.BUTTONS = {
-
-	"print": $.extend( {}, TableToolsPlus.buttonBase, {
-	    
-		"sInfo": "<h6>Print view</h6><p>Please use your browser's print function to "+
-		  "print this table. Press escape when finished.",
-		"sMessage": null,
-		"bShowAll": true,
-		"sToolTip": "View print view",
-		"sButtonClass": "DTTT_button_print",
-		"sButtonText": "Print",
-		"fnClick": function(nButton, oConfig){
-		    
-			this.fnPrint(true, oConfig);
-		}
-	} ),
 
 	"text": $.extend( {}, TableToolsPlus.buttonBase ),
 	
@@ -2657,11 +2252,6 @@ TableToolsPlus.classes = {
 	"select": {
 		"table": "DTTT_selectable",
 		"row": "DTTT_selected"
-	},
-	"print": {
-		"body": "DTTT_Print",
-		"info": "DTTT_print_info",
-		"message": "DTTT_PrintMessage"
 	}
 };
 
