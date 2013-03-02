@@ -24,7 +24,7 @@ var TableToolsPlus;  // Global scope for TableToolsPlus
  * @param {Function} oOpts.fnRowDeselected Callback function when row is deselected
  * @param {Array} oOpts.aButtons List of buttons to be used
  */
-TableToolsPlus = function( oDT, oOpts ) {
+TableToolsPlus = function(oDT, oOpts) {
     
     
 	// Sanity check parent we're a new instance 
@@ -1761,13 +1761,27 @@ TableToolsPlus.prototype = {
 	 */
 	"_fnEditHandler": function(formFields){
 	    
-		$.getJSON(
-			    sUrl, 
-			    aoData, 
-			    function(json){
-					    parent._oDataTable.fnSettings().fnCallback(json)
-			    }
-		);
+		//console.log(this.s.dt.sAjaxSource);
+		
+		// Scrape selected rows and include in data post
+		    
+		$.ajax({
+
+			type: 'POST',
+			url: this.s.dt.sAjaxSource,
+			data: {
+			    'action':'gat_admin_listKeys',
+			    'data': formFields
+			},
+			dataType: "json",
+			beforeSend: function(){
+
+			},
+			success: function(response){
+
+			    alert('SUCCESS!');
+			}
+		});		    
 	 },
 	 
 	/**
