@@ -185,6 +185,31 @@ else {
 	set_exception_handler('fox_exceptionHandler');
 
 
+	// Spin-up the Memory Cache system
+	// ===============================================================		
+	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.memory.core.php' );
+	require ( dirname( __FILE__ ) . '/cache_memory/abstract.class.cache.driver.base.php' );
+	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.apc.php' );
+	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.loopback.php' );
+	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.memcache.php' );
+	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.redis.php' );
+	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.thread.php' );
+	
+	$fox->mCache = new FOX_mCache(); 
+	
+	// Spin-up the disk caching and interface system
+	// ===============================================================	
+	//  require ( dirname( __FILE__ ) . '/cache_disk/class.cache.disk.php' );
+	//  $fox->disk = new FOX_dCache()
+
+	
+	// Load the URI router class
+	// ===============================================================
+	
+	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );	
+	//$fox->router = new FOX_router();
+	
+	
 	// Load the database classes, as all the core classes need them
 	// ===============================================================
 	
@@ -246,20 +271,16 @@ else {
 	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.point.php' );
 	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.polygon.multi.php' );
 	require ( dirname( __FILE__ ) . '/geospatial/geometry/class.polygon.php' );
-
-		
-	// Load the Navigation system
-	// ===============================================================
 	
-	require ( dirname( __FILE__ ) . '/navigation/class.location.module.php' );
-	require ( dirname( __FILE__ ) . '/navigation/class.location.policy.php' );
-	require ( dirname( __FILE__ ) . '/navigation/class.module.slug.php' );
-	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );
-	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
-			
-	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
-	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
-	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	
+	
+	// Load FoxFire's config settings
+	// ===============================================================		
+	require ( dirname( __FILE__ ) . '/config/class.config.system.php' );
+	require ( dirname( __FILE__ ) . '/config/class.config.default.keys.php' );
+	require ( dirname( __FILE__ ) . '/config/class.config.default.schema.php' );
+	
+	$fox->config = new FOX_config();
+	
 	
 	// Load the RBAC system
 	// ===============================================================
@@ -283,24 +304,24 @@ else {
 	require ( dirname( __FILE__ ) . '/logging/class.logging.event.php' );
 	//require ( dirname( __FILE__ ) . '/logging/class.logging.error.php' );	
 	
-	// Load the cache and config classes, as all the core classes need them,
-	// and create the global singletons for these two classes.
+	
+	// Load the Navigation classes 
 	// ===============================================================
 	
-	//require ( dirname( __FILE__ ) . '/cache_disk/class.cache.disk.php' );
-
-	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.memory.core.php' );
-	require ( dirname( __FILE__ ) . '/cache_memory/abstract.class.cache.driver.base.php' );
-	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.apc.php' );
-	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.loopback.php' );
-	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.memcache.php' );
-	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.redis.php' );
-	require ( dirname( __FILE__ ) . '/cache_memory/class.cache.driver.thread.php' );
-
-	require ( dirname( __FILE__ ) . '/config/class.config.system.php' );
-	require ( dirname( __FILE__ ) . '/config/class.config.default.keys.php' );
-	require ( dirname( __FILE__ ) . '/config/class.config.default.schema.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.location.module.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.location.policy.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.module.slug.php' );
+	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
 	
+	$fox->navigation = new FOX_nav();
+	
+	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.abstract.php' );
+	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.interface.php' );
+	require ( dirname( __FILE__ ) . '/page_modules/class.page.module.manager.php' );	
+	
+	$fox->pageModules = new FOX_pageModuleManager();
+	
+
 	// Load the AJAX functions
 	// ===============================================================
 	require ( dirname( __FILE__ ) . '/js/register.scripts.php' );
@@ -309,20 +330,9 @@ else {
 	require ( dirname( __FILE__ ) . '/ajax/abstract.class.model.php' );
 	require ( dirname( __FILE__ ) . '/ajax/class.request.php' );
 	require ( dirname( __FILE__ ) . '/ajax/class.response.php' );
-	require ( dirname( __FILE__ ) . '/ajax/class.session.db.php' );
-	
-	
+	require ( dirname( __FILE__ ) . '/ajax/class.session.db.php' );		
 	require ( dirname( __FILE__ ) . '/admin/sub.admin.core.php' );
-	
-
-	$fox->mCache = new FOX_mCache();    // Memory cache singleton
-	//$fox->disk = new FOX_dCache();	    // Disk singleton
-	
-	$fox->config = new FOX_config();			// Config singleton
-	
-	//$fox->router = new FOX_router();			// URI router singleton
-	$fox->navigation = new FOX_nav();			// Navigation singleton
-	$fox->pageModules = new FOX_pageModuleManager();	// Page modules singleton			
+					
 
 	do_action( 'fox_coreReady' );
 

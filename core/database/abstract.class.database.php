@@ -521,7 +521,7 @@ abstract class FOX_db_base {
 			));		    		    
 		}		
 
-		try {
+		try {//var_dump($this->mCache); die;
 			$cache_image = $this->mCache->readCache( 
 								array( 
 									'engine'=>$struct["cache_engine"], 
