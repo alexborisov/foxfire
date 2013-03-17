@@ -194,6 +194,10 @@ final class FOX_nav {
 			return $pages;
 		}
 
+		// Fetch all the page modules in the system that have 'site page' 
+		// as their target 
+		// ==============================================================================
+		
 		$locations = "page";
 
 		try {
@@ -209,11 +213,13 @@ final class FOX_nav {
 				'child'=>$child
 			));
 		}
+		
 
 		if($fox_pages){
-
+		   
 			// Combine the module classes into an array so we can fetch
 			// all of them with a single operation
+			// ==============================================================================		    
 
 			$module_classes = array();
 
@@ -240,15 +246,14 @@ final class FOX_nav {
 
 			foreach($fox_pages as $page_id => $data){
 
-				// Add the page module to the BP pages array
-				$pages[$data["php_class"]] = $page_id;
 
-				// Load the page module's class tree
-				try {				   
-				    
+				// Add the page module's class files to the PHP include path
+				// ==============================================================================
+
+				try {				   				    
 					$plugin_path = WP_PLUGIN_DIR . "/" . $page_module_data[$data["php_class"]]["plugin"] . "/modules/page/";
 					$module_slug = $page_module_data[$data["php_class"]]["slug"];
-					
+
 					$this->page_modules_class->includeModule($plugin_path, $module_slug);										
 				}
 				catch (FOX_exception $child) {
@@ -262,8 +267,17 @@ final class FOX_nav {
 					));
 				}
 
+				// Add the page module to the BP pages array as "class_name" => "page_id", which
+				// causes BuddyPress to set $bp->current_component to "class_name" whenever
+				// the user loads the URL that "page_id" is assigned to.
+				// ==============================================================================
+
+				$pages[$data["php_class"]] = $page_id;
+
+
 				// Create an anonymous function that instantiates the page module's class
 				// and runs its screen method whenever the page module is the $bp->current_component
+				// ==============================================================================				
 
 				$function_body	=   'global $bp;';
 				$function_body .=   'if($bp->current_component == "' . $data["php_class"] . '"){';
@@ -276,10 +290,12 @@ final class FOX_nav {
 				// Attach the anonymous function to the bp_init action
 				add_action( 'bp_screens', $function_name );
 
+
 			}
 			unset($page_id, $data);
-		}
 
+		}
+		
 		return $pages;
 
 	}
@@ -309,8 +325,8 @@ final class FOX_nav {
 			return true;
 		}
 
-		// Load page modules registered on "profile" target
-		// =======================================================================
+		// Fetch data for all entries on the 'profile' target
+		// ==============================================================================
 
 		$locations = "profile";
 
@@ -321,7 +337,7 @@ final class FOX_nav {
 
 			throw new FOX_exception( array(
 				'numeric'=>1,
-				'text'=>"Error loading page modules at target",
+				'text'=>"Error in target class getLocation() method",
 				'data'=>array('locations'=>$locations),
 				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 				'child'=>$child
@@ -333,7 +349,7 @@ final class FOX_nav {
 
 			return true;
 		}
-
+		
 		$profile_modules = array();
 
 		foreach( $profile_modules_raw as $slug_name => $module_data ){
@@ -346,7 +362,7 @@ final class FOX_nav {
 
 			$profile_modules[$module_data["module_id"]] = $row_data;
 		}
-		unset($slug_name, $module_data, $row_data);
+		unset($slug_name, $module_data);
 
 
 		// Fetch active page modules
@@ -1335,7 +1351,7 @@ final class FOX_nav {
 
 function FOX_nav_injectSite($pages){
 
-	global $razor;
+	global $razor; 
 
 	// The BuddyPress page router fires on every WP page load. This
 	// causes it to fire during unit tests, which breaks test isolation
@@ -1348,8 +1364,11 @@ function FOX_nav_injectSite($pages){
 	else {
 		global $fox;
 		$result = $fox->navigation->injectSite($pages);
+
 		return $result;
 	}
+	
+	
 
 }
 add_filter('bp_core_get_directory_page_ids', 'FOX_nav_injectSite',10,1);

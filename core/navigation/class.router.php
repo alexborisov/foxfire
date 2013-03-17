@@ -1450,7 +1450,8 @@ function bp_core_catch_no_access() {
 	global $bp;
 	return $bp->router->catchNoAccess();
 }
-add_action( 'wp', 'bp_core_catch_no_access' );
+//add_action( 'wp', 'bp_core_catch_no_access' );
+add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
 
 function bp_core_no_access($args = ''){
 
@@ -1464,5 +1465,241 @@ function bp_core_no_access_wp_login_error(){
 	return $bp->router->wpLoginError();
 }
 add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
+
+///////////////////////////////////
+
+
+/**
+ * Canonicalizes BuddyPress URLs
+ *
+ * This function ensures that requests for BuddyPress content are always redirected to their
+ * canonical versions. Canonical versions are always trailingslashed, and are typically the most
+ * general possible versions of the URL - eg, example.com/groups/mygroup/ instead of
+ * example.com/groups/mygroup/home/
+ *
+ * @since BuddyPress (1.6)
+ * @see BP_Members_Component::setup_globals() where $bp->canonical_stack['base_url'] and
+ *   ['component'] may be set
+ * @see bp_core_new_nav_item() where $bp->canonical_stack['action'] may be set
+ * @uses bp_get_canonical_url()
+ * @uses bp_get_requested_url()
+ */
+function bp_redirect_canonical() {
+	global $bp;
+
+	if ( !bp_is_blog_page() && apply_filters( 'bp_do_redirect_canonical', true ) ) {
+		// If this is a POST request, don't do a canonical redirect.
+		// This is for backward compatibility with plugins that submit form requests to
+		// non-canonical URLs. Plugin authors should do their best to use canonical URLs in
+		// their form actions.
+		if ( !empty( $_POST ) ) {
+			return;
+		}
+
+		// build the URL in the address bar
+		$requested_url  = bp_get_requested_url();
+
+		// Stash query args
+		$url_stack      = explode( '?', $requested_url );
+		$req_url_clean  = $url_stack[0];
+		$query_args     = isset( $url_stack[1] ) ? $url_stack[1] : '';
+
+		$canonical_url  = bp_get_canonical_url();
+
+		// Only redirect if we've assembled a URL different from the request
+		if ( $canonical_url !== $req_url_clean ) {
+
+			// Template messages have been deleted from the cookie by this point, so
+			// they must be readded before redirecting
+			if ( isset( $bp->template_message ) ) {
+				$message      = stripslashes( $bp->template_message );
+				$message_type = isset( $bp->template_message_type ) ? $bp->template_message_type : 'success';
+
+				bp_core_add_message( $message, $message_type );
+			}
+
+			if ( !empty( $query_args ) ) {
+				$canonical_url .= '?' . $query_args;
+			}
+
+			bp_core_redirect( $canonical_url, 301 );
+		}
+	}
+}
+
+/**
+ * Output rel=canonical header tag for BuddyPress content
+ *
+ * @since BuddyPress (1.6)
+ */
+function bp_rel_canonical() {
+	$canonical_url = bp_get_canonical_url();
+
+	// Output rel=canonical tag
+	echo "<link rel='canonical' href='" . esc_attr( $canonical_url ) . "' />\n";
+}
+
+/**
+ * Returns the canonical URL of the current page
+ *
+ * @since BuddyPress (1.6)
+ * @uses apply_filters() Filter bp_get_canonical_url to modify return value
+ * @param array $args
+ * @return string
+ */
+function bp_get_canonical_url( $args = array() ) {
+	global $bp;
+
+	// For non-BP content, return the requested url, and let WP do the work
+	if ( bp_is_blog_page() ) {
+		return bp_get_requested_url();
+	}
+
+	$defaults = array(
+		'include_query_args' => false // Include URL arguments, eg ?foo=bar&foo2=bar2
+	);
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
+
+	if ( empty( $bp->canonical_stack['canonical_url'] ) ) {
+		// Build the URL in the address bar
+		$requested_url  = bp_get_requested_url();
+
+		// Stash query args
+		$url_stack      = explode( '?', $requested_url );
+
+		// Build the canonical URL out of the redirect stack
+		if ( isset( $bp->canonical_stack['base_url'] ) )
+			$url_stack[0] = $bp->canonical_stack['base_url'];
+
+		if ( isset( $bp->canonical_stack['component'] ) )
+			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['component'] );
+
+		if ( isset( $bp->canonical_stack['action'] ) )
+			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['action'] );
+
+		if ( !empty( $bp->canonical_stack['action_variables'] ) ) {
+			foreach( (array) $bp->canonical_stack['action_variables'] as $av ) {
+				$url_stack[0] = trailingslashit( $url_stack[0] . $av );
+			}
+		}
+
+		// Add trailing slash
+		$url_stack[0] = trailingslashit( $url_stack[0] );
+
+		// Stash in the $bp global
+		$bp->canonical_stack['canonical_url'] = implode( '?', $url_stack );
+	}
+
+	$canonical_url = $bp->canonical_stack['canonical_url'];
+
+	if ( !$include_query_args ) {
+		$canonical_url = array_pop( array_reverse( explode( '?', $canonical_url ) ) );
+	}
+
+	return apply_filters( 'bp_get_canonical_url', $canonical_url, $args );
+}
+
+/**
+ * Returns the URL as requested on the current page load by the user agent
+ *
+ * @since BuddyPress (1.6)
+ * @return string
+ */
+function bp_get_requested_url() {
+	global $bp;
+
+	if ( empty( $bp->canonical_stack['requested_url'] ) ) {
+		$bp->canonical_stack['requested_url']  = is_ssl() ? 'https://' : 'http://';
+		$bp->canonical_stack['requested_url'] .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	}
+
+	return apply_filters( 'bp_get_requested_url', $bp->canonical_stack['requested_url'] );
+}
+
+/**
+ * Remove WordPress's really awesome canonical redirect if we are trying to load
+ * BuddyPress specific content. Avoids issues with WordPress thinking that a
+ * BuddyPress URL might actually be a blog post or page.
+ *
+ * This function should be considered temporary, and may be removed without
+ * notice in future versions of BuddyPress.
+ *
+ * @since BuddyPress (1.6)
+ * @uses bp_is_blog_page()
+ */
+function _bp_maybe_remove_redirect_canonical() {
+	if ( ! bp_is_blog_page() )
+		remove_action( 'template_redirect', 'redirect_canonical' );
+}
+add_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
+
+/**
+ * Rehook maybe_redirect_404() to run later than the default
+ *
+ * WordPress's maybe_redirect_404() allows admins on a multisite installation
+ * to define 'NOBLOGREDIRECT', a URL to which 404 requests will be redirected.
+ * maybe_redirect_404() is hooked to template_redirect at priority 10, which
+ * creates a race condition with bp_template_redirect(), our piggyback hook.
+ * Due to a legacy bug in BuddyPress, internal BP content (such as members and
+ * groups) is marked 404 in $wp_query until bp_core_load_template(), when BP
+ * manually overrides the automatic 404. However, the race condition with
+ * maybe_redirect_404() means that this manual un-404-ing doesn't happen in
+ * time, with the results that maybe_redirect_404() thinks that the page is
+ * a legitimate 404, and redirects incorrectly to NOBLOGREDIRECT.
+ *
+ * By switching maybe_redirect_404() to catch at a higher priority, we avoid
+ * the race condition. If bp_core_load_template() runs, it dies before reaching
+ * maybe_redirect_404(). If bp_core_load_template() does not run, it means that
+ * the 404 is legitimate, and maybe_redirect_404() can proceed as expected.
+ *
+ * This function will be removed in a later version of BuddyPress. Plugins
+ * (and plugin authors!) should ignore it.
+ *
+ * @since BuddyPress (1.6.1)
+ *
+ * @link http://buddypress.trac.wordpress.org/ticket/4329
+ * @link http://buddypress.trac.wordpress.org/ticket/4415
+ */
+function _bp_rehook_maybe_redirect_404() {
+	if ( defined( 'NOBLOGREDIRECT' ) ) {
+		remove_action( 'template_redirect', 'maybe_redirect_404' );
+		add_action( 'template_redirect', 'maybe_redirect_404', 100 );
+	}
+}
+add_action( 'template_redirect', '_bp_rehook_maybe_redirect_404', 1 );
+
+/**
+ * Remove WordPress's rel=canonical HTML tag if we are trying to load BuddyPress
+ * specific content.
+ *
+ * This function should be considered temporary, and may be removed without
+ * notice in future versions of BuddyPress.
+ *
+ * @since BuddyPress (1.6)
+ */
+function _bp_maybe_remove_rel_canonical() {
+	if ( ! bp_is_blog_page() && ! is_404() ) {
+		remove_action( 'wp_head', 'rel_canonical' );
+		add_action( 'bp_head', 'bp_rel_canonical' );
+	}
+}
+add_action( 'wp_head', '_bp_maybe_remove_rel_canonical', 8 );
+
+///**
+// * Are root profiles enabled and allowed
+// *
+// * @since BuddyPress (1.6)
+// * @return bool True if yes, false if no
+// */
+//function bp_core_enable_root_profiles() {
+//
+//	$retval = false;
+//
+//	if ( defined( 'BP_ENABLE_ROOT_PROFILES' ) && ( true == BP_ENABLE_ROOT_PROFILES ) )
+//		$retval = true;
+//
+//	return apply_filters( 'bp_core_enable_root_profiles', $retval );
+//}
 
 ?>

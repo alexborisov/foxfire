@@ -197,7 +197,7 @@ else {
 	
 	$fox->mCache = new FOX_mCache(); 
 	
-	// Spin-up the disk caching and interface system
+	// Spin-up the disk interface system
 	// ===============================================================	
 	//  require ( dirname( __FILE__ ) . '/cache_disk/class.cache.disk.php' );
 	//  $fox->disk = new FOX_dCache()
@@ -206,8 +206,8 @@ else {
 	// Load the URI router class
 	// ===============================================================
 	
-	//require ( dirname( __FILE__ ) . '/navigation/class.router.php' );	
-	//$fox->router = new FOX_router();
+//	require ( dirname( __FILE__ ) . '/navigation/class.router.php' );	
+//	$fox->router = new FOX_router();
 	
 	
 	// Load the database classes, as all the core classes need them
@@ -312,6 +312,7 @@ else {
 	require ( dirname( __FILE__ ) . '/navigation/class.location.policy.php' );
 	require ( dirname( __FILE__ ) . '/navigation/class.module.slug.php' );
 	require ( dirname( __FILE__ ) . '/navigation/class.navigation.php' );
+
 	
 	$fox->navigation = new FOX_nav();
 	
