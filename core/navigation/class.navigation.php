@@ -201,7 +201,7 @@ final class FOX_nav {
 		$locations = "page";
 
 		try {
-			$fox_pages = $this->target_class->getLocation($locations);
+			$targets = $this->target_class->getLocation($locations);
 		}
 		catch (FOX_exception $child) {
 
@@ -213,46 +213,107 @@ final class FOX_nav {
 				'child'=>$child
 			));
 		}
+				
+		// If no targets were found, quit, returning the unmodified $pages array
+		// =======================================================================
 		
+		if(!$targets){
 
-		if($fox_pages){
-		   
-			// Combine the module classes into an array so we can fetch
-			// all of them with a single operation
-			// ==============================================================================		    
+			return $pages;
+		}					
+		
+		// Fetch active page modules
+		// =======================================================================
 
-			$module_classes = array();
+		try {
+			$active_page_modules = $this->page_modules_class->getActiveModules();
+		}
+		catch (FOX_exception $child) {
 
-			foreach($fox_pages as $page_data){
+			throw new FOX_exception( array(
+				'numeric'=>2,
+				'text'=>"Error loading active page modules",
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}
+			
+		// Intersect the page module id's that are registered on the target with 
+		// the page module id's that are currently active on the system
+		// =======================================================================
+		
+		$valid_modules = array();
+		$module_ids = array();
+		
+		foreach( $targets as $page_id => $target_data ){
 
-				$module_classes[] = $page_data["php_class"];
+			if(FOX_sUtil::keyExists($target_data["module_id"], $active_page_modules) ){
+			    
+				$valid_modules[$page_id] = $active_page_modules[$target_data["module_id"]];
+				$module_ids[] = $target_data["module_id"];
 			}
-			unset($page_data);
+			else {
+				// TODO: remove the module's page from the WP menu system			    
+			}
+		}
+		unset($page_id, $target_data);	
+		
+		
+		// If there are no valid modules, quit, returning the unmodified $pages array
+		// =======================================================================
+		
+		if(!$valid_modules){
+
+			return $pages;
+		}		
+		
+		// Fetch policies for the modules, then intersect the policies with the user's
+		// keyring to determine if the user is allowed to access the page module. This  
+		// is necessary in order to be able to hide modules that the user should not
+		// have access to from the WordPress menu tree
+		// =======================================================================		
+
+		try {
+			$module_policies = $this->policy_class->getL5($module_ids);
+		}
+		catch (FOX_exception $child) {
+
+			throw new FOX_exception( array(
+				'numeric'=>3,
+				'text'=>"Error loading module policies",
+				'data'=>array('module_ids'=>$module_ids),
+				'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
+				'child'=>$child
+			));
+		}		
+
+		foreach($valid_modules as $page_id => $module_data){
+
+			$user_keyring = $this->user_class->loggedin_user->keyring;
+			$module_policy = $module_policies[$module_data['module_id']];
 
 			try {
-				$page_module_data = $this->page_modules_class->getByClass($module_classes);
+				$can_access = self::canAccess($module_policy, $user_keyring);
 			}
 			catch (FOX_exception $child) {
 
 				throw new FOX_exception( array(
-					'numeric'=>2,
-					'text'=>"Error in page modules getByClass() method",
-					'data'=>array('module_classes'=>$module_classes),
+					'numeric'=>4,
+					'text'=>"Error in self::canAccess() method",
+					'data'=>array('module_policy'=>$module_policy, 'user_keyring'=>$user_keyring),
 					'file'=>__FILE__, 'line'=>__LINE__, 'method'=>__METHOD__,
 					'child'=>$child
 				));
 			}
 
-
-			foreach($fox_pages as $page_id => $data){
-
+			if($can_access){
 
 				// Add the page module's class files to the PHP include path
 				// ==============================================================================
 
 				try {				   				    
-					$plugin_path = WP_PLUGIN_DIR . "/" . $page_module_data[$data["php_class"]]["plugin"] . "/modules/page/";
-					$module_slug = $page_module_data[$data["php_class"]]["slug"];
+					$plugin_path = WP_PLUGIN_DIR . '/' . $module_data['plugin'] . '/modules/page/';
+					$module_slug = $module_data['slug'];
 
 					$this->page_modules_class->includeModule($plugin_path, $module_slug);										
 				}
@@ -272,7 +333,7 @@ final class FOX_nav {
 				// the user loads the URL that "page_id" is assigned to.
 				// ==============================================================================
 
-				$pages[$data["php_class"]] = $page_id;
+				$pages[$module_data["php_class"]] = $page_id;
 
 
 				// Create an anonymous function that instantiates the page module's class
@@ -280,20 +341,21 @@ final class FOX_nav {
 				// ==============================================================================				
 
 				$function_body	=   'global $bp;';
-				$function_body .=   'if($bp->current_component == "' . $data["php_class"] . '"){';
-				$function_body .=   '	$cls = new ' . $data["php_class"] . '();';
+				$function_body .=   'if($bp->current_component == "' . $module_data["php_class"] . '"){';
+				$function_body .=   '	$cls = new ' . $module_data["php_class"] . '();';
 				$function_body .=   '	$cls->screen();';
 				$function_body .=   '}';
 
 				$function_name = create_function('', $function_body);
 
 				// Attach the anonymous function to the bp_init action
-				add_action( 'bp_screens', $function_name );
-
-
+				add_action( 'bp_screens', $function_name );			    			    
+			    
 			}
-			unset($page_id, $data);
-
+			else {
+				// TODO: remove the module's page from the WP menu system
+			}			    
+			    
 		}
 		
 		return $pages;
