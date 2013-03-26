@@ -164,7 +164,7 @@ class FOX_admin {
 
 			$options = array();
 			$options['headers'] = array(
-				'User-Agent' => 'FoxFire Updater V' . FOX_VERSION . '; (' . get_bloginfo('url') .')'
+				'User-Agent' => 'FoxFire Updater V' . FOX_VERSION . '; (' . home_url() .')'
 			 );
 
 			$response = wp_remote_request($url, $options);
