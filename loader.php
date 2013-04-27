@@ -17,11 +17,10 @@ Domain Path: /core/languages/
 */
 
 
-   // FoxFire isn't dependent on any other plugins, however plugins that depend on FoxFire
+// FoxFire isn't dependent on any other plugins, however plugins that depend on FoxFire
 // need a chance to attach their loader functions to the 'fox_coreReady' before we load
 // the FoxFire core and fire it. So we don't load the FoxFire core until the 'plugins_loaded'
 // action has fired
-
 
 
 function fox_loadCore() {
