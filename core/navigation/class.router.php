@@ -203,9 +203,9 @@ class FOX_router {
 		if ( strpos($this->request_uri, 'wp-load.php') ){
 
 			// Try to match on the $_REQUEST['_wp_http_referer'] variable
-			if( !empty($this->_wp_http_referer) ){
+			if( !empty($this->wp_http_referer) ){
 
-				$ref = $this->_wp_http_referer;
+				$ref = $this->wp_http_referer;
 			}
 			// Otherwise, try to match on the $_SERVER['http_referer'] variable
 			elseif( !empty($this->http_referer) ){
@@ -221,7 +221,7 @@ class FOX_router {
 				throw new FOX_exception( array(
 					'numeric'=>1,
 					'text'=>"Invalid AJAX referer",
-					'data'=>array(	"_wp_http_referer"=>$this->_wp_http_referer,
+					'data'=>array(	"_wp_http_referer"=>$this->wp_http_referer,
 							"http_referer"=>$this->http_referer,
 							"request_uri"=>$this->request_uri
 						     ),
