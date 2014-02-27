@@ -3,7 +3,7 @@ Contributors: foxly, fanquake, anancy
 Tags: Database, Cache, Caching, Framework
 Requires at least: 3.5.0
 Tested up to: 3.5.0
-Stable tag: 1.0
+Stable tag: 2.0
 
 Provides a highly-advanced ACID compliant datastore for WordPress plugins, allowing them to rapidly scale their sites
 
@@ -25,6 +25,11 @@ We handle all user support through our wordpress.org support forum.
 FoxFire is provided on an “as is” basis without any warranty. We are not liable for any damage or losses you may incur while using the plugin.
 
 == Changelog ==
+
+= 2.0 =
+* First alpha version
+
+Updated 2014-02-26
 
 = 1.0 =
 * First alpha version

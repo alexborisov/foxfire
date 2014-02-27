@@ -25,7 +25,7 @@ Domain Path: /core/languages/
 
 function fox_loadCore() {
 
-	require( dirname( __FILE__ ) . '/core/foxfire.core.php' );
+	require( dirname( __FILE__ ) . '/core/foxfire.core.wp.php' );
 }
 add_action( 'plugins_loaded', 'fox_loadCore', 10 );
 
