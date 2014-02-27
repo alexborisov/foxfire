@@ -75,7 +75,7 @@ class FOX_mCache_driver_redis extends FOX_mCache_driver_base {
 		
 		if($this->enable == true){
 
-			require_once ( LIB_PHP_PATH . '/predis/autoload.php' );
+			require_once ( FOX_PATH_BASE . '/lib/predis/autoload.php' );
 
 			$this->engine = new Predis\Client($this->server);		    
 

@@ -18,6 +18,19 @@
  */
 
 
+function add_action(){};
+function do_action(){};
+function add_filter(){};
+function apply_filters($name, $result){
+    return $result;
+};
+function wp_register_style(){};
+function wp_enqueue_style(){};
+function wp_register_script(){};
+function wp_enqueue_script(){};
+function get_template_directory_uri(){};
+function language_attributes(){};
+
 class FOX_testPlan extends RAZ_testPlan_base {
 
 
@@ -37,7 +50,13 @@ class FOX_testPlan extends RAZ_testPlan_base {
     
 	public function loadMockClasses() {
 
-//		global $razor;
+	    
+	    
+		global $razor;
+		
+		//var_dump($razor->path_root);
+		require_once($razor->path_root. '/foxfire/core/foxfire.core.php');
+		
 //		
 //		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.page.module.manager.php');
 //		require_once(dirname( __FILE__ ) . '/mock_classes/mock_class.album.module.manager.php');

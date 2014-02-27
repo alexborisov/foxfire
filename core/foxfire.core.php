@@ -16,11 +16,19 @@
 
 
 if( !defined( 'FOX_PATH_BASE' ) ){
-      define( 'FOX_PATH_BASE', CORE_PHP_PATH . '/foxfire' );
+      define( 'FOX_PATH_BASE', dirname(dirname(__FILE__)));
 }
 
 if( !defined( 'FOX_URL_BASE' ) ){
-      define( 'FOX_URL_BASE', CORE_PHP_URL . '/foxfire' );
+    
+    if(defined('CORE_PHP_URL')){
+	
+	    define( 'FOX_URL_BASE', CORE_PHP_URL . '/foxfire' );
+    }
+    else {	
+	    define( 'FOX_URL_BASE', 'http://localhost/foxfire' );
+    }
+      
 }
 
 if( !defined( 'FOX_PATH_CORE' ) ){
