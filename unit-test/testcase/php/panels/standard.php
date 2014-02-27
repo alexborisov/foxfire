@@ -13,7 +13,7 @@
  */
 
 
-class panel_FOX_bp15_wp34_singleSite extends RAZ_testPanel_base {
+class panel_FOX_standard extends RAZ_testPanel_base {
 
     	
 	public function __construct() {
@@ -41,16 +41,7 @@ class panel_FOX_bp15_wp34_singleSite extends RAZ_testPanel_base {
 		define('DB_HOST', 'localhost');
 		define('DB_CHARSET', 'utf8');
 		define('DB_COLLATE', '');
-
-		define('TITAN_DOMAIN', 'http://localhost');
-		define('TITAN_BASE_DOMAIN', 'localhost');
-		
-		define('CDN_PATH', dirname(__FILE__) . '/cdn');
-		define('CDN_URL', TITAN_DOMAIN . '/cdn');
-
-		define('TITAN_AJAX_KEY', 'egXA<!QK3eK5G*6]lB>,q,cDVwacC/<y;?L7(^X%,O~[Kp*^0zfVUyz4wsV(8y[1');
-		define('TITAN_SESS_KEY', 'V(En)SZiI+A25QUwh<Ac9oAqv7&eVP9UNyW0/kVFP iN?tEFsB<)-=rB.l0^RK(=');
-		define('TITAN_AUTH_KEY', '13{S~FZ=#~W;M?>Vxe~lIO<m=!5v-91.G9zpx|V}+vz5#c<)uC*w7qnvR&:I8Tz%');				
+			
 	}
 	
 	
@@ -105,7 +96,7 @@ class panel_FOX_bp15_wp34_singleSite extends RAZ_testPanel_base {
 	
 }
 
-$cls = new panel_FOX_bp15_wp34_singleSite();
+$cls = new panel_FOX_standard();
 
 global $razor;
 $razor->registerTestPanel($cls);

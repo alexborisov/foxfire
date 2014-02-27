@@ -80,13 +80,13 @@ class FOX_testPlan extends RAZ_testPlan_base {
 
 			"A" => array(
 					"enable"=>true,  
-					"name"=>"BP 1.5 on WP 3.4 in SINGLE SITE mode", 
-					"file"=>"/panels/panel_bp1.5-wp.3.4-singlesite.php"					    						
+					"name"=>"Plain PHP installation", 
+					"file"=>"/panels/standard.php"					    						
 			),
 			"B" => array(
 					"enable"=>false,  
-					"name"=>"BP 1.5 on WP 3.4 in MULTISITE mode", 
-					"file"=>"/panels/panel_bp1.5-wp.3.4-multisite.php"					    						
+					"name"=>"FoxFire on WordPress", 
+					"file"=>"/panels/wordpress.php"					    						
 			)		    
 
 		);		
