@@ -1,4 +1,4 @@
-# Key Features of The BPM_db Class
+# Key Features of FoxFire
 
 ### Strong Typing
 
@@ -21,7 +21,7 @@ In MySQL, a "number" can be represented by at least twelve basic data types, wit
 "float"(1-64 bits), "unsigned float"(1-64 bits)
 ```
 
-BPM_db automatically typecasts between PHP and MySQL. To ensure the class makes both a correct and expected type conversion, casting 
+FoxFire automatically casts between PHP and MySQL data types. To ensure the class makes both a correct and expected type conversion, casting 
 information is hard-coded into the table declaration.
 
 ```php
@@ -48,7 +48,7 @@ SQL servers are not designed to be fed raw data. If strings containing comment c
 
 SQL-Injection is a huge topic. You can learn more about it here: [PHP.net](https://php.net/manual/en/security.database.sql-injection.php), [Wikipedia](https://en.wikipedia.org/wiki/SQL_injection)
 
-BPM_db automatically escapes strings sent to the database and enforces strong typing on all other data types. If attack code is passed to BPM_db, it will either be stored as a simple string, or it will be cast to numeric "1". This, in theory, currently makes it impossible to launch a SQL-Injection attack against the SQL server.
+FoxFire automatically escapes strings sent to the database and enforces strong typing on all other data types. If attack code is passed to FoxFire, it will either be stored as a simple string, or it will be cast to numeric "1". This, in theory, currently makes it impossible to launch a SQL-Injection attack against the SQL server.
 
 ####Typical Attack Scenario:
 
@@ -71,7 +71,7 @@ $result = query($sql);
 
 ```
 
-####How BPM_db Blocks It:
+####How FoxFire Blocks It:
 
 ```php
 
@@ -101,7 +101,7 @@ $result = $tdb->buildSelectQuery(self::struct, $args, $columns=null, $ctrl=null)
 echo $result;
 
 // "SELECT * FROM test_a  WHERE 1 = 1 AND col_1 = '\; DROP TABLE users; --' AND col_2 = 1;"
-When we add support for SQL constructs that cannot use "blind" escaping, such as "LIKE %string%", BPM_db will apply additional processing to strings prior to handing them off to the SQL server.
+When we add support for SQL constructs that cannot use "blind" escaping, such as "LIKE %string%", FoxFire will apply additional processing to strings prior to handing them off to the SQL server.
 
 ```
 
@@ -120,7 +120,7 @@ $sql  = "SELECT * FROM products
 $result = query($sql);
 
 // ...and the attacker has p3wned the system (if its running on Windows)
-How BPM_db Blocks It:
+How FoxFire Blocks It:
 
 // When we add support for the "LIKE" operator, sample code goes here.
 ```
@@ -129,14 +129,14 @@ How BPM_db Blocks It:
 
 ####INSERT Queries
 
-BPM_db automatically selects the most efficient SQL query format to use for a given task.
+FoxFire automatically selects the most efficient SQL query format to use for a given task.
 If the user passes an object that contains a single db row:
 
 ```php
 $data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_53');
 ```
 
-...BPM_db will use a single insert query:
+...FoxFire will use a single insert query:
 
 ```sql
 "INSERT INTO test_a (col_1, col_2, col_3) VALUES (17, 's_31', 's_53')";
@@ -153,7 +153,7 @@ $data = array(
 );
 ```
 
-...BPM_db will combine them into a multi-insert query:
+...FoxFire will combine them into a multi-insert query:
 
 ```sql
 "INSERT INTO test_a (col_1, col_2, col_3) VALUES (17, 's_31', 's_53'), (94, 's_66', 's_81'), (21, 's_13', 's_42')";
@@ -161,10 +161,10 @@ $data = array(
 
 ####INDATE Queries
 
-BPM_db also supports INDATE (INsert-upDATE) queries. In most cases, this eliminates the need to search a table for duplicates before inserting new rows.
+FoxFire also supports INDATE (INsert-upDATE) queries. In most cases, this eliminates the need to search a table for duplicates before inserting new rows.
 
 ```php
-$db = new BPM_db();
+$db = new FOX_db();
 $data = array('col_1'=>'a', 'col_2'=>'b', 'col_3'=>'c');
 
 $result = $db->runIndateQuery($struct, $data, $columns=null, $check=true);
@@ -183,7 +183,7 @@ If a user passes a single token to test against:
 
 ```php
 $args = array( "col"=>"col_1", "op"=>">=", "val"=>1);
-$db = new BPM_db();
+$db = new FOX_db();
 
 $result = $db->buildSelectQuery($struct, $args, $columns, $ctrl, $check = true);
 
@@ -199,12 +199,12 @@ But if the user passes multiple tokens to test against:
 
 ```php
 $args = array( "col"=>"col_1", "op"=>">=", "val"=>array(1, 3, 5, 7) );
-$db = new BPM_db();
+$db = new FOX_db();
 
 $result = $db->buildSelectQuery($struct, $args, $columns, $ctrl, $check = true);
 ```
 
-...BPM_db will build an IN statement.
+...FoxFire will build an IN statement.
 
 ```sql
 "SELECT * FROM table_name WHERE col_1 IN(1, 3, 5, 7) ";
@@ -218,7 +218,7 @@ For example, in a "banking" application, a table might consist of rows that hold
 
 SQL transactions are designed to protect against this kind of scenario. They guarantee that all of the queries in a given transaction will succeed, or all of them will be rolled-back ...even if power is cut to the server in the middle of the operation.
 
-BPM_db has full support for SQL transactions, including semaphores to prevent accidental transaction nesting.
+FoxFire has full support for SQL transactions, including semaphores to prevent accidental transaction nesting.
 
 ####Typical Usage
 
