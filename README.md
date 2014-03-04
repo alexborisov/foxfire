@@ -1,7 +1,16 @@
 # About
 FoxFire is a PHP => NoSQL => SQL Object-Relational Mapping library that connects PHP to NoSQL data stores like Redis and Memcached, SQL datastores like Postgres and MySQL, and adds thread-safe multilevel caching with full transaction support.
 
-FoxFire lets developers work with tables in the database as if they were objects, and allows developers to run queries on them in a structured, object-oriented manner.
+There are plenty of other ORM's out there, but all of them have at least one of the following problems:
+
+* They don't let the developer manipulate the data as an object
+* They can't handle transactions
+* They can't handle caching
+* They try to handle every possible SQL operation, adding massive complexity
+
+FoxFire lets developers work with tables in the database as if they were objects, and allows developers to run queries on them in a structured, object-oriented manner. It has ACID compliant transaction support, and handles transaction coupling between the SQL servers and cache engines. That means if you run a transaction against a cached table, and the transaction fails, the transaction gets rolled-back in the database _and_ the cache.
+
+FoxFire does _not_ support every possible query you can throw at an SQL server. Its designed to handle the types of operations typically seen in large web apps, and to do so quickly and securely. 
 
 # Examples
 
@@ -23,6 +32,9 @@ class foo extends FOX_db_base {
 
 		"table" => "test_foo",
 		"engine" => "InnoDB",
+		"cache_namespace" => "test_foo",
+		"cache_strategy" => "monolithic",
+		"cache_engine" => array("memcached", "redis", "apc"),
 		"columns" => array(
 		    "id" =>	array(	"php"=>"int",	    "sql"=>"smallint",	"format"=>"%d", "width"=>6,	"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
 		    "name" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>250,	"flags"=>"NOT NULL", "auto_inc"=>false, "default"=>null,  "index"=>"UNIQUE"),
@@ -58,7 +70,10 @@ class bar extends FOX_db_base {
 	static $struct_join = array(
 
 		"table" => "test_bar",
-		"engine" => "MyISAM",
+		"engine" => "InnoDB",
+		"cache_namespace" => "test_bar",
+		"cache_strategy" => "monolithic",
+		"cache_engine" => array("memcached", "redis", "apc"),
 		"columns" => array(
 		    "id" =>	array(	"php"=>"int",	    "sql"=>"smallint",	"format"=>"%d", "width"=>6,	"flags"=>"NOT NULL", "auto_inc"=>true,  "default"=>null,  "index"=>"PRIMARY"),
 		    "size" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>250,	"flags"=>"NOT NULL", "auto_inc"=>false, "default"=>null,  "index"=>false),
