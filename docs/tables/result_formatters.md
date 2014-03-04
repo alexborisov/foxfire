@@ -43,19 +43,23 @@ Used when fetching query results that return a single variable.
 
 Used when fetching query results which only contain values from a single column.
 
+```sql
+"SELECT col2 FROM test_table"
+```
+
 ```php
-// EXAMPLE: "SELECT col2 FROM test_table"
-//
-// RESULT: array("red", "green", "blue", "black")
+array("red", "green", "blue", "black");
 ```
 
 ###row_object
 
 Returns a single database row as an object, with variable names mapped to column names. If the query returns multiple rows, only the first row is returned.
 
+```sql
+"SELECT * FROM test_table WHERE col_1 = 2"
+```
+
 ```php
-// EXAMPLE: "SELECT * FROM test_table WHERE col_1 = 2"
-//
 // RESULT: object stdClass(
 //		    col_1->2
 //		    col_2->"green"
