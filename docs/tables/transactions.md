@@ -1,23 +1,29 @@
-SQL Transaction Support
+#SQL Transaction Support
 
 Transactions are like an "undo" command for SQL servers. They let users run a group of queries, one after another, but don't actually write the queries to the database until a "COMMIT" command is run. This is useful when rows in multiple tables are dependent on each other and have to be updated as a group, or for when data has to be deleted from multiple tables simultaneously, like when deleting a user.
 
 FOX_db has basic support for SQL transactions when using the InnoDB storage engine. In theory, this means support for multiple users running transactions simultaneously, but we haven't tested it yet.
 
-FOX_db's transaction functions are very easy to use:
+###FOX_db's transaction functions are very easy to use:
 
-Start a transaction by calling FOX_db::beginTransaction()
-Run your queries
-Commit the transaction using FOX_db::commitTransaction()
-Or, rollback the transaction using FOX_db::rollbackTransaction().
-Important concepts:
+* Start a transaction by calling FOX_db::beginTransaction()
+* Run your queries
+* Commit the transaction using FOX_db::commitTransaction()
+* Or, rollback the transaction using FOX_db::rollbackTransaction().
 
-Transactions cannot be nested. If a user has a transaction open, they cannot open a second transaction inside the first transaction. The default SQL server behavior is to automatically commit the first transaction if the user tries to upen a second transaction. Our function will simply return false until the currently open transaction is committed.
-Transactions roll-back unless committed. If a user's database connection is lost, a PHP script crashes, or a PHP script finishes execution without running a commit, uncommitted transactions for that script instance will automatically be rolled-back by the SQL server.
-Transactions are supposed to be ACID, but it's possible to set up a SQL server and run queries in ways that break ACID compliance. Avoid doing this unless you're exceptionally skilled and can handle the problems it will cause.
-FOX_db::beginTransaction()
+###Important concepts:
+
+* Transactions cannot be nested. If a user has a transaction open, they cannot open a second transaction inside the first transaction. The default SQL server behavior is to automatically commit the first transaction if the user tries to upen a second transaction. Our function will simply return false until the currently open transaction is committed.
+
+* Transactions roll-back unless committed. If a user's database connection is lost, a PHP script crashes, or a PHP script finishes execution without running a commit, uncommitted transactions for that script instance will automatically be rolled-back by the SQL server.
+
+* Transactions are supposed to be ACID, but it's possible to set up a SQL server and run queries in ways that break ACID compliance. Avoid doing this unless you're exceptionally skilled and can handle the problems it will cause.
+
+##FOX_db::beginTransaction()
 
 FOX_db::beginTransaction() starts a transaction on the user's current database handle.
+
+```php
 /**
  * Starts a SQL transaction. Note that only InnoDB tables currently support transactions.
  *
@@ -29,10 +35,13 @@ public function beginTransaction(){
  // ...
 
 }
+```
+
 Returns true if a transaction was successfully started. Returns false if a transaction could not be started, typically caused by the user already having a transaction in progress (as per SQL rules, transactions cannot be nested).
 
-FOX_db::commitTransaction()
+##FOX_db::commitTransaction()
 
+```php
 FOX_db::commitTransaction() commits a transaction on the user's current database handle.
 /**
  * Commits a SQL transaction. Note that only InnoDB tables currently support transactions.
@@ -45,11 +54,15 @@ public function commitTransaction(){
  // ...
 
 }
+```
+
 Returns true if the trasaction was successfully committed. Returns false if the transaction could not be committed, typically caused by the user not having a transaction in progress.
 
-FOX_db::rollbackTransaction()
+##FOX_db::rollbackTransaction()
 
 FOX_db::rollbackTransaction() rolls-back the transaction currently in progress on the user's current database handle.
+
+```php
 /**
  * Rolls-back a SQL transaction. Note that only InnoDB tables currently support transactions.
  *
@@ -61,12 +74,15 @@ public function rollbackTransaction(){
  // ...
 
 }
+```
+
 Returns true if the transaction was successfully rolled-back. Returns false if the transaction could not be rolled-back, typically caused by the user not having a transaction in progress.
 
-Usage Examples
+#Examples
 
 The examples below are working code that can be run on a live database. Use this code to install the test table.
 
+```php
 static $struct_a = array(
 
 	"table" => "bpm_test_transactions_A",
@@ -118,8 +134,11 @@ $result = $tdb->runSelectQueryCol($struct_a, $col = 'name', $op = "=", $val = 'd
 $this->assertEquals($data_check_01, $result[0]);
 
 $tdb->runTruncateTable($struct_a);
-Insert -> Rollback -> Select
+```
 
+###Insert -> Rollback -> Select
+
+```php
 $tdb = new FOX_db();
 
 $table_name = 'bpm_test_transactions_A';
@@ -145,9 +164,11 @@ $data_check = array(
 );
 
 $columns = array("mode"=>"exclude", "col"=>"id");
+```
 
+Start a transaction, add $data_insert_01 to the table, commit transaction
 
-// Start a transaction, add $data_insert_01 to the table, commit transaction
+```php
 $tdb->beginTransaction();
 
     $tdb->runInsertQueryMulti($struct_a, $data_insert_01, $columns, $check=true);
@@ -158,10 +179,13 @@ $ctrl=array("format"=>"array_array");
 $result = $tdb->runSelectQueryCol($struct_a, $col = 'priv', $op = "=", $val = '1', $columns, $ctrl, $check=true);
 
 // Contents of the table should match contents of $data_insert_01
+
 $this->assertEquals($data_insert_01, $result);
+```
 
+Start a transaction, add $data_insert_02 to the table
 
-// Start a transaction, add $data_insert_02 to the table
+```php
 
 $tdb->beginTransaction();
 
@@ -170,10 +194,12 @@ $tdb->beginTransaction();
     $ctrl=array("format"=>"array_array");
     $result = $tdb->runSelectQueryCol($struct_a, $col = 'priv', $op = "=", $val = '1', $columns, $ctrl, $check=true);
 
-    // Contents of table should match contents of $data_insert_01 plus $data_insert_02 ($data_check)
-    $this->assertEquals($data_check, $result);
+// Contents of table should match contents of $data_insert_01 plus $data_insert_02 ($data_check)
+$this->assertEquals($data_check, $result);
+```
+Rollback the transaction
 
-// Rollback the transaction
+```php
 $tdb->rollbackTransaction();
 
 $ctrl=array("format"=>"array_array");
@@ -183,3 +209,4 @@ $result = $tdb->runSelectQueryCol($struct_a, $col = 'priv', $op = "=", $val = '1
 $this->assertEquals($data_insert_01, $result);
 
 $tdb->runTruncateTable($struct_a);
+```
