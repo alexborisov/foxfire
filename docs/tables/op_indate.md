@@ -1,11 +1,13 @@
-INDATE Queries
+#INDATE Queries
 
-INDATE (INsert-upDATE) queries INSERT a new row if the query doesn't find a row with a matching primary key in the table, but UPDATE the existing
-row if the query finds a row with a matching primary key in the table.
-Indate queries allow some database operations to be completed with half the number of queries used by a typical search-update pattern. Note that there is no actual SQL indate operator, the functionality is achieved by adding a "ON DUPLICATE KEY UPDATE" clause to a standard insert query.
+INDATE (INsert-upDATE) queries INSERT a new row if the query doesn't find a row with a matching primary key in the table, but UPDATE the existing row if the query finds a row with a matching primary key in the table.
+Indate queries allow some database operations to be completed with half the number of queries used by a typical search-update pattern. 
 
-FOX_db::runIndateQuery()
+Note that there is no actual SQL indate operator, the functionality is achieved by adding a "ON DUPLICATE KEY UPDATE" clause to a standard insert query.
 
+##FOX_db::runIndateQuery()
+
+```php
 /**
  * Runs an INDATE [INsert-upDATE query on one of the plugin's db tables. If the query attempts to insert a row
  * whose primary key already exists, the existing row will be updated. Indate queries ONLY work on db tables
@@ -29,17 +31,25 @@ public function runIndateQuery($struct, $data, $columns=null, $check=true){
  // ...
 
 }
-"$struct"
+```
+
+####$struct
 
 Structure of the table to operate on. See class layout page for more info.
-"$data"
+
+####$data
 
 Data source for the query. When using an array, it has to follow this structure below.
+
 The name of the key sets the column name to write to, and the value of the key sets the data to write to the column. Keys can be in any order and saved values can be any PHP data type, including arrays and objects. FOX_db will automatically typecast values to the right SQL data type based on the options set in the table definition array. For this query, the primary key MUST be set in the array or object.
 
-$data = array( "col_name_1"=>"val", "col_name_2"=>"val", "col_name_2"=>"val",)
+```php
+$data = array( "col_name_1"=>"val", "col_name_2"=>"val", "col_name_2"=>"val",);
+```
+
 When using an object, the contents of any class variables which match the names of database columns will be saved to the database during the query. Our database classes typically follow the structure shown below.
 
+```php
 class foo extends FOX_db_base {
 
         var $col_1;            // Column variable 1
@@ -66,34 +76,49 @@ class foo extends FOX_db_base {
                 return self::$struct;
         }
 }
+```
+
 This is the minimum class structure required for the function to work.
 
+```php
 class bar {
 
         var $col_1;            // Column variable 1
         var $col_2;            // Column variable 2
         var $col_3;            // Column variable 3
 }
-"$columns"
+```
+
+####$columns
 
 Database columns to use during by the query.
+
 If no array is passed, the function will try to save all columns listed in $struct to the database during the query. If keys for the columns are not present in the $data array, or variables for columns don't exist in the $data object, the function will exclude the missing columns from the SQL query, leaving the values currently stored in the database unchanged.
 
 If an array is passed, it has to have the following structure:
 
+```php
 array( $mode=>"include|exclude", $col=>"col_name | array("col_name_1", "col_name_2") );
-"$mode"
+```
+
+####$mode
 
 If set to "include", the function will only use the column or columns specified in $col. If set to "exclude", the function will exclude all columns except the column or columns specified in $col.
-"$col"
+
+####$col
 
 Single column name passed as string, or multiple column names passed as array of strings. Columns excluded from, or not included in, the query are completely removed from the generated SQL statement. This will cause the values for these columns currently sured in the database to remain unchanged.
-"$check"
+
+####$check
 
 If not set, or set to true, the function will perform basic error checking on the query before running it.
 Usage Examples
 
+#Examples
+
 The examples below are working code that can be run on a live database. Use this code to install the test table.
+
+```php
 
 $struct = array(
 
@@ -109,56 +134,97 @@ $struct = array(
 
 $tdb = new FOX_db();
 $result = $tdb->runAddTable(self::$struct);
-Array as data source
 
+```
+
+###Array as data source
+
+```php
 $data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_53');
 
 $result = $tdb->runIndateQuery($struct, $data, $columns=null, $check=true);
+
+```
+
+```sql
 "INSERT INTO test_a (col_1, col_2, col_3) VALUES (17, 's_31', 's_53')
  ON DUPLICATE KEY UPDATE col_1 = 17, col_2 = 's_31', col_3 = 's_53'";
-Array as data source, single column using INCLUDE mode
+```
+ 
+###Array as data source, single column using INCLUDE mode
 
+```php
 $data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_19');
 
 $columns = array("mode"=>"include", "col"=>"col_1");
 
 $result = $tdb->runIndateQuery($struct, $data, $columns, $check=true);
-"INSERT INTO test_a (col_1) VALUES (17) ON DUPLICATE KEY UPDATE col_1 = 17";
-Array as data source, multiple columns using INCLUDE mode
+```
 
+```sql
+"INSERT INTO test_a (col_1) VALUES (17) ON DUPLICATE KEY UPDATE col_1 = 17";
+```
+
+###Array as data source, multiple columns using INCLUDE mode
+
+```php
 $data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_19');
 
 $columns = array("mode"=>"include", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runIndateQuery($struct, $data, $columns, $check=true);
-"INSERT INTO test_a (col_1, col_3) VALUES (17, 's_19') ON DUPLICATE KEY UPDATE col_1 = 17, col_3 = 's_19'";
-Array as data source, single column using EXCLUDE mode
+```
 
+```sql
+"INSERT INTO test_a (col_1, col_3) VALUES (17, 's_19') ON DUPLICATE KEY UPDATE col_1 = 17, col_3 = 's_19'";
+```
+
+###Array as data source, single column using EXCLUDE mode
+
+```php
 $data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_19');
 
 $columns = array("mode"=>"exclude", "col"=>"col_3");
 
 $result = $tdb->runIndateQuery($struct, $data, $columns, $check=true);
-"INSERT INTO test_a (col_1, col_2) VALUES (17, 's_31') ON DUPLICATE KEY UPDATE col_1 = 17, col_2 = 's_31'";
-Array as data source, multiple columns using EXCLUDE mode
+```
 
+```sql
+"INSERT INTO test_a (col_1, col_2) VALUES (17, 's_31') ON DUPLICATE KEY UPDATE col_1 = 17, col_2 = 's_31'";
+```
+
+###Array as data source, multiple columns using EXCLUDE mode
+
+```php
 $data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_19');
 
 $columns = array("mode"=>"exclude", "col"=>array("col_2", "col_3") );
 
 $result = $tdb->runIndateQuery($struct, $data, $columns, $check=true);
-"INSERT INTO test_a (col_1) VALUES (17) ON DUPLICATE KEY UPDATE col_1 = 17";
-Object as data source
+```
 
+```sql
+"INSERT INTO test_a (col_1) VALUES (17) ON DUPLICATE KEY UPDATE col_1 = 17";
+```
+
+###Object as data source
+
+```php
 $data = new stdClass();
 $data->col_1 = 17;
 $data->col_2 = "s_31";
 
 $result = $tdb->runIndateQuery($struct, $data, $columns=null, $check=true);
+```
+
+```sql
 "INSERT INTO test_a (col_1, col_2, col_3) VALUES (17, 's_31', NULL)
  ON DUPLICATE KEY UPDATE col_1 = 17, col_2 = 's_31', col_3 = NULL";
-Object as data source, single column using EXCLUDE mode
+```
 
+###Object as data source, single column using EXCLUDE mode
+
+```php
 $data = new stdClass();
 $data->col_1 = 17;
 $data->col_2 = "s_31";
@@ -167,4 +233,8 @@ $data->col_3 = "s_19";
 $columns = array("mode"=>"exclude", "col"=>array("col_2", "col_3") );
 
 $result = $tdb->runIndateQuery($struct, $data, $columns, $check=true);
+```
+
+```sql
 "INSERT INTO test_a (col_1) VALUES (17) ON DUPLICATE KEY UPDATE col_1 = 17";
+```
