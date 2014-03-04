@@ -1,7 +1,8 @@
-FOX_db::runSelectQueryJoin()
+#FOX_db::runSelectQueryJoin()
 
 This is our advanced select function with multi-table joins. For the standard version, see FOX_db::runSelectQuery(), for the simplified version, see FOX_db::runSelectQueryCol()
 
+```php
 /**
  * Runs a SELECT query with a JOIN statement on a pair of the plugin's db tables.
  *
@@ -66,32 +67,45 @@ public function runSelectQueryJoin($primary, $join, $columns=null, $ctrl=null, $
  // ...
 
 }
-"$primary"
+```
+
+####$primary
 
 Primary table class name and args. Typical usage:
+
+```php
 $primary = array(  "class"=>"BPM_primaryTableClass",
 		"args"=>array( array("col"=>col_1, "op"=>"<", "val"=>"20"),
 			       array("col"=>col_2, "op"=>"=", "val"=>array("red", "green", "blue")
 	                     )
 );
-"$class"
+```
+
+####$class
 
 Name of the class that owns the primary table (as string), or the class's $struct array. See the class layout page for more info.
-"$args"
+
+####$args
 
 Test condition to select rows based on. If no $args parameter is passed, all rows in the table will be selected.
-"$col"
+
+####$col
 
 Single column name, as string, to run the comparison on.
-"$op"
+
+####$op
 
 Comparison operator to use. Valid operators are: "<", ">", "=", "!=", and "<>". Only "=", "!=", and "<>" can be used when passing multiple values as an array to test against.
-"$val"
+
+####$val
 
 Single value to test against as int, float, or string. Multiple values to test against as array of int, float, or string.
-"$join"
+
+####$join
 
 Joined table(s) class name and args. Typical usage:
+
+```php
 $join = array(  array( "class"=>"BPM_joinTableClass_1",
 		       "on"=>array( "pri"=>"user_id", "op"=>"=", "sec"=>"user_id"),
 		       "args"=>array( array("col"=>"karma", "op"=>">", "val"=>20),
@@ -105,53 +119,70 @@ $join = array(  array( "class"=>"BPM_joinTableClass_1",
 	               )
 	        )		     
 );
-"$class"
+```
+
+####$class
 
 Name of the class to join to (as string), or the class's $struct array. See the class layout page for more info.
-"$on"
+
+####$on
 
 Test condition to join the primary and joined tables on.
-"$pri"
+
+####$pri
 
 Column name in the primary table.
 "$op"
 
 Comparison operator to use. Valid operators are: "<", ">", "=", "!=", and "<>". Only "=", "!=", and "<>" can be used when passing multiple values as an array to test against.
-"$sec"
+
+####$sec
 
 Column name in the joined table
-"$args"
+
+####$args
 
 Test condition(s) to filter rows in the joined table by.
-"$col"
+
+####$col
 
 Single column name, as string, to run the comparison on.
-"$op"
+
+####$op
 
 Comparison operator to use. Valid operators are: "<", ">", "=", "!=", and "<>". Only "=", "!=", and "<>" can be used when passing multiple values as an array to test against.
-"$val"
+
+####$val
 
 Single value to test against as int, float, or string. Multiple values to test against as array of int, float, or string.
-"$columns"
+
+####$columns
 
 Database columns in the primary table to fetch from the SQL server.
 If no array is passed, the function will return all columns in the table. If a column in the database for a given row is empty, its key in the result object/array will contain a NULL value. Typical usage:
 
+```php
 $columns = array( $mode=>"exclude", $col=>"col_4");
 
 $columns = array(
 		    $mode=>"include",
 		    $col=>"array("col_3", "col_1", "col_5")
 );
-"$mode"
+```
+
+####$mode
 
 If set to "include", the function will only use the column or columns specified in $col. If set to "exclude", the function will exclude all columns except the column or columns specified in $col.
-"$col"
+
+####$col
 
 Single column name passed as string or multiple column names passed as array of strings. Columns excluded from, or not included in, the query are completely removed from the generated SQL statement.
-"$ctrl"
+
+####$ctrl
 
 Control parameters for the query. Typical usage:
+
+```php
 $ctrl = array(
 		"page"=>1, "per_page"=>20, "offset"=>0,
 		"sort"=>array(
@@ -160,43 +191,57 @@ $ctrl = array(
 		),
 		"format"=>"array_array"
 );
-"$page"
+```
+
+####$page
 
 Sets the current results page. When working with large data sets it's often necessary to break the results of a query into pages. For example, say a site search query returns 1,000 results. We decide to break them into pages of 50 results. Setting $page=2 would show results 51 to 100.
-"$per_page"
+
+####$per_page
 
 Sets the maximum number of rows to return in a results page, and as a result, the maximum number of results to return in the query.
-"$offset"
+
+####$offset
 
 Shift the results page forward or backward "n" items. If $per_page=50, $page=2, and $offset=0, the query will return results 51 to 100. But if $per_page=50, $page=2, and $offset=3, the query will return results 54 to 103.
-"$sort"
+
+####$sort
 
 Column and direction to sort results in. An array of one or more arrays containing keys "$class", "$col" and "$sort" where $class is the name of the database class that owns the table or its structure array, $col is the name of the column to sort by and $sort is the direction to sort in, either "ASC" or "DESC. If multiple arrays are passed, the sorts will be cascaded, with the first array having the highest priority and the last array having the lowest.
-"$group"
+
+####$group
 
 Column and direction to group results by. An array of one or more arrays containing keys "$class", "$col" and "$sort" where $class is the name of the database class that owns the table or its structure array, $col is the name of the column to group by and $sort is the direction to sort in, either "ASC" or "DESC. If multiple arrays are passed, the function will cascade the group clauses, with the first array having the highest priority and the last array having the lowest. Note: SQL "GROUP BY" clause has a counterintuitive meaning and does not actually "group" results in the conventional sense of the word. See the MySQL docs.
-"$count"
+
+####$count
 
 Return a count of db rows. An array containing keys "$class" and "$col, where "$class" is is the name of the database class that owns the table or its structure array and $col can accept the following: bool true to count all matching rows in table. Single column as string. Multiple columns as an array of strings.
-"$sum"
+
+####$sum
 
 Return the sum of a column. An array containing keys "$class" and "$col, where "$class" is is the name of the database class that owns the table or its structure array and $col can accept the following: bool true to count all matching rows in table. Single column as string. Multiple columns as an array of strings.
-"$format"
+
+####$format
 
 Results format string. See the query formatter section for details.
-"$key_col"
+
+####$key_col
 
 Column name to get key names from when using $format="key" or $format="asc". See the query formatter section for details.
-"$asc_col"
+
+####$asc_col
 
 Column name to use as value when using $format="asc". See the query formatter section for details.
-"$check"
+
+####$check
 
 If not set, or set to true, the function will perform basic error checking on the query before running it.
-Usage Examples
+
+#Examples
 
 The examples below are working code that can be run on a live database. Use this code to install the test table.
 
+```php
 // Primary array
 // ===================================================
 
@@ -210,7 +255,9 @@ $struct_primary = array(
 	    "col_3" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>250,	"flags"=>null, "auto_inc"=>false, "default"=>null,  "index"=>false)
 	 )
 );
+```
 
+```php
 // Join array
 // ===================================================
 
@@ -224,8 +271,8 @@ $struct_join = array(
 	    "col_6" =>	array(	"php"=>"string",    "sql"=>"varchar",	"format"=>"%s", "width"=>250,	"flags"=>null, "auto_inc"=>false, "default"=>null,  "index"=>false)
 	 )
 );
-
-
+```
+```php
 $tdb = new FOX_db();
 $result = $tdb->runAddTable($struct_primary);
 $result = $tdb->runAddTable($struct_join);
@@ -253,12 +300,17 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns=null, $ctrl, $check=true);
+```
+```sql
 "SELECT DISTINCT struct_primary.* FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6"
-Single column selected using INCLUDE mode
+```
 
+###Single column selected using INCLUDE mode
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -283,12 +335,18 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"include", "col"=>"col_1");
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT DISTINCT struct_primary.col_1 FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6"
-Multiple columns selected using INCLUDE mode
+```
 
+###Multiple columns selected using INCLUDE mode
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -313,12 +371,18 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"include", "col"=>array("col_1", "col_2") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT DISTINCT struct_primary.col_1, struct_primary.col_2 FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6"
-Single column skipped using EXCLUDE mode
+```
 
+###Single column skipped using EXCLUDE mode
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -343,12 +407,18 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"exclude", "col"=>"col_1");
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT DISTINCT struct_primary.col_2, struct_primary.col_3 FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6"
-Multiple columns skipped using EXCLUDE mode
+```
 
+###Multiple columns skipped using EXCLUDE mode
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -373,12 +443,18 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT DISTINCT struct_primary.col_2 FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6"
-Count items, bool true
+```
 
+###Count items, bool true
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -404,12 +480,18 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT COUNT(DISTINCT struct_primary.*) FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6"
-Count items, single primary table column
+```
 
+###Count items, single primary table column
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -435,12 +517,18 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT COUNT(DISTINCT struct_primary.col_1) FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6"
-Count items, multiple columns
+```
 
+###Count items, multiple columns
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -469,13 +557,19 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT COUNT(DISTINCT struct_primary.col_1), COUNT(DISTINCT struct_join.col_6)
  FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6"
-Sort items, primary table used as sort class
+```
 
+###Sort items, primary table used as sort class
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -503,14 +597,20 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT DISTINCT struct_primary.col_2
  FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6
  ORDER BY struct_primary.col_1 DESC"
-Sort items, primary table used as sort class, multiple sort columns
+```
 
+###Sort items, primary table used as sort class, multiple sort columns
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -539,14 +639,20 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT DISTINCT struct_primary.col_2
  FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6
  ORDER BY struct_primary.col_1 DESC, ORDER BY struct_primary.col_2 ASC"
-Sort items, primary and joined tables used as sort classes
+```
 
+###Sort items, primary and joined tables used as sort classes
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -575,14 +681,20 @@ $ctrl = array(	// This disables the LIMIT construct, as we don't want to test it
 $columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT DISTINCT struct_primary.col_2
  FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6
  ORDER BY struct_join.col_4 DESC, ORDER BY struct_primary.col_2 ASC"
-Paging
+```
 
+###Paging
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -609,14 +721,20 @@ $ctrl = array(
 $columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT DISTINCT struct_primary.col_2
  FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6
  LIMIT 28, 7"
-Offset
+```
 
+###Offset
+
+```php
 $primary = array( "class"=>$struct_primary,
 		  "args"=>array(
 				 array( "col"=>"col_1", "op"=>"=", "val"=>1)
@@ -643,9 +761,13 @@ $ctrl = array(
 $columns = array("mode"=>"exclude", "col"=>array("col_1", "col_3") );
 
 $result = $tdb->runSelectQueryJoin($primary, $join, $columns, $ctrl, $check=true);
+```
+
+```sql
 "SELECT DISTINCT struct_primary.col_2
  FROM struct_primary
  INNER JOIN struct_join AS alias_struct_join
  ON (struct_primary.col_1 = alias_struct_join.col_4)
  WHERE 1 = 1 AND struct_primary.col_1 = 1 AND alias_struct_join.col_6 >= 6
  LIMIT 3, 7"
+```
