@@ -1,10 +1,12 @@
-Delete Queries
+#Delete Queries
 
 FOX_db has two functions that are used to run DELETE queries: FOX_db::runDeleteQuery() and FOX_db::runDeleteQueryCol().
 
-FOX_db::runDeleteQuery()
+##FOX_db::runDeleteQuery()
 
 FOX_db::runDeleteQuery() is the full version of the delete function.
+
+```php
 /**
  * Runs a DELETE query on one of the plugin's db tables.
  *
@@ -26,33 +28,50 @@ public function runDeleteQuery($struct, $args, $check=true){
  // ...
 
 }
-"$struct"
+```
+
+####$struct
 
 Structure of the table to operate on. See table array page for more info.
-"$args"
 
-Test condition to select rows based on. If no $args parameter is passed, all rows in the table will be selected. Typical usage:
+####$args
 
+Test condition to select rows based on. If no $args parameter is passed, all rows in the table will be selected. 
+
+Typical usage:
+
+```php
 $args = array(
 		array("col"=>col_1, "op"=>"<", "val"=>"20"),
 		array("col"=>col_1, "op"=>"!=", "val"=>"pink"),
 		array("col"=>col_2, "op"=>"=", "val"=>array("red", "green", "blue")
 );
-"$col"
+```
+
+####$col
 
 Single column name, as string, to run the comparison on.
-"$op"
+
+
+####$op
 
 Comparison operator to use. Valid operators are: "<", ">", "=", "!=", and "<>". Only "=", "!=", and "<>" can be used when passing multiple values as an array to test against.
-"$val"
+
+
+####$val
 
 Single value to test against as int, float, or string. Multiple values to test against as array of int, float, or string.
-"$check"
+
+####$check
 
 If not set to false, the function will perform basic error checking on the query before running it.
-FOX_db::runDeleteQueryCol()
+
+
+##FOX_db::runDeleteQueryCol()
 
 FOX_db::runDeleteQueryCol() is the simplified version of the delete function.
+
+```php
 /**
  * Runs a DELETE query on one of the plugin's db tables.
  *
@@ -74,24 +93,33 @@ public function runDeleteQuery($struct, $args, $check=true){
  // ...
 
 }
-"$struct"
+```
+
+####$struct
 
 Structure of the table to operate on. See table array page for more info.
-"$col"
+
+####$col
 
 Single column name, as string, to run the comparison on.
-"$op"
+
+####$op
 
 Comparison operator to use. Valid operators are: "<", ">", "=", "!=", and "<>". Only "=", "!=", and "<>" can be used when passing multiple values as an array to test against.
-"$val"
+
+####$val
 
 Single value to test against as int, float, or string. Multiple values to test against as array of int, float, or string.
-"$check"
+
+####$check
 
 If not set to false, the function will perform basic error checking on the query before running it.
 Usage Examples
 
+#Examples
 The examples below are working code that can be run on a live database. Use this code to install the test table.
+
+```php
 
 $struct = array(
 
@@ -106,7 +134,11 @@ $struct = array(
 
 $tdb = new FOX_db();
 $result = $tdb->runAddTable(self::$struct);
-Single constraint
+```
+
+###Single constraint
+
+```php
 
 $args = array(
 
@@ -114,9 +146,14 @@ $args = array(
 );
 
 $result = $tdb->runDeleteQuery($struct, $args, $check = true);
+```
+```sql
 "DELETE FROM test_a WHERE 1 = 1 AND col_1 = 53";
-Multiple constraints
+```
 
+###Multiple constraints
+
+```php
 $args = array(
 
 	array("col"=>"col_1", "op"=>"=", "val"=>53),
@@ -124,8 +161,18 @@ $args = array(
 );
 
 $result = $tdb->runDeleteQuery($struct, $args, $check = true);
-"DELETE FROM test_a WHERE 1 = 1 AND col_1 = 53 AND col_2 != 'test_val'"
-Simplified Version
+```
 
+```sql
+"DELETE FROM test_a WHERE 1 = 1 AND col_1 = 53 AND col_2 != 'test_val'"
+```
+
+###Simplified Version
+
+```php
 $result = $tdb->runDeleteQueryCol($struct, $col = "col_1", $op = "<>", $val = 31, $check = true);
+```
+
+```sql
 "DELETE FROM test_a WHERE 1 = 1 AND col_1 <> 31"
+```
