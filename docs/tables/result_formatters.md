@@ -168,7 +168,6 @@ Returns results as an array of arrays^N, where the array key names and heirarchy
 //    3   |  blue |  bird | small | light
 //    4   |  black|  fish |  tiny | average
 //    5   |  black|  fish | large | light
-//
 ```
 ```sql
 "UNIQUE KEY col_3_col4(col_3, col_4)"
@@ -219,7 +218,6 @@ _When used with multiple column names passed as an array of strings:_ Returns re
 //    3   |  blue |  bird | small | light
 //    4   |  black|  fish |  tiny | average
 //    5   |  black|  fish | large | light
-//
 ```
 
 ```sql
@@ -270,9 +268,8 @@ For a working example of how to use this result formatter, see the function data
 ```sql
 "UNIQUE KEY no_duplicates(col_2, col_3, col_4)"
 "SELECT * FROM test_table" + $ctrl["key_col"] = array("col_2, "col_3", "col_4")"
-NOTE: "col_1" is excluded because it is not specified in $ctrl["key_col"]
 ```
-
+NOTE: "col_1" is excluded because it is not specified in $ctrl["key_col"]
 ```php
 array(
 	"dog" =>array(
@@ -298,7 +295,6 @@ row and the key's value is (bool)true.
 For a working example of how to use this result formatter, see the function database_resultFormatters::test_array_key_array_true() in the database unit tests.
 
 ```php
-
 // EXAMPLE TABLE "test_table_2"
 // ===============================
 //  col_1 | col_2 | col_3 | col_4
@@ -316,9 +312,8 @@ For a working example of how to use this result formatter, see the function data
 ```sql
 "UNIQUE KEY no_duplicates(col_2, col_3, col_4)"
 "SELECT * FROM test_table" + $ctrl["key_col"] = array("col_2, "col_3", "col_4")"
-NOTE: "col_1" is excluded because it is not specified in $ctrl["key_col"]
 ```
-
+NOTE: "col_1" is excluded because it is not specified in $ctrl["key_col"]
 ```php
 array(
 	"dog" =>array(
@@ -361,9 +356,8 @@ For a working example of how to use this result formatter, see the function data
 ```sql
 "UNIQUE KEY no_duplicates(col_2, col_3, col_4)"
 "SELECT * FROM test_table" + $ctrl["key_col"] = array("col_2, "col_3", "col_4")"
-NOTE: "col_1" is excluded because it is not specified in $ctrl["key_col"]
 ```
-
+NOTE: "col_1" is excluded because it is not specified in $ctrl["key_col"]
 ```php
 array(
 	"dog" =>array(
