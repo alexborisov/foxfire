@@ -4,13 +4,26 @@ FoxFire is a PHP => NoSQL => SQL Object-Relational Mapping library that connects
 There are plenty of other ORM's out there, but all of them have at least one of the following problems:
 
 * They don't let the developer manipulate the data as an object
-* They can't handle transactions
-* They can't handle caching
+* They don't handle transactions
+* They don't handle caching
 * They try to handle every possible SQL operation, adding massive complexity
 
-FoxFire lets developers work with tables in the database as if they were objects, and allows developers to run queries on them in a structured, object-oriented manner. It has ACID compliant transaction support, and handles transaction coupling between the SQL servers and cache engines. That means if you run a transaction against a cached table, and the transaction fails, the transaction gets rolled-back in the database _and_ the cache.
+FoxFire lets developers work with tables in the database _as if they were objects_, and allows developers to run queries on them in a structured, object-oriented manner. It has ACID compliant transaction support, and handles transaction coupling between the SQL servers and cache engines. That means if you run a transaction against a cached table, and the transaction fails, the transaction gets rolled-back in the database _and_ the cache.
 
-FoxFire does _not_ support every possible query you can throw at an SQL server. Its designed to handle the types of operations typically seen in large web apps, and to do so quickly and securely. 
+FoxFire does _not_ support every possible query you can throw at an SQL server. Its designed to handle the types of operations typically seen in _large web apps_, and to do so _quickly and securely_. Properly used, FoxFire makes web apps _immune to SQL Injection_, and eliminates vexing problems like casting between PHP and SQL data types.
+
+FoxFire is also WordPress aware, and will automatically load if placed in the /wp-content/plugins/ folder.
+
+# Jump Points
+### [Unit Tests](https://github.com/foxly/foxfire/tree/master/unit-test/testcase/php/tests)
+FoxFire has over [450 unit tests](https://github.com/foxly/foxfire/tree/master/unit-test/testcase/php/tests) providing 100% coverage for every engine, on every platform. Our [Razor Test Platform](https://github.com/foxly/razor) runs on Linux, Windows, and OSX, with _zero configuration_, "it just works" ...and it can be safely stored to a version control system.
+
+### [Documentation](https://github.com/foxly/foxfire/tree/master/core)
+FoxFire is heavily documented in-code [(example)](https://github.com/foxly/foxfire/blob/master/core/database/class.database.query.runners.php). For executive-level documentation with examples and illustrations, [Start Here](https://github.com/foxly/foxfire/tree/master/core).
+
+### [Working Code](https://github.com/foxly/foxfire/tree/master/core)
+FoxFire powers [Radient](https://github.com/foxly/foxfire/tree/master/core)
+
 
 # Examples
 
