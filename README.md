@@ -19,13 +19,13 @@ FoxFire is also WordPress aware, and will automatically load if placed in the /w
 FoxFire has over [450 unit tests](https://github.com/foxly/foxfire/tree/master/unit-test/testcase/php/tests) providing 100% coverage for every engine, on every platform. Our [Razor Test Platform](https://github.com/foxly/razor) runs on Linux, Windows, and OSX, with _zero configuration_, "it just works" ...and it can be safely stored to a version control system.
 
 ### [Documentation](https://github.com/foxly/foxfire/tree/master/core)
-FoxFire is heavily documented in-code [(example)](https://github.com/foxly/foxfire/blob/master/core/database/class.database.query.runners.php). For executive-level documentation with examples and illustrations, [Start Here](https://github.com/foxly/foxfire/tree/master/core).
+FoxFire is heavily documented in-code [(example)](https://github.com/foxly/foxfire/blob/master/core/database/class.database.query.runners.php). For executive-level documentation covering key concepts and design rationale, along with examples and illustrations, [see the docs folder](https://github.com/foxly/foxfire/tree/master/docs).
 
 ### [Working Code](https://github.com/foxly/foxfire/tree/master/core)
-FoxFire powers [Radient](https://github.com/foxly/foxfire/tree/master/core)
+FoxFire powers [Radient](https://github.com/foxly/radient), a plugin we're writing that more-or-less implements Flickr + YouTube for WordPress sites with 10K-500K users. 
 
 
-# Examples
+# Quick Examples
 
 ### Create a Table:
 
