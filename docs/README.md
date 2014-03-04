@@ -46,12 +46,13 @@ public static $struct = array(
 
 SQL servers are not designed to be fed raw data. If strings containing comment characters, operators, and various SQL fragments are passed to a function that assembles SQL queries, and it fails to process them properly, the string will be injected into the query. This changes what the query does, and can be used to damage or gain access to a website's database.
 
-SQL-Injection is a huge topic. You can learn more about it here: PHP.net, Wikipedia
+SQL-Injection is a huge topic. You can learn more about it here: [PHP.net](https://php.net/manual/en/security.database.sql-injection.php), [Wikipedia](https://en.wikipedia.org/wiki/SQL_injection)
 
 BPM_db automatically escapes strings sent to the database and enforces strong typing on all other data types. If attack code is passed to BPM_db, it will either be stored as a simple string, or it will be cast to numeric "1". This, in theory, currently makes it impossible to launch a SQL-Injection attack against the SQL server.
 
-Typical Attack Scenario:
+####Typical Attack Scenario:
 
+```php
 $sql  = "SELECT id, name, inserted, size FROM products
                   WHERE size = '$size'
                   ORDER BY $order LIMIT $limit, $offset;";
@@ -67,7 +68,12 @@ $sql  = "SELECT id, name, inserted, size FROM products WHERE size = ''
 $result = query($sql);
 
 // ...and the server is p3wned
-How BPM_db Blocks It:
+
+```
+
+####How BPM_db Blocks It:
+
+```php
 
 // Table declaration
 // ================================================================================
@@ -97,8 +103,11 @@ echo $result;
 // "SELECT * FROM test_a  WHERE 1 = 1 AND col_1 = '\; DROP TABLE users; --' AND col_2 = 1;"
 When we add support for SQL constructs that cannot use "blind" escaping, such as "LIKE %string%", BPM_db will apply additional processing to strings prior to handing them off to the SQL server.
 
-Typical Attack Scenario:
+```
 
+####Typical Attack Scenario:
+
+```php
 $sql  = "SELECT * FROM products WHERE id LIKE '%$attack%'";
 $result = query($sql);
 
@@ -114,58 +123,94 @@ $result = query($sql);
 How BPM_db Blocks It:
 
 // When we add support for the "LIKE" operator, sample code goes here.
-Query Optimization
+```
 
-INSERT Queries
+###Query Optimization
+
+####INSERT Queries
 
 BPM_db automatically selects the most efficient SQL query format to use for a given task.
 If the user passes an object that contains a single db row:
+
+```php
 $data = array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_53');
+```
+
 ...BPM_db will use a single insert query:
 
+```sql
 "INSERT INTO test_a (col_1, col_2, col_3) VALUES (17, 's_31', 's_53')";
+```
+
 But if the user passes multiple row objects in the $data array:
 
+```php
 $data = array(
 
 	array('col_1'=>17, 'col_2'=>'s_31', 'col_3'=>'s_53'),
 	array('col_1'=>94, 'col_2'=>'s_66', 'col_3'=>'s_81'),
 	array('col_1'=>21, 'col_2'=>'s_13', 'col_3'=>'s_42')
 );
+```
+
 ...BPM_db will combine them into a multi-insert query:
 
+```sql
 "INSERT INTO test_a (col_1, col_2, col_3) VALUES (17, 's_31', 's_53'), (94, 's_66', 's_81'), (21, 's_13', 's_42')";
-INDATE Queries
+```
+
+####INDATE Queries
 
 BPM_db also supports INDATE (INsert-upDATE) queries. In most cases, this eliminates the need to search a table for duplicates before inserting new rows.
+
+```php
 $db = new BPM_db();
 $data = array('col_1'=>'a', 'col_2'=>'b', 'col_3'=>'c');
 
 $result = $db->runIndateQuery($struct, $data, $columns=null, $check=true);
+```
+
 Adds a "duplicate key" construct to the generated query:
 
+```sql
 "INSERT INTO table_name (col_1, col_2, col_3) VALUES ('a', 'b', 'c')
  ON DUPLICATE KEY UPDATE col_1 = 'a', col_2 = 'b', col_3 = 'c'";
-IN Queries
+```
+ 
+####IN Queries
 
 If a user passes a single token to test against:
+
+```php
 $args = array( "col"=>"col_1", "op"=>">=", "val"=>1);
 $db = new BPM_db();
 
 $result = $db->buildSelectQuery($struct, $args, $columns, $ctrl, $check = true);
+
+```
+
 ...BMP_db will build a single token equality statement.
 
+```sql
 "SELECT * FROM table_name WHERE col_1 = 1";
+```
+
 But if the user passes multiple tokens to test against:
 
+```php
 $args = array( "col"=>"col_1", "op"=>">=", "val"=>array(1, 3, 5, 7) );
 $db = new BPM_db();
 
 $result = $db->buildSelectQuery($struct, $args, $columns, $ctrl, $check = true);
+```
+
 ...BPM_db will build an IN statement.
 
+```sql
 "SELECT * FROM table_name WHERE col_1 IN(1, 3, 5, 7) ";
-Transactions
+```
+
+###Transactions
 
 In large web applications, developers often need to run queries in groups, and have all of them succeed or the entire group fail.
 
@@ -175,8 +220,9 @@ SQL transactions are designed to protect against this kind of scenario. They gua
 
 BPM_db has full support for SQL transactions, including semaphores to prevent accidental transaction nesting.
 
-Typical Usage
+####Typical Usage
 
+```php
 if( $db->beginTransaction() ){
 
 	// Insert new group into the db
@@ -199,3 +245,4 @@ if( $db->beginTransaction() ){
 else {
 	$result = false;
 }
+```
