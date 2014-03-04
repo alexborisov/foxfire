@@ -21,7 +21,7 @@ class FOX_db {
 	var $print_result_cast = false;		    // Log returned data from the type caster
 	var $print_result_formatted = false;	    // Log returned data from results formatter
 
-						    // Output will be saved to '/core/utils/bpm-log.txt'
+						    // Output will be saved to '/core/utils/log.txt'
 	// ...
 ```
 ####$print_query_args
