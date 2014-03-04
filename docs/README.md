@@ -23,9 +23,8 @@
 
 ###Advanced SQL Operations
 * If-Else Selector
-* LIKE
-* MATCH AGAINST
 * Graph Operators
+* Text Operators
 
 ###Cache Operations
 * Cache Drivers
@@ -48,6 +47,16 @@
 #####Dictionaries
  * [Double Linked](https://github.com/foxly/foxfire/blob/master/core/base_classes/abstract.class.dictionary.php)
 
+#####Role Based Access Control (RBAC)
+ * [Key Types](https://github.com/foxly/foxfire/blob/master/core/rbac/class.key.types.token.php)
+ * [User Types](https://github.com/foxly/foxfire/blob/master/core/rbac/class.user.types.php)  
+ * [User Keyring](https://github.com/foxly/foxfire/blob/master/core/rbac/class.user.keyring.php) 
+ * [Group Types](https://github.com/foxly/foxfire/blob/master/core/rbac/class.group.types.php)
+ * [Group Keyring](https://github.com/foxly/foxfire/blob/master/core/rbac/class.group.keyring.php)
+ * [Group Members](https://github.com/foxly/foxfire/blob/master/core/rbac/class.group.members.php)
+
+ 
+
 ###Troubleshooting & Debug
-* Exception Chaining
 * [Debug Flags](https://github.com/foxly/foxfire/blob/master/docs/tables/debug.md)
+* Exception Chaining
