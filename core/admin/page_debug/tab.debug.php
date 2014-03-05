@@ -87,39 +87,6 @@ class FOX_tab_debug {
 
 			</table>
 
-			<table class="form-table">
-
-			    <tr valign="top">
-				<th align="left"><?php _e('Delete all uploaded files',"foxfire"); ?></th>
-				<td>
-				    <input class="fox-button" type="submit" disabled="disabled" name="delete_content" value="<?php _e('Run Command') ;?>"/>
-				</td>
-			    </tr>
-
-			</table>
-
-			<table class="form-table">
-
-			    <tr valign="top">
-				<th align="left"><?php _e('Load plugin with test content',"foxfire"); ?></th>
-				<td>
-				    <input class="fox-button" type="submit" disabled="disabled" name="load_content" value="<?php _e('Run Command') ;?>"/>
-				</td>
-			    </tr>
-
-			</table>
-
-			<table class="form-table">
-
-			    <tr valign="top">
-				<th align="left"><?php _e('Add plugin menu',"foxfire"); ?></th>
-				<td>
-				    <input class="fox-button" type="submit"  name="add_menu" value="<?php _e('Run Command') ;?>"/>
-				</td>
-			    </tr>
-
-			</table>
-
 		    </div>
 
 	   </form>

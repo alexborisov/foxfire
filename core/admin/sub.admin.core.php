@@ -68,31 +68,13 @@ class FOX_admin {
 
 			} break;
 
-			case "fox-setup" : {
-
-				 include_once ( dirname (__FILE__) . '/page_core_settings/loader.php');
-				 $this->page_class = new FOX_admin_page_core();
-
-			} break;
-
-			case "fox-system" : {
-
-				 include_once ( dirname (__FILE__) . '/page_system_tools/loader.php');
-				 $this->page_class = new FOX_admin_page_system();
-
-			} break;
-
 			case "fox-debug" : {
 
 				 include_once ( dirname (__FILE__) . '/page_debug/loader.php');
 				 $this->page_class = new FOX_admin_page_debug();
 
-			} break;
-		    
-
-		} 
-		
-
+			} break;		    
+		} 		
 	}
 
 
@@ -133,20 +115,9 @@ class FOX_admin {
                  );
 
                 add_submenu_page(
-                        'fox-dashboard', __( 'Core Settings', "foxfire"), __( 'Core Settings', "foxfire" ),
-                        'administrator', 'fox-setup', array (&$this, 'show_menu')
-                 );
-
-                add_submenu_page(
-                        'fox-dashboard', __( 'System Tools', "foxfire"), __( 'System Tools', "foxfire" ),
-                        'administrator', 'fox-system', array (&$this, 'show_menu')
-                 );
-
-                add_submenu_page(
                         'fox-dashboard', __( 'Debug Tools', "foxfire"), __( 'Debug Tools', "foxfire" ),
                         'administrator', 'fox-debug', array (&$this, 'show_menu')
                  );
-
 		
 	}
 

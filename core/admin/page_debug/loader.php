@@ -112,18 +112,6 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 				}
 
 			}
-			elseif( isset($_POST['load_content']) ){
-
-
-			}
-			elseif( isset($_POST['delete_content']) ){
-
-
-			}
-			elseif( isset($_POST['add_menu']) ){
-
-
-			}
 			else {
 
 				$this->processor();
@@ -245,8 +233,11 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 		include_once ( dirname (__FILE__) . '/tab.debug.php' );
 		$this->tabs['FOX_tab_debug'] = __('Debug', "foxfire");
 
+		include_once ( dirname (__FILE__) . '/tab.server.php' );
+		$this->tabs['FOX_tab_server'] = __('Server', "foxfire");
+		
 		include_once ( dirname (__FILE__) . '/tab.server.selftest.php' );
-		$this->tabs['FOX_tab_server_selftest'] = __('Server', "foxfire");
+		$this->tabs['FOX_tab_server_selftest'] = __('Unit Tests', "foxfire");
 
 		include_once ( dirname (__FILE__) . '/tab.ajax.selftest.php' );
 		$this->tabs['FOX_tab_ajax_selftest'] = __('AJAX', "foxfire");
