@@ -29,10 +29,10 @@ if( defined('AUTH_KEY') && defined('NONCE_KEY') ){	// If these two constants are
 	define ( 'FOX_VERSION', '2618' );
 
 	// Version of FoxFire shown on admin screen. This lets us show text like "1.0-RC1"
-	define ( 'FOX_DISPLAY_VERSION', "1.0" );
+	define ( 'FOX_DISPLAY_VERSION', "2.0" );
 
 	// Build date of FoxFire shown on admin screen
-	define ( 'FOX_DISPLAY_DATE', "2013.01.13" );
+	define ( 'FOX_DISPLAY_DATE', "2014.03.05" );
 
 
 	if(!defined( 'FOX_EXPERT_MODE' )){

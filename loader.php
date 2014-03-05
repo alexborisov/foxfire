@@ -1,21 +1,16 @@
 <?php
-/*
-Plugin Name: FoxFire
-Plugin URI: https://github.com/FoxFire
-Description: A powerful DataStore and Caching Framework for WordPress
-Version: 2.0
-Revision Date: February 26, 2014
-Requires at least: WP 3.2.1, BP 1.5, PHP 5.3
-Tested up to: WP 3.5-alpha, PHP 5.4.4
-License: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.html
-Author: Foxly & Friends
-Author URI: https://github.com/foxly/foxfire
-Site Wide Only: True
-Network: False
-Text Domain: foxfire
-Domain Path: /core/languages/
-*/
 
+/**
+ * Plugin Name: FoxFire
+ * Plugin URI:  https://github.com/foxly/foxfire
+ * Description: A powerful DataStore and Caching Framework for WordPress
+ * Author:      Foxly & Friends
+ * Author URI:  https://github.com/foxly
+ * Version:     2.0
+ * Text Domain: foxfire
+ * Domain Path: /core/languages/
+ * License:     GPLv2 or later (license.txt)
+ */
 
 // FoxFire isn't dependent on any other plugins, however plugins that depend on FoxFire
 // need a chance to attach their loader functions to the 'fox_coreReady' before we load

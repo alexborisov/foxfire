@@ -57,11 +57,8 @@ class FOX_admin_page_dashboard {
 
 	public function enqueueStyles() {
 
-
 		wp_enqueue_style( 'fox-admin', FOX_URL_CORE .'/admin/css/fox.admin.css', false, '2.8.1', 'screen' );
-		//wp_enqueue_style( 'bpa-tabs-h', FOX_URL_CORE .'/admin/css/bpa.tabs.h.css', false, '2.5.0', 'screen' );
-		wp_admin_css( 'css/dashboard' );
-		
+		wp_admin_css( 'css/dashboard' );		
 	}
 
 	
@@ -163,27 +160,6 @@ class FOX_admin_page_dashboard {
 	    <?php
 
 	}
-
-
-	/**
-	 * Show the server settings in a dashboard widget
-	 *
-	 * @return void
-	 */
-	function bpa_overview_server() {
-
-		?>
-		<div id="dashboard_server_settings" class="dashboard-widget-holder wp_dashboard_empty">
-			<div class="bpa-dashboard-widget">
-			    <div>2011.06.12 17:23:31 - "fanquake" failed encode on way_too_big.avi</div>
-			    <div>2011.06.12 17:23:39 - "foxly" reached maximum quota of 10,000MB</div>
-			    <div>2011.06.12 17:29:01 - "jetfoo2" reached maximum posts count (100)</div>
-			    <div>2011.06.12 17:35:17 - "2inov8" tripped BANDWIDTH LIMIT on second_iphone_prototype_found.flv [link] </div>
-			</div>
-		</div>
-		<?php
-	}
-
 
 	/**
 	 *  Show latest news from the FoxFire updates list on google code
@@ -326,8 +302,7 @@ class FOX_admin_page_dashboard {
 
 		
 		add_meta_box('fox_database', __('Database Performance (real data)', "foxfire"), array( &$this, 'fox_database' ), 'bpa_overview', 'left', 'core');
-		//add_meta_box('dashboard_primary_x', __('News Feed &nbsp<a href="https://twitter.com/#!/bpm_dev">(View All)</a>', "foxfire"), array( &$this, 'bpa_overview_news' ), 'bpa_overview', 'right', 'core');
-		add_meta_box('dashboard_primary_y', __('System Log (simulated data)', "foxfire"), array( &$this, 'bpa_overview_server' ) , 'bpa_overview', 'left', 'core');
+
 	}
 
 } // End of class FOX_admin_page_dashboard
