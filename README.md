@@ -1,5 +1,5 @@
-# About
-FoxFire is a PHP => NoSQL => SQL Object-Relational Mapping library that connects PHP to NoSQL data stores like Redis and Memcached, SQL datastores like Postgres and MySQL, and adds thread-safe multilevel caching with full transaction support.
+# Introducing FoxFire
+FoxFire is a PHP => NoSQL => SQL object-relational mapping library. It connects PHP to NoSQL data stores like Redis and Memcached, SQL datastores like Postgres and MySQL, and adds thread-safe multilevel caching with full transaction support.
 
 There are plenty of other ORM's out there, but all of them have at least one of the following problems:
 
