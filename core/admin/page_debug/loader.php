@@ -239,9 +239,6 @@ class FOX_admin_page_debug extends FOX_admin_page_base {
 		include_once ( dirname (__FILE__) . '/tab.server.selftest.php' );
 		$this->tabs['FOX_tab_server_selftest'] = __('Unit Tests', "foxfire");
 
-		include_once ( dirname (__FILE__) . '/tab.ajax.selftest.php' );
-		$this->tabs['FOX_tab_ajax_selftest'] = __('AJAX', "foxfire");
-
 	}
 
  } // End of class FOX_admin_page_debug_intro
