@@ -177,7 +177,9 @@ else {
 
 			$fox->error->add($error);
 
-			//$error = FOX_debug::formatError_print($error->data);
+			// Not dumping errors deep enough and truncating them with
+                        // a "..."? xDebug is hijacking var_dump. Disable it in php.ini
+                        
 			$out = $error->dumpString(array('depth'=>20, 'data'=>true));
 			FOX_debug::dump($out);
 
