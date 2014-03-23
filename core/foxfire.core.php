@@ -178,7 +178,7 @@ else {
 			$fox->error->add($error);
 
 			//$error = FOX_debug::formatError_print($error->data);
-			$out = $error->dumpString(array('depth'=>1, 'data'=>true));
+			$out = $error->dumpString(array('depth'=>20, 'data'=>true));
 			FOX_debug::dump($out);
 
 		}

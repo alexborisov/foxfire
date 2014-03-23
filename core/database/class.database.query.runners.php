@@ -96,10 +96,20 @@ class FOX_queryRunner {
 			$sql = $this->driver->prepare($query['query'], $query['params']);				
 		}
 		else {
-			$sql = $query;
+			$sql = $query; 
+                        $query = array('types'=>array());
 			$ctrl = array("format"=>"raw");
 		}
 
+                // TODO: This prevents PHP from throwing a warning in queryResult() when the table 
+                // builder methods run their queries (which have no return type), but it should be
+                // improved to prevent queries that are accidentally missing return data types
+                // from leaking through
+                
+                if(!array_key_exists('types', $query)){
+                    
+                        $query['types'] = array();                    
+                }
 
 		if($this->print_query_sql == true){
 
